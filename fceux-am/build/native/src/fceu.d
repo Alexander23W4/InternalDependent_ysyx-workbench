@@ -1,0 +1,34 @@
+/home/wang/My_ysyx-workbench/fceux-am/build/native/src/fceu.o: \
+ /home/wang/My_ysyx-workbench/fceux-am/src/fceu.cpp \
+ /home/wang/My_ysyx-workbench/fceux-am/src/config.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/types.h \
+ /home/wang/ysyx-workbench/abstract-machine/klib/include/klib.h \
+ /home/wang/ysyx-workbench/abstract-machine/am/include/am.h \
+ /home/wang/ysyx-workbench/abstract-machine/am/include/arch/native.h \
+ /home/wang/ysyx-workbench/abstract-machine/am/include/amdev.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/x6502.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/x6502struct.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/fceu.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/git.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/utils/md5.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/utils/../types.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/utils/valuearray.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/ppu.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/sound.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/file.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/emufile.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/utils/memory.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/cart.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/ines.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/palette.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/state.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/video.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/input.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/drivers/sdl/sdl.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/drivers/sdl/main.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/drivers/sdl/../../driver.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/drivers/sdl/../../types.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/drivers/sdl/../../git.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/drivers/sdl/../../file.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/drivers/sdl/dface.h \
+ /home/wang/My_ysyx-workbench/fceux-am/src/drivers/sdl/input.h

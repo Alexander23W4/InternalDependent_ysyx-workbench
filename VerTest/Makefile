@@ -1,5 +1,6 @@
 create:
 		mkdir -p ./Testfile && echo "sucessful"
+		mkdir build src tests bin
 
 file1: file1.c
 		gcc -g -o0 file1.c -o file1

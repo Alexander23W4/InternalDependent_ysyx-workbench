@@ -1,3 +1,5 @@
+# DEFAULT VARIABLES:
+
 # Compiling a C program: n.o is made automatically from n.c with a command of the form 
 # $(CC) -c $(CPPFLAGS) $(CFLAGS) $^ -o $@
 # Compiling a C++ program: n.o is made automatically from n.cc or n.cpp with a command of the form 
@@ -62,7 +64,27 @@ one:
 two:
 	touch two
 
+objects= file1.o file2.o file.c
 
-output:
-		echo $(CXXFLAGS) 
-		
+
+# Syntax - targets ...: target-pattern: prereq-patterns ...
+# In the case of the first target, foo.o, the target-pattern matches foo.o and sets the "stem" to be "foo".
+# It then replaces the '%' in prereq-patterns with that stem
+
+# suck: $(objects)
+# 		echo $(CC)
+
+# $(objects): %.o: %.c 
+# 		gcc -c $^ -o $@
+
+# (filter %.o,$(objects)): %.o: %.c 
+# 		gcc -c $^ -o $@
+
+# suckyou: suckyou.c 
+# .PHONY: suckyou
+
+
+# %:%.c 
+# 		echo $<
+# 		echo $@
+# 		gcc -c $< -o $@

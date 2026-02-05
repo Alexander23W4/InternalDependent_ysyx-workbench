@@ -1,13 +1,14 @@
 create:
 		mkdir -p ./Testfile && echo "sucessful"
 
-file1: file2
-		echo "the file1"
-		touch ./Testfile/file1
+file1: file1.c
+		gcc -g -o0 file1.c -o file1
 
-file2:
-		echo "the file2"
+#  immediate init (:=)
+DEFAULT_FILES:= LICENSE Makefile README.md src bin build tests
 
 clean:
-		ls -a ./Testfile | xargs -I {} rm -rf {}
+		rm -rf ./Testfile
+		ls ./ | grep -Ev "$(DEFAULT_FILES)" | xargs -I {} rm -rf {}
 
+ 

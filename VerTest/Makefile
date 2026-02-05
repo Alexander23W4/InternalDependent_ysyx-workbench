@@ -10,6 +10,6 @@ DEFAULT_FILES:= LICENSE Makefile README.md
 
 clean:
 		rm -rf ./Testfile
-		ls -p ./ | grep -v '/$' | grep -Ev $(DEFAULT_FILES) | xargs -I {} rm -rf {}
+		ls -p ./ | grep -v '/$$' | grep -Ev '$(DEFAULT_FILES)' | xargs -I {} rm -rf {}
 
  

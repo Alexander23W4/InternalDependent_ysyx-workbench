@@ -6,10 +6,10 @@ file1: file1.c
 		gcc -g -o0 file1.c -o file1
 
 #  immediate init (:=)
-DEFAULT_FILES:= LICENSE Makefile README.md ./src ./bin ./build ./tests
+DEFAULT_FILES:= LICENSE Makefile README.md
 
 clean:
 		rm -rf ./Testfile
-		ls ./ | grep -Ev $(DEFAULT_FILES) | xargs -I {} rm -rf {}
+		ls -p ./ | grep -v '/$' | grep -Ev $(DEFAULT_FILES) | xargs -I {} rm -rf {}
 
  

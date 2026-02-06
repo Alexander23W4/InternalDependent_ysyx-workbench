@@ -8,6 +8,8 @@
 # $(CC) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
 CFLAGS= -g -o0 -Wall
+SHELL=/bin/bash
+
 create:
 		mkdir -p ./Testfile && echo "sucessful"
 		mkdir -p build src tests bin

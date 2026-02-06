@@ -10,13 +10,13 @@
 CFLAGS= -Wall
 SHELL:=/bin/bash
 
-VERILATOR_DEFAULT_MODE= --binary
+VERILATOR_DEFAULT_MODE=--binary
 DEFAULT_FILES:=Makefile|README\.md|LICENSE
 DEFAULT_DIR:=src|build|bin|tests
 
 %: ./src/vercode/%.v 
-		verilator $(VERILATOR_DEFAULT_MODE) ./src/vercode/%.v 
-		obj_dir/V$@
+		verilator $(VERILATOR_DEFAULT_MODE) $^
+		./obj_dir/V$@
 
 #clean all Verilator generated code
 cleanc:    

@@ -11,7 +11,7 @@ CFLAGS= -Wall
 SHELL:=/bin/bash
 
 VERILATOR_DEFAULT_MODE= --binary
-DEFAULT_FIELS:=Makefile|README\.md|LICENSE
+DEFAULT_FILES:=Makefile|README\.md|LICENSE
 DEFAULT_DIR:=src|build|bin|tests
 
 %: ./src/vercode/%.v 
@@ -24,6 +24,6 @@ cleanc:
 
 #clean all files and directories on ./ , except workshop defaults
 cleanall:
-		ls -l | grep -Ev '^d' | grep -Ev "$(DEFAULT_FIELS)" | xargs -I {} rm -rf {}
-		ls -l | grep -E '^d' | grep -Ev "$(DEFAULT_DIR)" | xargs -I {} rm -rf {}
+		ls -p | grep -Ev '/$$' | grep -Ev "$(DEFAULT_FILES)" | xargs -I {} rm -rf {}
+		ls -p | grep -E '/$$' | grep -Ev "$(DEFAULT_DIR)" | xargs -I {} rm -rf {}
 

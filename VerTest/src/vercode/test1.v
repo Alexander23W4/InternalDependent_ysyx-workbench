@@ -1,7 +1,5 @@
-module top(
-  input a,
-  input b,
-  output f
-);
-  assign f = a ^ b;
-endmodule
+  module test1;
+     initial begin $display("Hello World"); $finish; end
+  endmodule
+
+

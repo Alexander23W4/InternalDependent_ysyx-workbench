@@ -10,7 +10,9 @@
 CFLAGS= -Wall
 SHELL:=/bin/bash
 
+# the ver_flag for C++ configure compilation
 VERILATOR_DEFAULT_MODE=--cc --exe --build -j 0 -Wall
+
 DEFAULT_FILES:=Makefile|README\.md|LICENSE
 DEFAULT_DIR:=src|build|bin|tests
 

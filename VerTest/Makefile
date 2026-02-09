@@ -10,11 +10,11 @@
 CFLAGS= -Wall
 SHELL:=/bin/bash
 
-VERILATOR_DEFAULT_MODE=--binary
+VERILATOR_DEFAULT_MODE=--cc --exe --build -j 0 -Wall
 DEFAULT_FILES:=Makefile|README\.md|LICENSE
 DEFAULT_DIR:=src|build|bin|tests
 
-%: ./src/vercode/%.v 
+%: ./src/Cppcode/%.cpp ./src/vercode/%.v
 		verilator $(VERILATOR_DEFAULT_MODE) $^
 		./obj_dir/V$@
 

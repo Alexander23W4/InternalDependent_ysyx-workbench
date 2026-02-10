@@ -7,3 +7,6 @@ module test2
     assign c = a ^ b;
 endmodule
 
+
+
+

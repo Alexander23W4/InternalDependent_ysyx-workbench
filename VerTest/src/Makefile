@@ -5,21 +5,30 @@
 # --cc --exe --build -Wall --trace 
 # --cc --exe --build -j 0 -Wall
 
-V_FILE ?= test2.v
-CPP_FILE ?= test.cpp
-V_SRC = ./vercode/$(V_FILE)
-CPP_FILE = ./Cppcode/$(CPP_FILE)
-TOP_MODULE = $(basename $(notdir $(V_SRC)))
-OBJ_DIR = obj_dir
-EXE = $(OBJ_DIR)/V$(TOP_MODULE)
+V_FILE?= test.v
+CPP_FILE?= test.cpp
+V_SRC=./vercode/$(V_FILE)
+CPP_SRC=./Cppcode/$(CPP_FILE)
+TOP_MODULE=$(basename $(notdir $(V_SRC)))
+OBJ_DIR=./obj_dir
+EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 
 # Verilator basic setup
-VERILATOR =verilator
-CPP_FLAGS =--cc --exe --build
-BINARY_FLAGS =--binary
-DEFAULT_FLAGS =-Wall -j 0
+VERILATOR=verilator
+WAVE_GEN=gtkwave
+CPP_FLAGS=--cc --exe --build
+BINARY_FLAGS=--binary
+DEFAULT_FLAGS=-Wall -j 0
 
-.PHONY: all binary trace fast clean
+.PHONY: all binary trace fast clean run
+
+run: 
+	$(EXE)
+
+runtrace:
+	$(EXE)
+	$(WAVE_GEN) $(TOP_MODULE).vcd
+
 
 # 1. --binary -j 0 -Wall
 binary:

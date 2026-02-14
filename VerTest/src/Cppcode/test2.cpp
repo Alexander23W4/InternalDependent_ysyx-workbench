@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
 
     while (!p_context->gotFinish() && p_context->time() < max_sim_time) {
-        p_context->timeInc(1)
+        p_context->timeInc(1);
         int a = rand() & 1;
         int b = rand() & 1;
 
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
         // Verification logic
         assert(top->c == (a ^ b));
     }
-    
+
     tfp->close();
     delete top;
     delete p_context;

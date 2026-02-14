@@ -7,6 +7,10 @@
 # Linking a single object file: n is made automatically from n.o by running the command 
 # $(CC) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
+# --binary -j 0 -Wall 
+# --cc --exe --build -Wall --trace 
+# --cc --exe --build -j 0 -Wall
+
 CFLAGS= -Wall
 SHELL:=/bin/bash
 

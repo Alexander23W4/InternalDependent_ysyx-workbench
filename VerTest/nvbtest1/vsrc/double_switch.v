@@ -21,7 +21,11 @@
 module double_switch(
   input clk,
   input rst,
-  input 
-  
-)
+  input a,
+  input b,
+  output c
+);
+  assign c = a ^ b;
+endmodule
+
 

@@ -33,7 +33,6 @@ runtrace:
 # 1. --binary -j 0 -Wall
 binary:
 	$(VERILATOR) $(BINARY_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC)
-
 # 2. --cc --exe --build -Wall --trace
 trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) --trace $(V_SRC) $(CPP_SRC)

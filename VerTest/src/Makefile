@@ -14,11 +14,15 @@ OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 
 # Verilator basic setup
+# for WARNING_IGNORE_FLAG : -Wno-xxx
 VERILATOR=verilator
 WAVE_GEN=gtkwave
 CPP_FLAGS=--cc --exe --build
 BINARY_FLAGS=--binary
-DEFAULT_FLAGS=-Wall -j 0
+DEFAULT_FLAGS=-Wall -j 
+WARNING_IGNORE_FLAG=
+STATIC_CHECK_FLAG=--lint-only
+WAVE_GEN_FLAG=--trace
 
 .PHONY: all binary trace fast clean run
 
@@ -35,11 +39,15 @@ binary:
 	$(VERILATOR) $(BINARY_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC)
 # 2. --cc --exe --build -Wall --trace
 trace:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) --trace $(V_SRC) $(CPP_SRC)
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)
 
 # 3. --cc --exe --build -j 0 -Wall
 fast:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC)
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) 
+
+# 4. lint only:
+static:
+	@$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(V_SRC)
 
 clean:
-	rm -rf $(OBJ_DIR) *.vcd
+	rm -rf $(OBJ_DIR) 

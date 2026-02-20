@@ -1,0 +1,81 @@
+// 1. primitive（原语）
+and u_and (y_and, a, b);          // 与门原语
+
+// 2. module（模块）
+module my_and (
+    input  logic a,
+    input  logic b,
+    output logic y
+);
+    assign y = a & b;
+endmodule
+
+// 3. initial 过程块
+initial begin
+    $display("Simulation start");
+end
+
+// 4. always 过程块
+always @(posedge clk) begin
+    q <= d;                       // 时序逻辑
+end
+
+// 5. continuous assignment（连续赋值）
+wire y_or;
+assign y_or = a | b;              // 连续赋值描述组合逻辑
+
+// 6. asynchronous task（任务：可异步调用）
+task automatic do_add(input int x, input int y, output int z);
+    z = x + y;
+endtask
+
+// 7. procedural assignment statement（过程赋值）
+always @(*) begin
+    c = a ^ b;                    // 在 always / initial 里，用 = 或 <= 的赋值语句
+end
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$$$$$
+Active Events 队列：
+├─ 阻塞赋值 `a = 5;` 的 **完整执行**（RHS计算 + LHS立即更新）
+├─ 非阻塞赋值 `a <= 5;` 的 **RHS计算**
+├─ $display()
+└─ 连续赋值 `assign`
+   ↓ 都在 Active 里任意顺序执行
+
+NBA Region（非阻塞赋值更新事件队列）：
+└─ 非阻塞赋值 `a <= 5;` 的 **LHS更新**（a真正变5）
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+assign vs force 区别
+1. assign（过程连续赋值）
+模块顶层或 initial/always 内，给 reg 建立连续赋值
+
+verilog
+// 模块顶层（普通连续赋值）
+wire sum;
+assign sum = a ^ b;        // wire 的组合逻辑
+
+// 过程连续赋值（在 always 里）
+always @(posedge clk) begin
+    reg data;
+    assign data = input_data;  // ← 给 reg 连续赋值
+    #10;
+    deassign data;             // 取消连续赋值
+end
+2. force（强制赋值）
+**更强制的版本，**可以覆盖 reg 和 net（wire）
+
+verilog
+reg r_data;
+wire w_data;
+
+initial begin
+    force r_data = 8'hFF;     // 强制 reg
+    force w_data = 1'b1;      // 强制 wire！（覆盖所有驱动）
+    #20;
+    release r_data;           // 释放 reg（恢复之前逻辑）
+    release w_data;           // 释放 wire（恢复之前驱动）
+end
+
+

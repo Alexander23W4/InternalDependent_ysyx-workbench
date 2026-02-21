@@ -1,0 +1,18 @@
+From RTL code to Netlist:
+
+Synthesizer & PDK & EDA  (PDK$: Design Rules, Device Model, Process Constraints)
+
+PDK backup Synthesis $
+*Do: -> Parsing  .v => AST (lexical+sytax)
+     -> Elaboration instantiation specification   AST => RTLIL(RTL intermediate language) 
+     -> Coarse-Grain Synthesis
+
+*yosys operation: 
+    yosys *.v
+    hierarchy -check -top counter
+    dump
+    write_rtlil
+    show (xdot, rtlil virtualization)
+    proc (optimization)
+    
+

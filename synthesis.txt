@@ -17,8 +17,15 @@ PDK backup Synthesis $
     opt  (optimization)
     fsm
     memory
-    techmap (fine optimization)
-    splitnets (split some multi-bit nets and ports. Otherwise, RTLIL will contain unnecessary bit extraction and bit concatenation operations. )
+    techmap (fine-grain) (the first step is to map word-level cells to gate-level cells)
+    splitnets -ports (split some multi-bit nets and ports. Otherwise, RTLIL will contain unnecessary bit extraction and bit concatenation operations. )
+    (technology mapping)
+    read_liberty -lib (xxx).lib
+    dfflibmap -liberty (xxx).lib
+    abc -liberty (xxx).lib
+    (the second step is to map gate-level cells to standard cells of the target technology.)
+    write_verilog netlist.v
+    stat -liberty (xxx).lib
     
 
 

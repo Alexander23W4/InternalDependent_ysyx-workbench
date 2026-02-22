@@ -1,4 +1,4 @@
-Performance   Power   Area
+-> Performance   Power   Area
 
 Area: from the .lib file definition
 
@@ -10,4 +10,58 @@ Performance: timing analysis
 
         =>  another metric is needed to measure the efficiency with which a processor executes instructions. A commonly used metric for this is IPC (Instructions Per Cycle), which quantifies the average number of instructions a processor executes per cycle.
 
+    wire delay + logic delay
     
+Power:
+    dynamic power consumption: internal power   switch power
+    static power consumption: leakage power
+
+
+-> PDK
+
+PDK contains a series of resources under a specific process node,
+such as device models, design rules, process constraints, verification files, and standard cell libraries.
+
+The standard cell library is a collection of standard cells and their attributes, which include information 
+such as logical functions, transistor structures, timing, power consumption, and physical size.
+
+
+1P7M indicates 1 polysilicon layer and 7 metal layers. In 1P7M, M1-M3 are lower metal layers, M4-M5 are middle metal layers, and M6-M7 are upper metal layers. 
+---------------------   M7    --+
+  | | | | | | | | |             +--- Clock, Cower
+---------------------   M6    --+
+  | | | | | | | | |
+---------------------   M5    --+
+  | | | | | | | | |             +--- Wiring Between Standard Cells
+---------------------   M4    --+
+  | | | | | | | | |
+---------------------   M3    --+
+  | | | | | | | | |             |
+---------------------   M2      +--- Wiring between Transistors
+  | | | | | | | | |             |
+---------------------   M1    --+
+  | | | | | | | | | <------- Via
+=====================  Poly-silicon        --+
++++++++++++++++++++++  dielectric            +--- Transistors
+ooooooooooooooooooooo  Silicon Substrate   --+
+
+        =>  There are two types of connection methods: intra-layer connection and inter-layer connection. The former involves routing within the same metal layer, while the latter is achieved through vias between different metal layers. The connection relationships between various components in the RTL logic design are ultimately physically realized through the connection function provided by the metal layers.
+
+
+
+Metal Layer	   Wire Width	Routing Space	           Routing Characteristics	                                   Role
+Lower	       Short	    Short	      High resistance, short transmission distance, high wiring density	      Connect different transistors to form gate circuits and standard cells
+Medium	       Medium	    Medium	      Medium resistance, medium transmission distance, medium wiring density	  Connect different standard cells to realize the main logic of the chip
+Higher	       Wide	        Wide	      Low resistance, long transmission distance, low wiring density	          Clock or power
+
+
+
+
+
+
+
+
+
+
+
+

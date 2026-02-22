@@ -1,0 +1,11 @@
+Performance   Power   Area
+
+Area: from the .lib file definition
+
+Performance: timing analysis
+    period > combinational circuit delay (critical path, longest)
+    calculated from .lib file (Static Timing Analysis (STA) of standard cell)
+
+        =>  Specifically, this command first calls the synthesizer Yosys to synthesize the RTL design to obtain a netlist of nangate45 standard cells. Then, it invokes the netlist optimization tool iNO to insert buffers into the netlist to optimize the performance of the netlist. Finally, the optimized netlist file and the standard cell information file in the PDK are input into the open-source static timing analysis tool iSTA. iSTA will quickly evaluate the path delays in the RTL design and report several paths that have the largest gap from the target frequency for users' reference.
+
+

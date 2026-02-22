@@ -54,7 +54,23 @@ Lower	       Short	    Short	      High resistance, short transmission distance,
 Medium	       Medium	    Medium	      Medium resistance, medium transmission distance, medium wiring density	  Connect different standard cells to realize the main logic of the chip
 Higher	       Wide	        Wide	      Low resistance, long transmission distance, low wiring density	          Clock or power
 
+Verilog behavioral models of standard cells. (after synthesized Verilog Files - Behavioral Models)
 
+NAND2_X1, NAND2_X2, and NAND2_X4 are completely equivalent in terms of logical function. However, NAND2_X4 can provide greater drive strength, enabling its downstream logic to switch faster. But this requires larger or more transistors to achieve, so NAND2_X4 has a larger area and higher power consumption.
+
+This helps reduce the delay of critical paths and improve the chip's frequency. On non-critical paths that do not affect the frequency, standard cells with lower drive strengths are used. This way, the overall area and power consumption of the chip can be reduced without lowering the chip's frequency.
+
+GDS files, with the suffix .gds, contain all the physical and process information required for manufacturing a standard cell.
+
+Logic Gate Cell
+Sequential Logic Cell
+I/O Cell
+Physical Cells (Pull-up/pull-down cells. Filling cells. Decoupling cells. Antenna effect repair cells.)
+Macro Cells
+Complex function units ( Include multiplexers, half-adders, full-adders, comparators, etc.)
+Clock-Specific Cells
+Power Management Cells
+Test and Debug Cells
 
 
 

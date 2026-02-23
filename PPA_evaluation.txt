@@ -17,7 +17,7 @@ Power:
     static power consumption: leakage power
 
 
--> PDK
+-> PDK document elements (In-Design effectiveness)
 
 PDK contains a series of resources under a specific process node,
 such as device models, design rules, process constraints, verification files, and standard cell libraries.
@@ -73,8 +73,39 @@ Power Management Cells
 Test and Debug Cells
 
 
-PVT corners: Process  Voltage  Tempareture
+-> PVT corners: Process  Voltage  Tempareture (Out-Design PPA effectiveness)
     process corners: tt  fs ff sf ss
+
+-> Other elements: Threshold Voltage[performance power]     Tracks[performance power area]
+Threshold Voltage:
+Standard cells with different threshold voltages are mainly used to strike a balance between delay and static power consumption. 
+
+Standard cells are usually classified by threshold voltage into the following categories: HVT (High Threshold Voltage), SVT (Standard Threshold Voltage), LVT (Low Threshold Voltage), and ULVT (Ultra-Low Threshold Voltage). Among them, HVT has the highest threshold voltage, the lowest static power consumption, but the highest delay; ULVT is the opposite, with the lowest threshold voltage, the lowest delay, but the highest static power consumption. Some manufacturers refer to SVT as RVT (Regular Threshold Voltage). Some process nodes also provide UHVT (Ultra-High Threshold Voltage) standard cells for users to choose from.
+
+Standard cells with fewer tracks (such as 6T, 7T) have smaller areas and lower power consumption, but their driving capability is weaker, resulting in longer transistor switching times and thus lower performance. On the contrary, standard cells with more tracks (such as 12T, 13T) have higher performance but larger areas and higher power consumption.
+
+
+ Electronics engineers need to select standard cells with an appropriate number of tracks for chip design based on the application scenarios of the chip. However, after selecting a standard cell library, it is impossible to mix standard cells with different track counts in the circuit. This is different from threshold voltages, because a standard cell library can also include standard cells with multiple threshold voltages, which can be mixed and used. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

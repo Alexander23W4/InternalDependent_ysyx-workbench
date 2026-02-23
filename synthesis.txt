@@ -35,3 +35,26 @@ fan out => circuit delay     cell amount   merge cell   duplicate cell
 ^($*)opt: choosing between merging cells and duplicating cells is actually a trade-off between area and performance.
 
 In addition, different memory specifications have different shapes, which will also affect the subsequent placement and routing. These mutually restrictive factors make it difficult for synthesizers to automatically identify and map memories. Therefore, RTL developers need to select memory specifications according to design goals and manually instantiate memory units as submodules in the RTL code.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

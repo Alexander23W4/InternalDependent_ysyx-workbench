@@ -73,7 +73,8 @@ Power Management Cells
 Test and Debug Cells
 
 
-
+PVT corners: Process  Voltage  Tempareture
+    process corners: tt  fs ff sf ss
 
 
 

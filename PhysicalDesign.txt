@@ -1,0 +1,160 @@
+ The process of physical design is to determine the content in each layer: Where to place which standard cells in the lower layers (floorplanning, placement) How to connect these standard cells in the middle layers (routing) How to plan power (power planning) and clocks (clock tree synthesis) in the upper layers What size the area of each layer should be (floorplanning)
+
+-> floorplanning, placement    routing    power planning      clock tree synthesis
+
+---------------------   M7    <----- Power Planning
+  | | | | | | | | |
+---------------------   M6    <----- Clock Tree Synthesis
+  | | | | | | | | |
+---------------------   M5    <-+
+  | | | | | | | | |             +--- Routing
+---------------------   M4    <-+
+  | | | | | | | | |
+---------------------   M3    <-------+
+  | | | | | | | | |                   |
+---------------------   M2    <-------+--- Floorplanning, Placement
+  | | | | | | | | |                   |
+---------------------   M1    <-------+
+  | | | | | | | | |                   |
+=====================  Poly-silicon <-+
++++++++++++++++++++++  dielectric
+ooooooooooooooooooooo  Silicon Substrate
+
+
+-> 1. Floorplan
+The main task of floorplan is to determine the size of the chip and place some cells whose positions will not be adjusted in subsequent processes.
+
+The area of transistors mainly includes the area occupied by the source and drain of the silicon substrate, plus the area occupied by the gate of the polysilicon layer.
++ route & via
+
+# Utilization:
+ For estimation, engineers need to consider the expected proportion of the total area of standard cells to the total chip area, and this proportion is called utilization. Based on experience, the utilization rate is generally around 60% to 80%.
+
+Experienced engineers can set a higher utilization rate, while novices can start with a lower utilization rate in the early stages to accumulate experience.
+
+
+
+-> 2. Chip Slide Lengths
+Factors affecting the side lengths include not only the synthesized area of standard cells but also the number of chip pins.
+
+Power supply pins + Communication pins
+
+
+
+-> 3. Placing I/O Cells
+Place data I/O cells corresponding to functionally similar top-level ports in physically adjacent positions.
+
+power supply unit  
+
+
+-> 4. Placing Macro Cells
+Macro cells with similar functions should be placed in physically adjacent positions. 
+
+-> 5. Powerplan
+The goal of powerplan is to plan the distribution of power supply wiring at the chip level to ensure the reliability of the chip's power supply.
+
+# I/O cells power ring (I/O cells have specific power source, I/O power supply units, I/O power cell)
+Planning the power ring for I/O cells. From a physical distribution perspective, the power ring of I/O cells surrounds the I/O cells around the chip and is connected to the power ports of the I/O cells, with power supplied by the I/O power units within the I/O cells. As mentioned earlier, I/O cells require strong driving capability to drive circuits external to the chip, so the power supply for I/O cells is different from that for general standard cells and requires separate planning and design.
+
+# core power unit(cell), internal power ring
+Planning the internal power ring of the chip. In terms of physical distribution, it is similar to the power ring of I/O cells but is located inside the I/O cells and surrounds the chip, forming the main trunk of the power network. It is powered by the core power units in the I/O cells and provides a uniform power input to the standard cells inside the chip.
+
+# power stripe
+Planning the internal power stripes of the chip. Physically, power stripes are distributed in a crisscross pattern inside the chip, used to uniformly deliver power to various macro cells and standard cells within the chip.
+
+when the chip is operating, power will be input into the chip through the power supply pins, propagated to the surrounding areas of the chip via the power rings, and then transmitted to the standard cells in various regions of the chip through the power stripes.
+
+Corresponding voltages will be applied to the source and drain of the transistors, enabling them to operate in accordance with their electrical characteristics.
+
+
+为什么Power Ring要放顶层？
+1. 电流容量最大化
+text
+M7金属线宽×厚度：200μm × 2μm = 0.4μm²截面
+M1金属线宽×厚度：   2μm × 0.2μm = 0.0004μm²截面
+**M7承载能力 = M1的1000倍！**
+GPU 1000A峰值电流只能走顶层！
+
+2. 阻抗匹配分层递进
+text
+阻抗递减：
+Ring(M7): 0.1mΩ → Straps(M5-6): 1mΩ → Mesh(M2-3): 10mΩ → Cell轨(M1): 100mΩ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

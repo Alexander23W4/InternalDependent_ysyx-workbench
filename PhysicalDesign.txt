@@ -134,8 +134,22 @@ Global Routing and Detailed Routing
 
 
 
+-> Sign-Off analysis
 
+The specific tasks of sign-off analysis include but are not limited to:
 
+Static Timing Analysis (STA). After the completion of physical design, the positions of all standard cells in three-dimensional space are determined, and details such as the direction, length, and corners of all wirings are clear. Therefore, it is possible to accurately model the logic delays and wire delays of each path in the circuit, including the propagation delay, jitter, and skew of clock signals. By integrating these factors, more accurate timing evaluation results can be obtained to determine whether the user-specified frequency indicators are met.
+
+Power Analysis. Similar to static timing analysis, after the physical design is completed, more accurate power consumption evaluation results can be obtained to determine whether the user-specified power consumption indicators are satisfied.
+
+Signal Integrity Analysis. This involves analyzing the crosstalk phenomenon between adjacent wirings to ensure that signals can still be transmitted correctly without distortion in noisy environments and under crosstalk conditions.
+
+Physical Verification (PV for short). It conducts checks on the physical structure of the chip. If any violations are found, it is necessary to modify the placement and routing results and recheck. The specific inspection tasks of physical verification include:
+Design Rule Check (DRC). Ensure that the GDS layout complies with the foundry's design rules, such as minimum line width requirements and minimum spacing requirements. These rules are documented in text files with the .lydrc extension, provided as part of the PDK:
+
+#Design Rule Check (DRC). Ensure that the GDS layout complies with the foundry's design rules, such as minimum line width requirements and minimum spacing requirements.
+#Electrical Rule Check (ERC). Check for electrical issues in the circuit, such as dangling wires and short circuits.
+#Layout Versus Schematic (LVS). Verify the consistency between the GDS layout (physical circuit) and the netlist (logical circuit). 
 
 
 

@@ -82,6 +82,86 @@ Ring(M7): 0.1mΩ → Straps(M5-6): 1mΩ → Mesh(M2-3): 10mΩ → Cell轨(M1): 1
 
 
 
+-> 6. Placement:
+
+# SITE , track count
+The placement of standard cells must meet certain alignment conditions. As mentioned earlier, attributes such as the SITE and track count of standard cells are essentially used to constrain the positions of standard cells during placement. Aligning by SITE allows the power stripes set in the power planning stage to be easily connected to the standard cells (as shown in the figure below), while the concept of track count enables the subsequent routing stage to more easily meet the minimum spacing requirements for metal layer routing
+
+# SITE & size  (filler cell)
+Relationship between filler size and SITE
+The minimum filler cell width = SITE width.
+
+This ensures that filler cells can “snap” into any leftover space that is exactly 1‑SITE wide, without breaking the placement grid.
+
+Larger filler cells are then integer multiples of SITE (e.g., 2×SITE, 4×SITE) to fill bigger gaps.
+
+Standard‑cell rows are built on a grid defined by SITE width × row height, and power stripes are aligned to this grid. Inserting a filler that is also exactly 1‑SITE wide preserves the original power‑grid and metal‑1 track alignment.
+
+
+
+
+-> 7. Clock Tree Synthesis (CTS)
+
+The goal of Clock Tree Synthesis is to construct a clock network that delivers clock signals to the clock pins of all sequential cells. This clock network typically has only one or a few sources (clock pins or outputs of phase-locked loops). We can regard these sources as root nodes and the sequential cells as leaf nodes. Thus, this clock network is like one or several trees growing from the root nodes to the leaf nodes, hence the name "clock tree".
+
+# Low latency     Low clock skew   Low jitter
+
+
+-> 8. Routing
+
+Global Routing and Detailed Routing
+
++-----------------------------------------+
+|  I  I  P  p  I  I  P  p  I  I  P  p  I  |
+| ####################################### |
+|p#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#I|
+| #% +-------+..@@o @@..@...   .....@.@%# |
+|P#% | MMMMM |  .@o.....@@@..... @@ o@@%#P|
+| #% | MMMMM |..@ o  @    o   .   . o @%# |          I Data I/O Cell
+|I#% | MMMMM |  . o       o   @   . o .%#p|          p Core Power Cell
+| #% +-------+  .@o  @@...o   ....@ o .%# |          P I/O Power Cell
+|I#% oooooooooooooooooooooooooooooooooo%#I|<-- clk   M Macro Cell
+| #% @ ..@...@ ..@@o @... o  +-------+.%# |          # I/O Power Ring
+|I#% @....@ .@.. @ o @. .@o .| MMMMM |.%#I|          % Core Power Ring
+| #% @...@...@  .@ o @  ..@..+-------+@%# |          = Power Stripe
+|p#%===================================%#p|          @ Standard Cell
+| #% @...@      .@ o @... @.....@.. oo@%# |          o Clock Tree
+|P#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#P|          . Wiring
+| ####################################### |
+|  I  p  P  I  I  p  P  I  I  p  P  I  I  |
++-----------------------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

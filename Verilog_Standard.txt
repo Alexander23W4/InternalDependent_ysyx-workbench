@@ -1,0 +1,8 @@
+Use non-blocking assignments when modeling sequential circuits.
+Use non-blocking assignments when modeling latch circuits.
+Use blocking assignments when building combinational logic models with always blocks.
+Use non-blocking assignments when building both sequential and combinational logic circuits in the same always block.
+Do not use both non-blocking and blocking assignments in the same always block.
+Do not assign values to the same variable in more than one always block.
+Use the $strobe system task to display the values of variables assigned with non-blocking assignments.
+Do not use #0 delays in assignments.

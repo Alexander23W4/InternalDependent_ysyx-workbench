@@ -1,4 +1,4 @@
-module top #(parameter N = 8) (
+module top #(parameter N = 4) (
     input [N -1: 0] a,
     input [N -1: 0] b,
     input cin,

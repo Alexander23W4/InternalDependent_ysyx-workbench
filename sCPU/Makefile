@@ -24,7 +24,6 @@ WARNING_IGNORE_FLAG=
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
-PARAMETERS=-G N=4 
 
 .PHONY: all binary trace fast clean run top
 
@@ -57,8 +56,7 @@ lintall:
 
 # 5. make top:
 top:
-	$(VERILATOR) $(TOP_FLAG) $(TOP_MODULE) $(V_SRC) $(PARAMETERS) $(ALL_SOURCES) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(CPP_SRC)
-
+	$(VERILATOR) $(TOP_FLAG) $(TOP_MODULE) $(V_SRC) $(ALL_SOURCES) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(CPP_SRC) 
 
 clean:
 	rm -rf $(OBJ_DIR) 

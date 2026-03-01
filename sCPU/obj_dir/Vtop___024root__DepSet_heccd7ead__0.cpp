@@ -11,26 +11,30 @@ VL_INLINE_OPT void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf) 
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ico_sequent__TOP__0\n"); );
     // Init
-    CData/*4:0*/ top__DOT__AS1__DOT____VdfgTmp_hd6a09945__0;
-    top__DOT__AS1__DOT____VdfgTmp_hd6a09945__0 = 0;
+    CData/*4:0*/ top__DOT__AS1__DOT__add_res;
+    top__DOT__AS1__DOT__add_res = 0;
+    CData/*4:0*/ top__DOT__AS1__DOT__sub_res;
+    top__DOT__AS1__DOT__sub_res = 0;
     // Body
-    top__DOT__AS1__DOT____VdfgTmp_hd6a09945__0 = (0x1fU 
-                                                  & ((IData)(vlSelf->cin)
-                                                      ? 
-                                                     ((IData)(1U) 
-                                                      + 
-                                                      ((IData)(vlSelf->a) 
-                                                       + 
-                                                       (0xfU 
-                                                        & (~ (IData)(vlSelf->b)))))
-                                                      : 
-                                                     ((IData)(vlSelf->a) 
-                                                      + (IData)(vlSelf->b))));
-    vlSelf->s = (0xfU & (IData)(top__DOT__AS1__DOT____VdfgTmp_hd6a09945__0));
-    vlSelf->c = (1U & ((IData)(top__DOT__AS1__DOT____VdfgTmp_hd6a09945__0) 
-                       >> 4U));
+    top__DOT__AS1__DOT__add_res = (0x1fU & ((IData)(vlSelf->a) 
+                                            + (IData)(vlSelf->b)));
+    top__DOT__AS1__DOT__sub_res = (0x1fU & ((IData)(1U) 
+                                            + ((IData)(vlSelf->a) 
+                                               + (0xfU 
+                                                  & (~ (IData)(vlSelf->b))))));
+    if (vlSelf->cin) {
+        vlSelf->s = (0xfU & (IData)(top__DOT__AS1__DOT__sub_res));
+        vlSelf->c = (1U & ((IData)(top__DOT__AS1__DOT__sub_res) 
+                           >> 4U));
+    } else {
+        vlSelf->s = (0xfU & (IData)(top__DOT__AS1__DOT__add_res));
+        vlSelf->c = (1U & ((IData)(top__DOT__AS1__DOT__add_res) 
+                           >> 4U));
+        vlSelf->c = (1U & ((IData)(top__DOT__AS1__DOT__add_res) 
+                           >> 3U));
+    }
     vlSelf->zero = (1U & (~ (IData)((0U != (IData)(vlSelf->s)))));
-    vlSelf->overflow = ((IData)(vlSelf->cin) ^ (IData)(vlSelf->c));
+    vlSelf->overflow = ((IData)(vlSelf->c) ^ (IData)(vlSelf->cin));
 }
 
 void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {

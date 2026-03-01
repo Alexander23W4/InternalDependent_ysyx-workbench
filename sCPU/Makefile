@@ -5,10 +5,9 @@
 # --cc --exe --build -Wall --trace 
 # --cc --exe --build -j 0 -Wall
 
-V_FILE?= test.v
-CPP_FILE?= test.cpp
-V_SRC=./vercode/$(V_FILE)
-CPP_SRC=./Cppcode/$(CPP_FILE)
+
+V_SRC=./top.v
+CPP_SRC=./Tests/T_AS.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
@@ -36,14 +35,14 @@ runtrace:
 
 # 1. --binary -j 0 -Wall
 binary:
-	$(VERILATOR) $(BINARY_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC)
+	$(VERILATOR) $(BINARY_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) 
 # 2. --cc --exe --build -Wall --trace
 trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)
 
 # 3. --cc --exe --build -j 0 -Wall
 fast:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) 
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC)
 
 # 4. lint only:
 static:

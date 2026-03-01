@@ -1,8 +1,8 @@
 module AS #(parameter N)(   // adder & subtractor
-    input [n -1: 0] a,
-    input [n -1: 0] b,
+    input [N -1: 0] a,
+    input [N -1: 0] b,
     input cin,
-    output [n - 1: 0] s,
+    output [N - 1: 0] s,
     output c,
     output overflow,
     output zero

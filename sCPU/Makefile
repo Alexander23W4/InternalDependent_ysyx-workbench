@@ -50,9 +50,14 @@ fast:
 # 4. lint only:
 static:
 	@$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(V_SRC)
+
+lintall:
+	@$(VERILATOR) $(STATIC_CHECK_FLAG) $(ALL_SOURCES)
+
 # 5. make top:
 top:
-	$(VERILATOR) $(TOP_FLAG) $(TOP_MODULE) $(ALL_SOURCES) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(CPP_SRC)
+	$(VERILATOR) $(TOP_FLAG) $(TOP_MODULE) $(V_SRC) $(ALL_SOURCES) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(CPP_SRC)
+
 
 clean:
 	rm -rf $(OBJ_DIR) 

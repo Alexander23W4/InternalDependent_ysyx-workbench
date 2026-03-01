@@ -7,7 +7,12 @@ module AS #(parameter N)(   // adder & subtractor
     output overflow,
     output zero
 );
-    assign {c, s} = cin ? (~b + a + 1'b1) : (a + b);
+    wire [N: 0] add_res;
+    wire [N: 0] sub_res;
+    assign add_res = {1'b0, a} + {1'b0, b};              
+    assign sub_res = {1'b0, a} + {1'b0, (~b)} + 1'b1;    
+
+    assign {c, s} = cin ? sub_res : add_res;
     assign overflow = cin ^ c;
     assign zero = ~(|s);
 

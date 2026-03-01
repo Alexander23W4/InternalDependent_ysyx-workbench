@@ -24,3 +24,4 @@ module MuxKeyInternal #(AM = 2, KEY_W = 2, VALUE_W = 5, HAS_DEFAULT = 0) (
     end
 
 endmodule
+

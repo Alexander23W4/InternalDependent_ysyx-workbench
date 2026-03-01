@@ -26,24 +26,33 @@ VL_INLINE_OPT void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelf->c = (1U & ((IData)(top__DOT__AS1__DOT__sub_res) 
                            >> 4U));
         vlSelf->s = (0xfU & (IData)(top__DOT__AS1__DOT__sub_res));
+        vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
+                                    >> 3U)) == (1U 
+                                                & (((IData)(1U) 
+                                                    + 
+                                                    (0xfU 
+                                                     & (~ (IData)(vlSelf->b)))) 
+                                                   >> 3U))) 
+                            & ((1U & ((IData)(vlSelf->s) 
+                                      >> 3U)) != (1U 
+                                                  & ((IData)(vlSelf->a) 
+                                                     >> 3U))));
     } else {
         vlSelf->c = (1U & ((IData)(top__DOT__AS1__DOT__add_res) 
                            >> 4U));
         vlSelf->c = (1U & ((IData)(top__DOT__AS1__DOT__add_res) 
                            >> 3U));
         vlSelf->s = (0xfU & (IData)(top__DOT__AS1__DOT__add_res));
+        vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
+                                    >> 3U)) == (1U 
+                                                & ((IData)(vlSelf->b) 
+                                                   >> 3U))) 
+                            & ((1U & ((IData)(vlSelf->s) 
+                                      >> 3U)) != (1U 
+                                                  & ((IData)(vlSelf->a) 
+                                                     >> 3U))));
     }
     vlSelf->zero = (1U & (~ (IData)((0U != (IData)(vlSelf->s)))));
-    vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
-                                >> 3U)) == (1U & (((IData)(1U) 
-                                                   + 
-                                                   (0xfU 
-                                                    & (~ (IData)(vlSelf->b)))) 
-                                                  >> 3U))) 
-                        & ((1U & ((IData)(vlSelf->s) 
-                                  >> 3U)) != (1U & 
-                                              ((IData)(vlSelf->a) 
-                                               >> 3U))));
 }
 
 void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {

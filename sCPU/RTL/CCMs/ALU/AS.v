@@ -4,25 +4,29 @@ module AS #(parameter N)(   // adder & subtractor
     input cin,
     output reg [N - 1: 0] s,
     output reg c,
-    output overflow,
+    output reg overflow,
     output zero
 );
     wire [N: 0] add_res;
     wire [N: 0] sub_res;
+    wire [N: 0] supple;
 
-    assign add_res = {1'b0, a} + {1'b0, b};              
+    assign add_res = {1'b0, a} + {1'b0, b};
+    assign supple = {1'b0, (~b)} + 1'b1;              
     assign sub_res = {1'b0, a} + {1'b0, (~b)} + 1'b1;   
 
     always @(*) begin
         if(cin) begin
             {c, s} = sub_res;
+            overflow = (a[N-1] == supple[N-1]) && (s[N-1] != a[N-1]);
         end
         else begin
             {c, s} = add_res;
             c = add_res[N - 1];
+            overflow = (a[N-1] == b[N-1]) && (s[N-1] != a[N-1]);
         end
     end
-    assign overflow = cin ^ c;
+
     assign zero = ~(|s);
 
 endmodule

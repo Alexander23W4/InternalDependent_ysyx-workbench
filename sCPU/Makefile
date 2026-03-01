@@ -11,6 +11,7 @@ CPP_SRC=./Tests/T_AS.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
+ALL_SOURCES=$(shell find ./RTL -name "*.v")
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx
@@ -22,10 +23,12 @@ DEFAULT_FLAGS=-Wall -j
 WARNING_IGNORE_FLAG=
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
+TOP_FLAG=--top-module
 
-.PHONY: all binary trace fast clean run
+.PHONY: all binary trace fast clean run top
 
 run: 
+	@echo "RUN SIMULATION:"
 	$(EXE)
 
 runtrace:
@@ -47,6 +50,9 @@ fast:
 # 4. lint only:
 static:
 	@$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(V_SRC)
+# 5. make top:
+top:
+	$(VERILATOR) $(TOP_FLAG) $(TOP_MODULE) $(ALL_SOURCES) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(CPP_SRC)
 
 clean:
 	rm -rf $(OBJ_DIR) 

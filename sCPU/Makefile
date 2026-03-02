@@ -6,7 +6,7 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./top.v
+V_SRC=./RTL/SCMs/ShiftReg.v
 CPP_SRC=./Tests/T_AS.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir

@@ -1,41 +1,40 @@
-module ShiftReg #(parameter N) (
+module ShiftReg #(parameter N = 8) (
     input [2:0] mode,
     input in,
-    input clk.
+    input clk,
     input [N - 1: 0] value,
     output reg [N - 1: 0] out
 );
-    reg [N - 1: 0] State;
     always @(posedge clk) begin
         case(mode) 
             3'b000: begin
-                State <= `0;
+                out <= '0;
             end
             3'b001: begin
-                State <= value;
+                out <= value;
             end
             3'b010: begin
-                State <= {in, State[N - 1: 1]};
+                out <= {1'b0, out[N - 1: 1]};
             end
             3'b011: begin
-                State <= {State[N - 2: 0], in};
+                out <= {out[N - 2: 0], 1'b0};
             end
             3'b100: begin
-                State <= {State[N - 1], State[N - 1: 1]};
+                out <= {out[N - 1], out[N - 1: 1]};
             end
             3'b101: begin
-                
+                out <= {in, out[N - 1: 1]};
             end
             3'b110: begin
-                State <= {State[0], State[N - 1: 1]};
+                out <= {out[0], out[N - 1: 1]};
             end
             3'b111: begin
-                State <= {State[N - 2: 0], State[N - 1]};
+                out <= {out[N - 2: 0], out[N - 1]};
             end
         endcase
     end
 
-    assign out = State;
+
 endmodule
 
 

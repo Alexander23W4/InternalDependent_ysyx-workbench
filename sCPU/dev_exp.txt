@@ -1,3 +1,11 @@
+结构化 basic component:
+MUX  Decoder/Encoder  ALU  Counter Memory  Shift/Barrel Shifter   Finite State Machine    KeyBoard_input     VGA
+
+Verilog was not originally intended for designing synthesizable circuits; its essence is a circuit modeling language based on an event queue model. 
+注意上面这句话， 所以behavior modelling大部分情况下只适合原型验证， 如果要design cutting edge processer, 必须上structure
+
+CPI (clk per instruction)
+
 behavior modelling   things need to concern:
 使用的场景： 原型验证  IP核内部   参数化高可复用场景
 使用structure modelling的场景： 
@@ -54,3 +62,8 @@ text
 - 4级缓存流水（MEM）
 - 3级写回流水（WB）
 - **总27级**，1.8GHz (28nm)
+
+结构化描述时序边界清晰， 对于path掌控感强
+结构化描述方便 synthesis的时候调试，调试结果attribute直观， 如果path太长， 直接拆级
+
+

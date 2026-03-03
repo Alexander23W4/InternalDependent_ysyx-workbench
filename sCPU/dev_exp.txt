@@ -4,6 +4,9 @@ MUX  Decoder/Encoder  ALU  Counter Memory  Shift/Barrel Shifter   Finite State M
 Verilog was not originally intended for designing synthesizable circuits; its essence is a circuit modeling language based on an event queue model. 
 注意上面这句话， 所以behavior modelling大部分情况下只适合原型验证， 如果要design cutting edge processer, 必须上structure
 
+Verilog"执行"：仿真器按事件队列调度语句评估:
+active events -> inactive events -> NBA (Non-Blocking assignment) LHS ->  Monitor Events -> Next Circle
+
 CPI (clk per instruction)
 
 behavior modelling   things need to concern:

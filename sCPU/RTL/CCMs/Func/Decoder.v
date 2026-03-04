@@ -1,9 +1,22 @@
-module Decoder #(parameter N = 2) (
-    input [N - 1: 0] in,
+module Decoder(
+    input [2:0] x,
     input en,
-    output [(1 << N) - 1: 0] out
+    output reg [7:0] y
 );
-
-    assign out = en ? (1'b1 << in) : '0;    // fill all with 0
+    integer i;
+    always @(x or en) begin
+        if (en) begin
+            for( i = 0; i <= 7; i = i+1)
+                if(x == i)
+                        y[i] = 1;
+                else
+                        y[i] = 0;
+        end
+        else
+        y = 8'b00000000;
+    end
 
 endmodule
+
+
+

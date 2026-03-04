@@ -1,23 +1,21 @@
-module Encoder #(parameter N = 2)(
-    input [(1 << N) - 1: 0] in,
+module Encoder (
+    input [3:0] in,
     input en,
-    output reg [N - 1: 0] out
+    output reg [1:0] out
 );
-    integer i;
-    always @(*) begin
-        i = 0;
-        out = {N{1'b0}};
+    always @(en or in) begin
         if(en) begin
-            while (in >> i) begin
-                i = i + 1;
-            end
-            if(i == 0) begin
-                out = 0;
-            end
-            else begin
-                out = i - 1;                 
-            end   
+            case (in) 
+                4'b0001: out = 2'b00;
+                4'b0010: out = 2'b01;
+                4'b0100: out = 2'b10;
+                4'b1000: out = 2'b11;
+                default: out = 2'b00;
+            endcase
+        end
+        else begin
+            out = 2'b00;
         end
     end
-
 endmodule
+

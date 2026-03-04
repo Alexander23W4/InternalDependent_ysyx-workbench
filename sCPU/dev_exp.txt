@@ -5,7 +5,50 @@ if else要看清逻辑， 不要嵌套， 必须并行
 
 synthesizer会在某些情况下保护逻辑而在性能方面做出让步（parallel->serial等):
 注意如果是并行逻辑， 必须确保这些情况完全并行， 不能交叉或者嵌套递归等
-多路or写冲突
+-> 多路or写冲突
+1. 多驱动冲突 → 串行优先级编码器
+text
+你的for循环：
+for(i=0;i<4;i++) if(in[i]) out = i;
+
+综合器：4路写冲突！→ **4级串行优先级**
+性能：2.1ns → **3.8ns** (+80%)
+2. 不完整case/if → 意外锁存器
+verilog
+always @(*) begin
+  if(cond) out = 1;  // 漏else！
+end
+text
+综合器：保持上次值 → **锁存器**（组合变时序！）
+性能：组合2ns → **锁存器8ns** (+300%)
+3. 混合阻塞/非阻塞赋值 → 锁存器+竞争
+verilog
+always @(posedge clk) begin
+  a = b;      // 阻塞
+  c <= d;     // 非阻塞
+end
+text
+综合器：逻辑混乱 → **锁存器+多周期**
+性能：单周期 → **多周期错误**
+4. 敏感列表不完整 → 仿真/硬件不一致
+verilog
+always @(a) out = a | b;  // 漏b！
+text
+仿真：b变out不变
+硬件：b变out变（锁死寄存器！）
+综合器：**插入锁存器保证硬件正确**
+5. 三态逻辑 → 总线保持器
+verilog
+assign bus = en ? data : 1'bz;
+text
+综合器：不支持三态 → **MUX+保持器**
+LUT：8 → **16 LUT** (+100%)
+6. 动态循环边界 → 状态机展开
+verilog
+for(i=0; i<len; i++)  // len运行时变！
+text
+综合器：len最大值状态机
+性能：并行 → **串行N周期**
 
 结构化 basic component:
 MUX  Decoder/Encoder  ALU  Counter Memory  Shift/Barrel Shifter   Finite State Machine    KeyBoard_input     VGA

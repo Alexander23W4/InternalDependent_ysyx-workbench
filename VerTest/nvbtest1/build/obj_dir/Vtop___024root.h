@@ -13,15 +13,15 @@ class Vtop___024root final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
-    VL_IN8(en,5,0);
-    VL_OUT8(HEX0,6,0);
-    VL_OUT8(HEX1,6,0);
-    VL_OUT8(HEX2,6,0);
-    VL_OUT8(HEX3,6,0);
-    VL_OUT8(HEX4,6,0);
-    VL_OUT8(HEX5,6,0);
+    VL_IN8(a,3,0);
+    VL_IN8(b,3,0);
+    VL_IN8(cin,0,0);
+    VL_OUT8(c,0,0);
+    VL_OUT8(overflow,0,0);
+    VL_OUT8(zero,0,0);
+    VL_IN8(en,0,0);
+    VL_OUT8(h,6,0);
     CData/*0:0*/ __VactContinue;
-    VL_IN(cpudbgdata,23,0);
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;

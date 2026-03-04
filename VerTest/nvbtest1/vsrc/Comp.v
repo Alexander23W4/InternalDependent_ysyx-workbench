@@ -1,6 +1,4 @@
-// a < b result = 1   a >= b result = 0
-// ! VA NV
-module Comp #(parameter N) (
+module Comp #(parameter N = 4) (
     input [N - 1: 0] a,
     input [N - 1: 0] b,
     output result

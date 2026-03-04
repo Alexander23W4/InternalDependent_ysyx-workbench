@@ -130,10 +130,5 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     // Body
     vlSelf->a = 0;
     vlSelf->b = 0;
-    vlSelf->cin = 0;
-    vlSelf->c = 0;
-    vlSelf->overflow = 0;
-    vlSelf->zero = 0;
-    vlSelf->en = 0;
-    vlSelf->h = 0;
+    vlSelf->result = 0;
 }

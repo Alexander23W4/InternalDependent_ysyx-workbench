@@ -6,59 +6,40 @@
 
 #include "Vtop___024root.h"
 
-extern const VlUnpacked<CData/*6:0*/, 32> Vtop__ConstPool__TABLE_h99acd3d6_0;
-
 VL_INLINE_OPT void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ico_sequent__TOP__0\n"); );
     // Init
-    CData/*3:0*/ top__DOT__s;
-    top__DOT__s = 0;
-    CData/*4:0*/ __Vtableidx1;
-    __Vtableidx1 = 0;
+    CData/*3:0*/ top__DOT__comp__DOT__out;
+    top__DOT__comp__DOT__out = 0;
+    CData/*0:0*/ top__DOT__comp__DOT__overflow;
+    top__DOT__comp__DOT__overflow = 0;
     // Body
-    vlSelf->c = (1U & (((IData)(vlSelf->a) + ((IData)(vlSelf->cin)
-                                               ? ((IData)(1U) 
-                                                  + 
-                                                  (0xfU 
-                                                   & (~ (IData)(vlSelf->b))))
-                                               : (IData)(vlSelf->b))) 
-                       >> 4U));
-    top__DOT__s = (0xfU & ((IData)(vlSelf->a) + (0x1fU 
-                                                 & ((IData)(vlSelf->cin)
-                                                     ? 
-                                                    ((IData)(1U) 
-                                                     + 
-                                                     (0xfU 
-                                                      & (~ (IData)(vlSelf->b))))
-                                                     : (IData)(vlSelf->b)))));
-    if (vlSelf->cin) {
-        vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
-                                    >> 3U)) == (1U 
-                                                & (((IData)(1U) 
-                                                    + 
-                                                    (0xfU 
-                                                     & (~ (IData)(vlSelf->b)))) 
-                                                   >> 3U))) 
-                            & ((1U & ((IData)(top__DOT__s) 
-                                      >> 3U)) != (1U 
-                                                  & ((IData)(vlSelf->a) 
-                                                     >> 3U))));
-    } else {
-        vlSelf->c = (1U & ((IData)(top__DOT__s) >> 3U));
-        vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
-                                    >> 3U)) == (1U 
-                                                & ((IData)(vlSelf->b) 
-                                                   >> 3U))) 
-                            & ((1U & ((IData)(top__DOT__s) 
-                                      >> 3U)) != (1U 
-                                                  & ((IData)(vlSelf->a) 
-                                                     >> 3U))));
-    }
-    vlSelf->zero = (1U & (~ (IData)((0U != (IData)(top__DOT__s)))));
-    __Vtableidx1 = (((IData)(top__DOT__s) << 1U) | (IData)(vlSelf->en));
-    vlSelf->h = Vtop__ConstPool__TABLE_h99acd3d6_0[__Vtableidx1];
+    top__DOT__comp__DOT__out = (0xfU & ((IData)(1U) 
+                                        + ((IData)(vlSelf->a) 
+                                           + (~ (IData)(vlSelf->b)))));
+    top__DOT__comp__DOT__overflow = (((1U & ((IData)(vlSelf->a) 
+                                             >> 3U)) 
+                                      == (1U & (((IData)(1U) 
+                                                 + 
+                                                 (0xfU 
+                                                  & (~ (IData)(vlSelf->b)))) 
+                                                >> 3U))) 
+                                     & ((1U & ((IData)(top__DOT__comp__DOT__out) 
+                                               >> 3U)) 
+                                        != (1U & ((IData)(vlSelf->a) 
+                                                  >> 3U))));
+    vlSelf->result = (1U & (~ ((~ ((IData)(top__DOT__comp__DOT__overflow) 
+                                   | ((IData)(top__DOT__comp__DOT__out) 
+                                      >> 3U))) | ((IData)(top__DOT__comp__DOT__overflow) 
+                                                  & (((IData)(1U) 
+                                                      + 
+                                                      ((IData)(vlSelf->a) 
+                                                       + 
+                                                       (0xfU 
+                                                        & (~ (IData)(vlSelf->b))))) 
+                                                     >> 4U)))));
 }
 
 void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {
@@ -172,9 +153,5 @@ void Vtop___024root___eval_debug_assertions(Vtop___024root* vlSelf) {
         Verilated::overWidthError("a");}
     if (VL_UNLIKELY((vlSelf->b & 0xf0U))) {
         Verilated::overWidthError("b");}
-    if (VL_UNLIKELY((vlSelf->cin & 0xfeU))) {
-        Verilated::overWidthError("cin");}
-    if (VL_UNLIKELY((vlSelf->en & 0xfeU))) {
-        Verilated::overWidthError("en");}
 }
 #endif  // VL_DEBUG

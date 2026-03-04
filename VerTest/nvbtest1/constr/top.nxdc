@@ -1,12 +1,6 @@
 top=top
 
-h (SEG0A, SEG0B, SEG0C, SEG0D, SEG0E, SEG0F, SEG0G)
-en SW9
-
-
 a (SW3, SW2, SW1, SW0)
 b (SW7, SW6, SW5, SW4)
-cin SW8
-c LD0
-overflow LD1
-zero LD2
+
+result LD0

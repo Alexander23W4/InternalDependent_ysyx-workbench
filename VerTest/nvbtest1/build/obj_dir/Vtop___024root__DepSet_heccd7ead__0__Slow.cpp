@@ -128,9 +128,12 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ctor_var_reset\n"); );
     // Body
-    vlSelf->clk = 0;
-    vlSelf->rst = 0;
-    vlSelf->a = 0;
-    vlSelf->b = 0;
-    vlSelf->c = 0;
+    vlSelf->cpudbgdata = 0;
+    vlSelf->en = 0;
+    vlSelf->HEX0 = 0;
+    vlSelf->HEX1 = 0;
+    vlSelf->HEX2 = 0;
+    vlSelf->HEX3 = 0;
+    vlSelf->HEX4 = 0;
+    vlSelf->HEX5 = 0;
 }

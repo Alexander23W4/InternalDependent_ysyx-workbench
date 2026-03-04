@@ -1,4 +1,5 @@
 // ommon anode, low lit
+// !!! VA NV
 module BCD7Seg(
     input [3:0] b,
     input en,
@@ -31,3 +32,4 @@ module BCD7Seg(
         end
     end
 endmodule
+

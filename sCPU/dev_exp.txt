@@ -3,7 +3,8 @@ for 是并行生成
 if else要看清逻辑， 不要嵌套， 必须并行
 避免用while, 其为动态次数， 动态次数无法综合。 additionally, 如果for的condition expression为变量， 一样无法综合
 
-
+synthesizer会在某些情况下保护逻辑而在性能方面做出让步（parallel->serial等):
+多路or写冲突
 
 结构化 basic component:
 MUX  Decoder/Encoder  ALU  Counter Memory  Shift/Barrel Shifter   Finite State Machine    KeyBoard_input     VGA

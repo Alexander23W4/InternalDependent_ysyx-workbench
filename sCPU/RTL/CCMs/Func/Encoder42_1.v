@@ -1,4 +1,4 @@
-module Encoder (
+module Encoder42_1 (
     input [3:0] in,
     input en,
     output reg [1:0] out
@@ -18,4 +18,3 @@ module Encoder (
         end
     end
 endmodule
-

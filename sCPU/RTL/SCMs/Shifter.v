@@ -34,7 +34,6 @@ module ShiftReg #(parameter N = 8) (
         endcase
     end
 
-
 endmodule
 
 

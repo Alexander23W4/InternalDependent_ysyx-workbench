@@ -6,7 +6,7 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./RTL/CCMs/IO/BCD7Seg.v
+V_SRC=./RTL/CCMs/ALU/AS.v
 CPP_SRC=./Tests/T_AS.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir

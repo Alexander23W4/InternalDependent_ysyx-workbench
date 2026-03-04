@@ -1,24 +1,20 @@
 module top(
-    input [23:0] cpudbgdata,
-    input [5:0] en,
-    output reg [6:0] HEX0,
-    output reg [6:0] HEX1,
-    output reg [6:0] HEX2,
-    output reg [6:0] HEX3,
-    output reg [6:0] HEX4,
-    output reg [6:0] HEX5
-);
+    input [3: 0] a,
+    input [3: 0] b,
+    input cin,
 
-BCD_dbg BCD(
-    .cpudbgdata(cpudbgdata),
-    .en(en),
-    .HEX0(HEX0),
-    .HEX1(HEX1),
-    .HEX2(HEX2),
-    .HEX3(HEX3),
-    .HEX4(HEX4),
-    .HEX5(HEX5)
+    output reg c,
+    output reg overflow,
+    output zero,
+
+    input en,
+    output reg [6:0] h
 );
+    reg [3:0] s;
+    BCD7Seg seg(s, en, h);
+    AS as(a, b, cin, s, c, overflow, zero);
 
 endmodule
+
+
 

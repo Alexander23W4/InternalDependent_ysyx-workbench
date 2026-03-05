@@ -1,0 +1,7 @@
+NVBoard    (sh: nvboard)
+Verilator >lint  >simulation >gtkwave   (makefile transplant)
+EMU 
+
+yosys   systhesizer  (sh: yosth)
+EDA    analyze the systhesis outcome   iEDA(iPA iSTA)  (yosys-sta makefile)
+

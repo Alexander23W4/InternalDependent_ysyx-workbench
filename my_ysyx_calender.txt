@@ -1,0 +1,6 @@
+2025.12.9 get started
+2025.12~ Process basic architecture    Verilog      ~(end semester, data structure)
+2025.1 LinuxDev LinuxC  ~(examination week, internship)
+2025.2 LinuxC miniEMU full-process-realization  ~(internship, back town)
+2025.3.3  RTL Parallel Design + PPA cycle oriented thinking
+

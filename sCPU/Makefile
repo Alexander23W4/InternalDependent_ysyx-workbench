@@ -12,7 +12,7 @@ TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 ALL_SOURCES=$(shell find ./RTL -name "*.v")
-INCLUDE_SOURCE=./RTL/CCMs/Func/Mux.v
+INCLUDE_SOURCE=  #./RTL/CCMs/Func/Mux.v
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx

@@ -13,191 +13,194 @@ VL_INLINE_OPT void VBarrelShifter___024root___ico_sequent__TOP__0(VBarrelShifter
     // Init
     CData/*0:0*/ BarrelShifter__DOT__sign;
     BarrelShifter__DOT__sign = 0;
-    CData/*0:0*/ BarrelShifter__DOT__l1_b0;
-    BarrelShifter__DOT__l1_b0 = 0;
-    CData/*0:0*/ BarrelShifter__DOT__l1_b1;
-    BarrelShifter__DOT__l1_b1 = 0;
-    CData/*1:0*/ BarrelShifter__DOT____Vcellinp__m1_0____pinNumber2;
-    BarrelShifter__DOT____Vcellinp__m1_0____pinNumber2 = 0;
-    CData/*3:0*/ BarrelShifter__DOT____Vcellinp__m1_0____pinNumber1;
-    BarrelShifter__DOT____Vcellinp__m1_0____pinNumber1 = 0;
-    CData/*3:0*/ BarrelShifter__DOT____Vcellinp__m1_1____pinNumber1;
-    BarrelShifter__DOT____Vcellinp__m1_1____pinNumber1 = 0;
-    CData/*0:0*/ BarrelShifter__DOT____Vcellout__m2_0____pinNumber3;
-    BarrelShifter__DOT____Vcellout__m2_0____pinNumber3 = 0;
-    CData/*0:0*/ BarrelShifter__DOT____Vcellout__m2_1____pinNumber3;
-    BarrelShifter__DOT____Vcellout__m2_1____pinNumber3 = 0;
-    CData/*0:0*/ BarrelShifter__DOT____Vcellout__m2_4____pinNumber3;
-    BarrelShifter__DOT____Vcellout__m2_4____pinNumber3 = 0;
-    CData/*0:0*/ BarrelShifter__DOT____Vcellout__m2_5____pinNumber3;
-    BarrelShifter__DOT____Vcellout__m2_5____pinNumber3 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h5f3e1026__0;
+    BarrelShifter__DOT____VdfgTmp_h5f3e1026__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h35a2d575__0;
+    BarrelShifter__DOT____VdfgTmp_h35a2d575__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_hf1f2dbca__0;
+    BarrelShifter__DOT____VdfgTmp_hf1f2dbca__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h29f6efd0__0;
+    BarrelShifter__DOT____VdfgTmp_h29f6efd0__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h86d0e74e__0;
+    BarrelShifter__DOT____VdfgTmp_h86d0e74e__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_hde27953d__0;
+    BarrelShifter__DOT____VdfgTmp_hde27953d__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h8119adaf__0;
+    BarrelShifter__DOT____VdfgTmp_h8119adaf__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h87b24a18__0;
+    BarrelShifter__DOT____VdfgTmp_h87b24a18__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h1a9f3742__0;
+    BarrelShifter__DOT____VdfgTmp_h1a9f3742__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_hdb5af18b__0;
+    BarrelShifter__DOT____VdfgTmp_hdb5af18b__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h2abd72af__0;
+    BarrelShifter__DOT____VdfgTmp_h2abd72af__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h1c4e8f39__0;
+    BarrelShifter__DOT____VdfgTmp_h1c4e8f39__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h467ce533__0;
+    BarrelShifter__DOT____VdfgTmp_h467ce533__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_hb27d78ea__0;
+    BarrelShifter__DOT____VdfgTmp_hb27d78ea__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_hacc14072__0;
+    BarrelShifter__DOT____VdfgTmp_hacc14072__0 = 0;
+    CData/*0:0*/ BarrelShifter__DOT____VdfgTmp_h60836966__0;
+    BarrelShifter__DOT____VdfgTmp_h60836966__0 = 0;
     // Body
-    BarrelShifter__DOT____Vcellinp__m1_0____pinNumber1 
-        = ((8U & ((((2U & (((IData)(vlSelf->LR) ? (IData)(vlSelf->din)
-                             : ((IData)(vlSelf->din) 
-                                >> 1U)) << 1U)) | (1U 
-                                                   & ((IData)(vlSelf->LR)
-                                                       ? 
-                                                      ((IData)(vlSelf->din) 
-                                                       >> 1U)
-                                                       : (IData)(vlSelf->din)))) 
-                   >> (1U & (IData)(vlSelf->shamt))) 
-                  << 3U)) | ((4U & ((((2U & (((IData)(vlSelf->LR)
-                                               ? ((IData)(vlSelf->din) 
-                                                  >> 2U)
-                                               : ((IData)(vlSelf->din) 
-                                                  >> 3U)) 
-                                             << 1U)) 
-                                      | (1U & ((IData)(vlSelf->LR)
-                                                ? ((IData)(vlSelf->din) 
-                                                   >> 3U)
-                                                : ((IData)(vlSelf->din) 
-                                                   >> 2U)))) 
-                                     >> (1U & (IData)(vlSelf->shamt))) 
-                                    << 2U)) | ((2U 
-                                                & ((((2U 
-                                                      & (((IData)(vlSelf->LR)
-                                                           ? 
-                                                          ((IData)(vlSelf->din) 
-                                                           >> 4U)
-                                                           : 
-                                                          ((IData)(vlSelf->din) 
-                                                           >> 5U)) 
-                                                         << 1U)) 
-                                                     | (1U 
-                                                        & ((IData)(vlSelf->LR)
-                                                            ? 
-                                                           ((IData)(vlSelf->din) 
-                                                            >> 5U)
-                                                            : 
-                                                           ((IData)(vlSelf->din) 
-                                                            >> 4U)))) 
-                                                    >> 
-                                                    (1U 
-                                                     & (IData)(vlSelf->shamt))) 
-                                                   << 1U)) 
-                                               | (1U 
-                                                  & (((2U 
-                                                       & (((IData)(vlSelf->LR)
-                                                            ? 
-                                                           ((IData)(vlSelf->din) 
-                                                            >> 6U)
-                                                            : 
-                                                           ((IData)(vlSelf->din) 
-                                                            >> 7U)) 
-                                                          << 1U)) 
-                                                      | (1U 
-                                                         & ((IData)(vlSelf->LR)
-                                                             ? 
-                                                            ((IData)(vlSelf->din) 
-                                                             >> 7U)
-                                                             : 
-                                                            ((IData)(vlSelf->din) 
-                                                             >> 6U)))) 
-                                                     >> 
-                                                     (1U 
-                                                      & (IData)(vlSelf->shamt)))))));
-    BarrelShifter__DOT____Vcellinp__m1_0____pinNumber2 
-        = (((IData)(vlSelf->LR) << 1U) | (1U & ((IData)(vlSelf->shamt) 
-                                                >> 1U)));
     BarrelShifter__DOT__sign = ((IData)(vlSelf->AL) 
-                                & ((IData)(vlSelf->din) 
-                                   >> 7U));
-    BarrelShifter__DOT__l1_b0 = (1U & ((IData)(BarrelShifter__DOT____Vcellinp__m1_0____pinNumber1) 
-                                       >> (IData)(BarrelShifter__DOT____Vcellinp__m1_0____pinNumber2)));
-    BarrelShifter__DOT____Vcellinp__m1_1____pinNumber1 
-        = ((8U & ((((2U & (((IData)(vlSelf->LR) ? ((IData)(vlSelf->din) 
-                                                   >> 1U)
-                             : ((IData)(vlSelf->din) 
-                                >> 2U)) << 1U)) | (1U 
-                                                   & ((IData)(vlSelf->LR)
-                                                       ? 
-                                                      ((IData)(vlSelf->din) 
-                                                       >> 2U)
-                                                       : 
-                                                      ((IData)(vlSelf->din) 
-                                                       >> 1U)))) 
-                   >> (1U & (IData)(vlSelf->shamt))) 
-                  << 3U)) | ((4U & ((((2U & (((IData)(vlSelf->LR)
-                                               ? ((IData)(vlSelf->din) 
-                                                  >> 3U)
-                                               : ((IData)(vlSelf->din) 
-                                                  >> 4U)) 
-                                             << 1U)) 
-                                      | (1U & ((IData)(vlSelf->LR)
-                                                ? ((IData)(vlSelf->din) 
-                                                   >> 4U)
-                                                : ((IData)(vlSelf->din) 
-                                                   >> 3U)))) 
-                                     >> (1U & (IData)(vlSelf->shamt))) 
-                                    << 2U)) | ((2U 
-                                                & ((((2U 
-                                                      & (((IData)(vlSelf->LR)
-                                                           ? 
-                                                          ((IData)(vlSelf->din) 
-                                                           >> 5U)
-                                                           : 
-                                                          ((IData)(vlSelf->din) 
-                                                           >> 6U)) 
-                                                         << 1U)) 
-                                                     | (1U 
-                                                        & ((IData)(vlSelf->LR)
-                                                            ? 
-                                                           ((IData)(vlSelf->din) 
-                                                            >> 6U)
-                                                            : 
-                                                           ((IData)(vlSelf->din) 
-                                                            >> 5U)))) 
-                                                    >> 
-                                                    (1U 
-                                                     & (IData)(vlSelf->shamt))) 
-                                                   << 1U)) 
-                                               | (1U 
-                                                  & (((2U 
-                                                       & (((IData)(vlSelf->LR)
-                                                            ? (IData)(BarrelShifter__DOT__sign)
-                                                            : 
-                                                           ((IData)(vlSelf->din) 
-                                                            >> 7U)) 
-                                                          << 1U)) 
-                                                      | (1U 
-                                                         & ((IData)(vlSelf->LR)
-                                                             ? 
-                                                            ((IData)(vlSelf->din) 
-                                                             >> 7U)
-                                                             : (IData)(BarrelShifter__DOT__sign)))) 
-                                                     >> 
-                                                     (1U 
-                                                      & (IData)(vlSelf->shamt)))))));
-    BarrelShifter__DOT____Vcellout__m2_0____pinNumber3 
-        = (1U & ((3U & (- (IData)((IData)(BarrelShifter__DOT__l1_b0)))) 
-                 >> (1U & ((IData)(vlSelf->shamt) >> 2U))));
-    BarrelShifter__DOT____Vcellout__m2_4____pinNumber3 
-        = (1U & ((((IData)(BarrelShifter__DOT__sign) 
-                   << 1U) | (IData)(BarrelShifter__DOT__l1_b0)) 
-                 >> (1U & ((IData)(vlSelf->shamt) >> 2U))));
-    BarrelShifter__DOT__l1_b1 = (1U & ((IData)(BarrelShifter__DOT____Vcellinp__m1_1____pinNumber1) 
-                                       >> (IData)(BarrelShifter__DOT____Vcellinp__m1_0____pinNumber2)));
-    BarrelShifter__DOT____Vcellout__m2_1____pinNumber3 
-        = (1U & ((3U & (- (IData)((IData)(BarrelShifter__DOT__l1_b1)))) 
-                 >> (1U & ((IData)(vlSelf->shamt) >> 2U))));
-    BarrelShifter__DOT____Vcellout__m2_5____pinNumber3 
-        = (1U & ((((IData)(BarrelShifter__DOT__sign) 
-                   << 1U) | (IData)(BarrelShifter__DOT__l1_b1)) 
-                 >> (1U & ((IData)(vlSelf->shamt) >> 2U))));
-    vlSelf->dout = (((IData)(BarrelShifter__DOT____Vcellout__m2_5____pinNumber3) 
-                     << 7U) | (((IData)(BarrelShifter__DOT____Vcellout__m2_4____pinNumber3) 
-                                << 6U) | (((IData)(BarrelShifter__DOT____Vcellout__m2_5____pinNumber3) 
+                                & ((~ (IData)(vlSelf->LR)) 
+                                   & ((IData)(vlSelf->din) 
+                                      >> 7U)));
+    if ((1U & (IData)(vlSelf->shamt))) {
+        BarrelShifter__DOT____VdfgTmp_h1a9f3742__0 
+            = (1U & ((~ (IData)(vlSelf->LR)) & ((IData)(vlSelf->din) 
+                                                >> 1U)));
+        if (vlSelf->LR) {
+            BarrelShifter__DOT____VdfgTmp_hdb5af18b__0 
+                = (1U & (IData)(vlSelf->din));
+            BarrelShifter__DOT____VdfgTmp_hacc14072__0 
+                = (1U & ((IData)(vlSelf->din) >> 5U));
+            BarrelShifter__DOT____VdfgTmp_h2abd72af__0 
+                = (1U & ((IData)(vlSelf->din) >> 1U));
+            BarrelShifter__DOT____VdfgTmp_h1c4e8f39__0 
+                = (1U & ((IData)(vlSelf->din) >> 2U));
+            BarrelShifter__DOT____VdfgTmp_h467ce533__0 
+                = (1U & ((IData)(vlSelf->din) >> 3U));
+            BarrelShifter__DOT____VdfgTmp_hb27d78ea__0 
+                = (1U & ((IData)(vlSelf->din) >> 4U));
+            BarrelShifter__DOT____VdfgTmp_h60836966__0 
+                = (1U & ((IData)(vlSelf->din) >> 6U));
+        } else {
+            BarrelShifter__DOT____VdfgTmp_hdb5af18b__0 
+                = (1U & ((IData)(vlSelf->din) >> 2U));
+            BarrelShifter__DOT____VdfgTmp_hacc14072__0 
+                = (1U & ((IData)(vlSelf->din) >> 7U));
+            BarrelShifter__DOT____VdfgTmp_h2abd72af__0 
+                = (1U & ((IData)(vlSelf->din) >> 3U));
+            BarrelShifter__DOT____VdfgTmp_h1c4e8f39__0 
+                = (1U & ((IData)(vlSelf->din) >> 4U));
+            BarrelShifter__DOT____VdfgTmp_h467ce533__0 
+                = (1U & ((IData)(vlSelf->din) >> 5U));
+            BarrelShifter__DOT____VdfgTmp_hb27d78ea__0 
+                = (1U & ((IData)(vlSelf->din) >> 6U));
+            BarrelShifter__DOT____VdfgTmp_h60836966__0 
+                = (1U & (IData)(BarrelShifter__DOT__sign));
+        }
+    } else {
+        BarrelShifter__DOT____VdfgTmp_h1a9f3742__0 
+            = (1U & (IData)(vlSelf->din));
+        BarrelShifter__DOT____VdfgTmp_hdb5af18b__0 
+            = (1U & ((IData)(vlSelf->din) >> 1U));
+        BarrelShifter__DOT____VdfgTmp_hacc14072__0 
+            = (1U & ((IData)(vlSelf->din) >> 6U));
+        BarrelShifter__DOT____VdfgTmp_h2abd72af__0 
+            = (1U & ((IData)(vlSelf->din) >> 2U));
+        BarrelShifter__DOT____VdfgTmp_h1c4e8f39__0 
+            = (1U & ((IData)(vlSelf->din) >> 3U));
+        BarrelShifter__DOT____VdfgTmp_h467ce533__0 
+            = (1U & ((IData)(vlSelf->din) >> 4U));
+        BarrelShifter__DOT____VdfgTmp_hb27d78ea__0 
+            = (1U & ((IData)(vlSelf->din) >> 5U));
+        BarrelShifter__DOT____VdfgTmp_h60836966__0 
+            = (1U & ((IData)(vlSelf->din) >> 7U));
+    }
+    if ((2U & (IData)(vlSelf->shamt))) {
+        BarrelShifter__DOT____VdfgTmp_h8119adaf__0 
+            = ((~ (IData)(vlSelf->LR)) & (IData)(BarrelShifter__DOT____VdfgTmp_h2abd72af__0));
+        BarrelShifter__DOT____VdfgTmp_h86d0e74e__0 
+            = ((~ (IData)(vlSelf->LR)) & (IData)(BarrelShifter__DOT____VdfgTmp_h1c4e8f39__0));
+        if (vlSelf->LR) {
+            BarrelShifter__DOT____VdfgTmp_hf1f2dbca__0 
+                = BarrelShifter__DOT____VdfgTmp_h1a9f3742__0;
+            BarrelShifter__DOT____VdfgTmp_h87b24a18__0 
+                = BarrelShifter__DOT____VdfgTmp_h2abd72af__0;
+            BarrelShifter__DOT____VdfgTmp_h5f3e1026__0 
+                = BarrelShifter__DOT____VdfgTmp_hdb5af18b__0;
+            BarrelShifter__DOT____VdfgTmp_h29f6efd0__0 
+                = BarrelShifter__DOT____VdfgTmp_h467ce533__0;
+            BarrelShifter__DOT____VdfgTmp_h35a2d575__0 
+                = BarrelShifter__DOT____VdfgTmp_hb27d78ea__0;
+            BarrelShifter__DOT____VdfgTmp_hde27953d__0 
+                = BarrelShifter__DOT____VdfgTmp_h1c4e8f39__0;
+        } else {
+            BarrelShifter__DOT____VdfgTmp_hf1f2dbca__0 
+                = BarrelShifter__DOT____VdfgTmp_h467ce533__0;
+            BarrelShifter__DOT____VdfgTmp_h87b24a18__0 
+                = BarrelShifter__DOT____VdfgTmp_hacc14072__0;
+            BarrelShifter__DOT____VdfgTmp_h5f3e1026__0 
+                = BarrelShifter__DOT____VdfgTmp_hb27d78ea__0;
+            BarrelShifter__DOT____VdfgTmp_h29f6efd0__0 
+                = BarrelShifter__DOT__sign;
+            BarrelShifter__DOT____VdfgTmp_h35a2d575__0 
+                = BarrelShifter__DOT__sign;
+            BarrelShifter__DOT____VdfgTmp_hde27953d__0 
+                = BarrelShifter__DOT____VdfgTmp_h60836966__0;
+        }
+    } else {
+        BarrelShifter__DOT____VdfgTmp_h8119adaf__0 
+            = BarrelShifter__DOT____VdfgTmp_h1a9f3742__0;
+        BarrelShifter__DOT____VdfgTmp_h86d0e74e__0 
+            = BarrelShifter__DOT____VdfgTmp_hdb5af18b__0;
+        BarrelShifter__DOT____VdfgTmp_hf1f2dbca__0 
+            = BarrelShifter__DOT____VdfgTmp_h2abd72af__0;
+        BarrelShifter__DOT____VdfgTmp_h87b24a18__0 
+            = BarrelShifter__DOT____VdfgTmp_h467ce533__0;
+        BarrelShifter__DOT____VdfgTmp_h5f3e1026__0 
+            = BarrelShifter__DOT____VdfgTmp_h1c4e8f39__0;
+        BarrelShifter__DOT____VdfgTmp_h29f6efd0__0 
+            = BarrelShifter__DOT____VdfgTmp_hacc14072__0;
+        BarrelShifter__DOT____VdfgTmp_h35a2d575__0 
+            = BarrelShifter__DOT____VdfgTmp_h60836966__0;
+        BarrelShifter__DOT____VdfgTmp_hde27953d__0 
+            = BarrelShifter__DOT____VdfgTmp_hb27d78ea__0;
+    }
+    vlSelf->dout = ((((4U & (IData)(vlSelf->shamt))
+                       ? ((IData)(vlSelf->LR) ? (IData)(BarrelShifter__DOT____VdfgTmp_h5f3e1026__0)
+                           : (IData)(BarrelShifter__DOT__sign))
+                       : (IData)(BarrelShifter__DOT____VdfgTmp_h35a2d575__0)) 
+                     << 7U) | ((((4U & (IData)(vlSelf->shamt))
+                                  ? ((IData)(vlSelf->LR)
+                                      ? (IData)(BarrelShifter__DOT____VdfgTmp_hf1f2dbca__0)
+                                      : (IData)(BarrelShifter__DOT__sign))
+                                  : (IData)(BarrelShifter__DOT____VdfgTmp_h29f6efd0__0)) 
+                                << 6U) | ((((4U & (IData)(vlSelf->shamt))
+                                             ? ((IData)(vlSelf->LR)
+                                                 ? (IData)(BarrelShifter__DOT____VdfgTmp_h86d0e74e__0)
+                                                 : (IData)(BarrelShifter__DOT__sign))
+                                             : (IData)(BarrelShifter__DOT____VdfgTmp_hde27953d__0)) 
                                            << 5U) | 
-                                          (((IData)(BarrelShifter__DOT____Vcellout__m2_4____pinNumber3) 
+                                          ((((4U & (IData)(vlSelf->shamt))
+                                              ? ((IData)(vlSelf->LR)
+                                                  ? (IData)(BarrelShifter__DOT____VdfgTmp_h8119adaf__0)
+                                                  : (IData)(BarrelShifter__DOT__sign))
+                                              : (IData)(BarrelShifter__DOT____VdfgTmp_h87b24a18__0)) 
                                             << 4U) 
-                                           | (((IData)(BarrelShifter__DOT____Vcellout__m2_1____pinNumber3) 
+                                           | ((((4U 
+                                                 & (IData)(vlSelf->shamt))
+                                                 ? 
+                                                ((~ (IData)(vlSelf->LR)) 
+                                                 & (IData)(BarrelShifter__DOT____VdfgTmp_h35a2d575__0))
+                                                 : (IData)(BarrelShifter__DOT____VdfgTmp_h5f3e1026__0)) 
                                                << 3U) 
-                                              | (((IData)(BarrelShifter__DOT____Vcellout__m2_0____pinNumber3) 
+                                              | ((((4U 
+                                                    & (IData)(vlSelf->shamt))
+                                                    ? 
+                                                   ((~ (IData)(vlSelf->LR)) 
+                                                    & (IData)(BarrelShifter__DOT____VdfgTmp_h29f6efd0__0))
+                                                    : (IData)(BarrelShifter__DOT____VdfgTmp_hf1f2dbca__0)) 
                                                   << 2U) 
-                                                 | (((IData)(BarrelShifter__DOT____Vcellout__m2_1____pinNumber3) 
+                                                 | ((((4U 
+                                                       & (IData)(vlSelf->shamt))
+                                                       ? 
+                                                      ((~ (IData)(vlSelf->LR)) 
+                                                       & (IData)(BarrelShifter__DOT____VdfgTmp_hde27953d__0))
+                                                       : (IData)(BarrelShifter__DOT____VdfgTmp_h86d0e74e__0)) 
                                                      << 1U) 
-                                                    | (IData)(BarrelShifter__DOT____Vcellout__m2_0____pinNumber3))))))));
+                                                    | ((4U 
+                                                        & (IData)(vlSelf->shamt))
+                                                        ? 
+                                                       ((~ (IData)(vlSelf->LR)) 
+                                                        & (IData)(BarrelShifter__DOT____VdfgTmp_h87b24a18__0))
+                                                        : (IData)(BarrelShifter__DOT____VdfgTmp_h8119adaf__0)))))))));
 }
 
 void VBarrelShifter___024root___eval_ico(VBarrelShifter___024root* vlSelf) {

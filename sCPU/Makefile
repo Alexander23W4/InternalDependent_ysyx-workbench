@@ -7,7 +7,7 @@
 
 
 V_SRC=./RTL/SCMs/BarrelShifter.v
-CPP_SRC=./Tests/T_Decoder.cpp
+CPP_SRC=./Tests/T_BarrelShifter.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
@@ -46,7 +46,7 @@ trace:
 
 # 3. --cc --exe --build -j 0 -Wall
 fast:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC)
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(INCLUDE_SOURCE) $(CPP_SRC) 
 
 # 4. lint only:
 static:

@@ -6,12 +6,13 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./RTL/CCMs/Func/Decoder38.v
+V_SRC=./RTL/SCMs/BarrelShifter.v
 CPP_SRC=./Tests/T_Decoder.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 ALL_SOURCES=$(shell find ./RTL -name "*.v")
+INCLUDE_SOURCE=./RTL/CCMs/Func/Mux.v
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx
@@ -49,7 +50,7 @@ fast:
 
 # 4. lint only:
 static:
-	@$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(V_SRC)
+	@$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(V_SRC) $(INCLUDE_SOURCE)
 
 lintall:
 	@$(VERILATOR) $(STATIC_CHECK_FLAG) $(ALL_SOURCES)

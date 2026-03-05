@@ -88,7 +88,13 @@ Standard cells with fewer tracks (such as 6T, 7T) have smaller areas and lower p
  Electronics engineers need to select standard cells with an appropriate number of tracks for chip design based on the application scenarios of the chip. However, after selecting a standard cell library, it is impossible to mix standard cells with different track counts in the circuit. This is different from threshold voltages, because a standard cell library can also include standard cells with multiple threshold voltages, which can be mixed and used. 
 
 
+track 数	特性	优缺点
+小 track (6T~7T)	面积小，栅极短，晶体管窄	面积小、功耗低，但驱动能力弱 → 延迟大 → 性能低
+大 track (12T~13T)	面积大，晶体管宽	驱动能力强 → 延迟小 → 性能高，但面积和功耗增加
 
+驱动能力弱 → 切换大负载节点慢 → 高 fanout 时路径延迟长
+
+驱动能力强 → 可以驱动更多门 / 长 wire → 延迟短 → 高性能
 
 
 

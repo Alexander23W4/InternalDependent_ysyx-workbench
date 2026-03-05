@@ -3,6 +3,30 @@ for 是并行生成
 if else要看清逻辑， 不要嵌套， 必须并行
 避免用while, 其为动态次数， 动态次数无法综合。 additionally, 如果for的condition expression为变量， 一样无法综合
 
+power：Dynamic Power
+Leakage Power
+dynamic power = α · C · V² · f
+C = C_gate + C_wire  大规模芯片中：
+wire capacitance >> gate capacitance
+降压
+调整频率，灵活降低频率
+降低信号翻转次数，比如clock gating, 用gray code.., 状态编码的时候用翻转少的编码形式
+
+
+cpu clock gating, idle的时候latch住
+always @(posedge clk) begin if (!idle) dout <= dout_comb; end  
+->复用中间结果 减少面积， 但是不能过多复用叠加fanout
+->避免一路驱动很多路， fanout功耗大
+fanout，synthesizer会+buffer, 增加带负载能力
+
+-> pipeline balance:
+| 流水级数 | 每级逻辑    | 寄存器数量 | 功耗 | 最大频率 | 面积 |
+| ---- | ------- | ----- | -- | ---- | -- |
+| 2级   | 16位组合   | 2     | 高  | 低    | 小  |
+| 3~4级 | 8~10位组合 | 3~4   | 中  | 中高   | 中  |
+| 6级   | 5~6位组合  | 6     | 低  | 高    | 大  |
+
+
 synthesizer会在某些情况下保护逻辑而在性能方面做出让步（parallel->serial等):
 注意如果是并行逻辑， 必须确保这些情况完全并行， 不能交叉或者嵌套递归等
 -> 多路or写冲突

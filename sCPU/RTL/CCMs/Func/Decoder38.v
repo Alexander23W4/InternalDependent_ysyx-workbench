@@ -1,13 +1,13 @@
-module Decoder(
+module Decoder38(
     input [2:0] x,
     input en,
     output reg [7:0] y
 );
     integer i;
-    always @(x or en) begin
+    always @(*) begin
         if (en) begin
-            for( i = 0; i <= 7; i = i+1)
-                if(x == i)
+            for( i = 0; i < 8; i = i+1)
+                if(x == i[2:0])
                         y[i] = 1;
                 else
                         y[i] = 0;

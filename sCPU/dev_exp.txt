@@ -13,10 +13,14 @@ wire capacitance >> gate capacitance
 降低信号翻转次数，比如clock gating, 用gray code.., 状态编码的时候用翻转少的编码形式
 
 非关键路径用high threshold
-cpu clock gating, idle的时候latch住
-always @(posedge clk) begin if (!idle) dout <= dout_comb; end  
+
+-> cpu clock gating, idle的时候latch住  (ICG[Seqential]) + (Idel static[combinational])
+always @(posedge clk) begin if (!idle) dout <= dout_comb; end 
+
 ->复用中间结果 减少面积， 但是不能过多复用叠加fanout
-->避免一路驱动很多路， fanout功耗大
+If could functional reuse, just reuse and add fanout, it saves all P&P&A
+
+-> When一路驱动很多路， fanout功耗大
 fanout，synthesizer会+buffer, 增加带负载能力
 fanout如果不加buffer优化， 会增加delay：
 这个delay主要是负载的电容charge uncharge导致的
@@ -34,8 +38,8 @@ fanout如果不加buffer优化， 会增加delay：
 
 -> track & fanout delay
 track 数	特性	优缺点
-小 track (6T~7T)	面积小，栅极短，晶体管窄	面积小、功耗低，但驱动能力弱 → 延迟大 → 性能低
-大 track (12T~13T)	面积大，晶体管宽	驱动能力强 → 延迟小 → 性能高，但面积和功耗增加
+小 track (6T~7T)	面积小，栅极短，晶体管窄	面积小、功耗低，但驱动能力弱 → 延迟大 → 性能低  Power Area      Performance
+大 track (12T~13T)	面积大，晶体管宽	驱动能力强 → 延迟小 → 性能高，但面积和功耗增加      Performance     Power Area
 
 驱动能力弱 → 切换大负载节点慢 → 高 fanout 时路径延迟长
 驱动能力强 → 可以驱动更多门 / 长 wire → 延迟短 → 高性能
@@ -60,11 +64,12 @@ track 数	特性	优缺点
 | 6级   | 5~6位组合  | 6     | 低  | 高    | 大  |
 
 能用condition judgement, 不用 if else
+
 寄存器的作用：
 稳定时序，便于流水线收敛
 但是增加面积和功耗
 
-synthesizer会在某些情况下保护逻辑而在性能方面做出让步（parallel->serial等):
+synthesizer会在某些情况下保护逻辑而在性能方面做出让步（parallel->serial等:
 注意如果是并行逻辑， 必须确保这些情况完全并行， 不能交叉或者嵌套递归等
 -> 多路or写冲突
 1. 多驱动冲突 → 串行优先级编码器

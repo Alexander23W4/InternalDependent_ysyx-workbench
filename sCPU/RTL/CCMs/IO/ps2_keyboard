@@ -1,29 +1,38 @@
-module ps2_keyboard(
-    input clk, 
-    input clrn,
-    input ps2_clk, 
-    input ps2_data,
-    input nextdata_n,
-    output [7:0] data,
-    output reg ready,
-    output reg overflow
-);
-    reg [3:0] ps2_clk_sync;
+// module ps2_keyboard(
+//     input clk, 
+//     input clrn,
+//     input ps2_clk, 
+//     input ps2_data,
+//     input nextdata_n,
+//     output [7:0] data,
+//     output reg ready,
+//     output reg overflow
+// );
+//     reg [3:0] ps2_clk_sync;
 
-    // record the ps2_clk, in order to capture the falling edge
-    always @(posedge clk) begin
-        ps2_clk_sync <= {ps2_clk_sync[1:0], ps2_clk};
-    end
-    // capture the falling edge of ps2_clk
-    wire sampling = ps2_clk_sync[2] & ~ps2_clk_sync[1];
+//     // record the ps2_clk, in order to capture the falling edge
+//     always @(posedge clk) begin
+//         ps2_clk_sync <= {ps2_clk_sync[1:0], ps2_clk};
+//     end
+//     // capture the falling edge of ps2_clk
+//     wire sampling = ps2_clk_sync[2] & ~ps2_clk_sync[1];
 
-    // send and hold logic
-    always @(posedge clk) begin
-        
-    end
+//     // send and hold logic
+//     always @(posedge clk) begin
+//         if(ready) begin
+//             if (clrn == 0) begin // reset
+//                 count <= 0; w_ptr <= 0; r_ptr <= 0; overflow <= 0; ready<= 0;
+//             end 
+//             else begin
+//                 if(ready) begin
+                    
+//                 end
+//             end
+//         end
+//     end
 
 
-endmodule
+// endmodule
 
 module ps2_keyboard(clk,clrn,ps2_clk,ps2_data,data,
                     ready,nextdata_n,overflow);

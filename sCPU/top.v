@@ -27,9 +27,20 @@ Fill Momery with
 // ROM  8x8
 
 module top (
+    input clk,
 
 )
+    reg [7:0] mem_out;
     reg [2:0] PC;
+    rom #(8, 3, "rom.hex") mem (
+        .addr(PC),
+        .out(mem_out)
+    );
+    always @(*) begin
+        case(memout[7:6])
+            2'b00:
+        endcase
+    end 
 
 endmodule
 

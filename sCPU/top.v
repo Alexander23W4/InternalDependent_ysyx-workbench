@@ -28,7 +28,7 @@ Fill Momery with
 
 module top (
 
-);
+)
     reg [2:0] PC;
 
 endmodule

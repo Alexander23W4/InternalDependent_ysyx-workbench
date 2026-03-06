@@ -30,7 +30,7 @@ module ram1 #(
   parameter RAM_ADDR_WIDTH = 10
 )(
     input clk,
-    input we,
+    input we,      // when write, pull up "we", not suppose to read
     input [RAM_WIDTH-1:0] din,
     input [RAM_ADDR_WIDTH-1:0] inaddr,
     input [RAM_ADDR_WIDTH-1:0] outaddr,

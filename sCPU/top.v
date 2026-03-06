@@ -1,21 +1,41 @@
-module top #(parameter N = 4) (
-    input [N -1: 0] a,
-    input [N -1: 0] b,
-    input cin,
-    output [N - 1: 0] s,
-    output c,
-    output overflow,
-    output zero
+/*
+The opcode : add li bner0 
+ 7  6 5  4 3   2 1   0
++----+----+-----+-----+
+| 00 | rd | rs1 | rs2 | R[rd]=R[rs1]+R[rs2]            ADD instruction for register addition
++----+----+-----+-----+
+| 10 | rd |    imm    | R[rd]=imm                      LI instruction (Load Immediate with zero-extension)
++----+----+-----+-----+
+| 11 |   addr   | rs2 | if (R[0]!=R[rs2]) PC=addr      BNER0 instruction (Branch if Not Equal to Register 0)
++----+----------+-----+
+
+*/
+
+/*
+Fill Momery with 
+0: li r0, 10   # This is decimal 10.
+1: li r1, 0
+2: li r2, 0
+3: li r3, 1
+4: add r1, r1, r3
+5: add r2, r2, r1
+6: out xx, xx, r2
+7: bner0 4, r1
+8: bner0 7, r3
+*/
+
+// ROM  8x8
+
+module top (
+
 );
-    AS #(N) AS1 (
-        .a(a),
-        .b(b),
-        .cin(cin),
-        .s(s),
-        .c(c),
-        .overflow(overflow),
-        .zero(zero)
-    );
+    reg [2:0] PC;
 
 endmodule
+
+
+
+
+
+
 

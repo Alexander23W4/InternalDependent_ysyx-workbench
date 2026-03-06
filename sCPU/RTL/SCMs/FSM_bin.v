@@ -1,3 +1,4 @@
+// ST
 module FSM_bin
 (
   input   clk, in, reset,
@@ -10,7 +11,7 @@ parameter[3:0] S0 = 0, S1 = 1, S2 = 2, S3 = 3,
 wire [3:0] state_din, state_dout;
 wire state_wen;
 
-SimReg#(4,0) state(clk, reset, state_din, state_dout, state_wen);
+SimReg#(4,0) state(clk, reset, state_din, state_dout, state_wen);    // module doesn't implemented
 
 assign state_wen = 1;
 

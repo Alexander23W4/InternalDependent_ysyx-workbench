@@ -1,3 +1,4 @@
+// VA NV
 // module AS #(parameter N)(   // !!!   // adder & subtractor
 //     input [N -1: 0] a,
 //     input [N -1: 0] b,

@@ -1,3 +1,4 @@
+// VA
 module ps2_lut (
     input  [7:0] data,
     output reg [7:0] ascii

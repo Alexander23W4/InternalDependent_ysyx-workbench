@@ -1,3 +1,4 @@
+// ST
 module Reg #(WIDTH = 1, RESET_VAL = 0) (
   input clk,
   input rst,

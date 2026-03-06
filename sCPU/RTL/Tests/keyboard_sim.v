@@ -1,3 +1,4 @@
+/* verilator lint_off PINMISSING */
 `timescale 1ns / 1ps
 
 module keyboard_sim;
@@ -8,7 +9,7 @@ module keyboard_sim;
     /* PS/2 interface signals */
     reg clk, clrn;
     wire [7:0] data;
-    wire ready, overflow;
+    wire ready;
     wire kbd_clk, kbd_data;
     wire [7:0] ascii;
     wire nextdata_n;
@@ -27,8 +28,7 @@ module keyboard_sim;
         .ps2_data(kbd_data),
         .data(data),
         .ready(ready),
-        .nextdata_n(nextdata_n),
-        .overflow(overflow)
+        .nextdata_n(nextdata_n)
     );
 
     /* PS/2 Receiver for ASCII conversion */
@@ -53,12 +53,12 @@ module keyboard_sim;
         clrn = 1'b1;  #20;
 
         // Press 'A' (scan code 0x1C)
-        model.kbd_sendcode(8'h1C);
+        model.kbd_sendcode(8'h7C);
         #100;
 
         // Release 'A' (break code F0 1C)
         model.kbd_sendcode(8'hF0);
-        #20 model.kbd_sendcode(8'h1C);
+        #20 model.kbd_sendcode(8'h7C);
         #100;
 
         // Press 'S' (scan code 0x1B)
@@ -86,3 +86,5 @@ module keyboard_sim;
     end
 
 endmodule
+
+/* verilator lint_off PINMISSING */

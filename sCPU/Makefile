@@ -39,7 +39,7 @@ runtrace:
 
 # 1. --binary -j 0 -Wall
 binary:
-	$(VERILATOR) $(BINARY_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) 
+	$(VERILATOR) $(BINARY_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(INCLUDE_SOURCE)
 # 2. --cc --exe --build -Wall --trace
 trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)

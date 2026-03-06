@@ -57,6 +57,7 @@ always @(*) begin
         8'h41: ascii = ",";
         8'h49: ascii = ".";
         8'h4A: ascii = "/";
+        8'h7C: ascii = "*";
 
         // space
         8'h29: ascii = " ";
@@ -67,3 +68,4 @@ always @(*) begin
 end
 
 endmodule
+

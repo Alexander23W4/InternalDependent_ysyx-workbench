@@ -1,12 +1,18 @@
 module T_ins_add (
     input clk,
-    input en,    // enable
+    input en,
     input rst,
-    input [1:0] rs1,   // get rs1 from instr
-    input [1:0] rs2,   // get rs2 from instr
-    input [1:0] rd,    // get rd from instr
-    output reg finish   // the instr operation is finished (flag for controller)
+    input [1:0] rs1,
+    input [1:0] rs2,
+    input [1:0] rd,
+    output reg finish,
+    // debug outputs
+    output [7:0] dbg0,
+    output [7:0] dbg1,
+    output [7:0] dbg2,
+    output [7:0] dbg3
 );
+
     wire [7:0] data_in;
     wire [7:0] data_out;
     wire [1:0] read_addr;
@@ -28,16 +34,19 @@ module T_ins_add (
         .finish(finish)
     );
 
-    ram1 #(8, 2) gpr (
+    debug_ram1 #(8, 2, "./Tests/debug_ram.hex") gpr (
         .clk(clk),
         .we(we),
         .inaddr(write_addr),
         .outaddr(read_addr),
         .din(data_out),
-        .dout(data_in)
+        .dout(data_in),
+        .debug0(dbg0),
+        .debug1(dbg1),
+        .debug2(dbg2),
+        .debug3(dbg3)
     );
 
 endmodule
-
 
 

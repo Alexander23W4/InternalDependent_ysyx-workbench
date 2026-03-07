@@ -6,13 +6,13 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./RTL/Tests/keyboard_sim.v
-CPP_SRC=./Tests/T_BarrelShifter.cpp
+V_SRC=./RTL/Tests/T_ins_add.v
+CPP_SRC=./Tests/T_ins_add.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 ALL_SOURCES=$(shell find ./RTL -name "*.v")
-INCLUDE_SOURCE= ./RTL/Tests/ps2_keyboard_model.v ./RTL/CCMs/IO/ps2_lut.v ./RTL/CCMs/IO/ps2_receiver.v ./RTL/CCMs/IO/ps2_keyboard.v
+INCLUDE_SOURCE= ./RTL/Tests/debug_ram1.v  ./RTL/FSMs/Instr_add.v   ./RTL/CCMs/ALU/Adder.v 
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx

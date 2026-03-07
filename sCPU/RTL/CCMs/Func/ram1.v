@@ -1,4 +1,4 @@
-// ST
+// ST 
 /*
 Memory Modes:
 
@@ -39,7 +39,7 @@ module ram1 #(
 );
     initial begin
         if (INIT_FILE != "")
-            $readmemh(INIT_FILE, mem);   
+            $readmemh(INIT_FILE, ram);   
     end
 
   reg [RAM_WIDTH-1:0] ram [(2**RAM_ADDR_WIDTH)-1:0];

@@ -1,4 +1,4 @@
-T_ins_add.o: ../Tests/T_ins_add.cpp VT_ins_add.h \
+T_ins_li.o: ../Tests/T_ins_li.cpp VT_ins_li.h \
  /usr/local/share/verilator/include/verilated.h \
  /usr/local/share/verilator/include/verilatedos.h \
  /usr/local/share/verilator/include/verilated_config.h \

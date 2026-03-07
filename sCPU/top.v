@@ -26,6 +26,7 @@ Fill Momery with
 
 // ROM  8x8
 
+// -> when get "finish" flag, en should be 3'b000
 module top (
     input clk,
 

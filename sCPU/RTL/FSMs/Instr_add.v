@@ -1,80 +1,76 @@
 module Instr_add(
     input clk,
-    input en,
+    input en,    // enable
     input rst,
-    input [1:0] rs1,
-    input [1:0] rs2,
-    input [1:0] rd,
-    input [7:0] data_in,
-    output reg [7:0] data_out,
-    output reg [1:0] read_addr,
-    output reg [1:0] write_addr,
-    output reg we,
-    output reg finish
+    input [1:0] rs1,   // get rs1 from instr
+    input [1:0] rs2,   // get rs2 from instr
+    input [1:0] rd,    // get rd from instr
+    input [7:0] data_in,    // read data from ram
+    output reg [7:0] data_out,   // write data to ram
+    output reg [1:0] read_addr,  // read data addr for ram
+    output reg [1:0] write_addr,  // write data addr for ram
+    output reg we,     // write signal for ram
+    output reg finish   // the instr operation is finished (flag for controller)     
 );
-    localparam START = 2'b00, R_RS1 = 2'b01, R_RS2 = 2'b11, W_RD = 2'b10;
-    reg [7:0] rs1_num, rs2_num, add_result;
-    Adder #(8) adder (
+    localparam R_RS1 = 2'b00, R_RS2 = 2'b10, W_RD = 2'b11;    // use flip friendly code 
+    reg [7:0] rs1_num, rs2_num, add_result;    // rs1 & rs2 are from the same wire source (ram data out), so use register is essential
+    reg [1:0] state, next;
+
+    Adder #(8) adder (     // 8-bit normal adder
         .a(rs1_num),
         .b(rs2_num),
         .s(add_result),
         .c()
     );
 
-
-    reg [1:0] state, next;
-
     always @(*) begin
         case(state) 
-            START: next = R_RS1;
             R_RS1: next = R_RS2;
             R_RS2: next = W_RD;
-            W_RD: next = START;
+            W_RD: next = R_RS1;
             default: next = state;
         endcase
     end 
 
     always @(posedge clk or posedge rst) begin
         if(rst) begin
-            state <= START;
+            state <= R_RS1;
             rs1_num <= 8'h00;
             rs2_num <= 8'h00;
         end
         else if(en) begin
             state <= next;
+        if(state == R_RS1)
+            rs1_num <= data_in;     // latch
+
+        if(state == R_RS2)
+            rs2_num <= data_in;     // latch
         end
     end
 
     always @(*) begin
+        we = 0;
+        data_out = 0;
+        read_addr = 0;
+        write_addr = 0;
+        finish = 0;
+
         case(state) 
-            START: begin
-                we = 1'b1;
-                read_addr = rs1;
-            end
             R_RS1: begin
-                we = 1'b1;
-                rs1_num = data_out;
-                read_addr = rs2;
+                read_addr = rs1;               
             end
             R_RS2: begin
-                we = 1'b0;
-                rs2_num = data_out;
+                read_addr = rs2;               
             end
             W_RD: begin
-                we = 1'b0;
-                data_in = add_result;
+                we = 1'b1;
+                data_out = add_result;
                 write_addr = rd;
                 finish = 1'b1;
-            end
-            default: begin
-                we = 1'b0;
-                data_out = 8'h00;
-                read_addr = 2'b00;
-                write_addr = 2'b00;
-                finish = 1'b0;
             end
         endcase
     end
 
 endmodule
+
 

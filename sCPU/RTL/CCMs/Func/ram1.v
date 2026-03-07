@@ -27,7 +27,8 @@ Can implement single-clock or dual-clock FIFO
 
 module ram1 #(
   parameter RAM_WIDTH = 32,
-  parameter RAM_ADDR_WIDTH = 10
+  parameter RAM_ADDR_WIDTH = 10,
+  parameter INIT_FILE = "" 
 )(
     input clk,
     input we,      // when write, pull up "we", not suppose to read
@@ -36,6 +37,10 @@ module ram1 #(
     input [RAM_ADDR_WIDTH-1:0] outaddr,
     output [RAM_WIDTH-1:0] dout
 );
+    initial begin
+        if (INIT_FILE != "")
+            $readmemh(INIT_FILE, mem);   
+    end
 
   reg [RAM_WIDTH-1:0] ram [(2**RAM_ADDR_WIDTH)-1:0];
 

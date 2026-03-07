@@ -24,31 +24,28 @@ Fill Momery with
 8: bner0 7, r3
 */
 
-// ROM  8x8
+// ROM  8x16
 
 // -> when get "finish" flag, en should be 3'b000
 // -> enable problem
 module top (
     input clk,
-    input rst,
-
+    input rst
 )
     reg [7:0] mem_out;
-    reg [2:0] PC;   // PC
-    reg en[2:0];
+    reg [3:0] PC;   // PC
+    reg [2:0] en;
 
-    reg [1:0] gpr_inaddr;
-    reg [1:0] gpr_outaddr;
 
 // mem & fetch
-    rom #(8, 3, "rom.hex") mem (
+    rom #(8, 4, "rom.hex") mem (
         .addr(PC),
         .out(mem_out)
     );
 
 // decode 
     always @(*) begin
-        case(memout[7:6])
+        case(mem_out[7:6])
             2'b00: en = 3'b001;
             2'b10: en = 3'b010;
             2'b11: en = 3'b100;
@@ -114,27 +111,32 @@ module top (
 
 // feedback (update pc)     -> finish, update
 
-    reg en_reg;       // 实际传给 instr 的 enable
     reg finish_dly;   // finish 的寄存器版本
+    reg update_dly;
+    reg [3:0] update_addr;
+    
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
+            PC <= 4'b0000;
             en <= 3'b000;
             finish_dly <= 1'b0;
+            update_dly <= 1'b0;
+            update_addr <= mem_out[5:2];
         end else begin
-            finish_dly <= finish;     // 将当前 finish 保存到寄存器
+            finish_dly <= finish;    
+            update_dly <= update;
             if (finish_dly)            // 如果上个周期 finish=1
                 en <= 3'b000;       // 拉低 enable
+                if(update_dly)
+                    PC <= update_addr;
+                else
+                    PC <= PC + 1;
             else
                 en <= en;     // 或者保持原来的值
+            
         end
     end
-
-    
-
-
-
-
 
 
 endmodule

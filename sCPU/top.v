@@ -31,16 +31,40 @@ module top (
 
 )
     reg [7:0] mem_out;
-    reg [2:0] PC;
+    reg [2:0] PC;   // PC
+    reg en[2:0];
+
+    reg [1:0] gpr_inaddr;
+    reg [1:0] gpr_outaddr;
+
+// mem & fetch
     rom #(8, 3, "rom.hex") mem (
         .addr(PC),
         .out(mem_out)
     );
+
+// decode 
     always @(*) begin
         case(memout[7:6])
-            2'b00:
+            2'b00: en = 3'b001;
+            2'b10: en = 3'b010;
+            2'b11: en = 3'b100;
+            default: en = 3'b000;
         endcase
     end 
+
+// GPR:
+    ram1 #(8, 2) gpr (
+        .clk(clk),
+        .we(),
+        .inaddr(),
+        .outaddr(),
+        .din(),
+        .dout()
+    );
+
+
+
 
 endmodule
 

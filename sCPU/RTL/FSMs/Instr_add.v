@@ -1,4 +1,5 @@
 // VA
+// 3 period
 module Instr_add(
     input clk,
     input en,    // enable

@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See VT_ins_li.mk for the caller.
+# See VT_ins_bner0.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,22 +23,22 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	VT_ins_li \
-	VT_ins_li___024root__DepSet_h431fb613__0 \
-	VT_ins_li___024root__DepSet_hb4e58008__0 \
+	VT_ins_bner0 \
+	VT_ins_bner0___024root__DepSet_hd0cc7d47__0 \
+	VT_ins_bner0___024root__DepSet_h158cfba4__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	VT_ins_li___024root__Slow \
-	VT_ins_li___024root__DepSet_h431fb613__0__Slow \
-	VT_ins_li___024root__DepSet_hb4e58008__0__Slow \
+	VT_ins_bner0___024root__Slow \
+	VT_ins_bner0___024root__DepSet_hd0cc7d47__0__Slow \
+	VT_ins_bner0___024root__DepSet_h158cfba4__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	VT_ins_li__Syms \
+	VT_ins_bner0__Syms \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

@@ -5,19 +5,19 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VT_INS_LI_H_
-#define VERILATED_VT_INS_LI_H_  // guard
+#ifndef VERILATED_VT_INS_BNER0_H_
+#define VERILATED_VT_INS_BNER0_H_  // guard
 
 #include "verilated.h"
 
-class VT_ins_li__Syms;
-class VT_ins_li___024root;
+class VT_ins_bner0__Syms;
+class VT_ins_bner0___024root;
 
 // This class is the main interface to the Verilated model
-class VT_ins_li VL_NOT_FINAL : public VerilatedModel {
+class VT_ins_bner0 VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    VT_ins_li__Syms* const vlSymsp;
+    VT_ins_bner0__Syms* const vlSymsp;
 
   public:
 
@@ -25,10 +25,11 @@ class VT_ins_li VL_NOT_FINAL : public VerilatedModel {
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clk,0,0);
+    VL_IN8(&rst,0,0);
     VL_IN8(&en,0,0);
-    VL_IN8(&rd,1,0);
-    VL_IN8(&imm,3,0);
+    VL_IN8(&rs2,1,0);
     VL_OUT8(&finish,0,0);
+    VL_OUT8(&update,0,0);
     VL_OUT8(&dbg0,7,0);
     VL_OUT8(&dbg1,7,0);
     VL_OUT8(&dbg2,7,0);
@@ -40,19 +41,19 @@ class VT_ins_li VL_NOT_FINAL : public VerilatedModel {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    VT_ins_li___024root* const rootp;
+    VT_ins_bner0___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit VT_ins_li(VerilatedContext* contextp, const char* name = "TOP");
-    explicit VT_ins_li(const char* name = "TOP");
+    explicit VT_ins_bner0(VerilatedContext* contextp, const char* name = "TOP");
+    explicit VT_ins_bner0(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~VT_ins_li();
+    virtual ~VT_ins_bner0();
   private:
-    VL_UNCOPYABLE(VT_ins_li);  ///< Copying not allowed
+    VL_UNCOPYABLE(VT_ins_bner0);  ///< Copying not allowed
 
   public:
     // API METHODS

@@ -1,4 +1,5 @@
-// VA
+// VA   
+// 1 period
 module Instr_li (
     input clk,
     input en,       // enable

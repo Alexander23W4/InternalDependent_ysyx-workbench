@@ -6,13 +6,13 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./RTL/Tests/T_ins_li.v
-CPP_SRC=./Tests/T_ins_li.cpp
+V_SRC=./RTL/Tests/T_ins_bner0.v
+CPP_SRC=./Tests/T_ins_bner0.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 ALL_SOURCES=$(shell find ./RTL -name "*.v")
-INCLUDE_SOURCE= ./RTL/Tests/debug_ram1.v  ./RTL/FSMs/Instr_li.v  
+INCLUDE_SOURCE= ./RTL/Tests/debug_ram1.v  ./RTL/FSMs/Instr_bner0.v  
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx

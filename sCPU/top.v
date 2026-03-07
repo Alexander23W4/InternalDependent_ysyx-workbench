@@ -27,8 +27,10 @@ Fill Momery with
 // ROM  8x8
 
 // -> when get "finish" flag, en should be 3'b000
+// -> enable problem
 module top (
     input clk,
+    input rst,
 
 )
     reg [7:0] mem_out;
@@ -54,15 +56,83 @@ module top (
         endcase
     end 
 
+
 // GPR:
+    wire we;
+    wire [7:0] data_in;
+    wire [7:0] data_out;
+    wire [1:0] read_addr;
+    wire [1:0] write_addr;
+    wire finish;
+    wire update;
+
     ram1 #(8, 2) gpr (
         .clk(clk),
-        .we(),
-        .inaddr(),
-        .outaddr(),
-        .din(),
-        .dout()
+        .we(we),
+        .inaddr(write_addr),
+        .outaddr(read_addr),
+        .din(data_out),
+        .dout(data_in)
     );
+
+    Instr_bner0 ins_bner0(
+        .clk(clk),
+        .en(en[2]),
+        .rst(rst),
+        .rs2(mem_out[1:0]),
+        .data_in(data_in),
+        .read_addr(read_addr),
+        .finish(finish),
+        .update(update)
+    );
+
+    Instr_add ins_add(
+        .clk(clk), 
+        .en(en[0]),
+        .rst(rst),
+        .rs1(mem_out[3:2]),
+        .rs2(mem_out[1:0]),
+        .rd(mem_out[5:4]),
+        .data_in(data_in),
+        .data_out(data_out),
+        .read_addr(read_addr),
+        .write_addr(write_addr),
+        .we(we),
+        .finish(finish)
+    );
+
+    Instr_li li_inst (
+        .clk(clk),
+        .en(en[1]),
+        .rd(mem_out[5:4]),
+        .imm(mem_out[3:0]),
+        .data_out(data_out),
+        .write_addr(write_addr),
+        .we(we),
+        .finish(finish)
+    );
+
+// feedback (update pc)     -> finish, update
+
+    reg en_reg;       // 实际传给 instr 的 enable
+    reg finish_dly;   // finish 的寄存器版本
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            en <= 3'b000;
+            finish_dly <= 1'b0;
+        end else begin
+            finish_dly <= finish;     // 将当前 finish 保存到寄存器
+            if (finish_dly)            // 如果上个周期 finish=1
+                en <= 3'b000;       // 拉低 enable
+            else
+                en <= en;     // 或者保持原来的值
+        end
+    end
+
+    
+
+
 
 
 

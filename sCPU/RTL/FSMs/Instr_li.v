@@ -11,13 +11,11 @@ module Instr_li (
     output reg finish               // instruction finished
 );
 
-    always @(posedge clk) begin
-        if(en) begin
-            we <= 1'b1;
-            finish <= 1'b1;
-            write_addr <= rd;
-            data_out <= {4'b0000, imm};  
-        end
+    always @(*) begin
+        we = 1'b1;
+        finish = 1'b1;
+        write_addr = rd;
+        data_out = {4'b0000, imm};  
     end
 
 endmodule

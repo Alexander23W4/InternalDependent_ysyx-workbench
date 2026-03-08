@@ -66,6 +66,22 @@ module top (
     wire [1:0] read_addr;
     wire [1:0] write_addr;
 
+    wire [1:0] write_addr_add;
+    wire [1:0] write_addr_li;
+    wire [1:0] read_addr_add;
+    wire [1:0] read_addr_bner0;
+    wire [7:0] data_out_add;
+    wire [7:0] data_out_li;
+    wire [7:0] data_in_add;
+    wire [7:0] data_in_bner0;       
+    wire we_add;
+    wire we_li;  
+
+    assign write_addr = (write_addr_add & {2{en[0]}}) | (write_addr_li & {2{en[1]}});
+    assign read_addr = (read_addr_add & {2{en[0]}}) | (read_addr_bner0 & {2{en[2]}});
+    assign data_out = (data_out_add & {8{en[0]}}) | (data_out_li  & {8{en[1]}});
+    assign we = (we_add & en[0]) | (we_li  & en[1]);
+
     ram1 #(8, 2) gpr (
         .clk(clk),
         .we(we),
@@ -80,8 +96,8 @@ module top (
         .en(en[2]),
         .rst(rst),
         .rs2(mem_out[1:0]),
-        .data_in(data_in),
-        .read_addr(read_addr),
+        .data_in(data_in_bner0),
+        .read_addr(read_addr_bner0),
         .finish(finish_bner0),
         .update(update_bner0)
     );
@@ -93,11 +109,11 @@ module top (
         .rs1(mem_out[3:2]),
         .rs2(mem_out[1:0]),
         .rd(mem_out[5:4]),
-        .data_in(data_in),
-        .data_out(data_out),
-        .read_addr(read_addr),
-        .write_addr(write_addr),
-        .we(we),
+        .data_in(data_in_add),
+        .data_out(data_out_add),
+        .read_addr(read_addr_add),
+        .write_addr(write_addr_add),
+        .we(we_add),
         .finish(finish_add)
     );
 
@@ -106,9 +122,9 @@ module top (
         .en(en[1]),
         .rd(mem_out[5:4]),
         .imm(mem_out[3:0]),
-        .data_out(data_out),
-        .write_addr(write_addr),
-        .we(we),
+        .data_out(data_out_li),
+        .write_addr(write_addr_li),
+        .we(we_li),
         .finish(finish_li)
     );
 

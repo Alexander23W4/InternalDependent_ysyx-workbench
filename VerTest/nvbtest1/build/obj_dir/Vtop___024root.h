@@ -13,15 +13,12 @@ class Vtop___024root final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
-    VL_IN8(a,3,0);
-    VL_IN8(b,3,0);
-    VL_OUT8(result,0,0);
+    VL_IN8(clk,0,0);
+    VL_IN8(rst,0,0);
+    VL_OUT8(h1,6,0);
+    VL_OUT8(h2,6,0);
     CData/*0:0*/ __VactContinue;
-    IData/*31:0*/ __VstlIterCount;
-    IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
-    VlTriggerVec<1> __VstlTriggered;
-    VlTriggerVec<1> __VicoTriggered;
     VlTriggerVec<0> __VactTriggered;
     VlTriggerVec<0> __VnbaTriggered;
 

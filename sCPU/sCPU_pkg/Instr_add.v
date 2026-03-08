@@ -21,8 +21,8 @@ module Instr_add(
 
 /* verilator lint_off PINCONNECTEMPTY */
     Adder #(8) adder (     // 8-bit normal adder
-        .a({8{en}} & rs1_num),   // static idle
-        .b({8{en}} & rs2_num),
+        .a(en & rs1_num),   // static idle
+        .b(en & rs2_num),
         .s(add_result),
         .c()
     );

@@ -1,11 +1,12 @@
 module top(
-    input [3: 0] a,
-    input [3: 0] b,
-    output result
+    input clk,
+    input rst,
+    output [6:0] h1,
+    output [6:0] h2
 );
-    Comp comp(a, b, result);
+
+assign h1 = 7'b1111110;
+assign h2 = 7'b1111110;
 
 endmodule
-
-
 

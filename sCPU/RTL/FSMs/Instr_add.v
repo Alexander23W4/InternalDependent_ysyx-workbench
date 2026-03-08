@@ -21,8 +21,8 @@ module Instr_add(
 
 /* verilator lint_off PINCONNECTEMPTY */
     Adder #(8) adder (     // 8-bit normal adder
-        .a(rs1_num),
-        .b(rs2_num),
+        .a(en & rs1_num),   // static idle
+        .b(en & rs2_num),
         .s(add_result),
         .c()
     );
@@ -30,7 +30,14 @@ module Instr_add(
 
     always @(*) begin
         case(state) 
-            R_RS1: next = R_RS2;
+            R_RS1: begin
+                if(en) begin
+                    next = R_RS2;                
+                end
+                else begin
+                    next = R_RS1;
+                end
+            end
             R_RS2: next = W_RD;
             W_RD: next = R_RS1;
             default: next = R_RS1;
@@ -43,7 +50,7 @@ module Instr_add(
             rs1_num <= 8'h00;
             rs2_num <= 8'h00;
         end
-        else if(en) begin
+        else begin
             state <= next;
             if(state == R_RS1)
                 rs1_num <= data_in;     // latch

@@ -27,7 +27,7 @@ Fill Momery with
 // ROM  8x16
 
 
-// -> enable problem
+// !!! -> IR   instruction register
 module top (
     input clk,
     input rst

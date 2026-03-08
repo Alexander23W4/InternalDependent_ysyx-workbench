@@ -33,7 +33,14 @@ module Instr_bner0(
     // FSM next-state logic
     always @(*) begin
         case(state)
-            R_0:    next = R_RS2;
+            R_0: begin
+                if(en) begin
+                    next = R_RS2;
+                end
+                else begin
+                    next = R_RS1;
+                end
+            end   
             R_RS2:  next = UPDATE;
             UPDATE: next = R_0;
             default: next = R_0;
@@ -47,7 +54,7 @@ module Instr_bner0(
             r0_num  <= 8'h00;
             rs2_num <= 8'h00;
         end
-        else if(en) begin
+        else begin
             state <= next;
             case(state)
                 R_0:    r0_num  <= data_in;

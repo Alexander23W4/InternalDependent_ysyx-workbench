@@ -32,15 +32,18 @@ Fill Momery with
 // !!! -> IR   instruction register
 module top (
     input clk,
-    input rst
+    input rst,
+    output [6:0] h1,
+    output [6:0] h2
 );
     wire [7:0] mem_out;
     reg [3:0] PC;   // PC 
-    reg [2:0] en;   // although nominated as register, but actually wire, because it does not exist in sequential always block
+    reg [3:0] en;   // although nominated as register, but actually wire, because it does not exist in sequential always block
 
     wire finish_add;
     wire finish_li;
     wire finish_bner0;
+    wire finish_out;
     wire finish;
     wire update_bner0;
     wire update;
@@ -54,10 +57,11 @@ module top (
 // decode 
     always @(*) begin
         case(mem_out[7:6])
-            2'b00: en = 3'b001;
-            2'b10: en = 3'b010;
-            2'b11: en = 3'b100;
-            default: en = 3'b000;
+            2'b00: en = 4'b0001;
+            2'b10: en = 4'b0010;
+            2'b11: en = 4'b0100;
+            2'b01: en = 4'b1000;
+            default: en = 4'b0000;
         endcase
     end 
 
@@ -72,13 +76,14 @@ module top (
     wire [1:0] write_addr_li;
     wire [1:0] read_addr_add;
     wire [1:0] read_addr_bner0;
+    wire [1:0] read_addr_out;
     wire [7:0] data_out_add;
     wire [7:0] data_out_li;      
     wire we_add;
     wire we_li;  
 
     assign write_addr = (write_addr_add & {2{en[0]}}) | (write_addr_li & {2{en[1]}});
-    assign read_addr = (read_addr_add & {2{en[0]}}) | (read_addr_bner0 & {2{en[2]}});
+    assign read_addr = (read_addr_add & {2{en[0]}}) | (read_addr_bner0 & {2{en[2]}}) | (read_addr_out & {2{en[3]}});
     assign data_out = (data_out_add & {8{en[0]}}) | (data_out_li  & {8{en[1]}});
     assign we = (we_add & en[0]) | (we_li  & en[1]);
 
@@ -89,6 +94,18 @@ module top (
         .outaddr(read_addr),
         .din(data_out),
         .dout(data_in)
+    );
+
+    Instr_out ins_out(
+        .clk(clk),
+        .rst(rst),
+        .en(en[3]),
+        .rs2(mem_out[1:0]),
+        .data_in(data_in),
+        .read_addr(read_addr_out),
+        .finish(finish_out),
+        .h1(h1),
+        .h2(h2)
     );
 
     Instr_bner0 ins_bner0(
@@ -130,7 +147,7 @@ module top (
 
 // feedback (update pc)     -> finish, update  (Supervisor control)
 
-    assign finish = (finish_add & en[0]) | (finish_li & en[1]) | (finish_bner0 & en[2]);
+    assign finish = (finish_add & en[0]) | (finish_li & en[1]) | (finish_bner0 & en[2]) | (finish_out & en[3]);
     assign update = update_bner0 & en[2];
 
     always @(posedge clk or posedge rst) begin

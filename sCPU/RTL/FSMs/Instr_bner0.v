@@ -23,12 +23,10 @@ module Instr_bner0(
 );
 
     // FSM states
-    localparam R_0    = 2'b00,
-               R_RS2  = 2'b01,
-               UPDATE = 2'b10;
+    localparam R_0 = 2'b00, R_RS2 = 2'b01;
 
     reg [1:0] state, next;
-    reg [7:0] r0_num, rs2_num;
+    reg [7:0] r0_num;
 
     // FSM next-state logic
     always @(*) begin
@@ -38,11 +36,10 @@ module Instr_bner0(
                     next = R_RS2;
                 end
                 else begin
-                    next = R_RS1;
+                    next = R_0;
                 end
             end   
-            R_RS2:  next = UPDATE;
-            UPDATE: next = R_0;
+            R_RS2:  next = R_0;
             default: next = R_0;
         endcase
     end
@@ -52,13 +49,11 @@ module Instr_bner0(
         if(rst) begin
             state   <= R_0;
             r0_num  <= 8'h00;
-            rs2_num <= 8'h00;
         end
         else begin
             state <= next;
             case(state)
                 R_0:    r0_num  <= data_in;
-                R_RS2:  rs2_num <= data_in;
                 default: ;
             endcase
         end
@@ -73,11 +68,11 @@ module Instr_bner0(
 
         case(state)
             R_0:    read_addr = 2'b00;       // read R0
-            R_RS2:  read_addr = rs2;         // read R[rs2]
-            UPDATE: begin
+            R_RS2: begin
+                read_addr = rs2;         // read R[rs2]
                 finish = 1'b1;               // instruction finished
-                update = (r0_num != rs2_num); // PC update decision
-            end
+                update = (r0_num != data_in); // PC update decision                
+            end  
             default: ;
         endcase
     end

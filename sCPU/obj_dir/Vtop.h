@@ -5,19 +5,19 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VT_INS_BNER0_H_
-#define VERILATED_VT_INS_BNER0_H_  // guard
+#ifndef VERILATED_VTOP_H_
+#define VERILATED_VTOP_H_  // guard
 
 #include "verilated.h"
 
-class VT_ins_bner0__Syms;
-class VT_ins_bner0___024root;
+class Vtop__Syms;
+class Vtop___024root;
 
 // This class is the main interface to the Verilated model
-class VT_ins_bner0 VL_NOT_FINAL : public VerilatedModel {
+class Vtop VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    VT_ins_bner0__Syms* const vlSymsp;
+    Vtop__Syms* const vlSymsp;
 
   public:
 
@@ -26,14 +26,17 @@ class VT_ins_bner0 VL_NOT_FINAL : public VerilatedModel {
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clk,0,0);
     VL_IN8(&rst,0,0);
-    VL_IN8(&en,0,0);
-    VL_IN8(&rs2,1,0);
-    VL_OUT8(&finish,0,0);
-    VL_OUT8(&update,0,0);
-    VL_OUT8(&dbg0,7,0);
-    VL_OUT8(&dbg1,7,0);
-    VL_OUT8(&dbg2,7,0);
-    VL_OUT8(&dbg3,7,0);
+    VL_OUT8(&h1,6,0);
+    VL_OUT8(&h2,6,0);
+    VL_OUT8(&display_PC,3,0);
+    VL_OUT8(&debug0,7,0);
+    VL_OUT8(&debug1,7,0);
+    VL_OUT8(&debug2,7,0);
+    VL_OUT8(&debug3,7,0);
+    VL_OUT8(&rom_debug0,7,0);
+    VL_OUT8(&rom_debug1,7,0);
+    VL_OUT8(&rom_debug2,7,0);
+    VL_OUT8(&rom_debug3,7,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -41,19 +44,19 @@ class VT_ins_bner0 VL_NOT_FINAL : public VerilatedModel {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    VT_ins_bner0___024root* const rootp;
+    Vtop___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit VT_ins_bner0(VerilatedContext* contextp, const char* name = "TOP");
-    explicit VT_ins_bner0(const char* name = "TOP");
+    explicit Vtop(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vtop(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~VT_ins_bner0();
+    virtual ~Vtop();
   private:
-    VL_UNCOPYABLE(VT_ins_bner0);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vtop);  ///< Copying not allowed
 
   public:
     // API METHODS

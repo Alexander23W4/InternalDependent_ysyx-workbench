@@ -1,8 +1,6 @@
 // VA   
 // 1 period
 module Instr_li (
-    input clk,
-    input en,       // enable
     input [1:0] rd,  // destination register
     input [3:0] imm, // immediate value
     output reg [7:0] data_out,     // write data to RAM

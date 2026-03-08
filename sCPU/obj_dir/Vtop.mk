@@ -2,9 +2,9 @@
 # DESCRIPTION: Verilator output: Makefile for building Verilated archive or executable
 #
 # Execute this makefile from the object directory:
-#    make -f VT_ins_bner0.mk
+#    make -f Vtop.mk
 
-default: VT_ins_bner0
+default: Vtop
 
 ### Constants...
 # Perl executable (from $PERL)
@@ -30,9 +30,9 @@ VM_SC_TARGET_ARCH = linux
 
 ### Vars...
 # Design prefix (from --prefix)
-VM_PREFIX = VT_ins_bner0
+VM_PREFIX = Vtop
 # Module prefix (from --prefix)
-VM_MODPREFIX = VT_ins_bner0
+VM_MODPREFIX = Vtop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 
@@ -41,7 +41,7 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-	T_ins_bner0 \
+	T_top \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -50,18 +50,18 @@ VM_USER_DIR = \
 
 ### Default rules...
 # Include list of all generated classes
-include VT_ins_bner0_classes.mk
+include Vtop_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-T_ins_bner0.o: ./Tests/T_ins_bner0.cpp
+T_top.o: ./Tests/T_top.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
-VT_ins_bner0: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
+Vtop: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
 	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
 
 

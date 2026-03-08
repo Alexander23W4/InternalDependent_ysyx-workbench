@@ -71,9 +71,7 @@ module top (
     wire [1:0] read_addr_add;
     wire [1:0] read_addr_bner0;
     wire [7:0] data_out_add;
-    wire [7:0] data_out_li;
-    wire [7:0] data_in_add;
-    wire [7:0] data_in_bner0;       
+    wire [7:0] data_out_li;      
     wire we_add;
     wire we_li;  
 
@@ -96,7 +94,7 @@ module top (
         .en(en[2]),
         .rst(rst),
         .rs2(mem_out[1:0]),
-        .data_in(data_in_bner0),
+        .data_in(data_in),
         .read_addr(read_addr_bner0),
         .finish(finish_bner0),
         .update(update_bner0)
@@ -109,7 +107,7 @@ module top (
         .rs1(mem_out[3:2]),
         .rs2(mem_out[1:0]),
         .rd(mem_out[5:4]),
-        .data_in(data_in_add),
+        .data_in(data_in),
         .data_out(data_out_add),
         .read_addr(read_addr_add),
         .write_addr(write_addr_add),

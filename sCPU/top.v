@@ -26,16 +26,22 @@ Fill Momery with
 
 // ROM  8x16
 
-// -> when get "finish" flag, en should be 3'b000
+
 // -> enable problem
 module top (
     input clk,
     input rst
-)
-    reg [7:0] mem_out;
-    reg [3:0] PC;   // PC
-    reg [2:0] en;
+);
+    wire [7:0] mem_out;
+    reg [3:0] PC;   // PC 
+    reg [2:0] en;   // although nominated as register, but actually wire, because it does not exist in sequential always block
 
+    wire finish_add;
+    wire finish_li;
+    wire finish_bner0;
+    wire finish;
+    wire update_bner0;
+    wire update;
 
 // mem & fetch
     rom #(8, 4, "rom.hex") mem (
@@ -53,15 +59,12 @@ module top (
         endcase
     end 
 
-
 // GPR:
     wire we;
     wire [7:0] data_in;
     wire [7:0] data_out;
     wire [1:0] read_addr;
     wire [1:0] write_addr;
-    wire finish;
-    wire update;
 
     ram1 #(8, 2) gpr (
         .clk(clk),
@@ -79,8 +82,8 @@ module top (
         .rs2(mem_out[1:0]),
         .data_in(data_in),
         .read_addr(read_addr),
-        .finish(finish),
-        .update(update)
+        .finish(finish_bner0),
+        .update(update_bner0)
     );
 
     Instr_add ins_add(
@@ -95,7 +98,7 @@ module top (
         .read_addr(read_addr),
         .write_addr(write_addr),
         .we(we),
-        .finish(finish)
+        .finish(finish_add)
     );
 
     Instr_li li_inst (
@@ -106,35 +109,26 @@ module top (
         .data_out(data_out),
         .write_addr(write_addr),
         .we(we),
-        .finish(finish)
+        .finish(finish_li)
     );
 
-// feedback (update pc)     -> finish, update
+// feedback (update pc)     -> finish, update  (Supervisor control)
 
-    reg finish_dly;   // finish 的寄存器版本
-    reg update_dly;
-    reg [3:0] update_addr;
-    
+    assign finish = (finish_add & en[0]) | (finish_li & en[1]) | (finish_bner0 & en[2]);
+    assign update = update_bner0 & en[2];
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             PC <= 4'b0000;
-            en <= 3'b000;
-            finish_dly <= 1'b0;
-            update_dly <= 1'b0;
-            update_addr <= mem_out[5:2];
         end else begin
-            finish_dly <= finish;    
-            update_dly <= update;
-            if (finish_dly)            // 如果上个周期 finish=1
-                en <= 3'b000;       // 拉低 enable
-                if(update_dly)
-                    PC <= update_addr;
-                else
-                    PC <= PC + 1;
-            else
-                en <= en;     // 或者保持原来的值
-            
+            if (finish) begin    
+                if(update) begin
+                    PC <= mem_out[5:2];                  
+                end
+                else begin
+                    PC <= PC + 1;                    
+                end
+            end        
         end
     end
 

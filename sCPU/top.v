@@ -8,6 +8,8 @@ The opcode : add li bner0
 +----+----+-----+-----+
 | 11 |   addr   | rs2 | if (R[0]!=R[rs2]) PC=addr      BNER0 instruction (Branch if Not Equal to Register 0)
 +----+----------+-----+
+| 01 |   xx     | rs2 | out rs2                        OUT instruction 
++----+----------+-----+
 
 */
 

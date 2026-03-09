@@ -1,0 +1,5 @@
+things and terminologies accumulated from PA learning:
+programming model
+execution model    hardware specifically
+ABI    application binary interface
+hardware(execution model) -> OS -> libs -> customer software 

@@ -11,4 +11,7 @@
     conbination priority
     condition expression prior to if else
     use pipeline
+2025.3.10 PA启动， 我还是太急了，这是通向成熟的长期主义者和成熟独立解决工程问题的工程师的必经路，我早已经深知没有什么进度需要赶，只需平淡的日拱一卒，
+    但是心理上还是要克服大量的不知从何而来的浮躁情绪，应该是从生活的其他部分带过来的，但是无论如何，我必须从当下并且长期的以更好的工程，更成熟的体系，
+    专注于更极致的“产品”与探索为导向，摆脱掉一直想要推着我向前跑的那股力量。2025.3.8 Functionally Complete sCPU (Still left: Optimization, Synthesis problem)
     

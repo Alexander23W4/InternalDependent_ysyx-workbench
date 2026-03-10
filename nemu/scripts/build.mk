@@ -33,7 +33,7 @@ $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c -o $@ $<
 	$(call call_fixdep, $(@:.o=.d), $@)     
-# !!! $(call call_fixdep, $(@:.o=.d), $@) ===>  automatically trace the changes of head file 
+# ^^^ $(call call_fixdep, $(@:.o=.d), $@) ===>  automatically trace the changes of head file 
 
 $(OBJ_DIR)/%.o: %.cc
 	@echo + CXX $<

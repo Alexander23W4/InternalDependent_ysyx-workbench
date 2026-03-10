@@ -27,12 +27,13 @@ LDFLAGS := -O2 $(LDFLAGS)
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o) $(CXXSRC:%.cc=$(OBJ_DIR)/%.o)
 
-# Compilation patterns
+# Compilation patterns   (Default)
 $(OBJ_DIR)/%.o: %.c
 	@echo + CC $<
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c -o $@ $<
-	$(call call_fixdep, $(@:.o=.d), $@)
+	$(call call_fixdep, $(@:.o=.d), $@)     
+# !!! $(call call_fixdep, $(@:.o=.d), $@) ===>  automatically trace the changes of head file 
 
 $(OBJ_DIR)/%.o: %.cc
 	@echo + CXX $<

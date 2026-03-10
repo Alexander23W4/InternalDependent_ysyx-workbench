@@ -3,3 +3,8 @@ programming model
 execution model    hardware specifically
 ABI    application binary interface
 hardware(execution model) -> OS -> libs -> customer software 
+
+sudo dmesg: read the computer init log, awesome
+APIC microcode  PCIe bus   NVMe  NX  E820  Tsc  ACPI  DMI MTRR  PAT  SRAT  NUMA
+
+power on-> CPU rst -> BIOS/UEFI -> Bootloader -> OS

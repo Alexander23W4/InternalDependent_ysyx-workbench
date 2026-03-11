@@ -59,7 +59,9 @@ static int cmd_q(char *args) {     // q   quit the nemu sdb
 
 static int cmd_help(char *args);   // help   
 
-static int cmd_si(char* args);
+static int cmd_si(char* args);   // si 
+
+static int cmd_info(char* args);  // info
 
 static struct {  // !!! supplement cmd_table so that mainloop could handle the cmd arrangement functions
   const char *name;
@@ -72,22 +74,25 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
 
   /* TODO: Add more commands */
   { "si", "Single step debug", cmd_si},
+  { "info", "Print out some info", cmd_info},
 };
 
 
 
 #define NR_CMD ARRLEN(cmd_table)
-/*static void execute(uint64_t n) {
-  Decode s;
-  for (;n > 0; n --) {
-    exec_once(&s, cpu.pc);
-    g_nr_guest_inst ++;
-    trace_and_difftest(&s, cpu.pc);
-    if (nemu_state.state != NEMU_RUNNING) break;
-    IFDEF(CONFIG_DEVICE, device_update());
+
+static int cmd_info(char* args){
+  Log("info command started.");
+  char* arg = strtok(args, " ");
+  if(strcmp(arg, "r") == 0){
+      isa_reg_display();
   }
+  else{
+      printf("NOT AVAILABLE ARGUMENT\n");
+  }
+  return 0;
 }
-*/
+
 static int cmd_si(char* args){
   Log("si command started.");
   char* arg = strtok(args, " ");

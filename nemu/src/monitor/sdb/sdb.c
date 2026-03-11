@@ -19,6 +19,8 @@
 #include <readline/history.h>
 #include "sdb.h"
 #include "debug.h"
+#include "../../../include/memory/paddr.h"
+#include "common.h"
 
 static int is_batch_mode = false;
 
@@ -63,6 +65,8 @@ static int cmd_si(char* args);   // si
 
 static int cmd_info(char* args);  // info
 
+static int cmd_x(char* args);  // x scan memory
+
 static struct {  // !!! supplement cmd_table so that mainloop could handle the cmd arrangement functions
   const char *name;
   const char *description;
@@ -75,11 +79,44 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
   /* TODO: Add more commands */
   { "si", "Single step debug", cmd_si},
   { "info", "Print out some info", cmd_info},
+  { "x", "Scan memory", cmd_x},
 };
 
 
 
 #define NR_CMD ARRLEN(cmd_table)
+
+static int cmd_x(char* args){
+  Log("x command started.");
+  char* arg1 = strtok(args, " ");
+  char* arg2 = arg1 + strlen(arg1) + 1;
+  int N = atoi(arg1);
+  if(N <= 0){
+    printf("NOT AVAILABLE MEM AMOUNT, MUST LARGER THAN 0\n");
+    return 1;
+  }
+  if(arg2[0] != '0' && arg2[1] != 'x'){
+    printf("NOT A HEXIMAL NUM\n");
+    return 1;
+  }
+  else {
+    unsigned long base_addr = strtol(arg2, NULL, 16);
+    if(base_addr >= PMEM_RIGHT || base_addr < PMEM_LEFT){
+      printf("NOT AVAILABLE BASE ADDR\n");
+      return 1;
+    }
+    unsigned long addr = base_addr;
+    for (int i = 0; i < N; i++)
+    {
+      if(addr >= PMEM_RIGHT){
+        printf("HIT THE MEM CELLING WHILE READING\n");
+      }
+      printf("0x%08x\n", paddr_read(addr, 4));
+      addr += 32;
+    }
+    return 0;
+  }
+}
 
 static int cmd_info(char* args){
   Log("info command started.");

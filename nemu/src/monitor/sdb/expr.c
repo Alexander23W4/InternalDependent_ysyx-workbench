@@ -51,7 +51,7 @@ static regex_t re[NR_REGEX] = {};
 void init_regex() {
   int i;
   char error_msg[128];
-  int ret;
+  int ret;   // return value
 
   for (i = 0; i < NR_REGEX; i ++) {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);

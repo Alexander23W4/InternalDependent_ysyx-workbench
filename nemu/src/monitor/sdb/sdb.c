@@ -42,19 +42,25 @@ static char* rl_gets() {
   return line_read;
 }
 
-static int cmd_c(char *args) {
+
+
+// -----------------------nemu sdb commands------------------------
+
+static int cmd_c(char *args) {     // c   execute the guest code
   cpu_exec(-1);
   return 0;
 }
 
 
-static int cmd_q(char *args) {
+static int cmd_q(char *args) {     // q   quit the nemu sdb
   return -1;
 }
 
-static int cmd_help(char *args);
+static int cmd_help(char *args);   // help   
 
-static struct {
+static int cmd_si();
+
+static struct {  // !!! supplement cmd_table so that mainloop could handle the cmd arrangement functions
   const char *name;
   const char *description;
   int (*handler) (char *);
@@ -64,12 +70,15 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-
+  { "si", "Single step debug", cmd_si},
 };
+
+
+
 
 #define NR_CMD ARRLEN(cmd_table)
 
-static int cmd_help(char *args) {
+static int cmd_help(char *args) {    // !!! for every command added, update log printed of "help"
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
   int i;
@@ -91,6 +100,12 @@ static int cmd_help(char *args) {
   }
   return 0;
 }
+
+
+
+
+
+
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;

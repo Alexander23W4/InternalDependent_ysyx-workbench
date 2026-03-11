@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "debug.h"
 
 static int is_batch_mode = false;
 
@@ -58,7 +59,7 @@ static int cmd_q(char *args) {     // q   quit the nemu sdb
 
 static int cmd_help(char *args);   // help   
 
-static int cmd_si();
+static int cmd_si(char* args);
 
 static struct {  // !!! supplement cmd_table so that mainloop could handle the cmd arrangement functions
   const char *name;
@@ -75,8 +76,26 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
 
 
 
-
 #define NR_CMD ARRLEN(cmd_table)
+/*static void execute(uint64_t n) {
+  Decode s;
+  for (;n > 0; n --) {
+    exec_once(&s, cpu.pc);
+    g_nr_guest_inst ++;
+    trace_and_difftest(&s, cpu.pc);
+    if (nemu_state.state != NEMU_RUNNING) break;
+    IFDEF(CONFIG_DEVICE, device_update());
+  }
+}
+*/
+static int cmd_si(char* args){
+  Log("si command started.");
+  char* arg = strtok(args, " ");
+  int N = arg ? atoi(arg) : 1;
+  Log("Get N. N = %d", N);
+  cpu_exec(N);
+  return 0;
+}
 
 static int cmd_help(char *args) {    // !!! for every command added, update log printed of "help"
   /* extract the first argument */
@@ -100,7 +119,6 @@ static int cmd_help(char *args) {    // !!! for every command added, update log 
   }
   return 0;
 }
-
 
 
 

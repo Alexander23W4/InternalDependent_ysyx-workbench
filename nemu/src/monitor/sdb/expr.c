@@ -181,11 +181,56 @@ static bool make_token(char *e) {   // !!!
 -> When more than one operator has the lowest priority, the last operator to be combined is the main operator by combinability. 
   An example would be 1 + 2 + 3, whose main operator would be + on the right.
 */
+static bool check_op(int type){
+  return (type == '+' || type == '-' || type == '*' || type == '/');
+}
+
+static int get_main_operator(int p, int q) {
+  int op = -1;
+  int ur_pathe = 0;
+  int type = 0;
+  for (int i = p; i <= q; i++)
+  {
+    type = tokens[i].type;
+    if (type == '(') ur_pathe++;
+    else if (type == ')') ur_pathe--;   
+    else if(check_op(type)){
+      if(ur_pathe == 0 && (op == -1 || !((tokens[op].type == '+' || tokens[op].type == '-') && (type == '*' || type == '/')))) op = i;
+    }
+  }
+  return op;
+} 
+
+// (()())   ()()flase  ()())error  not(/)flase 
+static bool check_parentheses(int p, int q, bool* is_error) {
+  if (tokens[p].type != '(' || tokens[q].type != ')') {
+      return false;  
+  }
+  int cnt1 = 0;
+  for (int i = p; i <= q; i++) {
+      if (tokens[i].type == '(') cnt1++;
+      else if (tokens[i].type == ')') cnt1--;   
+      *is_error = (cnt1 != 0);
+  }
+  int cnt2 = 0;
+  for (int i = p; i <= q; i++) {
+      if (tokens[i].type == '(') cnt2++;
+      else if (tokens[i].type == ')') cnt2--;
+
+      if (cnt2 == 0 && i < q) {
+        // printf("inclusive syntax error, parentheses check error\n");
+          return false;
+      }
+  }
+  return cnt2 == 0;  
+}
+
  // inclusively tackle the tokens
-uint32_t eval(p, q) {
+bool is_error = 0; 
+uint32_t eval(int p, int q) {
   if (p > q) {
     printf("p can not be larger than q.\n");
-    return -1;
+    return -1;   // !!!
   }
   else if (p == q) {
     /* Single token.
@@ -196,28 +241,30 @@ uint32_t eval(p, q) {
     uint32_t ret;
     char* endptr;
     if(tokens[p].type == TK_HEX) {ret = (uint32_t)strtol(tokens[p].str, &endptr, 16);}
-    else {ret = atoi(tokens[p].str);}
+    else {ret = (uint32_t)strtoul(tokens[p].str, &endptr, 10);}
     return ret;
   }
-  else if (check_parentheses(p, q) == true) {
+  else if (check_parentheses(p, q, &is_error) == true) {
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case, just throw away the parentheses.
      */
     return eval(p + 1, q - 1);
   }
   else {
-    op = the position of main operator in the token expression;
-    val1 = eval(p, op - 1);
-    val2 = eval(op + 1, q);
+    int op = get_main_operator(p, q);
+    assert(op != -1);
+    uint32_t val1 = eval(p, op - 1);
+    uint32_t val2 = eval(op + 1, q);
 
-    switch (op_type) {
+    switch (tokens[op].type) {
       case '+': return val1 + val2;
-      case '-': /* ... */
-      case '*': /* ... */
-      case '/': /* ... */
+      case '-': return val1 - val2;
+      case '*': return val1 * val2;
+      case '/': return val1 / val2;
       default: assert(0);
     }
   }
+  assert(!is_error);
 }
 
 word_t expr(char *e, bool *success) {   // !!!

@@ -37,7 +37,6 @@
 // "  return 0; "
 // "}";
 
-<<<<<<< HEAD
 // // 随机操作符
 // const char ops[] = {'+', '-', '*', '/'};
 
@@ -145,51 +144,6 @@ int main(int argc, char *argv[]) {
         printf("Usage: %s <input_file>\n", argv[0]);
         return 1;
     }
-=======
-const char ops[] = {'+', '-', '*', '/'};
-static uint32_t chose(uint32_t max){
-  return rand() % max;
-}
-
-char* buf_ptr = buf;
-
-static void gen_num(int max) {
-  int num = rand() % max;       
-  int len = sprintf(buf_ptr, "%d", num);  
-  buf_ptr += len;                 
-}
-
-static void gen(char c){
-  *buf_ptr = c;
-  buf_ptr++;
-}
-
-static void gen_rand_op(){
-  *buf_ptr = ops[rand() % 4];
-  buf_ptr++;
-}
-
-void gen_rand_expr() {
-  switch (choose(3)) {
-    case 0: gen_num(100); break;
-    case 1: gen('('); gen_rand_expr(); gen(')'); break;
-    default: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break;
-  }
-}
-
-int main(int argc, char *argv[]) {
-  int seed = time(0);
-  srand(seed);
-  int loop = 1;
-  if (argc > 1) {
-    sscanf(argv[1], "%d", &loop);
-  }
-  int i;
-  for (i = 0; i < loop; i ++) {
-    buf[0] = '\0';  
-    buf_ptr = buf;         
-    gen_rand_expr();
->>>>>>> 00762e4abf04ae61d58a3b378cb3d0b90eec8749
 
     FILE *fp = fopen(argv[1], "r");
     if (!fp) {

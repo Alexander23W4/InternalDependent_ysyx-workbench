@@ -66,6 +66,8 @@ static int cmd_info(char* args);  // info
 
 static int cmd_x(char* args);  // x scan memory
 
+static int cmd_p(char* args);
+
 static struct {  // !!! supplement cmd_table so that mainloop could handle the cmd arrangement functions
   const char *name;
   const char *description;
@@ -79,11 +81,31 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
   { "si", "Single step debug", cmd_si},
   { "info", "Print out some info", cmd_info},
   { "x", "Scan memory", cmd_x},
+  { "p", "Expression evaluation", cmd_p},
 };
 
 
 
 #define NR_CMD ARRLEN(cmd_table)
+
+// extern word_t expr(char *e, bool *success);
+
+static int cmd_p(char* args){
+  Log("p command started.");
+  if(args == NULL){
+    printf("No expression given.\n");
+    return 0;
+  }
+  char *expression = args;   
+  bool success = true;
+
+  uint32_t result = expr(expression, &success);
+  if(success){
+    printf("RESULT: %u (0x%x)\n", result, result);
+  }
+
+  return 0;
+}
 
 static int cmd_x(char* args){
   Log("x command started.");

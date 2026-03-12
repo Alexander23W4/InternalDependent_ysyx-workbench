@@ -83,14 +83,14 @@ typedef struct token {    // token definition
 static Token tokens[32] __attribute__((used)) = {};    // tokens arr
 static int nr_token __attribute__((used))  = 0;       // amount of tokens
 
-static void print_tokens__dbg(){
-  printf("DEBUG: PRINT TOKEN\n");
-  for (int i = 0; i < nr_token; i++)
-  {
-    printf("%d  ", tokens[i].type);
-    printf("%s\n", tokens[i].str);
-  }
-}
+// static void print_tokens__dbg(){
+//   printf("DEBUG: PRINT TOKEN\n");
+//   for (int i = 0; i < nr_token; i++)
+//   {
+//     printf("%d  ", tokens[i].type);
+//     printf("%s\n", tokens[i].str);
+//   }
+// }
 
 
 static bool make_token(char *e) {   // !!! 
@@ -160,7 +160,7 @@ static bool make_token(char *e) {   // !!!
         break;
       }
     }
-    print_tokens__dbg();
+    // print_tokens__dbg();
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
@@ -277,14 +277,22 @@ int32_t eval(int p, int q) {
   assert(!is_error);
 }
 
-word_t expr(char *e, bool *success) {   // !!!
+word_t expr(char *e, bool *success) {   
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
+  if (nr_token == 0) {
+    *success = false;
+    return 0;
+  }
+  is_error = false;
+  int32_t val = eval(0, nr_token - 1);
 
-  /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  if (is_error) {
+    *success = false;
+    return 0;
+  }
+  *success = true;
+  return (word_t)((uint32_t)val);
 }

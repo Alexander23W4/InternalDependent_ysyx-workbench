@@ -20,14 +20,17 @@
  */
 #include <regex.h>
 
-enum {
-  TK_NOTYPE = 256, TK_EQ,
+enum {      // !!! add regex token type here 
+  TK_NOTYPE = 256,    // start from 256, avoid overlap with ASCII code
+  TK_EQ,      // automatic encode, 257
+  TK_HEX,
+  TK_NUM,
 
   /* TODO: Add more token types */
 
 };
 
-static struct rule {
+static struct rule {      // !!! add regex recognizition rules here, regex(str) + token type
   const char *regex;
   int token_type;
 } rules[] = {
@@ -39,21 +42,30 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
+  {"0[xX][0-9a-fA-F]+", TK_HEX},    // hex number
+  {"[0-9]+", TK_NUM},   // decimal number
+  {"\\*", '*'},         // multi
+  {"/",'/'},            // divide
+  {"\\(", '('},         // left pathe
+  {"\\)", ')'},         // right pathe
+
 };
 
-#define NR_REGEX ARRLEN(rules)
+#define NR_REGEX ARRLEN(rules)     // cal the number of rules(recogniziable regex)
 
-static regex_t re[NR_REGEX] = {};
+static regex_t re[NR_REGEX] = {};     // store the compiled regex machine code 
+
+
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
  */
-void init_regex() {
+void init_regex() {    
   int i;
   char error_msg[128];
   int ret;   // return value
 
-  for (i = 0; i < NR_REGEX; i ++) {
+  for (i = 0; i < NR_REGEX; i ++) {         // automatic match my regex type to official regex lexical type
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
@@ -62,7 +74,7 @@ void init_regex() {
   }
 }
 
-typedef struct token {
+typedef struct token {    // 
   int type;
   char str[32];
 } Token;
@@ -70,7 +82,10 @@ typedef struct token {
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
-static bool make_token(char *e) {
+
+
+
+static bool make_token(char *e) {   // !!!
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -112,7 +127,7 @@ static bool make_token(char *e) {
 }
 
 
-word_t expr(char *e, bool *success) {
+word_t expr(char *e, bool *success) {   // !!!
   if (!make_token(e)) {
     *success = false;
     return 0;

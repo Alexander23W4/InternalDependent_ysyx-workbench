@@ -54,7 +54,6 @@ static int cmd_c(char *args) {     // c   execute the guest code
   return 0;
 }
 
-
 static int cmd_q(char *args) {     // q   quit the nemu sdb
   return -1;
 }

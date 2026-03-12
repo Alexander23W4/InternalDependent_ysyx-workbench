@@ -195,7 +195,12 @@ static int get_main_operator(int p, int q) {
     if (type == '(') ur_pathe++;
     else if (type == ')') ur_pathe--;   
     else if(check_op(type)){
-      if(ur_pathe == 0 && (op == -1 || !((tokens[op].type == '+' || tokens[op].type == '-') && (type == '*' || type == '/')))) op = i;
+      if(ur_pathe == 0 && (op == -1 || !((tokens[op].type == '+' || tokens[op].type == '-') && (type == '*' || type == '/')))) {
+        if(type == '-' && (i == p || (tokens[i-1].type == '(' || check_op(tokens[i-1].type)))) {
+            continue;
+        }
+        op = i;
+      }
     }
   }
   return op;
@@ -204,33 +209,34 @@ static int get_main_operator(int p, int q) {
 // (()())   ()()flase  ()())error  not(/)flase 
 static bool check_parentheses(int p, int q, bool* is_error) {
   if (tokens[p].type != '(' || tokens[q].type != ')') {
-      return false;  
+    return false;  
   }
   int cnt1 = 0;
   for (int i = p; i <= q; i++) {
-      if (tokens[i].type == '(') cnt1++;
-      else if (tokens[i].type == ')') cnt1--;   
-      *is_error = (cnt1 != 0);
+    if (tokens[i].type == '(') cnt1++;
+    else if (tokens[i].type == ')') cnt1--;   
+    *is_error = (cnt1 != 0);
   }
   int cnt2 = 0;
   for (int i = p; i <= q; i++) {
-      if (tokens[i].type == '(') cnt2++;
-      else if (tokens[i].type == ')') cnt2--;
+    if (tokens[i].type == '(') cnt2++;
+    else if (tokens[i].type == ')') cnt2--;
 
-      if (cnt2 == 0 && i < q) {
-        // printf("inclusive syntax error, parentheses check error\n");
-          return false;
-      }
+    if (cnt2 == 0 && i < q) {
+      // printf("inclusive syntax error, parentheses check error\n");
+        return false;
+    }
   }
   return cnt2 == 0;  
 }
 
  // inclusively tackle the tokens
 bool is_error = 0; 
-uint32_t eval(int p, int q) {
+
+int32_t eval(int p, int q) {
   if (p > q) {
     printf("p can not be larger than q.\n");
-    return -1;   // !!!
+    return -1;   // !!! 
   }
   else if (p == q) {
     /* Single token.
@@ -238,10 +244,10 @@ uint32_t eval(int p, int q) {
      * Return the value of the number.
      */
     Assert((tokens[p].type == TK_HEX ) || (tokens[p].type == TK_NUM), "inclusive syntax error, &2");
-    uint32_t ret;
+    int32_t ret;
     char* endptr;
-    if(tokens[p].type == TK_HEX) {ret = (uint32_t)strtol(tokens[p].str, &endptr, 16);}
-    else {ret = (uint32_t)strtoul(tokens[p].str, &endptr, 10);}
+    if(tokens[p].type == TK_HEX) {ret = (int32_t)strtol(tokens[p].str, &endptr, 16);}
+    else {ret = (int32_t)strtol(tokens[p].str, &endptr, 10);} 
     return ret;
   }
   else if (check_parentheses(p, q, &is_error) == true) {
@@ -251,10 +257,14 @@ uint32_t eval(int p, int q) {
     return eval(p + 1, q - 1);
   }
   else {
+    if(tokens[p].type == '-' && (p == 0 || tokens[p-1].type == '(' || check_op(tokens[p-1].type))) {
+      return - eval(p + 1, q);
+    }
+
     int op = get_main_operator(p, q);
     assert(op != -1);
-    uint32_t val1 = eval(p, op - 1);
-    uint32_t val2 = eval(op + 1, q);
+    int32_t val1 = eval(p, op - 1);
+    int32_t val2 = eval(op + 1, q);
 
     switch (tokens[op].type) {
       case '+': return val1 + val2;

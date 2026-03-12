@@ -103,7 +103,6 @@ static int cmd_p(char* args){
   if(success){
     printf("RESULT: %u (0x%x)\n", result, result);
   }
-
   return 0;
 }
 

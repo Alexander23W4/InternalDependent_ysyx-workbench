@@ -270,7 +270,7 @@ int32_t eval(int p, int q) {
       case '+': return val1 + val2;
       case '-': return val1 - val2;
       case '*': return val1 * val2;
-      case '/': return val1 / val2;
+      case '/': Assert(val2 != 0, "Divided by 0 error."); return val1 / val2;
       default: assert(0);
     }
   }

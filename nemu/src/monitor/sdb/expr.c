@@ -44,6 +44,7 @@ static struct rule {      // !!! add regex recognizition rules here, regex(str) 
   {"==", TK_EQ},        // equal
   {"0[xX][0-9a-fA-F]+", TK_HEX},    // hex number
   {"[0-9]+", TK_NUM},   // decimal number
+  {"\\-", '-'},         // minus
   {"\\*", '*'},         // multi
   {"/",'/'},            // divide
   {"\\(", '('},         // left pathe
@@ -74,45 +75,81 @@ void init_regex() {
   }
 }
 
-typedef struct token {    // 
+typedef struct token {    // token definition
   int type;
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
-static int nr_token __attribute__((used))  = 0;
+static Token tokens[32] __attribute__((used)) = {};    // tokens arr
+static int nr_token __attribute__((used))  = 0;       // amount of tokens
 
 
 
 
-static bool make_token(char *e) {   // !!!
-  int position = 0;
+static bool make_token(char *e) {   // !!! 
+  int position = 0;  // pointer in regex str
   int i;
   regmatch_t pmatch;
 
   nr_token = 0;
 
   while (e[position] != '\0') {
+    if(nr_token >= 32) {
+      printf("Too many tokens!\n");
+      return false;
+  }
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
+        Log("match successfully\n");
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+            i, rules[i].regex, position, substr_len, substr_len, substr_start);    
 
-        position += substr_len;
+        position += substr_len;   // update position pointer
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
-        switch (rules[i].token_type) {
-          default: TODO();
+        int tk_type = rules[i].token_type;
+        tokens[nr_token].type = tk_type;
+        switch (tk_type) {    // deal with the matched type, specific the behavior
+          case TK_NOTYPE: break;
+          case '+': strcpy(tokens[nr_token].str, "+"); break; 
+          case '*': strcpy(tokens[nr_token].str, "*"); break;
+          case '/': strcpy(tokens[nr_token].str, "/"); break;
+          case '-': strcpy(tokens[nr_token].str, "-"); break;
+          case '(': strcpy(tokens[nr_token].str, "("); break;
+          case ')': strcpy(tokens[nr_token].str, ")"); break;
+          case TK_EQ: strcpy(tokens[nr_token].str, "=="); break;
+          case TK_HEX: 
+            if(substr_len > 31) {
+              printf("ERROR, the hex number length larger than 31 bits, your length: %d\n", substr_len);
+              return false;
+            }
+            else {
+              strncpy(tokens[nr_token].str, substr_start, substr_len); 
+              tokens[nr_token].str[substr_len] = '\0';
+            }
+            break;
+          case TK_NUM: 
+            if(substr_len > 31) {
+              printf("ERROR, the decimal number length larger than 31 bits, your length: %d\n", substr_len);
+              return false;
+            }
+            else {
+              strncpy(tokens[nr_token].str, substr_start, substr_len); 
+              tokens[nr_token].str[substr_len] = '\0';
+            }
+            break;
+          default:
+            printf("mismatch\n");
+            break;
         }
-
+        if(tk_type != TK_NOTYPE) {nr_token++;}
         break;
       }
     }

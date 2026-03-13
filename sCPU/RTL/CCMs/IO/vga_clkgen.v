@@ -1,4 +1,4 @@
-
+// generate 25MHz clk for vga
 module clkgen(
     input clkin,
     input rst,

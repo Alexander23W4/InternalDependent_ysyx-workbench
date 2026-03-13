@@ -31,6 +31,13 @@
 
 //  Scanning 60 frames per second requires a total of approximately 25M pixel display time.
 
+/*
+This code provides VGA control signals externally. 
+By counting the clock, it determines which pixel on which line is currently being scanned and whether to blank the screen. 
+The code outputs the three colors red (R), green (G), and blue (B) represented by the 8-bit binary signals vga_r, vga_g, and vga_b, respectively. 
+These three sets of 8-bit digital signals are transmitted to the analog-to-digital converter on the development board, 
+converted into analog signals, and sent to the display via the VGA interface.
+*/
 module vga_ctrl(
     input           pclk,     // 25MHz clock
     input           reset,    // set

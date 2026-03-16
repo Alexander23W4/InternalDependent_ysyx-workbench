@@ -17,6 +17,7 @@
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
 #include <locale.h>
+#include "/home/wang/My_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -32,12 +33,29 @@ static bool g_print_step = false;
 
 void device_update();
 
-static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
+void check_wp(){  // check_watchpoints
+  WP* temp = get_head();
+  bool success = true;
+  uint32_t new_result = 0;
+  while(temp){
+    new_result = expr(temp->expression, &success);
+    if(new_result != temp->result){   // if change, pause, output msg, return to sdb_mainloop()
+      nemu_state.state = NEMU_STOP;
+      Log("The value of expression %s is changed, previous: %d, now %d", temp->expression, temp->result, new_result);
+      temp->result = new_result;
+      break;
+    }
+    temp = temp->next;
+  }
+}
+
+static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {   // All watchpoints are then checked in a loop in the end of this func
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+  check_wp();   // check watchpoints
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
@@ -76,7 +94,7 @@ static void execute(uint64_t n) {   // uint if n = -1, means max(uint64_t - 1)
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
-    trace_and_difftest(&s, cpu.pc);
+    trace_and_difftest(&s, cpu.pc);    // including check the watchpoint
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }

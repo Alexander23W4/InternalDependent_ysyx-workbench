@@ -21,6 +21,7 @@
 #include "debug.h"
 #include "../../../include/memory/paddr.h"
 #include "common.h"
+#include "watchpoint.h"
 
 static int is_batch_mode = false;
 
@@ -72,6 +73,7 @@ operations
 See the chapter Expression evaluation in debugging.		
 
 Set watchpoint	w EXPR	w *0x2000	Suspend program execution when the value of expression EXPR changes.
+
 Deleting a watchpoint	d N	d 2	Deletes the watchpoint with ID N.
 */
 
@@ -94,6 +96,10 @@ static int cmd_x(char* args);  // x scan memory
 
 static int cmd_p(char* args);
 
+static int cmd_w(char* args);
+
+static int cmd_d(char* args); // delete watchpoint
+
 static struct {  // !!! supplement cmd_table so that mainloop could handle the cmd arrangement functions
   const char *name;
   const char *description;
@@ -108,6 +114,8 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
   { "info", "Print out some info", cmd_info},
   { "x", "Scan memory", cmd_x},
   { "p", "Expression evaluation", cmd_p},
+  { "d", "Delete watchpoint", cmd_d},
+  { "w", "Create new watchpoint", cmd_w},
 };
 
 
@@ -115,6 +123,32 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
 #define NR_CMD ARRLEN(cmd_table)
 
 // extern word_t expr(char *e, bool *success);
+
+static int cmd_w(char* args){   // complete
+  Log("w command started.");
+  if(args == NULL){
+    printf("No expression given.\n");
+    return 0;    
+  }
+  char* expression = args;
+  bool success = true;
+  uint32_t result = expr(expression, &success);
+
+  WP* wp = new_wp();  // create new watchpoint
+  wp->expression = expression;   // restore expression
+  wp->result = result;  // restore original result
+  return 0;
+}
+
+static int cmd_d(char* args){
+  Log("d command started.");
+  if(args == NULL){
+    printf("No expression given.\n");
+    return 0;    
+  }
+  int wp_index = atoi(args);
+
+}
 
 static int cmd_p(char* args){
   Log("p command started.");
@@ -169,6 +203,9 @@ static int cmd_info(char* args){
   char* arg = strtok(args, " ");
   if(strcmp(arg, "r") == 0){
       isa_reg_display();
+  }
+  else if(strcmp(arg, "w") == 0){  // display watchpoints
+
   }
   else{
       printf("NOT AVAILABLE ARGUMENT\n");

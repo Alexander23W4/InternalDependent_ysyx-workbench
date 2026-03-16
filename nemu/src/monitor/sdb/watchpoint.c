@@ -14,6 +14,8 @@
 ***************************************************************************************/
 
 #include "sdb.h"
+#include "watchpoint.h"
+#include <stdint.h>
 
 #define NR_WP 32
 
@@ -22,6 +24,8 @@ typedef struct watchpoint {
   struct watchpoint *next;
 
   /* TODO: Add more members if necessary */
+  char* expression;
+  uint32_t result;
 
 } WP;
 
@@ -40,6 +44,7 @@ void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {  // numberize all of the wps
     wp_pool[i].NO = i;
+    wp_pool[i].expression = NULL;
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
   }
 
@@ -80,6 +85,11 @@ void free_wp(WP* wp){
     last->next = temp->next;
   }
   wp->next = free_;
+  wp->expression = NULL;
   free_ = wp;
+}
+
+WP* get_head(){
+  return head;
 }
 

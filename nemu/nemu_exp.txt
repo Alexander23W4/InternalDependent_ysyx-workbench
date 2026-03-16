@@ -1,0 +1,7 @@
+Large program exp:
+-> meta programming framework 
+-> Config(customer setting) generate config file (Macro...or other info for building the functional could purposefully)
+    (scripts take the customer setting & automatically generate macro is normally used) 
+-> src & Debug env 
+    (debug env is critical, especially debug only a tiny area among the large systematic code, usually encounter overlap/ meta-rely problem)
+    (gen testbench, automatic testing, code with debug macro & debug info, partial independent testing)

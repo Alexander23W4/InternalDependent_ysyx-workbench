@@ -26,6 +26,8 @@ enum {      // !!! add regex token type here
   TK_HEX,
   TK_NUM,
   TK_REG,
+  TK_UEQ,
+  TK_AND,
   /* TODO: Add more token types */
 
 };
@@ -40,16 +42,22 @@ static struct rule {      // !!! add regex recognizition rules here, regex(str) 
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
+  
   {"==", TK_EQ},        // equal
+  {"!=", TK_UEQ},       // unequal
+  {"&&", TK_AND},
+
   {"0[xX][0-9a-fA-F]+", TK_HEX},    // hex number
   {"[0-9]+", TK_NUM},   // decimal number
+  {"\\$[a-zA-Z0-9]+", TK_REG},  // register
+
+  {"\\+", '+'},         // plus
   {"\\-", '-'},         // minus
   {"\\*", '*'},         // multi
   {"/",'/'},            // divide
+
   {"\\(", '('},         // left pathe
   {"\\)", ')'},         // right pathe
-  {"\\$[a-zA-Z0-9]+", TK_REG},  // register
 };
 
 #define NR_REGEX ARRLEN(rules)     // cal the number of rules(recogniziable regex)
@@ -132,6 +140,8 @@ static bool make_token(char *e) {   // !!!
           case '(': strcpy(tokens[nr_token].str, "("); break;
           case ')': strcpy(tokens[nr_token].str, ")"); break;
           case TK_EQ: strcpy(tokens[nr_token].str, "=="); break;
+          case TK_UEQ: strcpy(tokens[nr_token].str, "!="); break;
+          case TK_AND: strcpy(tokens[nr_token].str, "&&"); break;
           case TK_REG: 
             strncpy(tokens[nr_token].str, substr_start, substr_len); 
             tokens[nr_token].str[substr_len] = '\0';
@@ -191,7 +201,7 @@ static bool check_op(int type){
 
 static int get_main_operator(int p, int q) {
   int op = -1;
-  int ur_pathe = 0;
+  int ur_pathe = 0;   // amount of parentheses
   int type = 0;
   for (int i = p; i <= q; i++)
   {
@@ -266,7 +276,7 @@ int32_t eval(int p, int q) {
      */
     return eval(p + 1, q - 1);
   }
-  else {
+  else {  // deal with negative number
     if(tokens[p].type == '-' && (p == 0 || tokens[p-1].type == '(' || check_op(tokens[p-1].type))) {
       return - eval(p + 1, q);
     }

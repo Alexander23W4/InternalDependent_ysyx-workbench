@@ -5,7 +5,36 @@
 [1;34m[src/monitor/monitor.c:29 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
 [1;34m[src/monitor/monitor.c:32 welcome] Build time: 19:34:05, Mar 16 2026[0m
 [1;34m[src/monitor/sdb/sdb.c:120 cmd_p] p command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:120 cmd_p] p command started.[0m
-[1;34m[src/monitor/sdb/expr.c:114 make_token] match successfully
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
 [0m
-[1;34m[src/monitor/sdb/expr.c:115 make_token] match rules[10] = "\$[a-zA-Z0-9]+" at position 0 with len 3: $ra[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[9] = "\(" at position 0 with len 1: ([0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[5] = "[0-9]+" at position 1 with len 1: 1[0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[0] = " +" at position 2 with len 1:  [0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[2] = "==" at position 3 with len 2: ==[0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[0] = " +" at position 5 with len 1:  [0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[5] = "[0-9]+" at position 6 with len 1: 1[0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[10] = "\)" at position 7 with len 1: )[0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[0] = " +" at position 8 with len 1:  [0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[1] = "\+" at position 9 with len 1: +[0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[0] = " +" at position 10 with len 1:  [0m
+[1;34m[src/monitor/sdb/expr.c:116 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:117 make_token] match rules[5] = "[0-9]+" at position 11 with len 1: 1[0m

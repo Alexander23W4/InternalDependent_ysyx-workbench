@@ -13,6 +13,7 @@ deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/mo
   /home/wang/My_ysyx-workbench/nemu/include/debug.h \
   /home/wang/My_ysyx-workbench/nemu/include/utils.h \
     $(wildcard include/config/target/native/elf.h) \
+  src/monitor/sdb/watchpoint.h \
 
 /home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/watchpoint.o: $(deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/watchpoint.o)
 

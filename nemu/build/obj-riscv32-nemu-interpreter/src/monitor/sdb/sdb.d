@@ -21,6 +21,7 @@ deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/mo
   src/monitor/sdb/sdb.h \
   src/monitor/sdb/../../../include/memory/paddr.h \
     $(wildcard include/config/pc/reset/offset.h) \
+  src/monitor/sdb/watchpoint.h \
 
 /home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/sdb.o: $(deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/sdb.o)
 

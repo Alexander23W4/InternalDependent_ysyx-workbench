@@ -135,7 +135,8 @@ static int cmd_w(char* args){   // complete
   uint32_t result = expr(expression, &success);
 
   WP* wp = new_wp();  // create new watchpoint
-  wp->expression = expression;   // restore expression
+  strncpy(wp->expression, args, sizeof(wp->expression) - 1);
+  wp->expression[sizeof(wp->expression) - 1] = '\0';
   wp->result = result;  // restore original result
   return 0;
 }
@@ -147,7 +148,16 @@ static int cmd_d(char* args){
     return 0;    
   }
   int wp_index = atoi(args);
-
+  int index = 1;
+  WP* temp = get_head();
+  while(temp){
+    if(index == wp_index){
+      free_wp(temp);
+    }
+    temp = temp->next;
+    index++;
+  }
+  return 0;
 }
 
 static int cmd_p(char* args){
@@ -202,13 +212,19 @@ static int cmd_info(char* args){
   Log("info command started.");
   char* arg = strtok(args, " ");
   if(strcmp(arg, "r") == 0){
-      isa_reg_display();
+    isa_reg_display();
   }
   else if(strcmp(arg, "w") == 0){  // display watchpoints
-
+    WP* temp = get_head();
+    int index = 1;
+    while(temp){
+      printf("%d: EXPR: %s, RESULT: %u\n", index, temp->expression, temp->result);
+      temp = temp->next;
+      index++;
+    }
   }
   else{
-      printf("NOT AVAILABLE ARGUMENT\n");
+    printf("NOT AVAILABLE ARGUMENT\n");
   }
   return 0;
 }

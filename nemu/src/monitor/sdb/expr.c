@@ -19,6 +19,7 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include </home/wang/My_ysyx-workbench/nemu/include/memory/paddr.h>
 
 enum {      // !!! add regex token type here 
   TK_NOTYPE = 256,    // start from 256, avoid overlap with ASCII code
@@ -206,12 +207,13 @@ static int precedence(int type) {
     case '-': return 3;
     case '*':
     case '/': return 4;
+    case DEREF: return 5;
     default: return 100;
   }
 }
 
 static bool check_op(int type){
-  return (type == '+' || type == '-' || type == '*' || type == '/' || type == TK_EQ || type == TK_UEQ || type == TK_AND);
+  return (type == '+' || type == '-' || type == '*' || type == '/' || type == TK_EQ || type == TK_UEQ || type == TK_AND || type == DEREF);
 }
 static int get_main_operator(int p, int q) {
   int op = -1;
@@ -293,13 +295,20 @@ int32_t eval(int p, int q) {
      */
     return eval(p + 1, q - 1);
   }
-  else {  // deal with negative number
-    if(tokens[p].type == '-' && (p == 0 || tokens[p-1].type == '(' || check_op(tokens[p-1].type))) {
+  else {  
+    // deal with negative number
+    if(tokens[p].type == '-' && (p == 0 || tokens[p-1].type == '(' || \
+      (check_op(tokens[p-1].type) && tokens[p+1].type == TK_HEX))) {
       return - eval(p + 1, q);
     }
 
     int op = get_main_operator(p, q);
     assert(op != -1);
+
+    if(tokens[op].type == DEREF) {
+      int32_t addr = eval(op + 1, q);
+      return paddr_read(addr, 4);
+    }
     int32_t val1 = eval(p, op - 1);
     int32_t val2 = eval(op + 1, q);
 
@@ -341,3 +350,5 @@ word_t expr(char *e, bool *success) {
   *success = true;
   return (word_t)((uint32_t)val);
 }
+
+

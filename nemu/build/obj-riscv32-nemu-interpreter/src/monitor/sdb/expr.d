@@ -16,6 +16,8 @@ deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/mo
   /home/wang/My_ysyx-workbench/nemu/include/debug.h \
   /home/wang/My_ysyx-workbench/nemu/include/utils.h \
     $(wildcard include/config/target/native/elf.h) \
+  /home/wang/My_ysyx-workbench/nemu/include/memory/paddr.h \
+    $(wildcard include/config/pc/reset/offset.h) \
 
 /home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/expr.o: $(deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/expr.o)
 

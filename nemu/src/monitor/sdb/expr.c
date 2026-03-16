@@ -28,6 +28,7 @@ enum {      // !!! add regex token type here
   TK_REG,
   TK_UEQ,
   TK_AND,
+  DEREF,
   /* TODO: Add more token types */
 
 };
@@ -42,7 +43,7 @@ static struct rule {      // !!! add regex recognizition rules here, regex(str) 
    */
 
   {" +", TK_NOTYPE},    // spaces
-  
+
   {"==", TK_EQ},        // equal
   {"!=", TK_UEQ},       // unequal
   {"&&", TK_AND},
@@ -195,30 +196,46 @@ static bool make_token(char *e) {   // !!!
 -> When more than one operator has the lowest priority, the last operator to be combined is the main operator by combinability. 
   An example would be 1 + 2 + 3, whose main operator would be + on the right.
 */
-static bool check_op(int type){
-  return (type == '+' || type == '-' || type == '*' || type == '/');
+
+static int precedence(int type) {
+  switch(type) {
+    case TK_AND: return 1;
+    case TK_EQ:
+    case TK_UEQ: return 2;
+    case '+':
+    case '-': return 3;
+    case '*':
+    case '/': return 4;
+    default: return 100;
+  }
 }
 
+static bool check_op(int type){
+  return (type == '+' || type == '-' || type == '*' || type == '/' || type == TK_EQ || type == TK_UEQ || type == TK_AND);
+}
 static int get_main_operator(int p, int q) {
   int op = -1;
-  int ur_pathe = 0;   // amount of parentheses
-  int type = 0;
-  for (int i = p; i <= q; i++)
-  {
-    type = tokens[i].type;
-    if (type == '(') ur_pathe++;
-    else if (type == ')') ur_pathe--;   
-    else if(check_op(type)){
-      if(ur_pathe == 0 && (op == -1 || !((tokens[op].type == '+' || tokens[op].type == '-') && (type == '*' || type == '/')))) {
-        if(type == '-' && (i == p || (tokens[i-1].type == '(' || check_op(tokens[i-1].type)))) {
-            continue;
-        }
+  int level = 100;
+  int paren = 0;
+
+  for(int i = p; i <= q; i++) {
+    int type = tokens[i].type;
+
+    if(type == '(') paren++;
+    else if(type == ')') paren--;
+
+    else if(paren == 0 && check_op(type)) {
+
+      int prec = precedence(type);
+
+      if(op == -1 || prec <= level) {
+        level = prec;
         op = i;
       }
     }
   }
   return op;
-} 
+}
 
 // (()())   ()()flase  ()())error  not(/)flase 
 static bool check_parentheses(int p, int q, bool* is_error) {
@@ -291,6 +308,9 @@ int32_t eval(int p, int q) {
       case '-': return val1 - val2;
       case '*': return val1 * val2;
       case '/': Assert(val2 != 0, "Divided by 0 error."); return val1 / val2;
+      case TK_EQ: return val1 == val2;
+      case TK_UEQ: return val1 != val2;
+      case TK_AND: return val1 && val2;
       default: assert(0);
     }
   }
@@ -305,6 +325,11 @@ word_t expr(char *e, bool *success) {
   if (nr_token == 0) {
     *success = false;
     return 0;
+  }
+  for (int i = 0; i < nr_token; i ++) {
+    if (tokens[i].type == '*' && (i == 0 || check_op(tokens[i - 1].type)) ) {
+      tokens[i].type = DEREF;
+    }
   }
   is_error = false;
   int32_t val = eval(0, nr_token - 1);

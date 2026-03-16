@@ -25,7 +25,7 @@ enum {      // !!! add regex token type here
   TK_EQ,      // automatic encode, 257
   TK_HEX,
   TK_NUM,
-
+  TK_REG,
   /* TODO: Add more token types */
 
 };
@@ -49,7 +49,7 @@ static struct rule {      // !!! add regex recognizition rules here, regex(str) 
   {"/",'/'},            // divide
   {"\\(", '('},         // left pathe
   {"\\)", ')'},         // right pathe
-
+  {"\\$[a-zA-Z0-9]+", TK_REG},  // register
 };
 
 #define NR_REGEX ARRLEN(rules)     // cal the number of rules(recogniziable regex)
@@ -132,12 +132,16 @@ static bool make_token(char *e) {   // !!!
           case '(': strcpy(tokens[nr_token].str, "("); break;
           case ')': strcpy(tokens[nr_token].str, ")"); break;
           case TK_EQ: strcpy(tokens[nr_token].str, "=="); break;
+          case TK_REG: 
+            strncpy(tokens[nr_token].str, substr_start, substr_len); 
+            tokens[nr_token].str[substr_len] = '\0';
+            break;
           case TK_HEX: 
             if(substr_len > 31) {
               printf("ERROR, the hex number length larger than 31 bits, your length: %d\n", substr_len);
               return false;
             }
-            else {
+            else {;
               strncpy(tokens[nr_token].str, substr_start, substr_len); 
               tokens[nr_token].str[substr_len] = '\0';
             }
@@ -243,10 +247,16 @@ int32_t eval(int p, int q) {
      * For now this token should be a number.
      * Return the value of the number.
      */
-    Assert((tokens[p].type == TK_HEX ) || (tokens[p].type == TK_NUM), "inclusive syntax error, &2");
+    Assert((tokens[p].type == TK_HEX ) || (tokens[p].type == TK_NUM || (tokens[p].type == TK_REG)), "inclusive syntax error, &2");
     int32_t ret;
     char* endptr;
     if(tokens[p].type == TK_HEX) {ret = (int32_t)strtol(tokens[p].str, &endptr, 16);}
+    else if(tokens[p].type == TK_REG) {
+      bool success;
+      int32_t temp = (int32_t)isa_reg_str2val(tokens[p].str, &success);
+      is_error = !success;
+      return temp;
+    }
     else {ret = (int32_t)strtol(tokens[p].str, &endptr, 10);} 
     return ret;
   }

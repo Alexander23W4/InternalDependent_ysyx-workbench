@@ -48,6 +48,32 @@ static char* rl_gets() {
 
 
 // -----------------------nemu sdb commands------------------------
+/*
+Command	Format	Example	Explanation
+
+Help(1)	help	help	Prints help information for the command
+
+Continue running(1)	c	c	Resume running the suspended program
+
+Quit(1)	q	q	Exit NEMU
+
+Single-step execution	si [N]	si 10	Lets the program pause after executing N instructions using single step execution,
+When N is not given, the default is 1
+
+Print program status	
+info SUBCMD	info r  Print register status
+info w	Print register status  Print watchpoint information
+
+Scan memory(2)	x N EXPR	x 10 $esp	Finds the value of the expression EXPR, uses the result as the starting memory
+address, and outputs consecutive N 4 bytes in hexadecimal.
+
+Expression evaluation	p EXPR	p $eax + 1	Find the value of the expression EXPR, for EXPR supported
+operations
+See the chapter Expression evaluation in debugging.		
+
+Set watchpoint	w EXPR	w *0x2000	Suspend program execution when the value of expression EXPR changes.
+Deleting a watchpoint	d N	d 2	Deletes the watchpoint with ID N.
+*/
 
 static int cmd_c(char *args) {     // c   execute the guest code
   cpu_exec(-1);

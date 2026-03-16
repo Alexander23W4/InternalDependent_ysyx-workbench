@@ -12,12 +12,16 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
+// register related 
 
 #include <isa.h>
 #include "local-include/reg.h"
 
 #define PRINT_LINE_MAX 8
 
+extern riscv32_CPU_state cpu;
+
+// actaully $0 $ra $sp...  $ should be added
 const char *regs[] = {
   "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
   "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",
@@ -37,5 +41,24 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
+  if(s[0] != '$'){
+    printf("NOT VALID REGISTER NAME, MUST START WITH $.\n");
+    *success = false;
+    return 0;
+  }
+  if(strcmp(s+1, "0") == 0){
+    *success = true;
+    return cpu.gpr[0];
+  }
+  for (int i = 0; i < sizeof(regs) / sizeof(const char*); i++)
+  {
+    if(strcmp(s+1, regs[i]) == 0){
+      *success = true;
+      printf("%s, register content: %d\n", s, cpu.gpr[i]);
+      return cpu.gpr[i];
+    }
+  }
+  printf("NO REGISTER MATCH.\n");
+  *success = false;
   return 0;
 }

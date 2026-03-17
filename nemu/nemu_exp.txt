@@ -5,3 +5,7 @@ Large program exp:
 -> src & Debug env 
     (debug env is critical, especially debug only a tiny area among the large systematic code, usually encounter overlap/ meta-rely problem)
     (gen testbench, automatic testing, code with debug macro & debug info, partial independent testing)
+  Debug Pricinples:
+  ^^Turn as many fault as possible into error
+  ^^Catch the moment as soon as the potential fault occurs
+  ^^Tools: -Wall GDB  printf(log) assert() sanitizer

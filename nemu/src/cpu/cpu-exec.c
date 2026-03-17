@@ -56,7 +56,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {   // All watchpoin
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
-  check_wp();   // check watchpoints
+#ifdef CONFIG_WATCHPOINT   // !!! use macro for conditional statement, use #if(n)def endif
+  check_wp();
+#endif
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {

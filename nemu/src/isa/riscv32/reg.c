@@ -50,6 +50,10 @@ word_t isa_reg_str2val(const char *s, bool *success) {
     *success = true;
     return cpu.gpr[0];
   }
+  if (strcmp(s+1, "pc") == 0) {
+    *success = true;
+    return cpu.pc;
+  }
   for (int i = 0; i < sizeof(regs) / sizeof(const char*); i++)
   {
     if(strcmp(s+1, regs[i]) == 0){

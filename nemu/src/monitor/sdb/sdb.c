@@ -96,7 +96,7 @@ static int cmd_x(char* args);  // x scan memory
 
 static int cmd_p(char* args);
 
-static int cmd_w(char* args);
+static int cmd_w(char* args); // set watchpoint (set breakpoint method: w $pc == ADDR)
 
 static int cmd_d(char* args); // delete watchpoint
 

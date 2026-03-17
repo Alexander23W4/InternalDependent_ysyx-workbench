@@ -42,9 +42,9 @@ void check_wp(){  // check_watchpoints
     new_result = expr(temp->expression, &success);
     if(new_result != temp->result){   // if change, pause, output msg, return to sdb_mainloop()
       nemu_state.state = NEMU_STOP;
-      Log("The value of expression %s is changed, previous: %d, now %d", temp->expression, temp->result, new_result);
+      printf("[WATCHPOINT] The value of expression %s is changed, previous: %u (0x%x), now %u (0x%x)\n", \
+        temp->expression, temp->result, temp->result, new_result, new_result);
       temp->result = new_result;
-      break;
     }
     temp = temp->next;
   }

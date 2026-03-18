@@ -9,3 +9,71 @@ Large program exp:
   ^^Turn as many fault as possible into error
   ^^Catch the moment as soon as the potential fault occurs
   ^^Tools: -Wall GDB  printf(log) assert() sanitizer
+
+
+
+
+
+SYSTEMIC UNDERSTANDING:
+🔹 Runtime Environment（运行时环境）
+指：
+程序在“运行时”所依赖的整体环境
+它包括：
+操作系统
+进程模型
+内存布局
+栈结构
+加载器（loader）
+动态链接器
+libc
+运行时库
+系统调用接口
+以及 ABI 规则
+
+🔹 ABI（Application Binary Interface）
+ABI 是：
+二进制层面的接口规范
+它规定：
+函数调用怎么传参
+返回值放哪里
+寄存器如何使用
+栈如何增长
+数据类型大小
+对齐规则
+调用约定（calling convention）
+可执行文件格式（例如 ELF）
+
+
+例如在 RISC-V Linux 上：
+
+ABI 会规定：
+参数放在：
+a0–a7 寄存器
+
+返回值：
+a0
+栈向下增长
+结构体对齐方式
+ELF 格式
+
+而 runtime environment 还包括：
+Linux 内核
+动态链接器 ld.so
+glibc
+启动代码 _start
+程序入口流程
+
+
+ABI 有两种层次
+1. 用户态 ABI (compiler decided)
+解决
+函数调用规则
+数据布局
+寄存器分配
+
+2. 系统调用 ABI (printf interrupt... )  customer code (user mode) could not decided
+解决
+用户如何请求内核服务
+内核如何接收参数
+内核如何返回结果
+这部分：是 OS 必须定义的

@@ -316,7 +316,13 @@ int32_t eval(int p, int q) {
       case '+': return val1 + val2;
       case '-': return val1 - val2;
       case '*': return val1 * val2;
-      case '/': Assert(val2 != 0, "Divided by 0 error."); return val1 / val2;
+      // case '/': Assert(val2 != 0, "Divided by 0 error."); return val1 / val2;
+      case '/':
+        if(val2 == 0){
+          printf("Divided by 0 error. The result must be incorrect.\n");
+          return 0;
+        }
+        else return val1/val2;
       case TK_EQ: return val1 == val2;
       case TK_UEQ: return val1 != val2;
       case TK_AND: return val1 && val2;
@@ -325,6 +331,7 @@ int32_t eval(int p, int q) {
   }
   assert(!is_error);
 }
+
 
 word_t expr(char *e, bool *success) {   
   if (!make_token(e)) {

@@ -77,3 +77,147 @@ ABI 有两种层次
 内核如何接收参数
 内核如何返回结果
 这部分：是 OS 必须定义的
+
+
+
+OS CRITICAL COMPONENT:
+
+CPU 上电后会做一件极其简单但关键的事：
+PC（程序计数器） = 固定地址
+这个地址在不同架构是硬编码在 CPU 设计里的。
+this addr is projected to BIOS/UEFI (in flash mem) 
+
+->BIOS/UEFI 
+BIOS 做的事情：
+初始化内存（RAM）
+初始化设备
+找启动设备（硬盘）
+加载 bootloader
+
+->Bootloader
+; 从磁盘读 kernel 到内存
+; 跳转到 kernel entry
+jmp kernel_main
+
+->CPU 模式切换
+real mode → protected mode → long mode（x86）
+必须做：
+开启分页（paging）
+设置段寄存器
+初始化栈
+
+->内存管理
+物理内存管理
+虚拟内存管理
+内核堆
+
+->Process & task 进程&任务系统
+上下文切换  调度器
+
+->中断系统（Interrupt / Trap）
+核心作用：
+CPU 和外界交互
+
+你需要：
+（1）IDT（中断描述符表）
+interrupt number → handler
+（2）中断处理函数
+void timer_handler();
+void keyboard_handler();
+（3）系统调用（Syscall）
+用户态 → 内核态：
+int 0x80
+或现代：
+syscall 指令
+
+->驱动（Drivers）
+
+最基础必须有：
+（1）定时器（Timer）
+用于调度
+（2）串口 / 控制台
+输出日志
+（3）键盘（可选）
+
+
+->File system 文件系统
+
+->User Space 用户管理
+
+->Command line
+
+->API
+
+
+OS 干了三件事
+（1）虚拟化（illusion）
+CPU → 多进程
+内存 → 独立空间
+
+（2）调度（allocation）
+谁用 CPU？
+谁用内存？
+
+（3）接口（abstraction）
+文件
+进程
+网络
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

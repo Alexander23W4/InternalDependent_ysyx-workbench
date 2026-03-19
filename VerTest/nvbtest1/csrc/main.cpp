@@ -3,77 +3,69 @@
 #include <nvboard.h>
 #include "Vtop.h"
 
-static Vtop dut;   // Device Under Test
+static Vtop dut;
 
 void nvboard_bind_all_pins(Vtop* top);
 
-// 记录cycle数量
 static uint64_t cycle_cnt = 0;
 
-// 一个时钟周期
+// One clock cycle
 static void single_cycle() {
-
-    // clk = 0
     dut.clk = 0;
     dut.eval();
     nvboard_update();
 
-    // clk = 1  (posedge)
     dut.clk = 1;
     dut.eval();
     nvboard_update();
 
     cycle_cnt++;
-
-    // 调试信息
-    printf("cycle = %ld\n", cycle_cnt);
-    // printf("PC    = %d\n", dut.PC);
-    printf("----------------------\n");
 }
 
-
-// reset CPU
+// Reset
 static void reset(int n) {
-
     dut.rst = 1;
-
-    while (n -- > 0) {
+    while (n-- > 0) {
         single_cycle();
     }
-
     dut.rst = 0;
 }
 
+// Generate pixel color based on coordinates
+static uint32_t gen_pixel(uint16_t x, uint16_t y) {
+    uint8_t r = x & 0xFF;
+    uint8_t g = y & 0xFF;
+    uint8_t b = (x ^ y) & 0xFF;
+    return (r << 16) | (g << 8) | b;
+}
 
 int main() {
 
-    // 绑定引脚
     nvboard_bind_all_pins(&dut);
-
-    // 初始化NVBoard
     nvboard_init();
 
-    // 初始化信号
     dut.clk = 0;
     dut.rst = 0;
+    // dut.clken = 1;
 
-    // reset CPU
     reset(10);
-
-    printf("===== CPU Start Running =====\n");
 
     while (1) {
 
-        // 更新输入（开关）
-        nvboard_update();
+        // if (dut.valid) {
+        //     dut.vga_data = gen_pixel(dut.h_addr, dut.v_addr);
+        // } else {
+        //     dut.vga_data = 0;
+        // }
+        dut.vga_data = 0xFF0000;
+        printf("x=%d y=%d valid=%d\n", dut.h_addr, dut.v_addr, dut.valid);
+        printf("valid=%d rgb=%x\n", dut.valid, dut.vga_data);
 
-        // 执行一个时钟周期
+        nvboard_update();
         single_cycle();
 
-        // 放慢速度，方便观察数码管
-        usleep(100000);   // 100ms
+        usleep(1000);
     }
 
     nvboard_quit();
 }
-

@@ -15,12 +15,26 @@ class Vtop___024root final : public VerilatedModule {
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
     VL_IN8(rst,0,0);
-    VL_OUT8(h1,6,0);
-    VL_OUT8(h2,6,0);
+    VL_OUT8(hsync,0,0);
+    VL_OUT8(vsync,0,0);
+    VL_OUT8(valid,0,0);
+    VL_OUT8(vga_r,7,0);
+    VL_OUT8(vga_g,7,0);
+    VL_OUT8(vga_b,7,0);
+    CData/*0:0*/ __Vtrigrprev__TOP__clk;
+    CData/*0:0*/ __Vtrigrprev__TOP__rst;
     CData/*0:0*/ __VactContinue;
+    VL_OUT16(h_addr,9,0);
+    VL_OUT16(v_addr,9,0);
+    SData/*9:0*/ top__DOT__vgactrl__DOT__x_cnt;
+    SData/*9:0*/ top__DOT__vgactrl__DOT__y_cnt;
+    SData/*9:0*/ __Vdly__top__DOT__vgactrl__DOT__x_cnt;
+    VL_IN(vga_data,23,0);
+    IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VactIterCount;
-    VlTriggerVec<0> __VactTriggered;
-    VlTriggerVec<0> __VnbaTriggered;
+    VlTriggerVec<1> __VstlTriggered;
+    VlTriggerVec<2> __VactTriggered;
+    VlTriggerVec<2> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

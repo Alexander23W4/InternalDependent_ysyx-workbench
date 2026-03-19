@@ -12,10 +12,75 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_act\n"); );
 }
 
+VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___nba_sequent__TOP__0\n"); );
+    // Body
+    vlSelf->__Vdly__top__DOT__vgactrl__DOT__x_cnt = vlSelf->top__DOT__vgactrl__DOT__x_cnt;
+    vlSelf->__Vdly__top__DOT__vgactrl__DOT__x_cnt = 
+        ((IData)(vlSelf->rst) ? 1U : ((0x320U == (IData)(vlSelf->top__DOT__vgactrl__DOT__x_cnt))
+                                       ? 1U : (0x3ffU 
+                                               & ((IData)(1U) 
+                                                  + (IData)(vlSelf->top__DOT__vgactrl__DOT__x_cnt)))));
+}
+
+VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___nba_sequent__TOP__1\n"); );
+    // Init
+    SData/*9:0*/ __Vdly__top__DOT__vgactrl__DOT__y_cnt;
+    __Vdly__top__DOT__vgactrl__DOT__y_cnt = 0;
+    // Body
+    __Vdly__top__DOT__vgactrl__DOT__y_cnt = vlSelf->top__DOT__vgactrl__DOT__y_cnt;
+    if (vlSelf->rst) {
+        __Vdly__top__DOT__vgactrl__DOT__y_cnt = 1U;
+    } else if (((0x20dU == (IData)(vlSelf->top__DOT__vgactrl__DOT__y_cnt)) 
+                & (0x320U == (IData)(vlSelf->top__DOT__vgactrl__DOT__x_cnt)))) {
+        __Vdly__top__DOT__vgactrl__DOT__y_cnt = 1U;
+    } else if ((0x320U == (IData)(vlSelf->top__DOT__vgactrl__DOT__x_cnt))) {
+        __Vdly__top__DOT__vgactrl__DOT__y_cnt = (0x3ffU 
+                                                 & ((IData)(1U) 
+                                                    + (IData)(vlSelf->top__DOT__vgactrl__DOT__y_cnt)));
+    }
+    vlSelf->top__DOT__vgactrl__DOT__y_cnt = __Vdly__top__DOT__vgactrl__DOT__y_cnt;
+    vlSelf->v_addr = (((0x23U < (IData)(vlSelf->top__DOT__vgactrl__DOT__y_cnt)) 
+                       & (0x203U >= (IData)(vlSelf->top__DOT__vgactrl__DOT__y_cnt)))
+                       ? (0x3ffU & ((IData)(vlSelf->top__DOT__vgactrl__DOT__y_cnt) 
+                                    - (IData)(0x24U)))
+                       : 0U);
+    vlSelf->vsync = (2U < (IData)(vlSelf->top__DOT__vgactrl__DOT__y_cnt));
+}
+
+VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___nba_sequent__TOP__2\n"); );
+    // Body
+    vlSelf->top__DOT__vgactrl__DOT__x_cnt = vlSelf->__Vdly__top__DOT__vgactrl__DOT__x_cnt;
+    vlSelf->h_addr = (((0x90U < (IData)(vlSelf->top__DOT__vgactrl__DOT__x_cnt)) 
+                       & (0x310U >= (IData)(vlSelf->top__DOT__vgactrl__DOT__x_cnt)))
+                       ? (0x3ffU & ((IData)(vlSelf->top__DOT__vgactrl__DOT__x_cnt) 
+                                    - (IData)(0x91U)))
+                       : 0U);
+    vlSelf->hsync = (0x60U < (IData)(vlSelf->top__DOT__vgactrl__DOT__x_cnt));
+}
+
 void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_nba\n"); );
+    // Body
+    if (vlSelf->__VnbaTriggered.at(0U)) {
+        Vtop___024root___nba_sequent__TOP__0(vlSelf);
+    }
+    if (vlSelf->__VnbaTriggered.at(1U)) {
+        Vtop___024root___nba_sequent__TOP__1(vlSelf);
+    }
+    if (vlSelf->__VnbaTriggered.at(0U)) {
+        Vtop___024root___nba_sequent__TOP__2(vlSelf);
+    }
 }
 
 void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf);
@@ -31,7 +96,7 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval\n"); );
     // Init
-    VlTriggerVec<0> __VpreTriggered;
+    VlTriggerVec<2> __VpreTriggered;
     IData/*31:0*/ __VnbaIterCount;
     CData/*0:0*/ __VnbaContinue;
     // Body
@@ -84,5 +149,7 @@ void Vtop___024root___eval_debug_assertions(Vtop___024root* vlSelf) {
         Verilated::overWidthError("clk");}
     if (VL_UNLIKELY((vlSelf->rst & 0xfeU))) {
         Verilated::overWidthError("rst");}
+    if (VL_UNLIKELY((vlSelf->vga_data & 0xff000000U))) {
+        Verilated::overWidthError("vga_data");}
 }
 #endif  // VL_DEBUG

@@ -1,3 +1,6 @@
+// expression evaluation test
+
+
 Large program exp:
 -> meta programming framework 
 -> Config(customer setting) generate config file (Macro...or other info for building the functional could purposefully)
@@ -10,7 +13,10 @@ Large program exp:
   ^^Catch the moment as soon as the potential fault occurs
   ^^Tools: -Wall GDB  printf(log) assert() sanitizer
 
-
+The memory is a large array defined in nemu/src/memory/paddr.c.
+PCs and general-purpose registers are defined in structures in nemu/src/isa/$ISA/include/isa-def.h
+The adder is defined in... Well, this part of the framework code is a bit complicated, but it doesn't affect our understanding of TRM, so let's go over it in PA2!
+The way TRM works is reflected in cpu_exec() and exec_once().
 
 
 

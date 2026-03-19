@@ -83,7 +83,8 @@ static int cmd_c(char *args) {     // c   execute the guest code
 }
 
 static int cmd_q(char *args) {     // q   quit the nemu sdb
-  return -1;
+  nemu_state.state = NEMU_QUIT;
+  return -1;   // get out of sdb_mainloop
 }
 
 static int cmd_help(char *args);   // help   
@@ -202,7 +203,7 @@ static int cmd_x(char* args){
         printf("HIT THE MEM CELLING WHILE READING\n");
       }
       printf("0x%08x\n", paddr_read(addr, 4));
-      addr += 32;
+      addr += 4;   // read 4 Bytes one time
     }
     return 0;
   }

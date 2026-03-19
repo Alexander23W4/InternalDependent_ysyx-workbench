@@ -1,0 +1,252 @@
+你这次做的两件事本质是：
+
+统一状态存储（register unification）
+
+显式总线（bus abstraction）
+
+这两个做完，你的 CPU 就从“实验电路”变成“系统”。
+
+我直接按你目标给你一个可落地架构（不pipeline，不cache）。
+
+一、统一 Register 设计（核心升级）
+
+你现在是：
+
+GPR = 一个模块
+flag = 分散在各 instr
+control = 隐含在逻辑里
+
+你要变成：
+
+Unified Register File（URF）
+✅ 设计目标
+
+用一个“类似 RAM 的结构”承载：
+
+| index | 内容             |
+|-------|------------------|
+| 0-3   | GPR              |
+| 4     | FLAGS            |
+| 5     | PC（可选）       |
+| 6     | CONTROL（可选）  |
+✅ Verilog 实现（核心）
+module regfile #(
+    parameter WIDTH = 8,
+    parameter DEPTH = 8
+)(
+    input clk,
+
+    // read ports
+    input  [2:0] raddr1,
+    input  [2:0] raddr2,
+    output [WIDTH-1:0] rdata1,
+    output [WIDTH-1:0] rdata2,
+
+    // write port
+    input we,
+    input [2:0] waddr,
+    input [WIDTH-1:0] wdata
+);
+
+    reg [WIDTH-1:0] regs [0:DEPTH-1];
+
+    assign rdata1 = regs[raddr1];
+    assign rdata2 = regs[raddr2];
+
+    always @(posedge clk) begin
+        if (we)
+            regs[waddr] <= wdata;
+    end
+
+endmodule
+✅ 关键点（非常重要）
+1️⃣ flag 不再是 wire
+
+例如：
+
+// flags register (index = 4)
+wire zero_flag = (rdata1 == 0);
+
+👉 或写回：
+
+if (update_flag)
+    regs[4] <= new_flag;
+2️⃣ PC 不建议放进去（第一阶段）
+
+你可以放，但我建议：
+
+第一版：PC 单独 reg
+第二版：再合并
+
+否则你会遇到：
+
+同周期读写冲突
+
+控制复杂化
+
+二、总线设计（你这一步非常对）
+
+你要做的不是“复杂总线”，而是：
+
+定义接口规范（interface contract）
+
+✅ 三总线抽象（简化版）
+
+你说的：
+
+数据总线
+
+地址总线
+
+控制总线
+
+在现代设计里会合成：
+
+// address
+wire [ADDR_W-1:0] addr;
+
+// write data
+wire [DATA_W-1:0] wdata;
+
+// read data
+wire [DATA_W-1:0] rdata;
+
+// control
+wire we;
+wire valid;
+wire ready;
+✅ 最小可用 bus（推荐你现在用）
+module simple_bus (
+    output [7:0] addr,
+    output [7:0] wdata,
+    input  [7:0] rdata,
+
+    output we,
+    output valid,
+    input  ready
+);
+✅ 你当前阶段可以简化成
+assign valid = 1'b1;
+assign ready = 1'b1;
+
+👉 但接口必须留着（这就是工程意识）
+
+三、CPU 主结构（非 pipeline，单指令完成）
+
+你明确说：
+
+一条指令执行完再执行下一条
+
+很好，这是：
+
+multi-cycle CPU（但不是你现在那种“指令模块驱动”）
+
+✅ 正确结构应该是：
+Cycle 1: Fetch
+Cycle 2: Decode
+Cycle 3: Execute
+Cycle 4: Writeback
+✅ 控制方式（核心）
+
+用一个 FSM：
+
+typedef enum reg [1:0] {
+    S_FETCH,
+    S_DECODE,
+    S_EXEC,
+    S_WB
+} state_t;
+
+state_t state;
+✅ 主控制
+always @(posedge clk or posedge rst) begin
+    if (rst)
+        state <= S_FETCH;
+    else begin
+        case(state)
+            S_FETCH:  state <= S_DECODE;
+            S_DECODE: state <= S_EXEC;
+            S_EXEC:   state <= S_WB;
+            S_WB:     state <= S_FETCH;
+        endcase
+    end
+end
+四、把你现在设计“映射”到新架构
+
+你现在：
+
+Instr_add → 自己完成所有周期
+Instr_bner0 → 自己控制跳转
+改造后：
+在 EXEC 阶段：
+case(opcode)
+    ADD: result = r1 + r2;
+    LI:  result = imm;
+    BNE: branch_taken = (r1 != 0);
+endcase
+在 WB 阶段：
+if (reg_write)
+    regfile[waddr] <= result;
+PC 更新：
+if (branch_taken)
+    PC <= target;
+else
+    PC <= PC + 1;
+五、最关键的“结构跃迁”
+
+你这一步完成后，会发生本质变化：
+
+❌ 之前（你的设计）
+CPU = 指令集合 + 仲裁逻辑
+✅ 之后（正确方向）
+CPU =
+
+[ Control FSM ]
+        ↓
+[ Datapath (ALU + Reg + Bus) ]
+        ↓
+[ Memory ]
+六、你这一步做完的“里程碑意义”
+
+完成后你将具备：
+
+✔ 可扩展性
+
+加指令只改 decode
+
+✔ 可插 pipeline
+
+每个 stage 已存在
+
+✔ 可接外设
+
+bus 已标准化
+
+七、我给你的一个关键提醒（避免踩坑）
+⚠️ 不要做这个：
+assign bus = (A_en ? A :
+             (B_en ? B :
+             (C_en ? C : 0)));
+
+👉 这是你现在的“仲裁思维”，要彻底丢掉。
+
+八、下一步建议（非常关键）
+
+你现在最优路径是：
+
+Step 1（你正在做）
+
+✔ unified regfile
+✔ bus abstraction
+
+Step 2（下一步）
+
+👉 做一个：
+
+FSM + datapath CPU（保持你当前ISA）
+
+Step 3
+
+👉 再升级：
+
+pipeline（这时你会非常顺）

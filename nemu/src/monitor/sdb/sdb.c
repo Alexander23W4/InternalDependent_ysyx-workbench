@@ -262,7 +262,7 @@ static int cmd_help(char *args) {    // !!! for every command added, update log 
   return 0;
 }
 
-
+// -----------------------------------------------------------------------------------------------------------------
 
 
 
@@ -297,10 +297,10 @@ void sdb_mainloop() {
     sdl_clear_event_queue();
 #endif
 
-    int i;
+    int i;    // start to get sdb command over and over
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }
+        if (cmd_table[i].handler(args) < 0) { return; }   // execute the sdb command
         break;
       }
     }

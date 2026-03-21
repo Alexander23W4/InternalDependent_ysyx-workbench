@@ -24,6 +24,8 @@ The way TRM works is reflected in cpu_exec() and exec_once().
 
    学习复杂的东西也是一样，先确立框架，建立与熟悉最基本的开发流程和系统框架，breakdown to very simple, 之后深入理解这个东西的痛点，工程上的趋势，怎么
    样让他真的变得更好，有自己的idea与艺术，并不断迭代实践。
+   系统的每一个node都做的尽量简单，但是在运行之前必须debug,而且要顺着hiereachy自下而上一点一点debug和test,系统中没有经过debug和单独test过的部分永远都是错的
+   所有系统都是hiereachy,系统内部还有系统，系统的层次结构应当简单明了
 
    为人也保持自身的独立性和自我意志，不追求过度的与大量其他个体与环境的兼容性和所谓某些哲学性上人的完美
      

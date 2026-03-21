@@ -14,6 +14,10 @@
 ***************************************************************************************/
 
 #include <common.h>
+#define TEST_MODE 1
+#define TEST_FUNC() expr_test()
+
+extern expr_test();
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -28,8 +32,12 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-  /* Start engine. */
+#if TEST_MODE
+  TEST_FUNC();
+#else 
   engine_start();
+#endif
+
 
   return is_exit_status_bad();
 }

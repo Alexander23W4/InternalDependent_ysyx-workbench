@@ -21,6 +21,9 @@
 #include <regex.h>
 #include </home/wang/My_ysyx-workbench/nemu/include/memory/paddr.h>
 
+#define MAX_TOKEN_LENGTH 128
+#define READ_FILE "./input"
+
 enum {      // !!! add regex token type here 
   TK_NOTYPE = 256,    // start from 256, avoid overlap with ASCII code
   TK_EQ,      // automatic encode, 257
@@ -90,7 +93,7 @@ typedef struct token {    // token definition
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};    // tokens arr
+static Token tokens[MAX_TOKEN_LENGTH] __attribute__((used)) = {};    // tokens arr
 static int nr_token __attribute__((used))  = 0;       // amount of tokens
 
 // static void print_tokens__dbg(){
@@ -103,7 +106,7 @@ static int nr_token __attribute__((used))  = 0;       // amount of tokens
 // }
 
 
-static bool make_token(char *e) {   // !!! 
+static bool make_token(char *e) {   // translate
   int position = 0;  // pointer in regex str
   int i;
   regmatch_t pmatch;
@@ -198,7 +201,7 @@ static bool make_token(char *e) {   // !!!
   An example would be 1 + 2 + 3, whose main operator would be + on the right.
 */
 
-static int precedence(int type) {
+static int precedence(int type) { // lower the precedence (numerically), higher priority to be the main operator
   switch(type) {
     case TK_AND: return 1;
     case TK_EQ:
@@ -212,9 +215,10 @@ static int precedence(int type) {
   }
 }
 
-static bool check_op(int type){
+static bool check_op(int type){  
   return (type == '+' || type == '-' || type == '*' || type == '/' || type == TK_EQ || type == TK_UEQ || type == TK_AND || type == DEREF);
 }
+
 static int get_main_operator(int p, int q) {
   int op = -1;
   int level = 100;
@@ -226,7 +230,7 @@ static int get_main_operator(int p, int q) {
     if(type == '(') paren++;
     else if(type == ')') paren--;
 
-    else if(paren == 0 && check_op(type)) {
+    else if(paren == 0 && check_op(type)) {   // a operator must after same amount of "(" and ")"
 
       int prec = precedence(type);
 
@@ -244,13 +248,13 @@ static bool check_parentheses(int p, int q, bool* is_error) {
   if (tokens[p].type != '(' || tokens[q].type != ')') {
     return false;  
   }
-  int cnt1 = 0;
+  int cnt1 = 0;   // check whether ( amount == )amount
   for (int i = p; i <= q; i++) {
     if (tokens[i].type == '(') cnt1++;
     else if (tokens[i].type == ')') cnt1--;   
     *is_error = (cnt1 != 0);
   }
-  int cnt2 = 0;
+  int cnt2 = 0;   // check this condition ()...(), do not strip in this condition
   for (int i = p; i <= q; i++) {
     if (tokens[i].type == '(') cnt2++;
     else if (tokens[i].type == ')') cnt2--;
@@ -267,11 +271,11 @@ static bool check_parentheses(int p, int q, bool* is_error) {
 bool is_error = 0; 
 
 int32_t eval(int p, int q) {
-  if (p > q) {
-    printf("p can not be larger than q.\n");
+  if (p > q) {   // ------------------------- 1
+    printf("Bad expression, the result can not be correct.\n");
     return -1;   // !!! 
   }
-  else if (p == q) {
+  else if (p == q) { // --------------------------- 2    deal with pure numbers
     /* Single token.
      * For now this token should be a number.
      * Return the value of the number.
@@ -289,21 +293,14 @@ int32_t eval(int p, int q) {
     else {ret = (int32_t)strtol(tokens[p].str, &endptr, 10);} 
     return ret;
   }
-  else if (check_parentheses(p, q, &is_error) == true) {
-    /* The expression is surrounded by a matched pair of parentheses.
-     * If that is the case, just throw away the parentheses.
-     */
+  else if (check_parentheses(p, q, &is_error) == true) { // ---------------------------------- 3    strip off parentheses
+    if(is_error) printf("($1)There must be something wrong with your expression. The result must be incorrect.\n");
     return eval(p + 1, q - 1);
   }
-  else {  
-    // deal with negative number
-    if(tokens[p].type == '-' && (p == 0 || tokens[p-1].type == '(' || \
-      (check_op(tokens[p-1].type) && tokens[p+1].type == TK_HEX))) {
-      return - eval(p + 1, q);
-    }
+  else {  // -------------------------------- 4   split  (!!! do not support negative numbers)
 
     int op = get_main_operator(p, q);
-    assert(op != -1);
+    if(op == -1) printf("($2)There must be something wrong with your expression. The result must be incorrect.\n");
 
     if(tokens[op].type == DEREF) {
       int32_t addr = eval(op + 1, q);
@@ -329,7 +326,6 @@ int32_t eval(int p, int q) {
       default: assert(0);
     }
   }
-  assert(!is_error);
 }
 
 
@@ -349,6 +345,7 @@ extern word_t expr(char *e, bool *success) {
   }
   is_error = false;
   int32_t val = eval(0, nr_token - 1);
+  if(val < 0) printf("The result is smaller than 0, the system do not support <0 expression. The result must be incorrect.\n");
 
   if (is_error) {
     *success = false;
@@ -356,6 +353,25 @@ extern word_t expr(char *e, bool *success) {
   }
   *success = true;
   return (word_t)((uint32_t)val);
+}
+
+
+void expr_test(){
+    FILE* fp = fopen(READ_FILE, "r");
+    assert(fp);
+    int miss_match = 0;
+
+    char line[128];
+    while(fgets(line, sizeof(line), fp)){
+        char* result_string = strtok(line, " ");
+        char* expression = result_string + strlen(result_string) + 1;
+        uint32_t result = atio(result_string);
+        bool success;
+        uint32_t my_result = expr(expression, &success);
+        printf("%s, result: %u, my_result: %u\n", expression, result, my_result);
+        if(my_result != result) miss_match ++;
+    }
+    fclose(fp);
 }
 
 

@@ -23,6 +23,7 @@
 
 #define MAX_TOKEN_LENGTH 512
 #define READ_FILE "./input"
+#define _expr_t int64_t
 
 enum {      // !!! add regex token type here 
   TK_NOTYPE = 256,    // start from 256, avoid overlap with ASCII code
@@ -270,7 +271,7 @@ static bool check_parentheses(int p, int q, bool* is_error) {
  // inclusively tackle the tokens
 bool is_error = 0; 
 
-int32_t eval(int p, int q) {
+_expr_t eval(int p, int q) {
   if (p > q) {   // ------------------------- 1
     printf("Bad expression, the result can not be correct.\n");
     return -1;   // !!! 
@@ -281,16 +282,16 @@ int32_t eval(int p, int q) {
      * Return the value of the number.
      */
     Assert((tokens[p].type == TK_HEX ) || (tokens[p].type == TK_NUM || (tokens[p].type == TK_REG)), "inclusive syntax error, &2");
-    int32_t ret;
+    _expr_t ret;
     char* endptr;
-    if(tokens[p].type == TK_HEX) {ret = (int32_t)strtol(tokens[p].str, &endptr, 16);}
+    if(tokens[p].type == TK_HEX) {ret = (_expr_t)strtol(tokens[p].str, &endptr, 16);}
     else if(tokens[p].type == TK_REG) {
       bool success;
-      int32_t temp = (int32_t)isa_reg_str2val(tokens[p].str, &success);
+      _expr_t temp = (_expr_t)isa_reg_str2val(tokens[p].str, &success);
       is_error = !success;
       return temp;
     }
-    else {ret = (int32_t)strtol(tokens[p].str, &endptr, 10);} 
+    else {ret = (_expr_t)strtol(tokens[p].str, &endptr, 10);} 
     return ret;
   }
   else if (check_parentheses(p, q, &is_error) == true) { // ---------------------------------- 3    strip off parentheses
@@ -303,11 +304,11 @@ int32_t eval(int p, int q) {
     if(op == -1) printf("($2)There must be something wrong with your expression. The result must be incorrect.\n");
 
     if(tokens[op].type == DEREF) {
-      int32_t addr = eval(op + 1, q);
+      _expr_t addr = eval(op + 1, q);
       return paddr_read(addr, 4);
     }
-    int32_t val1 = eval(p, op - 1);
-    int32_t val2 = eval(op + 1, q);
+    _expr_t val1 = eval(p, op - 1);
+    _expr_t val2 = eval(op + 1, q);
 
     switch (tokens[op].type) {
       case '+': return val1 + val2;
@@ -344,7 +345,7 @@ extern word_t expr(char *e, bool *success) {
     }
   }
   is_error = false;
-  int32_t val = eval(0, nr_token - 1);
+  _expr_t val = eval(0, nr_token - 1);
   if(val < 0) printf("The result is smaller than 0, the system do not support <0 expression. The result must be incorrect.\n");
 
   if (is_error) {

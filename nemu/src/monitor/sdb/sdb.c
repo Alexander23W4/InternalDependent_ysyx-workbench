@@ -228,7 +228,7 @@ static int cmd_info(char* args){
     WP* temp = get_head();
     int index = 1;
     while(temp){
-      printf("%d: EXPR: %s, RESULT: %u\n", index, temp->expression, temp->result);
+      printf("%d: EXPR: %s, RESULT: %u (0x%x)\n", index, temp->expression, temp->result, temp->result);
       temp = temp->next;
       index++;
     }

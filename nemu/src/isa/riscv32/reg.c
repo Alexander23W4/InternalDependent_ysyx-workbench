@@ -19,7 +19,7 @@
 
 #define PRINT_LINE_MAX 8
 
-extern riscv32_CPU_state cpu;
+extern riscv32_CPU_state cpu;    // define cpu, consists of gpr and pc
 
 // actaully $0 $ra $sp...  $ should be added
 const char *regs[] = {
@@ -37,7 +37,12 @@ void isa_reg_display() {
     }
     printf("%s ", regs[i]);
   }
-  printf("\n");
+  printf("\n\n");
+  for (int i = 0; i < sizeof(regs) / sizeof(const char*); i++)
+  {
+    printf("%s: %u (0x%x)\n", regs[i], cpu.gpr[i], cpu.gpr[i]);
+  }
+  printf("pc: (0x%x)\n", cpu.pc);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {

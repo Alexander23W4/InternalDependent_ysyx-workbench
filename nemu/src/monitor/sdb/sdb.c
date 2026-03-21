@@ -23,10 +23,36 @@
 #include "common.h"
 #include "watchpoint.h"
 
+#define NR_CMD ARRLEN(cmd_table)
+
 static int is_batch_mode = false;
 
 void init_regex();
 void init_wp_pool();
+
+static int cmd_c(char *args) {     // c   execute the guest code
+  cpu_exec(-1);
+  return 0;
+}
+
+static int cmd_q(char *args) {     // q   quit the nemu sdb
+  nemu_state.state = NEMU_QUIT;
+  return -1;   // get out of sdb_mainloop
+}
+
+static int cmd_help(char *args);   // help   
+
+static int cmd_si(char* args);   // si 
+
+static int cmd_info(char* args);  // info
+
+static int cmd_x(char* args);  // x scan memory
+
+static int cmd_p(char* args);
+
+static int cmd_w(char* args); // set watchpoint (set breakpoint method: w $pc == ADDR)
+
+static int cmd_d(char* args); // delete watchpoint
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -46,6 +72,10 @@ static char* rl_gets() {
   return line_read;
 }
 
+
+void sdb_set_batch_mode() {
+  is_batch_mode = true;
+}
 
 
 // -----------------------nemu sdb commands------------------------
@@ -77,29 +107,6 @@ Set watchpoint	w EXPR	w *0x2000	Suspend program execution when the value of expr
 Deleting a watchpoint	d N	d 2	Deletes the watchpoint with ID N.
 */
 
-static int cmd_c(char *args) {     // c   execute the guest code
-  cpu_exec(-1);
-  return 0;
-}
-
-static int cmd_q(char *args) {     // q   quit the nemu sdb
-  nemu_state.state = NEMU_QUIT;
-  return -1;   // get out of sdb_mainloop
-}
-
-static int cmd_help(char *args);   // help   
-
-static int cmd_si(char* args);   // si 
-
-static int cmd_info(char* args);  // info
-
-static int cmd_x(char* args);  // x scan memory
-
-static int cmd_p(char* args);
-
-static int cmd_w(char* args); // set watchpoint (set breakpoint method: w $pc == ADDR)
-
-static int cmd_d(char* args); // delete watchpoint
 
 static struct {  // !!! supplement cmd_table so that mainloop could handle the cmd arrangement functions
   const char *name;
@@ -110,7 +117,7 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
 
-  /* TODO: Add more commands */
+  // more commands
   { "si", "Single step debug", cmd_si},
   { "info", "Print out some info", cmd_info},
   { "x", "Scan memory", cmd_x},
@@ -120,11 +127,7 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
 };
 
 
-
-#define NR_CMD ARRLEN(cmd_table)
-
-// extern word_t expr(char *e, bool *success);
-
+// w   set new watchpoint
 static int cmd_w(char* args){   // complete
   Log("w command started.");
   if(args == NULL){
@@ -142,6 +145,7 @@ static int cmd_w(char* args){   // complete
   return 0;
 }
 
+// d   delete watchpoint
 static int cmd_d(char* args){
   Log("d command started.");
   if(args == NULL){
@@ -161,6 +165,7 @@ static int cmd_d(char* args){
   return 0;
 }
 
+// p  expression 
 static int cmd_p(char* args){
   Log("p command started.");
   if(args == NULL){
@@ -177,16 +182,19 @@ static int cmd_p(char* args){
   return 0;
 }
 
+// x  check memory  (x N addr)
 static int cmd_x(char* args){
   Log("x command started.");
   char* arg1 = strtok(args, " ");
   char* arg2 = arg1 + strlen(arg1) + 1;
+  Log("arg1: %s, arg2: %s", arg1, arg2);
   int N = atoi(arg1);
+
   if(N <= 0){
-    printf("NOT AVAILABLE MEM AMOUNT, MUST LARGER THAN 0\n");
+    printf("NOT AVAILABLE MEM AMOUNT, MUST BE NUMBER AND LARGER THAN 0\n");
     return 1;
   }
-  if(arg2[0] != '0' && arg2[1] != 'x'){
+  if(arg2[0] != '0' && (arg2[1] != 'x' || arg2[1] != 'X')){
     printf("NOT A HEXIMAL NUM\n");
     return 1;
   }
@@ -199,16 +207,17 @@ static int cmd_x(char* args){
     unsigned long addr = base_addr;
     for (int i = 0; i < N; i++)
     {
-      if(addr >= PMEM_RIGHT){
+      if(addr > PMEM_RIGHT - 4){
         printf("HIT THE MEM CELLING WHILE READING\n");
       }
-      printf("0x%08x\n", paddr_read(addr, 4));
+      printf("0x%08x\n", paddr_read(addr, 4)); // output 8 bits, if not enough, fill 0 at left
       addr += 4;   // read 4 Bytes one time
     }
     return 0;
   }
 }
 
+// info   print info (info r for register; info w for watchpoints)
 static int cmd_info(char* args){
   Log("info command started.");
   char* arg = strtok(args, " ");
@@ -230,15 +239,23 @@ static int cmd_info(char* args){
   return 0;
 }
 
+// si  single pace execute (si N)
+// !!! when N >> available step, the output info of exec_once(): "addr content instr" will disappear
 static int cmd_si(char* args){
   Log("si command started.");
   char* arg = strtok(args, " ");
-  int N = arg ? atoi(arg) : 1;
-  Log("Get N. N = %d", N);
+
+  int N = arg ? (int)atoi(arg) : 1;   // default N = 1
+  if(N < 1){
+    printf("The step you choose to execute must be equal or larger than 1\n");
+    return 1;
+  }
+  Log("Get N, N = %d", N);
   cpu_exec(N);
   return 0;
 }
 
+// help
 static int cmd_help(char *args) {    // !!! for every command added, update log printed of "help"
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
@@ -265,14 +282,9 @@ static int cmd_help(char *args) {    // !!! for every command added, update log 
 // -----------------------------------------------------------------------------------------------------------------
 
 
-
-
-void sdb_set_batch_mode() {
-  is_batch_mode = true;
-}
-
+// sdb run loop
 void sdb_mainloop() {
-  if (is_batch_mode) {
+  if (is_batch_mode) {   // batch mode
     cmd_c(NULL);
     return;
   }
@@ -309,6 +321,7 @@ void sdb_mainloop() {
   }
 }
 
+// preperation works before start sdb_mainloop()
 void init_sdb() {
   /* Compile the regular expressions. */
   init_regex();

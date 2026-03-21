@@ -333,7 +333,7 @@ int32_t eval(int p, int q) {
 }
 
 
-word_t expr(char *e, bool *success) {   
+extern word_t expr(char *e, bool *success) {   
   if (!make_token(e)) {
     *success = false;
     return 0;

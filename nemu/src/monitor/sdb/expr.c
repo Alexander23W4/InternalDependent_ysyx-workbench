@@ -21,7 +21,7 @@
 #include <regex.h>
 #include </home/wang/My_ysyx-workbench/nemu/include/memory/paddr.h>
 
-#define MAX_TOKEN_LENGTH 128
+#define MAX_TOKEN_LENGTH 512
 #define READ_FILE "./input"
 
 enum {      // !!! add regex token type here 
@@ -114,7 +114,7 @@ static bool make_token(char *e) {   // translate
   nr_token = 0;
 
   while (e[position] != '\0') {
-    if(nr_token >= 32) {
+    if(nr_token >= MAX_TOKEN_LENGTH) {
       printf("Too many tokens!\n");
       return false;
   }
@@ -357,21 +357,28 @@ extern word_t expr(char *e, bool *success) {
 
 
 void expr_test(){
-    FILE* fp = fopen(READ_FILE, "r");
-    assert(fp);
-    int miss_match = 0;
+  FILE* fp = fopen("input", "r");
+  FILE* fpw = fopen("mismatch", "a");
+  assert(fp != NULL);
+  int miss_match = 0;
 
-    char line[128];
-    while(fgets(line, sizeof(line), fp)){
-        char* result_string = strtok(line, " ");
-        char* expression = result_string + strlen(result_string) + 1;
-        uint32_t result = atio(result_string);
-        bool success;
-        uint32_t my_result = expr(expression, &success);
-        printf("%s, result: %u, my_result: %u\n", expression, result, my_result);
-        if(my_result != result) miss_match ++;
+  char line[512];
+  while(fgets(line, sizeof(line), fp)){
+    line[strcspn(line, "\n")] = '\0';
+    char* result_string = strtok(line, " ");
+    char* expression = result_string + strlen(result_string) + 1;
+    uint32_t result = atoi(result_string);
+    bool success;
+    uint32_t my_result = expr(expression, &success);
+    printf("%s, result: %u, my_result: %u\n", expression, result, my_result);
+    if (my_result != result) {
+      miss_match++;
+      fprintf(fpw, "%s, result: %u, my_result: %u\n", expression, result, my_result);
     }
-    fclose(fp);
+  }
+  printf("Total mismatches: %d\n", miss_match);
+  fclose(fp);
+  fclose(fpw);
 }
 
 

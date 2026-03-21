@@ -17,7 +17,7 @@
 #define TEST_MODE 1
 #define TEST_FUNC() expr_test()
 
-extern expr_test();
+extern void expr_test();
 
 void init_monitor(int, char *[]);
 void am_init_monitor();

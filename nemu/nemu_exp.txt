@@ -18,7 +18,15 @@ PCs and general-purpose registers are defined in structures in nemu/src/isa/$ISA
 The adder is defined in... Well, this part of the framework code is a bit complicated, but it doesn't affect our understanding of TRM, so let's go over it in PA2!
 The way TRM works is reflected in cpu_exec() and exec_once().
 
+-> 保持系统的固有特性，保证每个component简单性，易于维护，易于迭代，完成它固有的使命。只需保证一般兼容性和一般完整性
+   在建立系统的初期，应该先建立框图，快速打通系统的大致功能，框图的每一部分完成最简单最基础的功能，无需考虑完整性和兼容性
+   after that,如果系统初步验证大致符合预期，则通过不断迭代优化丰富完整性和兼容性
 
+   学习复杂的东西也是一样，先确立框架，建立与熟悉最基本的开发流程和系统框架，breakdown to very simple, 之后深入理解这个东西的痛点，工程上的趋势，怎么
+   样让他真的变得更好，有自己的idea与艺术，并不断迭代实践。
+
+   为人也保持自身的独立性和自我意志，不追求过度的与大量其他个体与环境的兼容性和所谓某些哲学性上人的完美
+     
 
 SYSTEMIC UNDERSTANDING:
 🔹 Runtime Environment（运行时环境）

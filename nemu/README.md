@@ -10,7 +10,7 @@ The main features of NEMU include
   * register/memory examination
   * expression evaluation without the support of symbols
   * watch point
-  * differential testing with reference design (e.g. QEMU)
+  * differential testing with reference design (e.g. QEMU)  ***
   * snapshot
 * CPU core with support of most common used instructions
   * x86
@@ -29,7 +29,7 @@ The main features of NEMU include
 * interrupt and exception
   * protection is not supported
 * 5 devices
-  * serial, timer, keyboard, VGA, audio
+  * serial, timer, keyboard, VGA, audio  ***
   * most of them are simplified and unprogrammable
 * 2 types of I/O
   * port-mapped I/O and memory-mapped I/O

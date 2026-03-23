@@ -2,8 +2,8 @@
 // the barrel shifters implemented with MUX is a pule combinational circuit
 // ! VA
 module BarrelShifter (
-    input LR,           // 1=左移 0=右移
-    input AL,           // 1=算术右移
+    input LR,           // 1=left 0=right
+    input AL,           // 1=arith 0=logic
     input [7:0] din,
     input [2:0] shamt,
     output [7:0] dout

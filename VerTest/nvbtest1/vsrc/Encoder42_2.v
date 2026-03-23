@@ -16,7 +16,7 @@ module Encoder42_2 (
         end
         else begin
             out = 2'b00;
-        end       
+        end
     end
 
 endmodule

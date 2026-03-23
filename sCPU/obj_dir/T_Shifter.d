@@ -1,6 +1,4 @@
-main.o: /home/wang/My_ysyx-workbench/VerTest/nvbtest1/csrc/main.cpp \
- /home/wang/My_ysyx-workbench/nvboard/usr/include/nvboard.h \
- /home/wang/My_ysyx-workbench/nvboard/usr/include/pins.h VDecoder38.h \
+T_Shifter.o: ../Tests/T_Shifter.cpp VShifter.h \
  /usr/local/share/verilator/include/verilated.h \
  /usr/local/share/verilator/include/verilatedos.h \
  /usr/local/share/verilator/include/verilated_config.h \

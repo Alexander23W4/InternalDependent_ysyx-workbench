@@ -1,4 +1,4 @@
-module ShiftReg #(parameter N = 8) (
+module Shifter #(parameter N = 8) (
     input [2:0] mode,
     input in,
     input clk,

@@ -10,7 +10,7 @@ module Encoder42_2 (
             out = 2'b00;
             for (i = 0; i < 4; i = i + 1) begin
                 if(in[i] == 1) begin
-                    out = i;
+                    out = i[1:0];
                 end
             end
         end

@@ -6,8 +6,8 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./top.v
-CPP_SRC=./Tests/T_top.cpp
+V_SRC=./RTL/SCMs/Shifter.v
+CPP_SRC=./Tests/T_Shifter.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
@@ -47,6 +47,9 @@ trace:
 # 3. --cc --exe --build -j 0 -Wall
 fast:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(INCLUDE_SOURCE) $(CPP_SRC) 
+
+fast1:
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC) 
 
 # 4. lint only:
 static:

@@ -15,13 +15,9 @@ valid VGA_BLANK_N
 #include <nvboard.h>
 #include "Vtop.h"
 
-#define FILE Decoder38
-#define V_FILE V##FILE
+static Vtop dut;
 
-
-static V_FILE dut;
-
-void nvboard_bind_all_pins(V_FILE* top);
+void nvboard_bind_all_pins(Vtop* top);
 
 static uint64_t cycle_cnt = 0;
 
@@ -68,19 +64,17 @@ int main() {
 
     while (1) {
 
-        // if (dut.valid) {
-        //     dut.vga_data = gen_pixel(dut.h_addr, dut.v_addr);
-        // } else {
-        //     dut.vga_data = 0;
-        // }
-        dut.vga_data = 0xFF0000;
+        if (dut.valid) {
+            dut.vga_data = gen_pixel(dut.h_addr, dut.v_addr);
+        } else {
+            dut.vga_data = 0;
+        }
         printf("x=%d y=%d valid=%d\n", dut.h_addr, dut.v_addr, dut.valid);
         printf("valid=%d rgb=%x\n", dut.valid, dut.vga_data);
 
         nvboard_update();
         single_cycle();
 
-        usleep(1000);
     }
 
     nvboard_quit();

@@ -48,35 +48,67 @@ module keyboard_sim;
     end
 
     /* Reset and test sequence */
-    initial begin
-        clrn = 1'b0;  #20;
-        clrn = 1'b1;  #20;
+initial begin
+    clrn = 1'b0;  #20;
+    clrn = 1'b1;  #20;
 
-        // Press 'A' (scan code 0x1C)
-        model.kbd_sendcode(8'h7C);
-        #100;
+    $display("\n=== 1");
+    model.kbd_sendcode(8'h1C);  // A
+    #300;
+    model.kbd_sendcode(8'h16);  // 1  
+    #300;
+    model.kbd_sendcode(8'h1B);  // S
+    #300;
+    model.kbd_sendcode(8'h29);  // Space
+    #300;
+    model.kbd_sendcode(8'h7C);  // *
 
-        // Release 'A' (break code F0 1C)
-        model.kbd_sendcode(8'hF0);
-        #20 model.kbd_sendcode(8'h7C);
-        #100;
-
-        // Press 'S' (scan code 0x1B)
-        model.kbd_sendcode(8'h1B);
-        #100;
-
-        // Keep pressing 'S' multiple times
-        model.kbd_sendcode(8'h1B);
-        #50 model.kbd_sendcode(8'h1B);
-        #50;
-
-        // Release 'S' (break code F0 1B)
-        model.kbd_sendcode(8'hF0);
-        #20 model.kbd_sendcode(8'h1B);
-        #100;
-
-        $stop;
+    $display("\n=== 2");
+    #400;
+    repeat(5) begin 
+        model.kbd_sendcode(8'h1A);  // Z
+        #150;
     end
+
+    $display("\n=== 3");
+    #400;
+    model.kbd_sendcode(8'h1C);  
+    #500;  
+    model.kbd_sendcode(8'h1B);  
+
+
+    $display("\n=== 4 ===");
+    #400;
+    model.kbd_sendcode(8'h12);  // Left Shift 
+    #100;
+    model.kbd_sendcode(8'h1C);  //
+    #300;
+
+
+    $display("\n=== 5===");
+    model.kbd_sendcode(8'hF0);  // Break
+    #20 model.kbd_sendcode(8'h12);  // Shift 
+    #50;
+    model.kbd_sendcode(8'hF0);  // Break  
+    #20 model.kbd_sendcode(8'h1C);  // A 
+    #300;
+
+
+    $display("\n=== 6===");
+    model.kbd_sendcode(8'h45);  // 0
+    #300;
+    model.kbd_sendcode(8'h3D);  // 7
+    #300;
+    model.kbd_sendcode(8'h4E);  // -
+    #300;
+    model.kbd_sendcode(8'h35);  // Y
+    #500;
+
+    $display("\n=== Test complete! ===");
+    #1000;  
+    $stop;
+end
+
 
     /* Monitor ASCII output */
     always @(posedge clk) begin

@@ -6,13 +6,15 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./RTL/SCMs/Shifter.v
-CPP_SRC=./Tests/T_Shifter.cpp
+V_SRC=./RTL/Tests/keyboard_sim.v
+CPP_SRC=./Tests/T_keyboard.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 ALL_SOURCES=$(shell find ./RTL -name "*.v")
 INCLUDE_SOURCE=$(shell find ./sCPU_pkg -name "*.v")
+
+SOURCES=./RTL/CCMs/IO/ps2_keyboard.v  ./RTL/CCMs/IO/ps2_lut.v  ./RTL/CCMs/IO/ps2_receiver.v  ./RTL/Tests/ps2_keyboard_model.v
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx
@@ -49,7 +51,7 @@ fast:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(INCLUDE_SOURCE) $(CPP_SRC) 
 
 fast1:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC) 
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) --timing $(CPP_SRC) $(SOURCES)
 
 # 4. lint only:
 static:

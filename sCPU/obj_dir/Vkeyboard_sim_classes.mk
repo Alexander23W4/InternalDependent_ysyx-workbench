@@ -2,13 +2,13 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See VShifter.mk for the caller.
+# See Vkeyboard_sim.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
 VM_C11 = 1
 # Timing enabled?  0/1
-VM_TIMING = 0
+VM_TIMING = 1
 # Coverage output mode?  0/1 (from --coverage)
 VM_COVERAGE = 0
 # Parallel builds?  0/1 (from --output-split)
@@ -23,25 +23,28 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	VShifter \
-	VShifter___024root__DepSet_h08dee45f__0 \
-	VShifter___024root__DepSet_hbefc517e__0 \
+	Vkeyboard_sim \
+	Vkeyboard_sim___024root__DepSet_h36f8fe52__0 \
+	Vkeyboard_sim___024root__DepSet_haac40542__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	VShifter___024root__Slow \
-	VShifter___024root__DepSet_hbefc517e__0__Slow \
+	Vkeyboard_sim__ConstPool_0 \
+	Vkeyboard_sim___024root__Slow \
+	Vkeyboard_sim___024root__DepSet_h36f8fe52__0__Slow \
+	Vkeyboard_sim___024root__DepSet_haac40542__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	VShifter__Syms \
+	Vkeyboard_sim__Syms \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \
 	verilated \
+	verilated_timing \
 	verilated_threads \
 
 # Global classes, need linked once per executable, non-fast-path, compile with low/medium optimization

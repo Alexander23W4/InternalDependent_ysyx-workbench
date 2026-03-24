@@ -4,9 +4,9 @@
 #include <bitset>
 #include "Vtop.h"
 
-// 7段数码管 -> 显示字符映射
+
 char seg7_to_char(uint8_t h) {
-    switch(h & 0x7F) { // 只取低7位
+    switch(h & 0x7F) { 
         case 0b0000001: return '0';
         case 0b1001111: return '1';
         case 0b0010010: return '2';
@@ -32,13 +32,12 @@ int main(int argc, char **argv, char **env) {
 
     Vtop* top = new Vtop;
 
-    // 初始化信号
     top->clk = 0;
     top->rst = 1;
 
     int cycles = 0;
 
-    // reset 10 个周期
+
     for (int i = 0; i < 10; i++) {
         top->clk = 0; top->eval();
         top->clk = 1; top->eval();
@@ -48,13 +47,13 @@ int main(int argc, char **argv, char **env) {
 
     std::cout << "===== CPU Start Running =====" << std::endl;
 
-    // 仿真主循环
+
     for (int i = 0; i < 500; i++) {
         top->clk = 0; top->eval();
         top->clk = 1; top->eval();
         cycles++;
 
-        // 打印调试信息，h1/h2显示实际数字
+
         std::cout << "PC=" << std::bitset<4>(top->display_PC)
                   << " | h1=" << seg7_to_char(top->h1)
                   << " | h2=" << seg7_to_char(top->h2)

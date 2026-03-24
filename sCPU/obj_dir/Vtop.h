@@ -5,25 +5,38 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VKEYBOARD_SIM_H_
-#define VERILATED_VKEYBOARD_SIM_H_  // guard
+#ifndef VERILATED_VTOP_H_
+#define VERILATED_VTOP_H_  // guard
 
 #include "verilated.h"
 
-class Vkeyboard_sim__Syms;
-class Vkeyboard_sim___024root;
+class Vtop__Syms;
+class Vtop___024root;
 
 // This class is the main interface to the Verilated model
-class Vkeyboard_sim VL_NOT_FINAL : public VerilatedModel {
+class Vtop VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vkeyboard_sim__Syms* const vlSymsp;
+    Vtop__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
+    VL_IN8(&clk,0,0);
+    VL_IN8(&rst,0,0);
+    VL_OUT8(&h1,6,0);
+    VL_OUT8(&h2,6,0);
+    VL_OUT8(&display_PC,3,0);
+    VL_OUT8(&debug0,7,0);
+    VL_OUT8(&debug1,7,0);
+    VL_OUT8(&debug2,7,0);
+    VL_OUT8(&debug3,7,0);
+    VL_OUT8(&rom_debug0,7,0);
+    VL_OUT8(&rom_debug1,7,0);
+    VL_OUT8(&rom_debug2,7,0);
+    VL_OUT8(&rom_debug3,7,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -31,19 +44,19 @@ class Vkeyboard_sim VL_NOT_FINAL : public VerilatedModel {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vkeyboard_sim___024root* const rootp;
+    Vtop___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vkeyboard_sim(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vkeyboard_sim(const char* name = "TOP");
+    explicit Vtop(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vtop(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vkeyboard_sim();
+    virtual ~Vtop();
   private:
-    VL_UNCOPYABLE(Vkeyboard_sim);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vtop);  ///< Copying not allowed
 
   public:
     // API METHODS

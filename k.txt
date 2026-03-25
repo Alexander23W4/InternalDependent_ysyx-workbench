@@ -1,0 +1,16 @@
+move 
+delete
+select
+write
+do redo
+search
+
+^r means redo
+v V visual mode
+y copy
+p paste
+
+
+same review process for git:
+
+rebase

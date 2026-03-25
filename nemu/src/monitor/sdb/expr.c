@@ -139,7 +139,7 @@ static bool make_token(char *e) {   // translate
         tokens[nr_token].type = tk_type;
         switch (tk_type) {    // deal with the matched type, specific the behavior
           case TK_NOTYPE: break;
-          case '+': strcpy(tokens[nr_token].str, "+"); break; 
+          case '+': strcpy(tokens[nr_token].str, "+"); break;
           case '*': strcpy(tokens[nr_token].str, "*"); break;
           case '/': strcpy(tokens[nr_token].str, "/"); break;
           case '-': strcpy(tokens[nr_token].str, "-"); break;

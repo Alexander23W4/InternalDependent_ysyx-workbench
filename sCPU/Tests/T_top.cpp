@@ -1,8 +1,8 @@
 #include <verilated.h>
+#include "Vtop.h"
 #include <iostream>
 #include <unistd.h>
 #include <bitset>
-#include "Vtop.h"
 
 
 char seg7_to_char(uint8_t h) {

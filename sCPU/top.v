@@ -197,7 +197,6 @@ module top (
 
     // ----------------------
     // debug ROM 8x16
-    // ----------------------
     debug_rom #(8, 4, "./rom.hex") memory (
         .addr(PC),
         .out(mem_out),
@@ -255,7 +254,6 @@ module top (
 
     // ----------------------
     // Instruction modules
-    // ----------------------
     Instr_out ins_out(
         .clk(clk),
         .rst(rst),

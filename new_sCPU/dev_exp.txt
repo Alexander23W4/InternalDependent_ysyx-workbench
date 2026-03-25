@@ -1,0 +1,190 @@
+verilog作为硬件描述语言， 一定要把结构写清楚， 越清楚越好， 代码量！=综合出来的复杂度
+for 是并行生成
+if else要看清逻辑， 不要嵌套， 必须并行
+避免用while, 其为动态次数， 动态次数无法综合。 additionally, 如果for的condition expression为变量， 一样无法综合
+
+power：Dynamic Power
+Leakage Power
+dynamic power = α · C · V² · f
+C = C_gate + C_wire  大规模芯片中：
+wire capacitance >> gate capacitance
+降压
+调整频率，灵活降低频率
+降低信号翻转次数，比如clock gating, 用gray code.., 状态编码的时候用翻转少的编码形式
+
+非关键路径用high threshold
+
+-> cpu clock gating, idle的时候latch住  (ICG[Seqential]) + (Idel static[combinational])
+always @(posedge clk) begin if (!idle) dout <= dout_comb; end 
+
+->复用中间结果 减少面积， 但是不能过多复用叠加fanout
+If could functional reuse, just reuse and add fanout, it saves all P&P&A
+
+-> When一路驱动很多路， fanout功耗大
+fanout，synthesizer会+buffer, 增加带负载能力
+fanout如果不加buffer优化， 会增加delay：
+这个delay主要是负载的电容charge uncharge导致的
+如果这些门很密集、线路短 → 延迟主要来自 下游门输入电容
+如果这些门分布很远、连线长 → 延迟主要来自 互连线寄生电容
+
+线越长 → C_wire 越大
+线越细 → R_wire 越大
+
+-> wire delay主要来源于，wire有R, wire对地和邻近线有寄生电容，需要先给这些电容冲上电，信号才能过去
+| 参数            | 作用                      |
+| ------------- | ----------------------- |
+| 电阻 (R_{wire}) | 线本身导体阻抗，电流越大，压降越大，充电慢   |
+| 电容 (C_{wire}) | 线对地/邻近线有寄生电容，等于线本身的节点电容 |
+
+-> track & fanout delay
+track 数	特性	优缺点
+小 track (6T~7T)	面积小，栅极短，晶体管窄	面积小、功耗低，但驱动能力弱 → 延迟大 → 性能低  Power Area      Performance
+大 track (12T~13T)	面积大，晶体管宽	驱动能力强 → 延迟小 → 性能高，但面积和功耗增加      Performance     Power Area
+
+驱动能力弱 → 切换大负载节点慢 → 高 fanout 时路径延迟长
+驱动能力强 → 可以驱动更多门 / 长 wire → 延迟短 → 高性能
+
+-> 时序优化：
+| 延迟来源                                   | 描述                          | 相对大小 / 排名 | 典型范围                   | 备注                                       |
+| -------------------------------------- | --------------------------- | --------- | ---------------------- | ---------------------------------------- |
+| **互连 / 金属线 (Wire/Metal)**              | 信号在芯片上从一个模块走到另一个模块          | 最大 / 很大   | 几 ps ~ 几百 ps（长线 + 高扇出） | 现代工艺下常成为关键路径瓶颈，尤其是低扇出 → 高层metal加粗可降低RC延迟 |
+| **逻辑门 (AND/OR/XOR/INV 等组合逻辑)**         | 标准单元逻辑                      | 中等        | 10~50 ps（单级门）          | 多级组合逻辑累加，会快速成为关键路径                       |
+| **MUX / 条件选择逻辑**                       | 2:1 MUX、n:1 MUX             | 中等偏高      | 20~60 ps               | 层数太多会累加，和逻辑门一样                           |
+| **寄存器 / FF / Latch**                   | 时序逻辑，寄存器采样延迟 + setup + hold | 中等        | 30~100 ps              | 会增加路径延迟，但寄存器可切分长组合逻辑 → 流水线优化             |
+| **跨层 / 缓冲器 (Buffer / Inverter chain)** | 用于驱动大扇出或长线                  | 中等偏低      | 10~40 ps               | 有时候为了驱动fanout必须插入，增加面积，但可以降低总路径RC延迟      |
+| **门扇出过大**                              | 一个逻辑门驱动太多负载                 | 高         | 取决负载电容                 | 扇出太大 → 上下游延迟增加                           |
+| **Latch vs FF**                        | Latch 有时序敏感窗口，可减少路径层数       | 中等        | 视clocking方案            | 使用透明latch可以节省寄存器数，但控制复杂                  |
+
+
+-> pipeline balance:
+| 流水级数 | 每级逻辑    | 寄存器数量 | 功耗 | 最大频率 | 面积 |
+| ---- | ------- | ----- | -- | ---- | -- |
+| 2级   | 16位组合   | 2     | 高  | 低    | 小  |
+| 3~4级 | 8~10位组合 | 3~4   | 中  | 中高   | 中  |
+| 6级   | 5~6位组合  | 6     | 低  | 高    | 大  |
+
+能用condition judgement, 不用 if else
+
+寄存器的作用：
+稳定时序，便于流水线收敛
+但是增加面积和功耗
+
+synthesizer会在某些情况下保护逻辑而在性能方面做出让步（parallel->serial等:
+注意如果是并行逻辑， 必须确保这些情况完全并行， 不能交叉或者嵌套递归等
+-> 多路or写冲突
+1. 多驱动冲突 → 串行优先级编码器
+text
+你的for循环：
+for(i=0;i<4;i++) if(in[i]) out = i;
+
+综合器：4路写冲突！→ **4级串行优先级**
+性能：2.1ns → **3.8ns** (+80%)
+2. 不完整case/if → 意外锁存器
+verilog
+always @(*) begin
+  if(cond) out = 1;  // 漏else！
+end
+text
+综合器：保持上次值 → **锁存器**（组合变时序！）
+性能：组合2ns → **锁存器8ns** (+300%)
+3. 混合阻塞/非阻塞赋值 → 锁存器+竞争
+verilog
+always @(posedge clk) begin
+  a = b;      // 阻塞
+  c <= d;     // 非阻塞
+end
+text
+综合器：逻辑混乱 → **锁存器+多周期**
+性能：单周期 → **多周期错误**
+4. 敏感列表不完整 → 仿真/硬件不一致
+verilog
+always @(a) out = a | b;  // 漏b！
+text
+仿真：b变out不变
+硬件：b变out变（锁死寄存器！）
+综合器：**插入锁存器保证硬件正确**
+5. 三态逻辑 → 总线保持器
+verilog
+assign bus = en ? data : 1'bz;
+text
+综合器：不支持三态 → **MUX+保持器**
+LUT：8 → **16 LUT** (+100%)
+6. 动态循环边界 → 状态机展开
+verilog
+for(i=0; i<len; i++)  // len运行时变！
+text
+综合器：len最大值状态机
+性能：并行 → **串行N周期**
+
+结构化 basic component:
+MUX  Decoder/Encoder  ALU  Counter Memory  Shift/Barrel Shifter   Finite State Machine    KeyBoard_input     VGA
+
+Verilog was not originally intended for designing synthesizable circuits; its essence is a circuit modeling language based on an event queue model. 
+注意上面这句话， 所以behavior modelling大部分情况下只适合原型验证， 如果要design cutting edge processer, 必须上structure
+
+Verilog"执行"：仿真器按事件队列调度语句评估:
+active events -> inactive events -> NBA (Non-Blocking assignment) LHS ->  Monitor Events -> Next Circle
+
+CPI (clk per instruction)
+
+behavior modelling   things need to concern:
+使用的场景： 原型验证  IP核内部   参数化高可复用场景
+使用structure modelling的场景： 
+1. **性能极限**：超高频需要手工时序优化
+2. **面积极限**：门级手工优化省5%面积
+3. **特定工艺**：硬核（版图级）流片用
+
+结构描述（YSYX高手）：
+时钟：0ns    5ns    10ns   15ns   20ns   25ns
+     ┌──────┼──────┼──────┼──────┼──────┼
+IF   │ pc=0 │ pc=4 │ pc=8 │ pc=C │ ...  │
+     │inst0 │inst1 │inst2 │inst3 │     │
+     ├──────┼──────┼──────┼──────┼──────┼
+ID   │      │inst0 │inst1 │inst2 │inst3 │
+     │ rs10 │ rs11 │ rs12 │ rs13 │     │
+     ├──────┼──────┼──────┼──────┼──────┼
+EX   │      │      │inst0 │inst1 │inst2 │
+     │      │      │add=8 │add=9│     │
+     ├──────┼──────┼──────┼──────┼──────┼
+MEM  │      │      │      │add=8 │add=9│
+WB   │      │      │      │      │add=8 │
+
+每个格子=15ns，流水线并行 → 250MHz
+用5级流水线手工打断所有长路径，时序收敛。  inst pipeline: 
+
+1. **约束降低频率**：200MHz→180MHz（偷懒）
+2. **综合优化**：retiming寄存器插入（自动70%）
+3. **结构流水线**：手工打断关键路径（YSYX核心）
+4. **Floorplan**：关键模块固定区域
+5. **物理优化**：手工移动违例cell
+
+结构描述强制每15ns保存中间结果，综合器只能顺着走！
+
+3. **结构流水线（手工打断）**
+   ├─ 5级流水线IF-ID-EX-MEM-WB  ← YSYX基础
+   ├─ **指令字段并行解码**      ← 你书上看到的！
+   ├─ 寄存器文件双端口读         ← 并行rs1+rs2
+   └─ 多ALU并行执行
+
+流水线冲刷机制：
+实际运行时：
+时钟0ns：IF取inst0=beq x1,label  (pc=pc0)
+时钟5ns：IF取inst1=???           (pc=pc4)  ← 已经开始了！
+时钟10ns：ID发现是beq跳转！
+
+这时两种情况：
+- 不跳转：inst1是对的，继续流水
+- 跳转：冲刷错误指令，重取label地址
+
+真实商用CPU例子：ARM Cortex-A78
+text
+- 14级前端流水（IF）
+- 6级执行流水（ALU/分支）
+- 4级缓存流水（MEM）
+- 3级写回流水（WB）
+- **总27级**，1.8GHz (28nm)
+
+结构化描述时序边界清晰， 对于path掌控感强
+结构化描述方便 synthesis的时候调试，调试结果attribute直观， 如果path太长， 直接拆级
+
+

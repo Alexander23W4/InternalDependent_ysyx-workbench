@@ -64,7 +64,7 @@ module top(
         end
         else begin
             state <= next;
-            case(state) 
+            case(state)    // all of the register update operation, move to sequential-always block
                 FETCH: begin
                     instr <= mem_out;
                 end

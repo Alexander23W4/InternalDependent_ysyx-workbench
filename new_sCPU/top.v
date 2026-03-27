@@ -18,6 +18,20 @@ module top(
 );
 
 
+/*
+The opcode : add li bner0 
+ 7  6 5  4 3   2 1   0
++----+----+-----+-----+
+| 00 | rd | rs1 | rs2 | R[rd]=R[rs1]+R[rs2]            ADD instruction for register addition
++----+----+-----+-----+
+| 10 | rd |    imm    | R[rd]=imm                      LI instruction (Load Immediate with zero-extension)
++----+----+-----+-----+
+| 11 |   addr   | rs2 | if (R[0]!=R[rs2]) PC=addr      BNER0 instruction (Branch if Not Equal to Register 0)
++----+----------+-----+
+| 01 |   xx     | rs2 | out rs2                        OUT instruction 
++----+----------+-----+
+
+*/
 
     // PC
     reg [3:0] pc;
@@ -37,16 +51,16 @@ module top(
 
     // Decode
     wire [1:0] opcode = instr[7:6];
-    wire [1:0] rd     = instr[5:4];
-    wire [1:0] rs1    = instr[3:2];
-    wire [1:0] rs2    = instr[1:0];
-    wire [3:0] imm    = instr[3:0];
-    wire [3:0] addr   = instr[5:2];
+    wire [1:0] rd = instr[5:4];
+    wire [1:0] rs1 = instr[3:2];
+    wire [1:0] rs2 = instr[1:0];
+    wire [3:0] imm = instr[3:0];
+    wire [3:0] addr = instr[5:2];
 
     // Control_Signal
-    wire is_add   = (opcode == 2'b00);
-    wire is_out   = (opcode == 2'b01);
-    wire is_li    = (opcode == 2'b10);
+    wire is_add = (opcode == 2'b00);
+    wire is_out = (opcode == 2'b01);
+    wire is_li = (opcode == 2'b10);
     wire is_bner0 = (opcode == 2'b11);
 
     // GPR
@@ -112,7 +126,6 @@ module top(
         .en(1'b1),
         .h(h1)
     );
-
     BCD7Seg seg2(
         .b(display_num[7:4]),
         .en(1'b1),
@@ -120,4 +133,6 @@ module top(
     );
 
 endmodule
+
+
 

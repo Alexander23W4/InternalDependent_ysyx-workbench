@@ -24,28 +24,16 @@ module regfile #(
     output [WIDTH-1:0] debug3
 );
 
-    // =========================
-    // storage
-    // =========================
     reg [WIDTH-1:0] regs [0:(1<<ADDR_WIDTH)-1];
 
-    // =========================
-    // write (sequential)
-    // =========================
     always @(posedge clk) begin
         if (we)
             regs[waddr] <= wdata;
     end
 
-    // =========================
-    // read (combinational)
-    // =========================
     assign rdata1 = regs[raddr1];
     assign rdata2 = regs[raddr2];
 
-    // =========================
-    // debug
-    // =========================
     assign debug0 = regs[0];
     assign debug1 = regs[1];
     assign debug2 = regs[2];

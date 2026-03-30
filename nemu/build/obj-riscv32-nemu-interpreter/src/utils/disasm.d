@@ -1,8 +1,8 @@
-cmd_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o := unused
+cmd_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o := unused
 
-source_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o := src/utils/disasm.c
+source_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o := src/utils/disasm.c
 
-deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o := \
+deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o := \
     $(wildcard include/config/isa/x86.h) \
     $(wildcard include/config/isa/mips32.h) \
     $(wildcard include/config/isa/riscv.h) \
@@ -28,15 +28,15 @@ deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/ut
   tools/capstone/repo/include/capstone/bpf.h \
   tools/capstone/repo/include/capstone/sh.h \
   tools/capstone/repo/include/capstone/tricore.h \
-  /home/wang/My_ysyx-workbench/nemu/include/common.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/include/common.h \
     $(wildcard include/config/target/am.h) \
     $(wildcard include/config/mbase.h) \
     $(wildcard include/config/msize.h) \
-  /home/wang/My_ysyx-workbench/nemu/include/macro.h \
-  /home/wang/My_ysyx-workbench/nemu/include/debug.h \
-  /home/wang/My_ysyx-workbench/nemu/include/utils.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/include/macro.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/include/debug.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/include/utils.h \
     $(wildcard include/config/target/native/elf.h) \
 
-/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o: $(deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o)
+/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o: $(deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o)
 
-$(deps_/home/wang/My_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o):
+$(deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o):

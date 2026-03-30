@@ -5,7 +5,7 @@ source_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-i
 deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/sdb.o := \
     $(wildcard include/config/device.h) \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/isa.h \
-  /home/wang/My_ysyx-workbench/nemu/src/isa/riscv32/include/isa-def.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/src/isa/riscv32/include/isa-def.h \
     $(wildcard include/config/rve.h) \
     $(wildcard include/config/rv64.h) \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/common.h \

@@ -12,6 +12,7 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
+// disassembly     machine code to assembly 
 
 #include <dlfcn.h>
 #include <capstone/capstone.h>

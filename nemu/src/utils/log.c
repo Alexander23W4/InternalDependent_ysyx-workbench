@@ -21,7 +21,7 @@ extern uint64_t g_nr_guest_inst;
 FILE *log_fp = NULL;
 
 void init_log(const char *log_file) {
-  log_fp = stdout;
+  log_fp = stdout;   // all standard output is redirected to log_file
   if (log_file != NULL) {
     FILE *fp = fopen(log_file, "w");
     Assert(fp, "Can not open '%s'", log_file);

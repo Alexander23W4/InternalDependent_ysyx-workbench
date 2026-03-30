@@ -12,7 +12,7 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-
+// Interface for visual mem addr, base on physical mem addr
 #include <isa.h>
 #include <memory/paddr.h>
 

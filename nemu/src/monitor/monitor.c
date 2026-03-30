@@ -39,7 +39,8 @@ static void welcome() {
 
 void sdb_set_batch_mode();
 
-static char *log_file = NULL;
+// files
+static char *log_file = NULL;   
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
@@ -106,7 +107,7 @@ void init_monitor(int argc, char *argv[]) {
   init_rand();
 
   /* Open the log file. */
-  init_log(log_file);
+  init_log(log_file);    // in utils
 
   /* Initialize memory. */
   init_mem();

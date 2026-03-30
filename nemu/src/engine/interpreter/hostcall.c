@@ -26,7 +26,7 @@ void set_nemu_state(int state, vaddr_t pc, int halt_ret) {
 }
 
 __attribute__((noinline))
-void invalid_inst(vaddr_t thispc) {
+void invalid_inst(vaddr_t thispc) {   // notice info
   uint32_t temp[2];
   vaddr_t pc = thispc;
   temp[0] = inst_fetch(&pc, 4);

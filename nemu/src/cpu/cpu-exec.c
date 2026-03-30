@@ -61,12 +61,14 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {   // All watchpoin
 #endif
 }
 
-static void exec_once(Decode *s, vaddr_t pc) {
+static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   s->pc = pc;
   s->snpc = pc;
-  isa_exec_once(s);
-  cpu.pc = s->dnpc;
-#ifdef CONFIG_ITRACE
+  isa_exec_once(s);  // *** all operate process loop, fetch decode operate update
+  cpu.pc = s->dnpc;    // dynamic next pc, update pc to dynamic next pc
+
+  // ----------------------------------------------
+#ifdef CONFIG_ITRACE   // Trace
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   int ilen = s->snpc - s->pc;
@@ -98,7 +100,7 @@ static void execute(uint64_t n) {   // uint if n = -1, means max(uint64_t - 1)
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);    // including check the watchpoint
-    if (nemu_state.state != NEMU_RUNNING) break;
+    if (nemu_state.state != NEMU_RUNNING) break;  // of state == ..RUNNING, keep operate next instr
     IFDEF(CONFIG_DEVICE, device_update());
   }
 }

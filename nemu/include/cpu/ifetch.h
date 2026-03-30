@@ -17,9 +17,9 @@
 
 #include <memory/vaddr.h>
 
-static inline uint32_t inst_fetch(vaddr_t *pc, int len) {
-  uint32_t inst = vaddr_ifetch(*pc, len);
-  (*pc) += len;
+static inline uint32_t inst_fetch(vaddr_t *pc, int len) {   // fetch   snpc  4
+  uint32_t inst = vaddr_ifetch(*pc, len);  // just physical addr read
+  (*pc) += len;  // update snpc + 4
   return inst;
 }
 

@@ -1,0 +1,239 @@
+// expression evaluation test
+
+
+Large program exp:
+-> meta programming framework 
+-> Config(customer setting) generate config file (Macro...or other info for building the functional could purposefully)
+    (scripts take the customer setting & automatically generate macro is normally used) 
+-> src & Debug env 
+    (debug env is critical, especially debug only a tiny area among the large systematic code, usually encounter overlap/ meta-rely problem)
+    (gen testbench, automatic testing, code with debug macro & debug info, partial independent testing)
+  Debug Pricinples:
+  ^^Turn as many fault as possible into error
+  ^^Catch the moment as soon as the potential fault occurs
+  ^^Tools: -Wall GDB  printf(log) assert() sanitizer
+
+The memory is a large array defined in nemu/src/memory/paddr.c.
+PCs and general-purpose registers are defined in structures in nemu/src/isa/$ISA/include/isa-def.h
+The adder is defined in... Well, this part of the framework code is a bit complicated, but it doesn't affect our understanding of TRM, so let's go over it in PA2!
+The way TRM works is reflected in cpu_exec() and exec_once().
+
+-> 保持系统的固有特性，保证每个component简单性，易于维护，易于迭代，完成它固有的使命。只需保证一般兼容性和一般完整性
+   在建立系统的初期，应该先建立框图，快速打通系统的大致功能，框图的每一部分完成最简单最基础的功能，无需考虑完整性和兼容性
+   after that,如果系统初步验证大致符合预期，则通过不断迭代优化丰富完整性和兼容性
+
+   学习复杂的东西也是一样，先确立框架，建立与熟悉最基本的开发流程和系统框架，breakdown to very simple, 之后深入理解这个东西的痛点，工程上的趋势，怎么
+   样让他真的变得更好，有自己的idea与艺术，并不断迭代实践。
+   系统的每一个node都做的尽量简单，但是在运行之前必须debug,而且要顺着hiereachy自下而上一点一点debug和test,系统中没有经过debug和单独test过的部分永远都是错的
+   所有系统都是hiereachy,系统内部还有系统，系统的层次结构应当简单明了
+
+   为人也保持自身的独立性和自我意志，不追求过度的与大量其他个体与环境的兼容性和所谓某些哲学性上人的完美
+     
+
+SYSTEMIC UNDERSTANDING:
+🔹 Runtime Environment（运行时环境）
+指：
+程序在“运行时”所依赖的整体环境
+它包括：
+操作系统
+进程模型
+内存布局
+栈结构
+加载器（loader）
+动态链接器
+libc
+运行时库
+系统调用接口
+以及 ABI 规则
+
+🔹 ABI（Application Binary Interface）
+ABI 是：
+二进制层面的接口规范
+它规定：
+函数调用怎么传参
+返回值放哪里
+寄存器如何使用
+栈如何增长
+数据类型大小
+对齐规则
+调用约定（calling convention）
+可执行文件格式（例如 ELF）
+
+
+例如在 RISC-V Linux 上：
+
+ABI 会规定：
+参数放在：
+a0–a7 寄存器
+
+返回值：
+a0
+栈向下增长
+结构体对齐方式
+ELF 格式
+
+而 runtime environment 还包括：
+Linux 内核
+动态链接器 ld.so
+glibc
+启动代码 _start
+程序入口流程
+
+
+ABI 有两种层次
+1. 用户态 ABI (compiler decided)
+解决
+函数调用规则
+数据布局
+寄存器分配
+
+2. 系统调用 ABI (printf interrupt... )  customer code (user mode) could not decided
+解决
+用户如何请求内核服务
+内核如何接收参数
+内核如何返回结果
+这部分：是 OS 必须定义的
+
+
+
+OS CRITICAL COMPONENT:
+
+CPU 上电后会做一件极其简单但关键的事：
+PC（程序计数器） = 固定地址
+这个地址在不同架构是硬编码在 CPU 设计里的。
+this addr is projected to BIOS/UEFI (in flash mem) 
+
+->BIOS/UEFI 
+BIOS 做的事情：
+初始化内存（RAM）
+初始化设备
+找启动设备（硬盘）
+加载 bootloader
+
+->Bootloader
+; 从磁盘读 kernel 到内存
+; 跳转到 kernel entry
+jmp kernel_main
+
+->CPU 模式切换
+real mode → protected mode → long mode（x86）
+必须做：
+开启分页（paging）
+设置段寄存器
+初始化栈
+
+->内存管理
+物理内存管理
+虚拟内存管理
+内核堆
+
+->Process & task 进程&任务系统
+上下文切换  调度器
+
+->中断系统（Interrupt / Trap）
+核心作用：
+CPU 和外界交互
+
+你需要：
+（1）IDT（中断描述符表）
+interrupt number → handler
+（2）中断处理函数
+void timer_handler();
+void keyboard_handler();
+（3）系统调用（Syscall）
+用户态 → 内核态：
+int 0x80
+或现代：
+syscall 指令
+
+->驱动（Drivers）
+
+最基础必须有：
+（1）定时器（Timer）
+用于调度
+（2）串口 / 控制台
+输出日志
+（3）键盘（可选）
+
+
+->File system 文件系统
+
+->User Space 用户管理
+
+->Command line
+
+->API
+
+
+OS 干了三件事
+（1）虚拟化（illusion）
+CPU → 多进程
+内存 → 独立空间
+
+（2）调度（allocation）
+谁用 CPU？
+谁用内存？
+
+（3）接口（abstraction）
+文件
+进程
+网络
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

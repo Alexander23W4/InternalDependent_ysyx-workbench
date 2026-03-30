@@ -1,0 +1,10 @@
+[1;34m[src/utils/log.c:30 init_log] Log is written to /home/wang/My_ysyx-workbench/nemu/build/nemu-log.txt[0m
+[1;34m[src/memory/paddr.c:50 init_mem] physical memory area [0x80000000, 0x87ffffff][0m
+[1;34m[src/monitor/monitor.c:49 load_img] No image is given. Use the default build-in image.[0m
+[1;34m[src/monitor/monitor.c:28 welcome] Trace: [1;32mON[0m[0m
+[1;34m[src/monitor/monitor.c:29 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
+[1;34m[src/monitor/monitor.c:32 welcome] Build time: 09:05:33, Mar 28 2026[0m
+[1;34m[src/monitor/sdb/sdb.c:187 cmd_x] x command started.[0m
+[1;34m[src/monitor/sdb/sdb.c:190 cmd_x] arg1: 4, arg2: 0x80000000[0m
+[1;34m[src/monitor/sdb/sdb.c:187 cmd_x] x command started.[0m
+[1;34m[src/monitor/sdb/sdb.c:190 cmd_x] arg1: 5, arg2: 0x80000000[0m

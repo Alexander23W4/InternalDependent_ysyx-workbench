@@ -26,9 +26,9 @@ typedef struct Decode {
   IFDEF(CONFIG_ITRACE, char logbuf[128]);
 } Decode;
 
-// --- pattern matching mechanism ---
+// --- pattern matching mechanism ---       pattern decode
 __attribute__((always_inline))
-static inline void pattern_decode(const char *str, int len,
+static inline void pattern_decode(const char *str, int len,       
     uint64_t *key, uint64_t *mask, uint64_t *shift) {
   uint64_t __key = 0, __mask = 0, __shift = 0;
 #define macro(i) \
@@ -86,7 +86,10 @@ finish:
 }
 
 
-// --- pattern matching wrappers for decode ---
+// --- pattern matching wrappers for decode ---      instruction pattern
+// INSTPAT(pattern string, instruction name, instruction type, instruction execution operation);
+// INSTPAT_INST & INSTPAT_MATCH is defined in decode_exec() 
+// really DECODE
 #define INSTPAT(pattern, ...) do { \
   uint64_t key, mask, shift; \
   pattern_decode(pattern, STRLEN(pattern), &key, &mask, &shift); \

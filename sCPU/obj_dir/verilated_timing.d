@@ -1,7 +1,6 @@
-auto_bind.o: \
- /home/wang/My_ysyx-workbench/VerTest/nvbtest1/build/auto_bind.cpp \
- /home/wang/My_ysyx-workbench/nvboard/usr/include/nvboard.h \
- /home/wang/My_ysyx-workbench/nvboard/usr/include/pins.h Vtop.h \
+verilated_timing.o: \
+ /usr/local/share/verilator/include/verilated_timing.cpp \
+ /usr/local/share/verilator/include/verilated_timing.h \
  /usr/local/share/verilator/include/verilated.h \
  /usr/local/share/verilator/include/verilatedos.h \
  /usr/local/share/verilator/include/verilated_config.h \

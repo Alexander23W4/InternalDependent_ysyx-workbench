@@ -5,6 +5,7 @@ module BCD7Seg(
     input en,
     output reg [6:0] h
 );
+
     always @(b or en) begin
         if(en) begin
             case(b)

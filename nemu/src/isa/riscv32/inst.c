@@ -24,7 +24,8 @@
 extern paddr_t host_to_guest_n(uint8_t haddr);
 enum {
   TYPE_I, TYPE_U, TYPE_S,
-  TYPE_N, TYPE_J, TYPE_B, // none
+  TYPE_N, TYPE_J, TYPE_B,
+  TYPE_R, // none
 };
 
 #define src1R() do { *src1 = R(rs1); } while (0)
@@ -42,6 +43,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
   int rs2 = BITS(i, 24, 20);
   *rd     = BITS(i, 11, 7);
   switch (type) {
+    case TYPE_R: src1R(); src2R()        ; break;
     case TYPE_I: src1R();          immI(); break;
     case TYPE_U:                   immU(); break;
     case TYPE_S: src1R(); src2R(); immS(); break;
@@ -91,12 +93,14 @@ __instpat_end_: ; }
 
 */
 
-// 00fc87b3  00000000 11111100 10000111 10110011
+// 	00f56533 00000000
 
 
   INSTPAT_START();
   // INSTPAT(pattern string, instruction name, instruction type, instruction execution operation);
   // *** pattern transcript + check opcode + decode oprand + goto end
+  INSTPAT("0000000 ????? ????? 100 ????? 01100 11", xor    , R, R(rd) = src1 ^ src2);
+  INSTPAT("0000000 ????? ????? 011 ????? 01100 11", sltu   , R, R(rd) = (src1 < src2) ? 1 : 0);
   INSTPAT("0000000 ????? ????? 000 ????? 01100 11", add    , R, R(rd) = src1 + src2);
   INSTPAT("??????? ????? ????? 010 ????? 00000 11", lw     , I, R(rd) = Mr(src1 + imm, 4));
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(rd) = s->snpc, s->dnpc = host_to_guest_n((src1 + imm) & 0xFE)); // jump: guest addr

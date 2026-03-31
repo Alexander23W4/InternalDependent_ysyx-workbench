@@ -29,11 +29,13 @@ enum {
 
 #define src1R() do { *src1 = R(rs1); } while (0)
 #define src2R() do { *src2 = R(rs2); } while (0)
-// different imm bits position in different instr
+// different imm bits position in different instr, SEXT() is signed extend
 #define immI() do { *imm = SEXT(BITS(i, 31, 20), 12); } while(0)
 #define immU() do { *imm = SEXT(BITS(i, 31, 12), 20) << 12; } while(0)
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
-
+#define immB()
+#define immJ()
+// get operand 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst;
   int rs1 = BITS(i, 19, 15);   // rs1 = instr[19:15]
@@ -51,6 +53,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
 static int decode_exec(Decode *s) {  // decode & execute: core func
 // primarily set dynamic next pc = static next pc, if instr includes branch, change dnpc in "instruction execution operation"
   s->dnpc = s->snpc;   
+// define two func
 #define INSTPAT_INST(s) ((s)->isa.inst)
 #define INSTPAT_MATCH(s, name, type, ... /* execute body */ ) { \
   int rd = 0; \
@@ -87,11 +90,15 @@ __instpat_end_: ; }
 
 */
 
+// 00000413    00000000 00000000 00000100 00010011
+
   INSTPAT_START();
-  // pattern transcript + check opcode + decode oprand + goto end
+  // INSTPAT(pattern string, instruction name, instruction type, instruction execution operation);
+  // *** pattern transcript + check opcode + decode oprand + goto end
   INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc  , U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? 100 ????? 00000 11", lbu    , I, R(rd) = Mr(src1 + imm, 1));
   INSTPAT("??????? ????? ????? 000 ????? 01000 11", sb     , S, Mw(src1 + imm, 1, src2));
+  INSTPAT("??????? ????? ????? 000 ????? 00100 11", addi   , I, R(rd) = src1 + imm);
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
@@ -103,7 +110,7 @@ __instpat_end_: ; }
 }
 
 int isa_exec_once(Decode *s) {   // *** full process : fetch decode operate update
-  s->isa.inst = inst_fetch(&s->snpc, 4);  // fetch
+  s->isa.inst = inst_fetch(&s->snpc, 4);  // fetch (read mem & update snpc)
   return decode_exec(s);
 }
 

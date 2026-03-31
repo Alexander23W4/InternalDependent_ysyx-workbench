@@ -86,10 +86,11 @@ finish:
 }
 
 
-// --- pattern matching wrappers for decode ---      instruction pattern
+// --- pattern matching wrappers for decode ---      instruction pattern, get key mask shift
 // INSTPAT(pattern string, instruction name, instruction type, instruction execution operation);
 // INSTPAT_INST & INSTPAT_MATCH is defined in decode_exec() 
 // really DECODE
+// ***
 #define INSTPAT(pattern, ...) do { \
   uint64_t key, mask, shift; \
   pattern_decode(pattern, STRLEN(pattern), &key, &mask, &shift); \

@@ -48,6 +48,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_U:                   immU(); break;
     case TYPE_S: src1R(); src2R(); immS(); break;
     case TYPE_J:                   immJ(); break;
+    case TYPE_B: src1R(); src2R(); immB(); break;
     case TYPE_N: break;
     default: panic("unsupported type = %d", type);
   }
@@ -93,12 +94,15 @@ __instpat_end_: ; }
 
 */
 
-// 	00f56533 00000000 11111
-
+// 11111100 10001001 00010010 11100011
 
   INSTPAT_START();
   // INSTPAT(pattern string, instruction name, instruction type, instruction execution operation);
   // *** pattern transcript + check opcode + decode oprand + goto end
+  INSTPAT("??????? ????? ????? 000 ????? 11000 11", bne    , B, s->dnpc = (src1 != src2) ? s->pc + imm : s->snpc);
+  INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq    , B, s->dnpc = (src1 == src2) ? s->pc + imm : s->snpc);
+  INSTPAT("??????? ????? ????? 011 ????? 00100 11", sltiu  , I, R(rd) = ((uint32_t)src1 < (uint32_t)imm) ? 1 : 0);
+  INSTPAT("0000000 ????? ????? 110 ????? 01100 11", or     , R, R(rd) = src1 | src2);
   INSTPAT("0000000 ????? ????? 100 ????? 01100 11", xor    , R, R(rd) = src1 ^ src2);
   INSTPAT("0000000 ????? ????? 011 ????? 01100 11", sltu   , R, R(rd) = (src1 < src2) ? 1 : 0);
   INSTPAT("0000000 ????? ????? 000 ????? 01100 11", add    , R, R(rd) = src1 + src2);

@@ -23,7 +23,7 @@ void cpu_exec(uint64_t n);
 void set_nemu_state(int state, vaddr_t pc, int halt_ret);
 void invalid_inst(vaddr_t thispc);
 
-#define NEMUTRAP(thispc, code) set_nemu_state(NEMU_END, thispc, code)
+#define NEMUTRAP(thispc, code) set_nemu_state(NEMU_END, thispc, code)   // set halt_ret, if halt_ret != 0, HIT_BAD_TRAP
 #define INV(thispc) invalid_inst(thispc)
 
 #endif

@@ -34,7 +34,7 @@ static bool g_print_step = false;
 
 void device_update();
 
-void check_wp(){  // check_watchpoints
+void check_wp(vaddr_t pre_pc){  // check_watchpoints
   WP* temp = get_head();
   bool success = true;
   uint32_t new_result = 0;
@@ -42,22 +42,22 @@ void check_wp(){  // check_watchpoints
     new_result = expr(temp->expression, &success);
     if(new_result != temp->result){   // if change, pause, output msg, return to sdb_mainloop()
       nemu_state.state = NEMU_STOP;
-      printf("[WATCHPOINT] The value of expression %s is changed, previous: %u (0x%x), now %u (0x%x)\n", \
-        temp->expression, temp->result, temp->result, new_result, new_result);
+      printf("[WATCHPOINT] The value of expression %s is changed, at pc: 0x%x, previous: %u (0x%x), now %u (0x%x)\n", \
+        temp->expression, pre_pc, temp->result, temp->result, new_result, new_result);
       temp->result = new_result;
     }
     temp = temp->next;
   }
 }
 
-static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {   // All watchpoints are then checked in a loop in the end of this func
+static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   // All watchpoints are then checked in a loop in the end of this func
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 #ifdef CONFIG_WATCHPOINT   // !!! use macro for conditional statement, use #if(n)def endif
-  check_wp();
+  check_wp(pre_pc);
 #endif
 }
 
@@ -97,9 +97,10 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 static void execute(uint64_t n) {   // uint if n = -1, means max(uint64_t - 1)
   Decode s;
   for (;n > 0; n --) {
+    vaddr_t stored_pc = cpu.pc;
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
-    trace_and_difftest(&s, cpu.pc);    // including check the watchpoint
+    trace_and_difftest(&s, cpu.pc, stored_pc);    // including check the watchpoint
     if (nemu_state.state != NEMU_RUNNING) break;  // of state == ..RUNNING, keep operate next instr
     IFDEF(CONFIG_DEVICE, device_update());
   }

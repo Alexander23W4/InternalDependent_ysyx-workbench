@@ -34,24 +34,9 @@ enum {
 #define immI() do { *imm = SEXT(BITS(i, 31, 20), 12); } while(0)
 #define immU() do { *imm = SEXT(BITS(i, 31, 12), 20) << 12; } while(0)
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
-// #define immB() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | BITS(i, 7, 7) << 11 | BITS(i, 30, 25) << 5 | BITS(i, 11, 8) << 1; } while(0)
-// #define immJ() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 20) | BITS(i, 19, 12) << 12 | BITS(i, 20, 20) << 11 | BITS(i, 30, 21) << 1; } while(0)
-#define immB() do { \
-    int32_t _imm = \
-        (BITS(i, 31, 31) << 12) | \
-        (BITS(i, 7, 7)   << 11) | \
-        (BITS(i, 30, 25) << 5 ) | \
-        (BITS(i, 11, 8)  << 1 ); \
-    *imm = SEXT(_imm, 13); \
-} while(0)
-#define immJ() do { \
-    int32_t _imm = \
-        (BITS(i, 31, 31) << 20) | \
-        (BITS(i, 19, 12) << 12) | \
-        (BITS(i, 20, 20) << 11) | \
-        (BITS(i, 30, 21) << 1); \
-    *imm = SEXT(_imm, 21); \
-} while(0)
+#define immB() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | BITS(i, 7, 7) << 11 | BITS(i, 30, 25) << 5 | BITS(i, 11, 8) << 1; } while(0)
+#define immJ() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 20) | BITS(i, 19, 12) << 12 | BITS(i, 20, 20) << 11 | BITS(i, 30, 21) << 1; } while(0)
+
 
 // get operand 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
@@ -119,13 +104,18 @@ imm[20|10:1|11|19:12] rd opcode J-type
 
 */
 
-// 0000001 01111 01110 000 01110 0110011
+// 1010000 00000 00000 000 01111 0110111
+
+// 0011111 01010 01111 000 11000 0100011
 
   INSTPAT_START();
+  
   // INSTPAT(pattern string, instruction name, instruction type, instruction execution operation);
   // *** pattern transcript + check opcode + decode oprand + goto end
+  INSTPAT("??????? ????? ????? 000 ????? 00000 11", lb     , I, R(rd) = SEXT(Mr(src1 + imm, 1), 8));
+  INSTPAT("??????? ????? ????? 001 ????? 00000 11", lh     , I, R(rd) = SEXT(Mr(src1 + imm, 2), 16));
 
-  INSTPAT("??????? ????? ????? ??? ????? 01101 11", lui    , U, R(rd) = imm);
+  INSTPAT("??????? ????? ????? ??? ????? 01101 11", lui    , U, R(rd) = imm); // @
   INSTPAT("??????? ????? ????? 111 ????? 11000 11", bgeu   , B, s->dnpc = (src1 >= src2) ? s->pc + imm : s->snpc);
   INSTPAT("??????? ????? ????? 101 ????? 11000 11", bge    , B, s->dnpc = ((int32_t)src1 >= (int32_t)src2) ? s->pc + imm : s->snpc);
 
@@ -134,8 +124,9 @@ imm[20|10:1|11|19:12] rd opcode J-type
   INSTPAT("0000000 ????? ????? 101 ????? 00100 11", srli   , I, R(rd) = src1 >> (uint32_t)(imm & 0x1F));
   INSTPAT("0100000 ????? ????? 101 ????? 01100 11", sra    , R, R(rd) = ((int32_t)src1) >> (uint32_t)(src2 & 0x1F));
   INSTPAT("0000000 ????? ????? 101 ????? 01100 11", srl    , R, R(rd) = src1 >> (uint32_t)(src2 & 0x1F));
-  INSTPAT("0000000 ????? ????? 001 ????? 01100 11", slt    , R, R(rd) = ((int32_t)src1 < (int32_t)src2) ? 1 : 0);
-  INSTPAT("0000000 ????? ????? 010 ????? 01100 11", sll    , R, R(rd) = src1 << (uint32_t)(src2 & 0x1F));
+  INSTPAT("0000000 ????? ????? 010 ????? 01100 11", slt    , R, R(rd) = ((int32_t)src1 < (int32_t)src2) ? 1 : 0);
+  INSTPAT("0000000 ????? ????? 001 ????? 01100 11", sll    , R, R(rd) = src1 << (uint32_t)(src2 & 0x1F));
+
   INSTPAT("0000000 ????? ????? 111 ????? 01100 11", and    , R, R(rd) = src1 & src2); // @
   INSTPAT("??????? ????? ????? 100 ????? 00100 11", xori   , I, R(rd) = src1 ^ imm); // @
   INSTPAT("??????? ????? ????? 110 ????? 00100 11", ori    , I, R(rd) = src1 | imm); // @
@@ -172,6 +163,8 @@ imm[20|10:1|11|19:12] rd opcode J-type
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
+
+
   INSTPAT_END();
 
   R(0) = 0; // reset $zero to 0

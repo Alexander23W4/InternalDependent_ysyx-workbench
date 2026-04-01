@@ -40,7 +40,7 @@ void isa_reg_display() {
   printf("\n\n");
   for (int i = 0; i < sizeof(regs) / sizeof(const char*); i++)
   {
-    printf("%s: %u (0x%x)\n", regs[i], cpu.gpr[i], cpu.gpr[i]);
+    printf("[NUM %d]: %s: %u (0x%x)\n", i, regs[i], cpu.gpr[i], cpu.gpr[i]);
   }
   printf("pc: (0x%x)\n", cpu.pc);
 }

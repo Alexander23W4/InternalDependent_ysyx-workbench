@@ -54,6 +54,8 @@ static int cmd_w(char* args); // set watchpoint (set breakpoint method: w $pc ==
 
 static int cmd_d(char* args); // delete watchpoint
 
+static int cmd_hb(char* args);
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -124,8 +126,24 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
   { "p", "Expression evaluation", cmd_p},
   { "d", "Delete watchpoint", cmd_d},
   { "w", "Create new watchpoint", cmd_w},
+  { "hb", "Hex to Binary", cmd_hb},
 };
 
+extern char* hex_to_bin(const char *hex);
+static int cmd_hb(char* args){
+  Log("hb command started.");
+  if(args == NULL){
+    printf("No hex number given.\n");
+    return 0;    
+  }
+  char* hex = args;
+  if(hex[0] != '0' && (hex[1] != 'x' || hex[1] != 'X')){
+    printf("NOT A HEXIMAL NUM\n");
+    return 1;
+  }
+  printf("Result bin: %s\n", hex_to_bin(hex));
+  return 0;
+}
 
 // w   set new watchpoint
 static int cmd_w(char* args){   // complete

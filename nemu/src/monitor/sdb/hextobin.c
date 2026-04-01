@@ -21,8 +21,8 @@ char* hex_to_bin(const char *hex) {
         }
     }
 
-    // max 32 bits → 32 chars + 3 spaces + '\0'
-    char *bin = (char *)malloc(32 + 3 + 1);
+    // max 32 bits → 32 bits + 5 spaces + '\0'
+    char *bin = (char *)malloc(32 + 5 + 1);
     if (!bin) return NULL;
 
     char tmp[128];
@@ -47,7 +47,7 @@ char* hex_to_bin(const char *hex) {
     // ensure 32-bit (left pad with '0')
     int total_bits = pos;
     int pad = 32 - total_bits;
-    if (pad < 0) pad = 0;  // ignore overflow case
+    if (pad < 0) pad = 0;
 
     char full[33];
     int idx = 0;
@@ -64,14 +64,31 @@ char* hex_to_bin(const char *hex) {
 
     full[32] = '\0';
 
-    // insert space every 8 bits
+    // ===== NEW: RISC-V field formatting =====
     int out = 0;
-    for (int k = 0; k < 32; k++) {
-        bin[out++] = full[k];
-        if ((k % 8 == 7) && k != 31) {
-            bin[out++] = ' ';
-        }
-    }
+
+    // [31:25] 7 bits
+    for (int k = 0; k < 7; k++) bin[out++] = full[k];
+    bin[out++] = ' ';
+
+    // [24:20] 5 bits
+    for (int k = 7; k < 12; k++) bin[out++] = full[k];
+    bin[out++] = ' ';
+
+    // [19:15] 5 bits
+    for (int k = 12; k < 17; k++) bin[out++] = full[k];
+    bin[out++] = ' ';
+
+    // [14:12] 3 bits
+    for (int k = 17; k < 20; k++) bin[out++] = full[k];
+    bin[out++] = ' ';
+
+    // [11:7] 5 bits
+    for (int k = 20; k < 25; k++) bin[out++] = full[k];
+    bin[out++] = ' ';
+
+    // [6:0] 7 bits
+    for (int k = 25; k < 32; k++) bin[out++] = full[k];
 
     bin[out] = '\0';
     return bin;

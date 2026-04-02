@@ -71,6 +71,7 @@ int main(int argc, char** argv){
     return 0;
 }
 
+// 0000000 00000 00001 000 00001 1100111
 
 
 

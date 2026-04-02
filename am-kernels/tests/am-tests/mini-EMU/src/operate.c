@@ -103,3 +103,7 @@ int operate(int32_t* M, int32_t* VRAM){
     }
     return next;
 }
+
+// 1111111 01100 00100 010 00100 0000011
+
+

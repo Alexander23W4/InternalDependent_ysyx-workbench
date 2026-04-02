@@ -6,11 +6,3 @@
 [1;34m[src/monitor/monitor.c:32 welcome] Build time: 23:01:19, Mar 30 2026[0m
 [1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
 [1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:134 cmd_hb] hb command started.[0m

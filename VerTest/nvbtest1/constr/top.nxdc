@@ -1,8 +1,9 @@
-top=Shifter
+top=ALU4
 
-mode (SW15, SW14, SW13)
-in SW12
-clk SW11
-rst BTNC
-value (SW7, SW6, SW5, SW4, SW3, SW2, SW1, SW0)
-out (LD7, LD6, LD5, LD4, LD3, LD2, LD1, LD0)
+a (SW7, SW6, SW5, SW4)
+b (SW3, SW2, SW1, SW0)
+opcode (SW10, SW9, SW8)
+out (LD3, LD2, LD1, LD0)
+carry LD4
+overflow LD5
+zero LD6

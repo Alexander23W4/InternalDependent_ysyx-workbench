@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "VShifter__Syms.h"
-#include "VShifter.h"
-#include "VShifter___024root.h"
+#include "VALU4__Syms.h"
+#include "VALU4.h"
+#include "VALU4___024root.h"
 
 // FUNCTIONS
-VShifter__Syms::~VShifter__Syms()
+VALU4__Syms::~VALU4__Syms()
 {
 }
 
-VShifter__Syms::VShifter__Syms(VerilatedContext* contextp, const char* namep, VShifter* modelp)
+VALU4__Syms::VALU4__Syms(VerilatedContext* contextp, const char* namep, VALU4* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}

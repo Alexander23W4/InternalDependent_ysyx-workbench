@@ -2,9 +2,9 @@
 # DESCRIPTION: Verilator output: Makefile for building Verilated archive or executable
 #
 # Execute this makefile from the object directory:
-#    make -f VShifter.mk
+#    make -f VALU4.mk
 
-default: /home/wang/InternalDependent_ysyx-workbench/VerTest/nvbtest1/build/Shifter
+default: /home/wang/InternalDependent_ysyx-workbench/VerTest/nvbtest1/build/ALU4
 
 ### Constants...
 # Perl executable (from $PERL)
@@ -30,9 +30,9 @@ VM_SC_TARGET_ARCH = linux
 
 ### Vars...
 # Design prefix (from --prefix)
-VM_PREFIX = VShifter
+VM_PREFIX = VALU4
 # Module prefix (from --prefix)
-VM_MODPREFIX = VShifter
+VM_MODPREFIX = VALU4
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 	-MMD \
@@ -40,7 +40,7 @@ VM_USER_CFLAGS = \
 	-I/usr/include/SDL2 \
 	-D_REENTRANT \
 	-I/home/wang/InternalDependent_ysyx-workbench/nvboard/usr/include \
-	-DTOP_NAME="VShifter" \
+	-DTOP_NAME="VALU4" \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -52,7 +52,7 @@ VM_USER_LDLIBS = \
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
 	auto_bind \
-	shifter \
+	alu \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -62,7 +62,7 @@ VM_USER_DIR = \
 
 ### Default rules...
 # Include list of all generated classes
-include VShifter_classes.mk
+include VALU4_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 
@@ -71,11 +71,11 @@ VPATH += $(VM_USER_DIR)
 
 auto_bind.o: /home/wang/InternalDependent_ysyx-workbench/VerTest/nvbtest1/build/auto_bind.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-shifter.o: /home/wang/InternalDependent_ysyx-workbench/VerTest/nvbtest1/csrc/shifter.cpp
+alu.o: /home/wang/InternalDependent_ysyx-workbench/VerTest/nvbtest1/csrc/alu.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
-/home/wang/InternalDependent_ysyx-workbench/VerTest/nvbtest1/build/Shifter: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
+/home/wang/InternalDependent_ysyx-workbench/VerTest/nvbtest1/build/ALU4: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
 	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
 
 

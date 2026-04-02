@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "VALU4__Syms.h"
-#include "VALU4.h"
-#include "VALU4___024root.h"
+#include "Vkeyboard_top__Syms.h"
+#include "Vkeyboard_top.h"
+#include "Vkeyboard_top___024root.h"
 
 // FUNCTIONS
-VALU4__Syms::~VALU4__Syms()
+Vkeyboard_top__Syms::~Vkeyboard_top__Syms()
 {
 }
 
-VALU4__Syms::VALU4__Syms(VerilatedContext* contextp, const char* namep, VALU4* modelp)
+Vkeyboard_top__Syms::Vkeyboard_top__Syms(VerilatedContext* contextp, const char* namep, Vkeyboard_top* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}

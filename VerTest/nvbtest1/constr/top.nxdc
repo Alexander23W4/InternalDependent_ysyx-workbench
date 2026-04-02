@@ -1,9 +1,6 @@
-top=ALU4
+top=keyboard_top
 
-a (SW7, SW6, SW5, SW4)
-b (SW3, SW2, SW1, SW0)
-opcode (SW10, SW9, SW8)
-out (LD3, LD2, LD1, LD0)
-carry LD4
-overflow LD5
-zero LD6
+ready LD0
+rst BTNC
+ps2_clk PS2_CLK
+ps2_data PS2_DAT

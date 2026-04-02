@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See VALU4.mk for the caller.
+# See Vkeyboard_top.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,22 +23,23 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	VALU4 \
-	VALU4___024root__DepSet_h6eb74c3e__0 \
-	VALU4___024root__DepSet_h8ef4ac26__0 \
+	Vkeyboard_top \
+	Vkeyboard_top___024root__DepSet_hb718b884__0 \
+	Vkeyboard_top___024root__DepSet_hd4c3b435__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	VALU4___024root__Slow \
-	VALU4___024root__DepSet_h6eb74c3e__0__Slow \
-	VALU4___024root__DepSet_h8ef4ac26__0__Slow \
+	Vkeyboard_top__ConstPool_0 \
+	Vkeyboard_top___024root__Slow \
+	Vkeyboard_top___024root__DepSet_hb718b884__0__Slow \
+	Vkeyboard_top___024root__DepSet_hd4c3b435__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	VALU4__Syms \
+	Vkeyboard_top__Syms \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

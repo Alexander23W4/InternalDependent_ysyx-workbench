@@ -4,32 +4,32 @@
 // Internal details; most calling programs do not need this header,
 // unless using verilator public meta comments.
 
-#ifndef VERILATED_VALU4__SYMS_H_
-#define VERILATED_VALU4__SYMS_H_  // guard
+#ifndef VERILATED_VKEYBOARD_TOP__SYMS_H_
+#define VERILATED_VKEYBOARD_TOP__SYMS_H_  // guard
 
 #include "verilated.h"
 
 // INCLUDE MODEL CLASS
 
-#include "VALU4.h"
+#include "Vkeyboard_top.h"
 
 // INCLUDE MODULE CLASSES
-#include "VALU4___024root.h"
+#include "Vkeyboard_top___024root.h"
 
 // SYMS CLASS (contains all model state)
-class VALU4__Syms final : public VerilatedSyms {
+class Vkeyboard_top__Syms final : public VerilatedSyms {
   public:
     // INTERNAL STATE
-    VALU4* const __Vm_modelp;
+    Vkeyboard_top* const __Vm_modelp;
     VlDeleter __Vm_deleter;
     bool __Vm_didInit = false;
 
     // MODULE INSTANCE STATE
-    VALU4___024root                TOP;
+    Vkeyboard_top___024root        TOP;
 
     // CONSTRUCTORS
-    VALU4__Syms(VerilatedContext* contextp, const char* namep, VALU4* modelp);
-    ~VALU4__Syms();
+    Vkeyboard_top__Syms(VerilatedContext* contextp, const char* namep, Vkeyboard_top* modelp);
+    ~Vkeyboard_top__Syms();
 
     // METHODS
     const char* name() { return TOP.name(); }

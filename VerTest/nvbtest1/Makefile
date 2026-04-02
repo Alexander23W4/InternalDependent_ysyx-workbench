@@ -1,4 +1,4 @@
-TOPNAME = ALU4
+TOPNAME = keyboard_top
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
 

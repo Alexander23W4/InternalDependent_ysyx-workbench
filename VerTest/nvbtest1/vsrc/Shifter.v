@@ -2,6 +2,7 @@ module Shifter #(parameter N = 8) (
     input [2:0] mode,
     input in,
     input clk,
+    input rst,
     input [N - 1: 0] value,
     output reg [N - 1: 0] out
 );
@@ -24,8 +25,12 @@ module Shifter #(parameter N = 8) (
 // circular right shift
 // 1 1 1
 // circular left shift
-    always @(posedge clk) begin
-        case(mode) 
+    always @(posedge clk or posedge rst) begin
+        if(rst) begin
+            out <= '0;
+        end
+        else begin
+            case(mode) 
             3'b000: begin
                 out <= '0;
             end
@@ -51,6 +56,7 @@ module Shifter #(parameter N = 8) (
                 out <= {out[N - 2: 0], out[N - 1]};
             end
         endcase
+        end
     end
 
 endmodule

@@ -1,21 +1,16 @@
 #include <unistd.h>
 #include <nvboard.h>
-#include "VShifter.h"
-
+#include "VRandomShifter.h"
 /*
-top=Shifter
-
-mode (SW15, SW14, SW13)
-in SW12
-clk SW11
+top=RandomShifter
 rst BTNC
-value (SW7, SW6, SW5, SW4, SW3, SW2, SW1, SW0)
+clk SW0
 out (LD7, LD6, LD5, LD4, LD3, LD2, LD1, LD0)
 */
 
-static VShifter dut;
+static VRandomShifter dut;
 
-void nvboard_bind_all_pins(VShifter* top);
+void nvboard_bind_all_pins(VRandomShifter* top);
 
 int main() {
 
@@ -33,3 +28,4 @@ int main() {
     nvboard_quit();
     return 0;
 }
+

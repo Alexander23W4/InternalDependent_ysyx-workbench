@@ -4,32 +4,32 @@
 // Internal details; most calling programs do not need this header,
 // unless using verilator public meta comments.
 
-#ifndef VERILATED_VVGA_TOP__SYMS_H_
-#define VERILATED_VVGA_TOP__SYMS_H_  // guard
+#ifndef VERILATED_VSHIFTER__SYMS_H_
+#define VERILATED_VSHIFTER__SYMS_H_  // guard
 
 #include "verilated.h"
 
 // INCLUDE MODEL CLASS
 
-#include "Vvga_top.h"
+#include "VShifter.h"
 
 // INCLUDE MODULE CLASSES
-#include "Vvga_top___024root.h"
+#include "VShifter___024root.h"
 
 // SYMS CLASS (contains all model state)
-class Vvga_top__Syms final : public VerilatedSyms {
+class VShifter__Syms final : public VerilatedSyms {
   public:
     // INTERNAL STATE
-    Vvga_top* const __Vm_modelp;
+    VShifter* const __Vm_modelp;
     VlDeleter __Vm_deleter;
     bool __Vm_didInit = false;
 
     // MODULE INSTANCE STATE
-    Vvga_top___024root             TOP;
+    VShifter___024root             TOP;
 
     // CONSTRUCTORS
-    Vvga_top__Syms(VerilatedContext* contextp, const char* namep, Vvga_top* modelp);
-    ~Vvga_top__Syms();
+    VShifter__Syms(VerilatedContext* contextp, const char* namep, VShifter* modelp);
+    ~VShifter__Syms();
 
     // METHODS
     const char* name() { return TOP.name(); }

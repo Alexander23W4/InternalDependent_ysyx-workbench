@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vvga_top__Syms.h"
-#include "Vvga_top.h"
-#include "Vvga_top___024root.h"
+#include "VShifter__Syms.h"
+#include "VShifter.h"
+#include "VShifter___024root.h"
 
 // FUNCTIONS
-Vvga_top__Syms::~Vvga_top__Syms()
+VShifter__Syms::~VShifter__Syms()
 {
 }
 
-Vvga_top__Syms::Vvga_top__Syms(VerilatedContext* contextp, const char* namep, Vvga_top* modelp)
+VShifter__Syms::VShifter__Syms(VerilatedContext* contextp, const char* namep, VShifter* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}

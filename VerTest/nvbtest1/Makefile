@@ -1,4 +1,4 @@
-TOPNAME = vga_top
+TOPNAME = Shifter
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
 

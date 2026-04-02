@@ -1,4 +1,4 @@
-TOPNAME = keyboard_top
+TOPNAME = Encoder42_2
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
 

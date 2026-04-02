@@ -28,11 +28,11 @@ static void single_cycle() {
 
 // Reset
 static void reset(int n) {
-    dut.clrn = 1;
+    dut.rst = 1;
     while (n-- > 0) {
         single_cycle();
     }
-    dut.clrn = 0;
+    dut.rst = 0;
 }
 
 
@@ -42,7 +42,7 @@ int main() {
     nvboard_init();
 
     dut.clk = 0;
-    dut.clrn = 0;
+    dut.rst = 0;
 
     reset(10);
 

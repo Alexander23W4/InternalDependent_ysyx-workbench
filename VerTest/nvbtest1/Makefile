@@ -1,4 +1,4 @@
-TOPNAME = Encoder42_2
+TOPNAME = vga_top
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
 

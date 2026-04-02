@@ -1,0 +1,10 @@
+NAME = miniEMU
+SRCS = miniEMU.c
+include $(AM_HOME)/Makefile
+
+00000413 
+00093137 
+00010113 
+000010b7 
+dbc08093 
+000080e7

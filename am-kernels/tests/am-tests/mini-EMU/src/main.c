@@ -1,5 +1,6 @@
 #include "config.h"    
 
+// make ARCH=native run
 /*
 mini-RV ISA   8 in total:
 
@@ -19,7 +20,6 @@ imm[11:5] rs2 rs1 000 imm[4:0] 0100011 SB
 uint32_t pc = 0;
 int32_t GPR[GPR_AMOUNT] = {0};  // store signed number
 
-
 int _operating_circles = 0;
 int next = 0;  // next pc
 
@@ -35,8 +35,9 @@ int main(int argc, char** argv){
        MEMORY_AMOUNT * sizeof(int32_t), 
        MEMORY_AMOUNT * sizeof(int32_t) / 1024.0);
 
-
     load_memory(INSTR_SOURCE, M);
+
+    // add_ebreak;
     assert(add_ebreak(M));
 
     // operate until the very end
@@ -57,6 +58,7 @@ int main(int argc, char** argv){
         printf("HIT GOOD TRAP\n");
     }
     free(M);
+    return 0;
 }
 
 

@@ -1,15 +1,15 @@
 #include "config.h"   
-
+// @@
 extern uint32_t pc;
 extern int32_t GPR[GPR_AMOUNT];
 
-void load_memory(const char* filename, uint32_t* M) {
+void load_memory(char* filename, int32_t* M) { // @@
     FILE *fp = fopen(filename, "r");
     if (!fp) {
         perror("fopen");
         assert(0);
     }
-    uint32_t instr;
+    int32_t instr;
     size_t i = 0;
     while (fscanf(fp, "%x", &instr) == 1) {
         M[i++] = instr;

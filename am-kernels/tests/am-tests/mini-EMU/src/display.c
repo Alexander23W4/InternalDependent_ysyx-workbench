@@ -1,15 +1,18 @@
+#include <am.h>
+#include <klib-macros.h>
 #include "config.h"
-#include "../include/amtest.h"
 
-void display(void);
+void draw(int32_t* VRAM) {
 
-static uint32_t buffer[WIDTH * HEIGHT] = {0};
-static uint32_t* color_buf = NULL;  
+  // get real screen size
+  int w = io_read(AM_GPU_CONFIG).width / WIDTH;
+  int h = io_read(AM_GPU_CONFIG).height / HEIGHT;
 
-uint32_t* create_buf(){
-  uint32_t* color_buf = (uint32_t*)malloc(sizeof(uint32_t) * WIDTH * HEIGHT);
-  assert(color_buf != NULL);
-  return color_buf;
+  // draw whole VRAM
+  io_write(AM_GPU_FBDRAW, 0, 0, VRAM, w * WIDTH, h * HEIGHT, false);
+
+  // flush / sync
+  io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);
 }
 
 

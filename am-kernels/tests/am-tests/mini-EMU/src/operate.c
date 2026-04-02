@@ -2,7 +2,7 @@
 extern uint32_t pc;
 extern int32_t GPR[GPR_AMOUNT];
 
-int operate(int32_t* M){
+int operate(int32_t* M, int32_t* VRAM){
     int code = M[pc >> 2];    // fetch
     // decode operate update
     int opcode = code & 0x7F;
@@ -30,8 +30,8 @@ int operate(int32_t* M){
             break;
 
         case 0b0110011:   // add    // add register-register
-            rs1 = (code >> 20) & 0x1F;
-            rs2 = (code >> 15) & 0x1F;
+            rs1 = (code >> 15) & 0x1F;
+            rs2 = (code >> 20) & 0x1F;
             rd = (code >> 7) & 0x1F;
             GPR[rd] = GPR[rs1] + GPR[rs2];
             next = pc + 4;
@@ -81,7 +81,10 @@ int operate(int32_t* M){
             
             if (funct3 == 0b010) {  // SW (save word)
                 M[word_idx] = GPR[rs2]; 
-            } 
+                if(word_idx >= VRAM_BASE && word_idx < (VRAM_BASE + VRAM_SIZE)){
+                    VRAM[word_idx -VRAM_BASE] = GPR[rs2];
+                }
+            }
             else if (funct3 == 0b000) {  // SB (save Byte)
                 uint32_t word = M[word_idx];
                 word &= ~(0xFF << (byte_off * 8));  

@@ -5,7 +5,7 @@
 
 // make ARCH=native run
 
-#define INSTR_SOURCE "../hex/v.hex"
+#define INSTR_SOURCE "./hex/v.hex"
 #define _GPR_MASK 0x1F
 #define OPERATING_CIRCLE_TERMINATION__MEM 6000
 #define OPERATING_CIRCLE_TERMINATION__SUM 6000
@@ -15,7 +15,7 @@
 #define MEMORY_LOAD_EFFECTIVENESS 200000   // instr stored memory range
 
 #define VRAM_BASE 0x20000000     
-#define VRAM_SIZE 0x40000         
+#define VRAM_SIZE 0x10000         
 #define WIDTH 256   
 #define HEIGHT 256    
 
@@ -25,6 +25,7 @@ void print_binary_int32(int32_t num);
 void output_elements(int circle, int next, int32_t* M);
 int32_t imm_conbination__s_type(uint32_t code) ;
 int32_t sign_extend(int num, int bit_width);
+void draw(int32_t* VRAM);
 
 
-int operate(int32_t* M);
+int operate(int32_t* M, int32_t* VRAM);

@@ -28,7 +28,7 @@ int main(int argc, char** argv){
     // load the codes into memory
     int32_t* M = (int32_t*)malloc(MEMORY_AMOUNT); 
     if (M == NULL) {
-        perror("malloc failed");
+        perror("ram malloc failed");
         exit(1);
     }
     printf("DISTRIBUTED %zu BYTES (%.1f KB)\n", 
@@ -37,12 +37,19 @@ int main(int argc, char** argv){
 
     load_memory(INSTR_SOURCE, M);
 
+    // init VRAM 
+    int32_t* VRAM = (int32_t*)malloc(VRAM_SIZE); 
+    if (VRAM == NULL) {
+        perror("vram malloc failed");
+        exit(1);
+    }
+
     // add_ebreak;
     assert(add_ebreak(M));
 
     // operate until the very end
     while(next != -99){
-        next = operate(M);
+        next = operate(M, VRAM);
         assert(next != -1);  // if == -1, fail to decode 
         pc = next;
         output_elements(_operating_circles, next, M);   // print all variants (GPRs) for each loop
@@ -56,6 +63,9 @@ int main(int argc, char** argv){
     }
     else{
         printf("HIT GOOD TRAP\n");
+    }
+    while(1){
+        draw(VRAM);
     }
     free(M);
     return 0;

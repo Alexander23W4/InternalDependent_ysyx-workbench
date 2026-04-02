@@ -2,7 +2,14 @@
 #include <unistd.h>
 #include <nvboard.h>
 #include "VDecoder38.h"
+/*
+top=Decoder38
 
+y (LD7, LD6, LD5, LD4, LD3, LD2, LD1, LD0)
+x (SW2, SW1, SW0)
+en SW7
+
+*/
 
 static VDecoder38 dut;
 

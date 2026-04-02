@@ -1,4 +1,4 @@
-module top(
+module vga_top(
     input clk,
     // input clken,
     input           rst,    // set

@@ -53,6 +53,7 @@ int main(int argc, char** argv){
         assert(next != -1);  // if == -1, fail to decode 
         pc = next;
         output_elements(_operating_circles, next, M);   // print all variants (GPRs) for each loop
+        printf("next: %d\n", next);
         _operating_circles++;
     }
 

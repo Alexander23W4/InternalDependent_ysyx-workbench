@@ -50,7 +50,7 @@ int operate(int32_t* M, int32_t* VRAM){
             rd = (code >> 7) & 0x1F;
             imm = sign_extend(code >> 20, 12);
             if(opcode__a == 0b010){ // lw (load word)
-                GPR[rd] = M[(GPR[rs1] + imm) >> 2];   // draw data from memory, Byte addr >> 2
+                GPR[rd] = M[(uint32_t)(GPR[rs1] + imm) >> 2];   // draw data from memory, Byte addr >> 2
             }
             else{    // lbu (load Byte)
                 uint32_t addr = GPR[rs1] + imm;

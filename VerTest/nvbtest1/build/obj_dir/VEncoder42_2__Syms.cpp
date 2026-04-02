@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "VDecoder38__Syms.h"
-#include "VDecoder38.h"
-#include "VDecoder38___024root.h"
+#include "VEncoder42_2__Syms.h"
+#include "VEncoder42_2.h"
+#include "VEncoder42_2___024root.h"
 
 // FUNCTIONS
-VDecoder38__Syms::~VDecoder38__Syms()
+VEncoder42_2__Syms::~VEncoder42_2__Syms()
 {
 }
 
-VDecoder38__Syms::VDecoder38__Syms(VerilatedContext* contextp, const char* namep, VDecoder38* modelp)
+VEncoder42_2__Syms::VEncoder42_2__Syms(VerilatedContext* contextp, const char* namep, VEncoder42_2* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}

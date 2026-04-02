@@ -1,21 +1,21 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Design internal header
-// See VDecoder38.h for the primary calling header
+// See VEncoder42_2.h for the primary calling header
 
-#ifndef VERILATED_VDECODER38___024ROOT_H_
-#define VERILATED_VDECODER38___024ROOT_H_  // guard
+#ifndef VERILATED_VENCODER42_2___024ROOT_H_
+#define VERILATED_VENCODER42_2___024ROOT_H_  // guard
 
 #include "verilated.h"
 
-class VDecoder38__Syms;
+class VEncoder42_2__Syms;
 
-class VDecoder38___024root final : public VerilatedModule {
+class VEncoder42_2___024root final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
-    VL_IN8(x,2,0);
     VL_IN8(en,0,0);
-    VL_OUT8(y,7,0);
+    VL_IN8(in,3,0);
+    VL_OUT8(out,1,0);
     CData/*0:0*/ __VactContinue;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VicoIterCount;
@@ -26,12 +26,12 @@ class VDecoder38___024root final : public VerilatedModule {
     VlTriggerVec<0> __VnbaTriggered;
 
     // INTERNAL VARIABLES
-    VDecoder38__Syms* const vlSymsp;
+    VEncoder42_2__Syms* const vlSymsp;
 
     // CONSTRUCTORS
-    VDecoder38___024root(VDecoder38__Syms* symsp, const char* v__name);
-    ~VDecoder38___024root();
-    VL_UNCOPYABLE(VDecoder38___024root);
+    VEncoder42_2___024root(VEncoder42_2__Syms* symsp, const char* v__name);
+    ~VEncoder42_2___024root();
+    VL_UNCOPYABLE(VEncoder42_2___024root);
 
     // INTERNAL METHODS
     void __Vconfigure(bool first);

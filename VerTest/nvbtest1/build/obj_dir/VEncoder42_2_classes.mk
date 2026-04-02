@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See VDecoder38.mk for the caller.
+# See VEncoder42_2.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,22 +23,23 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	VDecoder38 \
-	VDecoder38___024root__DepSet_h5d182fc9__0 \
-	VDecoder38___024root__DepSet_he9399453__0 \
+	VEncoder42_2 \
+	VEncoder42_2___024root__DepSet_h8dd240aa__0 \
+	VEncoder42_2___024root__DepSet_h9d742ee1__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	VDecoder38___024root__Slow \
-	VDecoder38___024root__DepSet_h5d182fc9__0__Slow \
-	VDecoder38___024root__DepSet_he9399453__0__Slow \
+	VEncoder42_2__ConstPool_0 \
+	VEncoder42_2___024root__Slow \
+	VEncoder42_2___024root__DepSet_h8dd240aa__0__Slow \
+	VEncoder42_2___024root__DepSet_h9d742ee1__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	VDecoder38__Syms \
+	VEncoder42_2__Syms \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

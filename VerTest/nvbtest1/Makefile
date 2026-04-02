@@ -1,4 +1,4 @@
-TOPNAME = Decoder38
+TOPNAME = Encoder42_2
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
 

@@ -15,7 +15,7 @@
 #define MEMORY_LOAD_EFFECTIVENESS 200000   // instr stored memory range
 
 #define VRAM_BASE 0x20000000     
-#define VRAM_SIZE 0x10000         
+#define VRAM_SIZE 0x40000         
 #define WIDTH 256   
 #define HEIGHT 256    
 

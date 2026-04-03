@@ -38,7 +38,7 @@ int main(int argc, char** argv){
     load_memory(INSTR_SOURCE, M);
 
     // init VRAM 
-    int32_t* VRAM = (int32_t*)malloc(VRAM_SIZE); 
+    int32_t* VRAM = (int32_t*)malloc(WIDTH * HEIGHT); 
     if (VRAM == NULL) {
         perror("vram malloc failed");
         exit(1);
@@ -50,9 +50,18 @@ int main(int argc, char** argv){
     // operate until the very end
     while(next != -99){
         next = operate(M, VRAM);
-        assert(next != -1);  // if == -1, fail to decode 
+        // assert(next != -1);  // if == -1, fail to decode 
+        if(next == -1){
+            while(1){
+                draw(VRAM);
+            }
+        }
         pc = next;
-        output_elements(_operating_circles, next, M);   // print all variants (GPRs) for each loop
+        // output_elements(_operating_circles, next, M);   // print all variants (GPRs) for each loop
+        // if(next != -99){
+        //     printf("NEXT INSTR: ");   // next instr
+        //     print_binary_int32(M[next >> 2]);
+        // }
         printf("next: %d\n", next);
         _operating_circles++;
     }

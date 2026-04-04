@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "VEncoder42_2__Syms.h"
-#include "VEncoder42_2.h"
-#include "VEncoder42_2___024root.h"
+#include "Vvga_top__Syms.h"
+#include "Vvga_top.h"
+#include "Vvga_top___024root.h"
 
 // FUNCTIONS
-VEncoder42_2__Syms::~VEncoder42_2__Syms()
+Vvga_top__Syms::~Vvga_top__Syms()
 {
 }
 
-VEncoder42_2__Syms::VEncoder42_2__Syms(VerilatedContext* contextp, const char* namep, VEncoder42_2* modelp)
+Vvga_top__Syms::Vvga_top__Syms(VerilatedContext* contextp, const char* namep, Vvga_top* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}

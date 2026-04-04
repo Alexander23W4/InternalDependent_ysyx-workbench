@@ -81,13 +81,13 @@ glibc
 
 
 ABI 有两种层次
-1. 用户态 ABI (compiler decided)
+1. 用户态 ABI (compiler decided)     CPU-core related, Compiler responses
 解决
 函数调用规则
 数据布局
 寄存器分配
 
-2. 系统调用 ABI (printf interrupt... )  customer code (user mode) could not decided
+2. 系统调用 ABI (printf interrupt... )  customer code (user mode) could not decided       CPU-control & SoC-system related, OS responses
 解决
 用户如何请求内核服务
 内核如何接收参数
@@ -165,19 +165,52 @@ syscall 指令
 ->API
 
 
-OS 干了三件事
-（1）虚拟化（illusion）
+OS 's purpose:
+
+more abstraction, convient for multi- modern large program run at the same time
 CPU → 多进程
 内存 → 独立空间
+thread   visual-memory   files  owners  jobs(process)...
 
-（2）调度（allocation）
+and allocation (monitor, management)
 谁用 CPU？
 谁用内存？
 
-（3）接口（abstraction）
-文件
-进程
-网络
+-------------------------------------------------------------------------------
+2026.4.4:
+对于一台 PC 来说，运行时环境（Runtime Environment）并不仅仅是操作系统（OS），而是“Boot 固件(not exclusively) + 操作系统(only kernel) + 运行时库(lib)”的层层组合。
+
+为了帮你分清边界，我们可以从 PC 开机到程序运行的完整过程来看：
+
+1. Boot 固件（BIOS/UEFI）—— 硬件与 OS 之间的“胶水”
+当你按下电源键，CPU 一开始根本无法执行操作系统（因为硬盘里的 OS 还没有被加载到内存）。最先运行的是主板上的 Boot 固件。
+
+它提供最底层的运行时环境：
+
+CPU 初始化（设置缓存、内存控制器）
+
+枚举硬件（PCIe 设备、USB、硬盘、显卡）
+
+提供基本的输入输出服务（在 UEFI 环境下，甚至能运行图形界面和网络驱动）
+
+最终找到启动设备，加载 OS Loader 到内存，并把控制权交给 OS。
+
+它算不算 Runtime Env？ 算。 对于任何运行在 PC 上的软件（包括 OS 本身），Boot 固件是第一个“环境”。即使 OS 启动后接管了所有硬件，Boot 固件的一些服务（如 ACPI 表、UEFI Runtime Services）在 OS 运行时仍会被调用（例如关机、休眠、修改启动顺序）。
+
+2. 操作系统（OS）—— 主要的运行时环境
+OS 启动后，提供程序员和用户最常打交道的环境：
+
+进程调度
+
+内存管理
+
+文件系统
+
+设备驱动（接管并超越 Boot 固件的简单驱动）
+
+系统调用接口
+
+对于普通应用程序（比如 Chrome、Word），它们的直接运行时环境就是 OS Kernel + 动态链接器 + C 标准库（libc）。
 
 
 

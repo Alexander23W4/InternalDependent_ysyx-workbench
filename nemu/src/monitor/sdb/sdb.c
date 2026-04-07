@@ -302,7 +302,7 @@ static int cmd_help(char *args) {    // !!! for every command added, update log 
 
 // sdb run loop
 void sdb_mainloop() {
-  if (is_batch_mode) {   // batch mode
+  if (is_batch_mode) {   // batch mode, simply run through 
     cmd_c(NULL);
     return;
   }
@@ -330,7 +330,7 @@ void sdb_mainloop() {
     int i;    // start to get sdb command over and over
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }   // execute the sdb command
+        if (cmd_table[i].handler(args) < 0) { return; }   // execute the sdb command, get out only when return < 0
         break;
       }
     }

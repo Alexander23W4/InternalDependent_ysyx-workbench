@@ -14,7 +14,7 @@
 ***************************************************************************************/
 
 #include <common.h>
-#define TEST_MODE 1
+#define TEST_MODE 0
 #define TEST_FUNC() expr_test()
 
 extern void expr_test();

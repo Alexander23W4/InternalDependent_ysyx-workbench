@@ -69,13 +69,6 @@ static int decode_exec(Decode *s) {  // decode & execute: core func
 }   // __VA_ARGS__  accords to "instruction execution operation", direct duplication
 
 /*
-Only four characters are allowed in the pattern string.
-
-0`` means that the corresponding bit can only match 0`
-1 means that the corresponding bit can only match 1
-? means the corresponding bit can match either 0 or 1
-Space is a separator, only used to improve the readability of the pattern string, not involved in matching.
-
 // INSTPAT(pattern string, instruction name, instruction type, instruction execution operation);
 
 // INSTPAT() expansion, real DECODE
@@ -104,7 +97,6 @@ imm[20|10:1|11|19:12] rd opcode J-type
 
 */
 
-// 0000001 01111 10010 100 00000 1100011
 
   INSTPAT_START();
   

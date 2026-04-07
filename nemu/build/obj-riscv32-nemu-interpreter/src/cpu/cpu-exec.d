@@ -3,13 +3,13 @@ cmd_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-inte
 source_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o := src/cpu/cpu-exec.c
 
 deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o := \
+    $(wildcard include/config/target/am.h) \
     $(wildcard include/config/itrace/cond.h) \
     $(wildcard include/config/itrace.h) \
     $(wildcard include/config/difftest.h) \
     $(wildcard include/config/watchpoint.h) \
     $(wildcard include/config/isa/x86.h) \
     $(wildcard include/config/device.h) \
-    $(wildcard include/config/target/am.h) \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/cpu/cpu.h \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/common.h \
     $(wildcard include/config/mbase.h) \

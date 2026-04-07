@@ -27,13 +27,28 @@
  */
 #define MAX_INST_TO_PRINT 10
 
-CPU_state cpu = {};    // 
-uint64_t g_nr_guest_inst = 0;
+CPU_state cpu = {};    // define in isa-def.h
+uint64_t g_nr_guest_inst = 0;   // total run instr
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 
 void device_update();
 
+static void statistic() {
+  IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
+#define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%", "%'") PRIu64
+  Log("host time spent = " NUMBERIC_FMT " us", g_timer);
+  Log("total guest instructions = " NUMBERIC_FMT, g_nr_guest_inst);
+  if (g_timer > 0) Log("simulation frequency = " NUMBERIC_FMT " inst/s", g_nr_guest_inst * 1000000 / g_timer);
+  else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
+}
+
+void assert_fail_msg() {
+  isa_reg_display();
+  statistic();
+}
+
+// if wp change, state = NEMU_STOP
 void check_wp(vaddr_t pre_pc){  // check_watchpoints
   WP* temp = get_head();
   bool success = true;
@@ -41,12 +56,12 @@ void check_wp(vaddr_t pre_pc){  // check_watchpoints
   while(temp){
     new_result = expr(temp->expression, &success);
     if(new_result != temp->result){   // if change, pause, output msg, return to sdb_mainloop()
-      nemu_state.state = NEMU_STOP;
+      nemu_state.state = NEMU_STOP;  
       printf("[WATCHPOINT] The value of expression %s is changed, at pc: 0x%x, previous: %u (0x%x), now %u (0x%x)\n", \
         temp->expression, pre_pc, temp->result, temp->result, new_result, new_result);
       temp->result = new_result;
     }
-    temp = temp->next;
+    temp = temp->next;  // check all wp before stop
   }
 }
 
@@ -62,12 +77,13 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {    // execute once
+  // ------------- execute circle start
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);  // *** all operate process loop, fetch decode operate update
   cpu.pc = s->dnpc;    // dynamic next pc, update pc to dynamic next pc
 
-  // ----------------------------------------------
+  // -------------- execute circle end
 #ifdef CONFIG_ITRACE   // Trace
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
@@ -96,38 +112,29 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 
 static void execute(uint64_t n) {   // uint if n = -1, means max(uint64_t - 1)
   Decode s;
-  for (;n > 0; n --) {
+  for (;n > 0; n --) {  // run n times
     vaddr_t stored_pc = cpu.pc;
     exec_once(&s, cpu.pc);
-    g_nr_guest_inst ++;
-    trace_and_difftest(&s, cpu.pc, stored_pc);    // including check the watchpoint
+    g_nr_guest_inst ++;  // count ++
+
+    trace_and_difftest(&s, cpu.pc, stored_pc);    // including check the watchpoint, if wp change, nemu_state = NEMU_STOP
     if (nemu_state.state != NEMU_RUNNING) break;  // of state == ..RUNNING, keep operate next instr
+
     IFDEF(CONFIG_DEVICE, device_update());
   }
 }
 
-static void statistic() {
-  IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
-#define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%", "%'") PRIu64
-  Log("host time spent = " NUMBERIC_FMT " us", g_timer);
-  Log("total guest instructions = " NUMBERIC_FMT, g_nr_guest_inst);
-  if (g_timer > 0) Log("simulation frequency = " NUMBERIC_FMT " inst/s", g_nr_guest_inst * 1000000 / g_timer);
-  else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
-}
-
-void assert_fail_msg() {
-  isa_reg_display();
-  statistic();
-}
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
   g_print_step = (n < MAX_INST_TO_PRINT);
-  switch (nemu_state.state) {
-    case NEMU_END: case NEMU_ABORT: case NEMU_QUIT:
+  switch (nemu_state.state) {  // start state checking
+    case NEMU_END: 
+    case NEMU_ABORT: 
+    case NEMU_QUIT:  // quit
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
       return;
-    default: nemu_state.state = NEMU_RUNNING;
+    default: nemu_state.state = NEMU_RUNNING;   // if stop or running, keep running
   }
 
   uint64_t timer_start = get_time();
@@ -135,12 +142,13 @@ void cpu_exec(uint64_t n) {
   execute(n);
 
   uint64_t timer_end = get_time();
-  g_timer += timer_end - timer_start;
+  g_timer += timer_end - timer_start;   // total time cost
 
-  switch (nemu_state.state) {
+  switch (nemu_state.state) {  // end state checking
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
-    case NEMU_END: case NEMU_ABORT:
+    case NEMU_END: 
+    case NEMU_ABORT:
       Log("nemu: %s at pc = " FMT_WORD,
           (nemu_state.state == NEMU_ABORT ? ANSI_FMT("ABORT", ANSI_FG_RED) :
            (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
@@ -150,3 +158,12 @@ void cpu_exec(uint64_t n) {
     case NEMU_QUIT: statistic();
   }
 }
+/*
+enum { NEMU_RUNNING, NEMU_STOP, NEMU_END, NEMU_ABORT, NEMU_QUIT };    // states
+
+typedef struct {
+  int state;
+  vaddr_t halt_pc;
+  uint32_t halt_ret;
+} NEMUState;
+*/

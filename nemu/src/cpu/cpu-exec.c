@@ -56,7 +56,7 @@ void check_wp(vaddr_t pre_pc){  // check_watchpoints
   while(temp){
     new_result = expr(temp->expression, &success);
     if(new_result != temp->result){   // if change, pause, output msg, return to sdb_mainloop()
-      nemu_state.state = NEMU_STOP;  
+      if(nemu_state.state == NEMU_RUNNING) nemu_state.state = NEMU_STOP;  
       printf("[WATCHPOINT] The value of expression %s is changed, at pc: 0x%x, previous: %u (0x%x), now %u (0x%x)\n", \
         temp->expression, pre_pc, temp->result, temp->result, new_result, new_result);
       temp->result = new_result;

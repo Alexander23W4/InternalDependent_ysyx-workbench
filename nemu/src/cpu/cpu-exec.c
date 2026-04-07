@@ -131,10 +131,10 @@ void cpu_exec(uint64_t n) {
   switch (nemu_state.state) {  // start state checking
     case NEMU_END: 
     case NEMU_ABORT: 
-    case NEMU_QUIT:  // quit
+    case NEMU_QUIT:  
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
       return;
-    default: nemu_state.state = NEMU_RUNNING;   // if stop or running, keep running
+    default: nemu_state.state = NEMU_RUNNING;   // default set to RUNNING, if keep RUNNING, execute go through, single execute_loop & trace_and_difftest can change state
   }
 
   uint64_t timer_start = get_time();
@@ -146,14 +146,13 @@ void cpu_exec(uint64_t n) {
 
   switch (nemu_state.state) {  // end state checking
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
-
     case NEMU_END: 
     case NEMU_ABORT:
       Log("nemu: %s at pc = " FMT_WORD,
           (nemu_state.state == NEMU_ABORT ? ANSI_FMT("ABORT", ANSI_FG_RED) :
-           (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
-            ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
-          nemu_state.halt_pc);
+           (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :  // END, and ret == 0
+            ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),   // END, but ret != 0
+          nemu_state.halt_pc);    // no break, so go through execute statistic()
       // fall through
     case NEMU_QUIT: statistic();
   }

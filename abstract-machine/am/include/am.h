@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+
+// All APIs in AM
+
 #include ARCH_H // this macro is defined in $CFLAGS
                 // examples: "arch/x86-qemu.h", "arch/native.h", ...
 

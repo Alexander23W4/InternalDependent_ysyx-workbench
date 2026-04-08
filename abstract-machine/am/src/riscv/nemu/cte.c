@@ -2,6 +2,26 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+// abstract runtime environment to lib
+// we call this set of APIs an abstract computer.
+/*
+AM = TRM + IOE + CTE + VME + MPE
+TRM (Turing Machine) - Turing machine, the simplest runtime environment, 
+  provides basic computing functionality for programs.
+
+IOE (I/O Extension) - Input and output extension, 
+  providing the program with the ability to input and output.
+
+CTE (Context Extension) - Context extension, providing context management capabilities for programs.
+
+VME (Virtual Memory Extension) - Virtual memory extension, providing programs with the ability to manage virtual memory.
+
+MPE (Multi-Processor Extension) - Multi-processor extension, 
+providing programs with the ability to communicate across multiple processors 
+(MPE is beyond the scope of the ICS course and will not be covered in PA)
+
+*/
+
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {

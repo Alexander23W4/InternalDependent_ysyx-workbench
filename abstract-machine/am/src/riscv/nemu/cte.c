@@ -1,6 +1,7 @@
 #include <am.h>
 #include <riscv/riscv.h>
 #include <klib.h>
+// in src/$ISA, must implement all of the functions defined in am/include/am.h
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 

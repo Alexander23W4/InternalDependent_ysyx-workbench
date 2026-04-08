@@ -1,3 +1,5 @@
+// architecture _H 
+// context, mem pc gpr...
 #ifndef ARCH_H__
 #define ARCH_H__
 

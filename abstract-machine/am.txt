@@ -49,6 +49,24 @@ The above compilation and linking options are mainly located in the abstract-mac
 and the relevant .mk files in the abstract-machine/scripts/ directory. 
 The steps of compiling and linking an executable that can run under the NEMU runtime environment is listed below:
 
+/// -----------
+
+am-kernels
+├── benchmarks                  # Benchmarking program that can be used to measure performance
+│   ├── coremark
+│   ├── dhrystone
+│   └── microbench
+├── kernels                     # Sample application
+│   ├── hello
+│   ├── litenes                 # Simple NES Emulator
+│   ├── nemu                    # NEMU
+│   ├── slider                  # Simple Image Browser
+│   ├── thread-os               # kernel-threaded operating system
+│   └── typing-game             # Typing games
+└── tests                       # Test sets
+    ├── am-tests                # Test set for AM API implementation
+    └── cpu-tests               # Test set for CPU instruction implementations
+
 
 /// ---------- GNU/Linux interface + archive specific ISA-AM + guest.o code -->  link
 
@@ -62,8 +80,27 @@ Using gcc and ar to compile and archive all the dependency library (such as abst
 Based on the rules defined in the Makefile abstract-machine/scripts/$ISA-nemu.mk, 
 let ld link all the object files and static library into an executable using the linker script abstract-machine/scripts/linker.ld
 
+/// ----------- compile & link details
+
+// start.S (localize at the beginning of the program, start, manage memory, call main)
+Based on the linker script provided, 
+the sections of the executable program after relocation starts from 0x100000 or 0x80000000 (depending on the values of _pmem_start and _entry_offset). 
+The first is the .text section, which starts with the customized entry section defined in abstract-machine/am/src/$ISA/nemu/start.S, 
+and then follows the .text section of all other object files. In this way, 
+the code of start.S is always placed at the beginning of the executable program, 
+this ensures the correct start from start.S for all guest programs. 
+The linker script also defines the link order of other sections (including .rodata, .data, .bss), 
+it also defines some symbols for location information, including the end of each section, 
+the top of the stack, and the beginning and end of the heap area.
+
+The first instruction starts from abstract-machine/am/src/$ISA/nemu/start.S. 
+After setting the top of the stack, jump to the _trm_init() function of abstract-machine/am/src/platform/nemu/trm.c to start the execution.
+The main() function is called in _trm_init() to execute the main function of the program. 
+The main() function also takes a parameter, which we are not using currently and will be introduced later.
+After returning from the main() function, call halt() to end the execution.
 
 /// -----------
+
 am =>> $ISA_architecture, am.h, amdev.h (provide processor core context(use), am_api_requirement(implement), api_info(use)) (all you need to cite / use / implement)
         implement in src.$ISA, on src/platform/nemu/...(nemu platform based implementation info)
 

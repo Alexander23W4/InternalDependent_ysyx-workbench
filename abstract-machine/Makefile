@@ -1,5 +1,17 @@
 # Makefile for AbstractMachine Kernels and Libraries
 
+# ----------------------------------------------------------------------------------------------------
+
+# ifeq   
+# findstring  
+# info(print to terminate command line)  warning error
+# wildcard(pattern find file)
+# shell
+# nodir(remove dir, leave only file name)
+
+
+# ----------------------------------------------------------------------------------------------------
+
 ### *Get a more readable version of this Makefile* by `make html` (requires python-markdown)
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
@@ -7,17 +19,17 @@ html:
 
 ## 1. Basic Setup and Checks
 
-### Default to create a bare-metal kernel image
-ifeq ($(MAKECMDGOALS),)
+### Default to create a bare-metal kernel image  (default option is "make image")
+ifeq ($(MAKECMDGOALS),)   # if MAKECMDFOALS == null  ***MAKECMDGOALS   (make xxx, xxx is MAKECMDGOALS)
   MAKECMDGOALS  = image
   .DEFAULT_GOAL = image
 endif
 
-### Override checks when `make clean/clean-all/html`
+### Override checks when `make clean/clean-all/html`  (when `make clean/clean-all/html`, do not need to do following operation of ###1.)
 ifeq ($(findstring $(MAKECMDGOALS),clean|clean-all|html),)
 
 ### Print build info message
-$(info # Building $(NAME)-$(MAKECMDGOALS) [$(ARCH)])
+$(info # Building $(NAME)-$(MAKECMDGOALS) [$(ARCH)])   # e.g. Building am-kernels-image [x86_64-qemu]
 
 ### Check: environment variable `$AM_HOME` looks sane
 ifeq ($(wildcard $(AM_HOME)/am/include/am.h),)
@@ -26,7 +38,7 @@ endif
 
 ### Check: environment variable `$ARCH` must be in the supported list
 ARCHS = $(basename $(notdir $(shell ls $(AM_HOME)/scripts/*.mk)))
-ifeq ($(filter $(ARCHS), $(ARCH)), )
+ifeq ($(filter $(ARCHS), $(ARCH)), )    # filter $ARCH in scripts/.mk files   ***IMPORTANT, e.g. when 
   $(error Expected $$ARCH in {$(ARCHS)}, Got "$(ARCH)")
 endif
 

@@ -2,13 +2,24 @@
 
 # ----------------------------------------------------------------------------------------------------
 
-# ifeq   
+# exp obtain:
+# sperate (nameget, flags, pathget, configget, target_name_create, file_operations) from (commands, executions)
+
+# @ifeq   
 # findstring  
 # info(print to terminate command line)  warning error
 # wildcard(pattern find file)
 # shell
 # nodir(remove dir, leave only file name)
+# subst (substitute)
+# word (pick substring from string, default WhiteSpace split)
+# @-include include  (include external makefile)
+# foreach
+# eval
+# call
 
+
+# ifeq ($(MAKECMDGOALS), ...)
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -36,9 +47,9 @@ ifeq ($(wildcard $(AM_HOME)/am/include/am.h),)
   $(error $$AM_HOME must be an AbstractMachine repo)
 endif
 
-### Check: environment variable `$ARCH` must be in the supported list
+### Check: environment variable `$ARCH` must be in the supported list  [ARCH]
 ARCHS = $(basename $(notdir $(shell ls $(AM_HOME)/scripts/*.mk)))
-ifeq ($(filter $(ARCHS), $(ARCH)), )    # filter $ARCH in scripts/.mk files   ***IMPORTANT, e.g. when 
+ifeq ($(filter $(ARCHS), $(ARCH)), )    # filter $ARCH in scripts/.mk files   ***IMPORTANT, e.g. when start am, user input $ARCH=...
   $(error Expected $$ARCH in {$(ARCHS)}, Got "$(ARCH)")
 endif
 
@@ -47,8 +58,8 @@ ARCH_SPLIT = $(subst -, ,$(ARCH))
 ISA        = $(word 1,$(ARCH_SPLIT))
 PLATFORM   = $(word 2,$(ARCH_SPLIT))
 
-### Check if there is something to build
-ifeq ($(flavor SRCS), undefined)
+### Check if there is something to build   [SRC]
+ifeq ($(flavor SRCS), undefined)    # SRCS (user provided code to build) 
   $(error Nothing to build)
 endif
 
@@ -57,19 +68,19 @@ endif
 
 ## 2. General Compilation Targets
 
-### Create the destination directory (`build/$ARCH`)
+### Create the destination directory (`build/$ARCH`)  [DST_DIR]
 WORK_DIR  = $(shell pwd)
-DST_DIR   = $(WORK_DIR)/build/$(ARCH)
+DST_DIR   = $(WORK_DIR)/build/$(ARCH)  # ***DST_DIR
 $(shell mkdir -p $(DST_DIR))
 
 ### Compilation targets (a binary image or archive)
 IMAGE_REL = build/$(NAME)-$(ARCH)
-IMAGE     = $(abspath $(IMAGE_REL))
-ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
+IMAGE     = $(abspath $(IMAGE_REL))  # absolute path
+ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a     # archive
 
-### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
-OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
-LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
+### Collect the files to be linked: object files (`.o`) and libraries (`.a`)   [OBJS] [LIBS]
+OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))       # *** DST_DIR/SRCS.o, compiled guest program (OBJS)
+LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions   # *** immediate assignment, avoid recursion
 LINKAGE   = $(OBJS)  # library archives are added by LIB_TEMPLATE below
 
 ## 3. General Compilation Flags
@@ -84,8 +95,8 @@ OBJDUMP   = $(CROSS_COMPILE)objdump
 OBJCOPY   = $(CROSS_COMPILE)objcopy
 READELF   = $(CROSS_COMPILE)readelf
 
-### Compilation flags
-INC_PATH += $(WORK_DIR)/include $(addsuffix /include/, $(addprefix $(AM_HOME)/, $(LIBS)))
+### Compilation flags  [INC_PATH] [...FLAGS]  
+INC_PATH += $(WORK_DIR)/include $(addsuffix /include/, $(addprefix $(AM_HOME)/, $(LIBS)))  # ***INC_PATH  (local include, klib inc, am inc)
 INCFLAGS += $(addprefix -I, $(INC_PATH))
 
 ARCH_H := arch/$(ARCH).h
@@ -103,9 +114,9 @@ LDFLAGS  += -z noexecstack $(addprefix -T, $(LDSCRIPTS))
 ## 4. Arch-Specific Configurations
 
 ### Paste in arch-specific configurations (e.g., from `scripts/x86_64-qemu.mk`)
--include $(AM_HOME)/scripts/$(ARCH).mk
+-include $(AM_HOME)/scripts/$(ARCH).mk   
 
-## 5. Compilation Rules
+## 5. Compilation Rules   (compile .c .cc .cpp .S -> .o;  lib archive -> .a; link .a .o-> .elf)
 
 ### Rule (compile): a single `.c` -> `.o` (gcc)
 $(DST_DIR)/%.o: %.c
@@ -129,9 +140,9 @@ $(DST_DIR)/%.o: %.S
 
 ifeq ($(MAKECMDGOALS),archive)
 ### Rule (archive): objects (`*.o`) -> `ARCHIVE.a` (ar)
-$(ARCHIVE): $(OBJS)
-	@echo + AR "->" $(shell realpath $@ --relative-to .)
-	@$(AR) rcs $@ $^
+$(ARCHIVE): $(OBJS) # archive  ar
+	@echo + AR "->" $(shell realpath $@ --relative-to .) 
+	@$(AR) rcs $@ $^    
 else
 # $(1): library name
 define LIB_TEMPLATE =
@@ -140,12 +151,12 @@ $$(AM_HOME)/$(1)/build/$(1)-$$(ARCH).a: force
 LINKAGE += $$(AM_HOME)/$(1)/build/$(1)-$$(ARCH).a
 endef
 
-### Rule (recursive make): build a dependent library (am, klib, ...)
+### Rule (recursive make): build a dependent library (am, klib, ...)   ***
 $(foreach lib, $(LIBS), $(eval $(call LIB_TEMPLATE,$(lib))))
 endif
 
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
-$(IMAGE).elf: $(LINKAGE) $(LDSCRIPTS)
+$(IMAGE).elf: $(LINKAGE) $(LDSCRIPTS)    # $(WORK_DIR)/build/$(NAME)-$(ARCH)
 	@echo \# Creating image [$(ARCH)]
 	@echo + LD "->" $(IMAGE_REL).elf
 ifneq ($(filter $(ARCH),native),)

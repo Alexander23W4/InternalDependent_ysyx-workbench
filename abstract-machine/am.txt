@@ -1,3 +1,6 @@
+software only operate ram & registers, hardware will automatically get info from ram & registers, and make control & specific execution
+
+
 // build architecture, clarify ABI
 // implement API
 // write base software: OS ...  (Process, Thread, Handle)

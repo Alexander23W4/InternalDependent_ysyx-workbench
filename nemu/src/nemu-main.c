@@ -12,6 +12,16 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
+/*
+*** debug mode & AM mode is diff by  CONFIG_TARGET_AM
+
+CONFIG_TARGET_AM : 
+am_init_monitor();   
+engine_start()->direct cpu_exec(-1);
+*/
+// *** debug mode & AM mode is diff by  CONFIG_TARGET_AM
+// CONFIG_TARGET_AM : 
+
 
 #include <common.h>
 #define TEST_MODE 0
@@ -24,9 +34,9 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {   // the args will diliver to init_monitor -> parse_args() for get config info for init
   /* Initialize the monitor. */
-#ifdef CONFIG_TARGET_AM
+#ifdef CONFIG_TARGET_AM   
   am_init_monitor();
 #else
   init_monitor(argc, argv);
@@ -35,7 +45,7 @@ int main(int argc, char *argv[]) {
 #if TEST_MODE
   TEST_FUNC();
 #else 
-  engine_start();
+  engine_start();   // start running  CONFIG_TARGET_AM 
 #endif
 
 

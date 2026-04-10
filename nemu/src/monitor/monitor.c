@@ -24,7 +24,7 @@ void init_device();
 void init_sdb();
 void init_disasm();
 
-static void welcome() {
+static void welcome() {    // welcome
   Log("Trace: %s", MUXDEF(CONFIG_TRACE, ANSI_FMT("ON", ANSI_FG_GREEN), ANSI_FMT("OFF", ANSI_FG_RED)));
   IFDEF(CONFIG_TRACE, Log("If trace is enabled, a log file will be generated "
         "to record the trace. This may lead to a large log file. "
@@ -34,10 +34,10 @@ static void welcome() {
   printf("For help, type \"help\"\n");
 }
 
-#ifndef CONFIG_TARGET_AM
+#ifndef CONFIG_TARGET_AM    // debug mode
 #include <getopt.h>
 
-void sdb_set_batch_mode();
+void sdb_set_batch_mode();   // set batch mode
 
 // files
 static char *log_file = NULL;   
@@ -45,31 +45,33 @@ static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
 
-static long load_img() {
+static long load_img() {   // load program
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
     return 4096; // built-in image size
   }
 
-  FILE *fp = fopen(img_file, "rb");
+  FILE *fp = fopen(img_file, "rb");    // read binary
   Assert(fp, "Can not open '%s'", img_file);
 
-  fseek(fp, 0, SEEK_END);
-  long size = ftell(fp);
+  fseek(fp, 0, SEEK_END);  // move to the end  
+  long size = ftell(fp);   // get shift amount from start
 
   Log("The image is %s, size = %ld", img_file, size);
 
-  fseek(fp, 0, SEEK_SET);
-  int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
+  fseek(fp, 0, SEEK_SET);  // move back to start
+  int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);  // read all program code to RAM
   assert(ret == 1);
 
   fclose(fp);
   return size;
 }
 
-static int parse_args(int argc, char *argv[]) {
+
+
+static int parse_args(int argc, char *argv[]) {  // break up (deal with) arguments
   const struct option table[] = {
-    {"batch"    , no_argument      , NULL, 'b'},
+    {"batch"    , no_argument      , NULL, 'b'},    // name  has_args  flag  value
     {"log"      , required_argument, NULL, 'l'},
     {"diff"     , required_argument, NULL, 'd'},
     {"port"     , required_argument, NULL, 'p'},
@@ -79,8 +81,8 @@ static int parse_args(int argc, char *argv[]) {
   int o;
   while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
     switch (o) {
-      case 'b': sdb_set_batch_mode(); break;
-      case 'p': sscanf(optarg, "%d", &difftest_port); break;
+      case 'b': sdb_set_batch_mode(); break;           // set batch mode == true
+      case 'p': sscanf(optarg, "%d", &difftest_port); break;   // scanf (stdin)   fscanf(file)  sscanf(string)
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;
       case 1: img_file = optarg; return 0;
@@ -116,21 +118,21 @@ void init_monitor(int argc, char *argv[]) {
   IFDEF(CONFIG_DEVICE, init_device());
 
   /* Perform ISA dependent initialization. */
-  init_isa();
+  init_isa();  // memcpy some program code to ram
 
   /* Load the image to memory. This will overwrite the built-in image. */
-  long img_size = load_img();
+  long img_size = load_img();  // memcpy program code from file to ram (if file exist)
 
   /* Initialize differential testing. */
   init_difftest(diff_so_file, img_size, difftest_port);
 
   /* Initialize the simple debugger. */
-  init_sdb();
+  init_sdb();  // debugger preparation
 
   IFDEF(CONFIG_ITRACE, init_disasm());
 
   /* Display welcome message. */
-  welcome();
+  welcome(); // notice trace log file, build time info..
 }
 #else // CONFIG_TARGET_AM
 static long load_img() {
@@ -141,7 +143,7 @@ static long load_img() {
   return size;
 }
 
-void am_init_monitor() {
+void am_init_monitor() {     // Load AM linked program
   init_rand();
   init_mem();
   init_isa();

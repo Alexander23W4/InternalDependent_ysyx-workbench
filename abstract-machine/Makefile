@@ -22,6 +22,12 @@
 # ifeq ($(MAKECMDGOALS), ...)
 
 # ----------------------------------------------------------------------------------------------------
+# REQUIREMENTS: 
+
+# NEMU implements a batch mode, which can execute the guest program directly after starting NEMU. 
+# Please read the source code of NEMU and modify the Makefile appropriately 
+# so that NEMU in batch mode can be started by default through AM's Makefile.
+# ----------------------------------------------------------------------------------------------------
 
 ### *Get a more readable version of this Makefile* by `make html` (requires python-markdown)
 html:

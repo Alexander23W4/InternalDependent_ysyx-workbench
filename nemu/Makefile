@@ -31,7 +31,7 @@ endif
 -include $(NEMU_HOME)/include/config/auto.conf    # git config from menuconfig outcome, get config-MACROs (not C MACROs)
 -include $(NEMU_HOME)/include/config/auto.conf.cmd
 
-remove_quote = $(patsubst "%",%,$(1))   # replace, remove "" (% is universal signal)
+remove_quote = $(patsubst "%",%,$(1))
 
 # Extract variabls from menuconfig
 GUEST_ISA ?= $(call remove_quote,$(CONFIG_ISA))
@@ -40,20 +40,23 @@ NAME    = $(GUEST_ISA)-nemu-$(ENGINE)
 
 # Include all filelist.mk to merge file lists
 FILELIST_MK = $(shell find -L ./src -name "filelist.mk")
-include $(FILELIST_MK)           # include filelist.mk
+include $(FILELIST_MK)
 
 # Filter out directories and files in blacklist to obtain the final set of source files
 DIRS-BLACKLIST-y += $(DIRS-BLACKLIST)
 SRCS-BLACKLIST-y += $(if $(DIRS-BLACKLIST-y), $(shell find -L $(DIRS-BLACKLIST-y) -name "*.c"),)
 SRCS-BLACKLIST-y += $(SRCS-BLACKLIST)
 SRCS-y += $(if $(DIRS-y), $(shell find -L $(DIRS-y) -name "*.c"),)
-SRCS = $(filter-out $(SRCS-BLACKLIST-y),$(SRCS-y))   # get SRCS
+SRCS = $(filter-out $(SRCS-BLACKLIST-y),$(SRCS-y))
+# get SRCS
 
 # Extract compiler and options from menuconfig
 ifneq ($(CONFIG_CC),)
-CC = $(call remove_quote,$(CONFIG_CC))   # outcome: CC = gcc
+CC = $(call remove_quote,$(CONFIG_CC))
+# outcome: CC = gcc
 endif
-CFLAGS_BUILD += $(call remove_quote,$(CONFIG_CC_OPT))  # -O2
+CFLAGS_BUILD += $(call remove_quote,$(CONFIG_CC_OPT))
+# -O2
 CFLAGS_BUILD += $(if $(CONFIG_CC_LTO),-flto,)
 CFLAGS_BUILD += $(if $(CONFIG_CC_DEBUG),-Og -ggdb3,)
 CFLAGS_BUILD += $(if $(CONFIG_CC_ASAN),-fsanitize=address,)
@@ -62,13 +65,12 @@ CFLAGS  += $(CFLAGS_BUILD) $(CFLAGS_TRACE) -D__GUEST_ISA__=$(GUEST_ISA)
 LDFLAGS += $(CFLAGS_BUILD)
 
 # Include rules for menuconfig
-include $(NEMU_HOME)/scripts/config.mk    # include config.mk
+include $(NEMU_HOME)/scripts/config.mk
 
-ifdef CONFIG_TARGET_AM   # ***** CONFIG_TARGET_AM
-include $(AM_HOME)/Makefile   # include am Makefile
+ifdef CONFIG_TARGET_AM
+include $(AM_HOME)/Makefile
 LINKAGE += $(ARCHIVES)
 else
 # Include rules to build NEMU
-include $(NEMU_HOME)/scripts/native.mk   # include native.mk, without using am
+include $(NEMU_HOME)/scripts/native.mk  # include native.mk, without using am
 endif
-

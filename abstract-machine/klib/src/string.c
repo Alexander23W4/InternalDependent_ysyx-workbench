@@ -25,7 +25,7 @@ size_t strlen(const char *s) {
 char *strcpy(char *dst, const char *src) {
   char* temp = dst;
   const char* _src = src;
-  for (; _src != '\0'; src++, temp++)
+  for (; *_src != '\0'; src++, temp++)
   {
     *temp = *_src;
   }
@@ -61,7 +61,7 @@ char *strncpy(char *dst, const char *src, size_t n) {
 char *strcat(char *dst, const char *src) {
   char* temp = dst + strlen(dst);
   const char* _src = src;
-  while(_src != '\0'){
+  while(*_src != '\0'){
     *temp = *_src;
     temp++;
     src++;
@@ -90,7 +90,7 @@ int strcmp(const char *s1, const char *s2) {
 }
 
 int strncmp(const char *s1, const char *s2, size_t n) {
-  int i;
+  size_t i;
   for (i = 0; i < n && *s1 != '\0' && *s2 != '\0'; i++)
   {
     if(s1[i] > s2[i]) return 1;
@@ -101,20 +101,77 @@ int strncmp(const char *s1, const char *s2, size_t n) {
   else return 1;
 }
 
+/*
+  The memset() function fills the first n bytes of the memory area pointed to by s with the constant byte c.
+*/
 void *memset(void *s, int c, size_t n) {
-  panic("Not implemented");
+  unsigned char* temp = (unsigned char*) s;
+  for (size_t i = 0; i < n; i++)
+  {
+    temp[i] = (unsigned char)c;
+  }
+  return s;
 }
 
+/*
+  The  memmove() function copies n bytes from memory area src to memory area dest.  
+  The memory areas may overlap: copying takes place as though the bytes in src are first copied into a temporary array that does not overlap src or dest, 
+  and the bytes are then copied from the temporary array to dest.
+*/
 void *memmove(void *dst, const void *src, size_t n) {
-  panic("Not implemented");
+  if(n == 0) return dst;
+  unsigned char* _dst = (unsigned char*) dst;
+  const unsigned char* _src = (const unsigned char*) src;
+  if(_dst == _src) return _dst;
+  else if(_dst > _src){
+    for (size_t i = n - 1; i >= 0; i--)
+    {
+      _dst[i] = _src[i];
+    }
+  }
+  else{
+    for (size_t i = 0; i < n; i++)
+    {
+      _dst[i] = _src[i];
+    }
+  }
+  return _dst;
 }
+
+
 
 void *memcpy(void *out, const void *in, size_t n) {
-  panic("Not implemented");
+  if(n == 0) return out;
+  unsigned char* _out = (unsigned char*) out;
+  const unsigned char* _in = (const unsigned char*) in;
+  for (size_t i = 0; i < n; i++)
+  {
+    _out[i] = _in[i];
+  }
+  return _out;
 }
 
+
+/*
+The memcmp() function compares the first n bytes (each interpreted as unsigned char) of the memory areas s1 and s2.
+
+  The  memcmp() function returns an integer less than, equal to, or greater than zero if the first n bytes of s1 is found, respectively, 
+  to be less than, to match, or be greater than the first n bytes of s2.
+
+  For a nonzero return value, the sign is determined by the sign of the difference between the first pair of bytes (interpreted as unsigned char) 
+  that differ in s1 and s2.
+
+  If n is zero, the return value is zero.
+*/
 int memcmp(const void *s1, const void *s2, size_t n) {
-  panic("Not implemented");
+  unsigned char* _s1 = (unsigned char*) s1;
+  const unsigned char* _s2 = (const unsigned char*) s2;
+  for (size_t i = 0; i < n; i++)
+  {
+    if(_s1[i] < _s2[i]) return -1;
+    else if (_s1[i] > _s2[i]) return 1; 
+  }
+  return 0;
 }
 
 #endif

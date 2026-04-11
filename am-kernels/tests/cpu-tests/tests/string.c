@@ -1,6 +1,6 @@
 #include "trap.h"
 // make ARCH=riscv32-nemu ALL=string run
-// !!!!!!
+// @@
 char *s[] = {
 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",

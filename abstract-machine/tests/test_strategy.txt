@@ -1,0 +1,17 @@
+->read core file by GDB, find the bug:
+gdb ./test.out core ./core.....
+
+common used command in (gdb) mode: f 1  f 2.... list(list the code context of the crash line) p ...(print)
+
+GDB commands: 
+run
+break (break main/ break file.c:100)
+print (p x)
+display
+info breakpoints
+delete  (delete breakpoints)
+step next finish
+continue
+list
+bt  (show stack)
+layout src  (TUI)

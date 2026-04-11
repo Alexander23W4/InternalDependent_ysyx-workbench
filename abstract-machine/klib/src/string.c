@@ -25,9 +25,11 @@ size_t strlen(const char *s) {
 char *strcpy(char *dst, const char *src) {
   char* temp = dst;
   const char* _src = src;
-  for (; *_src != '\0'; src++, temp++)
+  int i = 0;
+  for (; *_src != '\0'; _src++, temp++)
   {
     *temp = *_src;
+    i++;
   }
   *temp = '\0';
   return dst;
@@ -64,7 +66,7 @@ char *strcat(char *dst, const char *src) {
   while(*_src != '\0'){
     *temp = *_src;
     temp++;
-    src++;
+    _src++;
   }
   *temp = '\0';
   return dst;
@@ -78,7 +80,7 @@ return :
 */
 int strcmp(const char *s1, const char *s2) {
 
-  while(*s1 != '\0' && s2 != '\0'){
+  while(*s1 != '\0' && *s2 != '\0'){
     if(*s1 > *s2) return 1;
     else if (*s1 < *s2) return -1;
     s1++;
@@ -124,10 +126,15 @@ void *memmove(void *dst, const void *src, size_t n) {
   const unsigned char* _src = (const unsigned char*) src;
   if(_dst == _src) return _dst;
   else if(_dst > _src){
-    for (size_t i = n - 1; i >= 0; i--)
+    // for (size_t i = n - 1; i >= 0; i--)    // for unsigned number, judge it >= 0 is always true
+    // {
+    //   _dst[i] = _src[i];
+    // }
+    for (size_t i = 1; i <= n; i++)
     {
-      _dst[i] = _src[i];
+        _dst[n-i] = _src[n-i];
     }
+    
   }
   else{
     for (size_t i = 0; i < n; i++)

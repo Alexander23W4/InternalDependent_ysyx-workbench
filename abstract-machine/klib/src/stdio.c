@@ -115,7 +115,7 @@ int sprintf(char *out, const char *fmt, ...) {
               str = number_to_str(str, va_arg(ap, int));
               break;
             case TYPE_STRING:
-              str = va_arg(ap, const char*);
+              str = (char*)va_arg(ap, const char*);
               break;
             default:
               break;

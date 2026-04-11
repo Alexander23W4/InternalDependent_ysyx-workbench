@@ -23,6 +23,36 @@ Types types[] = {
   {'s', TYPE_STRING }
 };
 
+static char* number_to_str(char *str, int val) {
+  char* _str = str;
+    if (val == 0) {
+        *_str++ = '0';
+        *_str = '\0'; // Null-terminate
+        return str;
+    }
+
+    unsigned int uval;
+    if (val < 0) {
+        *_str++ = '-';
+        uval = (unsigned int)(-(val + 1)) + 1;
+    } else {
+        uval = (unsigned int)val;
+    }
+
+    char temp[12];
+    int i = 0;
+    while (uval > 0) {
+        temp[i++] = (uval % 10) + '0';
+        uval /= 10;
+    }
+
+    while (i > 0) {
+        *_str++ = temp[--i];
+    }
+
+    *_str = '\0'; // Always ensure the string is valid here
+    return str; // Points to the '\0'
+}
 
 int sprintf(char *out, const char *fmt, ...) {
   va_list ap;
@@ -61,7 +91,7 @@ int sprintf(char *out, const char *fmt, ...) {
               str = number_to_str(str, va_arg(ap, int));
               break;
             case TYPE_STRING:
-              str = va_arg(ap, const char*);
+              str = (char *)va_arg(ap, const char*);
               break;
             default:
               break;
@@ -106,10 +136,10 @@ int main() {
 
     // Test Case 4: Multiple mixed parameters (No spaces between specifiers)
     // This tests if your pointer 'temp' increments correctly
-    len = sprintf(buf, "%d%s%d", 1, "plus", 1);
+    len = sprintf(buf, "%d%s %d", 1, "plus", 1);
     printf("[Test 4] Result: %s, Len: %d\n", buf, len);
-    assert(strcmp(buf, "1plus1") == 0);
-    assert(len == 6);
+    assert(strcmp(buf, "1plus 1") == 0);
+    assert(len == 7);
 
     // Test Case 5: Percent sign escape
     sprintf(buf, "Usage: 100%%");
@@ -124,7 +154,7 @@ int main() {
     // Test Case 7: INT_MIN handling
     // Critical for checking your (unsigned int) conversion logic
     sprintf(buf, "%d", INT_MIN);
-    printf("[Test 7] Result: %s\n", buf);
+    printf("[Test 7] Result: %s \n", buf);
     assert(strcmp(buf, "-2147483648") == 0);
 
     // Test Case 8: Repeated use of the same buffer

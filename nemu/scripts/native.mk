@@ -20,12 +20,15 @@ include $(NEMU_HOME)/tools/difftest.mk
 
 compile_git:
 	$(call git_commit, "compile NEMU")
+
+# everytime make run, do git commit
 $(BINARY):: compile_git
 
 # Some convenient rules
 
 override ARGS ?= --log=$(BUILD_DIR)/nemu-log.txt
-override ARGS += $(ARGS_DIFF)
+override ARGS += $(ARGS_DIFF)    # when override added, guest command line input can not override this arguments defined in Makefile 
+override ARGS += -b
 
 # Command to execute NEMU
 IMG ?=

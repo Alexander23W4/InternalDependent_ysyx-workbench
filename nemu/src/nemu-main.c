@@ -28,6 +28,7 @@ engine_start()->direct cpu_exec(-1);
 #define TEST_FUNC() expr_test()
 
 extern void expr_test();
+void _check_args(int argc, char** argv);
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -36,6 +37,7 @@ int is_exit_status_bad();
 
 int main(int argc, char *argv[]) {   // the args will diliver to init_monitor -> parse_args() for get config info for init
   /* Initialize the monitor. */
+  _check_args(argc, argv);
 #ifdef CONFIG_TARGET_AM   
   am_init_monitor();
 #else
@@ -50,4 +52,12 @@ int main(int argc, char *argv[]) {   // the args will diliver to init_monitor ->
 
 
   return is_exit_status_bad();
+}
+
+
+void _check_args(int argc, char** argv){
+  for (int i = 0; i < argc; i++)
+  {
+    printf("arg%d: %s\n", i, argv[i]);
+  }
 }

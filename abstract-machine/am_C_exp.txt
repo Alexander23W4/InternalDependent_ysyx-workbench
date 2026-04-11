@@ -1,0 +1,27 @@
+__attribute__((__..__))    compilation info
+
+
+Attributes provide a mechanism to declare additional properties of functions, variables, types, and statements. 
+For example, attributes can be used to control placement of objects in particular memory sections, 
+or to specify properties that can allow the compiler to generate better code or diagnostics, such as declaring that a function never returns. 
+GCC supports a large number of such attributes, which are documented in this section.
+
+
+-> Utilization:
+__attribute__ ((__nonull__))    // single
+__attribute__ ((section ("bar"), weak))   // multi
+
+
+int32_t foo(int32_t bar1, int32_t bar2){
+    __attribute__((__assume__(bar2 != 0)));
+    return bar1 / bar2;
+}
+
+
+__attribute__ ((section ("bar"))) __attribute__ ((weak))
+void g4 (void) { f2 (); }
+
+
+-> Common attributes: https://gcc.gnu.org/onlinedocs/gcc/Common-Attributes.html
+
+

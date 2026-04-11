@@ -33,8 +33,8 @@ NEMU_EXEC := $(BINARY) $(ARGS) $(IMG)
 
 run-env: $(BINARY) $(DIFF_REF_SO)
 
-run: run-env
-	$(call git_commit, "run NEMU")
+run: run-env                   # **** (ENTRY) make run , includes auto git-commit 
+	$(call git_commit, "run NEMU")   
 	$(NEMU_EXEC)
 
 gdb: run-env

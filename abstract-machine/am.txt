@@ -3,12 +3,27 @@ so we do not need to care about ABI anymore as long as we complete ISA requireme
 we should build API specifically for the interface called by OS and other runtime env and guest program code (for interruption, peripherals...)
 most of them (drive) could be written by C, some of them should be written in Assembly
 
-
 // build architecture, clarify ABI
 // implement API
 // write base software: OS ...  (Process, Thread, Handle)
 // write guest software
 // use ABI compile software, run
+
+=> ** Do not need to implement architecture-independent functions in AM Library
+The specific implementation of these library functions (API) can be architecture-independent: 
+unlike halt(), memcpy() can be implemented in the same way on NEMU, 
+or on the CPU you will implement using verilog in the future, or even other architectures. 
+Therefore, if these commonly used functions are implemented in AM Library functions will introduce unnecessary duplication of code.
+
+A good approach is to divide the runtime environment into two parts: 
+one is the architecture-related runtime environment, which is the AM we introduced before; 
+the other is the architecture-independent runtime environment, such as commonly used functions like memcpy(). 
+  abstract-machine/klib/ directory contains those architecture-independent library functions. 
+  klib means kernel library and is used to provide some basic functions compatible with libc. 
+The framework code lists library functions that may be used in the future in abstract-machine/klib/src/string.c and abstract-machine/klib/src/stdio.c, 
+but does not provide corresponding implementations.
+
+// ===================================================================================================================
 
 AM 的意义在于： 它定义了一套最基本的 API（如 putch, halt, draw_rect），
 让你的程序（如 LiteNES 或简单的测试用例）只需要调用这些 API 就能运行。

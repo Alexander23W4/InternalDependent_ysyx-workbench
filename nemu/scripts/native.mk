@@ -28,7 +28,7 @@ $(BINARY):: compile_git
 
 override ARGS ?= --log=$(BUILD_DIR)/nemu-log.txt
 override ARGS += $(ARGS_DIFF)    # when override added, guest command line input can not override this arguments defined in Makefile 
-override ARGS += -b
+override ARGS += -b   			 # run options
 
 # Command to execute NEMU
 IMG ?=

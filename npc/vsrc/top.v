@@ -1,6 +1,5 @@
 module top(
     input clk,
-    input rst,
     input [31:0] instr,
 
 );
@@ -78,6 +77,8 @@ INSTPAT("??????? ????? ????? 000 ????? 01000 11", sb     , S, Mw(src1 + imm, 1, 
 INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0, NEMU_END
 */
 
+// complete : add addi jalr lui 
+
     assign wen = add | addi | jalr | lui | lw | lbu;
     wire [31:0] add1 = rdata1;
     wire [31:0] add2 = add ? rdata2 : \
@@ -91,6 +92,10 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
                    ({32{jalr} & pc_next_dft}) | \
     
 
+    // update
+    always @(posedge clk) begin
+        pc_next <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
+    end
 
 
 endmodule

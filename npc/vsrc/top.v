@@ -1,9 +1,12 @@
+/* verilator lint_off UNUSEDSIGNAL */
 module top(
     input clk,
     input [31:0] instr,
-
+    output [32*32-1:0] dbg_reg,
+    output [31:0] _pc
 );
     reg [31:0] pc;
+    assign _pc = pc;
 
     wire addi;
     wire add;
@@ -29,7 +32,6 @@ module top(
     wire wen;
 
     wire [31:0] pc_next_dft;
-    reg [31:0] pc_next;
 
     assign pc_next_dft = pc + 32'd4;
 
@@ -53,15 +55,16 @@ module top(
         .immS(immS)
     );
 
-    register GPR #(5, 32)(
+    dbg_register #(5, 32) GPR (
         .clk(clk),
         .wen(wen),
-        raddr1(rs1),
-        raddr2(rs2),
-        waddr(rd),
-        wdata(wdata),
-        rdata1(rdata1),
-        rdata2(rdata2)
+        .raddr1(rs1),
+        .raddr2(rs2),
+        .waddr(rd),
+        .wdata(wdata),
+        .rdata1(rdata1),
+        .rdata2(rdata2),
+        .dbg_regs(dbg_reg)
     );
 
 /*
@@ -81,22 +84,22 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
 
     assign wen = add | addi | jalr | lui | lw | lbu;
     wire [31:0] add1 = rdata1;
-    wire [31:0] add2 = add ? rdata2 : \
+    wire [31:0] add2 = add ? rdata2 : 
                        (sw | sb) ? immS : immI;
 
     wire [31:0] add_rst = add1 + add2;
 
-    assign wdata = ({32{lui}} & immU) | \
-                   ({32{add} & add_rst}) | \
-                   ({32{addi} & add_rst}) | \
-                   ({32{jalr} & pc_next_dft}) | \
+    assign wdata = ({32{lui}} & immU) | 
+                   ({32{add}} & add_rst) | 
+                   ({32{addi}} & add_rst) | 
+                   ({32{jalr}} & pc_next_dft);
     
 
     // update
     always @(posedge clk) begin
-        pc_next <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
+        pc <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
     end
 
 
 endmodule
-
+/* verilator lint_off UNUSEDSIGNAL */

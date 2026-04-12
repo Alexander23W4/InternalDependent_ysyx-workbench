@@ -39,7 +39,7 @@ runtrace:
 
 # 1. --binary -j 0 -Wall
 binary:
-	$(VERILATOR) $(BINARY_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(INCLUDE_SOURCE)
+	$(VERILATOR) $(BINARY_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(SOURCES)
 # 2. --cc --exe --build -Wall --trace
 trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)
@@ -56,7 +56,7 @@ fast:
 
 # 4. lint only:
 static:
-	@$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(V_SRC) $(INCLUDE_SOURCE)
+	@$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(V_SRC) $(SOURCES)
 
 lintall:
 	@$(VERILATOR) $(STATIC_CHECK_FLAG) $(ALL_SOURCES)

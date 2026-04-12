@@ -1,8 +1,12 @@
+/* verilator lint_off UNUSEDSIGNAL */
 module top(
     input clk,
-    input [31:0] instr
+    input [31:0] instr,
+    output [32*32-1:0] dbg_reg,
+    output [31:0] _pc
 );
     reg [31:0] pc;
+    assign _pc = pc;
 
     wire addi;
     wire add;
@@ -28,7 +32,6 @@ module top(
     wire wen;
 
     wire [31:0] pc_next_dft;
-    reg [31:0] pc_next;
 
     assign pc_next_dft = pc + 32'd4;
 
@@ -52,7 +55,7 @@ module top(
         .immS(immS)
     );
 
-    register #(5, 32) GPR (
+    dbg_register #(5, 32) GPR (
         .clk(clk),
         .wen(wen),
         .raddr1(rs1),
@@ -60,7 +63,8 @@ module top(
         .waddr(rd),
         .wdata(wdata),
         .rdata1(rdata1),
-        .rdata2(rdata2)
+        .rdata2(rdata2),
+        .dbg_regs(dbg_reg)
     );
 
 /*
@@ -93,9 +97,9 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
 
     // update
     always @(posedge clk) begin
-        pc_next <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
+        pc <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
     end
 
 
 endmodule
-
+/* verilator lint_off UNUSEDSIGNAL */

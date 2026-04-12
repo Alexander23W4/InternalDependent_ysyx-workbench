@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vdecode__Syms.h"
-#include "Vdecode.h"
-#include "Vdecode___024root.h"
+#include "Vtop__Syms.h"
+#include "Vtop.h"
+#include "Vtop___024root.h"
 
 // FUNCTIONS
-Vdecode__Syms::~Vdecode__Syms()
+Vtop__Syms::~Vtop__Syms()
 {
 }
 
-Vdecode__Syms::Vdecode__Syms(VerilatedContext* contextp, const char* namep, Vdecode* modelp)
+Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}

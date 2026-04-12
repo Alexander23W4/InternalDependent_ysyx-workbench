@@ -5,41 +5,29 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VDECODE_H_
-#define VERILATED_VDECODE_H_  // guard
+#ifndef VERILATED_VTOP_H_
+#define VERILATED_VTOP_H_  // guard
 
 #include "verilated.h"
 
-class Vdecode__Syms;
-class Vdecode___024root;
+class Vtop__Syms;
+class Vtop___024root;
 
 // This class is the main interface to the Verilated model
-class Vdecode VL_NOT_FINAL : public VerilatedModel {
+class Vtop VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vdecode__Syms* const vlSymsp;
+    Vtop__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_OUT8(&addi,0,0);
-    VL_OUT8(&add,0,0);
-    VL_OUT8(&jalr,0,0);
-    VL_OUT8(&lui,0,0);
-    VL_OUT8(&lw,0,0);
-    VL_OUT8(&lbu,0,0);
-    VL_OUT8(&sw,0,0);
-    VL_OUT8(&sb,0,0);
-    VL_OUT8(&ebreak,0,0);
-    VL_OUT8(&rd,4,0);
-    VL_OUT8(&rs1,4,0);
-    VL_OUT8(&rs2,4,0);
+    VL_IN8(&clk,0,0);
     VL_IN(&instr,31,0);
-    VL_OUT(&immI,31,0);
-    VL_OUT(&immU,31,0);
-    VL_OUT(&immS,31,0);
+    VL_OUTW(&dbg_reg,1023,0,32);
+    VL_OUT(&_pc,31,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -47,19 +35,19 @@ class Vdecode VL_NOT_FINAL : public VerilatedModel {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vdecode___024root* const rootp;
+    Vtop___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vdecode(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vdecode(const char* name = "TOP");
+    explicit Vtop(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vtop(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vdecode();
+    virtual ~Vtop();
   private:
-    VL_UNCOPYABLE(Vdecode);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vtop);  ///< Copying not allowed
 
   public:
     // API METHODS

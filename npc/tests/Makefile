@@ -6,13 +6,13 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./test_v/decode.v
-CPP_SRC=./test_c/test_decode.cpp
+V_SRC=./test_v/top.v
+CPP_SRC=./test_c/test_top1.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 ALL_SOURCES=$(shell find ./test_v -name "*.v")
-SOURCES=
+SOURCES=./test_v/dbg_register.v ./test_v/decode.v
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx
@@ -45,11 +45,8 @@ trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)
 
 # 3. --cc --exe --build -j 0 -Wall
-fast_all:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(INCLUDE_SOURCE) $(CPP_SRC) 
-
-fast_src:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(SOURCES) $(CPP_SRC)
+fasts:
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(SOURCES) $(CPP_SRC) 
 
 fast:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC) 
@@ -59,7 +56,7 @@ static:
 	@$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(V_SRC) $(SOURCES)
 
 lintall:
-	@$(VERILATOR) $(STATIC_CHECK_FLAG) $(ALL_SOURCES)
+	@$(VERILATOR) $(STATIC_CHECK_FLAG) $(ALL_SOURCES) -Wno-MULTITOP
 
 # 5. make top:
 top:

@@ -12,7 +12,6 @@ int main(int argc, char** argv) {
     
     Vour* top = new Vour{contextp};
 
-    // 运行仿真
     while (!contextp->gotFinish()) {
         top->eval();
     }

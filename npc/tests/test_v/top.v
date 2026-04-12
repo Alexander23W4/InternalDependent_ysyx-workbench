@@ -100,14 +100,26 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
         pc <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
     end
 
-    // DPI-C interface:
+    // DPI-C interfaces:
     export "DPI-C" task halt;
-
     task halt(output int endprog); 
         begin
             endprog = {{31{1'b0}}, ebreak};
         end
     endtask
+
+
+    import "DPI-C" function int unsigned ram_read(
+        input longint ram,   
+        input int unsigned addr,
+        input int amount
+    );
+
+    import "DPI-C" function void ram_write(
+        input int unsigned addr, 
+        input int unsigned data, 
+        input int amount
+    );
 
 
 endmodule

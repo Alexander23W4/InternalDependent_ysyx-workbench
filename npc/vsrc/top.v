@@ -27,11 +27,12 @@ module top(
     wire [31:0] wdata;
     wire [31:0] rdata1;
     wire [31:0] rdata2;
+    wire wen;
 
     wire [31:0] pc_next_dft;
     reg [31:0] pc_next;
 
-    assign pc_next_dft = 
+    assign pc_next_dft = pc + 32'd4;
 
     decode Decode(
         .instr(instr),
@@ -55,7 +56,7 @@ module top(
 
     register GPR #(5, 32)(
         .clk(clk),
-        .en(1'b1),
+        .wen(wen),
         raddr1(rs1),
         raddr2(rs2),
         waddr(rd),
@@ -77,6 +78,7 @@ INSTPAT("??????? ????? ????? 000 ????? 01000 11", sb     , S, Mw(src1 + imm, 1, 
 INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0, NEMU_END
 */
 
+    assign wen = add | addi | jalr | lui | lw | lbu;
     wire [31:0] add1 = rdata1;
     wire [31:0] add2 = add ? rdata2 : \
                        (sw | sb) ? immS : immI;
@@ -85,8 +87,8 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
 
     assign wdata = ({32{lui}} & immU) | \
                    ({32{add} & add_rst}) | \
-                   ({32{addi} & (rdata1 + immI)}) | \
-                   ({32{jalr} & (pc + 3'd4)}) | \
+                   ({32{addi} & add_rst}) | \
+                   ({32{jalr} & pc_next_dft}) | \
     
 
 

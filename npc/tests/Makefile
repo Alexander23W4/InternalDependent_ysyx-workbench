@@ -6,15 +6,13 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./decode.v
-CPP_SRC=./Tests/T_top.cpp
+V_SRC=./test_v/decode.v
+CPP_SRC=./test_c/test_decode.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
-ALL_SOURCES=$(shell find ./RTL -name "*.v")
-INCLUDE_SOURCE=$(shell find ./sCPU_pkg -name "*.v")
-
-SOURCES=./RTL/CCMs/IO/ps2_keyboard.v  ./RTL/CCMs/IO/ps2_lut.v  ./RTL/CCMs/IO/ps2_receiver.v  ./RTL/Tests/ps2_keyboard_model.v
+ALL_SOURCES=$(shell find ./test_v -name "*.v")
+SOURCES=
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx
@@ -47,11 +45,14 @@ trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)
 
 # 3. --cc --exe --build -j 0 -Wall
-fast:
+fast_all:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(INCLUDE_SOURCE) $(CPP_SRC) 
 
-fast1:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) --timing $(CPP_SRC) $(SOURCES)
+fast_src:
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(SOURCES) $(CPP_SRC)
+
+fast:
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC) 
 
 # 4. lint only:
 static:
@@ -68,9 +69,3 @@ top:
 clean:
 	rm -rf $(OBJ_DIR) 
 
-
-sim:
-	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	@echo "Write this Makefile by your self."
-
-include ../Makefile

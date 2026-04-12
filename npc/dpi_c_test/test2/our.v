@@ -1,6 +1,5 @@
 // export 
 // let cpp file use verilog-based function (task)
-
 module our;
     export "DPI-C" task publicSetBool;
     logic [3:0] var_bool; 

@@ -3,6 +3,7 @@
 // See Vtop.h for the primary calling header
 
 #include "verilated.h"
+#include "verilated_dpi.h"
 
 #include "Vtop___024root.h"
 
@@ -14,6 +15,7 @@ extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_h00ef5455_0;
 extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_hd66787bc_0;
 extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_h1853747b_0;
 extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_hd0aca139_0;
+extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_h5d2ccd33_0;
 
 VL_INLINE_OPT void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -40,6 +42,8 @@ VL_INLINE_OPT void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf) 
     vlSelf->top__DOT__sw = Vtop__ConstPool__TABLE_h1853747b_0
         [__Vtableidx1];
     vlSelf->top__DOT__sb = Vtop__ConstPool__TABLE_hd0aca139_0
+        [__Vtableidx1];
+    vlSelf->top__DOT__ebreak = Vtop__ConstPool__TABLE_h5d2ccd33_0
         [__Vtableidx1];
     vlSelf->top__DOT__add_rst = (vlSelf->top__DOT__GPR__DOT__gpr
                                  [(0x1fU & (vlSelf->instr 

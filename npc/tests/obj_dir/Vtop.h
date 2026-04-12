@@ -9,6 +9,7 @@
 #define VERILATED_VTOP_H_  // guard
 
 #include "verilated.h"
+#include "svdpi.h"
 
 class Vtop__Syms;
 class Vtop___024root;
@@ -66,6 +67,9 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     uint64_t nextTimeSlot();
     /// Retrieve name of this model instance (as passed to constructor).
     const char* name() const;
+
+    /// DPI Export functions
+    static void halt(int* endprog);
 
     // Abstract methods from VerilatedModel
     const char* hierName() const override final;

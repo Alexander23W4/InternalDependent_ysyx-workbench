@@ -3,6 +3,7 @@
 // See Vtop.h for the primary calling header
 
 #include "verilated.h"
+#include "verilated_dpi.h"
 
 #include "Vtop___024root.h"
 
@@ -82,6 +83,7 @@ extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_h00ef5455_0;
 extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_hd66787bc_0;
 extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_h1853747b_0;
 extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_hd0aca139_0;
+extern const VlUnpacked<CData/*0:0*/, 1024> Vtop__ConstPool__TABLE_h5d2ccd33_0;
 
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -184,6 +186,8 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         [__Vtableidx1];
     vlSelf->top__DOT__sb = Vtop__ConstPool__TABLE_hd0aca139_0
         [__Vtableidx1];
+    vlSelf->top__DOT__ebreak = Vtop__ConstPool__TABLE_h5d2ccd33_0
+        [__Vtableidx1];
     vlSelf->top__DOT__add_rst = (vlSelf->top__DOT__GPR__DOT__gpr
                                  [(0x1fU & (vlSelf->instr 
                                             >> 0xfU))] 
@@ -284,6 +288,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__lbu = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__sw = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__sb = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__ebreak = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__pc_next_dft = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__add_rst = VL_RAND_RESET_I(32);
     for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {

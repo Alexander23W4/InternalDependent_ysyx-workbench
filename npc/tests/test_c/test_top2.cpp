@@ -1,5 +1,7 @@
 #include <verilated.h>
 #include "Vtop.h"
+#include "svdpi.h"
+#include "Vtop__Dpi.h"
 #include <iostream>
 #include <assert.h>
 #include <stdlib.h>
@@ -26,7 +28,7 @@ void load_program(uint32_t* ram) {
     ram[0] = 0x01400513; 
     ram[1] = 0x010000e7;
     ram[2] = 0x00c000e7;
-    ram[3] = 0x00c00067;
+    ram[3] = 0x00100073;
     ram[4] = 0x00a50513;
     ram[5] = 0x00008067;
 }
@@ -57,8 +59,11 @@ void prt_gprs(Vtop* top) {
     printf("\n------------------------------------------------\n");
 }
 
+int endprog = 0;
+
 int main(void) {
     Vtop* top = new Vtop;
+    svSetScope(svGetScopeFromName("TOP.top"));
     
     uint32_t* ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);
     assert(ram);
@@ -76,7 +81,13 @@ int main(void) {
         printf("Current instr: 0x%08x \n", ram[pc_idx]);
 
         tick(top);     
-        prt_gprs(top);   
+        prt_gprs(top);
+
+        top->halt(&endprog);
+        if(endprog){
+            printf("Hit ebreak instr, program end.\n");
+            break;
+        }   
     }
 
     top->final();

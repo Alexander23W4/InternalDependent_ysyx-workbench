@@ -5,6 +5,26 @@ module top(
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc
 );
+    // DPI-C interfaces:
+    export "DPI-C" task halt;
+    task halt(output int endprog); 
+        begin
+            endprog = {{31{1'b0}}, ebreak};
+        end
+    endtask
+
+
+    import "DPI-C" function int unsigned ram_read(
+        input int unsigned addr,
+        input int amount
+    );
+
+    import "DPI-C" function void ram_write(
+        input int unsigned addr, 
+        input int unsigned data, 
+        input int amount
+    );
+
     reg [31:0] pc;
     assign _pc = pc;
 
@@ -89,37 +109,31 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
 
     wire [31:0] add_rst = add1 + add2;
 
+    logic [31:0] lw_rst = ram_read(add_rst, 4);
+    logic [31:0] lbu_rst = ram_read(add_rst, 1);
+
     assign wdata = ({32{lui}} & immU) | 
                    ({32{add}} & add_rst) | 
                    ({32{addi}} & add_rst) | 
-                   ({32{jalr}} & pc_next_dft);
-    
+                   ({32{jalr}} & pc_next_dft) |
+                   ({32{lw}} & lw_rst) |
+                   ({32{lbu}} & lbu_rst);
+
+    always @(*) begin
+        if(sw) begin
+            ram_write(add_rst, rdata2, 4);
+        end
+        else if(sb) begin
+            ram_write(add_rst, rdata2, 1);
+        end
+    end
+
 
     // update
     always @(posedge clk) begin
         pc <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
     end
 
-    // DPI-C interfaces:
-    export "DPI-C" task halt;
-    task halt(output int endprog); 
-        begin
-            endprog = {{31{1'b0}}, ebreak};
-        end
-    endtask
-
-
-    import "DPI-C" function int unsigned ram_read(
-        input longint ram,   
-        input int unsigned addr,
-        input int amount
-    );
-
-    import "DPI-C" function void ram_write(
-        input int unsigned addr, 
-        input int unsigned data, 
-        input int amount
-    );
 
 
 endmodule

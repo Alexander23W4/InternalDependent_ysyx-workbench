@@ -25,6 +25,10 @@ using namespace std;
   14:	00008067          	jalr	zero,0(ra)
 */
 
+uint32_t pram(uint32_t vram){
+    return vram - RAM_BASE;
+}
+
 void load_program(uint32_t* ram) {
     ram[0] = 0x01400513; 
     ram[1] = 0x010000e7;
@@ -60,11 +64,12 @@ void prt_gprs(Vtop* top) {
     printf("\n------------------------------------------------\n");
 }
 
-uint32_t ram_read(uint8_t* ram, uint32_t addr, int amount) {
+uint32_t ram_read(uint32_t addr, int amount) {
+    uint8_t* _ram = (uint8_t*) ram;
     assert(amount <= 4 && amount >= 1);
     uint32_t result = 0;
     for (int i = 0; i < amount; i++) {
-        result |= ((uint32_t)ram[addr + i]) << (8 * i);
+        result |= ((uint32_t)_ram[addr + i]) << (8 * i);
     }
     return result;
 }
@@ -78,12 +83,13 @@ void ram_write(uint32_t addr, uint32_t data, int amount) {
 }
 
 int endprog = 0;
+uint32_t* ram = null_ptr;
 
 int main(void) {
     Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
     
-    uint32_t* ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);
+    ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);
     assert(ram);
     load_program(ram);
 

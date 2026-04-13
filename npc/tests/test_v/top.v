@@ -109,8 +109,10 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
 
     wire [31:0] add_rst = add1 + add2;
 
-    logic [31:0] lw_rst = ram_read(add_rst, 4);
-    logic [31:0] lbu_rst = ram_read(add_rst, 1);
+    wire [31:0] lw_rst;
+    assign lw_rst = ram_read(add_rst, 4);
+    wire [31:0] lbu_rst;
+    assign lbu_rst = ram_read(add_rst, 1);
 
     assign wdata = ({32{lui}} & immU) | 
                    ({32{add}} & add_rst) | 
@@ -119,19 +121,16 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
                    ({32{lw}} & lw_rst) |
                    ({32{lbu}} & lbu_rst);
 
-    always @(*) begin
+
+    // update
+    always @(posedge clk) begin
+        pc <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
         if(sw) begin
             ram_write(add_rst, rdata2, 4);
         end
         else if(sb) begin
             ram_write(add_rst, rdata2, 1);
         end
-    end
-
-
-    // update
-    always @(posedge clk) begin
-        pc <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
     end
 
 

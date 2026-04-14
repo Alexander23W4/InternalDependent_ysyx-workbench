@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define RAM_SIZE 200000  
+#define RAM_SIZE 524288  
 #define RAM_BASE 0x80000000
 #define MEMORY_LOAD_EFFECTIVENESS 2000
 #define MANUAL_LOAD 0
@@ -170,6 +170,13 @@ int main(int argc, char** argv) {
         }   
     }
     */
+    if(top->dbg_reg[10] != 0){   // after operation check
+        printf("HIT BAD TRAP\n");
+        printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
+    }
+    else{
+        printf("HIT GOOD TRAP\n");
+    }
 
     top->final();
     free(ram);

@@ -7,7 +7,7 @@
 
 
 V_SRC=./test_v/top.v
-CPP_SRC=./test_c/test_top2.cpp
+CPP_SRC=./test_c/test_top3.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
@@ -25,12 +25,13 @@ WARNING_IGNORE_FLAG=
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
+ARGV=sum.bin
 
 .PHONY: all binary trace fast clean run top
 
 run: 
 	@echo "RUN SIMULATION:"
-	$(EXE)
+	$(EXE) $(ARGV)
 
 runtrace:
 	$(EXE)

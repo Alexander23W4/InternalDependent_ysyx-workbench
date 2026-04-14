@@ -15,6 +15,34 @@ void Vtop___024root____Vdpiexp_top__DOT__halt_TOP(Vtop__Syms* __restrict vlSymsp
     endprog = vlSymsp->TOP.top__DOT__ebreak;
 }
 
+extern "C" unsigned int ram_read(unsigned int addr, int amount);
+
+VL_INLINE_OPT void Vtop___024root____Vdpiimwrap_top__DOT__ram_read_TOP(IData/*31:0*/ addr, IData/*31:0*/ amount, IData/*31:0*/ &ram_read__Vfuncrtn) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__ram_read_TOP\n"); );
+    // Body
+    unsigned int addr__Vcvt;
+    for (size_t addr__Vidx = 0; addr__Vidx < 1; ++addr__Vidx) addr__Vcvt = addr;
+    int amount__Vcvt;
+    for (size_t amount__Vidx = 0; amount__Vidx < 1; ++amount__Vidx) amount__Vcvt = amount;
+    unsigned int ram_read__Vfuncrtn__Vcvt;
+    ram_read__Vfuncrtn__Vcvt = ram_read(addr__Vcvt, amount__Vcvt);
+    ram_read__Vfuncrtn = ram_read__Vfuncrtn__Vcvt;
+}
+
+extern "C" void ram_write(unsigned int addr, unsigned int data, int amount);
+
+VL_INLINE_OPT void Vtop___024root____Vdpiimwrap_top__DOT__ram_write_TOP(IData/*31:0*/ addr, IData/*31:0*/ data, IData/*31:0*/ amount) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__ram_write_TOP\n"); );
+    // Body
+    unsigned int addr__Vcvt;
+    for (size_t addr__Vidx = 0; addr__Vidx < 1; ++addr__Vidx) addr__Vcvt = addr;
+    unsigned int data__Vcvt;
+    for (size_t data__Vidx = 0; data__Vidx < 1; ++data__Vidx) data__Vcvt = data;
+    int amount__Vcvt;
+    for (size_t amount__Vidx = 0; amount__Vidx < 1; ++amount__Vidx) amount__Vcvt = amount;
+    ram_write(addr__Vcvt, data__Vcvt, amount__Vcvt);
+}
+
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf);
 #endif  // VL_DEBUG

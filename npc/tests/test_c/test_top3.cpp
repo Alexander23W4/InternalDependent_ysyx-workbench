@@ -10,6 +10,9 @@ using namespace std;
 
 #define RAM_SIZE 200000  
 #define RAM_BASE 0x80000000
+#define MEMORY_LOAD_EFFECTIVENESS 2000
+#define MANUAL_LOAD 0
+#define AUTO_LOAD 1
 
 /*
 00000000 <_start>:
@@ -25,8 +28,20 @@ using namespace std;
   14:	00008067          	jalr	zero,0(ra)
 */
 
+int endprog = 0;
+uint32_t* ram = NULL;
+
 uint32_t pram(uint32_t vram){
     return vram - RAM_BASE;
+}
+
+void load_memory(char* filename, uint32_t* M){   
+    FILE *fp = fopen(filename, "rb");  
+    assert(fp);
+    size_t loaded_instr = fread(M, sizeof(uint32_t), MEMORY_LOAD_EFFECTIVENESS, fp);
+    fclose(fp);
+
+    printf("--LOAD %zu AMOUNTS OF INSTR TO M[]\n", loaded_instr);
 }
 
 void load_program(uint32_t* ram) {
@@ -82,22 +97,46 @@ void ram_write(uint32_t addr, uint32_t data, int amount) {
     }
 }
 
-int endprog = 0;
-uint32_t* ram = null_ptr;
 
-int main(void) {
+int add_ebreak(uint32_t* M){
+    for (size_t i = 0; i < MEMORY_LOAD_EFFECTIVENESS; i++)  
+    {
+        if(M[i] == 0x00000513){
+            M[i + 1] = 0x00100073;
+            return 1;
+        }
+    }  
+    return 0;
+}
+
+
+int main(int argc, char** argv) {
+    assert(argc >= 2);
+
+    // malloc ram
     Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
     
     ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);
     assert(ram);
+
+    // load code
+    #if MANUAL_LOAD
     load_program(ram);
+    #elif AUTO_LOAD
+    load_memory(argv[1], ram);
+    #endif
+
+    // add ebreak
+    int _add_ebreak_suc = add_ebreak(ram);
+    assert(_add_ebreak_suc);
+    
+// ---------------------------------------------------------
 
     top->clk = 0;
     top->eval();
 
-    for (int cycle = 0; cycle < 10; cycle++) {
-
+    while(1){
         uint32_t pc_idx = (top->_pc) >> 2; // fetch
         if (pc_idx >= RAM_SIZE) break; 
         
@@ -113,6 +152,24 @@ int main(void) {
             break;
         }   
     }
+    /*
+    for (int cycle = 0; cycle < 10; cycle++) {
+        uint32_t pc_idx = (top->_pc) >> 2; // fetch
+        if (pc_idx >= RAM_SIZE) break; 
+        
+        top->instr = ram[pc_idx];  
+        printf("Current instr: 0x%08x \n", ram[pc_idx]);
+
+        tick(top);     
+        prt_gprs(top);
+
+        top->halt(&endprog);
+        if(endprog){
+            printf("Hit ebreak instr, program end.\n");
+            break;
+        }   
+    }
+    */
 
     top->final();
     free(ram);

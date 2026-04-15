@@ -1,6 +1,7 @@
 /* verilator lint_off UNUSEDSIGNAL */
 module top(
     input clk,
+    input rst,
     input [31:0] instr,
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc
@@ -55,8 +56,6 @@ module top(
 
     assign pc_next_dft = pc + 32'd4;
 
-    // 
-    // 导出任务，方便 C++ 实时查询解码状态
     export "DPI-C" task get_decode_signals;
 
     task get_decode_signals(
@@ -174,13 +173,18 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
 
 
     // update
-    always @(posedge clk) begin
-        pc <= jalr ? (add_rst & ~32'h1) : pc_next_dft;
-        if(sw) begin
-            ram_write(add_rst, rdata2, 4);
+    always @(posedge clk or posedge rst) begin
+        if(rst) begin
+            pc <= 32'h80000000;
         end
-        else if(sb) begin
-            ram_write(add_rst, rdata2, 1);
+        else begin
+            pc <= jalr ? (add_rst & ~32'h1) : pc_next_dft;  // update
+            if(sw) begin
+                ram_write(add_rst, rdata2, 4);
+            end
+            else if(sb) begin
+                ram_write(add_rst, rdata2, 1);
+            end
         end
     end
 

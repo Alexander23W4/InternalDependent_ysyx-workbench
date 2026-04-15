@@ -12,7 +12,8 @@ using namespace std;
 #define RAM_BASE 0x80000000
 #define MEMORY_LOAD_EFFECTIVENESS 20000
 #define MANUAL_LOAD 0
-#define AUTO_LOAD 1
+#define AUTO_LOAD 0
+#define AM 1
 
 /*
 00000000 <_start>:
@@ -104,7 +105,8 @@ void prt_gprs(Vtop* top) {
 }
 
 uint32_t ram_read(uint32_t addr, int amount) {
-    if (addr >= RAM_SIZE * 4){
+    uint32_t paddr = pram(addr);
+    if (paddr >= RAM_SIZE * 4){
         printf("invalid ram_read addr\n");
         return 0;
     }
@@ -112,16 +114,17 @@ uint32_t ram_read(uint32_t addr, int amount) {
     assert(amount <= 4 && amount >= 1);
     uint32_t result = 0;
     for (int i = 0; i < amount; i++) {
-        result |= ((uint32_t)_ram[addr + i]) << (8 * i);
+        result |= ((uint32_t)_ram[paddr + i]) << (8 * i);
     }
     return result;
 }
 
 void ram_write(uint32_t addr, uint32_t data, int amount) {
+    uint32_t paddr = pram(addr);
     assert(amount <= 4 && amount >= 1);
     uint8_t* ram_byte = (uint8_t*)ram; 
     for (int i = 0; i < amount; i++) {
-        ram_byte[addr + i] = (uint8_t)(data >> (8 * i));
+        ram_byte[paddr + i] = (uint8_t)(data >> (8 * i));
     }
 }
 
@@ -141,6 +144,12 @@ int add_ebreak(uint32_t* M){
 int main(int argc, char** argv) {
     assert(argc >= 2);
 
+    // rst
+    top->rst = 1;  
+    top->eval();
+    top->rst = 0; 
+    printf("Reset Released. Starting execution...\n");
+
     // malloc ram
     Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
@@ -153,11 +162,13 @@ int main(int argc, char** argv) {
     load_program(ram);
     #elif AUTO_LOAD
     load_memory(argv[1], ram);
-    #endif
-
-    // add ebreak
+        // add ebreak
     int _add_ebreak_suc = add_ebreak(ram);
     assert(_add_ebreak_suc);
+    #elif AM
+
+    #endif
+
     
 // ---------------------------------------------------------
 
@@ -165,8 +176,8 @@ int main(int argc, char** argv) {
     top->eval();
 
     while(1){
-        uint32_t pc_idx = (top->_pc) >> 2; // fetch
-        if (pc_idx >= RAM_SIZE) break;
+        uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; // fetch
+        if (pc_idx >= RAM_SIZE) printf("Invalid pc\n"); break;
         
         top->instr = ram[pc_idx];
         printf("Current instr: 0x%08x \n", ram[pc_idx]);
@@ -176,10 +187,10 @@ int main(int argc, char** argv) {
 
         top->halt(&endprog);
         top->get_decode_signals(
-            &instr, 
+            &instr,
             &addi, &add, &jalr, &lui, &lw, &lbu, &sw, &sb, &ebreak,
-            &rd, &rs1, &rs2, 
-            &immI, &immU, &immS, 
+            &rd, &rs1, &rs2,
+            &immI, &immU, &immS,
             &wdata, &rdata1, &rdata2, &wen
         );
         prt_decode_info();

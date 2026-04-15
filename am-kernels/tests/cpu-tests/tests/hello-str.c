@@ -1,5 +1,6 @@
 #include "trap.h"
 // make ARCH=riscv32-nemu ALL=hello-str run
+// make ARCH=minirv-npc ALL=hello-str run
 // @@
 char buf[128];
 

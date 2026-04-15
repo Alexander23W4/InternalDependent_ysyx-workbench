@@ -1,6 +1,8 @@
 #include "trap.h"
+#include<assert.h>
 // @@
 // make ARCH=riscv32-nemu ALL=add-longlong run
+// make ARCH=minirv-npc ALL=add-longlong run
 long long add(long long a, long long b) {
 	long long c = a + b;
 	return c;

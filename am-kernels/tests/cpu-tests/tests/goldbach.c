@@ -1,5 +1,6 @@
 #include "trap.h"
 // make ARCH=riscv32-nemu ALL=goldbach run
+// make ARCH=minirv-npc ALL=goldbach run
 // @@
 int is_prime(int n) {
 	if(n < 2) return 0;

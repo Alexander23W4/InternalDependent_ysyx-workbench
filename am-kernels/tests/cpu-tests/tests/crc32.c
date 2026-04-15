@@ -1,5 +1,6 @@
 /* from http://rosettacode.org/wiki/CRC-32#C */
 // make ARCH=riscv32-nemu ALL=crc32 run
+// make ARCH=minirv-npc ALL=crc32 run
 // @@
 #include <klib-macros.h>
 #include "trap.h"

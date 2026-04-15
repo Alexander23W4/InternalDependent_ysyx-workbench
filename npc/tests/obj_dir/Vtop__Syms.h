@@ -17,6 +17,7 @@
 #include "Vtop___024root.h"
 
 // DPI TYPES for DPI Export callbacks (Internal use)
+using Vtop__Vcb_get_decode_signals_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &instr_val, IData/*31:0*/ &addi_s, IData/*31:0*/ &add_s, IData/*31:0*/ &jalr_s, IData/*31:0*/ &lui_s, IData/*31:0*/ &lw_s, IData/*31:0*/ &lbu_s, IData/*31:0*/ &sw_s, IData/*31:0*/ &sb_s, IData/*31:0*/ &ebreak_s, IData/*31:0*/ &rd_val, IData/*31:0*/ &rs1_val, IData/*31:0*/ &rs2_val, IData/*31:0*/ &immI_val, IData/*31:0*/ &immU_val, IData/*31:0*/ &immS_val, IData/*31:0*/ &wdata_val, IData/*31:0*/ &rdata1_val, IData/*31:0*/ &rdata2_val, IData/*31:0*/ &wen_val);
 using Vtop__Vcb_halt_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 
 // SYMS CLASS (contains all model state)

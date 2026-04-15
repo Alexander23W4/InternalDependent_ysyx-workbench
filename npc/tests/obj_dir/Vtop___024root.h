@@ -23,6 +23,7 @@ class Vtop___024root final : public VerilatedModule {
     CData/*0:0*/ top__DOT__sw;
     CData/*0:0*/ top__DOT__sb;
     CData/*0:0*/ top__DOT__ebreak;
+    CData/*0:0*/ top__DOT__wen;
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
     CData/*0:0*/ __VactContinue;
     SData/*9:0*/ __Vtableidx1;
@@ -30,6 +31,11 @@ class Vtop___024root final : public VerilatedModule {
     VL_OUTW(dbg_reg,1023,0,32);
     VL_OUT(_pc,31,0);
     IData/*31:0*/ top__DOT__pc;
+    IData/*31:0*/ top__DOT__immI;
+    IData/*31:0*/ top__DOT__immS;
+    IData/*31:0*/ top__DOT__wdata;
+    IData/*31:0*/ top__DOT__rdata1;
+    IData/*31:0*/ top__DOT__rdata2;
     IData/*31:0*/ top__DOT__pc_next_dft;
     IData/*31:0*/ top__DOT__add_rst;
     IData/*31:0*/ top__DOT__lw_rst;

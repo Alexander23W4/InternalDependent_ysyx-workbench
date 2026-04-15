@@ -69,6 +69,7 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     const char* name() const;
 
     /// DPI Export functions
+    static void get_decode_signals(int* instr_val, int* addi_s, int* add_s, int* jalr_s, int* lui_s, int* lw_s, int* lbu_s, int* sw_s, int* sb_s, int* ebreak_s, int* rd_val, int* rs1_val, int* rs2_val, int* immI_val, int* immU_val, int* immS_val, int* wdata_val, int* rdata1_val, int* rdata2_val, int* wen_val);
     static void halt(int* endprog);
 
     // Abstract methods from VerilatedModel

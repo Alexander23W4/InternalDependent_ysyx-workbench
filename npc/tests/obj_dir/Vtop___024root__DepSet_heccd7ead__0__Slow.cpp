@@ -166,6 +166,22 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                       >> 0x20U));
     vlSelf->_pc = vlSelf->top__DOT__pc;
     vlSelf->top__DOT__pc_next_dft = ((IData)(4U) + vlSelf->top__DOT__pc);
+    vlSelf->top__DOT__immI = (((- (IData)((vlSelf->instr 
+                                           >> 0x1fU))) 
+                               << 0xcU) | (vlSelf->instr 
+                                           >> 0x14U));
+    vlSelf->top__DOT__immS = (((- (IData)((vlSelf->instr 
+                                           >> 0x1fU))) 
+                               << 0xcU) | ((0xfe0U 
+                                            & (vlSelf->instr 
+                                               >> 0x14U)) 
+                                           | (0x1fU 
+                                              & (vlSelf->instr 
+                                                 >> 7U))));
+    vlSelf->top__DOT__rdata1 = vlSelf->top__DOT__GPR__DOT__gpr
+        [(0x1fU & (vlSelf->instr >> 0xfU))];
+    vlSelf->top__DOT__rdata2 = vlSelf->top__DOT__GPR__DOT__gpr
+        [(0x1fU & (vlSelf->instr >> 0x14U))];
     vlSelf->__Vtableidx1 = ((0x380U & (vlSelf->instr 
                                        >> 5U)) | (0x7fU 
                                                   & vlSelf->instr));
@@ -187,35 +203,36 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         [vlSelf->__Vtableidx1];
     vlSelf->top__DOT__ebreak = Vtop__ConstPool__TABLE_h5d2ccd33_0
         [vlSelf->__Vtableidx1];
-    vlSelf->top__DOT__add_rst = (vlSelf->top__DOT__GPR__DOT__gpr
-                                 [(0x1fU & (vlSelf->instr 
-                                            >> 0xfU))] 
+    vlSelf->top__DOT__wen = ((IData)(vlSelf->top__DOT__add) 
+                             | ((IData)(vlSelf->top__DOT__addi) 
+                                | ((IData)(vlSelf->top__DOT__jalr) 
+                                   | ((IData)(vlSelf->top__DOT__lui) 
+                                      | ((IData)(vlSelf->top__DOT__lbu) 
+                                         | (IData)(vlSelf->top__DOT__lw))))));
+    vlSelf->top__DOT__add_rst = (vlSelf->top__DOT__rdata1 
                                  + ((IData)(vlSelf->top__DOT__add)
-                                     ? vlSelf->top__DOT__GPR__DOT__gpr
-                                    [(0x1fU & (vlSelf->instr 
-                                               >> 0x14U))]
+                                     ? vlSelf->top__DOT__rdata2
                                      : (((IData)(vlSelf->top__DOT__sb) 
                                          | (IData)(vlSelf->top__DOT__sw))
-                                         ? (((- (IData)(
-                                                        (vlSelf->instr 
-                                                         >> 0x1fU))) 
-                                             << 0xcU) 
-                                            | ((0xfe0U 
-                                                & (vlSelf->instr 
-                                                   >> 0x14U)) 
-                                               | (0x1fU 
-                                                  & (vlSelf->instr 
-                                                     >> 7U))))
-                                         : (((- (IData)(
-                                                        (vlSelf->instr 
-                                                         >> 0x1fU))) 
-                                             << 0xcU) 
-                                            | (vlSelf->instr 
-                                               >> 0x14U)))));
+                                         ? vlSelf->top__DOT__immS
+                                         : vlSelf->top__DOT__immI)));
     Vtop___024root____Vdpiimwrap_top__DOT__ram_read_TOP(vlSelf->top__DOT__add_rst, 4U, vlSelf->__Vfunc_top__DOT__ram_read__0__Vfuncout);
     vlSelf->top__DOT__lw_rst = vlSelf->__Vfunc_top__DOT__ram_read__0__Vfuncout;
     Vtop___024root____Vdpiimwrap_top__DOT__ram_read_TOP(vlSelf->top__DOT__add_rst, 1U, vlSelf->__Vfunc_top__DOT__ram_read__1__Vfuncout);
     vlSelf->top__DOT__lbu_rst = vlSelf->__Vfunc_top__DOT__ram_read__1__Vfuncout;
+    vlSelf->top__DOT__wdata = ((0xfffff000U & ((- (IData)((IData)(vlSelf->top__DOT__lui))) 
+                                               & vlSelf->instr)) 
+                               | (((- (IData)((IData)(vlSelf->top__DOT__add))) 
+                                   & vlSelf->top__DOT__add_rst) 
+                                  | (((- (IData)((IData)(vlSelf->top__DOT__addi))) 
+                                      & vlSelf->top__DOT__add_rst) 
+                                     | (((- (IData)((IData)(vlSelf->top__DOT__jalr))) 
+                                         & ((IData)(4U) 
+                                            + vlSelf->top__DOT__pc)) 
+                                        | (((- (IData)((IData)(vlSelf->top__DOT__lw))) 
+                                            & vlSelf->top__DOT__lw_rst) 
+                                           | ((- (IData)((IData)(vlSelf->top__DOT__lbu))) 
+                                              & vlSelf->top__DOT__lbu_rst))))));
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
@@ -292,6 +309,12 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__sw = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__sb = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__ebreak = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__immI = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__immS = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__wdata = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__rdata1 = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__rdata2 = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__wen = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__pc_next_dft = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__add_rst = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__lw_rst = VL_RAND_RESET_I(32);

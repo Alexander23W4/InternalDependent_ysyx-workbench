@@ -55,6 +55,57 @@ module top(
 
     assign pc_next_dft = pc + 32'd4;
 
+    // 
+    // 导出任务，方便 C++ 实时查询解码状态
+    export "DPI-C" task get_decode_signals;
+
+    task get_decode_signals(
+        output int instr_val,
+        output int addi_s,
+        output int add_s,
+        output int jalr_s,
+        output int lui_s,
+        output int lw_s,
+        output int lbu_s,
+        output int sw_s,
+        output int sb_s,
+        output int ebreak_s,
+        output int rd_val,
+        output int rs1_val,
+        output int rs2_val,
+        output int immI_val,
+        output int immU_val,
+        output int immS_val,
+        output int wdata_val,
+        output int rdata1_val,
+        output int rdata2_val,
+        output int wen_val
+    );
+        begin
+            instr_val  = instr;
+            addi_s     = {31'b0, addi};
+            add_s      = {31'b0, add};
+            jalr_s     = {31'b0, jalr};
+            lui_s      = {31'b0, lui};
+            lw_s       = {31'b0, lw};
+            lbu_s      = {31'b0, lbu};
+            sw_s       = {31'b0, sw};
+            sb_s       = {31'b0, sb};
+            ebreak_s   = {31'b0, ebreak};
+
+            rd_val     = {27'b0, rd};
+            rs1_val    = {27'b0, rs1};
+            rs2_val    = {27'b0, rs2};
+            immI_val   = immI;
+            immU_val   = immU;
+            immS_val   = immS;
+            wdata_val  = wdata;
+            rdata1_val = rdata1;
+            rdata2_val = rdata2;
+            wen_val    = {31'b0, wen};
+        end
+    endtask 
+
     decode Decode(
         .instr(instr),
         .addi(addi),

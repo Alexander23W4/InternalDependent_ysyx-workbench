@@ -59,7 +59,7 @@ module decode(
     assign rs2 = instr[24:20];
 
     assign immI = {{20{instr[31]}}, instr[31:20]};
-    assign immU = {instr[31:12], {12{1'b0}}};
+    assign immU = {instr[31:12], 12'b0};
     assign immS = {{20{instr[31]}}, instr[31:25], instr[11:7]};
 
     always @(*) begin

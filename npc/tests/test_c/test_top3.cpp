@@ -10,7 +10,7 @@ using namespace std;
 
 #define RAM_SIZE 524288  
 #define RAM_BASE 0x80000000
-#define MEMORY_LOAD_EFFECTIVENESS 2000
+#define MEMORY_LOAD_EFFECTIVENESS 20000
 #define MANUAL_LOAD 0
 #define AUTO_LOAD 1
 
@@ -30,6 +30,30 @@ using namespace std;
 
 int endprog = 0;
 uint32_t* ram = NULL;
+
+int instr, rd, rs1, rs2;
+int addi, add, jalr, lui, lw, lbu, sw, sb, ebreak;
+int immI, immU, immS;
+int wdata, rdata1, rdata2, wen;
+
+void prt_decode_info() {
+    printf("INST: 0x%08x\n", instr);
+
+    printf("TYPE: ");
+    if(addi)   printf("addi ");   if(add) printf("add "); if(jalr) printf("jalr ");
+    if(lui)    printf("lui ");    if(lw)  printf("lw ");  if(lbu)  printf("lbu ");
+    if(sw)     printf("sw ");     if(sb)  printf("sb ");  if(ebreak) printf("ebreak ");
+    printf("\n");
+
+    printf("REGS: rd:%d rs1:%d rs2:%d\n", rd, rs1, rs2);
+
+    printf("IMMS: I:0x%x U:0x%x S:0x%x\n", immI, immU, immS);
+
+    printf("DATA: wd:0x%08x r1:0x%08x r2:0x%08x wen:%d\n", wdata, rdata1, rdata2, wen);
+
+    printf("------------------------------------------------\n");
+}
+
 
 uint32_t pram(uint32_t vram){
     return vram - RAM_BASE;
@@ -55,9 +79,9 @@ void load_program(uint32_t* ram) {
 
 void tick(Vtop* top) {
     top->clk = 0;
-    top->eval(); 
+    top->eval();   //
     top->clk = 1;
-    top->eval(); 
+    top->eval();
 }
 
 uint32_t get_gpr(Vtop* top, int reg_id) {
@@ -80,6 +104,10 @@ void prt_gprs(Vtop* top) {
 }
 
 uint32_t ram_read(uint32_t addr, int amount) {
+    if (addr >= RAM_SIZE * 4){
+        printf("invalid ram_read addr\n");
+        return 0;
+    }
     uint8_t* _ram = (uint8_t*) ram;
     assert(amount <= 4 && amount >= 1);
     uint32_t result = 0;
@@ -138,20 +166,30 @@ int main(int argc, char** argv) {
 
     while(1){
         uint32_t pc_idx = (top->_pc) >> 2; // fetch
-        if (pc_idx >= RAM_SIZE) break; 
+        if (pc_idx >= RAM_SIZE) break;
         
-        top->instr = ram[pc_idx];  
+        top->instr = ram[pc_idx];
         printf("Current instr: 0x%08x \n", ram[pc_idx]);
 
-        tick(top);     
+        tick(top);
         prt_gprs(top);
 
         top->halt(&endprog);
+        top->get_decode_signals(
+            &instr, 
+            &addi, &add, &jalr, &lui, &lw, &lbu, &sw, &sb, &ebreak,
+            &rd, &rs1, &rs2, 
+            &immI, &immU, &immS, 
+            &wdata, &rdata1, &rdata2, &wen
+        );
+        prt_decode_info();
+
         if(endprog){
             printf("Hit ebreak instr, program end.\n");
             break;
-        }   
+        }
     }
+
     /*
     for (int cycle = 0; cycle < 10; cycle++) {
         uint32_t pc_idx = (top->_pc) >> 2; // fetch
@@ -170,6 +208,7 @@ int main(int argc, char** argv) {
         }   
     }
     */
+
     if(top->dbg_reg[10] != 0){   // after operation check
         printf("HIT BAD TRAP\n");
         printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");

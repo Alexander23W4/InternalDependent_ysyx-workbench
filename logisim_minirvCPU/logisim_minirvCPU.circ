@@ -86,8 +86,6 @@
       <a name="label" val="clk"/>
     </comp>
     <comp lib="0" loc="(640,660)" name="Constant"/>
-    <comp loc="(1210,800)" name="GPR"/>
-    <comp loc="(1240,370)" name="decode"/>
     <comp loc="(880,620)" name="pc"/>
     <wire from="(420,560)" to="(580,560)"/>
     <wire from="(430,1020)" to="(580,1020)"/>

@@ -25,7 +25,7 @@ WARNING_IGNORE_FLAG=
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
-ARGV=mem.bin
+ARGV=sum.bin
 
 .PHONY: all binary trace fast clean run top
 

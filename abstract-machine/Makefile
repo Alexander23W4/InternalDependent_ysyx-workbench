@@ -1,5 +1,34 @@
 # Makefile for AbstractMachine Kernels and Libraries
 
+# ----------------------------------------------------------------------------------------------------
+# ifeq   
+# findstring  
+# info(print to terminate command line)  warning error
+# wildcard(pattern find file)
+# shell
+# nodir(remove dir, leave only file name)
+
+# e.g.
+# NAME = dummy
+# SRCS = tests/dummy.c
+# ARCH= minirv-npc 
+# MAKECMDGOALS = run
+
+# --> Domestic generations
+# ISA = minirv  PLATFORM = npc
+
+# --> In isa/riscv.mk
+# CROSS_COMPILE := riscv64-linux-gnu-
+# COMMON_CFLAGS := -fno-pic -march=rv64g -mcmodel=medany -mstrict-align
+# CFLAGS        += $(COMMON_CFLAGS) -static
+# ASFLAGS       += $(COMMON_CFLAGS) -O0
+# LDFLAGS       += -melf64lriscv
+
+# # overwrite ARCH_H defined in $(AM_HOME)/Makefile
+# ARCH_H := arch/riscv.h
+
+# ----------------------------------------------------------------------------------------------------
+
 ### *Get a more readable version of this Makefile* by `make html` (requires python-markdown)
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
@@ -16,7 +45,7 @@ endif
 ### Override checks when `make clean/clean-all/html`
 ifeq ($(findstring $(MAKECMDGOALS),clean|clean-all|html),)
 
-### Print build info message
+### Print build info message     # @@@ (Building bit-run [minirv-npc])
 $(info # Building $(NAME)-$(MAKECMDGOALS) [$(ARCH)])
 
 ### Check: environment variable `$AM_HOME` looks sane
@@ -31,6 +60,7 @@ ifeq ($(filter $(ARCHS), $(ARCH)), )
 endif
 
 ### Extract instruction set architecture (`ISA`) and platform from `$ARCH`. Example: `ARCH=x86_64-qemu -> ISA=x86_64; PLATFORM=qemu`
+# @@@ ISA = minirv  PLATFORM = npc
 ARCH_SPLIT = $(subst -, ,$(ARCH))
 ISA        = $(word 1,$(ARCH_SPLIT))
 PLATFORM   = $(word 2,$(ARCH_SPLIT))
@@ -45,24 +75,24 @@ endif
 
 ## 2. General Compilation Targets
 
-### Create the destination directory (`build/$ARCH`)
+### Create the destination directory (`build/$ARCH`)    # @@@ (mkdir cpu_tests/build/minirv-npc)
 WORK_DIR  = $(shell pwd)
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
 
-### Compilation targets (a binary image or archive)
+### Compilation targets (a binary image or archive)   # @@@ (build/dummy-minirv-npc.a)  @@@ ARCHIVE (.a)
 IMAGE_REL = build/$(NAME)-$(ARCH)
 IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
 
-### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
+### Collect the files to be linked: object files (`.o`) and libraries (`.a`)    @@@ LINKAGE  (.o) LIBS  // build/minirv-npc/dummy.o
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
-LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
+LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions, sort could remove repeatation
 LINKAGE   = $(OBJS)  # library archives are added by LIB_TEMPLATE below
 
 ## 3. General Compilation Flags
 
-### (Cross) compilers, e.g., mips-linux-gnu-g++
+### (Cross) compilers, e.g., mips-linux-gnu-g++    # @@@ (riscv64-linux-gnu-)
 AS        = $(CROSS_COMPILE)gcc
 CC        = $(CROSS_COMPILE)gcc
 CXX       = $(CROSS_COMPILE)g++
@@ -72,7 +102,7 @@ OBJDUMP   = $(CROSS_COMPILE)objdump
 OBJCOPY   = $(CROSS_COMPILE)objcopy
 READELF   = $(CROSS_COMPILE)readelf
 
-### Compilation flags
+### Compilation flags    # @@@ INC_PATH: abm/am & klib/include/     cpu/tests/include
 INC_PATH += $(WORK_DIR)/include $(addsuffix /include/, $(addprefix $(AM_HOME)/, $(LIBS)))
 INCFLAGS += $(addprefix -I, $(INC_PATH))
 

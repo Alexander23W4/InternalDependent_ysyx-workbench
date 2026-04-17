@@ -18,11 +18,18 @@ $(ALL): %: Makefile.%
 
 # *** Makefile.* 
 # %@(Make.dummy)  %*(dummy)  %^(tests/dummy.c)  %<(...)
-# make -s -f Make.dummy ARCH=$(ARCH) $(MAKECMDGOALS)
+
+# Make.dummy:
+# NAME = dummy
+# SRCS = tests/dummy.c
+# include /home/wang/xxx/abstract-machine/Makefile
+
+# make -s -f Make.dummy ARCH=$(ARCH) $(MAKECMDGOALS)  (make -s -f Make.dummy ARCH=minirv-npc run)
+
 # rm -f Makefile.dummy
 Makefile.%: tests/%.c latest
 	@/bin/echo -e "NAME = $*\nSRCS = $<\ninclude $${AM_HOME}/Makefile" > $@
-	@if make -s -f $@ ARCH=$(ARCH) $(MAKECMDGOALS); then \
+	@if make -f $@ ARCH=$(ARCH) $(MAKECMDGOALS); then \
 		printf "[%14s] $(COLOR_GREEN)PASS$(COLOR_NONE)\n" $* >> $(RESULT); \
 	else \
 		printf "[%14s] $(COLOR_RED)***FAIL***$(COLOR_NONE)\n" $* >> $(RESULT); \

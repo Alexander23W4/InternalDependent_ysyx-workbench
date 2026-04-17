@@ -1,0 +1,226 @@
+#include "/home/wang/InternalDependent_ysyx-workbench/abstract-machine/tools/minirv/inst-replace.h"
+	.file	"leap-year.c"
+	.option nopic
+	.text
+	.section	.text.check,"ax",@progbits
+	.align	2
+	.globl	check
+	.hidden	check
+	.type	check, @function
+check:
+	beq	a0,zero,.L7
+	ret
+.L7:
+	addi	sp,sp,-12
+	li	a0,1
+	sw	ra,8(sp)
+	call	halt
+	.size	check, .-check
+	.globl	__modsi3
+	.section	.text.is_leap_year,"ax",@progbits
+	.align	2
+	.globl	is_leap_year
+	.hidden	is_leap_year
+	.type	is_leap_year, @function
+is_leap_year:
+	addi	sp,sp,-12
+	sw	s0,4(sp)
+	sw	ra,8(sp)
+	andi	a5,a0,3
+	mv	s0,a0
+	bne	a5,zero,.L9
+	li	a1,100
+	call	__modsi3
+	mv	a5,a0
+	li	a0,1
+	beq	a5,zero,.L9
+	lw	ra,8(sp)
+	lw	s0,4(sp)
+	addi	sp,sp,12
+	jr	ra
+.L9:
+	mv	a0,s0
+	li	a1,400
+	call	__modsi3
+	lw	ra,8(sp)
+	lw	s0,4(sp)
+	seqz	a0,a0
+	addi	sp,sp,12
+	jr	ra
+	.size	is_leap_year, .-is_leap_year
+	.section	.text.startup.main,"ax",@progbits
+	.align	2
+	.globl	main
+	.hidden	main
+	.type	main, @function
+main:
+	addi	sp,sp,-12
+	sw	s0,4(sp)
+	sw	s1,0(sp)
+	sw	ra,8(sp)
+	lla	s1,.LANCHOR0
+	li	s0,1890
+.L16:
+	andi	a5,s0,3
+	li	a1,100
+	mv	a0,s0
+	bne	a5,zero,.L14
+	call	__modsi3
+	li	a5,1
+	bne	a0,zero,.L15
+.L14:
+	li	a1,400
+	mv	a0,s0
+	call	__modsi3
+	seqz	a5,a0
+.L15:
+	lw	a0,0(s1)
+	addi	s0,s0,1
+	addi	s1,s1,4
+	sub	a0,a0,a5
+	seqz	a0,a0
+	call	check
+	li	a5,2015
+	bne	s0,a5,.L16
+	lw	ra,8(sp)
+	lw	s0,4(sp)
+	lw	s1,0(sp)
+	li	a0,0
+	addi	sp,sp,12
+	jr	ra
+	.size	main, .-main
+	.hidden	ans
+	.globl	ans
+	.section	.data.ans,"aw"
+	.align	2
+	.set	.LANCHOR0,. + 0
+	.type	ans, @object
+	.size	ans, 500
+ans:
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
+	.section	.note.GNU-stack,"",@progbits

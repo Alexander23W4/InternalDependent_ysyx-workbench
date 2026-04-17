@@ -1,6 +1,11 @@
 .PHONY: all run gdb clean latest $(ALL)
 # make ARCH=minirv-npc ALL=bit run
 # make ARCH=minirv-npc run     (barch)
+
+MINIRV_BASE_INC=$(NPC_HOME)/tests
+MINIRV_EXE=$(MINIRV_BASE_INC)/obj_dir/Vtop
+MINIRV_EXE_ARGV=./build/$(ALL)-$(ARCH).bin
+
 RESULT = .result
 $(shell > $(RESULT))
 
@@ -39,6 +44,8 @@ Makefile.%: tests/%.c latest
 run: all
 	@cat $(RESULT)
 	@rm $(RESULT)
+	@echo "RUN SIMULATION:"
+	$(MINIRV_EXE) $(MINIRV_EXE_ARGV)
 
 gdb: all
 

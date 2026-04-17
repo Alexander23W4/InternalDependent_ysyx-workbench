@@ -12,6 +12,7 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     : VerilatedModel{*_vcontextp__}
     , vlSymsp{new Vtop__Syms(contextp(), _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
+    , rst{vlSymsp->TOP.rst}
     , instr{vlSymsp->TOP.instr}
     , dbg_reg{vlSymsp->TOP.dbg_reg}
     , _pc{vlSymsp->TOP._pc}

@@ -121,6 +121,10 @@ uint32_t ram_read(uint32_t addr, int amount) {
 
 void ram_write(uint32_t addr, uint32_t data, int amount) {
     uint32_t paddr = pram(addr);
+    if (paddr >= RAM_SIZE * 4){
+        printf("invalid ram_write addr\n");
+        return 0;
+    }
     assert(amount <= 4 && amount >= 1);
     uint8_t* ram_byte = (uint8_t*)ram; 
     for (int i = 0; i < amount; i++) {
@@ -144,16 +148,17 @@ int add_ebreak(uint32_t* M){
 int main(int argc, char** argv) {
     assert(argc >= 2);
 
+    Vtop* top = new Vtop;
+
     // rst
     top->rst = 1;  
     top->eval();
     top->rst = 0; 
     printf("Reset Released. Starting execution...\n");
 
-    // malloc ram
-    Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
     
+    // malloc ram
     ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);
     assert(ram);
 
@@ -176,6 +181,7 @@ int main(int argc, char** argv) {
     top->eval();
 
     while(1){
+        printf("ppp\n");
         uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; // fetch
         if (pc_idx >= RAM_SIZE) printf("Invalid pc\n"); break;
         

@@ -17,7 +17,7 @@
 #ifndef VL_DPIDECL_get_decode_signals_
 #define VL_DPIDECL_get_decode_signals_
 void get_decode_signals(int* instr_val, int* addi_s, int* add_s, int* jalr_s, int* lui_s, int* lw_s, int* lbu_s, int* sw_s, int* sb_s, int* ebreak_s, int* rd_val, int* rs1_val, int* rs2_val, int* immI_val, int* immU_val, int* immS_val, int* wdata_val, int* rdata1_val, int* rdata2_val, int* wen_val) {
-    // DPI export at test_v/top.v:62:10
+    // DPI export at test_v/top.v:61:10
     return Vtop::get_decode_signals(instr_val, addi_s, add_s, jalr_s, lui_s, lw_s, lbu_s, sw_s, sb_s, ebreak_s, rd_val, rs1_val, rs2_val, immI_val, immU_val, immS_val, wdata_val, rdata1_val, rdata2_val, wen_val);
 }
 #endif
@@ -25,7 +25,7 @@ void get_decode_signals(int* instr_val, int* addi_s, int* add_s, int* jalr_s, in
 #ifndef VL_DPIDECL_halt_
 #define VL_DPIDECL_halt_
 void halt(int* endprog) {
-    // DPI export at test_v/top.v:10:10
+    // DPI export at test_v/top.v:11:10
     return Vtop::halt(endprog);
 }
 #endif

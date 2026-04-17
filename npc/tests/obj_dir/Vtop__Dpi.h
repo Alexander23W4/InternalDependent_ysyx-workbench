@@ -16,15 +16,15 @@ extern "C" {
 
 
     // DPI EXPORTS
-    // DPI export at test_v/top.v:62:10
+    // DPI export at test_v/top.v:61:10
     extern void get_decode_signals(int* instr_val, int* addi_s, int* add_s, int* jalr_s, int* lui_s, int* lw_s, int* lbu_s, int* sw_s, int* sb_s, int* ebreak_s, int* rd_val, int* rs1_val, int* rs2_val, int* immI_val, int* immU_val, int* immS_val, int* wdata_val, int* rdata1_val, int* rdata2_val, int* wen_val);
-    // DPI export at test_v/top.v:10:10
+    // DPI export at test_v/top.v:11:10
     extern void halt(int* endprog);
 
     // DPI IMPORTS
-    // DPI import at test_v/top.v:17:42
+    // DPI import at test_v/top.v:18:42
     extern unsigned int ram_read(unsigned int addr, int amount);
-    // DPI import at test_v/top.v:22:34
+    // DPI import at test_v/top.v:23:34
     extern void ram_write(unsigned int addr, unsigned int data, int amount);
 
 #ifdef __cplusplus

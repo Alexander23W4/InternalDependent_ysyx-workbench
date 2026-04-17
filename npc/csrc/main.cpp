@@ -144,6 +144,8 @@ int add_ebreak(uint32_t* M){
 int main(int argc, char** argv) {
     assert(argc >= 2);
 
+    Vtop* top = new Vtop;
+
     // rst
     top->rst = 1;  
     top->eval();
@@ -151,7 +153,6 @@ int main(int argc, char** argv) {
     printf("Reset Released. Starting execution...\n");
 
     // malloc ram
-    Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
     
     ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);

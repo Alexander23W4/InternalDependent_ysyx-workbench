@@ -107,7 +107,7 @@ void prt_gprs(Vtop* top) {
 uint32_t ram_read(uint32_t addr, int amount) {
     uint32_t paddr = pram(addr);
     if (paddr >= RAM_SIZE * 4){
-        printf("invalid ram_read addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);
+        // printf("invalid ram_read addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);
         return 0;
     }
     uint8_t* _ram = (uint8_t*) ram;
@@ -173,8 +173,8 @@ int main(int argc, char** argv) {
     #elif AM
     load_memory(argv[1], ram);
             // add ebreak
-    int _add_ebreak_suc = add_ebreak(ram);
-    assert(_add_ebreak_suc);
+    // int _add_ebreak_suc = add_ebreak(ram);
+    // assert(_add_ebreak_suc);
     #endif
 
     
@@ -183,6 +183,7 @@ int main(int argc, char** argv) {
     while(1){
         uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; // fetch
         printf("pc_idx: %u\n", pc_idx);
+
         if (pc_idx >= RAM_SIZE || pc_idx < 0){
             printf("Invalid pc\n"); 
             break;
@@ -190,10 +191,11 @@ int main(int argc, char** argv) {
         top->instr = ram[pc_idx];
         printf("Current instr: 0x%08x \n", ram[pc_idx]);
 
+        // operation a period
         tick(top);
-        prt_gprs(top);
 
-        top->halt(&endprog);
+        // output operation outcomes
+        prt_gprs(top);
         top->get_decode_signals(
             &instr,
             &addi, &add, &jalr, &lui, &lw, &lbu, &sw, &sb, &ebreak,
@@ -202,6 +204,9 @@ int main(int argc, char** argv) {
             &wdata, &rdata1, &rdata2, &wen
         );
         prt_decode_info();
+
+        // check end
+        top->halt(&endprog);
 
         if(endprog){
             printf("Hit ebreak instr, program end.\n");

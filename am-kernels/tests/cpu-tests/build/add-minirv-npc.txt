@@ -9,7 +9,7 @@ Disassembly of section .text:
 80000004:	80051137          	lui	sp,0x80051
 80000008:	00010113          	mv	sp,sp
 8000000c:	800000b7          	lui	ra,0x80000
-80000010:	42c08093          	addi	ra,ra,1068 # 8000042c <_end+0xfffaf42c>
+80000010:	43008093          	addi	ra,ra,1072 # 80000430 <_end+0xfffaf430>
 80000014:	000080e7          	jalr	ra
 
 80000018 <check>:
@@ -293,18 +293,20 @@ Disassembly of section .text:
 8000041c:	00008067          	ret
 
 80000420 <halt>:
-80000420:	80000237          	lui	tp,0x80000
-80000424:	42020213          	addi	tp,tp,1056 # 80000420 <_end+0xfffaf420>
-80000428:	00020067          	jr	tp # 0 <_entry_offset>
+80000420:	00100073          	ebreak
+80000424:	80000237          	lui	tp,0x80000
+80000428:	42420213          	addi	tp,tp,1060 # 80000424 <_end+0xfffaf424>
+8000042c:	00020067          	jr	tp # 0 <_entry_offset>
 
-8000042c <_trm_init>:
-8000042c:	ff410113          	addi	sp,sp,-12
-80000430:	80048537          	lui	a0,0x80048
-80000434:	70050513          	addi	a0,a0,1792 # 80048700 <_end+0xffff7700>
-80000438:	00112423          	sw	ra,8(sp)
-8000043c:	800000b7          	lui	ra,0x80000
-80000440:	0c008093          	addi	ra,ra,192 # 800000c0 <_end+0xfffaf0c0>
-80000444:	000080e7          	jalr	ra
-80000448:	80000237          	lui	tp,0x80000
-8000044c:	44820213          	addi	tp,tp,1096 # 80000448 <_end+0xfffaf448>
-80000450:	00020067          	jr	tp # 0 <_entry_offset>
+80000430 <_trm_init>:
+80000430:	ff410113          	addi	sp,sp,-12
+80000434:	80048537          	lui	a0,0x80048
+80000438:	70050513          	addi	a0,a0,1792 # 80048700 <_end+0xffff7700>
+8000043c:	00112423          	sw	ra,8(sp)
+80000440:	800000b7          	lui	ra,0x80000
+80000444:	0c008093          	addi	ra,ra,192 # 800000c0 <_end+0xfffaf0c0>
+80000448:	000080e7          	jalr	ra
+8000044c:	00100073          	ebreak
+80000450:	80000237          	lui	tp,0x80000
+80000454:	45020213          	addi	tp,tp,1104 # 80000450 <_end+0xfffaf450>
+80000458:	00020067          	jr	tp # 0 <_entry_offset>

@@ -16,6 +16,11 @@ putch:
 	.hidden	halt
 	.type	halt, @function
 halt:
+#APP
+# 18 "/home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/src/riscv/npc/trm.c" 1
+	ebreak
+# 0 "" 2
+#NO_APP
 .L4:
 	j	.L4
 	.size	halt, .-halt
@@ -29,6 +34,11 @@ _trm_init:
 	lla	a0,.LANCHOR0
 	sw	ra,8(sp)
 	call	main
+#APP
+# 18 "/home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/src/riscv/npc/trm.c" 1
+	ebreak
+# 0 "" 2
+#NO_APP
 .L6:
 	j	.L6
 	.size	_trm_init, .-_trm_init

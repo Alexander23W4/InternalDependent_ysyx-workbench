@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//  make ARCH=minirv-npc ALL=wanshu run
 int ans[] = {6, 28};
 
 int main() {

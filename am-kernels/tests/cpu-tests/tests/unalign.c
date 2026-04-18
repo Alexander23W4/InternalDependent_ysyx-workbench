@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//  make ARCH=minirv-npc ALL=unalign run
 volatile unsigned x = 0xffffffff;
 volatile unsigned char buf[16];
 

@@ -45,8 +45,10 @@ Makefile.%: tests/%.c latest
 run: all
 	@cat $(RESULT)
 	@rm $(RESULT)
+ifeq ($(ARCH),minirv-npc)
 	@echo "RUN SIMULATION:"
-	$(MINIRV_EXE) $(MINIRV_EXE_ARGV) >> $(DEBUG_LOG)
+	$(MINIRV_EXE) $(MINIRV_EXE_ARGV)
+endif
 	
 
 gdb: all

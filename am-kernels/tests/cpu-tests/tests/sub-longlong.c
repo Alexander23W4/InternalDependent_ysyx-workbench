@@ -1,5 +1,6 @@
 #include "trap.h"
 // make ARCH=riscv32-nemu ALL=sub-longlong run
+// make ARCH=minirv-npc ALL=sub-longlong run
 // @@
 long long sub(long long a, long long b) {
 	long long c = a - b;

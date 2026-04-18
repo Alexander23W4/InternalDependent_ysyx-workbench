@@ -1,5 +1,6 @@
 #include "trap.h"
 // make ARCH=riscv32-nemu ALL=prime run
+// make ARCH=minirv-npc ALL=prime run
 // @@
 int ans[] = {101, 103, 107, 109, 113, 127, 131, 137, 139, 149};
 

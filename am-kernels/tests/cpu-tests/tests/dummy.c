@@ -3,3 +3,4 @@ int main() {
 }
 
 // make ARCH=riscv32-nemu ALL=dummy run
+// make ARCH=minirv-npc ALL=dummy run

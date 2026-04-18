@@ -5,6 +5,7 @@
 #include <iostream>
 #include <assert.h>
 #include <stdlib.h>
+#include "dbg.h"
 
 using namespace std;
 
@@ -105,30 +106,40 @@ void prt_gprs(Vtop* top) {
 }
 
 uint32_t ram_read(uint32_t addr, int amount) {
-    uint32_t paddr = pram(addr);
-    if (paddr >= RAM_SIZE * 4){
-        // printf("invalid ram_read addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);
+    if((instr & 0x7f) == 3){
+        uint32_t paddr = pram(addr);
+        uint8_t* _ram = (uint8_t*) ram;
+        assert(amount <= 4 && amount >= 1);
+        uint32_t result = 0;
+        
+        if (paddr >= RAM_SIZE * 4){
+            // printf("invalid ram_read addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);
+            return 0;
+        }
+        for (int i = 0; i < amount; i++) {
+            result |= ((uint32_t)_ram[paddr + i]) << (8 * i);
+        }
+        return result;
+    }
+    else {
         return 0;
     }
-    uint8_t* _ram = (uint8_t*) ram;
-    assert(amount <= 4 && amount >= 1);
-    uint32_t result = 0;
-    for (int i = 0; i < amount; i++) {
-        result |= ((uint32_t)_ram[paddr + i]) << (8 * i);
-    }
-    return result;
 }
 
 void ram_write(uint32_t addr, uint32_t data, int amount) {
     uint32_t paddr = pram(addr);
+    assert(amount <= 4 && amount >= 1);
+    uint8_t* ram_byte = (uint8_t*)ram; 
+    check((paddr % amount) == 0, "misaligned access, paddr: 0x%08X, amount: %d", paddr, amount);
     if (paddr >= RAM_SIZE * 4){
         printf("invalid ram_write addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);
     }
-    assert(amount <= 4 && amount >= 1);
-    uint8_t* ram_byte = (uint8_t*)ram; 
     for (int i = 0; i < amount; i++) {
         ram_byte[paddr + i] = (uint8_t)(data >> (8 * i));
     }
+    return;
+error:
+    assert(0);
 }
 
 
@@ -189,8 +200,9 @@ int main(int argc, char** argv) {
             break;
         }
         top->instr = ram[pc_idx];
+        instr = top->instr;
         printf("Current instr: 0x%08x \n", ram[pc_idx]);
-
+        
         // operation a period
         tick(top);
 

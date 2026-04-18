@@ -9,14 +9,14 @@ Disassembly of section .text:
 80000004:	80052137          	lui	sp,0x80052
 80000008:	00010113          	mv	sp,sp
 8000000c:	800010b7          	lui	ra,0x80001
-80000010:	0d808093          	addi	ra,ra,216 # 800010d8 <_end+0xfffaf0d8>
+80000010:	0dc08093          	addi	ra,ra,220 # 800010dc <_end+0xfffaf0dc>
 80000014:	000080e7          	jalr	ra
 
 80000018 <check>:
 80000018:	fea12823          	sw	a0,-16(sp) # 80051ff0 <_end+0xfffffff0>
 8000001c:	fe812e23          	sw	s0,-4(sp)
 80000020:	80001437          	lui	s0,0x80001
-80000024:	10840413          	addi	s0,s0,264 # 80001108 <_end+0xfffaf108>
+80000024:	20840413          	addi	s0,s0,520 # 80001208 <_end+0xfffaf208>
 80000028:	ff014183          	lbu	gp,-16(sp)
 8000002c:	003401b3          	add	gp,s0,gp
 80000030:	0001c183          	lbu	gp,0(gp)
@@ -33,7 +33,7 @@ Disassembly of section .text:
 8000005c:	00024203          	lbu	tp,0(tp) # 0 <_entry_offset>
 80000060:	004181b3          	add	gp,gp,tp
 80000064:	80001237          	lui	tp,0x80001
-80000068:	10020213          	addi	tp,tp,256 # 80001100 <_end+0xfffaf100>
+80000068:	20020213          	addi	tp,tp,512 # 80001200 <_end+0xfffaf200>
 8000006c:	00320233          	add	tp,tp,gp
 80000070:	00024203          	lbu	tp,0(tp) # 0 <_entry_offset>
 80000074:	ffc12403          	lw	s0,-4(sp)
@@ -64,7 +64,7 @@ Disassembly of section .text:
 800000c0:	fe812e23          	sw	s0,-4(sp)
 800000c4:	feb12823          	sw	a1,-16(sp)
 800000c8:	8003a437          	lui	s0,0x8003a
-800000cc:	f0040413          	addi	s0,s0,-256 # 80039f00 <_end+0xfffe7f00>
+800000cc:	00040413          	mv	s0,s0
 800000d0:	ff214203          	lbu	tp,-14(sp)
 
 800000d4 <slli_19>:
@@ -124,7 +124,7 @@ Disassembly of section .text:
 80000180:	feb12823          	sw	a1,-16(sp)
 80000184:	fe412623          	sw	tp,-20(sp)
 80000188:	800015b7          	lui	a1,0x80001
-8000018c:	30058593          	addi	a1,a1,768 # 80001300 <_end+0xfffaf300>
+8000018c:	40058593          	addi	a1,a1,1024 # 80001400 <_end+0xfffaf400>
 80000190:	fe012223          	sw	zero,-28(sp)
 80000194:	ff314203          	lbu	tp,-13(sp)
 80000198:	fe4102a3          	sb	tp,-27(sp)
@@ -167,9 +167,9 @@ Disassembly of section .text:
 80000224:	feb10623          	sb	a1,-20(sp)
 80000228:	fec14403          	lbu	s0,-20(sp)
 8000022c:	80003237          	lui	tp,0x80003
-80000230:	20020213          	addi	tp,tp,512 # 80003200 <_end+0xfffb1200>
+80000230:	30020213          	addi	tp,tp,768 # 80003300 <_end+0xfffb1300>
 80000234:	00440433          	add	s0,s0,tp
-80000238:	00044403          	lbu	s0,0(s0)
+80000238:	00044403          	lbu	s0,0(s0) # 8003a000 <_end+0xfffe8000>
 8000023c:	fe012623          	sw	zero,-20(sp)
 80000240:	fe8106a3          	sb	s0,-19(sp)
 80000244:	fec12403          	lw	s0,-20(sp)
@@ -178,7 +178,7 @@ Disassembly of section .text:
 80000248:	00840433          	add	s0,s0,s0
 8000024c:	00840433          	add	s0,s0,s0
 80000250:	80031237          	lui	tp,0x80031
-80000254:	30020213          	addi	tp,tp,768 # 80031300 <_end+0xfffdf300>
+80000254:	40020213          	addi	tp,tp,1024 # 80031400 <_end+0xfffdf400>
 80000258:	00440433          	add	s0,s0,tp
 8000025c:	fe012623          	sw	zero,-20(sp)
 80000260:	ff314203          	lbu	tp,-13(sp)
@@ -235,7 +235,7 @@ Disassembly of section .text:
 800002fc:	fea12823          	sw	a0,-16(sp)
 80000300:	fef12623          	sw	a5,-20(sp)
 80000304:	80001537          	lui	a0,0x80001
-80000308:	30050513          	addi	a0,a0,768 # 80001300 <_end+0xfffaf300>
+80000308:	40050513          	addi	a0,a0,1024 # 80001400 <_end+0xfffaf400>
 8000030c:	fe012223          	sw	zero,-28(sp)
 80000310:	ff314203          	lbu	tp,-13(sp)
 80000314:	fe4102a3          	sb	tp,-27(sp)
@@ -303,7 +303,7 @@ Disassembly of section .text:
 800003dc:	fe312a23          	sw	gp,-12(sp)
 800003e0:	fe912423          	sw	s1,-24(sp)
 800003e4:	80031237          	lui	tp,0x80031
-800003e8:	20020213          	addi	tp,tp,512 # 80031200 <_end+0xfffdf200>
+800003e8:	30020213          	addi	tp,tp,768 # 80031300 <_end+0xfffdf300>
 800003ec:	feb14183          	lbu	gp,-21(sp)
 800003f0:	004181b3          	add	gp,gp,tp
 800003f4:	0001c183          	lbu	gp,0(gp)
@@ -333,7 +333,7 @@ Disassembly of section .text:
 8000044c:	fe914203          	lbu	tp,-23(sp)
 80000450:	004181b3          	add	gp,gp,tp
 80000454:	80001237          	lui	tp,0x80001
-80000458:	21020213          	addi	tp,tp,528 # 80001210 <_end+0xfffaf210>
+80000458:	31020213          	addi	tp,tp,784 # 80001310 <_end+0xfffaf310>
 8000045c:	00320233          	add	tp,tp,gp
 80000460:	ff812483          	lw	s1,-8(sp)
 80000464:	ffc12403          	lw	s0,-4(sp)
@@ -344,7 +344,7 @@ Disassembly of section .text:
 80000470:	fe812e23          	sw	s0,-4(sp)
 80000474:	feb12823          	sw	a1,-16(sp)
 80000478:	8003a437          	lui	s0,0x8003a
-8000047c:	f0040413          	addi	s0,s0,-256 # 80039f00 <_end+0xfffe7f00>
+8000047c:	00040413          	mv	s0,s0
 80000480:	ff214203          	lbu	tp,-14(sp)
 
 80000484 <slli_83>:
@@ -406,7 +406,7 @@ Disassembly of section .text:
 80000538:	feb12823          	sw	a1,-16(sp)
 8000053c:	fe412623          	sw	tp,-20(sp)
 80000540:	800015b7          	lui	a1,0x80001
-80000544:	30058593          	addi	a1,a1,768 # 80001300 <_end+0xfffaf300>
+80000544:	40058593          	addi	a1,a1,1024 # 80001400 <_end+0xfffaf400>
 80000548:	fe012223          	sw	zero,-28(sp)
 8000054c:	ff314203          	lbu	tp,-13(sp)
 80000550:	fe4102a3          	sb	tp,-27(sp)
@@ -449,9 +449,9 @@ Disassembly of section .text:
 800005dc:	feb10623          	sb	a1,-20(sp)
 800005e0:	fec14403          	lbu	s0,-20(sp)
 800005e4:	80003237          	lui	tp,0x80003
-800005e8:	20020213          	addi	tp,tp,512 # 80003200 <_end+0xfffb1200>
+800005e8:	30020213          	addi	tp,tp,768 # 80003300 <_end+0xfffb1300>
 800005ec:	00440433          	add	s0,s0,tp
-800005f0:	00044403          	lbu	s0,0(s0)
+800005f0:	00044403          	lbu	s0,0(s0) # 8003a000 <_end+0xfffe8000>
 800005f4:	fe012623          	sw	zero,-20(sp)
 800005f8:	fe8106a3          	sb	s0,-19(sp)
 800005fc:	fec12403          	lw	s0,-20(sp)
@@ -460,7 +460,7 @@ Disassembly of section .text:
 80000600:	00840433          	add	s0,s0,s0
 80000604:	00840433          	add	s0,s0,s0
 80000608:	80031237          	lui	tp,0x80031
-8000060c:	30020213          	addi	tp,tp,768 # 80031300 <_end+0xfffdf300>
+8000060c:	40020213          	addi	tp,tp,1024 # 80031400 <_end+0xfffdf400>
 80000610:	00440433          	add	s0,s0,tp
 80000614:	fe012623          	sw	zero,-20(sp)
 80000618:	ff314203          	lbu	tp,-13(sp)
@@ -517,7 +517,7 @@ Disassembly of section .text:
 800006b4:	fec12823          	sw	a2,-16(sp)
 800006b8:	fe812e23          	sw	s0,-4(sp)
 800006bc:	80001437          	lui	s0,0x80001
-800006c0:	10840413          	addi	s0,s0,264 # 80001108 <_end+0xfffaf108>
+800006c0:	20840413          	addi	s0,s0,520 # 80001208 <_end+0xfffaf208>
 800006c4:	ff014183          	lbu	gp,-16(sp)
 800006c8:	003401b3          	add	gp,s0,gp
 800006cc:	0001c183          	lbu	gp,0(gp)
@@ -534,7 +534,7 @@ Disassembly of section .text:
 800006f8:	00024203          	lbu	tp,0(tp) # 0 <_entry_offset>
 800006fc:	004181b3          	add	gp,gp,tp
 80000700:	80001237          	lui	tp,0x80001
-80000704:	10020213          	addi	tp,tp,256 # 80001100 <_end+0xfffaf100>
+80000704:	20020213          	addi	tp,tp,512 # 80001200 <_end+0xfffaf200>
 80000708:	00320233          	add	tp,tp,gp
 8000070c:	00024203          	lbu	tp,0(tp) # 0 <_entry_offset>
 80000710:	ffc12403          	lw	s0,-4(sp)
@@ -557,7 +557,7 @@ Disassembly of section .text:
 80000744:	fe312a23          	sw	gp,-12(sp)
 80000748:	fee12423          	sw	a4,-24(sp)
 8000074c:	80031237          	lui	tp,0x80031
-80000750:	20020213          	addi	tp,tp,512 # 80031200 <_end+0xfffdf200>
+80000750:	30020213          	addi	tp,tp,768 # 80031300 <_end+0xfffdf300>
 80000754:	feb14183          	lbu	gp,-21(sp)
 80000758:	004181b3          	add	gp,gp,tp
 8000075c:	0001c183          	lbu	gp,0(gp)
@@ -581,7 +581,7 @@ Disassembly of section .text:
 8000079c:	fef12823          	sw	a5,-16(sp)
 800007a0:	fee12623          	sw	a4,-20(sp)
 800007a4:	800017b7          	lui	a5,0x80001
-800007a8:	30078793          	addi	a5,a5,768 # 80001300 <_end+0xfffaf300>
+800007a8:	40078793          	addi	a5,a5,1024 # 80001400 <_end+0xfffaf400>
 800007ac:	fe012223          	sw	zero,-28(sp)
 800007b0:	ff314203          	lbu	tp,-13(sp)
 800007b4:	fe4102a3          	sb	tp,-27(sp)
@@ -626,7 +626,7 @@ Disassembly of section .text:
 80000848:	fef12823          	sw	a5,-16(sp)
 8000084c:	fee12623          	sw	a4,-20(sp)
 80000850:	800117b7          	lui	a5,0x80011
-80000854:	30078793          	addi	a5,a5,768 # 80011300 <_end+0xfffbf300>
+80000854:	40078793          	addi	a5,a5,1024 # 80011400 <_end+0xfffbf400>
 80000858:	fe012223          	sw	zero,-28(sp)
 8000085c:	ff314203          	lbu	tp,-13(sp)
 80000860:	fe4102a3          	sb	tp,-27(sp)
@@ -670,7 +670,7 @@ Disassembly of section .text:
 800008e8:	fef12823          	sw	a5,-16(sp)
 800008ec:	fe412623          	sw	tp,-20(sp)
 800008f0:	800017b7          	lui	a5,0x80001
-800008f4:	30078793          	addi	a5,a5,768 # 80001300 <_end+0xfffaf300>
+800008f4:	40078793          	addi	a5,a5,1024 # 80001400 <_end+0xfffaf400>
 800008f8:	fe012223          	sw	zero,-28(sp)
 800008fc:	ff314203          	lbu	tp,-13(sp)
 80000900:	fe4102a3          	sb	tp,-27(sp)
@@ -730,7 +730,7 @@ Disassembly of section .text:
 800009c0:	fea12823          	sw	a0,-16(sp)
 800009c4:	fe412623          	sw	tp,-20(sp)
 800009c8:	80021537          	lui	a0,0x80021
-800009cc:	30050513          	addi	a0,a0,768 # 80021300 <_end+0xfffcf300>
+800009cc:	40050513          	addi	a0,a0,1024 # 80021400 <_end+0xfffcf400>
 800009d0:	fe012223          	sw	zero,-28(sp)
 800009d4:	ff314203          	lbu	tp,-13(sp)
 800009d8:	fe4102a3          	sb	tp,-27(sp)
@@ -773,7 +773,7 @@ Disassembly of section .text:
 80000a5c:	fea12823          	sw	a0,-16(sp)
 80000a60:	fe412623          	sw	tp,-20(sp)
 80000a64:	80001537          	lui	a0,0x80001
-80000a68:	30050513          	addi	a0,a0,768 # 80001300 <_end+0xfffaf300>
+80000a68:	40050513          	addi	a0,a0,1024 # 80001400 <_end+0xfffaf400>
 80000a6c:	fe012223          	sw	zero,-28(sp)
 80000a70:	ff314203          	lbu	tp,-13(sp)
 80000a74:	fe4102a3          	sb	tp,-27(sp)
@@ -832,7 +832,7 @@ Disassembly of section .text:
 80000b38:	fea12823          	sw	a0,-16(sp)
 80000b3c:	fe412623          	sw	tp,-20(sp)
 80000b40:	80021537          	lui	a0,0x80021
-80000b44:	30050513          	addi	a0,a0,768 # 80021300 <_end+0xfffcf300>
+80000b44:	40050513          	addi	a0,a0,1024 # 80021400 <_end+0xfffcf400>
 80000b48:	fe012223          	sw	zero,-28(sp)
 80000b4c:	ff314203          	lbu	tp,-13(sp)
 80000b50:	fe4102a3          	sb	tp,-27(sp)
@@ -875,7 +875,7 @@ Disassembly of section .text:
 80000bd4:	fea12823          	sw	a0,-16(sp)
 80000bd8:	fe412623          	sw	tp,-20(sp)
 80000bdc:	80001537          	lui	a0,0x80001
-80000be0:	30050513          	addi	a0,a0,768 # 80001300 <_end+0xfffaf300>
+80000be0:	40050513          	addi	a0,a0,1024 # 80001400 <_end+0xfffaf400>
 80000be4:	fe012223          	sw	zero,-28(sp)
 80000be8:	ff314203          	lbu	tp,-13(sp)
 80000bec:	fe4102a3          	sb	tp,-27(sp)
@@ -934,7 +934,7 @@ Disassembly of section .text:
 80000cb0:	fea12823          	sw	a0,-16(sp)
 80000cb4:	fe412623          	sw	tp,-20(sp)
 80000cb8:	80021537          	lui	a0,0x80021
-80000cbc:	30050513          	addi	a0,a0,768 # 80021300 <_end+0xfffcf300>
+80000cbc:	40050513          	addi	a0,a0,1024 # 80021400 <_end+0xfffcf400>
 80000cc0:	fe012223          	sw	zero,-28(sp)
 80000cc4:	ff314203          	lbu	tp,-13(sp)
 80000cc8:	fe4102a3          	sb	tp,-27(sp)
@@ -977,7 +977,7 @@ Disassembly of section .text:
 80000d4c:	fea12823          	sw	a0,-16(sp)
 80000d50:	fe412623          	sw	tp,-20(sp)
 80000d54:	80001537          	lui	a0,0x80001
-80000d58:	30050513          	addi	a0,a0,768 # 80001300 <_end+0xfffaf300>
+80000d58:	40050513          	addi	a0,a0,1024 # 80001400 <_end+0xfffaf400>
 80000d5c:	fe012223          	sw	zero,-28(sp)
 80000d60:	ff314203          	lbu	tp,-13(sp)
 80000d64:	fe4102a3          	sb	tp,-27(sp)
@@ -1036,7 +1036,7 @@ Disassembly of section .text:
 80000e28:	fea12823          	sw	a0,-16(sp)
 80000e2c:	fe412623          	sw	tp,-20(sp)
 80000e30:	80021537          	lui	a0,0x80021
-80000e34:	30050513          	addi	a0,a0,768 # 80021300 <_end+0xfffcf300>
+80000e34:	40050513          	addi	a0,a0,1024 # 80021400 <_end+0xfffcf400>
 80000e38:	fe012223          	sw	zero,-28(sp)
 80000e3c:	ff314203          	lbu	tp,-13(sp)
 80000e40:	fe4102a3          	sb	tp,-27(sp)
@@ -1079,7 +1079,7 @@ Disassembly of section .text:
 80000ec4:	fea12823          	sw	a0,-16(sp)
 80000ec8:	fe412623          	sw	tp,-20(sp)
 80000ecc:	80001537          	lui	a0,0x80001
-80000ed0:	30050513          	addi	a0,a0,768 # 80001300 <_end+0xfffaf300>
+80000ed0:	40050513          	addi	a0,a0,1024 # 80001400 <_end+0xfffaf400>
 80000ed4:	fe012223          	sw	zero,-28(sp)
 80000ed8:	ff314203          	lbu	tp,-13(sp)
 80000edc:	fe4102a3          	sb	tp,-27(sp)
@@ -1178,7 +1178,7 @@ Disassembly of section .text:
 80001050:	fea12823          	sw	a0,-16(sp)
 80001054:	fe812e23          	sw	s0,-4(sp)
 80001058:	80001437          	lui	s0,0x80001
-8000105c:	10840413          	addi	s0,s0,264 # 80001108 <_end+0xfffaf108>
+8000105c:	20840413          	addi	s0,s0,520 # 80001208 <_end+0xfffaf208>
 80001060:	ff014183          	lbu	gp,-16(sp)
 80001064:	003401b3          	add	gp,s0,gp
 80001068:	0001c183          	lbu	gp,0(gp)
@@ -1195,7 +1195,7 @@ Disassembly of section .text:
 80001094:	00024203          	lbu	tp,0(tp) # 0 <_entry_offset>
 80001098:	004181b3          	add	gp,gp,tp
 8000109c:	80001237          	lui	tp,0x80001
-800010a0:	10020213          	addi	tp,tp,256 # 80001100 <_end+0xfffaf100>
+800010a0:	20020213          	addi	tp,tp,512 # 80001200 <_end+0xfffaf200>
 800010a4:	00320233          	add	tp,tp,gp
 800010a8:	00024503          	lbu	a0,0(tp) # 0 <_entry_offset>
 800010ac:	ffc12403          	lw	s0,-4(sp)
@@ -1208,18 +1208,20 @@ Disassembly of section .text:
 800010c8:	00008067          	ret
 
 800010cc <halt>:
-800010cc:	80001237          	lui	tp,0x80001
-800010d0:	0cc20213          	addi	tp,tp,204 # 800010cc <_end+0xfffaf0cc>
-800010d4:	00020067          	jr	tp # 0 <_entry_offset>
+800010cc:	00100073          	ebreak
+800010d0:	80001237          	lui	tp,0x80001
+800010d4:	0d020213          	addi	tp,tp,208 # 800010d0 <_end+0xfffaf0d0>
+800010d8:	00020067          	jr	tp # 0 <_entry_offset>
 
-800010d8 <_trm_init>:
-800010d8:	ff410113          	addi	sp,sp,-12
-800010dc:	80049537          	lui	a0,0x80049
-800010e0:	30050513          	addi	a0,a0,768 # 80049300 <_end+0xffff7300>
-800010e4:	00112423          	sw	ra,8(sp)
-800010e8:	800010b7          	lui	ra,0x80001
-800010ec:	98c08093          	addi	ra,ra,-1652 # 8000098c <_end+0xfffae98c>
-800010f0:	000080e7          	jalr	ra
-800010f4:	80001237          	lui	tp,0x80001
-800010f8:	0f420213          	addi	tp,tp,244 # 800010f4 <_end+0xfffaf0f4>
-800010fc:	00020067          	jr	tp # 0 <_entry_offset>
+800010dc <_trm_init>:
+800010dc:	ff410113          	addi	sp,sp,-12
+800010e0:	80049537          	lui	a0,0x80049
+800010e4:	40050513          	addi	a0,a0,1024 # 80049400 <_end+0xffff7400>
+800010e8:	00112423          	sw	ra,8(sp)
+800010ec:	800010b7          	lui	ra,0x80001
+800010f0:	98c08093          	addi	ra,ra,-1652 # 8000098c <_end+0xfffae98c>
+800010f4:	000080e7          	jalr	ra
+800010f8:	00100073          	ebreak
+800010fc:	80001237          	lui	tp,0x80001
+80001100:	0fc20213          	addi	tp,tp,252 # 800010fc <_end+0xfffaf0fc>
+80001104:	00020067          	jr	tp # 0 <_entry_offset>

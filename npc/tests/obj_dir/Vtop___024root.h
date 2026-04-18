@@ -50,8 +50,8 @@ class Vtop___024root final : public VerilatedModule {
     VlUnpacked<IData/*31:0*/, 32> top__DOT__GPR__DOT__gpr;
     VlTriggerVec<1> __VstlTriggered;
     VlTriggerVec<1> __VicoTriggered;
-    VlTriggerVec<2> __VactTriggered;
-    VlTriggerVec<2> __VnbaTriggered;
+    VlTriggerVec<1> __VactTriggered;
+    VlTriggerVec<1> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

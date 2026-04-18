@@ -7,7 +7,7 @@
 
 
 V_SRC=./test_v/top.v
-CPP_SRC=./test_c/test_top3.cpp
+CPP_SRC=./test_c/test_ramop.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)

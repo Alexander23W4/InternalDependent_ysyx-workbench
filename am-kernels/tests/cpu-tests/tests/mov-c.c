@@ -1,5 +1,6 @@
 #include "trap.h"
 // make ARCH=riscv32-nemu ALL=mov-c run
+// make ARCH=minirv-npc ALL=mov-c run
 // @@
 volatile int A[10];
 volatile int b;

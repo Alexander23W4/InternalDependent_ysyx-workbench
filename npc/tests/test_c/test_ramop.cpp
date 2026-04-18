@@ -84,17 +84,17 @@ void load_program(uint32_t* ram) {
     ram[1] = 0xfe54b637; 
     ram[2] = 0xd3260613; 
 
-    // 3. sw a2, 100(a1) -> ram[0x80000000 + 100] = 0xfe54ad32
-    ram[3] = 0x06c5a223; 
+    // 3. sw a2, 101(a1) -> ram[0x80000000 + 100] = 0xfe54ad32
+    ram[3] = 0x06c5a2a3;
 
-    // 4. sb a2, 104(a1) -> ram[0x80000000 + 104] = 0x32 (a2的低8位)
-    ram[4] = 0x06c58423; 
+    // 4. sb a2, 105(a1) -> ram[0x80000000 + 104] = 0x32 (a2的低8位)
+    ram[4] = 0x06c584a3;
 
-    // 5. lw a3, 100(a1) -> a3 = 0xfe54ad32
-    ram[5] = 0x0645a683; 
+    // 5. lw a3, 101(a1) -> a3 = 0xfe54ad32
+    ram[5] = 0x0655a683; 
 
-    // 6. lbu a4, 104(a1) -> a4 = 0x00000032
-    ram[6] = 0x0685c703; 
+    // 6. lbu a4, 102(a1) -> a4 = 0x00000032
+    ram[6] = 0x0665c703;   
 
     // 7. ebreak
     ram[7] = 0x00100073; 
@@ -114,18 +114,15 @@ uint32_t get_gpr(Vtop* top, int reg_id) {
 void prt_gprs(Vtop* top) {
     printf("PC: [0x%08x] | ", top->_pc); 
     
-    int count = 0;
     for (int i = 0; i < 32; i++) {
         uint32_t val = get_gpr(top, i);
-        if (val != 0) {
-            printf("x%-2d: 0x%08x  ", i, val);
-            count++;
-            if (count % 4 == 0) printf("\n                | "); 
-        }
+        printf("x%-2d: 0x%08x  ", i, val);
+        if (i % 4 == 0) printf("\n                | "); 
     }
     printf("\n------------------------------------------------\n");
 }
 
+// support misaligned access
 uint32_t ram_read(uint32_t addr, int amount) {
     uint32_t paddr = pram(addr);
     if (paddr >= RAM_SIZE * 4){
@@ -141,6 +138,7 @@ uint32_t ram_read(uint32_t addr, int amount) {
     return result;
 }
 
+// support misaligned access
 void ram_write(uint32_t addr, uint32_t data, int amount) {
     uint32_t paddr = pram(addr);
     if (paddr >= RAM_SIZE * 4){

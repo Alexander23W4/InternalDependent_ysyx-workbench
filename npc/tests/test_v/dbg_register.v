@@ -1,6 +1,7 @@
 module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     input clk,
     input wen,
+    input rst,
     
     input [ADDR_WIDTH-1:0] raddr1,   // rs1
     input [ADDR_WIDTH-1:0] raddr2,   // rs2
@@ -17,8 +18,14 @@ module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     assign rdata1 = gpr[raddr1];
     assign rdata2 = gpr[raddr2];
 
-    always @(posedge clk) begin
-        if (wen && waddr != 0) gpr[waddr] <= wdata;
+    always @(posedge clk or posedge rst) begin
+        if(rst) begin                                   // rst all register to solid 0, avoid unspecific default register value when operate
+            integer j;
+            for (j = 0; j < 2**ADDR_WIDTH; j = j + 1) begin   
+                gpr[j] <= 0;                            // default value is 0
+            end
+        end
+        else if (wen && waddr != 0) gpr[waddr] <= wdata;     // [ISA REQUIREMENT] keep gpr[0] == 0
     end
 
     genvar i;

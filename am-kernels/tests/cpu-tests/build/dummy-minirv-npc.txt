@@ -19,11 +19,12 @@ Disassembly of section .text:
 80000020 <_trm_init>:
 80000020:	ff410113          	addi	sp,sp,-12 # 80008ff4 <_end+0xfffffff4>
 80000024:	80000537          	lui	a0,0x80000
-80000028:	04850513          	addi	a0,a0,72 # 80000048 <_end+0xffff7048>
+80000028:	04c50513          	addi	a0,a0,76 # 8000004c <_end+0xffff704c>
 8000002c:	00112423          	sw	ra,8(sp)
 80000030:	800000b7          	lui	ra,0x80000
 80000034:	01808093          	addi	ra,ra,24 # 80000018 <_end+0xffff7018>
 80000038:	000080e7          	jalr	ra
-8000003c:	80000237          	lui	tp,0x80000
-80000040:	03c20213          	addi	tp,tp,60 # 8000003c <_end+0xffff703c>
-80000044:	00020067          	jr	tp # 0 <_entry_offset>
+8000003c:	00100073          	ebreak
+80000040:	80000237          	lui	tp,0x80000
+80000044:	04020213          	addi	tp,tp,64 # 80000040 <_end+0xffff7040>
+80000048:	00020067          	jr	tp # 0 <_entry_offset>

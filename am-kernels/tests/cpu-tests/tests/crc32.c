@@ -16,7 +16,7 @@ uint32_t rc_crc32(uint32_t crc, const char *buf, size_t len) {
 	int i, j;
 	const char *p, *q;
  
-	/* This check is not thread safe; there is no mutex. */
+	/* This check is not thread safe; there is no mutex. */ 
 	if (have_table == 0) {
 		/* Calculate CRC table. */
 		for (i = 0; i < 256; i++) {

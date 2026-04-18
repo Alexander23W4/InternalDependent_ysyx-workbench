@@ -128,6 +128,7 @@ module top(
     dbg_register #(5, 32) GPR (
         .clk(clk),
         .wen(wen),
+        .rst(rst),
         .raddr1(rs1),
         .raddr2(rs2),
         .waddr(rd),
@@ -155,7 +156,7 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
     assign wen = add | addi | jalr | lui | lw | lbu;
     wire [31:0] add1 = rdata1;
     wire [31:0] add2 = add ? rdata2 : 
-                       (sw | sb) ? immS : immI;
+                       (sw | sb) ? immS : immI;  
 
     wire [31:0] add_rst = add1 + add2;
 

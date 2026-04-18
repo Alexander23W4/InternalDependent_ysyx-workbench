@@ -5,6 +5,7 @@
 MINIRV_BASE_INC=$(NPC_HOME)/tests
 MINIRV_EXE=$(MINIRV_BASE_INC)/obj_dir/Vtop
 MINIRV_EXE_ARGV=./build/$(ALL)-$(ARCH).bin
+DEBUG_LOG=$(NPC_HOME)/tests/debug.txt
 
 RESULT = .result
 $(shell > $(RESULT))
@@ -45,7 +46,8 @@ run: all
 	@cat $(RESULT)
 	@rm $(RESULT)
 	@echo "RUN SIMULATION:"
-	$(MINIRV_EXE) $(MINIRV_EXE_ARGV)
+	$(MINIRV_EXE) $(MINIRV_EXE_ARGV) >> $(DEBUG_LOG)
+	
 
 gdb: all
 

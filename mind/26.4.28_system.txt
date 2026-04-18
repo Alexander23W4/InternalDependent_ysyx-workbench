@@ -1,0 +1,22 @@
+system的每一层，设计的时候都要思考实现什么，不实现什么，提供什么接口，接受什么接口
+对于实现的，考虑哪些是基于更大的系统必须要实现的（他解决什么问题），哪些是基于特殊目的实现的，不必要实现的一律undefined
+Requirement  Undefined  Interface(Service)
+
+以c语言compiler为例子：
+实现从C语言translate到汇编代码的method（解决的就是翻译的问题，必须实现c语言的syntax识别，有关macro的precompile等）
+不实现他所定义的undefined behaviour, 以此保持系统的简单性和兼容性，只要尽可能简单的完成translate的任务（保证最小完整性）即可
+接受ISA提供的ABI service（interface）
+向软件提供接收c语言流的接口
+
+以cpu（hardware implementation (include RTL))为例：
+最小purpose： 实现ISA要求的instr操作。保证一切行为符合ISA的requirement.
+最大purpose： 实现深流水，分支预测，3级cache，总线。。
+
+不关心摆放，连线，尺寸。。只关心上述的逻辑
+
+接受底层提供的晶体管的逻辑处理单元的device级别逻辑实现
+向ISA提供电路级别的逻辑实现
+
+
+个人认为，system应该只基于purpose实现最小完整性，没有必要管的一律不管，以此保持简单型同时拥有更大的兼容性（purpose一定要明确，并且明确实现）
+

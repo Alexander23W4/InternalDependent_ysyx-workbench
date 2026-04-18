@@ -10,12 +10,17 @@
 using namespace std;
 
 #define RAM_SIZE 524288  
-#define RAM_BASE 0x80000000
 #define MEMORY_LOAD_EFFECTIVENESS 20000
 #define MANUAL_LOAD 0
-#define AUTO_LOAD 0
-#define AM 1
+#define AUTO_LOAD 1
+#define AM 0
+#define _REAL_RUN_ENV 0
 
+#if _REAL_RUN_ENV
+#define RAM_BASE 0x80000000
+#else 
+#define RAM_BASE 0
+#endif
 /*
 00000000 <_start>:
    0:	01400513          	addi	a0,zero,20
@@ -76,7 +81,11 @@ void prt_gprs(Vtop* top) {
 }
 
 uint32_t pram(uint32_t vram){
+    #if _REAL_RUN_ENV
     return (vram - RAM_BASE);
+    #else
+    return vram;
+    #endif
 }
 
 

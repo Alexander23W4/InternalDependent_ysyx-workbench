@@ -6,7 +6,7 @@
 # --cc --exe --build -j 0 -Wall
 
 
-V_SRC=./test_v/top.v
+V_SRC=./test_v/topl.v
 CPP_SRC=./test_c/test_top3.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir

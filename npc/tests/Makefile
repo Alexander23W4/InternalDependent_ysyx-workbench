@@ -25,8 +25,8 @@ WARNING_IGNORE_FLAG=
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
-ARGV=sum.bin
-LOG=1
+ARGV=mem.bin
+LOG=0
 LOG_FILE=./record.txt
 CONFIG_FILE=./test_c/make_config.h
 

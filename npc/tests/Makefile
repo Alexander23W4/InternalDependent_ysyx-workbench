@@ -7,7 +7,7 @@
 
 
 V_SRC=./test_v/topl.v
-CPP_SRC=./test_c/test_top3.cpp
+CPP_SRC=./test_c/test_topl.cpp
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
@@ -26,12 +26,33 @@ STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
 ARGV=sum.bin
+LOG=1
+LOG_FILE=./record.txt
+CONFIG_FILE=./test_c/make_config.h
 
-.PHONY: all binary trace fast clean run top
 
-run: 
+# SRC_BASE=$(notdir $(basename $(V_SRC)))
+
+# # write something into file, should use echo
+# $(CONFIG_FILE):
+# 	@echo "#define __VFILE \"$(SRC_BASE)\"" > $(CONFIG_FILE)
+
+
+$(LOG_FILE):
+	touch $(LOG_FILE)
+
+run: $(LOG_FILE)
 	@echo "RUN SIMULATION:"
+ifeq ($(LOG), 1)
+	$(EXE) $(ARGV) >> $(LOG_FILE)
+else 
 	$(EXE) $(ARGV)
+endif
+
+
+
+
+
 
 runtrace:
 	$(EXE)
@@ -46,7 +67,7 @@ trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)
 
 # 3. --cc --exe --build -j 0 -Wall
-fasts:
+fasts: 
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(SOURCES) $(CPP_SRC) 
 
 fast:
@@ -67,3 +88,4 @@ top:
 clean:
 	rm -rf $(OBJ_DIR) 
 
+.PHONY: all binary trace fast clean run top

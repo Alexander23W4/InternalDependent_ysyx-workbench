@@ -1,7 +1,7 @@
 #include <verilated.h>
 #include "svdpi.h"
-#include "Vtop.h"
-#include "Vtop__Dpi.h"
+#include "Vtopl.h"
+#include "Vtopl__Dpi.h"
 
 #include <iostream>
 #include <assert.h>
@@ -66,11 +66,11 @@ void prt_decode_info() {
     printf("------------------------------------------------\n");
 }
 
-uint32_t get_gpr(Vtop* top, int reg_id) {
+uint32_t get_gpr(Vtopl* top, int reg_id) {
     return top->dbg_reg[reg_id]; 
 }
 
-void prt_gprs(Vtop* top) {
+void prt_gprs(Vtopl* top) {
     printf("PC: [0x%08x] | ", top->_pc); 
     
     int count = 0;
@@ -94,7 +94,7 @@ uint32_t pram(uint32_t vram){
 }
 
 
-void tick(Vtop* top) {
+void tick(Vtopl* top) {
     top->clk = 0;
     top->eval();   //
     top->clk = 1;
@@ -176,9 +176,9 @@ error:
 int main(int argc, char** argv) {
     assert(argc >= 2);
 
-    Vtop* top = new Vtop;
+    Vtopl* top = new Vtopl;
 
-    svSetScope(svGetScopeFromName("TOP.top"));
+    svSetScope(svGetScopeFromName("TOP.topl"));
     
     // malloc ram
     ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);

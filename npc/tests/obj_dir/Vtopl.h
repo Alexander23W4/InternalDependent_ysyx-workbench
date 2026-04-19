@@ -1,0 +1,82 @@
+// Verilated -*- C++ -*-
+// DESCRIPTION: Verilator output: Primary model header
+//
+// This header should be included by all source files instantiating the design.
+// The class here is then constructed to instantiate the design.
+// See the Verilator manual for examples.
+
+#ifndef VERILATED_VTOPL_H_
+#define VERILATED_VTOPL_H_  // guard
+
+#include "verilated.h"
+#include "svdpi.h"
+
+class Vtopl__Syms;
+class Vtopl___024root;
+
+// This class is the main interface to the Verilated model
+class Vtopl VL_NOT_FINAL : public VerilatedModel {
+  private:
+    // Symbol table holding complete model state (owned by this class)
+    Vtopl__Syms* const vlSymsp;
+
+  public:
+
+    // PORTS
+    // The application code writes and reads these signals to
+    // propagate new values into/out from the Verilated model.
+    VL_IN8(&clk,0,0);
+    VL_IN8(&rst,0,0);
+    VL_IN(&instr,31,0);
+    VL_OUTW(&dbg_reg,1023,0,32);
+    VL_OUT(&_pc,31,0);
+
+    // CELLS
+    // Public to allow access to /* verilator public */ items.
+    // Otherwise the application code can consider these internals.
+
+    // Root instance pointer to allow access to model internals,
+    // including inlined /* verilator public_flat_* */ items.
+    Vtopl___024root* const rootp;
+
+    // CONSTRUCTORS
+    /// Construct the model; called by application code
+    /// If contextp is null, then the model will use the default global context
+    /// If name is "", then makes a wrapper with a
+    /// single model invisible with respect to DPI scope names.
+    explicit Vtopl(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vtopl(const char* name = "TOP");
+    /// Destroy the model; called (often implicitly) by application code
+    virtual ~Vtopl();
+  private:
+    VL_UNCOPYABLE(Vtopl);  ///< Copying not allowed
+
+  public:
+    // API METHODS
+    /// Evaluate the model.  Application must call when inputs change.
+    void eval() { eval_step(); }
+    /// Evaluate when calling multiple units/models per time step.
+    void eval_step();
+    /// Evaluate at end of a timestep for tracing, when using eval_step().
+    /// Application must call after all eval() and before time changes.
+    void eval_end_step() {}
+    /// Simulation complete, run final blocks.  Application must call on completion.
+    void final();
+    /// Are there scheduled events to handle?
+    bool eventsPending();
+    /// Returns time at next time slot. Aborts if !eventsPending()
+    uint64_t nextTimeSlot();
+    /// Retrieve name of this model instance (as passed to constructor).
+    const char* name() const;
+
+    /// DPI Export functions
+    static void get_decode_signals(int* instr_val, int* addi_s, int* add_s, int* jalr_s, int* lui_s, int* lw_s, int* lbu_s, int* sw_s, int* sb_s, int* ebreak_s, int* rd_val, int* rs1_val, int* rs2_val, int* immI_val, int* immU_val, int* immS_val, int* wdata_val, int* rdata1_val, int* rdata2_val, int* wen_val);
+    static void halt(int* endprog);
+
+    // Abstract methods from VerilatedModel
+    const char* hierName() const override final;
+    const char* modelName() const override final;
+    unsigned threads() const override final;
+} VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
+
+#endif  // guard

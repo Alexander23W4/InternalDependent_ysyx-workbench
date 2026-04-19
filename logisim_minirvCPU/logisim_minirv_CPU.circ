@@ -90,6 +90,8 @@
       <circ-port dir="out" pin="1550,920" x="260" y="140"/>
       <circ-port dir="out" pin="1550,940" x="260" y="150"/>
       <circ-port dir="out" pin="1910,1830" x="260" y="190"/>
+      <circ-port dir="out" pin="2690,420" x="260" y="210"/>
+      <circ-port dir="out" pin="2880,1360" x="260" y="220"/>
       <circ-port dir="out" pin="410,1180" x="260" y="80"/>
       <circ-port dir="out" pin="420,1240" x="260" y="70"/>
       <circ-port dir="out" pin="680,490" x="260" y="120"/>
@@ -437,6 +439,20 @@
     <comp lib="0" loc="(260,430)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="label" val="add_rst"/>
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(2690,420)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="radix" val="16"/>
+      <a name="type" val="output"/>
+      <a name="width" val="24"/>
+    </comp>
+    <comp lib="0" loc="(2880,1360)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="radix" val="16"/>
+      <a name="type" val="output"/>
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(3220,840)" name="Bit Extender">
@@ -8789,6 +8805,10 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
 </a>
       <a name="dataWidth" val="32"/>
     </comp>
+    <comp lib="8" loc="(1540,767)" name="Text">
+      <a name="color" val="#d41325"/>
+      <a name="text" val="Decode 无问题"/>
+    </comp>
     <comp loc="(1180,840)" name="decode"/>
     <comp loc="(890,1540)" name="GPR"/>
     <comp loc="(890,620)" name="pc"/>
@@ -8975,7 +8995,7 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
     <wire from="(2510,780)" to="(2530,780)"/>
     <wire from="(2530,560)" to="(2530,780)"/>
     <wire from="(2530,560)" to="(2710,560)"/>
-    <wire from="(2540,490)" to="(2710,490)"/>
+    <wire from="(2540,490)" to="(2650,490)"/>
     <wire from="(2560,1410)" to="(2600,1410)"/>
     <wire from="(2560,580)" to="(2560,1140)"/>
     <wire from="(2560,580)" to="(2710,580)"/>
@@ -8988,6 +9008,9 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
     <wire from="(260,430)" to="(280,430)"/>
     <wire from="(2650,1430)" to="(2710,1430)"/>
     <wire from="(2650,1510)" to="(2710,1510)"/>
+    <wire from="(2650,420)" to="(2650,490)"/>
+    <wire from="(2650,420)" to="(2690,420)"/>
+    <wire from="(2650,490)" to="(2710,490)"/>
     <wire from="(2690,1360)" to="(2800,1360)"/>
     <wire from="(2690,640)" to="(2690,1360)"/>
     <wire from="(2690,640)" to="(2710,640)"/>
@@ -8996,6 +9019,7 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
     <wire from="(2710,490)" to="(2710,520)"/>
     <wire from="(2760,1470)" to="(2800,1470)"/>
     <wire from="(2800,1360)" to="(2800,1470)"/>
+    <wire from="(2800,1360)" to="(2880,1360)"/>
     <wire from="(2950,640)" to="(3360,640)"/>
     <wire from="(3120,840)" to="(3120,1100)"/>
     <wire from="(3120,840)" to="(3180,840)"/>
@@ -10237,7 +10261,7 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
       <a name="fanout" val="4"/>
       <a name="incoming" val="4"/>
     </comp>
-    <comp lib="0" loc="(770,330)" name="Pin">
+    <comp lib="0" loc="(650,330)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="label" val="wdata"/>
       <a name="radix" val="16"/>
@@ -10246,6 +10270,9 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
     <comp lib="0" loc="(790,310)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="label" val="clk"/>
+    </comp>
+    <comp lib="0" loc="(950,350)" name="Constant">
+      <a name="value" val="0x0"/>
     </comp>
     <comp lib="1" loc="(1040,370)" name="AND Gate"/>
     <comp lib="1" loc="(2120,240)" name="NOT Gate"/>
@@ -10837,10 +10864,7 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
     <wire from="(2400,1480)" to="(2440,1480)"/>
     <wire from="(2420,640)" to="(2470,640)"/>
     <wire from="(2490,1460)" to="(2550,1460)"/>
-    <wire from="(320,400)" to="(330,400)"/>
-    <wire from="(330,350)" to="(330,400)"/>
-    <wire from="(330,350)" to="(990,350)"/>
-    <wire from="(330,400)" to="(350,400)"/>
+    <wire from="(320,400)" to="(350,400)"/>
     <wire from="(370,440)" to="(370,520)"/>
     <wire from="(370,440)" to="(410,440)"/>
     <wire from="(390,400)" to="(410,400)"/>
@@ -10853,10 +10877,10 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
     <wire from="(550,930)" to="(920,930)"/>
     <wire from="(560,460)" to="(650,460)"/>
     <wire from="(600,510)" to="(920,510)"/>
+    <wire from="(650,330)" to="(850,330)"/>
     <wire from="(650,460)" to="(650,890)"/>
     <wire from="(650,460)" to="(930,460)"/>
     <wire from="(650,890)" to="(930,890)"/>
-    <wire from="(770,330)" to="(850,330)"/>
     <wire from="(790,310)" to="(800,310)"/>
     <wire from="(800,310)" to="(1090,310)"/>
     <wire from="(800,310)" to="(800,810)"/>
@@ -10883,6 +10907,7 @@ fffffffe ffffffff ffffffff 4*0 4*1 4*2 4*3 4*4
     <wire from="(950,1140)" to="(990,1140)"/>
     <wire from="(950,1150)" to="(980,1150)"/>
     <wire from="(950,1160)" to="(970,1160)"/>
+    <wire from="(950,350)" to="(990,350)"/>
     <wire from="(950,510)" to="(970,510)"/>
     <wire from="(950,520)" to="(980,520)"/>
     <wire from="(950,530)" to="(990,530)"/>

@@ -10010,7 +10010,7 @@ f3f5f9 c4d0e1 15*b5c4d9 d6deea 114*f5f7fa f4f6f9 f5f7fa fefeff
       <a name="height" val="256"/>
       <a name="width" val="256"/>
     </comp>
-    <comp lib="8" loc="(2650,1227)" name="Text">
+    <comp lib="8" loc="(2650,1225)" name="Text">
       <a name="color" val="#d41325"/>
       <a name="text" val="Decode 无问题"/>
     </comp>

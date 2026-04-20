@@ -42,8 +42,8 @@ static void check_bound(IOMap *map, paddr_t addr) {
   }
 }
 
-static void invoke_callback(io_callback_t c, paddr_t offset, int len, bool is_write) {
-  if (c != NULL) { c(offset, len, is_write); }
+static void invoke_callback(io_callback_t c, paddr_t offset, int len, bool is_write) {   // call callback function
+  if (c != NULL) { c(offset, len, is_write); }    
 }
 
 void init_map() {
@@ -52,11 +52,18 @@ void init_map() {
   p_space = io_space;
 }
 
-word_t map_read(paddr_t addr, int len, IOMap *map) {
+/*
+Among them, map_read() and map_write() are used to map the address addr to the target space indicated by map, and perform access. 
+
+These two functions are core Device I/O API, when instr-ram-addr falls in device area, call these API
+  the API calls callback function for operating device internally (invoke_callback)
+*/
+word_t map_read(paddr_t addr, int len, IOMap *map) {   // map 
   assert(len >= 1 && len <= 8);
-  check_bound(map, addr);
-  paddr_t offset = addr - map->low;
-  invoke_callback(map->callback, offset, len, false); // prepare data to read
+  check_bound(map, addr);     // check range  (assert)
+
+  paddr_t offset = addr - map->low;   
+  invoke_callback(map->callback, offset, len, false);  // prepare data to  ***
   word_t ret = host_read(map->space + offset, len);
   return ret;
 }
@@ -64,6 +71,7 @@ word_t map_read(paddr_t addr, int len, IOMap *map) {
 void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);
+
   paddr_t offset = addr - map->low;
   host_write(map->space + offset, len, data);
   invoke_callback(map->callback, offset, len, true);

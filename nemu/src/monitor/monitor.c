@@ -111,30 +111,30 @@ void init_monitor(int argc, char *argv[]) {
   init_rand();
 
   /* Open the log file. */
-  init_log(log_file);    // in utils
+  init_log(log_file);     // in utils
 
   /* Initialize memory. */
-  init_mem();
+  init_mem();                               // set random number to mem as init, notice guest ram range
 
   /* Initialize devices. */
-  IFDEF(CONFIG_DEVICE, init_device());
+  IFDEF(CONFIG_DEVICE, init_device());      // init map , init allowed devices
 
   /* Perform ISA dependent initialization. */
-  init_isa();  // memcpy some program code to ram
+  init_isa();                               // memcpy default guest program code to ram & reset pc
 
   /* Load the image to memory. This will overwrite the built-in image. */
-  long img_size = load_img();  // memcpy program code from file to ram (if file exist)
+  long img_size = load_img();               // memcpy program code from file to ram (if file exist)
 
   /* Initialize differential testing. */
   init_difftest(diff_so_file, img_size, difftest_port);
 
   /* Initialize the simple debugger. */
-  init_sdb();  // debugger preparation
+  init_sdb();                               // debugger preparation
 
   IFDEF(CONFIG_ITRACE, init_disasm());
 
   /* Display welcome message. */
-  welcome(); // notice trace log file, build time info..
+  welcome();                                // notice trace log file, build time info..
 }
 #else // CONFIG_TARGET_AM
 static long load_img() {

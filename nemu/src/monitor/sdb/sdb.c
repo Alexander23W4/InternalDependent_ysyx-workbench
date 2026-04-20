@@ -327,10 +327,10 @@ void sdb_mainloop() {
     sdl_clear_event_queue();
 #endif
 
-    int i;    // start to get sdb command over and over
+    int i;      // start to get sdb command over and over
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }   // execute the sdb command, get out only when return < 0
+        if (cmd_table[i].handler(args) < 0) { return; }     // execute the sdb command, get out only when return < 0
         break;
       }
     }

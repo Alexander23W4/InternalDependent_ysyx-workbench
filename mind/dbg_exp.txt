@@ -1,5 +1,5 @@
 在这里store所有的debug tech, 以及debug经历
-
+重视一切debug, 每一次设计完成之后，都要mind proactively走debug流程
 
 4.19debug的一些心得，记在这里和dbg_exp里面：
 必要时开发专门的debug程序
@@ -19,3 +19,45 @@ debug必须要全面，全面的监测针对现有purpose的所有可能出现�
 如果logisim可以设置断点，那将会更好
 
 testbench已经有了， 就是3个hex程序，但是并不知道细节，只知道多少周期之后x10（a0==0）成功
+对于这个cpu实现这一层，minimize purpose就是正确实现所有instr, 所以，只要所有instr的尽可能的所有可能性都运行成功，连续运行也行为正确，则认为合理设计
+
+于是我用了和minirv-RTL一个一个对比的方法进行验证，一一比对每一个state的gpr和一些state para
+那么我认为这个debug方法是符合FPT的，只要enum（在这里是RTL）行为正确，那么最好应该开发出一个自动化对比工具，实现在每一个circle对比gpr和关键state para
+
+那么是时候了解行业顶尖的CPU前端设计的debug方法：
+
+模拟器类型典型代表特点: 
+ISA Simulator (功能级)Spike (RISC-V), QEMU速度极快。
+    只管指令执行结果，不管流水线。用于验证指令集正确性。
+
+Cycle-Approximate (性能级)gem5模拟了流水线和缓存行为。
+    用于前端性能预测（如分支预测准确率）。
+
+Verification Model (验证专用)ImperasDV极其严谨。
+    支持所有异常、中断和异步事件，专门用于商业级闭环验证。
+
+
+3者都使用了和高级语言模拟器difftest的方法，由于高级语言debug简单的多，所以高级语言emulator的正确性很容易保证
+ISA Simulator能够保证 minimize purpose
+后两个可以进行 additional purpose validation
+
+所以熟练掌握C语言的debug方法是一切的一切的基础，
+    C 程序必须写成defensive programing
+
+熟练使用 Makefile config MACRO（fronthead）->  log print assert MACRO (process range) ->  compile_flag  gdb(backend) 来开发C程序
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

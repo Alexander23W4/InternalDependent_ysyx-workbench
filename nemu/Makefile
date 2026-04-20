@@ -20,7 +20,7 @@
 # config.mk (menuconfig)
 # auto.conf (menuconfig outcomes: CONFIG MACROs)
 # filelist.mk (gather SRCS)
-# am->Makefile / native.mk (final surface layer options)  (make run, make gdb...)
+# am->Makefile / native.mk (final surface layer options, make rules)  (make run, make gdb...)
 
 # Sanity check
 ifeq ($(wildcard $(NEMU_HOME)/src/nemu-main.c),)   # find nemu-main.c (main func, the entrance)
@@ -72,5 +72,5 @@ include $(AM_HOME)/Makefile
 LINKAGE += $(ARCHIVES)
 else
 # Include rules to build NEMU
-include $(NEMU_HOME)/scripts/native.mk  # include native.mk, without using am
+include $(NEMU_HOME)/scripts/native.mk  # include native.mk, without using am (Miscellaneous)
 endif

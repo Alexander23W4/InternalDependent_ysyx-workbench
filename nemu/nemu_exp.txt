@@ -28,6 +28,51 @@ The way TRM works is reflected in cpu_exec() and exec_once().
    为人也保持自身的独立性和自我意志，不追求过度的与大量其他个体与环境的兼容性和所谓某些哲学性上人的完美
      
 
+$$$ [Device]:
+I/O addressing method   Device addresses
+
+That's exactly it! Devices also have their own status registers (equivalent to CPU registers) 
+and their own functional units (equivalent to CPU arithmetic units).
+
+Of course, different devices have different functional units, 
+for example, the keyboard has a component that converts the analog signal of the key press into a scan code, 
+while the VGA has a component that converts the pixel color information into an analog signal for the display.
+
+The signal that controls the operation of the device is called a "command word", 
+which can be understood as a "device instruction". 
+The job of the device is to receive the command word and perform decoding and execution... 
+
+Accessing devices = reading data + writing data + controlling status.
+
+since devices also have registers, 
+a simple way is to use the device's registers as the interface and let the CPU access these registers.
+
+We can also assign numbers to the registers in the device that the CPU is allowed to access, 
+  and then reference these numbers through instructions. 
+There may be some private registers in the device that are maintained by the device itself, 
+  they do not have such numbers, and the CPU cannot directly access them.
+
+-> I/O stuations
+When executing ordinary instructions, the state machine transitions according to the TRM model
+
+When executing device output-related instructions (such as the out instruction in x86 or the MMIO write instruction in RISC architectures), 
+  the state machine remains unchanged except for updating the PC, but the state of the device and the physical world will change accordingly
+
+When executing device input-related instructions (such as the in instruction in x86 or the MMIO read instruction in RISC architectures), 
+  the state machine transition will "branch": the state machine no longer has a unique new state like in the TRM, 
+  which new state the state machine will transition to will depend on the state of the device when executing this instruction
+
+
+-> DMA utilization:
+We know that S = <R, M>, and the port I/O and memory-mapped I/O introduced above all perform data interaction through the register R. 
+  Naturally, we can consider whether there is an input/output method that performs data interaction through memory M.
+
+Actually, there is such a method called DMA. To improve performance, most complex devices generally have DMA functionality. 
+  However, the devices in NEMU are relatively simple, so we will not go into the details of DMA.
+
+
+
+
 SYSTEMIC UNDERSTANDING:
 🔹 Runtime Environment（运行时环境）
 指：

@@ -41,13 +41,13 @@ int main(int argc, char *argv[]) {   // the args will diliver to init_monitor ->
 #ifdef CONFIG_TARGET_AM   
   am_init_monitor();
 #else
-  init_monitor(argc, argv);
+  init_monitor(argc, argv);  // init all 
 #endif
 
 #if TEST_MODE
   TEST_FUNC();
 #else 
-  engine_start();   // start running  CONFIG_TARGET_AM 
+  engine_start();   // start sdb
 #endif
 
 

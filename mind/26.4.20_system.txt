@@ -1,0 +1,12 @@
+准备defense, 这次必须做好的内容
+数字电路的一些常识，加上handout上面的再看看
+digital experiment的所有细节，并且我要让nvboard的切换更丝滑
+nemu的一些细节：
+PA1本身的内容有：
+    sdb的几个feature
+    expression evaluation    expression识别以及testbench产生
+    watchpoint
+
+我需要做到的是：
+    nemu作为emulator,启动并且运行的全部细节（代码导入，运行周期，pc/ram/gpr, 状态切换，几种启动模式）
+    cpu_exec 细节，几个状态怎么回事，优雅的退出

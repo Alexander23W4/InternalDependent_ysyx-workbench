@@ -12,13 +12,18 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
+/*
+-> 1. call add_mmio_map first, add devices
+-> 2. and prepare callback function for each devices
+-> 3. check (STORE & LOAD) instr addr-operand, when not operate physical ram, call mmio_read/write()
 
+*/
 #include <device/map.h>
 #include <memory/paddr.h>
 
 #define NR_MAP 16
 
-static IOMap maps[NR_MAP] = {};
+static IOMap maps[NR_MAP] = {};   // maps
 static int nr_map = 0;
 
 static IOMap* fetch_mmio_map(paddr_t addr) {
@@ -28,18 +33,18 @@ static IOMap* fetch_mmio_map(paddr_t addr) {
 
 static void report_mmio_overlap(const char *name1, paddr_t l1, paddr_t r1,
     const char *name2, paddr_t l2, paddr_t r2) {
-  panic("MMIO region %s@[" FMT_PADDR ", " FMT_PADDR "] is overlapped "
+  panic("MMIO region %s@[" FMT_PADDR ", " FMT_PADDR "] is overlapped "                 // assert(0) (panic)
                "with %s@[" FMT_PADDR ", " FMT_PADDR "]", name1, l1, r1, name2, l2, r2);
 }
 
-/* device interface */
+/* device interface */   // devices interface to BUS
 void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_callback_t callback) {
   assert(nr_map < NR_MAP);
   paddr_t left = addr, right = addr + len - 1;
-  if (in_pmem(left) || in_pmem(right)) {
+  if (in_pmem(left) || in_pmem(right)) {    // in physical ram range
     report_mmio_overlap(name, left, right, "pmem", PMEM_LEFT, PMEM_RIGHT);
   }
-  for (int i = 0; i < nr_map; i++) {
+  for (int i = 0; i < nr_map; i++) {      // overlap with other device-addr-range
     if (left <= maps[i].high && right >= maps[i].low) {
       report_mmio_overlap(name, left, right, maps[i].name, maps[i].low, maps[i].high);
     }
@@ -53,7 +58,8 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
   nr_map ++;
 }
 
-/* bus interface */
+/* bus interface */ // BUS interface to devices
+// MMIO Device addressing API (nestly call general I/O API map_read/write())
 word_t mmio_read(paddr_t addr, int len) {
   return map_read(addr, len, fetch_mmio_map(addr));
 }

@@ -71,10 +71,11 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
-#ifdef CONFIG_WATCHPOINT   // !!! use macro for conditional statement, use #if(n)def endif
+#ifdef CONFIG_WATCHPOINT   
   check_wp(pre_pc);
 #endif
 }
+
 
 static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   // ------------- execute circle start
@@ -90,6 +91,7 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   int ilen = s->snpc - s->pc;
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst;
+
 #ifdef CONFIG_ISA_x86
   for (i = 0; i < ilen; i ++) {
 #else

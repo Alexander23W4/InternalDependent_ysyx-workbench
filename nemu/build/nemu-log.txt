@@ -4,3 +4,6 @@
 [1;34m[src/monitor/monitor.c:28 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:29 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
 [1;34m[src/monitor/monitor.c:32 welcome] Build time: 22:30:14, Apr 20 2026[0m
+[1;34m[src/monitor/sdb/sdb.c:263 cmd_si] si command started.[0m
+[1;34m[src/monitor/sdb/sdb.c:271 cmd_si] Get N, N = 1[0m
+0x80000000: 00 00 02 97 auipc	t0, 0

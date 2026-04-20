@@ -1,20 +1,5 @@
-准备defense, 这次必须做好的内容
-数字电路的一些常识，加上handout上面的再看看
-digital experiment的所有细节，并且我要让nvboard的切换更丝滑
-nemu的一些细节：
-PA1本身的内容有：
-    sdb的几个feature
-    expression evaluation    expression识别以及testbench产生
-    watchpoint
+在这里store所有的debug tech, 以及debug经历
 
-我需要做到的是：
-    nemu作为emulator,启动并且运行的全部细节（代码导入，运行周期，pc/ram/gpr, 状态切换，几种启动模式）
-    cpu_exec 细节，几个状态怎么回事，优雅的退出
-
-
-继续巩固我    layer系统分析能力，hiereachy系统设计能力
-
-必须要增强我的debug能力，从当下开始，一切debug tech与debug opptunity都不能放过，都要记下来并且寻求更好的debug方法
 
 4.19debug的一些心得，记在这里和dbg_exp里面：
 必要时开发专门的debug程序
@@ -26,3 +11,11 @@ debug必须要全面，全面的监测针对现有purpose的所有可能出现�
     即为任何component准备testbench时，必须清楚他的layer position, write down他的 purpose（service to provide), undefined (do not care),
     然后必须完整测试前者，而对于后者一律不管。
     根据purpose的多少来选择 [Handcheck] OR [Specific Testbench Generator] 
+    
+这次是debug logisim的minirvcpu, 
+首先分析这个系统： 用schematic input并非主流 implementation method，没有业内的顶流debug方法
+但是任何有共性的系统有共通的debug方法，
+作为状态机，必须显示其state以及state paras
+如果logisim可以设置断点，那将会更好
+
+testbench已经有了， 就是3个hex程序，但是并不知道细节，只知道多少周期之后x10（a0==0）成功

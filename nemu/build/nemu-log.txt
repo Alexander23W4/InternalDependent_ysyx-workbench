@@ -1,16 +1,6 @@
 [1;34m[src/utils/log.c:30 init_log] Log is written to /home/wang/InternalDependent_ysyx-workbench/nemu/build/nemu-log.txt[0m
 [1;34m[src/memory/paddr.c:54 init_mem] physical memory area [0x80000000, 0x87ffffff][0m
-[1;34m[src/device/io/mmio.c:55 add_mmio_map] Add mmio map 'serial' at [0xa00003f8, 0xa00003ff][0m
-[1;34m[src/device/io/mmio.c:55 add_mmio_map] Add mmio map 'rtc' at [0xa0000048, 0xa000004f][0m
-[1;34m[src/device/io/mmio.c:55 add_mmio_map] Add mmio map 'vgactl' at [0xa0000100, 0xa0000107][0m
-[1;34m[src/device/io/mmio.c:55 add_mmio_map] Add mmio map 'vmem' at [0xa1000000, 0xa10752ff][0m
-[1;34m[src/device/io/mmio.c:55 add_mmio_map] Add mmio map 'keyboard' at [0xa0000060, 0xa0000063][0m
-[1;34m[src/device/io/mmio.c:55 add_mmio_map] Add mmio map 'audio' at [0xa0000200, 0xa0000217][0m
-[1;34m[src/device/io/mmio.c:55 add_mmio_map] Add mmio map 'audio-sbuf' at [0xa1200000, 0xa120ffff][0m
 [1;34m[src/monitor/monitor.c:50 load_img] No image is given. Use the default build-in image.[0m
 [1;34m[src/monitor/monitor.c:28 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:29 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
-[1;34m[src/monitor/monitor.c:32 welcome] Build time: 12:41:26, Apr 21 2026[0m
-[1;34m[src/monitor/sdb/sdb.c:263 cmd_si] si command started.[0m
-[1;34m[src/monitor/sdb/sdb.c:271 cmd_si] Get N, N = 1[0m
-0x80000000: 00 00 02 97 auipc	t0, 0
+[1;34m[src/monitor/monitor.c:32 welcome] Build time: 15:49:55, Apr 21 2026[0m

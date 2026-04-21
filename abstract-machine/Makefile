@@ -79,7 +79,7 @@ endif
 ## 2. General Compilation Targets ---------------------------------------------------------------------------------------------
 
 ### Create the destination directory (`build/$ARCH`)    # @@@ (mkdir cpu_tests/build/minirv-npc)
-WORK_DIR  = $(shell pwd)
+WORK_DIR  = $(shell pwd)                   # call dir (guest call am)
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
 

@@ -37,17 +37,17 @@ int is_exit_status_bad();
 
 int main(int argc, char *argv[]) {   // the args will diliver to init_monitor -> parse_args() for get config info for init
   /* Initialize the monitor. */
-  _check_args(argc, argv);
+  _check_args(argc, argv);           // print out args
 #ifdef CONFIG_TARGET_AM   
   am_init_monitor();
 #else
-  init_monitor(argc, argv);         // starter, similar to BIOS
+  init_monitor(argc, argv);          // starter, similar to BIOS
 #endif
 
 #if TEST_MODE
   TEST_FUNC();
 #else 
-  engine_start();                   // start sdb
+  engine_start();                    // start sdb
 #endif
 
 

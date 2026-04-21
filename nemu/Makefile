@@ -16,6 +16,8 @@
 # first of all, if you wanna run AM, you should stimulate MACRO: CONFIG_TARGET_AM from menuconfig
 # if you want to use batch mode, deliver comline arg "batch" to main()
 
+# [CHECK (config)] [SOURCES (file flag paras)] [OPERATION (item based, command based)]
+
 # includes: 
 # config.mk (menuconfig)
 # auto.conf (menuconfig outcomes: CONFIG MACROs)
@@ -67,8 +69,9 @@ LDFLAGS += $(CFLAGS_BUILD)
 # Include rules for menuconfig
 include $(NEMU_HOME)/scripts/config.mk
 
+# no CONFIG_TARGET_AM, no calling AM (no using AM makefile compile)
 ifdef CONFIG_TARGET_AM
-include $(AM_HOME)/Makefile
+include $(AM_HOME)/Makefile      
 LINKAGE += $(ARCHIVES)
 else
 # Include rules to build NEMU

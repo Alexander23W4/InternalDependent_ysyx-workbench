@@ -27,7 +27,7 @@ static void *lut[128] = {
   [AM_INPUT_CONFIG] = __am_input_config,
   [AM_INPUT_KEYBRD] = __am_input_keybrd,
   [AM_UART_CONFIG]  = __am_uart_config,
-};
+};    
 
 static void fail(void *buf) { panic("access nonexist register"); }
 

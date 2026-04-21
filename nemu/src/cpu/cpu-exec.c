@@ -122,7 +122,7 @@ static void execute(uint64_t n) {   // uint if n = -1, means max(uint64_t - 1)
     trace_and_difftest(&s, cpu.pc, stored_pc);    // including check the watchpoint, if wp change, nemu_state = NEMU_STOP
     if (nemu_state.state != NEMU_RUNNING) break;  // of state == ..RUNNING, keep operate next instr
 
-    IFDEF(CONFIG_DEVICE, device_update());
+    IFDEF(CONFIG_DEVICE, device_update());        // device update
   }
 }
 

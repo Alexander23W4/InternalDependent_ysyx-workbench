@@ -20,7 +20,7 @@
 
 #define IO_SPACE_MAX (32 * 1024 * 1024)
 
-static uint8_t *io_space = NULL;
+static uint8_t *io_space = NULL;    // IO space
 static uint8_t *p_space = NULL;
 
 uint8_t* new_space(int size) {

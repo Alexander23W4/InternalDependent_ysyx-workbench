@@ -13,7 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 /*
--> 1. call add_mmio_map first, add devices
+-> 1. call add_mmio_map first, add devices    (In monitor_init(), device_init(), add all device-map)
 -> 2. and prepare callback function for each devices
 -> 3. check (STORE & LOAD) instr addr-operand, when not operate physical ram, call mmio_read/write()
 
@@ -26,11 +26,7 @@
 static IOMap maps[NR_MAP] = {};   // maps
 static int nr_map = 0;
 
-static IOMap* fetch_mmio_map(paddr_t addr) {
-  int mapid = find_mapid_by_addr(maps, nr_map, addr);
-  return (mapid == -1 ? NULL : &maps[mapid]);
-}
-
+// Init, Device operation
 static void report_mmio_overlap(const char *name1, paddr_t l1, paddr_t r1,
     const char *name2, paddr_t l2, paddr_t r2) {
   panic("MMIO region %s@[" FMT_PADDR ", " FMT_PADDR "] is overlapped "                 // assert(0) (panic)
@@ -56,6 +52,12 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
       maps[nr_map].name, maps[nr_map].low, maps[nr_map].high);
 
   nr_map ++;
+}
+
+// Runtime, BUS operation
+static IOMap* fetch_mmio_map(paddr_t addr) {
+  int mapid = find_mapid_by_addr(maps, nr_map, addr);  // search according device in map[]
+  return (mapid == -1 ? NULL : &maps[mapid]);
 }
 
 /* bus interface */ // BUS interface to devices

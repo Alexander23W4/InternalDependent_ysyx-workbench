@@ -70,6 +70,9 @@ We know that S = <R, M>, and the port I/O and memory-mapped I/O introduced above
 Actually, there is such a method called DMA. To improve performance, most complex devices generally have DMA functionality. 
   However, the devices in NEMU are relatively simple, so we will not go into the details of DMA.
 
+-> support Devices
+NEMU implements seven devices: serial port, clock, keyboard, VGA, sound card, disk, and SD card, 
+  among which the disk will be introduced at the end of PA, and the SD card will not be involved in PA. 
 
 
 

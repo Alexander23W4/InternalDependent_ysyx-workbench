@@ -74,4 +74,3 @@ CONFIG_RT_CHECK=y
 # end of Miscellaneous
 
 CONFIG_WATCHPOINT=y
-CONFIG_NATIVE_ELF=y

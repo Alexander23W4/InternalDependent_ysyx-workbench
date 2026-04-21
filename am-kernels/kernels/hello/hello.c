@@ -1,5 +1,6 @@
 #include <am.h>
 #include <klib-macros.h>
+// make ARCH=riscv32-nemu run
 
 int main(const char *args) {
   const char *fmt =

@@ -1,7 +1,7 @@
 #include <am.h>
 #include <klib-macros.h>
 // make ARCH=riscv32-nemu run
-
+// make ARCH=riscv32-nemu run mainargs=I-love-PA
 int main(const char *args) {
   const char *fmt =
     "Hello, AbstractMachine!\n"

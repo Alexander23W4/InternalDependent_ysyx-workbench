@@ -5,7 +5,9 @@
  * from a program compiled with gcc */
 
 /* gcc gen_test.c && ./a.out > test.c && movcc test.c movfusator/lib/softfloat64.o && ./a.out | grep FAIL */
-
+// make ARCH=riscv32-nemu run
+// make ARCH=riscv32-nemu ALL=./build/alu_test.c run
+// PASS
 #include <stdio.h>
 #include <string.h>
 

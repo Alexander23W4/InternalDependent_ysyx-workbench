@@ -15,7 +15,7 @@
 /*
 -> 1. call add_mmio_map first, add devices    (In monitor_init(), device_init(), add all device-map)
 -> 2. and prepare callback function for each devices
--> 3. check (STORE & LOAD) instr addr-operand, when not operate physical ram, call mmio_read/write()
+-> 3. check (STORE & LOAD, e.g. sw sb) instr addr-operand, when not operate physical ram, call mmio_read/write()
 
 */
 #include <device/map.h>
@@ -46,7 +46,7 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
     }
   }
 
-  maps[nr_map] = (IOMap){ .name = name, .low = addr, .high = addr + len - 1,
+  maps[nr_map] = (IOMap){ .name = name, .low = addr, .high = addr + len - 1,      // addr len (low, high)
     .space = space, .callback = callback };
   Log("Add mmio map '%s' at [" FMT_PADDR ", " FMT_PADDR "]",
       maps[nr_map].name, maps[nr_map].low, maps[nr_map].high);

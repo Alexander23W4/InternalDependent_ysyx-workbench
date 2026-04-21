@@ -19,6 +19,7 @@
 /* http://en.wikibooks.org/wiki/Serial_Programming/8250_UART_Programming */
 // NOTE: this is compatible to 16550
 
+// These are all device implementation, not cpu architecture, not IOE, but everything in Information-Technology matters to me
 #define CH_OFFSET 0
 
 static uint8_t *serial_base = NULL;
@@ -45,7 +46,7 @@ void init_serial() {
 #ifdef CONFIG_HAS_PORT_IO
   add_pio_map ("serial", CONFIG_SERIAL_PORT, serial_base, 8, serial_io_handler);
 #else
-  add_mmio_map("serial", CONFIG_SERIAL_MMIO, serial_base, 8, serial_io_handler);
+  add_mmio_map("serial", CONFIG_SERIAL_MMIO, serial_base, 8, serial_io_handler);    // addr CONFIG_SERIAL_MMIO, len 8 (8 Bytes)
 #endif
 
 }

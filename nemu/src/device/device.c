@@ -17,7 +17,7 @@
 #include <utils.h>
 #include <device/alarm.h>
 #ifndef CONFIG_TARGET_AM
-#include <SDL2/SDL.h>
+#include <SDL2/SDL.h>    // SDL
 #endif
 
 void init_map();
@@ -33,10 +33,11 @@ void init_alarm();
 void send_key(uint8_t, bool);
 void vga_update_screen();
 
+// *** device update (be called by execute() in every circle)
 void device_update() {
   static uint64_t last = 0;
   uint64_t now = get_time();
-  if (now - last < 1000000 / TIMER_HZ) {
+  if (now - last < 1000000 / TIMER_HZ) {      // avoid checking too frequently
     return;
   }
   last = now;

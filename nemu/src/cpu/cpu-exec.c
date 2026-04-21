@@ -112,7 +112,7 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 #endif
 }
 
-static void execute(uint64_t n) {   // uint if n = -1, means max(uint64_t - 1)
+static void execute(uint64_t n) {   
   Decode s;
   for (;n > 0; n --) {  // run n times
     vaddr_t stored_pc = cpu.pc;

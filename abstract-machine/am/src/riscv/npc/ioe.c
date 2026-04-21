@@ -1,6 +1,14 @@
 #include <am.h>
 #include <klib-macros.h>
 
+/*
+-> support AM API (runtime env level):
+IOE (IO extension API) provides three APIs:
+
+bool ioe_init();
+void ioe_read(int reg, void *buf);
+void ioe_write(int reg, void *buf);
+*/
 void __am_timer_init();
 
 void __am_timer_rtc(AM_TIMER_RTC_T *);

@@ -70,11 +70,24 @@ We know that S = <R, M>, and the port I/O and memory-mapped I/O introduced above
 Actually, there is such a method called DMA. To improve performance, most complex devices generally have DMA functionality. 
   However, the devices in NEMU are relatively simple, so we will not go into the details of DMA.
 
--> support Devices
+-> support Devices (hardware architecture level)
 NEMU implements seven devices: serial port, clock, keyboard, VGA, sound card, disk, and SD card, 
   among which the disk will be introduced at the end of PA, and the SD card will not be involved in PA. 
 
+-> support AM API (runtime env level):
+IOE (IO extension API) provides three APIs:
 
+bool ioe_init();
+void ioe_read(int reg, void *buf);
+void ioe_write(int reg, void *buf);
+
+
+Note that the reg register here is not the device register discussed earlier, 
+  because the numbering of device registers is architecture-dependent. 
+  In IOE, we want to adopt an architecture-independent "abstract register". 
+  This reg is actually a function number, 
+  and we agree that the meaning of the same function number is also the same across different architectures, 
+ thus achieving the abstraction of device registers.
 
 SYSTEMIC UNDERSTANDING:
 🔹 Runtime Environment（运行时环境）

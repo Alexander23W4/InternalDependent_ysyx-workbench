@@ -46,7 +46,8 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
     }
   }
 
-  maps[nr_map] = (IOMap){ .name = name, .low = addr, .high = addr + len - 1,      // addr len (low, high)
+  // low = addr    high = add + len -1
+  maps[nr_map] = (IOMap){ .name = name, .low = addr, .high = addr + len - 1,      // addr len (low, high) 
     .space = space, .callback = callback };
   Log("Add mmio map '%s' at [" FMT_PADDR ", " FMT_PADDR "]",
       maps[nr_map].name, maps[nr_map].low, maps[nr_map].high);
@@ -62,7 +63,7 @@ static IOMap* fetch_mmio_map(paddr_t addr) {
 
 /* bus interface */ // BUS interface to devices
 // MMIO Device addressing API (nestly call general I/O API map_read/write())
-word_t mmio_read(paddr_t addr, int len) {
+word_t mmio_read(paddr_t addr, int len) {     // addr provided by upper layer, len provided by instr (sw, sb...)
   return map_read(addr, len, fetch_mmio_map(addr));
 }
 

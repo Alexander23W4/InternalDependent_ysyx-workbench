@@ -46,7 +46,8 @@ static void *lut[128] = {
 
 static void fail(void *buf) { panic("access nonexist register"); }
 
-bool ioe_init() {
+// all AM-device related API (IOE) is listed in lut as "AM_..._..." in amdev.h
+bool ioe_init() {   
   for (int i = 0; i < LENGTH(lut); i++)
     if (!lut[i]) lut[i] = fail;
   __am_gpu_init();
@@ -55,5 +56,8 @@ bool ioe_init() {
   return true;
 }
 
-void ioe_read (int reg, void *buf) { ((handler_t)lut[reg])(buf); }
+// These two are the highest level API in AM (AM->IOE)
+// universal IO API, lut[reg] (enum macros are defined in amdev)
+// the callback func is defined in specific device interface
+void ioe_read (int reg, void *buf) { ((handler_t)lut[reg])(buf); }   
 void ioe_write(int reg, void *buf) { ((handler_t)lut[reg])(buf); }

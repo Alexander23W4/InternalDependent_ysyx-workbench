@@ -9,7 +9,7 @@ Area heap = RANGE(&_heap_start, PMEM_END);
 static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER); // defined in CFLAGS
 
 void putch(char ch) {    // serial output API
-  outb(SERIAL_PORT, ch);    // *(volatile uint8_t  *)addr = data;   sbu addr data
+  outb(SERIAL_PORT, ch);    // *(volatile uint8_t  *)addr = data;   sbu addr data    (find it in src/riscv/riscv.h)
 }
 
 void halt(int code) {

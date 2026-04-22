@@ -13,6 +13,13 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+/*
+RTC (real time clock)
+During initialization, the i8253 timer registers an 8-byte port at 0x48 and an 8-byte MMIO space at 0xa0000048, 
+  both of which are mapped to two 32-bit RTC registers. 
+The CPU can access these two registers to obtain the current time represented in 64 bits.
+*/
+
 #include <device/map.h>
 #include <device/alarm.h>
 #include <utils.h>

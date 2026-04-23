@@ -1,5 +1,4 @@
 #include <amtest.h>
-// make ARCH=riscv32-nemu ALL=rtc run
 void rtc_test() {
   AM_TIMER_RTC_T rtc;
   int sec = 1;
@@ -15,3 +14,4 @@ void rtc_test() {
     sec ++;
   }
 }
+

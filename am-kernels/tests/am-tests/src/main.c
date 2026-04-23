@@ -1,5 +1,5 @@
 #include <amtest.h>
-
+// make ARCH=riscv32-nemu run mainargs=t
 void (*entry)() = NULL; // mp entry
 
 static const char *tests[256] = {

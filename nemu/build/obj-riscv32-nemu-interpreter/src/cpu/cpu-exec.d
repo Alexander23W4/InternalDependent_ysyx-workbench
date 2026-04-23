@@ -29,9 +29,11 @@ deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-int
     $(wildcard include/config/isa/mips32.h) \
     $(wildcard include/config/isa/riscv.h) \
     $(wildcard include/config/isa/loongarch32r.h) \
-  /home/wang/My_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h \
-  /home/wang/My_ysyx-workbench/nemu/src/monitor/sdb/expr.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/expr.h \
   /home/wang/My_ysyx-workbench/nemu/include/isa.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h \
+    $(wildcard include/config/pc/reset/offset.h) \
 
 /home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o: $(deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o)
 

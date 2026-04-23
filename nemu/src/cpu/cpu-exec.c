@@ -17,8 +17,9 @@
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
 #include <locale.h>
-#include "/home/wang/My_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h"
-#include "/home/wang/My_ysyx-workbench/nemu/src/monitor/sdb/expr.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/expr.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -35,6 +36,8 @@ static bool g_print_step = false;
 void device_update();
 
 static void statistic() {
+  printf("current pc: 0x%08x, current instr: 0x%08x\n", cpu.pc, paddr_read(cpu.pc, 1));   // add print current instr, for debug when assert fail
+
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%", "%'") PRIu64
   Log("host time spent = " NUMBERIC_FMT " us", g_timer);
@@ -43,6 +46,7 @@ static void statistic() {
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
 }
 
+// when Assert() fail, output these msg
 void assert_fail_msg() {
   isa_reg_display();
   statistic();

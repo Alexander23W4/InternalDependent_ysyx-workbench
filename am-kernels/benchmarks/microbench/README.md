@@ -1,6 +1,6 @@
 # MicroBench
 
-CPU正确性和性能测试用基准程序。对AbstractMachine的要求：
+CPU正确性 和 性能测试 用基准程序。对AbstractMachine的要求：
 
 1. 需要实现TRM和IOE的API。
 2. 在IOE的全部实现均留空的情况下仍可运行。如果有正确实现的`AM_TIMER_UPTIME`，可以输出正确的统计时间。若这个功能没有实现(返回`0`)，仍可进行正确性测试。
@@ -21,6 +21,8 @@ CPU正确性和性能测试用基准程序。对AbstractMachine的要求：
 默认运行ref数据规模，可通过`mainargs`选择其它的数据规模, 如:
 ```bash
 make ARCH=native run mainargs=huge
+make ARCH=native run mainargs=test
+make ARCH=riscv32-nemu run mainargs=train
 ```
 
 ## 评分根据

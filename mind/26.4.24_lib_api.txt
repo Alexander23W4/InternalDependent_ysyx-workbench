@@ -1,0 +1,17 @@
+这种“库函数实现”是谁写的？
+通常由以下几方协作完成：
+
+-> ISA 定义者（如 RISC-V 基金会 / ARM）： 提供参考实现或标准规范。
+
+-> 编译器维护者（如 GNU/FSF, LLVM 社区）： 将高效的汇编版本集成到 libgcc 或 compiler-rt 中。
+
+-> 芯片设计公司： 如果他们有特殊的优化（比如某些位移指令特别快），可能会提供自己优化的库版本。
+
+
+对于最后一个：
+在编译 C/C++ 代码时，最核心的 Flag 是 -march（Machine Architecture）。
+
+Intel 例子： gcc -march=skylake main.c
+AMD 例子： gcc -march=znver3 main.c（针对 AMD Zen 3 架构）
+
+两家公司有对相同的ISA的编译器的编译行为做不同的优化

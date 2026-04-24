@@ -35,7 +35,7 @@ always @(posedge clk or posedge rst) begin
                 break_flag <= 1'b1;
             end
             else if(break_flag) begin
-                break_flag <= 1'b0; // ignore key release
+                break_flag <= 1'b0; // ignore key release repeated byte
             end
             else begin
                 ascii <= ascii_lut;  // output make code

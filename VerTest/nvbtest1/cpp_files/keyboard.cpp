@@ -2,7 +2,7 @@
 top=keyboard_top
 
 ready LD0
-clrn BTNC
+rst BTNC
 ps2_clk PS2_CLK
 ps2_data PS2_DAT
 */

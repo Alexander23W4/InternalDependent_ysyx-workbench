@@ -1,5 +1,4 @@
 /*
-VGA:
 top=vga_top
             
 rst BTNC        

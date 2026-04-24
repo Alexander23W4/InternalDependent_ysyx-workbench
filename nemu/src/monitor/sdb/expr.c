@@ -112,7 +112,7 @@ static bool make_token(char *e) {   // translate
   int i;
   regmatch_t pmatch;
 
-  nr_token = 0;
+  nr_token = 0;   // clear gobal var "nr_token" to 0 each time make token
 
   while (e[position] != '\0') {
     if(nr_token >= MAX_TOKEN_LENGTH) {
@@ -331,7 +331,7 @@ _expr_t eval(int p, int q) {
 
 
 extern word_t expr(char *e, bool *success) {   
-  if (!make_token(e)) {
+  if (!make_token(e)) {   // expression includes unmatched regex token
     *success = false;
     return 0;
   }

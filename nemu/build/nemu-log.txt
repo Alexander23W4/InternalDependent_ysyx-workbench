@@ -4,3 +4,15 @@
 [1;34m[src/monitor/monitor.c:28 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:29 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
 [1;34m[src/monitor/monitor.c:32 welcome] Build time: 22:24:46, Apr 24 2026[0m
+[1;34m[src/monitor/sdb/sdb.c:151 cmd_w] w command started.[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[0] = " +" at position 0 with len 2:   [0m
+[1;34m[src/monitor/sdb/sdb.c:200 cmd_p] p command started.[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[0] = " +" at position 0 with len 3:    [0m
+[1;34m[src/monitor/sdb/sdb.c:200 cmd_p] p command started.[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[5] = "[0-9]+" at position 0 with len 1: 1[0m

@@ -29,7 +29,7 @@ static WP *head = NULL, *free_ = NULL;
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {  // numberize all of the wps
-    wp_pool[i].NO = i;
+    wp_pool[i].NO = i;    // 
     strcpy(wp_pool[i].expression, "");
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
   }
@@ -41,7 +41,10 @@ void init_wp_pool() {
 /* TODO: Implement the functionality of watchpoint */
 
 WP* new_wp(){
-  Assert(free_ != NULL, "free_ is empty");
+  if(free_ == NULL){
+    printf("Watchlist pool is full, no free watchpoint.\n");
+    return NULL;
+  }
   WP* ret = free_;
   free_ = free_->next;
   WP* temp = head;
@@ -59,19 +62,25 @@ WP* new_wp(){
 void free_wp(WP* wp){
   WP* temp = head;
   WP* last = temp;
+  if(temp == NULL){
+    printf("watchpoint pool is empty.\n");
+  }
   while(temp != NULL && wp->NO != temp->NO){
     last = temp;
     temp = temp->next;
   }
-  Assert(temp != NULL, "head is empty");
+  if(temp == NULL){
+    printf("no watchpoint match.\n");
+  }
   if(temp == head){
     head = head->next;
   }
   else {
     last->next = temp->next;
   }
-  wp->next = free_;
-  strcpy(wp->expression, "");
+
+  strcpy(wp->expression, "");    // free expression
+  wp->next = free_;   // add to the front of _free
   free_ = wp;
 }
 

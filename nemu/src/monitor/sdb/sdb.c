@@ -130,6 +130,7 @@ static struct {  // !!! supplement cmd_table so that mainloop could handle the c
 };
 
 extern char* hex_to_bin(const char *hex);
+
 static int cmd_hb(char* args){
   Log("hb command started.");
   if(args == NULL){
@@ -155,6 +156,14 @@ static int cmd_w(char* args){   // complete
   char* expression = args;
   bool success = true;
   uint32_t result = expr(expression, &success);
+  
+  if(!success){
+    printf("Error expression.\n");
+    return 0;
+  }
+  else{
+    printf("Add watchpoint successfully, RESULT: %u (0x%x)\n", result, result);
+  }
 
   WP* wp = new_wp();  // create new watchpoint
   strncpy(wp->expression, args, sizeof(wp->expression) - 1);
@@ -174,12 +183,15 @@ static int cmd_d(char* args){
   int index = 1;
   WP* temp = get_head();
   while(temp){
-    if(index == wp_index){
+    if(index == wp_index){   // wp_index is index of head* list
       free_wp(temp);
+      printf("Free watchpoint successfully.\n");
+      break;
     }
     temp = temp->next;
     index++;
   }
+  if(temp == NULL) printf("Unavailable index of watchpoint.\n");
   return 0;
 }
 
@@ -217,7 +229,7 @@ static int cmd_x(char* args){
     return 1;
   }
   else {
-    unsigned long base_addr = strtol(arg2, NULL, 16);
+    unsigned long base_addr = strtol(arg2, NULL, 16);  // string to long
     if(base_addr >= PMEM_RIGHT || base_addr < PMEM_LEFT){
       printf("NOT AVAILABLE BASE ADDR\n");
       return 1;

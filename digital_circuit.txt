@@ -9,3 +9,7 @@ D latch                                    no  ...     add an enable
 the cross-coupled architecture is for storing the state, 所以这个结构本身就可以作为一个latch， latch是电平触发
 
 如果想要边沿出发，就要采用两个latch, 一个锁高电平，一个锁低电平
+
+
+上述的D触发器只能存储1位数据, 但有时候需要将多位数据作为一个整体来存储和处理.
+寄存器(register)是由多个D触发器组成的存储元件, 这些D触发器之间共享相同的时钟信号和使能信号, 从而实现整体存储的效果.

@@ -1,0 +1,11 @@
+fully customized circuitry     biopolar
+semi customized circuitry      standard cell
+
+metastability:
+交叉配对反向器, cross-coupled inverters    two metastabilities 
+S-R latch                                  one ...
+D latch                                    no  ...     add an enable
+
+the cross-coupled architecture is for storing the state, 所以这个结构本身就可以作为一个latch， latch是电平触发
+
+如果想要边沿出发，就要采用两个latch, 一个锁高电平，一个锁低电平

@@ -247,6 +247,7 @@ static int get_main_operator(int p, int q) {
 // (()())   ()()flase  ()())error  not(/)flase 
 static bool check_parentheses(int p, int q, bool* is_error) {
   if (tokens[p].type != '(' || tokens[q].type != ')') {
+    printf("Check parentheses error. No parentheses at the front or the end.\n");
     return false;  
   }
   int cnt1 = 0;   // check whether ( amount == )amount
@@ -369,6 +370,7 @@ void expr_test(){
     char* result_string = strtok(line, " ");
     char* expression = result_string + strlen(result_string) + 1;
     uint32_t result = atoi(result_string);
+    
     bool success;
     uint32_t my_result = expr(expression, &success);
     printf("%s, result: %u, my_result: %u\n", expression, result, my_result);

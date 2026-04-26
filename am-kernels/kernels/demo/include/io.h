@@ -64,6 +64,12 @@ static inline int screen_tile_width() {
   return io_read(AM_GPU_CONFIG).width / TILE_W;
 }
 #else
+
+/*
+  \033: command line control instruction
+  [H: cursor reset
+  [J: clear screen
+*/
 static inline void set_color(int c) {
   printf("\033[%dm", c);
 }

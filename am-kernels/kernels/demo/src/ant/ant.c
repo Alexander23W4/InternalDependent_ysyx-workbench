@@ -13,7 +13,7 @@ static void refresh(int x, int y) {
   screen_clear();
   for (i = k = 0; i < h; i++)
     for (j = 0; j < w; j++, k++)
-      print_char(pix[k] ? '#' : ' ', i, j);
+      print_char(pix[k] ? '#' : ' ', i, j);   // 
 }
 
 void ant() {
@@ -23,9 +23,9 @@ void ant() {
   int dx = 0, dy = 1, i, k;
   int x = w / 2, y = h / 2;
 
-  pix = malloc(w * h);
+  pix = malloc(w * h);   //
   memset(pix, 0, w * h);
-  screen_clear();
+  screen_clear();    //
 
   while (1) {
     i = (y * w + x);
@@ -61,7 +61,7 @@ void ant() {
     }
     if (k) refresh(x, y);
     set_color(ANSI_COLOR_RED);
-    print_char('+', y + 1, x + 1);
+    print_char('+', y + 1, x + 1);  //
     set_color(ANSI_COLOR_RESET);
     screen_refresh();
 

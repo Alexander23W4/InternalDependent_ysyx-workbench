@@ -47,6 +47,7 @@ static void *lut[128] = {
 static void fail(void *buf) { panic("access nonexist register"); }
 
 // all AM-device related API (IOE) is listed in lut as "AM_..._..." in amdev.h
+// init
 bool ioe_init() {   
   for (int i = 0; i < LENGTH(lut); i++)
     if (!lut[i]) lut[i] = fail;

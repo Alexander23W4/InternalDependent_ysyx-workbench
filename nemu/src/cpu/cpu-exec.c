@@ -36,7 +36,7 @@ static bool g_print_step = false;
 void device_update();
 
 static void statistic() {
-  printf("terminal pc: 0x%08x, terminal instr: 0x%08x\n", cpu.pc - 4, paddr_read(cpu.pc - 4, 1));   // add print current instr, for debug when assert fail
+  printf("terminal pc: 0x%08x, terminal instr: 0x%08x\n", cpu.pc - 4, paddr_read(cpu.pc - 4, 4));   // add print current instr, for debug when assert fail
 
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%", "%'") PRIu64

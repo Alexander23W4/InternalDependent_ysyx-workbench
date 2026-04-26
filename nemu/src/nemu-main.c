@@ -23,7 +23,7 @@ engine_start()->direct cpu_exec(-1);
 // CONFIG_TARGET_AM : 
 
 #include <common.h>
-#define TEST_MODE 1
+#define TEST_MODE 0
 #define TEST_FUNC() 
 
 extern void expr(char *e, bool *success);

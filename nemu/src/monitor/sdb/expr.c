@@ -273,7 +273,7 @@ bool is_error = 0;
 
 _expr_t eval(int p, int q) {   // if error, return -1
   if (p > q) {   // ------------------------- 1
-    printf("Bad expression, the result can not be correct.\n");
+    printf("Bad expression (p > q), the result can not be correct.\n");
     return -1;   // !!! 
   }
   else if (p == q) { // --------------------------- 2    deal with pure numbers
@@ -281,7 +281,10 @@ _expr_t eval(int p, int q) {   // if error, return -1
      * For now this token should be a number.
      * Return the value of the number.
      */
-    Assert((tokens[p].type == TK_HEX ) || (tokens[p].type == TK_NUM || (tokens[p].type == TK_REG)), "inclusive syntax error");
+    if(!((tokens[p].type == TK_HEX ) || (tokens[p].type == TK_NUM || (tokens[p].type == TK_REG)))){
+      printf("Bad expression (oprand token type error), the result can not be correct.");
+      return -1;
+    }
     _expr_t ret;
     char* endptr;
     if(tokens[p].type == TK_HEX) {ret = (_expr_t)strtol(tokens[p].str, &endptr, 16);}

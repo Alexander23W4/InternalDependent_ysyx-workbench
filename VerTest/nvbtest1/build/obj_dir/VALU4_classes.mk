@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See Vvga_top.mk for the caller.
+# See VALU4.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,22 +23,22 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	Vvga_top \
-	Vvga_top___024root__DepSet_h0554035b__0 \
-	Vvga_top___024root__DepSet_h70d6aa0f__0 \
+	VALU4 \
+	VALU4___024root__DepSet_h6eb74c3e__0 \
+	VALU4___024root__DepSet_h8ef4ac26__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	Vvga_top___024root__Slow \
-	Vvga_top___024root__DepSet_h0554035b__0__Slow \
-	Vvga_top___024root__DepSet_h70d6aa0f__0__Slow \
+	VALU4___024root__Slow \
+	VALU4___024root__DepSet_h6eb74c3e__0__Slow \
+	VALU4___024root__DepSet_h8ef4ac26__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	Vvga_top__Syms \
+	VALU4__Syms \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

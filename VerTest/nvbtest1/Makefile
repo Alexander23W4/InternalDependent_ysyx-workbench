@@ -1,4 +1,4 @@
-TOPNAME = vga_top
+TOPNAME = ALU4
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
 

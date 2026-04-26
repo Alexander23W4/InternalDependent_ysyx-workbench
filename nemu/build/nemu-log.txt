@@ -4,25 +4,57 @@
 [1;34m[src/monitor/monitor.c:28 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:29 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
 [1;34m[src/monitor/monitor.c:32 welcome] Build time: 22:24:46, Apr 24 2026[0m
-[1;34m[src/monitor/sdb/sdb.c:200 cmd_p] p command started.[0m
+[1;34m[src/monitor/sdb/sdb.c:151 cmd_w] w command started.[0m
 [1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
 [0m
-[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[5] = "[0-9]+" at position 0 with len 3: 123[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[6] = "\$[a-zA-Z0-9]+" at position 0 with len 3: $pc[0m
 [1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
 [0m
-[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[7] = "\+" at position 3 with len 1: +[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[1] = "==" at position 3 with len 2: ==[0m
 [1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
 [0m
-[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[5] = "[0-9]+" at position 4 with len 2: 12[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[4] = "0[xX][0-9a-fA-F]+" at position 5 with len 10: 0x8000000c[0m
+0x80000000: 00 00 02 97 auipc	t0, 0
 [1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
 [0m
-[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[9] = "\*" at position 6 with len 1: *[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[6] = "\$[a-zA-Z0-9]+" at position 0 with len 3: $pc[0m
 [1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
 [0m
-[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[5] = "[0-9]+" at position 7 with len 2: 45[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[1] = "==" at position 3 with len 2: ==[0m
 [1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
 [0m
-[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[7] = "\+" at position 9 with len 1: +[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[4] = "0[xX][0-9a-fA-F]+" at position 5 with len 10: 0x8000000c[0m
+0x80000004: 00 02 88 23 sb	zero, 0x10(t0)
 [1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
 [0m
-[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[4] = "0[xX][0-9a-fA-F]+" at position 10 with len 4: 0x80[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[6] = "\$[a-zA-Z0-9]+" at position 0 with len 3: $pc[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[1] = "==" at position 3 with len 2: ==[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[4] = "0[xX][0-9a-fA-F]+" at position 5 with len 10: 0x8000000c[0m
+0x80000008: 01 02 c5 03 lbu	a0, 0x10(t0)
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[6] = "\$[a-zA-Z0-9]+" at position 0 with len 3: $pc[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[1] = "==" at position 3 with len 2: ==[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[4] = "0[xX][0-9a-fA-F]+" at position 5 with len 10: 0x8000000c[0m
+0x8000000c: 00 10 00 73 ebreak
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[6] = "\$[a-zA-Z0-9]+" at position 0 with len 3: $pc[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[1] = "==" at position 3 with len 2: ==[0m
+[1;34m[src/monitor/sdb/expr.c:128 make_token] match successfully
+[0m
+[1;34m[src/monitor/sdb/expr.c:129 make_token] match rules[4] = "0[xX][0-9a-fA-F]+" at position 5 with len 10: 0x8000000c[0m
+[1;34m[src/cpu/cpu-exec.c:157 cpu_exec] nemu: [1;32mHIT GOOD TRAP[0m at pc = 0x8000000c[0m
+[1;34m[src/cpu/cpu-exec.c:43 statistic] host time spent = 4,000 us[0m
+[1;34m[src/cpu/cpu-exec.c:44 statistic] total guest instructions = 4[0m
+[1;34m[src/cpu/cpu-exec.c:45 statistic] simulation frequency = 1,000 inst/s[0m

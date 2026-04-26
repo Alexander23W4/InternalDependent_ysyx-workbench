@@ -22,11 +22,11 @@ engine_start()->direct cpu_exec(-1);
 // *** debug mode & AM mode is diff by  CONFIG_TARGET_AM
 // CONFIG_TARGET_AM : 
 
-
 #include <common.h>
-#define TEST_MODE 0
-#define TEST_FUNC() expr_test()
+#define TEST_MODE 1
+#define TEST_FUNC() 
 
+extern void expr(char *e, bool *success);
 extern void expr_test();
 void _check_args(int argc, char** argv);
 
@@ -45,7 +45,8 @@ int main(int argc, char *argv[]) {   // the args will diliver to init_monitor ->
 #endif
 
 #if TEST_MODE
-  TEST_FUNC();
+  bool success;
+  expr(")", &success);
 #else 
   engine_start();                    // start sdb
 #endif

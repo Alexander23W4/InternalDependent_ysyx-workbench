@@ -229,7 +229,7 @@ static int get_main_operator(int p, int q) {
     int type = tokens[i].type;
 
     if(type == '(') paren++;
-    else if(type == ')') paren--;
+    else if(type == ')') paren--; 
 
     else if(paren == 0 && check_op(type)) {   // a operator must after same amount of "(" and ")"
 
@@ -247,7 +247,6 @@ static int get_main_operator(int p, int q) {
 // (()())   ()()flase  ()())error  not(/)flase 
 static bool check_parentheses(int p, int q, bool* is_error) {
   if (tokens[p].type != '(' || tokens[q].type != ')') {
-    printf("Check parentheses error. No parentheses at the front or the end.\n");
     return false;  
   }
   int cnt1 = 0;   // check whether ( amount == )amount
@@ -266,13 +265,13 @@ static bool check_parentheses(int p, int q, bool* is_error) {
         return false;
     }
   }
-  return cnt2 == 0;  
+  return (cnt2 == 0);  
 }
 
  // inclusively tackle the tokens
 bool is_error = 0; 
 
-_expr_t eval(int p, int q) {
+_expr_t eval(int p, int q) {   // if error, return -1
   if (p > q) {   // ------------------------- 1
     printf("Bad expression, the result can not be correct.\n");
     return -1;   // !!! 
@@ -282,7 +281,7 @@ _expr_t eval(int p, int q) {
      * For now this token should be a number.
      * Return the value of the number.
      */
-    Assert((tokens[p].type == TK_HEX ) || (tokens[p].type == TK_NUM || (tokens[p].type == TK_REG)), "inclusive syntax error, &2");
+    Assert((tokens[p].type == TK_HEX ) || (tokens[p].type == TK_NUM || (tokens[p].type == TK_REG)), "inclusive syntax error");
     _expr_t ret;
     char* endptr;
     if(tokens[p].type == TK_HEX) {ret = (_expr_t)strtol(tokens[p].str, &endptr, 16);}
@@ -296,14 +295,20 @@ _expr_t eval(int p, int q) {
     return ret;
   }
   else if (check_parentheses(p, q, &is_error) == true) { // ---------------------------------- 3    strip off parentheses
-    if(is_error) printf("($1)There must be something wrong with your expression. The result must be incorrect.\n");
+    if(is_error){
+      printf("($1)There must be something wrong with your expression. The result must be incorrect.\n");
+      return -1;   //
+    }
     return eval(p + 1, q - 1);
   }
   else {  // -------------------------------- 4   split  (!!! do not support negative numbers)
-
     int op = get_main_operator(p, q);
-    if(op == -1) printf("($2)There must be something wrong with your expression. The result must be incorrect.\n");
+    if(op == -1){
+      printf("($2)There must be something wrong with your expression. The result must be incorrect.\n");
+      return -1;   //
+    }
 
+    // cal
     if(tokens[op].type == DEREF) {
       _expr_t addr = eval(op + 1, q);
       return paddr_read(addr, 4);
@@ -331,7 +336,7 @@ _expr_t eval(int p, int q) {
 }
 
 
-extern word_t expr(char *e, bool *success) {   
+word_t expr(char *e, bool *success) {   
   if (!make_token(e)) {   // expression includes unmatched regex token
     *success = false;
     return 0;
@@ -341,7 +346,7 @@ extern word_t expr(char *e, bool *success) {
     return 0;
   }
   for (int i = 0; i < nr_token; i ++) {
-    if (tokens[i].type == '*' && (i == 0 || check_op(tokens[i - 1].type)) ) {
+    if (tokens[i].type == '*' && (i == 0 || check_op(tokens[i - 1].type)) ) {   // identify DEREF before evaluation(cal)
       tokens[i].type = DEREF;
     }
   }

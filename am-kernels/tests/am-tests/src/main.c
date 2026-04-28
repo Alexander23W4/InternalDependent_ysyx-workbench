@@ -17,12 +17,12 @@ static const char *tests[256] = {
 
 int main(const char *args) {
   switch (args[0]) {
-    CASE('h', hello);
+    CASE('h', hello);    // pass
     CASE('i', hello_intr, IOE, CTE(simple_trap));
     CASE('d', devscan, IOE);
     CASE('m', mp_print, MPE);
     CASE('t', rtc_test, IOE);
-    CASE('k', keyboard_test, IOE);
+    CASE('k', keyboard_test, IOE);    // pass
     CASE('v', video_test, IOE);
     CASE('a', audio_test, IOE);
     CASE('p', vm_test, CTE(vm_handler), VME(simple_pgalloc, simple_pgfree));

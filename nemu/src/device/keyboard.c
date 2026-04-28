@@ -22,6 +22,12 @@
 #include <SDL2/SDL.h>
 // SDL Official API: scancode  keydown
 
+/*
+Multi-key press solution: 
+  A full-keybrd state record arr, at each frame, read the pressed key-data until NONE, update state record arr
+  gather the keys whose state is pressed. 
+*/
+
 // Note that this is not the standard
 #define NEMU_KEYS(f) \
   f(ESCAPE) f(F1) f(F2) f(F3) f(F4) f(F5) f(F6) f(F7) f(F8) f(F9) f(F10) f(F11) f(F12) \

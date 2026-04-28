@@ -3,6 +3,12 @@
 
 #define KEYDOWN_MASK 0x8000
 
+/*
+Multi-key press solution: 
+  A full-keybrd state record arr, at each frame, read the pressed key-data until NONE, update state record arr
+  gather the keys whose state is pressed. 
+*/
+
 // keydown is true when a key is pressed, and false when a key is released. 
 // when a key is pressed, the keyboard will send the make code of that key; 
 // when a key is released, the keyboard will send the break code of that key. 

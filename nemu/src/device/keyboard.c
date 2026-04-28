@@ -61,7 +61,7 @@ static void key_enqueue(uint32_t am_scancode) {
 }
 
 static uint32_t key_dequeue() {
-  uint32_t key = NEMU_KEY_NONE;   // default
+  uint32_t key = NEMU_KEY_NONE;   // default, if f == r , empty, output NEMU_KEY_NONE
   if (key_f != key_r) {
     key = key_queue[key_f];
     key_f = (key_f + 1) % KEY_QUEUE_LEN;

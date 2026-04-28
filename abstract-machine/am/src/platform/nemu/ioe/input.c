@@ -8,9 +8,9 @@
 // when a key is released, the keyboard will send the break code of that key. 
 
 // bool keydown; int keycode
-// my solution: send both makecode & breakcode 
+// my solution: send both makecode & breakcode
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
-  uint32_t data = inl(KBD_ADDR);   // data : makecode(keydown, send)   breakcode(!keydown, send)  (shouldn't include keynone)
+  uint32_t data = inl(KBD_ADDR);   // data : makecode(keydown, send)   breakcode(!keydown, send)  none(data == 0) (shouldn't include keynone)
   kbd->keydown = false;
   kbd->keycode = AM_KEY_NONE;   
 

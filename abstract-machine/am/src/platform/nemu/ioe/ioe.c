@@ -58,7 +58,7 @@ bool ioe_init() {
 }
 
 // These two are the highest level API in AM (AM->IOE)
-// universal IO API, lut[reg] (enum macros are defined in amdev)
+// universal IO API, lut[reg] (enum macros are defined in amdev.h)
 // the callback func is defined in specific device interface
 void ioe_read (int reg, void *buf) { ((handler_t)lut[reg])(buf); }   
 void ioe_write(int reg, void *buf) { ((handler_t)lut[reg])(buf); }

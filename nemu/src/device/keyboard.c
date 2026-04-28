@@ -20,6 +20,7 @@
 
 #ifndef CONFIG_TARGET_AM
 #include <SDL2/SDL.h>
+// SDL Official API: scancode  keydown
 
 // Note that this is not the standard
 #define NEMU_KEYS(f) \
@@ -39,25 +40,28 @@ enum {
   MAP(NEMU_KEYS, NEMU_KEY_NAME)    // NEMU_KEYS(NEMU_KEY_NAME) -> generate e.g. NEMU_KEY_NAME(ESCAPE) -> NEMU_KEY_ESCAPE ....
 };
 
+// map SDL_SCANCODE(official interface) to all same name NEMU_KEYS_..
 #define SDL_KEYMAP(k) keymap[SDL_SCANCODE_ ## k] = NEMU_KEY_ ## k;
-static uint32_t keymap[256] = {};   // pack into arr
+static uint32_t keymap[256] = {};   
 
 static void init_keymap() {
-  MAP(NEMU_KEYS, SDL_KEYMAP)
+  MAP(NEMU_KEYS, SDL_KEYMAP)      // keymap[SDL_SCANCODE_ESCAPE] = NEMU_KEY_ESCAPE ...
 }
+
+
 
 #define KEY_QUEUE_LEN 1024
 static int key_queue[KEY_QUEUE_LEN] = {};
 static int key_f = 0, key_r = 0;
 
-static void key_enqueue(uint32_t am_scancode) {
+static void key_enqueue(uint32_t am_scancode) {  
   key_queue[key_r] = am_scancode;
-  key_r = (key_r + 1) % KEY_QUEUE_LEN;
-  Assert(key_r != key_f, "key queue overflow!");
+  key_r = (key_r + 1) % KEY_QUEUE_LEN;   // circular queue
+  Assert(key_r != key_f, "key queue overflow!");   // head touch tail
 }
 
 static uint32_t key_dequeue() {
-  uint32_t key = NEMU_KEY_NONE;
+  uint32_t key = NEMU_KEY_NONE;   // default
   if (key_f != key_r) {
     key = key_queue[key_f];
     key_f = (key_f + 1) % KEY_QUEUE_LEN;
@@ -65,9 +69,11 @@ static uint32_t key_dequeue() {
   return key;
 }
 
+// get scancode & is_keydown from SDL periodic checkloop. 
+// In terms of sdl-scancode, the breakcode & makecode are the same 
 void send_key(uint8_t scancode, bool is_keydown) {
   if (nemu_state.state == NEMU_RUNNING && keymap[scancode] != NEMU_KEY_NONE) {
-    uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);
+    uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);   //
     key_enqueue(am_scancode);
   }
 }
@@ -81,23 +87,24 @@ static uint32_t key_dequeue() {
 }
 #endif
 
+// data register  4 bytes
 static uint32_t *i8042_data_port_base = NULL;
 
-// callback function (device feature func)
+// callback function (device feature func)   read   1 byte
 static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
-  i8042_data_port_base[0] = key_dequeue();
+  i8042_data_port_base[0] = key_dequeue();  // into 4 byte data register
 }
 
-// init
+// init  0xa0000060  4 bytes
 void init_i8042() {
   i8042_data_port_base = (uint32_t *)new_space(4);
   i8042_data_port_base[0] = NEMU_KEY_NONE;
 #ifdef CONFIG_HAS_PORT_IO
   add_pio_map ("keyboard", CONFIG_I8042_DATA_PORT, i8042_data_port_base, 4, i8042_data_io_handler);
 #else
-  add_mmio_map("keyboard", CONFIG_I8042_DATA_MMIO, i8042_data_port_base, 4, i8042_data_io_handler);
+  add_mmio_map("keyboard", CONFIG_I8042_DATA_MMIO, i8042_data_port_base, 4, i8042_data_io_handler);  // name, addr, space, len, callback
 #endif
   IFNDEF(CONFIG_TARGET_AM, init_keymap());
 }

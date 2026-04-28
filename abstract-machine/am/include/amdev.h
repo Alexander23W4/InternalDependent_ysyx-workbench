@@ -7,7 +7,7 @@
   enum { AM_##reg = (id) }; \
   typedef struct { __VA_ARGS__; } AM_##reg##_T;
 
-  // e.g. enum {AM_UART_CONFIG = 1}    typedef struct {bool present} AM_UART_CONFIG_T
+// e.g. enum {AM_UART_CONFIG = 1}    typedef struct {bool present} AM_UART_CONFIG_T
 AM_DEVREG( 1, UART_CONFIG,  RD, bool present);
 AM_DEVREG( 2, UART_TX,      WR, char data);
 AM_DEVREG( 3, UART_RX,      RD, char data);

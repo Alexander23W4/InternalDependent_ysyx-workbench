@@ -58,13 +58,14 @@ Among them, map_read() and map_write() are used to map the address addr to the t
 These two functions are core Device I/O API, when instr-ram-addr falls in device area, call these API
   the API calls callback function for operating device internally (invoke_callback)
 */
+
 word_t map_read(paddr_t addr, int len, IOMap *map) {   // map 
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);     // check range  (assert)
 
   paddr_t offset = addr - map->low;    // offset = read_addr - device_base_addr
   invoke_callback(map->callback, offset, len, false);  // prepare data to "space"
-  word_t ret = host_read(map->space + offset, len); 
+  word_t ret = host_read(map->space + offset, len);    //
   return ret;
 }
 

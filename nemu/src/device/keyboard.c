@@ -33,13 +33,14 @@ f(UP) f(DOWN) f(LEFT) f(RIGHT) f(INSERT) f(DELETE) f(HOME) f(END) f(PAGEUP) f(PA
 
 #define NEMU_KEY_NAME(k) NEMU_KEY_ ## k,
 
+// all key labels(MACRO) are in this enum
 enum {
   NEMU_KEY_NONE = 0,
-  MAP(NEMU_KEYS, NEMU_KEY_NAME)
+  MAP(NEMU_KEYS, NEMU_KEY_NAME)    // NEMU_KEYS(NEMU_KEY_NAME) -> generate e.g. NEMU_KEY_NAME(ESCAPE) -> NEMU_KEY_ESCAPE ....
 };
 
 #define SDL_KEYMAP(k) keymap[SDL_SCANCODE_ ## k] = NEMU_KEY_ ## k;
-static uint32_t keymap[256] = {};
+static uint32_t keymap[256] = {};   // pack into arr
 
 static void init_keymap() {
   MAP(NEMU_KEYS, SDL_KEYMAP)
@@ -82,12 +83,14 @@ static uint32_t key_dequeue() {
 
 static uint32_t *i8042_data_port_base = NULL;
 
+// callback function (device feature func)
 static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
   i8042_data_port_base[0] = key_dequeue();
 }
 
+// init
 void init_i8042() {
   i8042_data_port_base = (uint32_t *)new_space(4);
   i8042_data_port_base[0] = NEMU_KEY_NONE;

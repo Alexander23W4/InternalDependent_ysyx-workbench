@@ -21,3 +21,6 @@ $(AUDIO):
 	ffmpeg -i $(VIDEO_SRC) -vn -acodec pcm_s16le -f s16le -ac $(AUDIO_CHANNEL) -ar $(AUDIO_FREQ) $@
 
 resources.S: $(VIDEO) $(AUDIO)
+
+# make ARCH=riscv32-nemu run
+# make ARCH=native run

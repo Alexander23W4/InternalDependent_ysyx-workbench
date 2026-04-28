@@ -61,7 +61,8 @@ static IOMap* fetch_mmio_map(paddr_t addr) {
   return (mapid == -1 ? NULL : &maps[mapid]);
 }
 
-/* bus interface */ // BUS interface to devices
+/* bus interface */ 
+// BUS interface to devices.   The toppest IOE API
 // MMIO Device addressing API (nestly call general I/O API map_read/write())
 word_t mmio_read(paddr_t addr, int len) {     // addr provided by upper layer, len provided by instr (sw, sb...)
   return map_read(addr, len, fetch_mmio_map(addr));

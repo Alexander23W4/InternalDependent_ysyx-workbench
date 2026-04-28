@@ -15,6 +15,7 @@
 #define putstr(s) \
   ({ for (const char *p = s; *p; p++) putch(*p); })
 
+// io_read   io_write
 #define io_read(reg) \
   ({ reg##_T __io_param; \
     ioe_read(reg, &__io_param); \

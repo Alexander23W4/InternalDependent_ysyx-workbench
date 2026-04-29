@@ -23,6 +23,7 @@
 static uint8_t *io_space = NULL;    // IO space
 static uint8_t *p_space = NULL;
 
+// distribute IO space
 uint8_t* new_space(int size) {
   uint8_t *p = p_space;
   // page aligned;

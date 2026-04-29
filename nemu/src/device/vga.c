@@ -58,7 +58,7 @@ static SDL_Texture *texture = NULL;
 static void init_screen() {
   SDL_Window *window = NULL;
   char title[128];
-  sprintf(title, "%s-NEMU", str(__GUEST_ISA__));
+  sprintf(title, "%s-NEMU", str(__GUEST_ISA__));    // title
   SDL_Init(SDL_INIT_VIDEO);
   SDL_CreateWindowAndRenderer(
       SCREEN_W * (MUXDEF(CONFIG_VGA_SIZE_400x300, 2, 1)),
@@ -70,6 +70,7 @@ static void init_screen() {
   SDL_RenderPresent(renderer);
 }
 
+// &
 static inline void update_screen() {
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(uint32_t));
   SDL_RenderClear(renderer);
@@ -88,6 +89,7 @@ static inline void update_screen() {
 void vga_update_screen() {
   // TODO: call `update_screen()` when the sync register is non-zero,
   // then zero out the sync register
+  
 }
 
 void init_vga() {
@@ -96,13 +98,13 @@ void init_vga() {
 #ifdef CONFIG_HAS_PORT_IO
   add_pio_map ("vgactl", CONFIG_VGA_CTL_PORT, vgactl_port_base, 8, NULL);
 #else
-  add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8, NULL);
+  add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8, NULL);     // 0xa0000100  vga control  // name, addr, space, len, callback
 #endif
 
-  vmem = new_space(screen_size());
-  add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
-  IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());
-  IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));
+  vmem = new_space(screen_size());   // space
+  add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);    // 0xa1000000   vga memory
+  IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());     
+  IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));    // init vmem with 0 
 }
 
 

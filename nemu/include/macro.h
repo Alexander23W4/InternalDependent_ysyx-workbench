@@ -45,7 +45,7 @@
 #define __P_DEF_1  X,
 #define __P_ONE_1  X,
 #define __P_ZERO_0 X,
-// define some selection functions based on the properties of BOOLEAN macro
+// define some selection functions based on the properties of BOOLEAN macro (if macro defined, X, not, Y)
 #define MUXDEF(macro, X, Y)  MUX_MACRO_PROPERTY(__P_DEF_, macro, X, Y)
 #define MUXNDEF(macro, X, Y) MUX_MACRO_PROPERTY(__P_DEF_, macro, Y, X)
 #define MUXONE(macro, X, Y)  MUX_MACRO_PROPERTY(__P_ONE_, macro, X, Y)

@@ -13,9 +13,22 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+/*
+The code only simulates the 400x300x32 graphics mode, where each pixel occupies 32 bits of storage space, 
+ with R(red), G(green), B(blue), A(alpha) each occupying 8 bits, and VGA does not use the alpha information.
+
+-> Index to a palette:
+A palette is an array of color information, with each element occupying 4 bytes, representing the values of R(red), G(green), B(blue), A(alpha). 
+  After introducing the concept of a palette, a pixel no longer stores color information, but an index into the palette: 
+  Specifically, to obtain the color information of a pixel, its value is used as an index, 
+  and an index operation is performed in the palette array to retrieve the corresponding color information. 
+  Therefore, by using different palettes, it is possible to use different sets of 256 colors at different times.
+*/
+
 #include <common.h>
 #include <device/map.h>
 
+// 800*600 / 400*300(&)
 #define SCREEN_W (MUXDEF(CONFIG_VGA_SIZE_800x600, 800, 400))
 #define SCREEN_H (MUXDEF(CONFIG_VGA_SIZE_800x600, 600, 300))
 
@@ -27,6 +40,7 @@ static uint32_t screen_height() {
   return MUXDEF(CONFIG_TARGET_AM, io_read(AM_GPU_CONFIG).height, SCREEN_H);
 }
 
+// 400*300*32 bits
 static uint32_t screen_size() {
   return screen_width() * screen_height() * sizeof(uint32_t);
 }
@@ -90,3 +104,5 @@ void init_vga() {
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());
   IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));
 }
+
+

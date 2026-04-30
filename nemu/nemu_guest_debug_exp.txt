@@ -2,7 +2,7 @@ How to debug guest program operation process in nemu:
 
 ----> QUICK VIEW:
 使用gdb：
-Display:    cpu.pc    paddr_read(cpu.pc, 4)
+Display:    cpu.pc    paddr_read(cpu.pc, 4)   cpu.gpr[..]   
     display/x cpu.pc
 
 

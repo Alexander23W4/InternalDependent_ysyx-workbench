@@ -41,8 +41,23 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
-  int index = ctl->y * ctl->w + ctl->x;
-  outl(FB_ADDR + index, *((uint32_t*)(ctl->pixels)));
+  // git width:
+  uint32_t vga_info = inl(VGACTL_ADDR);
+  int screen_w = (vga_info >> 16) & 0xFFFF;
+
+  uint32_t *pixels = (uint32_t *)ctl->pixels;
+  int vmem_index = 0;
+  int p_idx = 0;
+
+  for (size_t i = ctl->y; i < ctl->y + ctl->h; i++)
+  {
+    for (size_t j = ctl->x; j < ctl->x + ctl->w; j++)
+    {
+      vmem_index = (i * screen_w + j) * 4;
+      outl(FB_ADDR + vmem_index, pixels[p_idx++]);
+    }
+    
+  }
 }
 
 void __am_gpu_status(AM_GPU_STATUS_T *status) {

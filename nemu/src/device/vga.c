@@ -40,7 +40,7 @@ static uint32_t screen_height() {
   return MUXDEF(CONFIG_TARGET_AM, io_read(AM_GPU_CONFIG).height, SCREEN_H);
 }
 
-// 400*300*32 bits
+// 400*300* (4 bytes)
 static uint32_t screen_size() {
   return screen_width() * screen_height() * sizeof(uint32_t);
 }
@@ -86,21 +86,27 @@ static inline void update_screen() {
 #endif
 #endif
 
-void vga_update_screen() {
+void vga_update_screen(uint32_t offset, int len, bool is_write) {
   // TODO: call `update_screen()` when the sync register is non-zero,
   // then zero out the sync register
-  
+  if((vgactl_port_base[1] != 0) && (offset == 4) && is_write){
+    update_screen();
+    vgactl_port_base[1] = 0;
+  }
 }
 
 void init_vga() {
-  vgactl_port_base = (uint32_t *)new_space(8);
-  vgactl_port_base[0] = (screen_width() << 16) | screen_height();
+// vga ctl:
+  vgactl_port_base = (uint32_t *)new_space(8);   // 2 * uint32_t
+  vgactl_port_base[0] = (screen_width() << 16) | screen_height();   // vga info
+
 #ifdef CONFIG_HAS_PORT_IO
   add_pio_map ("vgactl", CONFIG_VGA_CTL_PORT, vgactl_port_base, 8, NULL);
 #else
-  add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8, NULL);     // 0xa0000100  vga control  // name, addr, space, len, callback
+  add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8, vga_update_screen);     // 0xa0000100  vga control  // name, addr, space, len, callback
 #endif
 
+// vga mem:
   vmem = new_space(screen_size());   // space
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);    // 0xa1000000   vga memory
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());     

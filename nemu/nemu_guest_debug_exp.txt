@@ -1,0 +1,17 @@
+How to debug guest program operation process in nemu:
+
+----> QUICK VIEW:
+使用gdb：
+Display:    cpu.pc    paddr_read(cpu.pc, 4)
+
+
+
+----> ANALYSIS:
+出于debug purpose oriented的底层思想， 直接在出问题的instr/pc或者是nemu-c内部的函数那里设置断点
+
+断instr和pc可以用watchpoint：
+    watch (paddr_read(cpu.pc, 4) & 0x707f) == 0x2023   [watch all SW instr]
+    watch (paddr_read(cpu.pc, 4) == 0x02c787b3         [watch a specific instr]
+
+
+

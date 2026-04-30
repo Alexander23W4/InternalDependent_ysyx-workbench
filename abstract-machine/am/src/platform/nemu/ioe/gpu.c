@@ -14,13 +14,13 @@
     If sync is true, the contents of the frame buffer will be immediately synchronized to the screen.
 */
 void __am_gpu_init() {
-  int i;
-  uint32_t vga_info = inl(VGACTL_ADDR);
-  int w = (vga_info >> 16) & 0xFFFF;  
-  int h = vga_info & 0xFFFF;  
-  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for (i = 0; i < w * h; i ++) fb[i] = i;
-  outl(SYNC_ADDR, 1);
+  // int i;
+  // uint32_t vga_info = inl(VGACTL_ADDR);
+  // int w = (vga_info >> 16) & 0xFFFF;  
+  // int h = vga_info & 0xFFFF;  
+  // uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
+  // for (i = 0; i < w * h; i ++) fb[i] = i;
+  // outl(SYNC_ADDR, 1);
 }
 
 //  bool present, has_accel; int width, height, vmemsz

@@ -27,6 +27,16 @@ The way TRM works is reflected in cpu_exec() and exec_once().
 
    为人也保持自身的独立性和自我意志，不追求过度的与大量其他个体与环境的兼容性和所谓某些哲学性上人的完美
      
+%%% [Game]:
+These games may look very different, but they all embody the framework of "how programs use IOE to achieve game effects". 
+In fact, a game can be abstracted as an infinite loop:
+
+while (1) {
+  wait_for_new_frame();  // AM_TIMER_UPTIME
+  process_user_input();  // AM_INPUT_KEYBRD
+  update_game_logic();  // TRM
+  draw_new_screen();  // AM_GPU_FBDRAW
+}
 
 $$$ [Device]:
 I/O addressing method   Device addresses
@@ -88,6 +98,8 @@ Note that the reg register here is not the device register discussed earlier,
   This reg is actually a function number, 
   and we agree that the meaning of the same function number is also the same across different architectures, 
  thus achieving the abstraction of device registers.
+
+// ----------------------------------------------------------------------------------------------------------------------
 
 SYSTEMIC UNDERSTANDING:
 🔹 Runtime Environment（运行时环境）

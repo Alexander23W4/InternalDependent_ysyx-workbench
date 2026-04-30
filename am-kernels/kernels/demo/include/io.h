@@ -1,6 +1,6 @@
 #ifndef __DRAW_H__
 
-// #define HAS_GUI
+#define HAS_GUI
 
 #include <stdio.h>
 #include <am.h>
@@ -12,7 +12,7 @@
 #define ANSI_COLOR_WHITE 37
 #define ANSI_COLOR_RESET 0
 
-#ifdef HAS_GUI
+#ifdef HAS_GUI 
 #define TILE_W 4
 #define SCREEN_W 320
 #define SCREEN_H 200

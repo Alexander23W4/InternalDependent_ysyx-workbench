@@ -84,7 +84,7 @@ void render() {
       io_write(AM_GPU_FBDRAW, c->x, c->y, texture[col][c->ch - 'A'], CHAR_W, CHAR_H, false);
     }
   }
-  io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);
+  io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);   //
   for (int i = 0; i < 40; i++) putch('\b');
   printf("Hit: %d; Miss: %d; Wrong: %d", hit, miss, wrong);
 }
@@ -107,6 +107,7 @@ void check_hit(char ch) {
 
 
 void video_init() {
+  // 
   screen_w = io_read(AM_GPU_CONFIG).width;
   screen_h = io_read(AM_GPU_CONFIG).height;
 
@@ -118,6 +119,7 @@ void video_init() {
   for (int i = 0; i < screen_w; i++)
     blank_line[i] = COL_PURPLE;
 
+    // 
   for (int y = 0; y < screen_h; y ++)
     io_write(AM_GPU_FBDRAW, 0, y, blank_line, screen_w, 1, false);
 
@@ -156,11 +158,11 @@ int main() {
   uint64_t t0 = io_read(AM_TIMER_UPTIME).us;
   while (1) {
     int frames = (io_read(AM_TIMER_UPTIME).us - t0) / (1000000 / FPS);
-
+// update next frame
     for (; current < frames; current++) {
       game_logic_update(current);
     }
-
+// read guest input
     while (1) {
       AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
       if (ev.keycode == AM_KEY_NONE) break;
@@ -169,7 +171,7 @@ int main() {
         check_hit(lut[ev.keycode]);
       }
     };
-
+// cal next fram info
     if (current > rendered) {
       render();
       rendered = current;

@@ -5,6 +5,9 @@ How to debug guest program operation process in nemu:
 Display:    cpu.pc    paddr_read(cpu.pc, 4)   cpu.gpr[..]   
     display/x cpu.pc
 
+使用trace：
+elf access：e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-riscv32-nemu.elf (hex trans)
+
 
 ----> ANALYSIS:
 出于debug purpose oriented的底层思想， 直接在出问题的instr/pc或者是nemu-c内部的函数那里设置断点 
@@ -21,4 +24,30 @@ Display:    cpu.pc    paddr_read(cpu.pc, 4)   cpu.gpr[..]
      b mmio_read if cpu.pc == 0x80001258
      condition 1 cpu.pc == 0x80001258                  [add additional condition on triggering breakpoint 1]
     
+
+
+
+
+
+
+
+
+
+$$$ --->> ELF: Executable and Linkable Format
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al       
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+
+// mem used in runtime  
+  [ 1] .text             PROGBITS        80000000 001000 000344 00  AX  0   0  4       代码段               alloc（程序运行时占用内存）  executable
+  [ 2] .rodata           PROGBITS        80000344 001344 000080 00   A  0   0  4       read-only data       一些常量（const/ printf中的固定string）
+  [ 3] .data             PROGBITS        800003c4 0013c4 000010 00  WA  0   0  4       global&static var    writable  alloc
+  [ 4] .bss              NOBITS          800003d4 0013d4 000080 00  WA  0   0  4       未初始化全局变量段
+
+// these won't be moved into mem, only stored in elf file for other developing purpose
+  [ 5] .comment          PROGBITS        00000000 0013d4 00002b 01  MS  0   0  1       about compiler
+  [ 6] .riscv.attributes RISCV_ATTRIBUTE 00000000 0013ff 00001f 00      0   0  1       about riscv
+  [ 7] .symtab           SYMTAB          00000000 001420 0002b0 10      8  22  4       symbol table
+  [ 8] .strtab           STRTAB          00000000 0016d0 0000e3 00      0   0  1       string table 
+  [ 9] .shstrtab         STRTAB          00000000 0017b3 00004f 00      0   0  1       Section Header String Table
 

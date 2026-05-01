@@ -45,6 +45,15 @@ The implementation of itrace is very simple, the code just records each instruct
   and then calls the disassembly function provided by the llvm project (implemented in nemu/src/utils/disasm.cc). 
   Itrace outputs the PC, binary representation of the instruction and the disassembly result. 
 
+->itrace: trace instr
+->ftrace: trace functions
+   We can record the destination address in the function call instruction, indicating that a function will be called. 
+   Then we can record the current PC in the function return instruction, 
+   indicating that we are returning from the function where the PC is located.
+   
+riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf
+
+
 %%% [Game]:
 These games may look very different, but they all embody the framework of "how programs use IOE to achieve game effects". 
 In fact, a game can be abstracted as an infinite loop:

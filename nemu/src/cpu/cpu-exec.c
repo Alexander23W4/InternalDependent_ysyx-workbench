@@ -20,6 +20,7 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/expr.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/iringbuf.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -27,11 +28,13 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 10
+#define _LIMITED_ITRACE_REC_AVIL 1
 
 CPU_state cpu = {};    // define in isa-def.h
 uint64_t g_nr_guest_inst = 0;   // total run instr
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = true;
+static I_ring_buf i_ring_buf = {.amt = 0};
 
 void device_update();
 
@@ -75,6 +78,10 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   
 // itrace log write
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+
+#if _LIMITED_ITRACE_REC_AVIL    // use iringbuf
+  strcpy(i_ring_buf.ring_buf[(i_ring_buf.amt++) % MAX_LOGAMT], _this->logbuf);
+#endif
 #endif
 
 // output itrace to cmd

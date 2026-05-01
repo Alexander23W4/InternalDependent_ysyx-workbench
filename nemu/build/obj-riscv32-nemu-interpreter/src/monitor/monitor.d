@@ -21,6 +21,9 @@ deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-int
     $(wildcard include/config/target/native/elf.h) \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h \
     $(wildcard include/config/pc/reset/offset.h) \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/ftrace.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/include/cpu/cpu.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/include/cpu/decode.h \
 
 /home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/monitor.o: $(deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/monitor.o)
 

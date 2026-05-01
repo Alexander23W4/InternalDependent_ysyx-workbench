@@ -20,7 +20,8 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/expr.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h"
-#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/trace/iringbuf.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/iringbuf.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/ftrace.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -30,12 +31,14 @@
 #define MAX_INST_TO_PRINT 10
 
 #define _LIMITED_ITRACE_REC_AVIL 1
+#define _ENABLE_FTRACE 1
 
 CPU_state cpu = {};    // define in isa-def.h
 uint64_t g_nr_guest_inst = 0;   // total run instr
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = true;
 static I_ring_buf i_ring_buf = {.amt = 0};
+
 
 void device_update();
 
@@ -151,6 +154,21 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);    // size = remaining space of logbuf
+
+#if _ENABLE_FTRACE
+  int jump_status = sieve_jump_func(s->isa.inst);
+  if(jump_status == 0 || jump_status == 1){
+    p += sprintf(p, "       ");
+    uint32_t taddr = get_taddr(s->isa.inst, s->pc, cpu);
+    char* name = ftrace_get_func(taddr);
+    if(jump_status == 0){
+      p += sprintf(p, "call  :%s, 0x%08x", name, taddr);
+    }
+    else{
+      p += sprintf(p, "ret  :%s, 0x%08x", name, taddr);
+    }
+  }
+#endif
 #endif
 }
 

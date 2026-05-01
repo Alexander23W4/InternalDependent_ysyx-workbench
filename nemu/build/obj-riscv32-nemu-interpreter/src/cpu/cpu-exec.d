@@ -34,6 +34,7 @@ deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-int
   /home/wang/My_ysyx-workbench/nemu/include/isa.h \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h \
     $(wildcard include/config/pc/reset/offset.h) \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/iringbuf.h \
 
 /home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o: $(deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o)
 

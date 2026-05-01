@@ -28,6 +28,7 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 10
+
 #define _LIMITED_ITRACE_REC_AVIL 1
 
 CPU_state cpu = {};    // define in isa-def.h
@@ -42,6 +43,10 @@ static void statistic() {
   if(cpu.pc - 4 > CONFIG_MBASE){
     printf("terminal pc: 0x%08x, terminal instr: 0x%08x\n", cpu.pc - 4, paddr_read(cpu.pc - 4, 4));   // add print current instr, for debug when assert fail
   } 
+
+#if _LIMITED_ITRACE_REC_AVIL
+  i_ring_buf_logout(&i_ring_buf);
+#endif
 
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%", "%'") PRIu64
@@ -80,6 +85,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 
 #if _LIMITED_ITRACE_REC_AVIL    // use iringbuf
+  Assert(sizeof(_this->logbuf) <= MAX_LOGBUF, "itrace log buffer constraint.");
   strcpy(i_ring_buf.ring_buf[(i_ring_buf.amt++) % MAX_LOGAMT], _this->logbuf);
 #endif
 #endif
@@ -119,6 +125,7 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 #ifdef CONFIG_ITRACE   // Trace
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);   // pc
+  p += sprintf(p, "    ");
   int ilen = s->snpc - s->pc;   // 4
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst;
@@ -137,6 +144,8 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   space_len = space_len * 3 + 1;
   memset(p, ' ', space_len);
   p += space_len;
+
+  p += sprintf(p, "    ");
 
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 

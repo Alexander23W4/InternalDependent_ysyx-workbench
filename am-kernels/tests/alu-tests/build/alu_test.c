@@ -1,7 +1,6 @@
 #include <stdio.h>
 int main(void) {
   int exit_code = 0;
-  printf("123");
 {
   volatile signed int x=-2147483648; volatile signed int y=-2147483648;
   if ((signed int)(x+y)!=(signed int)0) {

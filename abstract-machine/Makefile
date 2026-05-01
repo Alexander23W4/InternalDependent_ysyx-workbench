@@ -211,6 +211,23 @@
 # 	-@$(MAKE) -s -C $@ clean
 # .PHONY: clean-all $(CLEAN_ALL)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf      NAME  SRCS  call am-Makefile
+# -include $(AM_HOME)/scripts/$(ARCH).mk
+# -include $(addprefix $(DST_DIR)/, $(addsuffix .d, $(basename $(SRCS))))
+
 # Makefile for AbstractMachine Kernels and Libraries
 
 ### *Get a more readable version of this Makefile* by `make html` (requires python-markdown)

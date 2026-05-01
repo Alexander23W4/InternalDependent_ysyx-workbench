@@ -36,7 +36,7 @@ void init_elf_symbols_info() {
 char* ftrace_get_func(uint32_t taddr){
     for (int i = 0; i < symbol_cnt; i++)
     {
-        if(taddr > symbol_table[i].value && taddr < (symbol_table[i].value + symbol_table[i].size)){
+        if(taddr >= symbol_table[i].value && taddr < (symbol_table[i].value + symbol_table[i].size)){
             return symbol_table[i].name;
         }
     }

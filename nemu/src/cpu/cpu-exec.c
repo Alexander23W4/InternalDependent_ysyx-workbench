@@ -150,22 +150,22 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 
   p += sprintf(p, "    ");
 
-  void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
+  int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 
-  disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
+  int len = disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);    // size = remaining space of logbuf
-
+  p += len;
 #if _ENABLE_FTRACE
   int jump_status = sieve_jump_func(s->isa.inst);
   if(jump_status == 0 || jump_status == 1){
-    p += sprintf(p, "       ");
+    p += sprintf(p, "                   ");
     uint32_t taddr = get_taddr(s->isa.inst, s->pc, cpu);
     char* name = ftrace_get_func(taddr);
     if(jump_status == 0){
-      p += sprintf(p, "call  :%s, 0x%08x", name, taddr);
+      p += sprintf(p, "call :%s, 0x%08x", name, taddr);
     }
     else{
-      p += sprintf(p, "ret  :%s, 0x%08x", name, taddr);
+      p += sprintf(p, "ret :%s, 0x%08x", name, taddr);
     }
   }
 #endif

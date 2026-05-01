@@ -31,7 +31,7 @@
 CPU_state cpu = {};    // define in isa-def.h
 uint64_t g_nr_guest_inst = 0;   // total run instr
 static uint64_t g_timer = 0; // unit: us
-static bool g_print_step = false;
+static bool g_print_step = true;
 
 void device_update();
 
@@ -72,17 +72,32 @@ void check_wp(vaddr_t pre_pc){  // check_watchpoints
 }
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   // All watchpoints are then checked in a loop in the end of this func
+// itrace log write
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
-  if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
+
+// output itrace to cmd
+  if (g_print_step) { 
+    IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); 
+  }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+
+// watchpoint
 #ifdef CONFIG_WATCHPOINT   
   check_wp(pre_pc);
 #endif
 }
 
-
+/*
+typedef struct Decode {
+  vaddr_t pc;
+  vaddr_t snpc; // static next pc
+  vaddr_t dnpc; // dynamic next pc
+  ISADecodeInfo isa;
+  IFDEF(CONFIG_ITRACE, char logbuf[128]);
+} Decode;
+*/
 static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   // ------------- execute circle start
   s->pc = pc;
@@ -91,10 +106,13 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   cpu.pc = s->dnpc;    // dynamic next pc, update pc to dynamic next pc
 
   // -------------- execute circle end
+
+  // -------------- itrace record (e.g. 0x80000004: 00 02 88 23 sb	zero, 0x10(t0))
+
 #ifdef CONFIG_ITRACE   // Trace
   char *p = s->logbuf;
-  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
-  int ilen = s->snpc - s->pc;
+  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);   // pc
+  int ilen = s->snpc - s->pc;   // 4
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst;
 
@@ -103,8 +121,9 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 #else
   for (i = ilen - 1; i >= 0; i --) {
 #endif
-    p += snprintf(p, 4, " %02x", inst[i]);
+    p += snprintf(p, 4, " %02x", inst[i]);   // instr
   }
+  // aline
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
@@ -113,8 +132,9 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   p += space_len;
 
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
+
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
-      MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);
+      MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);    // size = remaining space of logbuf
 #endif
 }
 

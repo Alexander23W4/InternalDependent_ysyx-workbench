@@ -131,7 +131,7 @@ void init_monitor(int argc, char *argv[]) {
   /* Initialize the simple debugger. */
   init_sdb();                               // debugger preparation
 
-  IFDEF(CONFIG_ITRACE, init_disasm());
+  IFDEF(CONFIG_ITRACE, init_disasm());      // itrace
 
   /* Display welcome message. */
   welcome();                                // notice trace log file, build time info..

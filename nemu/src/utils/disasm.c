@@ -32,6 +32,7 @@ static void (*cs_free_dl)(cs_insn *insn, size_t count);
 
 static csh handle;
 
+// init itrace when nemu starts
 void init_disasm() {
   void *dl_handle;
   dl_handle = dlopen("tools/capstone/repo/libcapstone." CS_LIB_SUFFIX, RTLD_LAZY);
@@ -68,13 +69,15 @@ void init_disasm() {
 #endif
 }
 
+// e.g. lbu	a0, 0x10(t0)
 void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
-	cs_insn *insn;
-	size_t count = cs_disasm_dl(handle, code, nbyte, pc, 0, &insn);
+	cs_insn *insn;    /// Detail information of disassembled instruction (id, addr, size, bytes, mnemonic, op_str, cs_detail* detail[ISA_name])
+
+	size_t count = cs_disasm_dl(handle, code, nbyte, pc, 0, &insn);   // disassembling, result stored in *insn
   assert(count == 1);
-  int ret = snprintf(str, size, "%s", insn->mnemonic);
+  int ret = snprintf(str, size, "%s", insn->mnemonic);     // e.g. auipc
   if (insn->op_str[0] != '\0') {
-    snprintf(str + ret, size - ret, "\t%s", insn->op_str);
+    snprintf(str + ret, size - ret, "\t%s", insn->op_str);  // 
   }
   cs_free_dl(insn, count);
 }

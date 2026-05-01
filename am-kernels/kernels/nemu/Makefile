@@ -29,3 +29,6 @@ restore_config:
 	rm $(TMPDEFCONFIG_FILE)
 
 .PHONY: all save_config build_am restore_config
+
+
+# make ARCH=riscv32-nemu mainargs=~/InternalDependent_ysyx-workbench/am-kernels/kernels/hello/build/hello-riscv32-nemu.bin

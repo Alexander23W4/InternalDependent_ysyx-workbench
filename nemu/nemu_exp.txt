@@ -27,6 +27,24 @@ The way TRM works is reflected in cpu_exec() and exec_once().
 
    为人也保持自身的独立性和自我意志，不追求过度的与大量其他个体与环境的兼容性和所谓某些哲学性上人的完美
      
+$$$ [Trace] ;
+RTFSC + flag + defensive programming(assert, printf) + gdb + trace
+
+We already know that a program is a state machine, and if the program becomes complex, so do the state machine's transfers. 
+Not to mention the details of each state in the state machine, it's hard to fully understand how the state machine transfers between states.
+
+It would be inefficient to use GDB to understand this process. 
+To improve efficiency, we can use printf() to output some of the information we care about. 
+The fact that we care about the details of how this state-machine transfer in its states it also means 
+  that we care about the execution of the program. In the field of software engineering, 
+  the information that records the execution of a program is called trace. 
+  With the trace information, we can determine whether the program execution process is as expected, and thus diagnose bugs
+
+instr_fetch(), disassembly(pc, binary-instr, assembly)
+The implementation of itrace is very simple, the code just records each instruction fetched by instr_fetch(), 
+  and then calls the disassembly function provided by the llvm project (implemented in nemu/src/utils/disasm.cc). 
+  Itrace outputs the PC, binary representation of the instruction and the disassembly result. 
+
 %%% [Game]:
 These games may look very different, but they all embody the framework of "how programs use IOE to achieve game effects". 
 In fact, a game can be abstracted as an infinite loop:

@@ -20,7 +20,7 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/expr.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h"
-#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/iringbuf.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/trace/iringbuf.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.

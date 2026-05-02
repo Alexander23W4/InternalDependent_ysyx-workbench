@@ -24,6 +24,8 @@
 # filelist.mk (gather SRCS)
 # am->Makefile / native.mk (final surface layer options, make rules)  (make run, make gdb...)
 
+# AM deliver command: e.g. $(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
+
 # Sanity check
 ifeq ($(wildcard $(NEMU_HOME)/src/nemu-main.c),)   # find nemu-main.c (main func, the entrance)
   $(error NEMU_HOME=$(NEMU_HOME) is not a NEMU repo)

@@ -8,23 +8,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
-g++ -o /home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/demo-native.elf -Wl,
---whole-archive /home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/galton/galton.o 
-/home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/life/life.o 
-/home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/aclock/aclock.o 
-/home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/cmatrix/cmatrix.o 
-/home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/bf/bf.o 
-/home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/main.o 
-/home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/donut/donut.o 
-/home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/ant/ant.o 
-/home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/demo/build/native/src/hanoi/hanoi.o   
-/home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/build/am-native.a 
-/home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/build/klib-native.a -Wl,-no-whole-archive -Wl,-z -Wl,noexecstack -pie -ldl -lSDL2
 
+// use #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__) in each klib src to control whether klib is linked when ARCH = native
+#define __NATIVE_USE_KLIB__   
 
- */
-#define __NATIVE_USE_KLIB__
 
 // string.h
 void  *memset    (void *s, int c, size_t n);

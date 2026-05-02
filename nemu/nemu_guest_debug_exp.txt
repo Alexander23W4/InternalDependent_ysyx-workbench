@@ -54,3 +54,9 @@ Section Headers:
   [ 8] .strtab           STRTAB          00000000 0016d0 0000e3 00      0   0  1       string table 
   [ 9] .shstrtab         STRTAB          00000000 0017b3 00004f 00      0   0  1       Section Header String Table
 
+可以基于ftrace进一步分析出调用memcpy()时的参数情况, 比如dest和src是否对齐, 拷贝的内存长度是长还是短, 然后根据频繁出现的组合对memcpy()的算法实现进行优化
+可以基于ftrace统计函数调用的次数, 对访问次数较多的函数进行优化, 可以显著提升程序的性能
+可以基于itrace过滤出分支跳转指令的执行情况, 作为分支预测器(现代处理器中的一个提升性能的部件)的输入, 来调整分支预测器的实现, 从而提升处理器的性能
+可以基于mtrace得到程序的访存序列, 作为缓存(现代处理器中的另一个提升性能的部件)模型的输入, 对预取算法和替换算法的优化进行指导(你将会在Lab4中体会这一点)
+
+trace: debug    optimize function(ftrace)    optimize processor(branch prediction, cache) (itrace, mtrace)    

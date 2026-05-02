@@ -6,7 +6,7 @@ Display:    cpu.pc    paddr_read(cpu.pc, 4)   cpu.gpr[..]
     display/x cpu.pc
 
 使用trace：
-elf access：e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-riscv32-nemu.elf (hex trans)
+elf access：e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-riscv32-nemu.elf (hexdump)
 
 
 ----> ANALYSIS:

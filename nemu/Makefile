@@ -75,5 +75,6 @@ include $(AM_HOME)/Makefile
 LINKAGE += $(ARCHIVES)
 else
 # Include rules to build NEMU
-include $(NEMU_HOME)/scripts/native.mk  # include native.mk, without using am (Miscellaneous)
+include $(NEMU_HOME)/scripts/native.mk  # include native.mk
 endif
+

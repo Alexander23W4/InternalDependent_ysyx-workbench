@@ -331,7 +331,7 @@ LINKAGE   = $(OBJS)  # library archives are added by LIB_TEMPLATE below
 AS        = $(CROSS_COMPILE)gcc
 CC        = $(CROSS_COMPILE)gcc
 CXX       = $(CROSS_COMPILE)g++
-LD        = $(CROSS_COMPILE)ld
+LD        = $(CROSS_COMPILE)ld  # linker
 AR        = $(CROSS_COMPILE)ar
 OBJDUMP   = $(CROSS_COMPILE)objdump
 OBJCOPY   = $(CROSS_COMPILE)objcopy
@@ -407,9 +407,9 @@ $(IMAGE).elf: $(LINKAGE) $(LDSCRIPTS)
 	@echo \# Creating image [$(ARCH)]
 	@echo + LD "->" $(IMAGE_REL).elf
 # native only: 
-ifneq ($(filter $(ARCH),native),)
+ifneq ($(filter $(ARCH),native),)  # pack all for linking  (--whole-archive), and use g++ for linking, use glibc instead of klib
 	@$(CXX) -o $@ -Wl,--whole-archive $(LINKAGE) -Wl,-no-whole-archive $(LDFLAGS_CXX)
-else
+else                               # pack only necessities  (--start-group)
 	@$(LD) $(LDFLAGS) -o $@ --start-group $(LINKAGE) --end-group
 endif
 

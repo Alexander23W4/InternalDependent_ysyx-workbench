@@ -25,3 +25,7 @@ Gets  Items  Flags  Rules(item build command (ic)/ operation command (oc))
 
 
 MAKECMDGOALS: run  archive  gdb
+
+
+
+

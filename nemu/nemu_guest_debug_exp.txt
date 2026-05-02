@@ -34,6 +34,9 @@ elf access：e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-ris
 
 
 $$$ --->> ELF: Executable and Linkable Format
+    elf文件 7f 45（ELF）linux系统下面，.o .elf .bin（非裸机纯binary文件）都是elf文件，都能用readelf来parse并且查看，elf的strtab, symtab等信息为链接和gdb等debug软件
+        提供了针对 binary instr的context specification.
+
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al       
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0

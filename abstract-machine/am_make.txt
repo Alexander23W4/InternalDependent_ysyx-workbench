@@ -1,0 +1,12 @@
+step by step deep analysis AM Makefile
+
+guest Makefile: 
+NAME = demo
+SRCS = $(shell find src -name "*.c")
+include $(AM_HOME)/Makefile
+
+Gets  Items  Flags  Rules(item build command (ic)/ operation command (oc)) 
+
+-> Get: SRCS  NAME  ARCH(ISA PLATFORM)
+
+-> Items: IMAGE(target bin)   ARCHIVE(target lib)   OBJS(intermediate .o targets)   LIBS(amlibs, includes: am, klib)   

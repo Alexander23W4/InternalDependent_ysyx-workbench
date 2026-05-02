@@ -224,6 +224,8 @@
 
 
 
+
+
 # riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf      NAME  SRCS  call am-Makefile
 # -include $(AM_HOME)/scripts/$(ARCH).mk                 
 #     isa/riscv.mk    
@@ -232,6 +234,37 @@
 
 # Makefile for AbstractMachine Kernels and Libraries
 
+# Makefile standard structure: Check  Targets  Flags  Method(.mk)  
+# operation: target oriented operation      command oriented operation
+
+# ----------------------------------------------------------------------------------------------------
+# ifeq   
+# findstring  
+# info(print to terminate command line)  warning error
+# wildcard(pattern find file)
+# shell
+# nodir(remove dir, leave only file name)
+
+# e.g.
+# NAME = dummy
+# SRCS = tests/dummy.c
+# ARCH= minirv-npc 
+# MAKECMDGOALS = run
+
+# --> Domestic generations
+# ISA = minirv  PLATFORM = npc
+
+# --> In isa/riscv.mk
+# CROSS_COMPILE := riscv64-linux-gnu-
+# COMMON_CFLAGS := -fno-pic -march=rv64g -mcmodel=medany -mstrict-align
+# CFLAGS        += $(COMMON_CFLAGS) -static
+# ASFLAGS       += $(COMMON_CFLAGS) -O0
+# LDFLAGS       += -melf64lriscv
+
+# # overwrite ARCH_H defined in $(AM_HOME)/Makefile
+# ARCH_H := arch/riscv.h
+
+# ---------------------------------------------------------------------------------------------------------------------------
 ### *Get a more readable version of this Makefile* by `make html` (requires python-markdown)
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
@@ -283,7 +316,7 @@ DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
 
 ### Compilation targets (a binary image or archive)
-IMAGE_REL = build/$(NAME)-$(ARCH)
+IMAGE_REL = build/$(NAME)-$(ARCH)      # image relative
 IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
 
@@ -347,13 +380,15 @@ $(DST_DIR)/%.o: %.S
 	@mkdir -p $(dir $@) && echo + AS $<
 	@$(AS) $(ASFLAGS) -c -o $@ $(realpath $<)
 
+
+# @@@@@ ARCHIVE
 ifeq ($(MAKECMDGOALS),archive)
 ### Rule (archive): objects (`*.o`) -> `ARCHIVE.a` (ar)
 $(ARCHIVE): $(OBJS)
 	@echo + AR "->" $(shell realpath $@ --relative-to .)
 	@$(AR) rcs $@ $^
 else
-# $(1): library name
+# $(1): library name , $(n) n represents the para-index of "call"
 define LIB_TEMPLATE =
 $$(AM_HOME)/$(1)/build/$(1)-$$(ARCH).a: force
 	@$$(MAKE) -s -C $$(AM_HOME)/$(1) archive
@@ -363,6 +398,9 @@ endef
 ### Rule (recursive make): build a dependent library (am, klib, ...)
 $(foreach lib, $(LIBS), $(eval $(call LIB_TEMPLATE,$(lib))))
 endif
+
+
+
 
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
 $(IMAGE).elf: $(LINKAGE) $(LDSCRIPTS)

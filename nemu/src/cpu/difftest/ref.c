@@ -18,6 +18,8 @@
 #include <difftest-def.h>
 #include <memory/paddr.h>
 
+// The REF needs to implement these APIs, and the DUT will use these APIs for DiffTest.
+
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   assert(0);
 }

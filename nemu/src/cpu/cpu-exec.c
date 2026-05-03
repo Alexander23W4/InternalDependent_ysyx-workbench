@@ -38,13 +38,13 @@ uint64_t g_nr_guest_inst = 0;   // total run instr
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = true;
 static I_ring_buf i_ring_buf = {.amt = 0};
-
+static int __total_instr_cnt = 0;
 
 void device_update();
 
 static void statistic() {
   if(cpu.pc - 4 > CONFIG_MBASE){
-    printf("terminal pc: 0x%08x, terminal instr: 0x%08x\n", cpu.pc - 4, paddr_read(cpu.pc - 4, 4));   // add print current instr, for debug when assert fail
+    printf("terminal pc: 0x%08x, terminal instr: 0x%08x, total oprated instr: %d\n", cpu.pc - 4, paddr_read(cpu.pc - 4, 4), __total_instr_cnt);   
   } 
 
 #if _LIMITED_ITRACE_REC_AVIL
@@ -121,6 +121,7 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   isa_exec_once(s);  // *** all operate process loop, fetch decode operate update
   cpu.pc = s->dnpc;    // dynamic next pc, update pc to dynamic next pc
 
+  __total_instr_cnt++;
   // -------------- execute circle end
 
   // -------------- itrace record (e.g. 0x80000004: 00 02 88 23 sb	zero, 0x10(t0))

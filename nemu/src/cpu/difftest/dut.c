@@ -59,9 +59,14 @@ void difftest_skip_dut(int nr_ref, int nr_dut) {
   }
 }
 
-void init_difftest(char *ref_so_file, long img_size, int port) {
-  assert(ref_so_file != NULL);
 
+/*
+  After the above initialization, the DUT and REF are in the same state.
+*/
+void init_difftest(char *ref_so_file, long img_size, int port) {
+  assert(ref_so_file != NULL);      // Open the incoming dynamic library file ref_so_file.
+
+  // Resolve and relocate the API symbols in the dynamic libraries through dynamic loading, and return their addresses.
   void *handle;
   handle = dlopen(ref_so_file, RTLD_LAZY);
   assert(handle);
@@ -86,8 +91,11 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
       "This will help you a lot for debugging, but also significantly reduce the performance. "
       "If it is not necessary, you can turn it off in menuconfig.", ref_so_file);
 
+  // Initialize the DIffTest function of the REF, the specific behavior varies from REF to REF.
   ref_difftest_init(port);
+  // Copy the guest memory of the DUT into the REF.
   ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, DIFFTEST_TO_REF);
+  // Copy the register state of the DUT into the REF.
   ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF);
 }
 
@@ -99,6 +107,7 @@ static void checkregs(CPU_state *ref, vaddr_t pc) {
   }
 }
 
+// step by step comprison
 void difftest_step(vaddr_t pc, vaddr_t npc) {
   CPU_state ref_r;
 

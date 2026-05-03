@@ -17,6 +17,14 @@
 #include <cpu/difftest.h>
 #include "../local-include/reg.h"
 
+/*
+You need to implement the isa_difftest_checkregs() function, 
+  which compares the general-purpose registers and the PC with the values of the registers read from the DUT. 
+  If the comparison results are the same, the function returns true; if the values are found to be different, 
+  the function returns false and the framework code automatically stops the client program. Especially, 
+  if the comparison result of isa_difftest_checkregs() is inconsistent, 
+  the second parameter pc should point to the instruction that caused the inconsistency, which can be used to print a debug message.
+*/
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   return false;
 }

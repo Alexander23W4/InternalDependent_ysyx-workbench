@@ -42,7 +42,7 @@ static int __total_instr_cnt = 0;
 
 void device_update();
 
-static void statistic() {
+void statistic() {
   if(cpu.pc - 4 > CONFIG_MBASE){
     printf("terminal pc: 0x%08x, terminal instr: 0x%08x, total oprated instr: %d\n", cpu.pc - 4, paddr_read(cpu.pc - 4, 4), __total_instr_cnt);   
   } 

@@ -37,8 +37,8 @@ static int cmd_c(char *args) {     // c   execute the guest code
 
 extern void statistic();
 static int cmd_q(char *args) {     // q   quit the nemu sdb
-  nemu_state.state = NEMU_QUIT;
   statistic();
+  nemu_state.state = NEMU_QUIT;
   return -1;   // get out of sdb_mainloop
 }
 

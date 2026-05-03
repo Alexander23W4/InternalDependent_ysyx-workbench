@@ -19,3 +19,6 @@
 [1;34m[src/cpu/cpu-exec.c:56 statistic] host time spent = 0 us[0m
 [1;34m[src/cpu/cpu-exec.c:57 statistic] total guest instructions = 4[0m
 [1;34m[src/cpu/cpu-exec.c:59 statistic] Finish running in less than 1 us and can not calculate the simulation frequency[0m
+[1;34m[src/cpu/cpu-exec.c:56 statistic] host time spent = 0 us[0m
+[1;34m[src/cpu/cpu-exec.c:57 statistic] total guest instructions = 4[0m
+[1;34m[src/cpu/cpu-exec.c:59 statistic] Finish running in less than 1 us and can not calculate the simulation frequency[0m

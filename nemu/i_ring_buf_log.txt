@@ -1,300 +1,300 @@
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
-0x800034e4:     9d 1f f0 ef     jal	-0x630                   call :putch, 0x80002eb4
-0x80002eb4:     a0 00 07 b7     lui	a5, 0xa0000
-0x80002eb8:     3e a7 8c 23     sb	a0, 0x3f8(a5)
-0x80002ebc:     00 00 80 67     ret                   ret :malloc, 0x800034e8
-0x800034e8:     00 04 45 03     lbu	a0, 0(s0)
-0x800034ec:     fe 05 1a e3     bnez	a0, -0xc
-0x800034e0:     00 14 04 13     addi	s0, s0, 1
+0x80000000:     00 00 02 97     auipc	t0, 0
+0x80000004:     00 02 88 23     sb	zero, 0x10(t0)
+0x80000008:     01 02 c5 03     lbu	a0, 0x10(t0)
+0x8000000c:     00 10 00 73     ebreak
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

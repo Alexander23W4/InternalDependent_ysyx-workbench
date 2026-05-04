@@ -107,7 +107,12 @@ static void checkregs(CPU_state *ref, vaddr_t pc) {
   }
 }
 
-// step by step comprison
+/*
+step by step comprison, called in the mainloop of cpu_exec
+
+After executing an instruction in NEMU, it will let REF execute the same instruction in difftest_step(), 
+  and then read out the registers in REF and compare them.
+*/
 void difftest_step(vaddr_t pc, vaddr_t npc) {
   CPU_state ref_r;
 

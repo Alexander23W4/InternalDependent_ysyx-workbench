@@ -20,6 +20,7 @@
 /*
 You need to implement the isa_difftest_checkregs() function, 
   which compares the general-purpose registers and the PC with the values of the registers read from the DUT. 
+
   If the comparison results are the same, the function returns true; 
 
   If the values are found to be different, 
@@ -30,7 +31,23 @@ You need to implement the isa_difftest_checkregs() function,
     which can be used to print a debug message.
 */
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
-  return false;
+  printf("pc: 0x%08x, 0x%08x\n", pc + 4, cpu.pc);
+  bool is_same = true;
+  if((pc + 4) != cpu.pc) is_same = false;
+  for (int i = 0; i < 32; i++)
+  {
+    printf("reg:%d, %d, %d\n", i, ref_r->gpr[i], cpu.gpr[i]);
+    if(is_same == false) break;
+    if(ref_r->gpr[i] != cpu.gpr[i]){
+      is_same = false;
+      break;
+    }
+  }
+  if(is_same == false){
+    nemu_state.state = NEMU_STOP;
+  }
+  
+  return is_same;
 }
 
 void isa_difftest_attach() {

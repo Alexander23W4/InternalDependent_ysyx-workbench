@@ -31,12 +31,12 @@ You need to implement the isa_difftest_checkregs() function,
     which can be used to print a debug message.
 */
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
-  printf("pc: 0x%08x, 0x%08x\n", pc + 4, cpu.pc);
+  // printf("pc: 0x%08x, 0x%08x. 0x%08x\n", pc + 4, cpu.pc, ref_r->pc);
   bool is_same = true;
-  if((pc + 4) != cpu.pc) is_same = false;
+  if((ref_r->pc) != cpu.pc) is_same = false;
   for (int i = 0; i < 32; i++)
   {
-    printf("reg:%d, %d, %d\n", i, ref_r->gpr[i], cpu.gpr[i]);
+    // printf("reg:%d, %d, %d\n", i, ref_r->gpr[i], cpu.gpr[i]);
     if(is_same == false) break;
     if(ref_r->gpr[i] != cpu.gpr[i]){
       is_same = false;

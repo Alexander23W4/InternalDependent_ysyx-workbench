@@ -8,11 +8,11 @@ Disassembly of section .text:
 80000000:	00000413          	li	s0,0
 80000004:	00009117          	auipc	sp,0x9
 80000008:	ffc10113          	addi	sp,sp,-4 # 80009000 <_end>
-8000000c:	0fc000ef          	jal	ra,80000108 <_trm_init>   ///
+8000000c:	0fc000ef          	jal	ra,80000108 <_trm_init>
 
 80000010 <check>:
 80000010:	00050463          	beqz	a0,80000018 <check+0x8>
-80000014:	00008067          	ret   ///                             jalr x0, 0(x1)
+80000014:	00008067          	ret
 80000018:	ff010113          	addi	sp,sp,-16
 8000001c:	00100513          	li	a0,1
 80000020:	00112623          	sw	ra,12(sp)
@@ -71,7 +71,7 @@ Disassembly of section .text:
 800000ec:	00812c03          	lw	s8,8(sp)
 800000f0:	00000513          	li	a0,0
 800000f4:	03010113          	addi	sp,sp,48
-800000f8:	00008067          	ret    ///
+800000f8:	00008067          	ret
 
 800000fc <halt>:
 800000fc:	00050513          	mv	a0,a0
@@ -83,7 +83,7 @@ Disassembly of section .text:
 8000010c:	00000517          	auipc	a0,0x0
 80000110:	01c50513          	addi	a0,a0,28 # 80000128 <_etext>
 80000114:	00112623          	sw	ra,12(sp)
-80000118:	f11ff0ef          	jal	ra,80000028 <main>     ///
+80000118:	f11ff0ef          	jal	ra,80000028 <main>
 8000011c:	00050513          	mv	a0,a0
 80000120:	00100073          	ebreak
 80000124:	0000006f          	j	80000124 <_trm_init+0x1c>

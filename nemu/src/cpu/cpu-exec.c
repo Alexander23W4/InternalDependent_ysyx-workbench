@@ -83,6 +83,7 @@ void check_wp(vaddr_t pre_pc){  // check_watchpoints
   }
 }
 
+// this  next_pc  op_pc       &s, cpu.pc, stored_pc
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   // All watchpoints are then checked in a loop in the end of this func
 // itrace log write
 #ifdef CONFIG_ITRACE_COND

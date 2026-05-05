@@ -39,12 +39,13 @@ static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = true;
 static I_ring_buf i_ring_buf = {.amt = 0};
 static int __total_instr_cnt = 0;
+static vaddr_t stored_pc = 0;
 
 void device_update();
 
 void statistic() {
   if(cpu.pc - 4 > CONFIG_MBASE){
-    printf("terminal pc: 0x%08x, terminal instr: 0x%08x, total oprated instr: %d\n", cpu.pc - 4, paddr_read(cpu.pc - 4, 4), __total_instr_cnt);   
+    printf("terminal pc: 0x%08x, terminal instr: 0x%08x, total oprated instr: %d\n", stored_pc, paddr_read(stored_pc, 4), __total_instr_cnt);   
   } 
 
 #if _LIMITED_ITRACE_REC_AVIL
@@ -177,7 +178,7 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 static void execute(uint64_t n) {   
   Decode s;
   for (;n > 0; n --) {  // run n times
-    vaddr_t stored_pc = cpu.pc;
+    stored_pc = cpu.pc;
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;  // count ++
 

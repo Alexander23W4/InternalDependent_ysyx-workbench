@@ -175,16 +175,6 @@ decode Decode(
         .dbg_regs(dbg_reg)
     );
 
-/*
-
-// conditional branch (if + jump)
-INSTPAT("??????? ????? ????? 100 ????? 11000 11", blt    , B, s->dnpc = ((int32_t)src1 < (int32_t)src2) ? s->pc + imm : s->snpc);  // branch if less than
-INSTPAT("??????? ????? ????? 110 ????? 11000 11", bltu   , B, s->dnpc = (src1 < src2) ? s->pc + imm : s->snpc);
-INSTPAT("??????? ????? ????? 101 ????? 11000 11", bge    , B, s->dnpc = ((int32_t)src1 >= (int32_t)src2) ? s->pc + imm : s->snpc); // branch if greater equal than
-INSTPAT("??????? ????? ????? 111 ????? 11000 11", bgeu   , B, s->dnpc = (src1 >= src2) ? s->pc + imm : s->snpc);
-INSTPAT("??????? ????? ????? 001 ????? 11000 11", bne    , B, s->dnpc = (src1 != src2) ? s->pc + imm : s->snpc);
-INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq    , B, s->dnpc = (src1 == src2) ? s->pc + imm : s->snpc);
-*/
 
 
     assign wen = add | addi | sub | lui | auipc | 
@@ -195,14 +185,15 @@ INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq    , B, s->dnpc = (src1 ==
                  lb | lh | lw | lbu | lhu;
 
 
-    wire [31:0] add1 = ({32{auipc | jal}} & pc) |
+    wire [31:0] add1 = ({32{auipc | jal | blt | bltu | bge | bgeu | bne | beq}} & pc) |
                         rdata1;
 
     wire [31:0] add2 = ({32{add}} & rdata2) |
                        ({32{sw | sb | sh}} & immS) |
                        ({32{auipc}} & immU) |
                        ({32{jal}} & immJ) |
-                       ({32{lbu | lw | lhu | lh | lb | addi}} & immI) |
+                       ({32{jalr | lbu | lw | lhu | lh | lb | addi}} & immI) |
+                       ({32{blt | bltu | bge | bgeu | bne | beq}} & immB);
                        
 
     wire [31:0] add_rst = add1 + add2;
@@ -272,13 +263,40 @@ INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq    , B, s->dnpc = (src1 ==
     assign lb_rst = {{25{lbu_rst[7]}}, lbu_rst[6:0]};
     assign lh_rst = {{17{lhu_rst[15]}}, lhu_rst[14:0]};
 
-    // update
+    
     always @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h80000000;
         end
         else begin
-            pc <= jalr ? (add_rst & ~32'h1) : jal? add_rst : pc_next_dft;  // update
+            // pc update
+            if(jalr) begin
+                pc <= add_rst & ~32'h1;
+            end
+            else if(jal) begin
+                pc <= add_rst;
+            end
+            else if (blt) begin
+                pc <= ($signed(rdata1) < $signed(rdata2)) ? add_rst : pc_next_dft; 
+            end
+            else if(beq) begin
+                pc <= (rdata1 == rdata2) ? add_rst : pc_next_dft;
+            end
+            else if(bne) begin
+                pc <= (rdata1 != rdata2) ? add_rst : pc_next_dft;
+            end
+            else if(bge) begin
+                pc <= ($signed(rdata1) >= $signed(rdata2)) ? add_rst : pc_next_dft;
+            end
+            else if(bltu) begin
+                pc <= (rdata1 < rdata2) ? add_rst : pc_next_dft;
+            end
+            else if(bgeu) begin
+                pc <= (rdata1 >= rdata2) ? add_rst : pc_next_dft;
+            end
+            else begin
+                pc <= pc_next_dft;
+            end
 
             // write ram
             if(sw) begin
@@ -292,8 +310,6 @@ INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq    , B, s->dnpc = (src1 ==
             end
         end
     end
-
-
 
 endmodule
 /* verilator lint_off UNUSEDSIGNAL */

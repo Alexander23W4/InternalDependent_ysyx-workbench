@@ -186,7 +186,7 @@ int main(int argc, char** argv) {
         tick(top);
         prt_gprs(top);
 
-        top->halt(&endprog);
+        top->halt(&endprog);   // check halt
         top->get_decode_signals(
             &instr,
             &addi, &add, &jalr, &lui, &lw, &lbu, &sw, &sb, &ebreak,

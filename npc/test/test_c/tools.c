@@ -1,5 +1,25 @@
 #include "test.h"
 
+
+char* diff_so_file = NULL; 
+
+void parse_args(int argc, char *argv[]) {
+    static struct option last_options[] = {
+        {"diff",     required_argument, NULL, 'd'},
+        {0,          0,                 NULL,  0 }
+    };
+
+    int o;
+    while ((o = getopt_long(argc, argv, "-dh", last_options, NULL)) != -1) {
+        switch (o) {
+            case 'd':
+                diff_so_file = optarg;
+                printf("[NPC] Using Difftest REF: %s\n", diff_so_file);
+                break;
+        }
+    }
+}
+
 uint32_t get_gpr(Vtop* top, int reg_id) {
     return top->dbg_reg[reg_id]; 
 }

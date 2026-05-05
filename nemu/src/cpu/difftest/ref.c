@@ -32,8 +32,6 @@ In addition, difftest_raise_intr() is prepared for interrupts and is not used cu
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   if (direction == DIFFTEST_TO_REF) {
     uint32_t* ram = (uint32_t*)buf;
-    // 计算相对于程序起始地址的字偏移
-    // 假设 addr 总是 4 字节对齐
     uint32_t base_idx = (addr - CONFIG_MBASE) / 4; 
     for (size_t i = 0; i < n; i++) {
       paddr_write(addr + i * 4, 4, ram[base_idx + i]);

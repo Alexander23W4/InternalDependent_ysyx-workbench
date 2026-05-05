@@ -21,6 +21,7 @@ void tick(Vtop* top) {
 // diliver .bin -> argv[1]
 int main(int argc, char** argv) {
     assert(argc >= 2);
+    parse_args();
 
     Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
@@ -49,7 +50,7 @@ int main(int argc, char** argv) {
             printf("Invalid pc\n"); 
             break;
         }
-        
+
         top->instr = ram[pc_idx];
         printf("Current instr: 0x%08x \n", ram[pc_idx]);
         

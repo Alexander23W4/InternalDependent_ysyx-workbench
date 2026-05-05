@@ -88,7 +88,7 @@ top:
 	make clean
 	$(VERILATOR) $(TOP_FLAG) $(TOP_MODULE) $(V_SRC) $(ALL_SOURCES) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(CPP_SRC)
 
-clean:
-	rm -rf $(OBJ_DIR) 
+# clean:
+# 	rm -rf $(OBJ_DIR) 
 
 .PHONY: all binary trace fast clean run top

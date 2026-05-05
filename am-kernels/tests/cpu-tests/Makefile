@@ -38,6 +38,7 @@ Makefile.%: tests/%.c latest
 	-@rm -f Makefile.$*
 
 
+# for npc
 -include $(NPC_HOME)/test/Makefile
 
 NPC_BASE_INC=$(NPC_HOME)/test

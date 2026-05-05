@@ -2,11 +2,6 @@
 # make ARCH=minirv-npc ALL=bit run
 # make ARCH=minirv-npc run     (barch)
 
-MINIRV_BASE_INC=$(NPC_HOME)/tests
-MINIRV_EXE=$(MINIRV_BASE_INC)/obj_dir/Vtop
-MINIRV_EXE_ARGV=./build/$(ALL)-$(ARCH).bin
-DEBUG_LOG=$(NPC_HOME)/tests/debug.txt
-
 RESULT = .result
 $(shell > $(RESULT))
 
@@ -42,12 +37,21 @@ Makefile.%: tests/%.c latest
 	fi
 	-@rm -f Makefile.$*
 
+
+-include $(NPC_HOME)/test/Makefile
+
+NPC_BASE_INC=$(NPC_HOME)/test
+NPC_EXE=$(NPC_BASE_INC)/obj_dir/Vtop
+EXE_ARGV=./build/$(ALL)-$(ARCH).bin
+
+ARGS+=$(EXE_ARGV)
+
 run: all
 	@cat $(RESULT)
 	@rm $(RESULT)
-ifeq ($(ARCH),minirv-npc)
+ifeq ($(PLATFORM),npc)
 	@echo "RUN SIMULATION:"
-	$(MINIRV_EXE) $(MINIRV_EXE_ARGV)
+	$(NPC_EXE) $(ARGS)
 endif
 	
 

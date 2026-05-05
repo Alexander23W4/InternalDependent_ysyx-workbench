@@ -5,6 +5,7 @@
 # --cc --exe --build -Wall --trace 
 # --cc --exe --build -j 0 -Wall
 
+# riscv32-nemu-interpreter-so
 
 V_SRC=./test_v/topl.v
 CPP_SRC=./test_c/test_topl.cpp
@@ -25,10 +26,19 @@ WARNING_IGNORE_FLAG=
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
-ARGV=mem.bin
-LOG=0
+DIFF_TEST=1
 LOG_FILE=./record.txt
-CONFIG_FILE=./test_c/make_config.h
+
+
+ARGS=
+
+
+# difftest 
+ifneq ($(DIFF_TEST),)
+DIFF_REF_SO=$(NEMU_HOME)/build/riscv32-nemu-interpreter-so
+ARGS_DIFF = --diff=$(DIFF_REF_SO)
+override ARGS += $(ARGS_DIFF) 
+endif
 
 
 # SRC_BASE=$(notdir $(basename $(V_SRC)))
@@ -41,16 +51,9 @@ CONFIG_FILE=./test_c/make_config.h
 $(LOG_FILE):
 	touch $(LOG_FILE)
 
-run: $(LOG_FILE)
-	@echo "RUN SIMULATION:"
-ifeq ($(LOG), 1)
-	$(EXE) $(ARGV) >> $(LOG_FILE)
-else 
-	$(EXE) $(ARGV)
-endif
-
-
-
+# run:
+# 	@echo "RUN SIMULATION:"
+# 	$(EXE) $(ARGV)
 
 
 

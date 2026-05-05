@@ -32,7 +32,6 @@ int main(int argc, char** argv) {
     // rst
     top->rst = 1;  
     tick(top);
-    tick(top);
     top->rst = 0; 
     printf("Reset Released. Starting execution...\n");
 
@@ -50,6 +49,7 @@ int main(int argc, char** argv) {
             printf("Invalid pc\n"); 
             break;
         }
+        
         top->instr = ram[pc_idx];
         printf("Current instr: 0x%08x \n", ram[pc_idx]);
         

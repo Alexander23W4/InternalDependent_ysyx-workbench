@@ -10,6 +10,8 @@ deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-int
     $(wildcard include/config/difftest.h) \
     $(wildcard include/config/watchpoint.h) \
     $(wildcard include/config/isa/x86.h) \
+    $(wildcard include/config/ftrace.h) \
+    $(wildcard include/config/mtrace.h) \
     $(wildcard include/config/device.h) \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/cpu/cpu.h \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/common.h \
@@ -36,6 +38,7 @@ deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-int
     $(wildcard include/config/pc/reset/offset.h) \
   /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/iringbuf.h \
   /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/ftrace.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/mtrace.h \
 
 /home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o: $(deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o)
 

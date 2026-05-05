@@ -22,6 +22,7 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/iringbuf.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/ftrace.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/mtrace.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -31,7 +32,6 @@
 #define MAX_INST_TO_PRINT 10
 
 #define _LIMITED_ITRACE_REC_AVIL 1
-#define _ENABLE_FTRACE 1
 
 CPU_state cpu = {};    // define in isa-def.h
 uint64_t g_nr_guest_inst = 0;   // total run instr
@@ -100,7 +100,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   
     IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); 
   }
 
-  IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));  // difftest
+// difftest
+  IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc)); 
 
 // watchpoint
 #ifdef CONFIG_WATCHPOINT   
@@ -159,7 +160,8 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   int len = disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);    // size = remaining space of logbuf
   p += len;
-#if _ENABLE_FTRACE
+
+#if CONFIG_FTRACE
   int jump_status = sieve_jump_func(s->isa.inst);
   if(jump_status == 0 || jump_status == 1){
     p += sprintf(p, "                   ");
@@ -171,6 +173,19 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
     else{
       p += sprintf(p, "ret :%s, 0x%08x", name, taddr);
     }
+  }
+#endif
+
+#if CONFIG_MTRACE
+  if(mtrace_flag != 0){
+    p += sprintf(p, "                   ");
+    if(mtrace_flag == 1){
+      p += sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
+    }
+    else if(mtrace_flag == 2){
+      p += sprintf(p, "M_write: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
+    }
+    mtrace_flag = 0;
   }
 #endif
 #endif

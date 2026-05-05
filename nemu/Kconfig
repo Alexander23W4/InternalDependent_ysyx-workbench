@@ -151,6 +151,17 @@ config ITRACE_COND
   string "Only trace instructions when the condition is true"
   default "true"
 
+config MTRACE
+    bool "Enable memory tracing (mtrace)"
+    default n
+    help
+      Log all memory access (read/write) to the console or a log file.
+      Note: This will significantly slow down the simulation and produce massive output.
+
+config FTRACE
+    bool "Enable function tracing (ftrace)"
+    default n
+
 
 config DIFFTEST
   depends on TARGET_NATIVE_ELF
@@ -191,6 +202,8 @@ config DIFFTEST_REF_NAME
   default "kvm" if DIFFTEST_REF_KVM
   default "spike" if DIFFTEST_REF_SPIKE
   default "none"
+
+
 endmenu
 
 if MODE_SYSTEM

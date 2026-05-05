@@ -15,15 +15,27 @@
 // Interface for visual mem addr, base on physical mem addr
 #include <isa.h>
 #include <memory/paddr.h>
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/mtrace.h"
 
 word_t vaddr_ifetch(vaddr_t addr, int len) {   // fetch
   return paddr_read(addr, len);
 }
 
 word_t vaddr_read(vaddr_t addr, int len) {
-  return paddr_read(addr, len);
+  word_t result = paddr_read(addr, len);
+#if CONFIG_MTRACE
+  mtrace_flag = 1;
+  mem_addr = addr;
+  content = (int32_t) result;
+#endif
+  return result;
 }
 
 void vaddr_write(vaddr_t addr, int len, word_t data) {
+#if CONFIG_MTRACE
+  mtrace_flag = 2;
+  mem_addr = addr;
+  content = (int32_t) data;
+#endif
   paddr_write(addr, len, data);
 }

@@ -1,0 +1,18 @@
+处理器开发中的debug总结：
+
+现在我针对整个emulator system有4种debug工具， 就是native  db（gdb,sdb） trace  difftest
+
+然后debug的对象我分为两类， 一类是C， 一类是Instruction
+
+然后整个emulator系统自上而下： guest program -> AM/OS(isa&platform independent) -> AM/OS(isa specific) -> Compiler -> ISA -> EMU
+
+首先先判断是哪里出了bug， 
+    如果是C语言出bug, 那么会报C语言的错
+    如果是Instr出bug, 那么会trap, outofbound.. 
+
+对于C语言的错误，就用native和gdb
+对于Instr的错误，就用difftest和开发相应的trace，加上sdb
+
+如果是整个系统出bug, 那么debug要自上而下进行 （和implementation是相反的，implementation要自下而上进行）
+
+

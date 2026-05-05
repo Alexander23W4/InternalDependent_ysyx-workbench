@@ -12,6 +12,12 @@
 
 extern char* diff_so_file;
 
+typedef struct{
+    uint32_t pc;
+    uint32_t gpr[32];
+} CPU_state;
+
+
 void parse_args(int argc, char *argv[]);
 void load_memory(char* filename, uint32_t* M);
 uint32_t ram_read(uint32_t addr, int amount);

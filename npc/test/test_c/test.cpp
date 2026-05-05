@@ -9,7 +9,7 @@ using namespace std;
 
 int endprog = 0;
 uint32_t* ram = NULL;
-
+CPU_state cpu = {};
 
 void tick(Vtop* top) {
     top->clk = 0;
@@ -56,6 +56,7 @@ int main(int argc, char** argv) {
         
         // operation a period
         tick(top);
+        cpu = {top->_pc, top->dbg_reg};
 
         // check end
         top->halt(&endprog);

@@ -10,26 +10,33 @@ ELF Header:
   Version:                           0x1
   Entry point address:               0x80000000
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          5608 (bytes into file)
+  Start of section headers:          42272 (bytes into file)
   Flags:                             0x0
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
   Number of program headers:         3
   Size of section headers:           40 (bytes)
-  Number of section headers:         9
-  Section header string table index: 8
+  Number of section headers:         16
+  Section header string table index: 15
 
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
-  [ 1] .text             PROGBITS        80000000 001000 00012c 00  AX  0   0  4
-  [ 2] .rodata           PROGBITS        8000012c 00112c 000040 00   A  0   0  4
-  [ 3] .data             PROGBITS        8000016c 00116c 000120 00  WA  0   0  4
-  [ 4] .comment          PROGBITS        00000000 00128c 00002b 01  MS  0   0  1
-  [ 5] .riscv.attributes RISCV_ATTRIBUTE 00000000 0012b7 00001f 00      0   0  1
-  [ 6] .symtab           SYMTAB          00000000 0012d8 000220 10      7  15  4
-  [ 7] .strtab           STRTAB          00000000 0014f8 0000a6 00      0   0  1
-  [ 8] .shstrtab         STRTAB          00000000 00159e 00004a 00      0   0  1
+  [ 1] .text             PROGBITS        80000000 001000 0034d4 00  AX  0   0  4
+  [ 2] .rodata           PROGBITS        800034d4 0044d4 004d51 00   A  0   0  4
+  [ 3] .data             PROGBITS        80008228 009228 000210 00  WA  0   0  4
+  [ 4] .sdata.last_c.2   PROGBITS        80008438 009438 000002 00  WA  0   0  1
+  [ 5] .sdata.h          PROGBITS        8000843c 00943c 000008 00  WA  0   0  4
+  [ 6] .sdata.last_c.1   PROGBITS        80008444 009444 000006 00  WA  0   0  1
+  [ 7] .sdata.w          PROGBITS        8000844c 00944c 000008 00  WA  0   0  4
+  [ 8] .sdata.heap       PROGBITS        80008454 009454 000008 00  WA  0   0  4
+  [ 9] .sdata.next       PROGBITS        8000845c 00945c 000004 00  WA  0   0  4
+  [10] .bss              NOBITS          80008460 009460 0039a0 00  WA  0   0  4
+  [11] .comment          PROGBITS        00000000 009460 00002b 01  MS  0   0  1
+  [12] .riscv.attributes RISCV_ATTRIBUTE 00000000 00948b 00001f 00      0   0  1
+  [13] .symtab           SYMTAB          00000000 0094ac 000c30 10     14 140  4
+  [14] .strtab           STRTAB          00000000 00a0dc 0003a8 00      0   0  1
+  [15] .shstrtab         STRTAB          00000000 00a484 000099 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
   L (link order), O (extra OS processing required), G (group), T (TLS),
@@ -40,15 +47,15 @@ There are no section groups in this file.
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  RISCV_ATTRIBUT 0x0012b7 0x00000000 0x00000000 0x0001f 0x00000 R   0x1
-  LOAD           0x001000 0x80000000 0x80000000 0x0016c 0x0016c R E 0x1000
-  LOAD           0x00116c 0x8000016c 0x8000016c 0x00120 0x00120 RW  0x1000
+  RISCV_ATTRIBUT 0x00948b 0x00000000 0x00000000 0x0001f 0x00000 R   0x1
+  LOAD           0x001000 0x80000000 0x80000000 0x08225 0x08225 R E 0x1000
+  LOAD           0x009228 0x80008228 0x80008228 0x00238 0x03bd8 RW  0x1000
 
  Section to Segment mapping:
   Segment Sections...
    00     .riscv.attributes 
    01     .text .rodata 
-   02     .data 
+   02     .data .sdata.last_c.2 .sdata.h .sdata.last_c.1 .sdata.w .sdata.heap .sdata.next .bss 
 
 There is no dynamic section in this file.
 
@@ -56,42 +63,203 @@ There are no relocations in this file.
 
 The decoding of unwind sections for machine type RISC-V is not currently supported.
 
-Symbol table '.symtab' contains 34 entries:
+Symbol table '.symtab' contains 195 entries:
    Num:    Value  Size Type    Bind   Vis      Ndx Name
      0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
      1: 80000000     0 SECTION LOCAL  DEFAULT    1 .text
-     2: 8000012c     0 SECTION LOCAL  DEFAULT    2 .rodata
-     3: 8000016c     0 SECTION LOCAL  DEFAULT    3 .data
-     4: 00000000     0 SECTION LOCAL  DEFAULT    4 .comment
-     5: 00000000     0 SECTION LOCAL  DEFAULT    5 .riscv.attributes
-     6: 00000000     0 FILE    LOCAL  DEFAULT  ABS start.o
-     7: 80000000     0 NOTYPE  LOCAL  DEFAULT    1 $x
-     8: 00000000     0 FILE    LOCAL  DEFAULT  ABS max.c
-     9: 80000010     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    10: 80000028     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    11: 00000000     0 FILE    LOCAL  DEFAULT  ABS trm.c
-    12: 80000100     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    13: 8000010c     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    14: 8000012c    64 OBJECT  LOCAL  DEFAULT    2 mainargs
-    15: 8000010c    32 FUNC    GLOBAL HIDDEN     1 _trm_init
-    16: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _stack_pointer
-    17: 8000012c     0 NOTYPE  GLOBAL DEFAULT    1 _etext
-    18: 80000000     0 NOTYPE  GLOBAL DEFAULT  ABS _pmem_start
-    19: 8000028c     0 NOTYPE  GLOBAL DEFAULT    3 _bss_start
-    20: 8000028c     0 NOTYPE  GLOBAL DEFAULT    3 edata
-    21: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _heap_start
-    22: 80001000     0 NOTYPE  GLOBAL DEFAULT    3 _stack_top
-    23: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 end
-    24: 80000010    24 FUNC    GLOBAL HIDDEN     1 check
-    25: 8000012c     0 NOTYPE  GLOBAL DEFAULT    1 etext
-    26: 80000000    16 FUNC    GLOBAL DEFAULT    1 _start
-    27: 00000000     0 NOTYPE  GLOBAL DEFAULT  ABS _entry_offset
-    28: 80000028   216 FUNC    GLOBAL HIDDEN     1 main
-    29: 8000028c     0 NOTYPE  GLOBAL DEFAULT    3 _data
-    30: 8000016c   256 OBJECT  GLOBAL HIDDEN     3 ans
-    31: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _end
-    32: 80000100    12 FUNC    GLOBAL HIDDEN     1 halt
-    33: 8000026c    32 OBJECT  GLOBAL HIDDEN     3 test_data
+     2: 800034d4     0 SECTION LOCAL  DEFAULT    2 .rodata
+     3: 80008228     0 SECTION LOCAL  DEFAULT    3 .data
+     4: 80008438     0 SECTION LOCAL  DEFAULT    4 .sdata.last_c.2
+     5: 8000843c     0 SECTION LOCAL  DEFAULT    5 .sdata.h
+     6: 80008444     0 SECTION LOCAL  DEFAULT    6 .sdata.last_c.1
+     7: 8000844c     0 SECTION LOCAL  DEFAULT    7 .sdata.w
+     8: 80008454     0 SECTION LOCAL  DEFAULT    8 .sdata.heap
+     9: 8000845c     0 SECTION LOCAL  DEFAULT    9 .sdata.next
+    10: 80008460     0 SECTION LOCAL  DEFAULT   10 .bss
+    11: 00000000     0 SECTION LOCAL  DEFAULT   11 .comment
+    12: 00000000     0 SECTION LOCAL  DEFAULT   12 .riscv.attributes
+    13: 00000000     0 FILE    LOCAL  DEFAULT  ABS start.o
+    14: 80000000     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    15: 00000000     0 FILE    LOCAL  DEFAULT  ABS galton.c
+    16: 80000010     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    17: 80008460    64 OBJECT  LOCAL  DEFAULT   10 buf.1
+    18: 800084a0  1280 OBJECT  LOCAL  DEFAULT   10 buf.3
+    19: 8000bdcc     4 OBJECT  LOCAL  DEFAULT   10 b
+    20: 8000bdd0     4 OBJECT  LOCAL  DEFAULT   10 cnt
+    21: 8000bdd4     4 OBJECT  LOCAL  DEFAULT   10 h
+    22: 8000bdd8     4 OBJECT  LOCAL  DEFAULT   10 step.0
+    23: 8000bddc     4 OBJECT  LOCAL  DEFAULT   10 x
+    24: 8000bde0     4 OBJECT  LOCAL  DEFAULT   10 y
+    25: 80008438     1 OBJECT  LOCAL  DEFAULT    4 last_c.2
+    26: 00000000     0 FILE    LOCAL  DEFAULT  ABS life.c
+    27: 80000698     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    28: 80000884     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    29: 800009f8     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    30: 800089a0    64 OBJECT  LOCAL  DEFAULT   10 buf.0
+    31: 800089e0  1280 OBJECT  LOCAL  DEFAULT   10 buf.2
+    32: 8000bde4     4 OBJECT  LOCAL  DEFAULT   10 new_array
+    33: 8000bde8     4 OBJECT  LOCAL  DEFAULT   10 univ_array
+    34: 8000843c     4 OBJECT  LOCAL  DEFAULT    5 h
+    35: 80008444     1 OBJECT  LOCAL  DEFAULT    6 last_c.1
+    36: 8000844c     4 OBJECT  LOCAL  DEFAULT    7 w
+    37: 00000000     0 FILE    LOCAL  DEFAULT  ABS aclock.c
+    38: 80000b58     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    39: 800037a4  2880 OBJECT  LOCAL  DEFAULT    2 hour
+    40: 800042e4  3840 OBJECT  LOCAL  DEFAULT    2 minute
+    41: 80008ee0    64 OBJECT  LOCAL  DEFAULT   10 buf.0
+    42: 80008f20  1280 OBJECT  LOCAL  DEFAULT   10 buf.2
+    43: 800034d4   720 OBJECT  LOCAL  DEFAULT    2 circle
+    44: 80008445     1 OBJECT  LOCAL  DEFAULT    6 last_c.1
+    45: 00000000     0 FILE    LOCAL  DEFAULT  ABS cmatrix.c
+    46: 80000fb8     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    47: 80009420    64 OBJECT  LOCAL  DEFAULT   10 buf.0
+    48: 80009460  1280 OBJECT  LOCAL  DEFAULT   10 buf.2
+    49: 80009960   320 OBJECT  LOCAL  DEFAULT   10 t
+    50: 80008446     1 OBJECT  LOCAL  DEFAULT    6 last_c.1
+    51: 00000000     0 FILE    LOCAL  DEFAULT  ABS bf.c
+    52: 80001864     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    53: 80009aa0    64 OBJECT  LOCAL  DEFAULT   10 buf.0
+    54: 80009ae0  1280 OBJECT  LOCAL  DEFAULT   10 buf.4
+    55: 8000bdec     4 OBJECT  LOCAL  DEFAULT   10 x.2
+    56: 8000bdf0     4 OBJECT  LOCAL  DEFAULT   10 y.3
+    57: 80008447     1 OBJECT  LOCAL  DEFAULT    6 last_c.1
+    58: 00000000     0 FILE    LOCAL  DEFAULT  ABS main.c
+    59: 80001cfc     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    60: 00000000     0 FILE    LOCAL  DEFAULT  ABS donut.c
+    61: 80001e2c     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    62: 80009fe0  1760 OBJECT  LOCAL  DEFAULT   10 b
+    63: 8000a6c0    64 OBJECT  LOCAL  DEFAULT   10 buf.0
+    64: 8000a700  1280 OBJECT  LOCAL  DEFAULT   10 buf.2
+    65: 8000ac00  1760 OBJECT  LOCAL  DEFAULT   10 z
+    66: 80008448     1 OBJECT  LOCAL  DEFAULT    6 last_c.1
+    67: 00000000     0 FILE    LOCAL  DEFAULT  ABS ant.c
+    68: 80002374     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    69: 8000b2e0    64 OBJECT  LOCAL  DEFAULT   10 buf.0
+    70: 8000b320  1280 OBJECT  LOCAL  DEFAULT   10 buf.2
+    71: 8000bdf4     4 OBJECT  LOCAL  DEFAULT   10 pix
+    72: 80008440     4 OBJECT  LOCAL  DEFAULT    5 h
+    73: 80008449     1 OBJECT  LOCAL  DEFAULT    6 last_c.1
+    74: 80008450     4 OBJECT  LOCAL  DEFAULT    7 w
+    75: 00000000     0 FILE    LOCAL  DEFAULT  ABS hanoi.c
+    76: 800029c8   456 FUNC    LOCAL  DEFAULT    1 text
+    77: 800029c8     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    78: 80002b90   228 FUNC    LOCAL  DEFAULT    1 add_disk
+    79: 80002b90     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    80: 80002c74     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    81: 80002d5c     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    82: 8000b820  1280 OBJECT  LOCAL  DEFAULT   10 buf.0
+    83: 8000bd20    64 OBJECT  LOCAL  DEFAULT   10 buf.1
+    84: 8000bd60   108 OBJECT  LOCAL  DEFAULT   10 t
+    85: 80008439     1 OBJECT  LOCAL  DEFAULT    4 last_c.2
+    86: 00000000     0 FILE    LOCAL  DEFAULT  ABS trm.c
+    87: 80002eb4     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    88: 80002ec0     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    89: 80002ecc     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    90: 80008158    64 OBJECT  LOCAL  DEFAULT    2 mainargs
+    91: 00000000     0 FILE    LOCAL  DEFAULT  ABS ioe.c
+    92: 80002eec    16 FUNC    LOCAL  DEFAULT    1 __am_timer_config
+    93: 80002eec     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    94: 80002efc    12 FUNC    LOCAL  DEFAULT    1 __am_input_config
+    95: 80002efc     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    96: 80002f08     8 FUNC    LOCAL  DEFAULT    1 __am_uart_config
+    97: 80002f08     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    98: 80002f10     8 FUNC    LOCAL  DEFAULT    1 __am_net_config
+    99: 80002f10     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   100: 80002f18   104 FUNC    LOCAL  DEFAULT    1 fail
+   101: 80002f18     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   102: 80002f80     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   103: 80002fdc     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   104: 80002ff8     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   105: 80008228   512 OBJECT  LOCAL  DEFAULT    3 lut
+   106: 00000000     0 FILE    LOCAL  DEFAULT  ABS timer.c
+   107: 80003014     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   108: 80003018     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   109: 80003030     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   110: 00000000     0 FILE    LOCAL  DEFAULT  ABS input.c
+   111: 80003050     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   112: 00000000     0 FILE    LOCAL  DEFAULT  ABS gpu.c
+   113: 80003084     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   114: 80003088     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   115: 800030c8     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   116: 80003188     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   117: 00000000     0 FILE    LOCAL  DEFAULT  ABS audio.c
+   118: 80003194     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   119: 80003198     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   120: 800031a0     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   121: 800031a4     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   122: 800031ac     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   123: 00000000     0 FILE    LOCAL  DEFAULT  ABS disk.c
+   124: 800031b0     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   125: 800031b8     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   126: 800031bc     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   127: 00000000     0 FILE    LOCAL  DEFAULT  ABS stdio.c
+   128: 800031c0   116 FUNC    LOCAL  DEFAULT    1 number_to_str.part.0
+   129: 800031c0     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   130: 80003234     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   131: 00000000     0 FILE    LOCAL  DEFAULT  ABS string.c
+   132: 800033e4     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   133: 80003404     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   134: 00000000     0 FILE    LOCAL  DEFAULT  ABS stdlib.c
+   135: 8000345c     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   136: 80003490     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   137: 800034d0     0 NOTYPE  LOCAL  DEFAULT    1 $x
+   138: 8000bdf8     8 OBJECT  LOCAL  DEFAULT   10 heap_avail
+   139: 8000845c     4 OBJECT  LOCAL  DEFAULT    9 next
+   140: 80002374  1620 FUNC    GLOBAL HIDDEN     1 ant
+   141: 80001e2c  1352 FUNC    GLOBAL HIDDEN     1 donut
+   142: 80003234   432 FUNC    GLOBAL HIDDEN     1 printf
+   143: 80002ecc    32 FUNC    GLOBAL HIDDEN     1 _trm_init
+   144: 80014000     0 NOTYPE  GLOBAL DEFAULT   10 _stack_pointer
+   145: 80003404    88 FUNC    GLOBAL HIDDEN     1 memmove
+   146: 80003188    12 FUNC    GLOBAL HIDDEN     1 __am_gpu_status
+   147: 800034d4     0 NOTYPE  GLOBAL DEFAULT    1 _etext
+   148: 80000000     0 NOTYPE  GLOBAL DEFAULT  ABS _pmem_start
+   149: 800031a4     8 FUNC    GLOBAL HIDDEN     1 __am_audio_status
+   150: 80003194     4 FUNC    GLOBAL HIDDEN     1 __am_audio_init
+   151: 80003490    64 FUNC    GLOBAL HIDDEN     1 malloc
+   152: 80002ff8    28 FUNC    GLOBAL HIDDEN     1 ioe_write
+   153: 80008460     0 NOTYPE  GLOBAL DEFAULT   10 _bss_start
+   154: 80008438     0 NOTYPE  GLOBAL DEFAULT    3 edata
+   155: 80002fdc    28 FUNC    GLOBAL HIDDEN     1 ioe_read
+   156: 80003088    64 FUNC    GLOBAL HIDDEN     1 __am_gpu_config
+   157: 80008428    16 OBJECT  GLOBAL HIDDEN     3 types
+   158: 80003050    52 FUNC    GLOBAL HIDDEN     1 __am_input_keybrd
+   159: 80002eb4    12 FUNC    GLOBAL HIDDEN     1 putch
+   160: 800031bc     4 FUNC    GLOBAL HIDDEN     1 __am_disk_blkio
+   161: 80014000     0 NOTYPE  GLOBAL DEFAULT   10 _heap_start
+   162: 8000c000     0 NOTYPE  GLOBAL DEFAULT   10 _stack_top
+   163: 80014000     0 NOTYPE  GLOBAL DEFAULT   10 end
+   164: 800030c8   192 FUNC    GLOBAL HIDDEN     1 __am_gpu_fbdraw
+   165: 80003030    32 FUNC    GLOBAL HIDDEN     1 __am_timer_rtc
+   166: 80002c74   232 FUNC    GLOBAL HIDDEN     1 move
+   167: 800034d4     0 NOTYPE  GLOBAL DEFAULT    1 etext
+   168: 80003198     8 FUNC    GLOBAL HIDDEN     1 __am_audio_config
+   169: 80000000    16 FUNC    GLOBAL DEFAULT    1 _start
+   170: 800031b8     4 FUNC    GLOBAL HIDDEN     1 __am_disk_status
+   171: 8000345c    52 FUNC    GLOBAL HIDDEN     1 rand
+   172: 00000000     0 NOTYPE  GLOBAL DEFAULT  ABS _entry_offset
+   173: 80003018    24 FUNC    GLOBAL HIDDEN     1 __am_timer_uptime
+   174: 80003084     4 FUNC    GLOBAL HIDDEN     1 __am_gpu_init
+   175: 80003014     4 FUNC    GLOBAL HIDDEN     1 __am_timer_init
+   176: 80000fb8  2220 FUNC    GLOBAL HIDDEN     1 cmatrix
+   177: 800031a0     4 FUNC    GLOBAL HIDDEN     1 __am_audio_ctrl
+   178: 800033e4    32 FUNC    GLOBAL HIDDEN     1 memset
+   179: 80001cfc   304 FUNC    GLOBAL HIDDEN     1 main
+   180: 80008454     8 OBJECT  GLOBAL HIDDEN     8 heap
+   181: 800009f8   352 FUNC    GLOBAL HIDDEN     1 game_of_life
+   182: 80002f80    92 FUNC    GLOBAL HIDDEN     1 ioe_init
+   183: 80008438     0 NOTYPE  GLOBAL DEFAULT    3 _data
+   184: 800031ac     4 FUNC    GLOBAL HIDDEN     1 __am_audio_play
+   185: 80000698   492 FUNC    GLOBAL HIDDEN     1 show
+   186: 80000b58  1120 FUNC    GLOBAL HIDDEN     1 aclock
+   187: 80014000     0 NOTYPE  GLOBAL DEFAULT   10 _end
+   188: 80002ec0    12 FUNC    GLOBAL HIDDEN     1 halt
+   189: 80000010  1672 FUNC    GLOBAL HIDDEN     1 galton
+   190: 80000884   372 FUNC    GLOBAL HIDDEN     1 evolve
+   191: 800031b0     8 FUNC    GLOBAL HIDDEN     1 __am_disk_config
+   192: 80002d5c   344 FUNC    GLOBAL HIDDEN     1 hanoi
+   193: 80001864  1176 FUNC    GLOBAL HIDDEN     1 bf
+   194: 800034d0     4 FUNC    GLOBAL HIDDEN     1 free
 
 No version information found in this file.
 Attribute Section: riscv

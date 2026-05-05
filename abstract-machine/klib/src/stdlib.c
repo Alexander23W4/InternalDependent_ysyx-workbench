@@ -51,16 +51,12 @@ The  malloc() function allocates size bytes and returns a pointer to the allocat
        either NULL, or a unique pointer value that can later be successfully passed to free().
 
 */
+#if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
 static Area heap_avail = {};    // available heap range: [start, end)
-
 void *malloc(size_t size) {
   // On native, malloc() will be called during initializaion of C runtime.
   // Therefore do not call panic() here, else it will yield a dead recursion:
   //   panic() -> putchar() -> (glibc) -> malloc() -> panic()
-#if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
-  panic("Not implemented");
-#endif
-  // heap dynamic usage init
   if(heap_avail.start == NULL){
     heap_avail.start = heap_avail.end = heap.start;
   }
@@ -76,6 +72,7 @@ void *malloc(size_t size) {
     return ret;
   }
 }
+#endif
 
 void free(void *ptr) {
 }

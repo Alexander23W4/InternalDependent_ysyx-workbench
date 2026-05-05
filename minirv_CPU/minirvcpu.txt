@@ -1,0 +1,10 @@
+IFU(Instruction Fetch Unit): 
+    Responsible for fetching an instruction from memory based on the current PC.
+IDU(Instruction Decode Unit): 
+    Responsible for decoding the current instruction, preparing the data and control signals needed for the execution stage.
+EXU(EXecution Unit): 
+    Responsible for controlling the ALU based on control signals and performing calculations on data
+LSU(Load-Store Unit): 
+    Responsible for controlling the memory based on control signals, reading data from memory, or writing data to memory
+WBU(WriteBack Unit): 
+    Writes data to registers and updates the PC

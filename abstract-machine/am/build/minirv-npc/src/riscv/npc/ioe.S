@@ -35,7 +35,7 @@ __am_uart_config:
 	.string	"access nonexist register"
 	.align	2
 .LC2:
-	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/src/riscv/npc/ioe.c:24  \n"
+	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/src/riscv/npc/ioe.c:32  \n"
 	.section	.text.fail,"ax",@progbits
 	.align	2
 	.type	fail, @function

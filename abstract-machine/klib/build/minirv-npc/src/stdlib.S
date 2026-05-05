@@ -87,48 +87,29 @@ atoi:
 .L10:
 	ret
 	.size	atoi, .-atoi
-	.section	.rodata.malloc.str1.4,"aMS",@progbits,1
-	.align	2
-.LC0:
-	.string	"AM Panic: "
-	.align	2
-.LC1:
-	.string	"Not implemented"
-	.align	2
-.LC2:
-	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/src/stdlib.c:37  \n"
 	.section	.text.malloc,"ax",@progbits
 	.align	2
 	.globl	malloc
 	.hidden	malloc
 	.type	malloc, @function
 malloc:
-	addi	sp,sp,-12
-	sw	s0,4(sp)
-	sw	ra,8(sp)
-	lla	s0,.LC0
-	li	a0,65
+	lla	a4,.LANCHOR1
+	lw	a3,0(a4)
+	mv	a5,a0
+	beq	a3,zero,.L18
 .L14:
-	addi	s0,s0,1
-	call	putch
-	lbu	a0,0(s0)
-	bne	a0,zero,.L14
-	lla	s0,.LC1
-	li	a0,78
-.L15:
-	addi	s0,s0,1
-	call	putch
-	lbu	a0,0(s0)
-	bne	a0,zero,.L15
-	lla	s0,.LC2
-	li	a0,32
-.L16:
-	addi	s0,s0,1
-	call	putch
-	lbu	a0,0(s0)
-	bne	a0,zero,.L16
-	li	a0,1
-	call	halt
+	li	a0,0
+	beq	a5,zero,.L13
+	lw	a0,4(a4)
+	add	a5,a0,a5
+	sw	a5,4(a4)
+.L13:
+	ret
+.L18:
+	la a3, heap; lw a3, 0(a3);
+	sw	a3,4(a4)
+	sw	a3,0(a4)
+	j	.L14
 	.size	malloc, .-malloc
 	.section	.text.free,"ax",@progbits
 	.align	2
@@ -138,6 +119,13 @@ malloc:
 free:
 	ret
 	.size	free, .-free
+	.section	.sbss.heap_avail,"aw",@nobits
+	.align	2
+	.set	.LANCHOR1,. + 0
+	.type	heap_avail, @object
+	.size	heap_avail, 8
+heap_avail:
+	.zero	8
 	.section	.sdata.next,"aw"
 	.align	2
 	.set	.LANCHOR0,. + 0

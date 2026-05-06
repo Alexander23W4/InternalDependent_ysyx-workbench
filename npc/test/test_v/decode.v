@@ -90,6 +90,8 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
 #define immB() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | BITS(i, 7, 7) << 11 | BITS(i, 30, 25) << 5 | BITS(i, 11, 8) << 1; } while(0)
 #define immJ() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 20) | BITS(i, 19, 12) << 12 | BITS(i, 20, 20) << 11 | BITS(i, 30, 21) << 1; } while(0)
 */
+
+/* verilator lint_on UNUSEDSIGNAL */
 module decode(
     input [31:0] instr,
 
@@ -161,7 +163,7 @@ module decode(
     wire [6:0] opcode = instr[6:0];
     wire [2:0] funct3 = instr[14:12];
     wire [6:0] funct7 = instr[31:25];
-    
+
     assign rd = instr[11:7];
     assign rs1 = instr[19:15];
     assign rs2 = instr[24:20];
@@ -312,4 +314,4 @@ module decode(
     end
 
 endmodule
-
+/* verilator lint_on UNUSEDSIGNAL */

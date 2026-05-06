@@ -48,6 +48,8 @@ module top(
     wire [31:0] immI;
     wire [31:0] immU;
     wire [31:0] immS;
+    wire [31:0] immB;
+    wire [31:0] immJ;
 
 
     wire [31:0] wdata;

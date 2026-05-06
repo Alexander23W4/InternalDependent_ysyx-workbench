@@ -1,13 +1,13 @@
-#include "test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/test/test_c/test.h"
 #include <dlfcn.h>
 
 #define RESET_VECTOR 0x80000000
 enum { DIFFTEST_TO_DUT, DIFFTEST_TO_REF };
 
-void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction) = NULL;
+void (*ref_difftest_memcpy)(uint32_t addr, void *buf, size_t n, bool direction) = NULL;
 void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
 void (*ref_difftest_exec)(uint64_t n) = NULL;
-void (*ref_difftest_raise_intr)(uint64_t NO) = NULL;
+void (*ref_difftest_init)(int port) = NULL;
 
 /*
 get img_size
@@ -21,24 +21,21 @@ void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port) {
   handle = dlopen(diff_so_file, RTLD_LAZY);
   assert(handle);
 
-  ref_difftest_memcpy = dlsym(handle, "difftest_memcpy");
+  ref_difftest_memcpy = (void (*)(uint32_t, void *, size_t, bool))dlsym(handle, "difftest_memcpy");
   assert(ref_difftest_memcpy);
 
-  ref_difftest_regcpy = dlsym(handle, "difftest_regcpy");
+  ref_difftest_regcpy = (void (*)(void *, bool))dlsym(handle, "difftest_regcpy");
   assert(ref_difftest_regcpy);
 
-  ref_difftest_exec = dlsym(handle, "difftest_exec");
+  ref_difftest_exec = (void (*)(uint64_t))dlsym(handle, "difftest_exec");
   assert(ref_difftest_exec);
 
-  ref_difftest_raise_intr = dlsym(handle, "difftest_raise_intr");
-  assert(ref_difftest_raise_intr);
-
-  void (*ref_difftest_init)(int) = dlsym(handle, "difftest_init");
+  ref_difftest_init = (void (*)(int))dlsym(handle, "difftest_init");
   assert(ref_difftest_init);
 
-  Log("The result of every instruction will be compared with %s. "
+  printf("The result of every instruction will be compared with %s. "
       "This will help you a lot for debugging, but also significantly reduce the performance. "
-      "If it is not necessary, you can turn it off in menuconfig.", diff_so_file);
+      "If it is not necessary, you can turn it off in menuconfig.\n", diff_so_file);
 
   // Initialize the DIffTest function of the REF, the specific behavior varies from REF to REF.
   ref_difftest_init(port);
@@ -59,13 +56,13 @@ static void difftest_abort_print(CPU_state* ref){
 }
 
 static void checkregs(CPU_state *ref) {
-  if (!difftest_checkregs(ref, pc)) {
+  if (!difftest_checkregs(ref)) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);
   }
 }
 
-bool difftest_checkregs(CPU_state* ref){
+bool difftest_checkregs(CPU_state* ref_r){
   bool is_same = true;
   if((ref_r->pc) != cpu.pc) is_same = false;
   for (int i = 0; i < 32; i++)

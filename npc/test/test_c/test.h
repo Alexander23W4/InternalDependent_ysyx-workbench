@@ -11,13 +11,14 @@
 #include <string.h>
 
 extern char* diff_so_file;
-extern int endprog
+extern int endprog;
 
 typedef struct{
     uint32_t pc;
     uint32_t* gpr;
 } CPU_state;
 
+extern CPU_state cpu;
 
 void parse_args(int argc, char *argv[]);
 void load_memory(char* filename, uint32_t* M, size_t *img_size);
@@ -29,3 +30,4 @@ uint32_t get_gpr(Vtop* top, int reg_id);
 
 void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port);
 void difftest_step();
+bool difftest_checkregs(CPU_state* ref_r);

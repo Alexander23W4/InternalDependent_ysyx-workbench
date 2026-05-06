@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
         
         // operation a period
         tick(top);
-        cpu = {top->_pc, top->dbg_reg};
+        cpu = {top->_pc, (uint32_t*)top->dbg_reg};
 
         // check end
         top->halt(&endprog);

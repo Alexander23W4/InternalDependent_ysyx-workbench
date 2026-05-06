@@ -11,6 +11,7 @@
 #include <string.h>
 
 extern char* diff_so_file;
+extern int endprog
 
 typedef struct{
     uint32_t pc;

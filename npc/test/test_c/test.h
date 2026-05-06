@@ -9,7 +9,10 @@
 #include "dbg.h"
 #include <getopt.h>
 #include <string.h>
-
+#define RAM_SIZE 524288  
+#define MEMORY_LOAD_EFFECTIVENESS 20000
+#define DIFF_TEST 1
+#define RAM_BASE 0x80000000
 extern char* diff_so_file;
 extern int endprog;
 
@@ -18,7 +21,9 @@ typedef struct{
     uint32_t* gpr;
 } CPU_state;
 
+extern uint32_t instr;
 extern CPU_state cpu;
+extern uint32_t* ram;
 
 void parse_args(int argc, char *argv[]);
 void load_memory(char* filename, uint32_t* M, size_t *img_size);

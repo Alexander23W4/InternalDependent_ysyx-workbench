@@ -47,7 +47,7 @@ void load_memory(char* filename, uint32_t* M, size_t *img_size) {
 // allow misalign access
 uint32_t ram_read(uint32_t addr, int amount) {
     if((instr & 0x7f) == 3){
-        uint32_t paddr = pram(addr);
+        uint32_t paddr = addr - RAM_BASE;
         uint8_t* _ram = (uint8_t*) ram;
         assert(amount <= 4 && amount >= 1);
         uint32_t result = 0;
@@ -68,7 +68,7 @@ uint32_t ram_read(uint32_t addr, int amount) {
 
 // doesn't misalign access
 void ram_write(uint32_t addr, uint32_t data, int amount) {
-    uint32_t paddr = pram(addr);
+    uint32_t paddr = addr - RAM_BASE;
     assert(amount <= 4 && amount >= 1);
     uint8_t* ram_byte = (uint8_t*)ram; 
     check((paddr % amount) == 0, "misaligned access, paddr: 0x%08X, amount: %d", paddr, amount);

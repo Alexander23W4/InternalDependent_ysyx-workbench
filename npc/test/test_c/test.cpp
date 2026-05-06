@@ -1,16 +1,11 @@
 #include "test.h"
 
 using namespace std;
-// CONFIG
-#define RAM_SIZE 524288  
-#define MEMORY_LOAD_EFFECTIVENESS 20000
-#define DIFF_TEST 1
-#define RAM_BASE 0x80000000
-
 int endprog = 0;
 uint32_t* ram = NULL;
 CPU_state cpu = {};
 size_t img_size;
+uint32_t instr;
 
 void tick(Vtop* top) {
     top->clk = 0;
@@ -58,13 +53,14 @@ int main(int argc, char** argv) {
         }
 
         top->instr = ram[pc_idx];
+        instr = ram[pc_idx];
         printf("Current instr: 0x%08x \n", ram[pc_idx]);
         
         // operation a period
         tick(top);
-        cpu = {top->_pc, (uint32_t*)top->dbg_reg};
 
         #if DIFF_TEST
+        cpu = {top->_pc, (uint32_t*)top->dbg_reg};
         difftest_step();
         #endif
 

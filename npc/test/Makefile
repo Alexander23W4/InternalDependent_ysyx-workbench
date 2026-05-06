@@ -30,14 +30,9 @@ DIFF_TEST=1
 LOG_FILE=./record.txt
 
 
-ARGS=
-
-
 # difftest 
 ifneq ($(DIFF_TEST),)
 DIFF_REF_SO=$(NEMU_HOME)/build/riscv32-nemu-interpreter-so
-ARGS_DIFF = --diff=$(DIFF_REF_SO)
-override ARGS += $(ARGS_DIFF) 
 endif
 
 

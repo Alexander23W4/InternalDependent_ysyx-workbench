@@ -45,7 +45,7 @@ NPC_BASE_INC=$(NPC_HOME)/test
 NPC_EXE=$(NPC_BASE_INC)/obj_dir/Vtop
 EXE_ARGV=./build/$(ALL)-$(ARCH).bin
 
-ARGS+=$(EXE_ARGV)
+ARGS=$(EXE_ARGV) -diff=$(DIFF_REF_SO)
 
 run: all
 	@cat $(RESULT)

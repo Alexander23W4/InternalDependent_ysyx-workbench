@@ -25,13 +25,22 @@ uint32_t get_gpr(Vtop* top, int reg_id) {
 }
 
 
-void load_memory(char* filename, uint32_t* M){   
-    FILE *fp = fopen(filename, "rb");  
+void load_memory(char* filename, uint32_t* M, size_t *img_size) {
+    FILE *fp = fopen(filename, "rb");
     assert(fp);
+
+    fseek(fp, 0, SEEK_END);   
+    size_t size = ftell(fp);    
+    fseek(fp, 0, SEEK_SET);      
+
+    if (img_size != NULL) {
+        *img_size = size;
+    }
+
     size_t loaded_instr = fread(M, sizeof(uint32_t), MEMORY_LOAD_EFFECTIVENESS, fp);
     fclose(fp);
 
-    printf("--LOAD %zu AMOUNTS OF INSTR TO M[]\n", loaded_instr);
+    printf("--LOAD %zu INSTR (%zu BYTES) TO M[]\n", loaded_instr, size);
 }
 
 

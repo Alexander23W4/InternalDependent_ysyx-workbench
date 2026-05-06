@@ -4,12 +4,13 @@ using namespace std;
 // CONFIG
 #define RAM_SIZE 524288  
 #define MEMORY_LOAD_EFFECTIVENESS 20000
-
+#define DIFF_TEST 1
 #define RAM_BASE 0x80000000
 
 int endprog = 0;
 uint32_t* ram = NULL;
 CPU_state cpu = {};
+size_t img_size;
 
 void tick(Vtop* top) {
     top->clk = 0;
@@ -37,7 +38,12 @@ int main(int argc, char** argv) {
     printf("Reset Released. Starting execution...\n");
 
     // load code
-    load_memory(argv[1], ram);
+    load_memory(argv[1], ram, &img_size);
+
+    // difftest init
+#if DIFF_TEST
+    init_difftest(diff_so_file, ram, img_size, 1)
+#endif
     
 // ---------------------------------------------------------
 
@@ -57,6 +63,10 @@ int main(int argc, char** argv) {
         // operation a period
         tick(top);
         cpu = {top->_pc, (uint32_t*)top->dbg_reg};
+
+        #if DIFF_TEST
+        difftest_step();
+        #endif
 
         // check end
         top->halt(&endprog);

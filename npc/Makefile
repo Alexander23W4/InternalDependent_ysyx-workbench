@@ -31,27 +31,20 @@ TOP_FLAG=--top-module
 DIFF_TEST=1
 LOG_FILE=./record.txt
 
+NPC_EXE=$(NPC_HOME)/obj_dir/Vtop
+ARGS=$(EXE_ARGV)
 
 # difftest 
 ifneq ($(DIFF_TEST),)
 DIFF_REF_SO=$(NEMU_HOME)/build/riscv32-nemu-interpreter-so
+ARGS+=-diff $(DIFF_REF_SO)
 endif
 
 
-# SRC_BASE=$(notdir $(basename $(V_SRC)))
-
-# # write something into file, should use echo
-# $(CONFIG_FILE):
-# 	@echo "#define __VFILE \"$(SRC_BASE)\"" > $(CONFIG_FILE)
 
 
 $(LOG_FILE):
 	touch $(LOG_FILE)
-
-# run:
-# 	@echo "RUN SIMULATION:"
-# 	$(EXE) $(ARGV)
-
 
 
 runtrace:

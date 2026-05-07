@@ -36,4 +36,8 @@ run: insert-arg update-npc
 	@echo "================================= RUN NPC SIMULATION ====================================="
 	$(NPC_EXE) $(ARGS)
 
+gdb: insert-arg update-npc
+	@echo "================================= GDB ====================================="
+	gdb --args $(NPC_EXE) $(ARGS)
+
 .PHONY: insert-arg

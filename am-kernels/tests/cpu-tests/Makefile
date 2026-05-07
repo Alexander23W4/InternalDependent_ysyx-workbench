@@ -40,24 +40,11 @@ Makefile.%: tests/%.c latest
 	-@rm -f Makefile.$*
 
 
-# for npc
--include $(NPC_HOME)/Makefile
-
-NPC_BASE_INC=$(NPC_HOME)
-NPC_EXE=$(NPC_BASE_INC)/obj_dir/Vtop
-EXE_ARGV=./build/$(ALL)-$(ARCH).bin
-
-ARGS=$(EXE_ARGV) -diff=$(DIFF_REF_SO)
-
 run: all
 	@cat $(RESULT)
 	@rm $(RESULT)
-ifeq ($(PLATFORM),npc)
-	@echo "RUN SIMULATION:"
-	$(NPC_EXE) $(ARGS)
-endif
-	
 
+	
 gdb: all
 
 clean:

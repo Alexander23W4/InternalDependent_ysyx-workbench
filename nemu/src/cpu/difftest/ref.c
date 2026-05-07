@@ -27,14 +27,15 @@ Implement the DiffTest API in nemu/src/cpu/difftest/ref.c, including difftest_me
 In addition, difftest_raise_intr() is prepared for interrupts and is not used currently.
 */
 
-// requirement: n represents the amount of uint32_t in ram
-//              buf is the origin ram arr of dut (index starts from 0)
+// requirement:
+//      buf is the origin ram arr of dut (index starts from 0)
+//      n: size (in byte)
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   if (direction == DIFFTEST_TO_REF) {
-    uint32_t* ram = (uint32_t*)buf;
-    uint32_t base_idx = (addr - CONFIG_MBASE) / 4; 
+    uint8_t* ram = (uint8_t*)buf;
+    uint32_t base_idx = addr - CONFIG_MBASE; 
     for (size_t i = 0; i < n; i++) {
-      paddr_write(addr + i * 4, 4, ram[base_idx + i]);
+      paddr_write(addr + i, 1, ram[base_idx + i]);
     }
   }
 }
@@ -53,10 +54,22 @@ __EXPORT void difftest_regcpy(void *dut, bool direction) {
     }
     dut_cpu->pc = cpu.pc;
   }
+
+  printf("%%%%%%%%\n");
+  for (int i = 0; i < 32; i++)
+  {
+    printf("[NUM %d]: %u (0x%x)\n", i, cpu.gpr[i], cpu.gpr[i]);
+  }
+  printf("pc: (0x%x)\n", cpu.pc);
 }
 
 __EXPORT void difftest_exec(uint64_t n) {
-  isa_reg_display();
+  for (int i = 0; i < 32; i++)
+  {
+    printf("[NUM %d]: %u (0x%x)\n", i, cpu.gpr[i], cpu.gpr[i]);
+  }
+  printf("pc: (0x%x)\n", cpu.pc);
+
   cpu_exec(n);
 }
 

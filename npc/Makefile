@@ -16,6 +16,7 @@ ALL_SOURCES=$(shell find ./vsrc -name "*.v")
 SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
 
 INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest"
+GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest"
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx
@@ -62,6 +63,9 @@ trace:
 # 3. --cc --exe --build -j 0 -Wall
 fasts: 
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES)
+
+gdb:
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES)
 
 fast:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC) 

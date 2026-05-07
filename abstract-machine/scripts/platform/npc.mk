@@ -23,6 +23,9 @@ EXE_ARGV=./build/$(ALL)-$(ARCH).bin
 update-npc:
 	@echo "===================================== Update NPC ====================================="
 	$(MAKE) -C $(NPC_HOME) fasts
+ifneq ($(DIFF_TEST),)
+	$(MAKE) -C $(NEMU_HOME)
+endif
 
 insert-arg: image
 	@python3 $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
@@ -36,8 +39,12 @@ run: insert-arg update-npc
 	@echo "================================= RUN NPC SIMULATION ====================================="
 	$(NPC_EXE) $(ARGS)
 
-gdb: insert-arg update-npc
+gdb: insert-arg
 	@echo "================================= GDB ====================================="
+	$(MAKE) -C $(NPC_HOME) gdb
+ifneq ($(DIFF_TEST),)
+	$(MAKE) -C $(NEMU_HOME)
+endif
 	gdb --args $(NPC_EXE) $(ARGS)
 
 .PHONY: insert-arg

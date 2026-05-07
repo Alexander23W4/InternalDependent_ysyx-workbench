@@ -139,8 +139,7 @@ decode Decode(
                  lb | lh | lw | lbu | lhu;
 
 
-    wire [31:0] add1 = ({32{auipc | jal | blt | bltu | bge | bgeu | bne | beq}} & pc) |
-                        rdata1;
+    wire [31:0] add1 = (auipc | jal | blt | bltu | bge | bgeu | bne | beq) ? pc : rdata1;
 
     wire [31:0] add2 = ({32{add}} & rdata2) |
                        ({32{sw | sb | sh}} & immS) |

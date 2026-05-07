@@ -400,11 +400,11 @@ VL_INLINE_OPT void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf) 
                                                             | (IData)(vlSelf->top__DOT__bne))))));
     vlSelf->top__DOT____VdfgTmp_h71776512__0 = ((IData)(vlSelf->top__DOT__add) 
                                                 | (IData)(vlSelf->top__DOT__addi));
-    vlSelf->top__DOT__add_rst = ((((- (IData)(((IData)(vlSelf->top__DOT__auipc) 
-                                               | ((IData)(vlSelf->top__DOT__jal) 
-                                                  | (IData)(vlSelf->top__DOT____VdfgTmp_heb8827dd__0))))) 
-                                   & vlSelf->top__DOT__pc) 
-                                  | vlSelf->top__DOT__rdata1) 
+    vlSelf->top__DOT__add_rst = ((((IData)(vlSelf->top__DOT__auipc) 
+                                   | ((IData)(vlSelf->top__DOT__jal) 
+                                      | (IData)(vlSelf->top__DOT____VdfgTmp_heb8827dd__0)))
+                                   ? vlSelf->top__DOT__pc
+                                   : vlSelf->top__DOT__rdata1) 
                                  + (((- (IData)((IData)(vlSelf->top__DOT__add))) 
                                      & vlSelf->top__DOT__rdata2) 
                                     | (((- (IData)(
@@ -779,11 +779,11 @@ VL_INLINE_OPT void Vtop___024root___nba_comb__TOP__0(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___nba_comb__TOP__0\n"); );
     // Body
-    vlSelf->top__DOT__add_rst = ((((- (IData)(((IData)(vlSelf->top__DOT__auipc) 
-                                               | ((IData)(vlSelf->top__DOT__jal) 
-                                                  | (IData)(vlSelf->top__DOT____VdfgTmp_heb8827dd__0))))) 
-                                   & vlSelf->top__DOT__pc) 
-                                  | vlSelf->top__DOT__rdata1) 
+    vlSelf->top__DOT__add_rst = ((((IData)(vlSelf->top__DOT__auipc) 
+                                   | ((IData)(vlSelf->top__DOT__jal) 
+                                      | (IData)(vlSelf->top__DOT____VdfgTmp_heb8827dd__0)))
+                                   ? vlSelf->top__DOT__pc
+                                   : vlSelf->top__DOT__rdata1) 
                                  + (((- (IData)((IData)(vlSelf->top__DOT__add))) 
                                      & vlSelf->top__DOT__rdata2) 
                                     | (((- (IData)(

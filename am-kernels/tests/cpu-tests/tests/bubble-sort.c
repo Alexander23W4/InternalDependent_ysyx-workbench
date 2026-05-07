@@ -1,6 +1,8 @@
 #include "trap.h"
 // make ARCH=riscv32-nemu ALL=bubble-sort run
 // make ARCH=minirv-npc ALL=bubble-sort run
+
+// make ARCH=riscv32e-npc ALL=bubble-sort run
 // @@
 #define N 20
 

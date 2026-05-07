@@ -1,4 +1,4 @@
-#include "test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/test/test_c/test.h"
 
 using namespace std;
 int endprog = 0;
@@ -17,7 +17,7 @@ void tick(Vtop* top) {
 // diliver .bin -> argv[1]
 int main(int argc, char** argv) {
     assert(argc >= 2);
-    parse_args();
+    parse_args(argc, argv);
 
     Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 
     // difftest init
 #if DIFF_TEST
-    init_difftest(diff_so_file, ram, img_size, 1)
+    init_difftest(diff_so_file, ram, img_size, 1);
 #endif
     
 // ---------------------------------------------------------

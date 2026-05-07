@@ -8,7 +8,7 @@
 # riscv32-nemu-interpreter-so
 
 V_SRC=./test_v/top.v
-CPP_SRC = $(wildcard ./test_c/*.c ./test_c/difftest/*.c)
+CPP_SRC = $(wildcard ./test_c/*.c ./test_c/*.cpp  ./test_c/difftest/*.c)
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
@@ -89,3 +89,6 @@ top:
 # 	rm -rf $(OBJ_DIR) 
 
 .PHONY: all binary trace fast clean run top
+
+# make fasts for getting Vtop
+# compile guest program & AM, nemu for difftest...  run 

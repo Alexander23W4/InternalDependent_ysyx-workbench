@@ -1,4 +1,9 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/test/test_c/test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/csrc/test.h"
+
+/*
+Iteration:
+    substitute all of the verilog operator symbols to hardware model
+*/
 
 using namespace std;
 int endprog = 0;
@@ -34,9 +39,11 @@ int main(int argc, char** argv) {
 
     // load code
     load_memory(argv[1], ram, &img_size);
+    assert(img_size <= RAM_SIZE);
 
     // difftest init
 #if DIFF_TEST
+    printf("Difftest circuiting.\n");
     init_difftest(diff_so_file, ram, img_size, 1);
 #endif
     
@@ -64,6 +71,7 @@ int main(int argc, char** argv) {
         difftest_step();
         #endif
 
+
         // check end
         top->halt(&endprog);
 
@@ -73,7 +81,8 @@ int main(int argc, char** argv) {
         }
     }
 
-    if(top->dbg_reg[10] != 0){   // after operation check
+    // final check
+    if(top->dbg_reg[10] != 0){   
         printf("HIT BAD TRAP\n");
         printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
     }

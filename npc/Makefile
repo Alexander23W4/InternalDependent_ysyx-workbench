@@ -7,15 +7,15 @@
 
 # riscv32-nemu-interpreter-so
 
-V_SRC=./test_v/top.v
-CPP_SRC = $(wildcard ./test_c/*.c ./test_c/*.cpp  ./test_c/difftest/*.c)
+V_SRC=./vsrc/top.v
+CPP_SRC = $(shell find ./csrc -type f -name "*.c" -o -name "*.cpp")
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
-ALL_SOURCES=$(shell find ./test_v -name "*.v")
-SOURCES=./test_v/dbg_register.v ./test_v/decode.v
+ALL_SOURCES=$(shell find ./vsrc -name "*.v")
+SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
 
-INC_SOURCES=-CFLAGS "-I./test_c -I./test_c/difftest"
+INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest"
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx

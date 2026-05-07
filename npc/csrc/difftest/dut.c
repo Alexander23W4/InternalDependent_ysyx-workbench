@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/test/test_c/test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/csrc/test.h"
 #include <dlfcn.h>
 
 #define RESET_VECTOR 0x80000000

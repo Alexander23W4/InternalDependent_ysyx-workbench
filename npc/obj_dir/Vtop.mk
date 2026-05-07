@@ -35,7 +35,7 @@ VM_PREFIX = Vtop
 VM_MODPREFIX = Vtop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-	-I./test_c -I./test_c/difftest \
+	-I./csrc -I./csrc/difftest \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -48,8 +48,8 @@ VM_USER_CLASSES = \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
-	./test_c \
-	./test_c/difftest \
+	./csrc \
+	./csrc/difftest \
 
 
 ### Default rules...
@@ -61,11 +61,11 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-dut.o: ./test_c/difftest/dut.c
+dut.o: ./csrc/difftest/dut.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-test.o: ./test_c/test.cpp
+test.o: ./csrc/test.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-tools.o: ./test_c/tools.c
+tools.o: ./csrc/tools.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)

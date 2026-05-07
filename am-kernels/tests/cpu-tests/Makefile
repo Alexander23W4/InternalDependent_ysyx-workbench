@@ -2,6 +2,8 @@
 # make ARCH=minirv-npc ALL=bit run
 # make ARCH=minirv-npc run     (barch)
 
+# make ARCH=riscv32e-npc ALL=bit run
+
 RESULT = .result
 $(shell > $(RESULT))
 
@@ -39,9 +41,9 @@ Makefile.%: tests/%.c latest
 
 
 # for npc
--include $(NPC_HOME)/test/Makefile
+-include $(NPC_HOME)/Makefile
 
-NPC_BASE_INC=$(NPC_HOME)/test
+NPC_BASE_INC=$(NPC_HOME)
 NPC_EXE=$(NPC_BASE_INC)/obj_dir/Vtop
 EXE_ARGV=./build/$(ALL)-$(ARCH).bin
 

@@ -2,6 +2,8 @@
 // @@
 // make ARCH=riscv32-nemu ALL=add run
 // make ARCH=minirv-npc ALL=add run
+
+//make ARCH=riscv32e-npc ALL=add run
 int add(int a, int b) {
 	int c = a + b;
 	return c;

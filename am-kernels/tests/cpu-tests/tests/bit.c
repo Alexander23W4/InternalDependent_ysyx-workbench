@@ -1,7 +1,7 @@
 #include "trap.h"
 // make ARCH=riscv32-nemu ALL=bit run
 // make ARCH=minirv-npc ALL=bit run
-
+// make ARCH=riscv32e-npc ALL=bit run
 // @@
 typedef unsigned char uint8_t;
 __attribute__((noinline))

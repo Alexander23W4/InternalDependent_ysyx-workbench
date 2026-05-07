@@ -3,6 +3,8 @@
 // @@
 // make ARCH=riscv32-nemu ALL=add-longlong run
 // make ARCH=minirv-npc ALL=add-longlong run
+
+//make ARCH=riscv32e-npc ALL=add-longlong run
 long long add(long long a, long long b) {
 	long long c = a + b;
 	return c;

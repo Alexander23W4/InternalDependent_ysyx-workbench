@@ -72,7 +72,6 @@ int main(int argc, char** argv) {
             diff_flag = 1;
         }
         else{
-            cpu_state_print();
             difftest_step();
         }
         #endif

@@ -85,11 +85,7 @@ After executing an instruction in NEMU, it will let REF execute the same instruc
 */
 void difftest_step() {
   CPU_state ref_r;
-  cpu_state_print();
-  assert(0);
   ref_difftest_exec(1);
   ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
-  difftest_abort_print(&ref_r);
-  assert(0);
   checkregs(&ref_r);     //
 }

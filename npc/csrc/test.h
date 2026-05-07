@@ -11,14 +11,14 @@
 #include <string.h>
 #define RAM_SIZE 524288  
 #define MEMORY_LOAD_EFFECTIVENESS 20000
-#define DIFF_TEST 1
+#define DIFF_TEST 0
 #define RAM_BASE 0x80000000
 extern char* diff_so_file;
 extern int endprog;
 
 typedef struct{
-    uint32_t pc;
     uint32_t gpr[32];
+    uint32_t pc;
 } CPU_state;
 
 extern uint32_t instr;

@@ -25,6 +25,10 @@ EXE_ARGV=./build/$(ALL)-$(ARCH).bin
 
 ARGS=$(EXE_ARGV) -diff=$(DIFF_REF_SO)
 
+update-npc:
+	@echo "Update NPC"
+	$(MAKE) -C $(NPC_HOME) fasts
+
 insert-arg: image
 	@python3 $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
 
@@ -33,7 +37,7 @@ image: image-dep
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
-run: insert-arg
+run: insert-arg update-npc
 	@echo "RUN NPC SIMULATION:"
 	$(NPC_EXE) $(ARGS)
 

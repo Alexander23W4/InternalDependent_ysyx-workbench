@@ -4,6 +4,11 @@
 char* diff_so_file = NULL; 
 
 void parse_args(int argc, char *argv[]) {
+    for (int i = 0; i < argc; i++)
+    {
+        printf("Argument[%d]: %s\n", i, argv[i]);
+    }
+
     static struct option last_options[] = {
         {"diff",     required_argument, NULL, 'd'},
         {0,          0,                 NULL,  0 }

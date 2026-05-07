@@ -41,7 +41,6 @@ void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port) {
   ref_difftest_memcpy(RESET_VECTOR, ram, img_size, DIFFTEST_TO_REF);
   // Copy the register state of the DUT into the REF.
   ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF);
-  assert(0);
 }
 
 

@@ -18,7 +18,7 @@ extern int endprog;
 
 typedef struct{
     uint32_t pc;
-    uint32_t* gpr;
+    uint32_t gpr[32];
 } CPU_state;
 
 extern uint32_t instr;

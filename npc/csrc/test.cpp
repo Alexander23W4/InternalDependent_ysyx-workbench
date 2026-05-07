@@ -11,6 +11,7 @@ uint32_t* ram = NULL;
 CPU_state cpu = {};
 size_t img_size;
 uint32_t instr;
+static int diff_flag = 0;
 
 void tick(Vtop* top) {
     top->clk = 0;
@@ -41,11 +42,6 @@ int main(int argc, char** argv) {
     load_memory(argv[1], ram, &img_size);
     assert(img_size <= RAM_SIZE);
 
-    // difftest init
-#if DIFF_TEST
-    init_difftest(diff_so_file, ram, img_size, 1);
-#endif
-    
 // ---------------------------------------------------------
 
     while(1){
@@ -67,10 +63,18 @@ int main(int argc, char** argv) {
 
         #if DIFF_TEST
         printf("Difftest circuiting.\n");
-        cpu = {top->_pc, (uint32_t*)top->dbg_reg};
-        cpu_state_print();
-        difftest_step();
-        assert(0);
+        cpu.pc = top->_pc;
+        for (int i = 0; i < 32; i++) {
+            cpu.gpr[i] = top->dbg_reg[i];
+        }
+        if(diff_flag == 0){
+            init_difftest(diff_so_file, ram, img_size, 1);
+            diff_flag = 1;
+        }
+        else{
+            cpu_state_print();
+            difftest_step();
+        }
         #endif
 
 

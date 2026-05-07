@@ -4,6 +4,15 @@
 #define RESET_VECTOR 0x80000000
 enum { DIFFTEST_TO_DUT, DIFFTEST_TO_REF };
 
+
+const char *regs_name[] = {
+  "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
+  "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",
+  "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
+  "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
+};
+
+
 void (*ref_difftest_memcpy)(uint32_t addr, void *buf, size_t n, bool direction) = NULL;
 void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
 void (*ref_difftest_exec)(uint64_t n) = NULL;
@@ -45,18 +54,24 @@ void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port) {
 
 
 
-static void difftest_abort_print(CPU_state* ref){
-  printf("pc: [DUT]0x%08x, [REF]0x%08x.\n", cpu.pc, ref->pc);
-  for (int i = 0; i < 32; i++)
-  {
-    printf("reg: %d: [DUT]%d, [REF]%d\n", i, cpu.gpr[i], ref->gpr[i]);
+static void difftest_abort_print(CPU_state* ref) {
+  printf("pc: [DUT] 0x%08x, [REF] 0x%08x\n", cpu.pc, ref->pc);
+  
+  for (int i = 0; i < 32; i++) {
+    printf("reg %2d [%3s]: [DUT] 0x%08x, [REF] 0x%08x", i, regs_name[i], cpu.gpr[i], ref->gpr[i]);
+    if (cpu.gpr[i] != ref->gpr[i]) {
+      printf("  <-- DIFF!");
+    }
+    printf("\n");
   } 
 }
 
 static void checkregs(CPU_state *ref) {
+  difftest_abort_print(ref);
   if (!difftest_checkregs(ref)) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);
+    assert(0);
   }
 }
 

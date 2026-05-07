@@ -21,7 +21,7 @@ EXE_ARGV=./build/$(ALL)-$(ARCH).bin
 -include $(NPC_HOME)/Makefile
 
 update-npc:
-	@echo "Update NPC"
+	@echo "===================================== Update NPC ====================================="
 	$(MAKE) -C $(NPC_HOME) fasts
 
 insert-arg: image
@@ -33,7 +33,7 @@ image: image-dep
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 run: insert-arg update-npc
-	@echo "RUN NPC SIMULATION:"
+	@echo "================================= RUN NPC SIMULATION ====================================="
 	$(NPC_EXE) $(ARGS)
 
 .PHONY: insert-arg

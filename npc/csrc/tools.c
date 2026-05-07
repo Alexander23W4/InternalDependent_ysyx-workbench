@@ -15,7 +15,7 @@ void parse_args(int argc, char *argv[]) {
     };
 
     int o;
-    while ((o = getopt_long(argc, argv, "-dh", last_options, NULL)) != -1) {
+    while ((o = getopt_long(argc, argv, "-d:h", last_options, NULL)) != -1) {
         switch (o) {
             case 'd':
                 diff_so_file = optarg;
@@ -24,6 +24,15 @@ void parse_args(int argc, char *argv[]) {
         }
     }
 }
+
+void cpu_state_print(){
+  printf("pc: 0x%08x\n", cpu.pc);
+  for (int i = 0; i < 32; i++)
+  {
+    printf("reg: %d: %d\n", i, cpu.gpr[i]);
+  } 
+}
+
 
 uint32_t get_gpr(Vtop* top, int reg_id) {
     return top->dbg_reg[reg_id]; 

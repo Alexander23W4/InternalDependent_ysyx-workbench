@@ -43,7 +43,6 @@ int main(int argc, char** argv) {
 
     // difftest init
 #if DIFF_TEST
-    printf("Difftest circuiting.\n");
     init_difftest(diff_so_file, ram, img_size, 1);
 #endif
     
@@ -67,8 +66,11 @@ int main(int argc, char** argv) {
         tick(top);
 
         #if DIFF_TEST
+        printf("Difftest circuiting.\n");
         cpu = {top->_pc, (uint32_t*)top->dbg_reg};
+        cpu_state_print();
         difftest_step();
+        assert(0);
         #endif
 
 

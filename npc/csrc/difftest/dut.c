@@ -33,9 +33,7 @@ void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port) {
   ref_difftest_init = (void (*)(int))dlsym(handle, "difftest_init");
   assert(ref_difftest_init);
 
-  printf("The result of every instruction will be compared with %s. "
-      "This will help you a lot for debugging, but also significantly reduce the performance. "
-      "If it is not necessary, you can turn it off in menuconfig.\n", diff_so_file);
+  printf("The result of every instruction will be compared with %s.\n", diff_so_file);
 
   // Initialize the DIffTest function of the REF, the specific behavior varies from REF to REF.
   ref_difftest_init(port);
@@ -89,5 +87,7 @@ void difftest_step() {
   CPU_state ref_r;
   ref_difftest_exec(1);
   ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+  difftest_abort_print(&ref_r);
+  assert(0);
   checkregs(&ref_r);     //
 }

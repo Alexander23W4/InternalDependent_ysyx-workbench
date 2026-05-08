@@ -3,6 +3,10 @@
 /*
 Iteration:
     substitute all of the verilog operator symbols to hardware model
+    implement IOE (optional)
+
+    trace
+    sdb
 */
 
 using namespace std;

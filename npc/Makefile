@@ -33,7 +33,7 @@ DIFF_TEST=1
 LOG_FILE=./record.txt
 
 NPC_EXE=$(NPC_HOME)/obj_dir/Vtop
-ARGS=$(EXE_ARGV)
+ARGS=$(IMAGE).bin
 
 # difftest 
 ifneq ($(DIFF_TEST),)

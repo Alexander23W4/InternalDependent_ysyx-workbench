@@ -3,7 +3,7 @@
 # make ARCH=minirv-npc run     (barch)
 
 # make ARCH=riscv32e-npc ALL=bit run
-
+# make ARCH=riscv32e-npc run
 RESULT = .result
 $(shell > $(RESULT))
 

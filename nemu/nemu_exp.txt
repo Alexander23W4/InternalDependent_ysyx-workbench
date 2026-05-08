@@ -55,6 +55,10 @@ Therefore, we can add some simple logic in hardware to implement the privilege m
 
 is_sfence_vma_ok = (priv_mode == M_MODE) || (priv_mode == S_MODE);
 
+[ Adding some gate circuits related to privilege level checks (such as comparator circuits) in the hardware. 
+  If an illegal operation is detected, it will throw an exception signal, 
+  causing the CPU to jump to an agreed-upon target location and perform subsequent processing. ]
+
 
 $$$ [Trace] ;
 RTFSC + flag + defensive programming(assert, printf) + gdb + trace

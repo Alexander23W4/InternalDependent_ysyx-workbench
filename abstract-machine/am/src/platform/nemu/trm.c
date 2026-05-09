@@ -1,7 +1,17 @@
 #include <am.h>
 #include <nemu.h>
 // can not find outb? use:   grep -r "outb" ~/InternalDependent_ysyx-workbench
+/*
+  How large is the stack defined in AM:
 
+  The details are in start.S & linker.ld, linker.ld provides stack range info to start.S, the ultimate program put _start() 
+    at the beginning of the program, therefore distribute stack (auipc sp) before guest program runs. 
+
+  _pmem_start 是 0x80000000，且程序段总共占用了 0x1000 字节：
+  BSS 结束地址：0x80001000。
+  栈顶地址 (_stack_top)：对齐后依然是 0x80001000。
+  栈底地址 (_stack_pointer)：0x80001000 + 0x8000 = 0x80009000。
+*/
 extern char _heap_start;
 int main(const char *args);
 

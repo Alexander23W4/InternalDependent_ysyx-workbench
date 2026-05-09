@@ -81,6 +81,14 @@ The addition of an exception response mechanism is accompanied by the inclusion 
   such as riscv32's csrrw, mret
 
 
+-> CTE 
+context:
+The aforementioned hardware-provided functionality for switching the execution flow between the operating system 
+  and user programs can be considered as part of context management from the operating system's perspective.
+
+simulation illegal instr:
+[ With the exception response mechanism, we can simulate the execution of this illegal instruction during the exception handling process ]
+
 
 $$$ [Trace] ;
 RTFSC + flag + defensive programming(assert, printf) + gdb + trace

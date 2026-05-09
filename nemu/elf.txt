@@ -10,26 +10,28 @@ ELF Header:
   Version:                           0x1
   Entry point address:               0x80000000
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          5320 (bytes into file)
+  Start of section headers:          7340 (bytes into file)
   Flags:                             0x0
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
   Number of program headers:         3
   Size of section headers:           40 (bytes)
-  Number of section headers:         9
-  Section header string table index: 8
+  Number of section headers:         11
+  Section header string table index: 10
 
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
-  [ 1] .text             PROGBITS        80000000 001000 00012c 00  AX  0   0  4
-  [ 2] .rodata           PROGBITS        8000012c 00112c 000040 00   A  0   0  4
-  [ 3] .bss              NOBITS          8000016c 00116c 00002c 00  WA  0   0  4
-  [ 4] .comment          PROGBITS        00000000 00116c 00002b 01  MS  0   0  1
-  [ 5] .riscv.attributes RISCV_ATTRIBUTE 00000000 001197 00001f 00      0   0  1
-  [ 6] .symtab           SYMTAB          00000000 0011b8 000220 10      7  15  4
-  [ 7] .strtab           STRTAB          00000000 0013d8 0000a4 00      0   0  1
-  [ 8] .shstrtab         STRTAB          00000000 00147c 000049 00      0   0  1
+  [ 1] .text             PROGBITS        80000000 001000 0005b4 00  AX  0   0  8
+  [ 2] .rodata           PROGBITS        800005b4 0015b4 000135 00   A  0   0  4
+  [ 3] .data             PROGBITS        800006ec 0016ec 000010 00  WA  0   0  4
+  [ 4] .sdata.current    PROGBITS        800006fc 0016fc 000004 00  WA  0   0  4
+  [ 5] .bss              NOBITS          80000700 001700 018004 00  WA  0   0  4
+  [ 6] .comment          PROGBITS        00000000 001700 00002b 01  MS  0   0  1
+  [ 7] .riscv.attributes RISCV_ATTRIBUTE 00000000 00172b 000023 00      0   0  1
+  [ 8] .symtab           SYMTAB          00000000 001750 0003c0 10      9  36  4
+  [ 9] .strtab           STRTAB          00000000 001b10 00013b 00      0   0  1
+  [10] .shstrtab         STRTAB          00000000 001c4b 00005e 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
   L (link order), O (extra OS processing required), G (group), T (TLS),
@@ -40,15 +42,15 @@ There are no section groups in this file.
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  RISCV_ATTRIBUT 0x001197 0x00000000 0x00000000 0x0001f 0x00000 R   0x1
-  LOAD           0x001000 0x80000000 0x80000000 0x0016c 0x0016c R E 0x1000
-  LOAD           0x00016c 0x8000016c 0x8000016c 0x00000 0x0002c RW  0x1000
+  RISCV_ATTRIBUT 0x00172b 0x00000000 0x00000000 0x00023 0x00000 R   0x1
+  LOAD           0x001000 0x80000000 0x80000000 0x006e9 0x006e9 R E 0x1000
+  LOAD           0x0016ec 0x800006ec 0x800006ec 0x00014 0x18018 RW  0x1000
 
  Section to Segment mapping:
   Segment Sections...
    00     .riscv.attributes 
    01     .text .rodata 
-   02     .bss 
+   02     .data .sdata.current .bss 
 
 There is no dynamic section in this file.
 
@@ -56,44 +58,72 @@ There are no relocations in this file.
 
 The decoding of unwind sections for machine type RISC-V is not currently supported.
 
-Symbol table '.symtab' contains 34 entries:
+Symbol table '.symtab' contains 60 entries:
    Num:    Value  Size Type    Bind   Vis      Ndx Name
      0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
      1: 80000000     0 SECTION LOCAL  DEFAULT    1 .text
-     2: 8000012c     0 SECTION LOCAL  DEFAULT    2 .rodata
-     3: 8000016c     0 SECTION LOCAL  DEFAULT    3 .bss
-     4: 00000000     0 SECTION LOCAL  DEFAULT    4 .comment
-     5: 00000000     0 SECTION LOCAL  DEFAULT    5 .riscv.attributes
-     6: 00000000     0 FILE    LOCAL  DEFAULT  ABS start.o
-     7: 80000000     0 NOTYPE  LOCAL  DEFAULT    1 $x
-     8: 00000000     0 FILE    LOCAL  DEFAULT  ABS mov-c.c
-     9: 80000010     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    10: 80000028     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    11: 00000000     0 FILE    LOCAL  DEFAULT  ABS trm.c
-    12: 80000100     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    13: 8000010c     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    14: 8000012c    64 OBJECT  LOCAL  DEFAULT    2 mainargs
-    15: 8000010c    32 FUNC    GLOBAL HIDDEN     1 _trm_init
-    16: 80000194     4 OBJECT  GLOBAL HIDDEN     3 b
-    17: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _stack_pointer
-    18: 8000012c     0 NOTYPE  GLOBAL DEFAULT    1 _etext
-    19: 8000016c    40 OBJECT  GLOBAL HIDDEN     3 A
-    20: 80000000     0 NOTYPE  GLOBAL DEFAULT  ABS _pmem_start
-    21: 8000016c     0 NOTYPE  GLOBAL DEFAULT    3 _bss_start
-    22: 8000016c     0 NOTYPE  GLOBAL DEFAULT    2 edata
-    23: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _heap_start
-    24: 80001000     0 NOTYPE  GLOBAL DEFAULT    3 _stack_top
-    25: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 end
-    26: 80000010    24 FUNC    GLOBAL HIDDEN     1 check
-    27: 8000012c     0 NOTYPE  GLOBAL DEFAULT    1 etext
-    28: 80000000    16 FUNC    GLOBAL DEFAULT    1 _start
-    29: 00000000     0 NOTYPE  GLOBAL DEFAULT  ABS _entry_offset
-    30: 80000028   216 FUNC    GLOBAL HIDDEN     1 main
-    31: 8000016c     0 NOTYPE  GLOBAL DEFAULT    2 _data
-    32: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _end
-    33: 80000100    12 FUNC    GLOBAL HIDDEN     1 halt
+     2: 800005b4     0 SECTION LOCAL  DEFAULT    2 .rodata
+     3: 800006ec     0 SECTION LOCAL  DEFAULT    3 .data
+     4: 800006fc     0 SECTION LOCAL  DEFAULT    4 .sdata.current
+     5: 80000700     0 SECTION LOCAL  DEFAULT    5 .bss
+     6: 00000000     0 SECTION LOCAL  DEFAULT    6 .comment
+     7: 00000000     0 SECTION LOCAL  DEFAULT    7 .riscv.attributes
+     8: 00000000     0 FILE    LOCAL  DEFAULT  ABS start.o
+     9: 80000000     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    10: 00000000     0 FILE    LOCAL  DEFAULT  ABS yield-os.c
+    11: 80000010    52 FUNC    LOCAL  DEFAULT    1 schedule
+    12: 80000010     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    13: 80000700 65536 OBJECT  LOCAL  DEFAULT    5 pcb
+    14: 80000044   104 FUNC    LOCAL  DEFAULT    1 f
+    15: 80000044     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    16: 800000ac     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    17: 80010700 32768 OBJECT  LOCAL  DEFAULT    5 pcb_boot
+    18: 800006fc     4 OBJECT  LOCAL  DEFAULT    4 current
+    19: 00000000     0 FILE    LOCAL  DEFAULT  ABS trm.c
+    20: 80000178     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    21: 80000184     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    22: 80000190     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    23: 80000638    64 OBJECT  LOCAL  DEFAULT    2 mainargs
+    24: 00000000     0 FILE    LOCAL  DEFAULT  ABS cte.c
+    25: 800001b0     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    26: 80000218     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    27: 80000238     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    28: 80000248     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    29: 80018700     4 OBJECT  LOCAL  DEFAULT    5 user_handler
+    30: 00000000     0 FILE    LOCAL  DEFAULT  ABS trap.o
+    31: 80000258     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    32: 00000000     0 FILE    LOCAL  DEFAULT  ABS stdio.c
+    33: 80000390   116 FUNC    LOCAL  DEFAULT    1 number_to_str.part.0
+    34: 80000390     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    35: 80000404     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    36: 80000248    12 FUNC    GLOBAL HIDDEN     1 yield
+    37: 80000404   432 FUNC    GLOBAL HIDDEN     1 printf
+    38: 80000190    32 FUNC    GLOBAL HIDDEN     1 _trm_init
+    39: 80021000     0 NOTYPE  GLOBAL DEFAULT    5 _stack_pointer
+    40: 800005b4     0 NOTYPE  GLOBAL DEFAULT    1 _etext
+    41: 80000000     0 NOTYPE  GLOBAL DEFAULT  ABS _pmem_start
+    42: 80000700     0 NOTYPE  GLOBAL DEFAULT    5 _bss_start
+    43: 800006fc     0 NOTYPE  GLOBAL DEFAULT    3 edata
+    44: 800006ec    16 OBJECT  GLOBAL HIDDEN     3 types
+    45: 80000178    12 FUNC    GLOBAL HIDDEN     1 putch
+    46: 80021000     0 NOTYPE  GLOBAL DEFAULT    5 _heap_start
+    47: 80019000     0 NOTYPE  GLOBAL DEFAULT    5 _stack_top
+    48: 80021000     0 NOTYPE  GLOBAL DEFAULT    5 end
+    49: 800005b4     0 NOTYPE  GLOBAL DEFAULT    1 etext
+    50: 80000000    16 FUNC    GLOBAL DEFAULT    1 _start
+    51: 00000000     0 NOTYPE  GLOBAL DEFAULT  ABS _entry_offset
+    52: 80000218    32 FUNC    GLOBAL HIDDEN     1 cte_init
+    53: 800000ac   204 FUNC    GLOBAL HIDDEN     1 main
+    54: 80000258     0 NOTYPE  GLOBAL DEFAULT    1 __am_asm_trap
+    55: 800006fc     0 NOTYPE  GLOBAL DEFAULT    3 _data
+    56: 80021000     0 NOTYPE  GLOBAL DEFAULT    5 _end
+    57: 80000184    12 FUNC    GLOBAL HIDDEN     1 halt
+    58: 80000238    16 FUNC    GLOBAL HIDDEN     1 kcontext
+    59: 800001b0   104 FUNC    GLOBAL HIDDEN     1 __am_irq_handle
 
 No version information found in this file.
 Attribute Section: riscv
 File Attributes
   Tag_RISCV_arch: "rv32i2p0_m2p0"
+  Tag_RISCV_priv_spec: 1
+  Tag_RISCV_priv_spec_minor: 11

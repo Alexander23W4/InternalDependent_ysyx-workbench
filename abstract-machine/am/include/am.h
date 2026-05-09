@@ -28,6 +28,11 @@ typedef struct {
 typedef struct Context Context;
 
 // An event of type @event, caused by @cause of pointer @ref
+/*
+event number
+cause, reference
+message (event information string)
+*/
 typedef struct {
   enum {
     EVENT_NULL = 0,

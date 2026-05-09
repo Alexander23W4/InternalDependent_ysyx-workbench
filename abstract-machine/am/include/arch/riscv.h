@@ -9,6 +9,7 @@
 #define NR_REGS 32
 #endif
 
+// CTE context
 struct Context {
   // TODO: fix the order of these members to match trap.S
   uintptr_t mepc, mcause, gpr[NR_REGS], mstatus;

@@ -21,6 +21,7 @@ Context* __am_irq_handle(Context *c) {
 
 extern void __am_asm_trap(void);
 
+// Event(Context) -> specific callback function
 bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));
@@ -35,6 +36,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   return NULL;
 }
 
+// trap operation
 void yield() {
 #ifdef __riscv_e
   asm volatile("li a5, -1; ecall");

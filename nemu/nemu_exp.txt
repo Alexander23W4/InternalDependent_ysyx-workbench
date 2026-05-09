@@ -59,10 +59,10 @@ is_sfence_vma_ok = (priv_mode == M_MODE) || (priv_mode == S_MODE);
   If an illegal operation is detected, it will throw an exception signal, 
   causing the CPU to jump to an agreed-upon target location and perform subsequent processing. ]
 
--> For RISCV-32    ecall     csrrw    mret
+-> For RISCV-32    ecall(mepc, mcause, mtvec)     csrrw    mret
 When an exception is triggered in RISC-V32, the hardware response process is as follows:
 
-Save the current PC value to the mepc register.
+Save the current PC value to the mepc register. 
 Set the exception number in the mcause register.
 Retrieve the exception entry address from the mtvec register.
 Jump to the exception entry address.
@@ -80,7 +80,6 @@ System Registers (SR):  related to system features and are not used during regul
 The addition of an exception response mechanism is accompanied by the inclusion of some system instructions, 
   such as riscv32's csrrw, mret
 
-
 -> CTE 
 context:
 The aforementioned hardware-provided functionality for switching the execution flow between the operating system 
@@ -88,6 +87,10 @@ The aforementioned hardware-provided functionality for switching the execution f
 
 simulation illegal instr:
 [ With the exception response mechanism, we can simulate the execution of this illegal instruction during the exception handling process ]
+
+
+
+
 
 
 $$$ [Trace] ;

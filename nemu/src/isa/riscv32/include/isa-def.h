@@ -17,12 +17,22 @@
 #define __ISA_RISCV_H__
 
 #include <common.h>
+// S = <R, M>
+// R = {GPR, PC, SR}
 
-// register consist of pc and gpr[32]
+// register consist of pc and gpr[32]   ++ SR(system registers) [added for CTE]
 // CPU_state struct defination
 typedef struct {
+  // GPR
   word_t gpr[MUXDEF(CONFIG_RVE, 16, 32)];
+  // PC
   vaddr_t pc;
+  // SR
+  // contexts for CTE
+  vaddr_t mtvec;
+  vaddr_t mpec;
+  uint32_t mcause;
+
 } MUXDEF(CONFIG_RV64, riscv64_CPU_state, riscv32_CPU_state);  // this struct represent "cpu"
 
 // decode

@@ -170,8 +170,10 @@ imm[20|10:1|11|19:12] rd opcode J-type
   INSTPAT("0000001 ????? ????? 110 ????? 01100 11", rem    , R, R(rd) = (src2 == 0) ? src1 : ((src1 == 0x80000000 && src2 == (uint32_t)-1) ? 0 : (int32_t)src1 % (int32_t)src2));
   INSTPAT("0000001 ????? ????? 111 ????? 01100 11", remu   , R, R(rd) = (src2 == 0) ? src1 : src1 % src2);
 
+// others
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0, NEMU_END
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));   // invalid instr, NEMU_ABORT
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, ECALL(s->pc));
 
 
   INSTPAT_END();

@@ -33,7 +33,9 @@
 
 #define _LIMITED_ITRACE_REC_AVIL 1
 
+// state machine "cpu" initialization:
 CPU_state cpu = {};    // define in isa-def.h
+
 uint64_t g_nr_guest_inst = 0;   // total run instr
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = true;

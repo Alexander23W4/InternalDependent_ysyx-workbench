@@ -1,4 +1,5 @@
 #include <amtest.h>
+// yield test
 
 Context *simple_trap(Event ev, Context *ctx) {
   switch(ev.event) {

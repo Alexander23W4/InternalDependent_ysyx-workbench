@@ -27,12 +27,15 @@ typedef struct {
 // Arch-dependent processor context
 typedef struct Context Context;
 
+
+// Abstraction Layer of CTE
 // An event of type @event, caused by @cause of pointer @ref
 /*
 event number
 cause, reference
 message (event information string)
 */
+// Let each architecture describe the reason for the context switch through the above structure when implementing their respective CTE APIs
 typedef struct {
   enum {
     EVENT_NULL = 0,

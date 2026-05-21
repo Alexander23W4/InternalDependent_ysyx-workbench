@@ -157,6 +157,7 @@ void __am_init_timer_irq() {
   assert(ret == 0);
 }
 
+// cte_init
 bool cte_init(Context*(*handler)(Event, Context*)) {
   user_handler = handler;
 
@@ -182,6 +183,7 @@ Context* kcontext(Area kstack, void (*entry)(void *), void *arg) {
   return c;
 }
 
+// yield
 void yield() {
   raise(SIGUSR2);
 }

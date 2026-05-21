@@ -25,6 +25,13 @@ void set_nemu_state(int state, vaddr_t pc, int halt_ret) {
   nemu_state.halt_ret = halt_ret;
 }
 
+void ecall(vaddr_t thispc){
+  cpu.mpec = thispc;
+  cpu.mcause = ;
+
+  cpu.pc = cpu.mtvec;  // jump to exception entry addr
+}
+
 __attribute__((noinline))
 void invalid_inst(vaddr_t thispc) {   // notice info
   uint32_t temp[2];

@@ -108,9 +108,11 @@ void init_vga() {
 
 // vga mem:
   vmem = new_space(screen_size());   // space
-  add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);    // 0xa1000000   vga memory
+  add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);    // 0xa1000000   vga memory 
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());     
   IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));    // init vmem with 0 
 }
+
+
 
 

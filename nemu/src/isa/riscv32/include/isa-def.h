@@ -31,7 +31,7 @@ typedef struct {
   // contexts for CTE
   vaddr_t mtvec;
   vaddr_t mpec;
-  uint32_t mcause;
+  word_t mcause;
 
 } MUXDEF(CONFIG_RV64, riscv64_CPU_state, riscv32_CPU_state);  // this struct represent "cpu"
 

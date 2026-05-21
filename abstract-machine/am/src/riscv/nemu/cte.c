@@ -26,6 +26,10 @@ extern void __am_asm_trap(void);
 // handing it over to the operating system for subsequent processing
 bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
+  /*
+  la t0, __am_asm_trap   把函数的地址加载到通用寄存器 t0 中 (对应 "r")
+  csrw mtvec, t0         把 t0 的值写入控制寄存器 mtvec (对应 %0)
+  */
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));   //  set the exception entry address to the mtvec register
 
   // register event handler

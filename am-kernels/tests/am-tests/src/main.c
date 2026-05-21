@@ -18,7 +18,7 @@ static const char *tests[256] = {
 int main(const char *args) {
   switch (args[0]) {
     CASE('h', hello);    // pass
-    CASE('i', hello_intr, IOE, CTE(simple_trap));  // ioe_init, cte_init, run hello_intr()
+    CASE('i', hello_intr, IOE, CTE(simple_trap));  // ioe_init, cte_init, run hello_intr() (ecall * 10000000)
     CASE('d', devscan, IOE);
     CASE('m', mp_print, MPE);
     CASE('t', rtc_test, IOE);

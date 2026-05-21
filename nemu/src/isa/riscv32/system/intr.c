@@ -21,12 +21,17 @@ enum {
   EVENT_IRQ_TIMER, EVENT_IRQ_IODEV,
 } event;
 
+#define CSR_MSTATUS 0x300
+#define CSR_MTVEC   0x305
+#define CSR_MEPC    0x341
+#define CSR_MCAUSE  0x342
+
 /* Trigger an interrupt/exception with ``NO''.
   * Then return the address of the interrupt/exception vector.
   */
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.mcause = NO;
-  cpu.mpec = epc;
+  cpu.mepc = epc;
 
   return cpu.mtvec;  // jump to exception processing program
 }
@@ -35,6 +40,27 @@ word_t isa_query_intr() {
   return INTR_EMPTY;
 }
 
+word_t isa_csr_read(word_t csr_no) {
+  switch (csr_no) {
+    case CSR_MSTATUS: return 0; 
+    case CSR_MTVEC:   return cpu.mtvec;
+    case CSR_MEPC:    return cpu.mepc;
+    case CSR_MCAUSE:  return cpu.mcause;
+    default: 
+      panic("Unimplemented or invalid CSR address for read: 0x%x", csr_no);
+      return 0; 
+  }
+}
+
+void isa_csr_write(word_t csr_no, word_t data) {
+  switch (csr_no) {
+    case CSR_MSTATUS: break;
+    case CSR_MTVEC: cpu.mtvec = data; break;
+    case CSR_MEPC: cpu.mepc = data; break;
+    case CSR_MCAUSE: cpu.mcause = data; break;
+    default: panic("Unimplemented or invalid CSR address: 0x%x", csr_no);
+  }
+}
 
 /*
 Interrupt Exception Code Description

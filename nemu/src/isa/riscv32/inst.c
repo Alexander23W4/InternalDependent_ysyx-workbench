@@ -22,10 +22,11 @@
 #define Mr vaddr_read
 #define Mw vaddr_write
 extern paddr_t host_to_guest_n(uint8_t haddr);
+
 enum {
   TYPE_I, TYPE_U, TYPE_S,
   TYPE_N, TYPE_J, TYPE_B,
-  TYPE_R, // none
+  TYPE_R, TYPE_CSR
 };
 
 #define src1R() do { *src1 = R(rs1); } while (0)
@@ -36,7 +37,7 @@ enum {
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
 #define immB() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | BITS(i, 7, 7) << 11 | BITS(i, 30, 25) << 5 | BITS(i, 11, 8) << 1; } while(0)
 #define immJ() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 20) | BITS(i, 19, 12) << 12 | BITS(i, 20, 20) << 11 | BITS(i, 30, 21) << 1; } while(0)
-
+#define immCSR() do {*imm = BITS(i, 31, 20); } while(0)
 
 // get operand 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
@@ -51,6 +52,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_S: src1R(); src2R(); immS(); break;
     case TYPE_J:                   immJ(); break;
     case TYPE_B: src1R(); src2R(); immB(); break;
+    case TYPE_CSR: src1R(); immCSR();      break;
     case TYPE_N: break;
     default: panic("unsupported type = %d", type);
   }
@@ -123,7 +125,7 @@ imm[20|10:1|11|19:12] rd opcode J-type
 
   // direct jump
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(rd) = s->snpc, s->dnpc = (src1 + imm) & ~1);  // jump and link reg
-  INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(rd) = s->snpc; s->dnpc = s->pc + imm); 
+  INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(rd) = s->snpc, s->dnpc = s->pc + imm); 
 
   // conditional branch (if + jump)
   INSTPAT("??????? ????? ????? 100 ????? 11000 11", blt    , B, s->dnpc = ((int32_t)src1 < (int32_t)src2) ? s->pc + imm : s->snpc);  // branch if less than
@@ -160,7 +162,7 @@ imm[20|10:1|11|19:12] rd opcode J-type
   INSTPAT("??????? ????? ????? 000 ????? 00100 11", addi   , I, R(rd) = src1 + imm);
   INSTPAT("0100000 ????? ????? 000 ????? 01100 11", sub    , R, R(rd) = src1 - src2); // @
 
-// RV32M extension(alu)
+  // RV32M extension(alu)
   INSTPAT("0000001 ????? ????? 000 ????? 01100 11", mul    , R, R(rd) = src1 * src2); // @
   INSTPAT("0000001 ????? ????? 001 ????? 01100 11", mulh   , R, R(rd) = (int64_t)(int32_t)src1 * (int64_t)(int32_t)src2 >> 32);
   INSTPAT("0000001 ????? ????? 010 ????? 01100 11", mulhsu , R, R(rd) = (int64_t)(int32_t)src1 * (uint64_t)src2 >> 32);
@@ -170,7 +172,29 @@ imm[20|10:1|11|19:12] rd opcode J-type
   INSTPAT("0000001 ????? ????? 110 ????? 01100 11", rem    , R, R(rd) = (src2 == 0) ? src1 : ((src1 == 0x80000000 && src2 == (uint32_t)-1) ? 0 : (int32_t)src1 % (int32_t)src2));
   INSTPAT("0000001 ????? ????? 111 ????? 01100 11", remu   , R, R(rd) = (src2 == 0) ? src1 : src1 % src2);
 
-// others
+  /*
+    csr rs1 001 rd 1110011 CSRRW
+    csr rs1 010 rd 1110011 CSRRS
+    csr rs1 011 rd 1110011 CSRRC
+    csr uimm 101 rd 1110011 CSRRWI
+    csr uimm 110 rd 1110011 CSRRSI
+    csr uimm 111 rd 1110011 CSRRCI
+
+   CSRRW reads the old value of the CSR, zero-extends the value to XLEN bits, then writes it to integer register rd. 
+   The initial value in rs1 is written to the CSR. 
+   If rd=x0, then the instruction shall not read the CSR and shall not cause any of the side effects that might occur on a CSR read.
+  */
+
+  // CSR
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = src1 * src2);
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = src1 * src2);
+  INSTPAT("??????? ????? ????? 101 ????? 11100 11", csrrwi , CSR, R(rd) = src1 * src2);
+  INSTPAT("??????? ????? ????? 110 ????? 11100 11", csrrsi , CSR, R(rd) = src1 * src2);
+  INSTPAT("??????? ????? ????? 111 ????? 11100 11", csrrci , CSR, R(rd) = src1 * src2);
+
+
+  // others
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0, NEMU_END
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));   // invalid instr, NEMU_ABORT
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc));

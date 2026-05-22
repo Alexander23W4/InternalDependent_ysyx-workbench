@@ -1,8 +1,8 @@
-/home/wang/My_ysyx-workbench/am-kernels/tests/am-tests/build/native/src/tests/vm.o: \
- /home/wang/My_ysyx-workbench/am-kernels/tests/am-tests/src/tests/vm.c \
- /home/wang/My_ysyx-workbench/am-kernels/tests/am-tests/include/amtest.h \
- /home/wang/My_ysyx-workbench/abstract-machine/am/include/am.h \
- /home/wang/My_ysyx-workbench/abstract-machine/am/include/arch/native.h \
- /home/wang/My_ysyx-workbench/abstract-machine/am/include/amdev.h \
- /home/wang/My_ysyx-workbench/abstract-machine/klib/include/klib.h \
- /home/wang/My_ysyx-workbench/abstract-machine/klib/include/klib-macros.h
+/home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/am-tests/build/native/src/tests/vm.o: \
+ /home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/am-tests/src/tests/vm.c \
+ /home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/am-tests/include/amtest.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/am.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/arch/native.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/amdev.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/include/klib.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/include/klib-macros.h

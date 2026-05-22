@@ -18,6 +18,11 @@
 
 // Located at src/isa/$(GUEST_ISA)/include/isa-def.h
 #include <isa-def.h>
+enum {
+  EVENT_NULL = 0,
+  EVENT_YIELD, EVENT_SYSCALL, EVENT_PAGEFAULT, EVENT_ERROR,
+  EVENT_IRQ_TIMER, EVENT_IRQ_IODEV,
+};
 
 // The macro `__GUEST_ISA__` is defined in $(CFLAGS).
 // It will be expanded as "x86" or "mips32" ...

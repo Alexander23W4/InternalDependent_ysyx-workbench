@@ -12,7 +12,7 @@ Context* __am_irq_handle(Context *c) {
       default: ev.event = EVENT_ERROR; break;
     }
 
-    c = user_handler(ev, c);
+    c = user_handler(ev, c);   // call exception process call back function
     assert(c != NULL);
   }
 

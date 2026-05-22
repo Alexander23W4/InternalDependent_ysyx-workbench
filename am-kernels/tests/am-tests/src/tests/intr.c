@@ -1,6 +1,8 @@
 #include <amtest.h>
 // yield test
 
+// ioe_init, cte_init, run hello_intr() (ecall * 10000000)
+
 // callback function
 Context *simple_trap(Event ev, Context *ctx) {
   switch(ev.event) {

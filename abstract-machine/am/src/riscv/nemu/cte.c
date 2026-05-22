@@ -30,7 +30,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   la t0, __am_asm_trap   把函数的地址加载到通用寄存器 t0 中 (对应 "r")
   csrw mtvec, t0         把 t0 的值写入控制寄存器 mtvec (对应 %0)
   */
-  asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));   //  set the exception entry address to the mtvec register
+  asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));   //  set the exception entry address to the mtvec register, jump to __am_asm_trap
 
   // register event handler
   user_handler = handler;
@@ -50,6 +50,8 @@ void yield() {
   asm volatile("li a7, -1; ecall");
 #endif
 }
+
+
 
 bool ienabled() {
   return false;

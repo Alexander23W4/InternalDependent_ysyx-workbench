@@ -32,6 +32,7 @@ typedef struct {
   vaddr_t mtvec;
   vaddr_t mepc;
   word_t mcause;
+  word_t mstatus;
 
 } MUXDEF(CONFIG_RV64, riscv64_CPU_state, riscv32_CPU_state);  // this struct represent "cpu"
 

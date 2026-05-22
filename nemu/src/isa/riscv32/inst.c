@@ -23,6 +23,9 @@
 #define Mw vaddr_write
 extern paddr_t host_to_guest_n(uint8_t haddr);
 
+static int rs1;
+static int rs2;
+
 enum {
   TYPE_I, TYPE_U, TYPE_S,
   TYPE_N, TYPE_J, TYPE_B,
@@ -42,9 +45,9 @@ enum {
 // get operand 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst;  // i
-  int rs1 = BITS(i, 19, 15);   // rs1 = instr[19:15]
-  int rs2 = BITS(i, 24, 20);
-  *rd     = BITS(i, 11, 7);
+  rs1 = BITS(i, 19, 15);   // rs1 = instr[19:15]
+  rs2 = BITS(i, 24, 20);
+  *rd = BITS(i, 11, 7);
   switch (type) {
     case TYPE_R: src1R(); src2R()        ; break;
     case TYPE_I: src1R();          immI(); break;
@@ -181,10 +184,12 @@ imm[20|10:1|11|19:12] rd opcode J-type
     csr uimm 111 rd 1110011 CSRRCI
   */
 
+  // csrrw, csrrs, csrrc, mret
+
   // CSR
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
-  // INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write(imm, isa_csr_read(imm) | src1));
-  // INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write(imm, isa_csr_read(imm) & ~(src1)));
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write(imm, isa_csr_read(imm) | src1));
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write(imm, isa_csr_read(imm) & ~(src1)));
   // INSTPAT("??????? ????? ????? 101 ????? 11100 11", csrrwi , CSR, R(rd) = src1 * src2);
   // INSTPAT("??????? ????? ????? 110 ????? 11100 11", csrrsi , CSR, R(rd) = src1 * src2);
   // INSTPAT("??????? ????? ????? 111 ????? 11100 11", csrrci , CSR, R(rd) = src1 * src2);

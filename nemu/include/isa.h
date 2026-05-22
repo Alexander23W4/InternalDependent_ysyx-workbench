@@ -51,6 +51,10 @@ vaddr_t isa_raise_intr(word_t NO, vaddr_t epc);
 #define INTR_EMPTY ((word_t)-1)
 word_t isa_query_intr();
 
+word_t isa_csr_read(word_t csr_no);
+void isa_csr_write(word_t csr_no, word_t data);
+
+
 // difftest
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc);
 void isa_difftest_attach();

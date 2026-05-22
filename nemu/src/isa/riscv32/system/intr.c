@@ -32,8 +32,9 @@ enum {
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.mcause = NO;
   cpu.mepc = epc;
+  cpu.mstatus = 0;
 
-  return cpu.mtvec;  // jump to exception processing program
+  return cpu.mtvec;  // jump to exception processing program addr
 }
 
 word_t isa_query_intr() {
@@ -42,7 +43,7 @@ word_t isa_query_intr() {
 
 word_t isa_csr_read(word_t csr_no) {
   switch (csr_no) {
-    case CSR_MSTATUS: return 0; 
+    case CSR_MSTATUS: return cpu.mstatus; 
     case CSR_MTVEC:   return cpu.mtvec;
     case CSR_MEPC:    return cpu.mepc;
     case CSR_MCAUSE:  return cpu.mcause;
@@ -54,7 +55,7 @@ word_t isa_csr_read(word_t csr_no) {
 
 void isa_csr_write(word_t csr_no, word_t data) {
   switch (csr_no) {
-    case CSR_MSTATUS: break;
+    case CSR_MSTATUS: cpu.mstatus = data; break;
     case CSR_MTVEC: cpu.mtvec = data; break;
     case CSR_MEPC: cpu.mepc = data; break;
     case CSR_MCAUSE: cpu.mcause = data; break;

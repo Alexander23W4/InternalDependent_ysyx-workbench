@@ -53,15 +53,28 @@ word_t isa_csr_read(word_t csr_no) {
   }
 }
 
-void isa_csr_write(word_t csr_no, word_t data) {
+void isa_csr_write_rs(word_t csr_no, word_t data, int rs) {
+  if(rs != 0){
+    switch (csr_no) {
+      case CSR_MSTATUS: cpu.mstatus = data; break;
+      case CSR_MTVEC: cpu.mtvec = data; break;
+      case CSR_MEPC: cpu.mepc = data; break;
+      case CSR_MCAUSE: cpu.mcause = data; break;
+      default: panic("Unimplemented or invalid CSR address: 0x%x", csr_no);
+    }   
+  }
+}
+
+void isa_csr_write(word_t csr_no, word_t data){
   switch (csr_no) {
     case CSR_MSTATUS: cpu.mstatus = data; break;
     case CSR_MTVEC: cpu.mtvec = data; break;
     case CSR_MEPC: cpu.mepc = data; break;
     case CSR_MCAUSE: cpu.mcause = data; break;
     default: panic("Unimplemented or invalid CSR address: 0x%x", csr_no);
-  }
+  }   
 }
+
 
 /*
 Interrupt Exception Code Description

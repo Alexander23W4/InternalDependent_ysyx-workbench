@@ -52,6 +52,7 @@ vaddr_t isa_raise_intr(word_t NO, vaddr_t epc);
 word_t isa_query_intr();
 
 word_t isa_csr_read(word_t csr_no);
+void isa_csr_write_rs(word_t csr_no, word_t data, int rs);
 void isa_csr_write(word_t csr_no, word_t data);
 
 

@@ -18,4 +18,7 @@
  /home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/watchpoint.h \
  /home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/expr.h \
  /home/wang/My_ysyx-workbench/nemu/include/isa.h \
- /home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h
+ /home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h \
+ /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/iringbuf.h \
+ /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/ftrace.h \
+ /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/mtrace.h

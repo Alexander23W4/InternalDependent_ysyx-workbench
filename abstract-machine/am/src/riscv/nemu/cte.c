@@ -69,23 +69,20 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   return true;
 }
 
-/*
-In this, 
-kstack defines the range of the stack, 
-entry is the entry point for the kernel thread, 
-and arg is the parameter for the kernel thread. 
 
-Additionally, kcontext() requires that the kernel thread must not return from entry, as this would result in undefined behavior. 
-You need to create a context structure at the bottom of kstack with entry as the entry point (you can ignore the arg parameter for now), 
-and then return the pointer to this structure.
-*/
+
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-   // write at the bottom of the stack, temporary, just for init, covered by other data later
-  context->mstatus = 0x1800;
+   // write at the bottom of the stack
   Context* context = (Context *)((char *)kstack.end - sizeof(Context)); 
+
+  context->mstatus = 0x1800;
+
   context->mepc = (uintptr_t)entry;
+
   for (int i = 0; i < 32; i++){ context->gpr[i] = 0; }
+  context->gpr[2] = (uintptr_t)kstack.end;
   context->gpr[10] = (uintptr_t)arg;
+
   return context;
 }
 

@@ -10,7 +10,7 @@ ELF Header:
   Version:                           0x1
   Entry point address:               0x80000000
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          7404 (bytes into file)
+  Start of section headers:          7452 (bytes into file)
   Flags:                             0x0
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
@@ -22,16 +22,16 @@ ELF Header:
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
-  [ 1] .text             PROGBITS        80000000 001000 0005f4 00  AX  0   0  8
-  [ 2] .rodata           PROGBITS        800005f4 0015f4 000135 00   A  0   0  4
-  [ 3] .data             PROGBITS        8000072c 00172c 000010 00  WA  0   0  4
-  [ 4] .sdata.current    PROGBITS        8000073c 00173c 000004 00  WA  0   0  4
-  [ 5] .bss              NOBITS          80000740 001740 018004 00  WA  0   0  4
-  [ 6] .comment          PROGBITS        00000000 001740 00002b 01  MS  0   0  1
-  [ 7] .riscv.attributes RISCV_ATTRIBUTE 00000000 00176b 000023 00      0   0  1
-  [ 8] .symtab           SYMTAB          00000000 001790 0003c0 10      9  36  4
-  [ 9] .strtab           STRTAB          00000000 001b50 00013b 00      0   0  1
-  [10] .shstrtab         STRTAB          00000000 001c8b 00005e 00      0   0  1
+  [ 1] .text             PROGBITS        80000000 001000 000624 00  AX  0   0  8
+  [ 2] .rodata           PROGBITS        80000624 001624 000135 00   A  0   0  4
+  [ 3] .data             PROGBITS        8000075c 00175c 000010 00  WA  0   0  4
+  [ 4] .sdata.current    PROGBITS        8000076c 00176c 000004 00  WA  0   0  4
+  [ 5] .bss              NOBITS          80000770 001770 018004 00  WA  0   0  4
+  [ 6] .comment          PROGBITS        00000000 001770 00002b 01  MS  0   0  1
+  [ 7] .riscv.attributes RISCV_ATTRIBUTE 00000000 00179b 000023 00      0   0  1
+  [ 8] .symtab           SYMTAB          00000000 0017c0 0003c0 10      9  36  4
+  [ 9] .strtab           STRTAB          00000000 001b80 00013b 00      0   0  1
+  [10] .shstrtab         STRTAB          00000000 001cbb 00005e 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
   L (link order), O (extra OS processing required), G (group), T (TLS),
@@ -42,9 +42,9 @@ There are no section groups in this file.
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  RISCV_ATTRIBUT 0x00176b 0x00000000 0x00000000 0x00023 0x00000 R   0x1
-  LOAD           0x001000 0x80000000 0x80000000 0x00729 0x00729 R E 0x1000
-  LOAD           0x00172c 0x8000072c 0x8000072c 0x00014 0x18018 RW  0x1000
+  RISCV_ATTRIBUT 0x00179b 0x00000000 0x00000000 0x00023 0x00000 R   0x1
+  LOAD           0x001000 0x80000000 0x80000000 0x00759 0x00759 R E 0x1000
+  LOAD           0x00175c 0x8000075c 0x8000075c 0x00014 0x18018 RW  0x1000
 
  Section to Segment mapping:
   Segment Sections...
@@ -62,10 +62,10 @@ Symbol table '.symtab' contains 60 entries:
    Num:    Value  Size Type    Bind   Vis      Ndx Name
      0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
      1: 80000000     0 SECTION LOCAL  DEFAULT    1 .text
-     2: 800005f4     0 SECTION LOCAL  DEFAULT    2 .rodata
-     3: 8000072c     0 SECTION LOCAL  DEFAULT    3 .data
-     4: 8000073c     0 SECTION LOCAL  DEFAULT    4 .sdata.current
-     5: 80000740     0 SECTION LOCAL  DEFAULT    5 .bss
+     2: 80000624     0 SECTION LOCAL  DEFAULT    2 .rodata
+     3: 8000075c     0 SECTION LOCAL  DEFAULT    3 .data
+     4: 8000076c     0 SECTION LOCAL  DEFAULT    4 .sdata.current
+     5: 80000770     0 SECTION LOCAL  DEFAULT    5 .bss
      6: 00000000     0 SECTION LOCAL  DEFAULT    6 .comment
      7: 00000000     0 SECTION LOCAL  DEFAULT    7 .riscv.attributes
      8: 00000000     0 FILE    LOCAL  DEFAULT  ABS start.o
@@ -73,52 +73,52 @@ Symbol table '.symtab' contains 60 entries:
     10: 00000000     0 FILE    LOCAL  DEFAULT  ABS yield-os.c
     11: 80000010    52 FUNC    LOCAL  DEFAULT    1 schedule
     12: 80000010     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    13: 80000740 65536 OBJECT  LOCAL  DEFAULT    5 pcb
+    13: 80000770 65536 OBJECT  LOCAL  DEFAULT    5 pcb
     14: 80000044   104 FUNC    LOCAL  DEFAULT    1 f
     15: 80000044     0 NOTYPE  LOCAL  DEFAULT    1 $x
     16: 800000ac     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    17: 80010740 32768 OBJECT  LOCAL  DEFAULT    5 pcb_boot
-    18: 8000073c     4 OBJECT  LOCAL  DEFAULT    4 current
+    17: 80010770 32768 OBJECT  LOCAL  DEFAULT    5 pcb_boot
+    18: 8000076c     4 OBJECT  LOCAL  DEFAULT    4 current
     19: 00000000     0 FILE    LOCAL  DEFAULT  ABS trm.c
     20: 80000178     0 NOTYPE  LOCAL  DEFAULT    1 $x
     21: 80000184     0 NOTYPE  LOCAL  DEFAULT    1 $x
     22: 80000190     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    23: 80000678    64 OBJECT  LOCAL  DEFAULT    2 mainargs
+    23: 800006a8    64 OBJECT  LOCAL  DEFAULT    2 mainargs
     24: 00000000     0 FILE    LOCAL  DEFAULT  ABS cte.c
     25: 800001b0     0 NOTYPE  LOCAL  DEFAULT    1 $x
     26: 8000025c     0 NOTYPE  LOCAL  DEFAULT    1 $x
     27: 8000027c     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    28: 8000028c     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    29: 80018740     4 OBJECT  LOCAL  DEFAULT    5 user_handler
+    28: 800002b8     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    29: 80018770     4 OBJECT  LOCAL  DEFAULT    5 user_handler
     30: 00000000     0 FILE    LOCAL  DEFAULT  ABS trap.o
-    31: 80000298     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    31: 800002c8     0 NOTYPE  LOCAL  DEFAULT    1 $x
     32: 00000000     0 FILE    LOCAL  DEFAULT  ABS stdio.c
-    33: 800003d0   116 FUNC    LOCAL  DEFAULT    1 number_to_str.part.0
-    34: 800003d0     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    35: 80000444     0 NOTYPE  LOCAL  DEFAULT    1 $x
-    36: 8000028c    12 FUNC    GLOBAL HIDDEN     1 yield
-    37: 80000444   432 FUNC    GLOBAL HIDDEN     1 printf
+    33: 80000400   116 FUNC    LOCAL  DEFAULT    1 number_to_str.part.0
+    34: 80000400     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    35: 80000474     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    36: 800002b8    12 FUNC    GLOBAL HIDDEN     1 yield
+    37: 80000474   432 FUNC    GLOBAL HIDDEN     1 printf
     38: 80000190    32 FUNC    GLOBAL HIDDEN     1 _trm_init
     39: 80021000     0 NOTYPE  GLOBAL DEFAULT    5 _stack_pointer
-    40: 800005f4     0 NOTYPE  GLOBAL DEFAULT    1 _etext
+    40: 80000624     0 NOTYPE  GLOBAL DEFAULT    1 _etext
     41: 80000000     0 NOTYPE  GLOBAL DEFAULT  ABS _pmem_start
-    42: 80000740     0 NOTYPE  GLOBAL DEFAULT    5 _bss_start
-    43: 8000073c     0 NOTYPE  GLOBAL DEFAULT    3 edata
-    44: 8000072c    16 OBJECT  GLOBAL HIDDEN     3 types
+    42: 80000770     0 NOTYPE  GLOBAL DEFAULT    5 _bss_start
+    43: 8000076c     0 NOTYPE  GLOBAL DEFAULT    3 edata
+    44: 8000075c    16 OBJECT  GLOBAL HIDDEN     3 types
     45: 80000178    12 FUNC    GLOBAL HIDDEN     1 putch
     46: 80021000     0 NOTYPE  GLOBAL DEFAULT    5 _heap_start
     47: 80019000     0 NOTYPE  GLOBAL DEFAULT    5 _stack_top
     48: 80021000     0 NOTYPE  GLOBAL DEFAULT    5 end
-    49: 800005f4     0 NOTYPE  GLOBAL DEFAULT    1 etext
+    49: 80000624     0 NOTYPE  GLOBAL DEFAULT    1 etext
     50: 80000000    16 FUNC    GLOBAL DEFAULT    1 _start
     51: 00000000     0 NOTYPE  GLOBAL DEFAULT  ABS _entry_offset
     52: 8000025c    32 FUNC    GLOBAL HIDDEN     1 cte_init
     53: 800000ac   204 FUNC    GLOBAL HIDDEN     1 main
-    54: 80000298     0 NOTYPE  GLOBAL DEFAULT    1 __am_asm_trap
-    55: 8000073c     0 NOTYPE  GLOBAL DEFAULT    3 _data
+    54: 800002c8     0 NOTYPE  GLOBAL DEFAULT    1 __am_asm_trap
+    55: 8000076c     0 NOTYPE  GLOBAL DEFAULT    3 _data
     56: 80021000     0 NOTYPE  GLOBAL DEFAULT    5 _end
     57: 80000184    12 FUNC    GLOBAL HIDDEN     1 halt
-    58: 8000027c    16 FUNC    GLOBAL HIDDEN     1 kcontext
+    58: 8000027c    60 FUNC    GLOBAL HIDDEN     1 kcontext
     59: 800001b0   172 FUNC    GLOBAL HIDDEN     1 __am_irq_handle
 
 No version information found in this file.

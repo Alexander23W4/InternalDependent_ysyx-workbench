@@ -43,6 +43,13 @@ void isa_reg_display() {
     printf("[NUM %d]: %s: %u (0x%x)\n", i, regs[i], cpu.gpr[i], cpu.gpr[i]);
   }
   printf("pc: (0x%x)\n", cpu.pc);
+
+  printf("--------------------- CSR State ---------------------\n");
+  printf("mtvec:   0x%08x\n", cpu.mtvec);
+  printf("mepc:    0x%08x\n", cpu.mepc);
+  printf("mcause:  0x%08x\n", cpu.mcause);
+  printf("mstatus: 0x%08x\n", cpu.mstatus);
+  printf("-----------------------------------------------------\n");
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {

@@ -8,9 +8,11 @@
 [1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'audio' at [0xa0000200, 0xa0000217][0m
 [1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'audio-sbuf' at [0xa1200000, 0xa120ffff][0m
 [1;34m[src/monitor/monitor.c:61 load_img] The image is /home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/am-tests/build/amtest-riscv32-nemu.bin, size = 609852[0m
+[1;34m[src/cpu/difftest/dut.c:89 init_difftest] Differential testing: [1;32mON[0m[0m
+[1;34m[src/cpu/difftest/dut.c:90 init_difftest] The result of every instruction will be compared with /home/wang/InternalDependent_ysyx-workbench/nemu/tools/spike-diff/build/riscv32-spike-so. This will help you a lot for debugging, but also significantly reduce the performance. If it is not necessary, you can turn it off in menuconfig.[0m
 [1;34m[src/monitor/monitor.c:29 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:30 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
-[1;34m[src/monitor/monitor.c:33 welcome] Build time: 13:08:40, May 23 2026[0m
+[1;34m[src/monitor/monitor.c:33 welcome] Build time: 13:25:52, May 23 2026[0m
 0x80000000:     00 00 04 13     mv	s0, zero
 0x80000004:     00 09 d1 17     auipc	sp, 0x9d
 0x80000008:     ff c1 01 13     addi	sp, sp, -4
@@ -10353,7 +10355,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -10429,7 +10431,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -10564,7 +10566,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -10640,7 +10642,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -10775,7 +10777,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -10851,7 +10853,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -10986,7 +10988,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11062,7 +11064,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11197,7 +11199,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11273,7 +11275,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11408,7 +11410,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11484,7 +11486,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11619,7 +11621,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11695,7 +11697,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11830,7 +11832,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -11906,7 +11908,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12041,7 +12043,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12117,7 +12119,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12252,7 +12254,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12328,7 +12330,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12463,7 +12465,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12539,7 +12541,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12674,7 +12676,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12750,7 +12752,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12885,7 +12887,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -12961,7 +12963,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13096,7 +13098,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13172,7 +13174,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13307,7 +13309,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13383,7 +13385,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13518,7 +13520,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13594,7 +13596,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13729,7 +13731,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13805,7 +13807,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -13940,7 +13942,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14016,7 +14018,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14151,7 +14153,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14227,7 +14229,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14362,7 +14364,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14438,7 +14440,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14573,7 +14575,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14649,7 +14651,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14784,7 +14786,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14860,7 +14862,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -14995,7 +14997,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -15071,7 +15073,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -15206,7 +15208,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -15282,7 +15284,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -15417,7 +15419,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -15493,7 +15495,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -15628,7 +15630,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -15704,7 +15706,7 @@
 
 0x800013fc:     03 01 01 13     addi	sp, sp, 0x30
 0x80001400:     00 00 80 67     ret                   ret :???, 0x80001500
-0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x80001500:     08 41 23 03     lw	t1, 0x84(sp)                   M_read: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x80001504:     08 81 23 83     lw	t2, 0x88(sp)                   M_read: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 
@@ -15839,7 +15841,7 @@
 0x800014dc:     34 10 23 f3     csrr	t2, mepc
 0x800014e0:     08 51 20 23     sw	t0, 0x80(sp)                   M_write: [ADDR]0x8009cfa4, [DATA]0x0000000b (11)
 
-0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00000000 (0)
+0x800014e4:     08 61 22 23     sw	t1, 0x84(sp)                   M_write: [ADDR]0x8009cfa8, [DATA]0x00001800 (6144)
 
 0x800014e8:     08 71 24 23     sw	t2, 0x88(sp)                   M_write: [ADDR]0x8009cfac, [DATA]0x8000144c (-2147478452)
 

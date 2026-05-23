@@ -105,6 +105,12 @@ static void difftest_abort_print(CPU_state* ref){
   {
     printf("reg: %d: [DUT]%d, [REF]%d\n", i, cpu.gpr[i], ref->gpr[i]);
   }
+  printf("--------------------- CSR State ---------------------\n");
+  printf("mtvec:   [DUT] 0x%08x, [REF] 0x%08x\n", cpu.mtvec, ref->mtvec);
+  printf("mepc:    [DUT] 0x%08x, [REF] 0x%08x\n", cpu.mepc, ref->mepc);
+  printf("mcause:  [DUT] 0x%08x, [REF] 0x%08x\n", cpu.mcause, ref->mcause);
+  printf("mstatus: [DUT] 0x%08x, [REF] 0x%08x\n", cpu.mstatus, ref->mstatus);
+  printf("-----------------------------------------------------\n");
   
 }
 

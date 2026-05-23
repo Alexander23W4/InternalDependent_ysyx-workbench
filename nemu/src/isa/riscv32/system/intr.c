@@ -70,7 +70,7 @@ Machine Cause register mcause.
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.mcause = NO;
   cpu.mepc = epc;
-  cpu.mstatus = 0;
+  cpu.mstatus = cpu.mstatus;
 
   return cpu.mtvec;  // jump to exception processing program addr
 }

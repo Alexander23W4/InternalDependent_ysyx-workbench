@@ -33,7 +33,11 @@ You need to implement the isa_difftest_checkregs() function,
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   // printf("pc: 0x%08x, 0x%08x. 0x%08x\n", pc + 4, cpu.pc, ref_r->pc);
   bool is_same = true;
+
+  // check PC
   if((ref_r->pc) != cpu.pc) is_same = false;
+
+  // check GPR
   for (int i = 0; i < 32; i++)
   {
     // printf("reg:%d, %d, %d\n", i, ref_r->gpr[i], cpu.gpr[i]);
@@ -43,6 +47,17 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
       break;
     }
   }
+
+  // // check CSR
+  // if (is_same && (ref_r->mtvec != cpu.mtvec))     is_same = false;
+  // if (is_same && (ref_r->mepc != cpu.mepc))       is_same = false;
+  // if (is_same && (ref_r->mcause != cpu.mcause))   is_same = false;
+  
+  // // for mstatus, use 0x1fff mask
+  // if (is_same && ((ref_r->mstatus & 0x1fff) != (cpu.mstatus & 0x1fff))) {
+  //   is_same = false;
+  // }
+
   if(is_same == false){
     nemu_state.state = NEMU_STOP;
   }

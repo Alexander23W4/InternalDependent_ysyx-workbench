@@ -88,7 +88,10 @@ The aforementioned hardware-provided functionality for switching the execution f
 simulation illegal instr:
 [ With the exception response mechanism, we can simulate the execution of this illegal instruction during the exception handling process ]
 
+-> Multiprogramming
 
+Multiple processes can coexist in memory at the same time
+Under certain conditions, it is possible to switch the execution flow among these processes
 
 
 

@@ -36,7 +36,9 @@ Context* __am_irq_handle(Context *c) {
     Event ev = {0};
     // !!! only deal with ev.event until now
     switch (c->mcause) {
-      case 0xb: ev.event = EVENT_YIELD; break;
+      case 0xb: ev.event = EVENT_YIELD;
+        c->mepc += 4;
+        break;
       default: ev.event = EVENT_ERROR; break;
     }
     // print_context(c);

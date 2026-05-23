@@ -46,6 +46,7 @@ __am_asm_trap:
 
   MAP(REGS, PUSH)         # REGS(PUSH)  push all of the registers (except sp) to stack, tons of SW...
 
+# read from real CSRs
   csrr t0, mcause
   csrr t1, mstatus
   csrr t2, mepc
@@ -65,9 +66,10 @@ __am_asm_trap:
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
+
+# write to real CSRs
   csrw mstatus, t1
   csrw mepc, t2
-
   MAP(REGS, POP)
 
   addi sp, sp, CONTEXT_SIZE

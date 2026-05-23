@@ -93,7 +93,27 @@ simulation illegal instr:
 Multiple processes can coexist in memory at the same time
 Under certain conditions, it is possible to switch the execution flow among these processes
 
+in trap.S->__am_asm_trap(), store A's context, restore B's context
 
+So, how do we switch to a process that has just been loaded, to get it running?
+The answer is simple, we only need to manually create a context structure on the process stack 
+so that the context can be correctly restored based on this structure when switching in the future.
+
+┌──────────┬────────────────────────────────────────┬────────────────────────────────────────┐
+│ 特性     │ 进程 (Process)                          │ 线程 (Thread)                           │
+├──────────┼────────────────────────────────────────┼────────────────────────────────────────┤
+│ 定义     │ 资源分配的最小单位                         │ 独立运行/调度的最小单位                   │
+├──────────┼────────────────────────────────────────┼────────────────────────────────────────┤
+│ 内存空间  │ 每个进程独立，彼此隔离                     │ 同一进程内的线程共享内存                   │
+├──────────┼────────────────────────────────────────┼────────────────────────────────────────┤
+│ 私有资源  │ 页表、文件句柄、堆、全局变量                │ 寄存器现场（Context）、栈空间（Stack）      │
+├──────────┼────────────────────────────────────────┼────────────────────────────────────────┤
+│ 切换速度  │ 慢（需要切页表，刷新 TLB 缓存）             │ 快（只用保存/恢复寄存器现场）               │
+├──────────┼────────────────────────────────────────┼────────────────────────────────────────┤
+│ 通信方式  │ 借助操作系统（管道、信号、Socket）          │ 直接读写进程内的共享变量（需加锁）           │
+├──────────┼────────────────────────────────────────┼────────────────────────────────────────┤
+│ 崩溃影响  │ 互不影响，安全性高                        │ 变一发而动全身，一个崩溃导致进程全完          │
+└──────────┴────────────────────────────────────────┴────────────────────────────────────────┘
 
 
 $$$ [Trace] ;

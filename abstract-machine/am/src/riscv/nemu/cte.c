@@ -31,6 +31,7 @@ void print_context(struct Context *ctx) {
 }
 
 // core exception handle function   (OS do some arrangement)
+// when do process switch, change *c
 Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
@@ -57,8 +58,8 @@ extern void __am_asm_trap(void);
 bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
   /*
-  la t0, __am_asm_trap   把函数的地址加载到通用寄存器 t0 中 (对应 "r")
-  csrw mtvec, t0         把 t0 的值写入控制寄存器 mtvec (对应 %0)
+  la t0, __am_asm_trap   
+  csrw mtvec, t0        
   */
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));   //  set the exception entry address to the mtvec register, jump to __am_asm_trap
 
@@ -68,8 +69,24 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   return true;
 }
 
+/*
+In this, 
+kstack defines the range of the stack, 
+entry is the entry point for the kernel thread, 
+and arg is the parameter for the kernel thread. 
+
+Additionally, kcontext() requires that the kernel thread must not return from entry, as this would result in undefined behavior. 
+You need to create a context structure at the bottom of kstack with entry as the entry point (you can ignore the arg parameter for now), 
+and then return the pointer to this structure.
+*/
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+   // write at the bottom of the stack, temporary, just for init, covered by other data later
+  context->mstatus = 0x1800;
+  Context* context = (Context *)((char *)kstack.end - sizeof(Context)); 
+  context->mepc = (uintptr_t)entry;
+  for (int i = 0; i < 32; i++){ context->gpr[i] = 0; }
+  context->gpr[10] = (uintptr_t)arg;
+  return context;
 }
 
 // trap operation, intentionally trigger trap (ecall)

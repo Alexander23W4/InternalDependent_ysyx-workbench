@@ -33,7 +33,7 @@ f(30) f(31)
 
 #define CONTEXT_SIZE  ((NR_REGS + 3) * XLEN)
 #define OFFSET_SP     ( 2 * XLEN)
-#define OFFSET_CAUSE  ((NR_REGS + 0) * XLEN)
+#define OFFSET_CAUSE  ((NR_REGS + 0) * XLEN)    # store after the space of GPRS in stack
 #define OFFSET_STATUS ((NR_REGS + 1) * XLEN)
 #define OFFSET_EPC    ((NR_REGS + 2) * XLEN)
 
@@ -42,12 +42,13 @@ f(30) f(31)
 __am_asm_trap:
   addi sp, sp, -CONTEXT_SIZE
 
-  MAP(REGS, PUSH)
+  MAP(REGS, PUSH)         # REGS(PUSH)  push all of the registers (except sp) to stack, tons of SW...
 
   csrr t0, mcause
   csrr t1, mstatus
   csrr t2, mepc
 
+  # store relevant variant to certain area in the stack for constructing "Context"
   STORE t0, OFFSET_CAUSE(sp)
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
@@ -57,8 +58,8 @@ __am_asm_trap:
   or t1, t1, a0
   csrw mstatus, t1
 
-  mv a0, sp
-  call __am_irq_handle
+  mv a0, sp             # mv staco pointer (sp), as well as the pointer to Context, to a0
+  call __am_irq_handle    # *** core exception handle function
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)

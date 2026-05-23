@@ -162,6 +162,10 @@ config FTRACE
     bool "Enable function tracing (ftrace)"
     default n
 
+config ETRACE
+    bool "Enable exception tracing (etrace)"
+    default n
+
 
 config DIFFTEST
   depends on TARGET_NATIVE_ELF

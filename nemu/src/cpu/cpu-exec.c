@@ -190,6 +190,14 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
     mtrace_flag = 0;
   }
 #endif
+
+#if CONFIG_ETRACE
+  if(s->isa.inst == 0x00000073){
+    p += sprintf(p, "                   ");
+    p += sprintf(p, "[Exception] pc: 0x%08x\n", s->pc);
+  }
+#endif
+
 #endif
 }
 

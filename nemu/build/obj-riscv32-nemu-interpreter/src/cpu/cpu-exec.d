@@ -12,6 +12,7 @@ deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-int
     $(wildcard include/config/isa/x86.h) \
     $(wildcard include/config/ftrace.h) \
     $(wildcard include/config/mtrace.h) \
+    $(wildcard include/config/etrace.h) \
     $(wildcard include/config/device.h) \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/cpu/cpu.h \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/common.h \

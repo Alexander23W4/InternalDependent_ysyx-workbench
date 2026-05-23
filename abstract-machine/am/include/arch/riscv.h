@@ -11,8 +11,7 @@
 
 // CTE context
 struct Context {
-  // TODO: fix the order of these members to match trap.S
-  uintptr_t gpr[NR_REGS];    // unsigned long int
+  uintptr_t gpr[NR_REGS];    // unsigned long int, 4 bytes in RV32 env
   uintptr_t mcause;
   uintptr_t mstatus;
   uintptr_t mepc;

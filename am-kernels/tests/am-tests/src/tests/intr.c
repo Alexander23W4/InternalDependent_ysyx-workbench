@@ -3,7 +3,7 @@
 
 // ioe_init, cte_init, run hello_intr() (ecall * 10000000)
 
-// callback function
+// Guest exception arrangement function, do something for different mcause
 Context *simple_trap(Event ev, Context *ctx) {
   switch(ev.event) {
     case EVENT_IRQ_TIMER:

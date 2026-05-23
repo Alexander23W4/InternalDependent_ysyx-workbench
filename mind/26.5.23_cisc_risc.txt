@@ -1,0 +1,18 @@
+this mind article is for the thought through RISC & CISC
+
+The method to trade balance between different layers of system
+
+->Function point of view:   (changable, flexible //  secure, general)
+RISC is more flexible and light
+for putting more task on software, make hardware simple and easy to develop and iterate
+
+So, it's genuis to put complex thing as much as possible to the topper layer of the system, for it's flexibility, simple to operate and modify
+
+Instead, put something need to be protected, & general, sustainable and solid functions to low layer of the system
+and this should always includes consideration about necessity and simple-orientation
+
+
+->Frequency point of view:  
+put more frequently called things to lower layer
+
+while less frequent, put into upper layer

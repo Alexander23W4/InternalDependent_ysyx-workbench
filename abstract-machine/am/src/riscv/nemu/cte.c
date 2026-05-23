@@ -5,6 +5,31 @@
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
+const char *reg_names_rv32[] = {
+  "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
+  "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",
+  "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
+  "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
+};
+
+void print_context(struct Context *ctx) {
+  if (ctx == NULL) {
+    printf("[Context] Pointer is NULL!\n");
+    return;
+  }
+  
+  for (int i = 0; i < 32; i++) {
+    printf("%s: %d  ", reg_names_rv32[i], ctx->gpr[i]);
+    if ((i + 1) % 4 == 0) {
+      printf("\n");
+    }
+  }
+  printf("mcause  : %d\n", ctx->mcause);
+  printf("mstatus : %d\n", ctx->mstatus);
+  printf("mepc    : %d\n", ctx->mepc);
+  printf("pdir    : %d\n", ctx->pdir);
+}
+
 // core exception handle function   (OS do some arrangement)
 Context* __am_irq_handle(Context *c) {
   if (user_handler) {
@@ -14,7 +39,7 @@ Context* __am_irq_handle(Context *c) {
       case 0xb: ev.event = EVENT_YIELD; break;
       default: ev.event = EVENT_ERROR; break;
     }
-
+    // print_context(c);
     c = user_handler(ev, c);   // call exception process guest call back function (Guest do some arrangement)
     assert(c != NULL);
   }

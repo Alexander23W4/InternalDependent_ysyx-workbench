@@ -10,6 +10,11 @@
 #endif
 
 // CTE context
+/*
+ These contents constitute the complete context information. 
+  The exception handling process can diagnose and handle the exception based on the context, 
+  and this information is also needed when restoring the context in the future.
+*/
 struct Context {
   uintptr_t gpr[NR_REGS];    // unsigned long int, 4 bytes in RV32 env
   uintptr_t mcause;

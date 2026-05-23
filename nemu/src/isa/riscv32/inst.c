@@ -198,8 +198,8 @@ imm[20|10:1|11|19:12] rd opcode J-type
   INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.mepc);   // mstatus to go 
 
 
-  // others
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc));
+  // others           // !!! actually, the mastatus should be given base on info in mstatus, right now it is simplified.
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc)); 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0, NEMU_END
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));   // invalid instr, NEMU_ABORT
 

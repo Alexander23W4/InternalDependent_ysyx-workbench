@@ -46,7 +46,6 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);   // call exception process guest call back function (Guest do some arrangement)
     assert(c != NULL);
   }
-
   return c;
 }
 
@@ -80,7 +79,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   context->mepc = (uintptr_t)entry;
 
   for (int i = 0; i < 32; i++){ context->gpr[i] = 0; }
-  context->gpr[2] = (uintptr_t)kstack.end;
+  context->gpr[2] = (uintptr_t)context;
   context->gpr[10] = (uintptr_t)arg;
 
   return context;

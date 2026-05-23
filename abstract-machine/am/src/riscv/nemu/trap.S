@@ -54,7 +54,7 @@ __am_asm_trap:
   # store relevant variant to certain area in the stack for constructing "Context"
   STORE t0, OFFSET_CAUSE(sp)
   STORE t1, OFFSET_STATUS(sp)
-  STORE t2, OFFSET_EPC(sp)
+  STORE t2, OFFSET_EPC(sp)     # most close to stack bottom
 
   # set mstatus.MPRV to pass difftest
   li a0, (1 << 17)
@@ -62,7 +62,9 @@ __am_asm_trap:
   csrw mstatus, t1
 
   mv a0, sp       # mv staco pointer (sp), as well as the pointer to Context, to a0. It deliver *Context as a parameter to _am_irq_handle
-  call __am_irq_handle    # *** core exception handle function
+  call __am_irq_handle    # *** core exception handle function, the return Context* pointer is stored in a0
+
+  mv sp, a0
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)

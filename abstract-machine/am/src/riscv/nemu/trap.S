@@ -64,7 +64,7 @@ __am_asm_trap:
   mv a0, sp       # mv staco pointer (sp), as well as the pointer to Context, to a0. It deliver *Context as a parameter to _am_irq_handle
   call __am_irq_handle    # *** core exception handle function, the return Context* pointer is stored in a0
 
-  mv sp, a0
+  mv sp, a0       # ***
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
@@ -76,3 +76,5 @@ __am_asm_trap:
 
   addi sp, sp, CONTEXT_SIZE
   mret
+
+

@@ -59,7 +59,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   /*
   la t0, __am_asm_trap   
   csrw mtvec, t0        
-  */
+  */ 
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));   //  set the exception entry address to the mtvec register, jump to __am_asm_trap
 
   // register event handler

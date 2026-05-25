@@ -7,6 +7,13 @@
   all that needs to be done is to return the cp pointer from the PCB to the CTE's __am_irq_handle()
 */
 
+/*
+ cte_init()  set OS handle program, mtvec
+ Set space for each process(PCB)
+ prepare code for each process, package them
+ init context for each process
+*/
+
 // Process Control Block
 /*
 低地址 (PCB的起点) ──────────────────────────────────────────────────────────► 高地址

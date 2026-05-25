@@ -44,6 +44,8 @@ f(30) f(31)
 __am_asm_trap:
   addi sp, sp, -CONTEXT_SIZE
 
+# ---------------- store ... store new Context  --------------------
+
   MAP(REGS, PUSH)         # REGS(PUSH)  push all of the registers (except sp) to stack, tons of SW...
 
 # read from real CSRs
@@ -65,6 +67,8 @@ __am_asm_trap:
   call __am_irq_handle    # *** core exception handle function, the return Context* pointer is stored in a0
 
   mv sp, a0       # ***
+
+# ---------------- load ... load new Context  ------------------------
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)

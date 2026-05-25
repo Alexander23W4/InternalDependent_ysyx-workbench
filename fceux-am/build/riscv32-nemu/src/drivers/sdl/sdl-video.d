@@ -1,0 +1,27 @@
+/home/wang/InternalDependent_ysyx-workbench/fceux-am/build/riscv32-nemu/src/drivers/sdl/sdl-video.o: \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/sdl-video.cpp \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/include/klib-macros.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/sdl.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/main.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../driver.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../types.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/include/klib.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/am.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/arch/riscv.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/amdev.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../git.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../utils/md5.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../utils/../types.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../utils/valuearray.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../file.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../emufile.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/dface.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/input.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../common/vidblit.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../fceu.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../version.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../video.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../utils/memory.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/sdl-icon.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/sdl-video.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../config.h

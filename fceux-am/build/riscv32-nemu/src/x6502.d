@@ -1,0 +1,17 @@
+/home/wang/InternalDependent_ysyx-workbench/fceux-am/build/riscv32-nemu/src/x6502.o: \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/x6502.cpp \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/types.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/include/klib.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/am.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/arch/riscv.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/amdev.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/x6502.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/x6502struct.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fceu.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/git.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/utils/md5.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/utils/../types.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/utils/valuearray.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/sound.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/x6502abbrev.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/ops.inc

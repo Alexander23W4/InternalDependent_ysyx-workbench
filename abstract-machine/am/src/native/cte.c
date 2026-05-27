@@ -26,12 +26,10 @@ static void irq_handle(Context *c) {
   }
   c = user_handler(thiscpu->ev, c);
   assert(c != NULL);
-
   __am_switch(c);
-
   // magic call to restore context
-  void (*p)(Context *c) = (void *)(uintptr_t)0x100008;
-  p(c);
+  void (*p)(Context *c) = (void *)(uintptr_t)0x100008;   // p -> 0x100008 (a function)
+  p(c);     // into this
   __am_panic_on_return();
 }
 

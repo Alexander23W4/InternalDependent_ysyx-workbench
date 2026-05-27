@@ -12,7 +12,7 @@ AM_SRCS := native/trm.c \
            native/ioe/audio.c \
            native/ioe/disk.c \
 
-CFLAGS  += -fpie $(shell sdl2-config --cflags)
+CFLAGS  += -fpie $(shell sdl2-config --cflags) -g -O0
 ASFLAGS += -fpie -pie
 
 
@@ -22,11 +22,11 @@ LDFLAGS_CXX = $(addprefix -Wl$(comma), $(LDFLAGS)) -pie -ldl $(shell sdl2-config
 run: image
 	$(IMAGE).elf
 
-# gdb: image
-# 	gdb -ex "handle SIGUSR1 SIGUSR2 SIGSEGV noprint nostop" $(IMAGE).elf
+gdb: image
+	gdb -ex "handle SIGUSR1 SIGUSR2 SIGSEGV noprint nostop" $(IMAGE).elf
 
 # for sigment fault arrangement, modify 
-gdb: image
-	gdb -ex "handle SIGUSR1 SIGUSR2 noprint nostop" $(IMAGE).elf
+# gdb: image
+# 	gdb -ex "handle SIGUSR1 SIGUSR2 noprint nostop" $(IMAGE).elf
 
 

@@ -48,15 +48,15 @@ Similarly, we need to think about how to pass the two parameters to and from to 
 */
 
 void rt_hw_context_switch_to(rt_ubase_t to) {
-  next = (Context*)to;
+  next = *(Context**)to;
   printf("yield1\n");
   yield();
 }
 
 void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to) {
-  current = (Context*)from;
+  current = *(Context**)from;   // from -> sp -> Context, so from/to is actually Context**
   _store_current_context = true;
-  next = (Context*)to;
+  next = *(Context**)to;
   printf("yield2\n");
   yield();
 }

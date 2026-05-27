@@ -1,1 +1,2 @@
 1. grep -r disassemble ./ --exclude-dir=tools
+2. find ./ -name "[regex]"

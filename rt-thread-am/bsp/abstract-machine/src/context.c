@@ -7,6 +7,8 @@
 -> Process switch program for OS (the call back funcion of ecall), push & pull, switch 
 */
 
+#define STACK_SIZE 4096
+
 Context* current;
 Context* next;
 bool _store_current_context = false;
@@ -47,6 +49,7 @@ Similarly, we need to think about how to pass the two parameters to and from to 
 
 void rt_hw_context_switch_to(rt_ubase_t to) {
   next = (Context*)to;
+  printf("yield1\n");
   yield();
 }
 
@@ -54,6 +57,7 @@ void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to) {
   current = (Context*)from;
   _store_current_context = true;
   next = (Context*)to;
+  printf("yield2\n");
   yield();
 }
 
@@ -85,13 +89,13 @@ in wrapper function: *tentry(*parameter); *texit();
 */
 rt_uint8_t *rt_hw_stack_init(void *tentry, void *parameter, rt_uint8_t *stack_addr, void *texit) {
   uintptr_t stack_bottom = (uintptr_t)stack_addr;
-  stack_bottom -= stack_bottom % sizeof(uintptr_t);  // align
+  stack_bottom -= stack_bottom % sizeof(uintptr_t);  
 
-  Area area;
-  area.end = stack_bottom;
-  Context* context = kcontext(area, tentry, parameter);
-
+  Context* context = kcontext((Area) {(void*)(stack_bottom - STACK_SIZE), (void*)stack_bottom}, tentry, parameter);
+  printf("sdf\n");
   return (rt_uint8_t*)context;
 }
+
+// bt    context    stack_bottom   stack_addr
 
 

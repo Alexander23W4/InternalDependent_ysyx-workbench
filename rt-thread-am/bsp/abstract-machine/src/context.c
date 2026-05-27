@@ -24,6 +24,9 @@ static Context* ev_handler(Event e, Context *c) {
       c = next;  // switch to
       break;
 
+    case EVENT_IRQ_TIMER: 
+      break;
+
     default: printf("Unhandled event ID = %d\n", e.event); assert(0);
   }
   return c;

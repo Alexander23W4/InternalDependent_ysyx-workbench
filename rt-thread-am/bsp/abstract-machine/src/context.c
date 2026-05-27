@@ -86,12 +86,42 @@ How should we solve this parameter-passing problem?
 mepc = wrapper function
 struct Parameters {*tentry, *parameter, *texit}, a0 = &Parameters
 in wrapper function: *tentry(*parameter); *texit();
+
 */
+
+// parameter for wrapper function
+typedef struct {
+  void (*tentry)(void*);
+  void *parameter;
+  void (*texit)(void);
+} Wrapper_args;
+
+// wrapper function, purpose: wrap texit into guest program, if function "tentry" end unexpectedly, run texit to transfer context
+static void wrapper(void *arg) {
+  Wrapper_args *args = (Wrapper_args*)arg;
+  
+  args->tentry(args->parameter);
+  args->texit();
+
+  assert(0);
+}
+
+void (*wrapper_ptr)(void*) = wrapper;   // create a pointer to wrapper function
+
 rt_uint8_t *rt_hw_stack_init(void *tentry, void *parameter, rt_uint8_t *stack_addr, void *texit) {
+  // Align
   uintptr_t stack_bottom = (uintptr_t)stack_addr;
   stack_bottom -= stack_bottom % sizeof(uintptr_t);  
 
-  Context* context = kcontext((Area) {(void*)(stack_bottom - STACK_SIZE), (void*)stack_bottom}, tentry, parameter);
+  // Store wrapper_args in stack
+  Wrapper_args* wagr = (Wrapper_args*)(stack_bottom - sizeof(Wrapper_args));
+  wagr->parameter = parameter;
+  wagr->tentry = tentry;
+  wagr->texit = texit;
+
+  stack_bottom  = ((uintptr_t)wagr) - (stack_bottom % sizeof(uintptr_t));  // Align again
+
+  Context* context = kcontext((Area) {(void*)(stack_bottom - STACK_SIZE), (void*)stack_bottom}, (void*)wrapper_ptr, (void*)wagr);
   printf("sdf\n");
   return (rt_uint8_t*)context;
 }

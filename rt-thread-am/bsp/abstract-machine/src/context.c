@@ -14,7 +14,7 @@ bool _store_current_context = false;
 // trap.S ->  __am_irq_handle -> ev_handler
 static Context* ev_handler(Event e, Context *c) {
   switch (e.event) {
-    case EVENT_YIELD: 
+    case EVENT_YIELD:    // event is ISA indenpendent
     if(_store_current_context){
       current = c;
       _store_current_context = false;
@@ -86,13 +86,12 @@ in wrapper function: *tentry(*parameter); *texit();
 rt_uint8_t *rt_hw_stack_init(void *tentry, void *parameter, rt_uint8_t *stack_addr, void *texit) {
   uintptr_t stack_bottom = (uintptr_t)stack_addr;
   stack_bottom -= stack_bottom % sizeof(uintptr_t);  // align
-  Context* context = (Context*)((char*)stack_bottom - sizeof(Context));
 
-  context->mstatus = 0x1800;
-  context->mepc = (uintptr_t)tentry;
-  for (int i = 0; i < 32; i++){ context->gpr[i] = 0; }
-  context->gpr[2] = (uintptr_t)context;
-  context->gpr[10] = (uintptr_t)parameter;
+  Area area;
+  area.end = stack_bottom;
+  Context* context = kcontext(area, tentry, parameter);
 
   return (rt_uint8_t*)context;
 }
+
+

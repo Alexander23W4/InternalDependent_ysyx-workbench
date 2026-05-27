@@ -4,7 +4,7 @@
 
 /*
 -> Build stack for each process, init their registers (GPR CSR) as context (mepc --> code, sp, a0)
--> Process switch program for OS (the call back funcion of ecall), push & pull, switch 
+-> Process switch program for OS (the call back funcion of ecall), push & pull, switch
 */
 
 #define STACK_SIZE 4096
@@ -55,6 +55,27 @@ void rt_hw_context_switch_to(rt_ubase_t to) {
   printf("yield1\n");
   yield();
 }
+/*
+method for avoid using global variant for current & next process storage
+void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to) {
+    // 1. 定义局部变量 (存储在当前线程 A 的栈上)
+    struct rt_thread *self = rt_thread_self();
+    void *old_user_data = self->user_data; // 备份旧数据
+
+    // 2. 将 B 的指针存入 PCB (传递切换指令)
+    self->user_data = (void*)*(Context**)to;
+
+    // 3. 触发 trap，进入 CTE，进入 ev_handler
+    // 此时 CPU 会将当前寄存器压入 A 的栈，并跳转到操作系统
+    yield(); 
+
+    // --- 线程 A 被挂起，一直到它下次被调度回来 ---
+    // 4. 再次从 yield() 返回 (A 重新获得 CPU)
+    
+    // 5. 使用刚才定义的局部变量恢复现场
+    self->user_data = old_user_data; // 恢复之前的旧数据
+}
+*/
 
 void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to) {
   current = *(Context**)from;   // from -> sp -> Context, so from/to is actually Context**
@@ -125,7 +146,6 @@ rt_uint8_t *rt_hw_stack_init(void *tentry, void *parameter, rt_uint8_t *stack_ad
   stack_bottom  = ((uintptr_t)wagr) - (stack_bottom % sizeof(uintptr_t));  // Align again
 
   Context* context = kcontext((Area) {(void*)(stack_bottom - STACK_SIZE), (void*)stack_bottom}, (void*)wrapper_ptr, (void*)wagr);
-  printf("sdf\n");
   return (rt_uint8_t*)context;
 }
 

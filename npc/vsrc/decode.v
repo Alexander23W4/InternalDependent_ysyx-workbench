@@ -147,6 +147,23 @@ module decode(
 
     // === System & Environment Instructions ===
     output reg ebreak,
+    output reg ecall,
+
+    // === Previledged Instructions ===
+    output reg csrrw,
+    output reg csrrs,
+    output reg csrrc,
+    output reg mret,
+
+/*
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) | src1, rs1));
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) & ~(src1), rs1));
+
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.mepc);   // mstatus to go 
+
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc)); 
+*/
 
 // oprands
     output [4:0] rd,
@@ -157,7 +174,8 @@ module decode(
     output [31:0] immU,
     output [31:0] immS,
     output [31:0] immB, 
-    output [31:0] immJ 
+    output [31:0] immJ,
+    output [31:0] immCSR;
 );
 
     wire [6:0] opcode = instr[6:0];
@@ -173,6 +191,7 @@ module decode(
     assign immS = {{20{instr[31]}}, instr[31:25], instr[11:7]};
     assign immB = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
     assign immJ = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
+    assign immCSR = {20'b0, instr[31:20]};
 
     always @(*) begin
         addi     = 1'b0;
@@ -219,6 +238,12 @@ module decode(
         auipc    = 1'b0;
 
         ebreak   = 1'b0;
+        ecall    = 1'b0;
+
+        csrrw    = 1'b0;
+        csrrs    = 1'b0;
+        csrrc    = 1'b0;
+        mret     = 1'b0;
 
     // opcode recognizition:
         case(opcode)
@@ -303,10 +328,23 @@ module decode(
                     default: ;
                 endcase
             end
+/*
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) | src1, rs1));
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) & ~(src1), rs1));
+
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.mepc);   // mstatus to go 
+
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc)); 
+*/
 
             // === System ===
             7'b1110011: begin
                 if (funct3 == 3'b000 && instr[20]) ebreak = 1'b1;
+                else if (instr[31:7] == 0) ecall = 1'b1;
+                else if (funct3 == 3'b001) csrrw = 1'b1;
+                else if (funct3 == 3'b010) csrrs = 1'b1;
+                else if (funct3 == 3'b011) csrrc = 1'b1; 
             end
 
             default: ;

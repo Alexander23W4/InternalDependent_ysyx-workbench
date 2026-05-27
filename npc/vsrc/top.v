@@ -1,4 +1,36 @@
 /* verilator lint_off UNUSEDSIGNAL */
+
+/*
+The CSR register address space in RISC-V is 12 bits, i.e., 4096 registers, but RISC-V has only defined over 300 CSRs; 
+if we exclude performance counters and PMP (Physical Memory Protection) related CSRs, there are only 78 left; 
+if we further only count M-mode CSRs, there are only 28; 
+if we only consider the few CSRs necessary for running RT-Thread that were implemented in NEMU, there are less than 5 left. 
+Therefore, there is no need for us to instantiate hundreds or even 4096 CSRs. 
+Although this would only take up some memory for NEMU, it would result in significant area overhead for NPC. 
+Specifically, we only need to instantiate the CSRs we need, then read and write them according to their addresses.
+
+
+The CSRs that need to be implemented currently do not have any special side effects. Although the RISC-V manual describes various functions for mstatus, we don't need to use them at present. We just need to initialize them correctly to pass DiffTest.
+Only a few CSR instructions will be used currently, but unlike general instructions, CSR instructions atomically read and write the same CSR register. Additionally, we can ignore the read and write attributes of each field in the CSRs for now (if you haven't heard of them, you need to carefully RTFM), including WPRI, WLRL, and WARL, which define the behavior when illegal values are written to CSR fields. The programs we are running currently do not depend on these behaviors, so we can temporarily skip implementing these read and write attributes.
+Both ecall and mret will cause NPC to jump, which can be easily implemented by reusing the data path of the next address logic.
+Currently, we only need to implement the ecall exception, which is a trap exception that NPC must respond to unconditionally. We just need to set mcause and mepc simultaneously, then jump to the exception entry stored in mtvec.
+*/
+
+/*
+implement 5 CSRs     mstatus  mepc  mtvec  mcause
+
+*/
+
+/*
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) | src1, rs1));
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) & ~(src1), rs1));
+
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.mepc);   // mstatus to go 
+
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc)); 
+*/
+
 module top(
     input clk,
     input rst,
@@ -28,10 +60,13 @@ module top(
 
 
 // ------------------------------------------------------------------------------------------------------------
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ------------------------------------------------------------------------------------------------------------
 
     reg [31:0] pc;
     assign _pc = pc;
+
+    reg [31:0] mstatus, mepc, mcause, mtvec;
 
     wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
     wire add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
@@ -39,7 +74,8 @@ module top(
     wire beq, bne, blt, bge, bltu, bgeu;
     wire jal, jalr;
     wire lui, auipc;
-    wire ebreak;
+    wire ebreak, ecall;
+    wire mret, csrrw, csrrs, csrrc;
 
     wire [4:0] rd;
     wire [4:0] rs1;
@@ -106,6 +142,11 @@ decode Decode(
         .lui(lui),
         .auipc(auipc),
         .ebreak(ebreak),
+        .ecall(ecall),
+        .mret(mret),
+        .csrrw(csrrw),
+        .csrrs(csrrs),
+        .csrrc(csrrc),
 
         .rd(rd),
         .rs1(rs1),
@@ -114,7 +155,8 @@ decode Decode(
         .immU(immU),
         .immS(immS),
         .immB(immB), 
-        .immJ(immJ)
+        .immJ(immJ),
+        .immCSR(immCSR)
     );
 
     dbg_register #(5, 32) GPR (
@@ -136,7 +178,8 @@ decode Decode(
                  sll | srl | sra | slli | srli | srai |
                  slt | sltu | slti | sltiu |
                  jal | jalr |
-                 lb | lh | lw | lbu | lhu;
+                 lb | lh | lw | lbu | lhu |
+                 csrrw | csrrs | csrrc;
 
 
     wire [31:0] add1 = (auipc | jal | blt | bltu | bge | bgeu | bne | beq) ? pc : rdata1;
@@ -174,8 +217,32 @@ decode Decode(
     wire[31:0] srli_rst = rdata1 >> shamt_i;
     wire[31:0] sra_rst  = $signed(rdata1) >>> shamt_r;
     wire[31:0] srai_rst = $signed(rdata1) >>> shamt_i;
+    reg [31:0] csrw_rst;
+    always @(*) begin
+        case(immCSR) 
+            32'h00000300: csrw_rst = mstatus;
+            32'h00000305: csrw_rst = mtvec;
+            32'h00000341: csrw_rst = mepc;
+            32'h00000342: csrw_rst = mcause;
+            default: csrw_rst = 0;
+        endcase
+    end 
+
+/*
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) | src1, rs1));
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) & ~(src1), rs1));
+
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.mepc);   // mstatus to go 
+
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc)); 
 
 
+    #define CSR_MSTATUS 0x300
+    #define CSR_MTVEC   0x305
+    #define CSR_MEPC    0x341
+    #define CSR_MCAUSE  0x342
+*/
 
     assign wdata = ({32{lui}} & immU) | 
                    ({32{add | addi | auipc}} & add_rst) | 
@@ -201,7 +268,8 @@ decode Decode(
                    ({32{slt}} & slt_rst) |
                    ({32{slti}} & slti_rst) |
                    ({32{sltu}} & sltu_rst) |
-                   ({32{sltiu}} & sltiu_rst);   
+                   ({32{sltiu}} & sltiu_rst) |
+                   {{32{csrrw | csrrs | csrrc}} & csrw_rst};
 
     // read ram
     wire [31:0] lw_rst;
@@ -220,6 +288,10 @@ decode Decode(
     always @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h80000000;
+            mstatus <= 32'h00001800;
+            mcause <= 32'0;
+            mepc <= 32'0;
+            mtvec <= 32'0;
         end
         else begin
             // pc update
@@ -230,7 +302,7 @@ decode Decode(
                 pc <= add_rst;
             end
             else if (blt) begin
-                pc <= ($signed(rdata1) < $signed(rdata2)) ? add_rst : pc_next_dft; 
+                pc <= ($signed(rdata1) < $signed(rdata2)) ? add_rst : pc_next_dft;
             end
             else if(beq) begin
                 pc <= (rdata1 == rdata2) ? add_rst : pc_next_dft;
@@ -252,7 +324,7 @@ decode Decode(
             end
 
             // write ram
-            if(sw) begin
+            else if(sw) begin
                 ram_write(add_rst, rdata2, 4);
             end
             else if(sb) begin
@@ -260,6 +332,42 @@ decode Decode(
             end
             else if(sh) begin
                 ram_write(add_rst, rdata2, 2);
+            end
+
+            // system
+            else if(ecall) begin
+                mepc <= pc;
+                mcause <= 32'h0000000b;
+                pc <= mtvec;
+            end
+            else if(mret) begin
+                pc <= mepc;
+            end
+
+            // privilege
+            else if(csrrw) begin
+                case(immCSR) 
+                    32'h00000300: mstataus <= rdata1;
+                    32'h00000305: mtvec <= rdata1;
+                    32'h00000341: mepc <= rdata1;
+                    32'h00000342: mcause <= rdata1;
+                endcase
+            end
+            else if (|{{5{csrrs}} & rs1}) begin
+                case(immCSR) 
+                    32'h00000300: mstataus <= rdata1 | csrw_rst;
+                    32'h00000305: mtvec <= rdata1 | csrw_rst;
+                    32'h00000341: mepc <= rdata1 | csrw_rst;
+                    32'h00000342: mcause <= rdata1 | csrw_rst;
+                endcase         
+            end
+            else if (|{{5{csrrc}} & rs1}) begin
+                case(immCSR) 
+                    32'h00000300: mstataus <= rdata1 & (~csrw_rst);
+                    32'h00000305: mtvec <= rdata1 & (~csrw_rst);
+                    32'h00000341: mepc <= rdata1 & (~csrw_rst);
+                    32'h00000342: mcause <= rdata1 & (~csrw_rst);
+                endcase         
             end
         end
     end

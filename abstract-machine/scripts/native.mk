@@ -24,9 +24,3 @@ run: image
 
 gdb: image
 	gdb -ex "handle SIGUSR1 SIGUSR2 SIGSEGV noprint nostop" $(IMAGE).elf
-
-# for sigment fault arrangement, modify 
-# gdb: image
-# 	gdb -ex "handle SIGUSR1 SIGUSR2 noprint nostop" $(IMAGE).elf
-
-

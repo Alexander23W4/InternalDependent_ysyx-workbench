@@ -61,7 +61,7 @@ __am_asm_trap:
   # set mstatus.MPRV to pass difftest
   li a0, (1 << 17)
   or t1, t1, a0
-  csrw mstatus, t1
+  csrw mstatus, t1 
 
   mv a0, sp       # mv staco pointer (sp), as well as the pointer to Context, to a0. It deliver *Context as a parameter to _am_irq_handle
   call __am_irq_handle    # *** core exception handle function, the return Context* pointer is stored in a0

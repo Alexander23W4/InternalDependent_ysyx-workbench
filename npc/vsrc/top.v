@@ -97,6 +97,7 @@ module top(
 
     assign pc_next_dft = pc + 32'd4;
 
+
 decode Decode(
         .instr(instr),
 
@@ -110,15 +111,15 @@ decode Decode(
         .srli(srli),
         .srai(srai),
 
-        .add(add),
-        .sub(sub),
-        .sll(sll),
-        .slt(slt),
-        .sltu(sltu),
-        .xor_inst(xor_inst),
-        .srl(srl),
-        .sra(sra),
-        .or_inst(or_inst),   
+        .add(add), 
+        .sub(sub), 
+        .sll(sll), 
+        .slt(slt), 
+        .sltu(sltu), 
+        .xor_inst(xor_inst), 
+        .srl(srl), 
+        .sra(sra), 
+        .or_inst(or_inst), 
         .and_inst(and_inst), 
 
         .lb(lb),
@@ -174,12 +175,12 @@ decode Decode(
 
 
     assign wen = add | addi | sub | lui | auipc | 
-                 and_inst | or_inst | xor_inst | andi | ori | xori |
-                 sll | srl | sra | slli | srli | srai |
-                 slt | sltu | slti | sltiu |
-                 jal | jalr |
-                 lb | lh | lw | lbu | lhu |
-                 csrrw | csrrs | csrrc;
+                 and_inst | or_inst | xor_inst | andi | ori | xori | 
+                 sll | srl | sra | slli | srli | srai | 
+                 slt | sltu | slti | sltiu | 
+                 jal | jalr | 
+                 lb | lh | lw | lbu | lhu | 
+                 csrrw | csrrs | csrrc; 
 
 
     wire [31:0] add1 = (auipc | jal | blt | bltu | bge | bgeu | bne | beq) ? pc : rdata1;
@@ -190,7 +191,7 @@ decode Decode(
                        ({32{jal}} & immJ) |
                        ({32{jalr | lbu | lw | lhu | lh | lb | addi}} & immI) |
                        ({32{blt | bltu | bge | bgeu | bne | beq}} & immB);
-                       
+
 
     wire [31:0] add_rst = add1 + add2;
 
@@ -251,7 +252,7 @@ decode Decode(
                    ({32{lbu}} & lbu_rst) |
                    ({32{lhu}} & lhu_rst) |
                    ({32{lb}} & lb_rst) |
-                   ({32{lh}} & lh_rst) |     
+                   ({32{lh}} & lh_rst) |
                    ({32{sub}} & sub_rst) |
                    ({32{xor_inst}} & xor_rst) |
                    ({32{xori}} & xori_rst) |
@@ -284,7 +285,7 @@ decode Decode(
     assign lb_rst = {{25{lbu_rst[7]}}, lbu_rst[6:0]};
     assign lh_rst = {{17{lhu_rst[15]}}, lhu_rst[14:0]};
 
-    
+
     always @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h80000000;
@@ -301,7 +302,7 @@ decode Decode(
             else if(jal) begin
                 pc <= add_rst;
             end
-            else if (blt) begin
+            else if(blt) begin
                 pc <= ($signed(rdata1) < $signed(rdata2)) ? add_rst : pc_next_dft;
             end
             else if(beq) begin
@@ -359,7 +360,7 @@ decode Decode(
                     32'h00000305: mtvec <= rdata1 | csrw_rst;
                     32'h00000341: mepc <= rdata1 | csrw_rst;
                     32'h00000342: mcause <= rdata1 | csrw_rst;
-                endcase         
+                endcase
             end
             else if (|{{5{csrrc}} & rs1}) begin
                 case(immCSR) 
@@ -367,7 +368,7 @@ decode Decode(
                     32'h00000305: mtvec <= rdata1 & (~csrw_rst);
                     32'h00000341: mepc <= rdata1 & (~csrw_rst);
                     32'h00000342: mcause <= rdata1 & (~csrw_rst);
-                endcase         
+                endcase
             end
         end
     end

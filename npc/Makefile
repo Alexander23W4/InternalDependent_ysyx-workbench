@@ -29,7 +29,7 @@ WARNING_IGNORE_FLAG=-Wno-UNUSEDSIGNAL
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
-DIFF_TEST=1
+DIFF_TEST=1    
 LOG_FILE=./record.txt
 
 NPC_EXE=$(NPC_HOME)/obj_dir/Vtop

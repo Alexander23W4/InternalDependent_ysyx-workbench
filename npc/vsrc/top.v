@@ -407,10 +407,10 @@ decode Decode(
             end
             else if (|{{5{csrrc}} & rs1}) begin
                 case(immCSR) 
-                    32'h00000300: mstatus <= rdata1 & (~csrw_rst);
-                    32'h00000305: mtvec <= rdata1 & (~csrw_rst);
-                    32'h00000341: mepc <= rdata1 & (~csrw_rst);
-                    32'h00000342: mcause <= rdata1 & (~csrw_rst);
+                    32'h00000300: mstatus <= csrw_rst & (~rdata1);
+                    32'h00000305: mtvec <= csrw_rst & (~rdata1);
+                    32'h00000341: mepc <= csrw_rst & (~rdata1);
+                    32'h00000342: mcause <= csrw_rst & (~rdata1);
                     // 32'h00000b00: mcycle <= rdata1 & (~csrw_rst);
                     // 32'h00000b80: mcycleh <= rdata1 & (~csrw_rst);
                 endcase

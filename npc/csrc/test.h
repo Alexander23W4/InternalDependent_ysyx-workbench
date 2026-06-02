@@ -14,8 +14,11 @@
 
 #define RAM_SIZE 3000000  
 #define MEMORY_LOAD_EFFECTIVENESS 20000
-#define DIFF_TEST 1
+#define DIFF_TEST 0
 #define RAM_BASE 0x80000000
+
+#define MMIO_SERIAL 0xa00003f8
+
 extern char* diff_so_file;
 extern int endprog;
 extern const char *regs_name[];

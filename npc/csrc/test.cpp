@@ -104,6 +104,7 @@ int main(int argc, char** argv) {
     if(top->dbg_reg[10] != 0){   
         printf("HIT BAD TRAP\n");
         printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
+        prt_gprs(top);
     }
     else{
         printf("HIT GOOD TRAP\n");

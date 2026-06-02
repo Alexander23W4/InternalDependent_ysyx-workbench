@@ -851,17 +851,17 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                     & (vlSelf->instr 
                                        >> 0xfU))))) {
             if ((0x300U == (vlSelf->instr >> 0x14U))) {
-                vlSelf->top__DOT__mstatus = (vlSelf->top__DOT__rdata1 
-                                             & (~ vlSelf->top__DOT__csrw_rst));
+                vlSelf->top__DOT__mstatus = (vlSelf->top__DOT__csrw_rst 
+                                             & (~ vlSelf->top__DOT__rdata1));
             } else if ((0x305U == (vlSelf->instr >> 0x14U))) {
-                vlSelf->top__DOT__mtvec = (vlSelf->top__DOT__rdata1 
-                                           & (~ vlSelf->top__DOT__csrw_rst));
+                vlSelf->top__DOT__mtvec = (vlSelf->top__DOT__csrw_rst 
+                                           & (~ vlSelf->top__DOT__rdata1));
             } else if ((0x341U == (vlSelf->instr >> 0x14U))) {
-                __Vdly__top__DOT__mepc = (vlSelf->top__DOT__rdata1 
-                                          & (~ vlSelf->top__DOT__csrw_rst));
+                __Vdly__top__DOT__mepc = (vlSelf->top__DOT__csrw_rst 
+                                          & (~ vlSelf->top__DOT__rdata1));
             } else if ((0x342U == (vlSelf->instr >> 0x14U))) {
-                vlSelf->top__DOT__mcause = (vlSelf->top__DOT__rdata1 
-                                            & (~ vlSelf->top__DOT__csrw_rst));
+                vlSelf->top__DOT__mcause = (vlSelf->top__DOT__csrw_rst 
+                                            & (~ vlSelf->top__DOT__rdata1));
             }
         }
     }

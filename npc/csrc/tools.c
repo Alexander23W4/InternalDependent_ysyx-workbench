@@ -87,11 +87,17 @@ void ram_write(uint32_t addr, uint32_t data, int amount) {
     assert(amount <= 4 && amount >= 1);
     uint8_t* ram_byte = (uint8_t*)ram; 
     check((paddr % amount) == 0, "misaligned access, paddr: 0x%08X, amount: %d", paddr, amount);
-    if (paddr >= RAM_SIZE * 4){
-        printf("invalid ram_write addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);
+    if (addr == MMIO_SERIAL){
+        putc((char)data, stderr);
     }
-    for (int i = 0; i < amount; i++) {
-        ram_byte[paddr + i] = (uint8_t)(data >> (8 * i));
+    else {
+        if (paddr >= RAM_SIZE * 4){
+            printf("invalid ram_write addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);
+        }
+
+        for (int i = 0; i < amount; i++) {
+            ram_byte[paddr + i] = (uint8_t)(data >> (8 * i));
+        }
     }
     return;
 error:
@@ -110,11 +116,10 @@ void prt_gprs(Vtop* top) {
             if (count % 4 == 0) printf("\n                | "); 
         }
     }
-    printf("--------------------- CSR State ---------------------\n");
-    printf("mtvec:   0x%08x\n", cpu.mtvec);
-    printf("mepc:    0x%08x\n", cpu.mepc);
-    printf("mcause:  0x%08x\n", cpu.mcause);
-    printf("mstatus: 0x%08x\n", cpu.mstatus);
-    printf("mcycle: %" PRIu64 "\n", cpu.mcycle);
-    printf("-----------------------------------------------------\n");
+    printf("\n");
+    printf("mtvec:   0x%08x\n", top->_mtvec);
+    printf("mepc:    0x%08x\n", top->_mepc);
+    printf("mcause:  0x%08x\n", top->_mcause);
+    printf("mstatus: 0x%08x\n", top->_mstatus);
+    printf("mcycle: %" PRIu64 "\n", (((uint64_t)(top->_mcycleh)) << 32) + (uint64_t)(top->_mcycle));
 }

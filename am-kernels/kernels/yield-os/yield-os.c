@@ -4,7 +4,14 @@
 #define STACK_SIZE (4096 * 8)
 
 /*
-  all that needs to be done is to return the cp pointer from the PCB to the CTE's __am_irq_handle()
+Whole Structure of CTE: 
+  OS-Context-Switch program(Host Context storage & switch)       
+  OS-Event-Handler    [Code area]
+  OS-Guest-Context_init   [Code area]
+
+  Guest-Handler Program    [Code area]
+
+  PCB (Stack   Context)     Program Code (Function)   [Stack area, Code area]
 */
 
 /*
@@ -26,6 +33,7 @@
 │                         │                                                 │
 pcb->cp 占用了这里        整个 stack[STACK_SIZE] 占满了这一整块空间         栈底(sp的初始起点)
 */
+
 typedef union {
   uint8_t stack[STACK_SIZE];
   struct { Context *cp; };

@@ -13,7 +13,7 @@ Context* current;
 Context* next;
 bool _store_current_context = false;
 
-// trap.S ->  __am_irq_handle -> ev_handler
+// trap.S (__am_asm_trap) ->  __am_irq_handle -> ev_handler
 static Context* ev_handler(Event e, Context *c) {
   switch (e.event) {
     case EVENT_YIELD:    // event is ISA indenpendent
@@ -55,6 +55,7 @@ void rt_hw_context_switch_to(rt_ubase_t to) {
   printf("yield1\n");
   yield();
 }
+
 /*
 method for avoid using global variant for current & next process storage
 void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to) {
@@ -143,7 +144,8 @@ rt_uint8_t *rt_hw_stack_init(void *tentry, void *parameter, rt_uint8_t *stack_ad
   wagr->tentry = tentry;
   wagr->texit = texit;
 
-  stack_bottom  = ((uintptr_t)wagr) - (stack_bottom % sizeof(uintptr_t));  // Align again
+  // Align again
+  stack_bottom  = ((uintptr_t)wagr) - (stack_bottom % sizeof(uintptr_t)); 
 
   Context* context = kcontext((Area) {(void*)(stack_bottom - STACK_SIZE), (void*)stack_bottom}, (void*)wrapper_ptr, (void*)wagr);
   return (rt_uint8_t*)context;

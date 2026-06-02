@@ -42,7 +42,7 @@ typedef union {
 // This build 2 * 4KB space at STACK AREA (in general stack, 2 tiny process stack)
 static PCB pcb[2], pcb_boot, *current = &pcb_boot;   
 
-// programs in both process
+// programs in both process 
 static void f(void *arg) {
   while (1) {
     putch("?AB"[(uintptr_t)arg > 2 ? 0 : (uintptr_t)arg]);  // "?AB"[1] = 'A'
@@ -51,7 +51,7 @@ static void f(void *arg) {
   }
 }
 
-// schedule, switch process
+// guest-handler, should base on different event
 static Context *schedule(Event ev, Context *prev) {
   current->cp = prev;  // update context of current process
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);   // change process

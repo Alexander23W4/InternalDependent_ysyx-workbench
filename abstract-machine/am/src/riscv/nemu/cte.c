@@ -4,6 +4,11 @@
 // in src/$ISA, must implement all of the functions defined in am/include/am.h
 
 /*
+  code  +  sources (global  stack  heap)     
+  main  
+*/
+
+/*
 Whole Structure of CTE: 
   OS-Context-Switch program(Host Context storage & switch)       
   OS-Event-Handler    [Code area]
@@ -76,7 +81,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
   /*
   la t0, __am_asm_trap   
-  csrw mtvec, t0        
+  csrw mtvec, t0          // Direct Mode by default, set mtvec[1:0] to 00
   */ 
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));   //  set the exception entry address to the mtvec register, jump to __am_asm_trap
 

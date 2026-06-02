@@ -17,7 +17,7 @@ Currently, we only need to implement the ecall exception, which is a trap except
 */
 
 /*
-implement 5 CSRs     mstatus  mepc  mtvec  mcause
+implement 5 CSRs     mstatus  mepc  mtvec  mcause mcycle
 
 */
 
@@ -31,12 +31,23 @@ implement 5 CSRs     mstatus  mepc  mtvec  mcause
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc)); 
 */
 
+
+/*
+你需要添加的第一个CSR是mcycle, 它是一个每周期增加1的计数器. 有了它, 我们就可以根据处理器的频率将周期数换算成时间, 从而实现AM时钟相关的功能. 
+根据RISC-V手册的定义, mcycle本身是一个64位的计数器, 在RV32中, 由于通用寄存器的位宽是32位的, 因此需要将这个计数器拆成mcycle和mcycleh这两个32位的CSR进行访问.
+
+添加mcycle
+具体地, 你需要在NPC中实现csrrs指令, 并添加mcycle. 为此, 你需要阅读RISC-V特权架构手册, 从中找到mcycle和mcycleh的编号等信息.
+
+实现后, 尝试通过内联汇编多次读出mcycle寄存器, 检查其值是否自动递增. 在内联汇编中可以使用伪指令csrr, 其对应的真实指令即为csrrs.
+*/
 module top(
     input clk,
     input rst,
     input [31:0] instr,
     output [32*32-1:0] dbg_reg,
-    output [31:0] _pc
+    output [31:0] _pc,
+    output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh
 );
     // DPI-C interfaces:
     export "DPI-C" task halt;
@@ -66,7 +77,13 @@ module top(
     reg [31:0] pc;
     assign _pc = pc;
 
-    reg [31:0] mstatus, mepc, mcause, mtvec;
+    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh;
+    assign _mstatus = mstatus;
+    assign _mepc = mepc;
+    assign _mcause = mcause;
+    assign _mtvec = mtvec;
+    assign _mcycle = mcycle;
+    assign _mcycleh = mcycleh;
 
     wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
     wire add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
@@ -218,6 +235,7 @@ decode Decode(
     wire[31:0] srli_rst = rdata1 >> shamt_i;
     wire[31:0] sra_rst  = $signed(rdata1) >>> shamt_r;
     wire[31:0] srai_rst = $signed(rdata1) >>> shamt_i;
+
     reg [31:0] csrw_rst;
     always @(*) begin
         case(immCSR) 
@@ -225,6 +243,8 @@ decode Decode(
             32'h00000305: csrw_rst = mtvec;
             32'h00000341: csrw_rst = mepc;
             32'h00000342: csrw_rst = mcause;
+            32'h00000b00: csrw_rst = mcycle;
+            32'h00000b80: csrw_rst = mcycleh;
             default: csrw_rst = 0;
         endcase
     end 
@@ -290,11 +310,14 @@ decode Decode(
         if(rst) begin
             pc <= 32'h80000000;
             mstatus <= 32'h00001800;
-            mcause <= 32'0;
-            mepc <= 32'0;
-            mtvec <= 32'0;
+            mcause <= 0;
+            mepc <= 0;
+            mtvec <= 0;
+            mcycle <= 0;
+            mcycleh <= 0;
         end
         else begin
+            {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
             // pc update
             if(jalr) begin
                 pc <= add_rst & ~32'h1;
@@ -347,11 +370,13 @@ decode Decode(
 
             // privilege
             else if(csrrw) begin
-                case(immCSR) 
+                case(immCSR)  // case CSR addr
                     32'h00000300: mstataus <= rdata1;
                     32'h00000305: mtvec <= rdata1;
                     32'h00000341: mepc <= rdata1;
                     32'h00000342: mcause <= rdata1;
+                    // 32'h00000b00: mcycle <= rdata1;
+                    // 32'h00000b80: mcycleh <= rdata1;
                 endcase
             end
             else if (|{{5{csrrs}} & rs1}) begin
@@ -360,6 +385,8 @@ decode Decode(
                     32'h00000305: mtvec <= rdata1 | csrw_rst;
                     32'h00000341: mepc <= rdata1 | csrw_rst;
                     32'h00000342: mcause <= rdata1 | csrw_rst;
+                    // 32'h00000b00: mcycle <= rdata1 | csrw_rst;
+                    // 32'h00000b80: mcycleh <= rdata1 | csrw_rst;
                 endcase
             end
             else if (|{{5{csrrc}} & rs1}) begin
@@ -368,6 +395,8 @@ decode Decode(
                     32'h00000305: mtvec <= rdata1 & (~csrw_rst);
                     32'h00000341: mepc <= rdata1 & (~csrw_rst);
                     32'h00000342: mcause <= rdata1 & (~csrw_rst);
+                    // 32'h00000b00: mcycle <= rdata1 & (~csrw_rst);
+                    // 32'h00000b80: mcycleh <= rdata1 & (~csrw_rst);
                 endcase
             end
         end

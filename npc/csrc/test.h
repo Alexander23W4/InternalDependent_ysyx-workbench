@@ -12,7 +12,7 @@
 #include <inttypes.h>
 
 
-#define RAM_SIZE 3000000  
+#define RAM_SIZE 50000000
 #define MEMORY_LOAD_EFFECTIVENESS 20000
 #define DIFF_TEST 0
 #define RAM_BASE 0x80000000

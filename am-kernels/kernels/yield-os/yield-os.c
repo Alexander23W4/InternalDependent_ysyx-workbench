@@ -1,5 +1,6 @@
 #include <am.h>
 #include <klib-macros.h>
+#include <klib.h>
 
 #define STACK_SIZE (4096 * 8)
 
@@ -61,6 +62,14 @@ static Context *schedule(Event ev, Context *prev) {
 
 int main() {
   cte_init(schedule);
+  uint32_t mvendorid, marchid;
+
+  asm volatile("csrr %0, mvendorid" : "=r"(mvendorid));
+  asm volatile("csrr %0, marchid"    : "=r"(marchid));
+
+  printf("mvendorid: %d\n", mvendorid);
+  printf("marchid  : %d\n", marchid);
+
   // init context for each process
   pcb[0].cp = kcontext((Area) { pcb[0].stack, &pcb[0] + 1 }, f, (void *)1L);
   pcb[1].cp = kcontext((Area) { pcb[1].stack, &pcb[1] + 1 }, f, (void *)2L);

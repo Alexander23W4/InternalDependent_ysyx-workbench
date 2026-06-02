@@ -90,7 +90,6 @@ void ram_write(uint32_t addr, uint32_t data, int amount) {
     if (addr == MMIO_SERIAL){
         putc((char)data, stderr);
     }
-    printf("kkkk1\n");
     else {
         if (paddr >= RAM_SIZE * 4){
             printf("invalid ram_write addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);

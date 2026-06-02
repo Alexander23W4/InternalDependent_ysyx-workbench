@@ -53,8 +53,8 @@ int main(int argc, char** argv) {
     while(1){
         // fetch
         uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; 
-        printf("pc: 0x%8x  ", top->_pc);
-        printf("pc_idx: %u\n", pc_idx);
+        // printf("pc: 0x%8x  ", top->_pc);
+        // printf("pc_idx: %u\n", pc_idx);
 
         if (pc_idx >= RAM_SIZE || pc_idx < 0){
             printf("Invalid pc\n"); 
@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
 
         top->instr = ram[pc_idx];
         instr = ram[pc_idx];
-        printf("Current instr: 0x%08x \n", ram[pc_idx]);
+        // printf("Current instr: 0x%08x \n", ram[pc_idx]);
         
         // operation a period
         tick(top);

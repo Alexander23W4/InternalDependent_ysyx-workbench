@@ -33,21 +33,26 @@ implement 5 CSRs     mstatus  mepc  mtvec  mcause mcycle
 
 
 /*
-你需要添加的第一个CSR是mcycle, 它是一个每周期增加1的计数器. 有了它, 我们就可以根据处理器的频率将周期数换算成时间, 从而实现AM时钟相关的功能. 
-根据RISC-V手册的定义, mcycle本身是一个64位的计数器, 在RV32中, 由于通用寄存器的位宽是32位的, 因此需要将这个计数器拆成mcycle和mcycleh这两个32位的CSR进行访问.
-
-添加mcycle
-具体地, 你需要在NPC中实现csrrs指令, 并添加mcycle. 为此, 你需要阅读RISC-V特权架构手册, 从中找到mcycle和mcycleh的编号等信息.
-
 实现后, 尝试通过内联汇编多次读出mcycle寄存器, 检查其值是否自动递增. 在内联汇编中可以使用伪指令csrr, 其对应的真实指令即为csrrs.
+
+为了标识不同同学的NPC, 我们可以利用CSR中的标识寄存器. 具体地, RISC-V中定义了mvendorid和marchid这两个CSR, 我们可以利用它们存放一些标识信息. 
+之后, 程序在运行时刻可以通过CSR指令将这些标识信息读到通用寄存器中, 并进一步打印这些信息.
+
+
+
+mvendorid - 从中读出ysyx的ASCII码, 即0x79737978
+marchid - 从中读出学号数字部分的十进制表示, 假设你的学号为ysyx_22068888, 若将读出的信息解释为整数, 则应为22068888, 即0x150be98
+
+实现后, 可在TRM进入main()函数前, 通过内联汇编读出上述两个CSR的值, 然后通过printf()输出它们.
 */
+
 module top(
     input clk,
     input rst,
     input [31:0] instr,
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
-    output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh
+    output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid
 );
     // DPI-C interfaces:
     export "DPI-C" task halt;
@@ -77,13 +82,15 @@ module top(
     reg [31:0] pc;
     assign _pc = pc;
 
-    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh;
+    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;
     assign _mstatus = mstatus;
     assign _mepc = mepc;
     assign _mcause = mcause;
     assign _mtvec = mtvec;
     assign _mcycle = mcycle;
     assign _mcycleh = mcycleh;
+    assign _mvendorid = mvendorid;
+    assign _marchid = marchid;
 
     wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
     wire add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
@@ -245,6 +252,8 @@ decode Decode(
             32'h00000342: csrw_rst = mcause;
             32'h00000b00: csrw_rst = mcycle;
             32'h00000b80: csrw_rst = mcycleh;
+            32'h00000f11: csrw_rst = mvendorid;
+            32'h00000f12: csrw_rst = marchid;
             default: csrw_rst = 0;
         endcase
     end 
@@ -315,6 +324,8 @@ decode Decode(
             mtvec <= 0;
             mcycle <= 0;
             mcycleh <= 0;
+            mvendorid <= 32'h79737978;
+            marchid <= 32'h18d6687;   // id: ysyx_26040135
         end
         else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;

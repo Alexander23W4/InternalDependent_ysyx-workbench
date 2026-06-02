@@ -3,6 +3,24 @@
 #include <klib.h>
 // in src/$ISA, must implement all of the functions defined in am/include/am.h
 
+/*
+Whole Structure of CTE: 
+  OS-Context-Switch program(Host Context storage & switch)       
+  OS-Event-Handler    [Code area]
+  OS-Guest-Context_init   [Code area]
+
+  Guest-Handler Program   [Code area]
+
+  PCB (Stack   Context)     Program Code (Function)   [Stack area, Code area]
+*/
+
+/*
+ cte_init()  set OS handle program, mtvec
+ Set space for each process(PCB)
+ prepare code for each process, package them
+ init context for each process
+*/
+
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 const char *reg_names_rv32[] = {

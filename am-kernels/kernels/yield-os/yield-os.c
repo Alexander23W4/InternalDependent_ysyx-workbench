@@ -9,7 +9,7 @@ Whole Structure of CTE:
   OS-Event-Handler    [Code area]
   OS-Guest-Context_init   [Code area]
 
-  Guest-Handler Program    [Code area]
+  Guest-Handler Program   [Code area]
 
   PCB (Stack   Context)     Program Code (Function)   [Stack area, Code area]
 */
@@ -39,7 +39,7 @@ typedef union {
   struct { Context *cp; };
 } PCB;
 
-// This build 2 * 4KB space at RAM (in general stack, 2 tiny process stack)
+// This build 2 * 4KB space at STACK AREA (in general stack, 2 tiny process stack)
 static PCB pcb[2], pcb_boot, *current = &pcb_boot;   
 
 // programs in both process

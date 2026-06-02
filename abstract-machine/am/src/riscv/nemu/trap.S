@@ -49,7 +49,7 @@ __am_asm_trap:
   MAP(REGS, PUSH)         # REGS(PUSH)  push all of the registers (except sp) to stack, tons of SW...
 
 # read from real CSRs
-  csrr t0, mcause
+  csrr t0, mcause       # for OS-evnet handler function
   csrr t1, mstatus
   csrr t2, mepc
 
@@ -59,14 +59,14 @@ __am_asm_trap:
   STORE t2, OFFSET_EPC(sp)     # most close to stack bottom
 
   # set mstatus.MPRV to pass difftest
-  li a0, (1 << 17)
+  li a0, (1 << 17)    # MPRV is the 17th bit in mstatus
   or t1, t1, a0
-  csrw mstatus, t1 
+  csrw mstatus, t1
 
   mv a0, sp       # mv staco pointer (sp), as well as the pointer to Context, to a0. It deliver *Context as a parameter to _am_irq_handle
   call __am_irq_handle    # *** core exception handle function, the return Context* pointer is stored in a0
 
-  mv sp, a0       # ***
+  mv sp, a0       # sp get returned Context from a0, ready to phase new Context
 
 # ---------------- load ... load new Context  ------------------------
 

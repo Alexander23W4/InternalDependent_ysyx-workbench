@@ -1,0 +1,23 @@
+/home/wang/InternalDependent_ysyx-workbench/fceux-am/build/riscv32e-npc/src/filter.o: \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/filter.cpp \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/types.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/include/klib.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/am.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/arch/riscv.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/amdev.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/sound.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/x6502.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/x6502struct.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fceu.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/git.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/utils/md5.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/utils/../types.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/utils/valuearray.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/filter.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fcoeffs.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fir/c44100ntsc.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fir/c48000ntsc.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fir/c96000ntsc.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fir/c44100pal.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fir/c48000pal.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/fir/c96000pal.h

@@ -355,6 +355,16 @@ decode Decode(
             else if(bgeu) begin
                 pc <= (rdata1 >= rdata2) ? add_rst : pc_next_dft;
             end
+
+            // system
+            else if(ecall) begin
+                mepc <= pc;
+                mcause <= 32'h0000000b;
+                pc <= mtvec;
+            end
+            else if(mret) begin
+                pc <= mepc;
+            end
             else begin
                 pc <= pc_next_dft;
             end
@@ -372,16 +382,6 @@ decode Decode(
             end
             else if(sh) begin
                 ram_write(add_rst, rdata2, 2);
-            end
-
-            // system
-            else if(ecall) begin
-                mepc <= pc;
-                mcause <= 32'h0000000b;
-                pc <= mtvec;
-            end
-            else if(mret) begin
-                pc <= mepc;
             end
 
             // privilege

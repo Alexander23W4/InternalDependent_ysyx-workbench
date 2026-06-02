@@ -1,0 +1,22 @@
+/home/wang/InternalDependent_ysyx-workbench/fceux-am/build/riscv32e-npc/src/drivers/sdl/input.o: \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/input.cpp \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/include/klib-macros.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/main.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../driver.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../types.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/include/klib.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/am.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/arch/riscv.h \
+ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/include/amdev.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../git.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../utils/md5.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../utils/../types.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../utils/valuearray.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../file.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../emufile.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/dface.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/input.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/sdl-video.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/sdl.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/../../fceu.h \
+ /home/wang/InternalDependent_ysyx-workbench/fceux-am/src/drivers/sdl/keyscan.h

@@ -8,6 +8,9 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
+      case 0xb: ev.event = EVENT_YIELD;
+        c->mepc += 4;
+        break;
       default: ev.event = EVENT_ERROR; break;
     }
 
@@ -31,7 +34,18 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  // write at the bottom of the stack
+  Context* context = (Context *)((char *)kstack.end - sizeof(Context)); 
+
+  context->mstatus = 0x1800;
+
+  context->mepc = (uintptr_t)entry;
+
+  for (int i = 0; i < NR_REGS; i++){ context->gpr[i] = 0; }
+  context->gpr[2] = (uintptr_t)context;    // at beginning, point sp to Context, not the bottom of the stack 
+  context->gpr[10] = (uintptr_t)arg;
+
+  return context;
 }
 
 void yield() {

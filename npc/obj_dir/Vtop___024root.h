@@ -56,6 +56,7 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ top__DOT__auipc;
         CData/*0:0*/ top__DOT__ebreak;
         CData/*0:0*/ top__DOT__ecall;
+        CData/*0:0*/ top__DOT__mret;
         CData/*0:0*/ top__DOT__csrrw;
         CData/*0:0*/ top__DOT__csrrs;
         CData/*0:0*/ top__DOT__csrrc;
@@ -78,9 +79,9 @@ class Vtop___024root final : public VerilatedModule {
         VL_OUT(_marchid,31,0);
         IData/*31:0*/ top__DOT__pc;
         IData/*31:0*/ top__DOT__mstatus;
-        IData/*31:0*/ top__DOT__mepc;
     };
     struct {
+        IData/*31:0*/ top__DOT__mepc;
         IData/*31:0*/ top__DOT__mcause;
         IData/*31:0*/ top__DOT__mtvec;
         IData/*31:0*/ top__DOT__mcycle;

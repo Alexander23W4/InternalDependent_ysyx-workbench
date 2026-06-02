@@ -83,6 +83,7 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___stl_sequent__TOP__0\n"); );
     // Body
+    vlSelf->top__DOT__mret = 0U;
     vlSelf->top__DOT__ecall = 0U;
     vlSelf->top__DOT__ebreak = 0U;
     vlSelf->dbg_reg[0U] = vlSelf->top__DOT__GPR__DOT__gpr
@@ -270,43 +271,58 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                       == 
                                                       (0x107000U 
                                                        & vlSelf->instr)))))) {
-                                    if ((0U == (vlSelf->instr 
-                                                >> 7U))) {
-                                        vlSelf->top__DOT__ecall = 1U;
+                                    if ((0x604000U 
+                                         == (vlSelf->instr 
+                                             >> 7U))) {
+                                        vlSelf->top__DOT__mret = 1U;
                                     }
-                                    if ((0U != (vlSelf->instr 
-                                                >> 7U))) {
-                                        if ((1U != 
-                                             (7U & 
-                                              (vlSelf->instr 
-                                               >> 0xcU)))) {
-                                            if ((2U 
+                                    if ((0x604000U 
+                                         != (vlSelf->instr 
+                                             >> 7U))) {
+                                        if ((0U == 
+                                             (vlSelf->instr 
+                                              >> 7U))) {
+                                            vlSelf->top__DOT__ecall = 1U;
+                                        }
+                                        if ((0U != 
+                                             (vlSelf->instr 
+                                              >> 7U))) {
+                                            if ((1U 
                                                  != 
                                                  (7U 
                                                   & (vlSelf->instr 
                                                      >> 0xcU)))) {
                                                 if (
-                                                    (3U 
+                                                    (2U 
+                                                     != 
+                                                     (7U 
+                                                      & (vlSelf->instr 
+                                                         >> 0xcU)))) {
+                                                    if (
+                                                        (3U 
+                                                         == 
+                                                         (7U 
+                                                          & (vlSelf->instr 
+                                                             >> 0xcU)))) {
+                                                        vlSelf->top__DOT__csrrc = 1U;
+                                                    }
+                                                }
+                                                if (
+                                                    (2U 
                                                      == 
                                                      (7U 
                                                       & (vlSelf->instr 
                                                          >> 0xcU)))) {
-                                                    vlSelf->top__DOT__csrrc = 1U;
+                                                    vlSelf->top__DOT__csrrs = 1U;
                                                 }
                                             }
-                                            if ((2U 
+                                            if ((1U 
                                                  == 
                                                  (7U 
                                                   & (vlSelf->instr 
                                                      >> 0xcU)))) {
-                                                vlSelf->top__DOT__csrrs = 1U;
+                                                vlSelf->top__DOT__csrrw = 1U;
                                             }
-                                        }
-                                        if ((1U == 
-                                             (7U & 
-                                              (vlSelf->instr 
-                                               >> 0xcU)))) {
-                                            vlSelf->top__DOT__csrrw = 1U;
                                         }
                                     }
                                 }
@@ -951,6 +967,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__auipc = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__ebreak = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__ecall = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__mret = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__csrrw = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__csrrs = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__csrrc = VL_RAND_RESET_I(1);

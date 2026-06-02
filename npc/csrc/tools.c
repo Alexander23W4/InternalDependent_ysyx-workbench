@@ -44,14 +44,15 @@ void load_memory(char* filename, uint32_t* M, size_t *img_size) {
     assert(fp);
 
     fseek(fp, 0, SEEK_END);   
-    size_t size = ftell(fp);    
+    size_t size = ftell(fp);   
+    printf("image size: %zu\n", size); 
     fseek(fp, 0, SEEK_SET);      
 
     if (img_size != NULL) {
         *img_size = size;
     }
 
-    size_t loaded_instr = fread(M, sizeof(uint32_t), MEMORY_LOAD_EFFECTIVENESS, fp);
+    size_t loaded_instr = fread(M, sizeof(uint32_t), RAM_SIZE, fp);
     fclose(fp);
 
     printf("--LOAD %zu INSTR (%zu BYTES) TO M[]\n", loaded_instr, size);

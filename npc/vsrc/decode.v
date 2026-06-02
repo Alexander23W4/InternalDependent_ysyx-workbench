@@ -341,6 +341,7 @@ module decode(
             // === System ===
             7'b1110011: begin
                 if (funct3 == 3'b000 && instr[20]) ebreak = 1'b1;
+                else if (instr[31:7] == 25'b0011000000100000000000000) mret = 1'b1;
                 else if (instr[31:7] == 0) ecall = 1'b1;
                 else if (funct3 == 3'b001) csrrw = 1'b1;
                 else if (funct3 == 3'b010) csrrs = 1'b1;

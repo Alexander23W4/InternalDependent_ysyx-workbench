@@ -64,10 +64,17 @@ static void difftest_abort_print(CPU_state* ref) {
     }
     printf("\n");
   } 
+  printf("--------------------- CSR State ---------------------\n");
+  printf("mtvec:   0x%08x\n", cpu.mtvec);
+  printf("mepc:    0x%08x\n", cpu.mepc);
+  printf("mcause:  0x%08x\n", cpu.mcause);
+  printf("mstatus: 0x%08x\n", cpu.mstatus);
+  printf("mcycle: %" PRIu64 "\n", cpu.mcycle);
+  printf("-----------------------------------------------------\n");
 }
 
 static void checkregs(CPU_state *ref) {
-  difftest_abort_print(ref);
+  // difftest_abort_print(ref);
   if (!difftest_checkregs(ref)) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);

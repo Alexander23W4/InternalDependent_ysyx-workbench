@@ -175,7 +175,7 @@ module decode(
     output [31:0] immS,
     output [31:0] immB, 
     output [31:0] immJ,
-    output [31:0] immCSR;
+    output [31:0] immCSR
 );
 
     wire [6:0] opcode = instr[6:0];

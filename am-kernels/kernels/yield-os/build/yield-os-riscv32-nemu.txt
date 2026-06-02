@@ -162,7 +162,7 @@ Disassembly of section .text:
 80000230:	08e52423          	sw	a4,136(a0)
 80000234:	fb5ff06f          	j	800001e8 <__am_irq_handle+0x38>
 80000238:	00008067          	ret
-8000023c:	02f00613          	li	a2,47
+8000023c:	04600613          	li	a2,70
 80000240:	00000597          	auipc	a1,0x0
 80000244:	4b058593          	addi	a1,a1,1200 # 800006f0 <mainargs+0x40>
 80000248:	00000517          	auipc	a0,0x0

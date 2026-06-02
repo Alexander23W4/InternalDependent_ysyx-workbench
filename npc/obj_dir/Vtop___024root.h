@@ -55,7 +55,12 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ top__DOT__lui;
         CData/*0:0*/ top__DOT__auipc;
         CData/*0:0*/ top__DOT__ebreak;
+        CData/*0:0*/ top__DOT__ecall;
+        CData/*0:0*/ top__DOT__csrrw;
+        CData/*0:0*/ top__DOT__csrrs;
+        CData/*0:0*/ top__DOT__csrrc;
         CData/*0:0*/ top__DOT____VdfgTmp_h71776512__0;
+        CData/*0:0*/ top__DOT____VdfgTmp_haf3ac130__0;
         CData/*0:0*/ top__DOT____VdfgTmp_heb8827dd__0;
         CData/*0:0*/ __Vtrigrprev__TOP__clk;
         CData/*0:0*/ __Vtrigrprev__TOP__rst;
@@ -63,13 +68,32 @@ class Vtop___024root final : public VerilatedModule {
         VL_IN(instr,31,0);
         VL_OUTW(dbg_reg,1023,0,32);
         VL_OUT(_pc,31,0);
+        VL_OUT(_mstatus,31,0);
+        VL_OUT(_mepc,31,0);
+        VL_OUT(_mcause,31,0);
+        VL_OUT(_mtvec,31,0);
+        VL_OUT(_mcycle,31,0);
+        VL_OUT(_mcycleh,31,0);
+        VL_OUT(_mvendorid,31,0);
+        VL_OUT(_marchid,31,0);
         IData/*31:0*/ top__DOT__pc;
+        IData/*31:0*/ top__DOT__mstatus;
+        IData/*31:0*/ top__DOT__mepc;
+    };
+    struct {
+        IData/*31:0*/ top__DOT__mcause;
+        IData/*31:0*/ top__DOT__mtvec;
+        IData/*31:0*/ top__DOT__mcycle;
+        IData/*31:0*/ top__DOT__mcycleh;
+        IData/*31:0*/ top__DOT__mvendorid;
+        IData/*31:0*/ top__DOT__marchid;
         IData/*31:0*/ top__DOT__immI;
         IData/*31:0*/ top__DOT__wdata;
         IData/*31:0*/ top__DOT__rdata1;
         IData/*31:0*/ top__DOT__rdata2;
         IData/*31:0*/ top__DOT__pc_next_dft;
         IData/*31:0*/ top__DOT__add_rst;
+        IData/*31:0*/ top__DOT__csrw_rst;
         IData/*31:0*/ top__DOT__lw_rst;
         IData/*31:0*/ top__DOT__lbu_rst;
         IData/*31:0*/ top__DOT__lhu_rst;
@@ -79,8 +103,6 @@ class Vtop___024root final : public VerilatedModule {
         IData/*31:0*/ __VstlIterCount;
         IData/*31:0*/ __VicoIterCount;
         IData/*31:0*/ __VactIterCount;
-    };
-    struct {
         VlUnpacked<IData/*31:0*/, 32> top__DOT__GPR__DOT__gpr;
     };
     VlTriggerVec<1> __VstlTriggered;

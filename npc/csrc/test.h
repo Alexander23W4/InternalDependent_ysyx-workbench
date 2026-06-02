@@ -9,6 +9,9 @@
 #include "dbg.h"
 #include <getopt.h>
 #include <string.h>
+#include <inttypes.h>
+
+
 #define RAM_SIZE 524288  
 #define MEMORY_LOAD_EFFECTIVENESS 20000
 #define DIFF_TEST 1
@@ -20,6 +23,11 @@ extern const char *regs_name[];
 typedef struct{
     uint32_t gpr[32];
     uint32_t pc;
+    uint32_t mepc;
+    uint32_t mstatus;
+    uint32_t mcause;
+    uint32_t mtvec;
+    uint64_t mcycle;
 } CPU_state;
 
 extern uint32_t instr;

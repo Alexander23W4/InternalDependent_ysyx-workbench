@@ -40,7 +40,7 @@ run: insert-arg update-npc
 
 gdb: insert-arg
 	@echo "================================= GDB ====================================="
-	$(MAKE) -C $(NPC_HOME) gdb
+	$(MAKE) -C $(NPC_HOME) npc-gdb
 ifneq ($(DIFF_TEST),)
 	$(MAKE) -C $(NEMU_HOME)
 endif

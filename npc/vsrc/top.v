@@ -110,6 +110,7 @@ module top(
     wire [31:0] immS;
     wire [31:0] immB;
     wire [31:0] immJ;
+    wire [31:0] immCSR;
 
 
     wire [31:0] wdata;
@@ -357,9 +358,13 @@ decode Decode(
             else begin
                 pc <= pc_next_dft;
             end
+        end
+    end
 
+    always @(posedge clk or posedge rst) begin
+        if(!rst) begin
             // write ram
-            else if(sw) begin
+            if(sw) begin
                 ram_write(add_rst, rdata2, 4);
             end
             else if(sb) begin
@@ -382,7 +387,7 @@ decode Decode(
             // privilege
             else if(csrrw) begin
                 case(immCSR)  // case CSR addr
-                    32'h00000300: mstataus <= rdata1;
+                    32'h00000300: mstatus <= rdata1;
                     32'h00000305: mtvec <= rdata1;
                     32'h00000341: mepc <= rdata1;
                     32'h00000342: mcause <= rdata1;
@@ -392,7 +397,7 @@ decode Decode(
             end
             else if (|{{5{csrrs}} & rs1}) begin
                 case(immCSR) 
-                    32'h00000300: mstataus <= rdata1 | csrw_rst;
+                    32'h00000300: mstatus <= rdata1 | csrw_rst;
                     32'h00000305: mtvec <= rdata1 | csrw_rst;
                     32'h00000341: mepc <= rdata1 | csrw_rst;
                     32'h00000342: mcause <= rdata1 | csrw_rst;
@@ -402,7 +407,7 @@ decode Decode(
             end
             else if (|{{5{csrrc}} & rs1}) begin
                 case(immCSR) 
-                    32'h00000300: mstataus <= rdata1 & (~csrw_rst);
+                    32'h00000300: mstatus <= rdata1 & (~csrw_rst);
                     32'h00000305: mtvec <= rdata1 & (~csrw_rst);
                     32'h00000341: mepc <= rdata1 & (~csrw_rst);
                     32'h00000342: mcause <= rdata1 & (~csrw_rst);

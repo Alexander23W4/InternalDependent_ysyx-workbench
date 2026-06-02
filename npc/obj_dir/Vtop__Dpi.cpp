@@ -17,7 +17,7 @@
 #ifndef VL_DPIDECL_halt_
 #define VL_DPIDECL_halt_
 void halt(int* endprog) {
-    // DPI export at vsrc/top.v:11:10
+    // DPI export at vsrc/top.v:59:10
     return Vtop::halt(endprog);
 }
 #endif

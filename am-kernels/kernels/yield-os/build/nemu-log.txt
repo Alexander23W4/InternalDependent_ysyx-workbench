@@ -8,8 +8,6 @@
 [1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'audio' at [0xa0000200, 0xa0000217][0m
 [1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'audio-sbuf' at [0xa1200000, 0xa120ffff][0m
 [1;34m[src/monitor/monitor.c:61 load_img] The image is /home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/yield-os/build/yield-os-riscv32-nemu.bin, size = 100220[0m
-[1;34m[src/cpu/difftest/dut.c:89 init_difftest] Differential testing: [1;32mON[0m[0m
-[1;34m[src/cpu/difftest/dut.c:90 init_difftest] The result of every instruction will be compared with /home/wang/InternalDependent_ysyx-workbench/nemu/tools/spike-diff/build/riscv32-spike-so. This will help you a lot for debugging, but also significantly reduce the performance. If it is not necessary, you can turn it off in menuconfig.[0m
 [1;34m[src/monitor/monitor.c:29 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:30 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
 [1;34m[src/monitor/monitor.c:33 welcome] Build time: 16:29:51, May 23 2026[0m

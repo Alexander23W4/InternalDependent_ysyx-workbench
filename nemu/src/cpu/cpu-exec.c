@@ -163,6 +163,12 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);    // size = remaining space of logbuf
   p += len;
 
+/*
+All we need to care about is the function call and return instructions. 
+We can record the destination address in the function call instruction, indicating that a function will be called.
+
+translate them into function names  (Throught ELF file)
+*/
 #if CONFIG_FTRACE
   int jump_status = sieve_jump_func(s->isa.inst);
   if(jump_status == 0 || jump_status == 1){

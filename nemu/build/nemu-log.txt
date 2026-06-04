@@ -1,16 +1,9 @@
 [1;34m[src/utils/log.c:30 init_log] Log is written to /home/wang/InternalDependent_ysyx-workbench/nemu/build/nemu-log.txt[0m
 [1;34m[src/memory/paddr.c:54 init_mem] physical memory area [0x80000000, 0x87ffffff][0m
-[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'serial' at [0xa00003f8, 0xa00003ff][0m
-[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'rtc' at [0xa0000048, 0xa000004f][0m
-[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'vgactl' at [0xa0000100, 0xa0000107][0m
-[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'vmem' at [0xa1000000, 0xa10752ff][0m
-[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'keyboard' at [0xa0000060, 0xa0000063][0m
-[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'audio' at [0xa0000200, 0xa0000217][0m
-[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'audio-sbuf' at [0xa1200000, 0xa120ffff][0m
 [1;34m[src/monitor/monitor.c:51 load_img] No image is given. Use the default build-in image.[0m
 [1;34m[src/monitor/monitor.c:29 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:30 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
-[1;34m[src/monitor/monitor.c:33 welcome] Build time: 16:29:51, May 23 2026[0m
+[1;34m[src/monitor/monitor.c:33 welcome] Build time: 06:10:59, Jun  5 2026[0m
 0x80000000:     00 00 02 97     auipc	t0, 0
 0x80000004:     00 02 88 23     sb	zero, 0x10(t0)                   M_write: [ADDR]0x80000010, [DATA]0x00000000 (0)
 
@@ -18,6 +11,6 @@
 
 0x8000000c:     00 10 00 73     ebreak
 [1;34m[src/cpu/cpu-exec.c:242 cpu_exec] nemu: [1;32mHIT GOOD TRAP[0m at pc = 0x8000000c[0m
-[1;34m[src/cpu/cpu-exec.c:59 statistic] host time spent = 115 us[0m
+[1;34m[src/cpu/cpu-exec.c:59 statistic] host time spent = 48 us[0m
 [1;34m[src/cpu/cpu-exec.c:60 statistic] total guest instructions = 4[0m
-[1;34m[src/cpu/cpu-exec.c:61 statistic] simulation frequency = 34,782 inst/s[0m
+[1;34m[src/cpu/cpu-exec.c:61 statistic] simulation frequency = 83,333 inst/s[0m

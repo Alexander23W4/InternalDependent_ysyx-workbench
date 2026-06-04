@@ -1,0 +1,20 @@
+Solve RT-Thread interation-unable problem
+
+C->compilation->elf details (Two Videos) & Every details when riscv-Guest-AM system compile
+
+Full-Stack debug capability (Guest, AM-ISA_inde, AM-ISA_specifi, EMU, CPU)
+
+Be able to write guest testbench to test IOE, CTE, review all the features in them and test them (every device, and things like yield-os)
+
+Complete imfrastructure for CPU, and iterate for a couple of times, synthesis
+
+
+
+
+
+-> Others need to be improved:
+
+More regulated and Area-Time-Energy friendly RTL
+
+Read the synthesis result, and be able to find something to refine, learn how to do Digital-Backend
+

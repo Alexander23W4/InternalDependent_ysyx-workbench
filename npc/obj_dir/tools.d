@@ -5,4 +5,5 @@ tools.o: ../csrc/tools.c ../csrc/test.h \
  /usr/local/share/verilator/include/verilated_types.h \
  /usr/local/share/verilator/include/verilated_funcs.h \
  /usr/local/share/verilator/include/vltstd/svdpi.h Vtop.h Vtop__Dpi.h \
- ../csrc/dbg.h ../config.h
+ ../csrc/dbg.h ../config.h \
+ /home/wang/InternalDependent_ysyx-workbench/npc/csrc/trace/trace.h

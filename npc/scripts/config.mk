@@ -8,7 +8,8 @@ generate_config:
 	@echo "#define CONFIG_H" >> $(CONFIG_FILE)
 	@echo "#define DIFF_TEST_ENABLE $(DIFF_TEST_ENABLE)" >> $(CONFIG_FILE)
 	@echo "#define TRACE_ENABLE $(TRACE_ENABLE)" >> $(CONFIG_FILE)
-	@echo "#define IMAGE $(IMAGE)" >> $(CONFIG_FILE)
+	@echo "#define IMAGETXT $(IMAGE).txt" >> $(CONFIG_FILE)
+	@echo "#define IMAGEELF $(IMAGE).elf" >> $(CONFIG_FILE)
 	@echo "#endif" >> $(CONFIG_FILE)
 
 

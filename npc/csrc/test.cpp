@@ -18,6 +18,7 @@ CPU_state cpu = {};
 size_t img_size;
 uint32_t instr;
 static int diff_flag = 0;
+I_ring_buf ring_buf;
 
 void tick(Vtop* top) {
     top->clk = 0;
@@ -75,8 +76,8 @@ int main(int argc, char** argv) {
         addr(pc) instr assembly 
 
     */
-
-        
+        get_itrace_line((uint32_t)(top->_pc), &ring_buf);
+        i_ring_buf_logout(&ring_buf);
 
         #endif
 

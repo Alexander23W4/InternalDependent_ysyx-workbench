@@ -22,8 +22,11 @@ CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINAR
 update-npc:
 	@echo "===================================== Update NPC ====================================="
 	$(MAKE) -C $(NPC_HOME) fasts
-ifneq ($(DIFF_TEST),)
+ifeq ($(DIFF_TEST_ENABLE),1)
 	$(MAKE) -C $(NEMU_HOME)
+endif
+ifeq ($(TRACE_ENABLE),1)
+	cp $(IMAGE).elf $(IMAGE).txt $(NPC_HOME)/build_rsrc/
 endif
 
 insert-arg: image
@@ -38,10 +41,10 @@ run: insert-arg update-npc
 	@echo "================================= RUN NPC SIMULATION ====================================="
 	$(NPC_EXE) $(ARGS)
 
-gdb: insert-arg
+gdb: insert-arg update-npc
 	@echo "================================= GDB ====================================="
 	$(MAKE) -C $(NPC_HOME) npc-gdb
-ifneq ($(DIFF_TEST),)
+ifeq ($(DIFF_TEST_ENABLE),1)
 	$(MAKE) -C $(NEMU_HOME)
 endif
 	gdb --args $(NPC_EXE) $(ARGS)

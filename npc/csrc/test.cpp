@@ -69,7 +69,13 @@ int main(int argc, char** argv) {
         tick(top);
 
         #if TRACE_ENABLE
-        // ftrace:
+        // itrace
+    /*
+        trace file
+        addr(pc) instr assembly 
+
+    */
+
         
 
         #endif

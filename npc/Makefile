@@ -32,7 +32,7 @@ TOP_FLAG=--top-module
 
 # features
 DIFF_TEST_ENABLE=0
-TRACE_ENABLE=1 
+TRACE_ENABLE=1
 
 
 NPC_EXE=$(NPC_HOME)/obj_dir/Vtop
@@ -42,13 +42,10 @@ ARGS=$(IMAGE).bin
 -include $(NPC_HOME)/scripts/config.mk 
 
 # difftest 
-ifneq ($(DIFF_TEST),)
+ifeq ($(DIFF_TEST_ENABLE),1)
 DIFF_REF_SO=$(NEMU_HOME)/build/riscv32-nemu-interpreter-so
 ARGS+=-d $(DIFF_REF_SO)
 endif
-
-
-
 
 
 
@@ -86,8 +83,9 @@ top:
 	make clean
 	$(VERILATOR) $(TOP_FLAG) $(TOP_MODULE) $(V_SRC) $(ALL_SOURCES) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(CPP_SRC)
 
-# clean:
-# 	rm -rf $(OBJ_DIR) 
+clean_npc:
+	rm -rf $(OBJ_DIR) 
+	rm -rf $(NPC_HOME)/build_rsrc
 
 .PHONY: all binary trace fast clean run top
 

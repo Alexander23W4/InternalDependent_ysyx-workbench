@@ -1,0 +1,33 @@
+How to debug guest program operation process in nemu:
+
+----> QUICK VIEW:
+使用gdb：
+Display:    cpu.pc    paddr_read(cpu.pc, 4)   cpu.gpr[..]   
+    display/x cpu.pc
+
+使用trace：
+elf access：
+e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-riscv32-nemu.elf (hexdump)   nm riscv32-nemu-interpreter
+  addr2line -e riscv32-nemu-interpreter 0x5aa1 --> /home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/sdb.c:318
+
+
+   
+----> ANALYSIS:
+出于debug purpose oriented的底层思想， 直接在出问题的instr/pc或者是nemu-c内部的函数那里设置断点 
+
+-> 断instr和pc可以用watchpoint：
+    watch (paddr_read(cpu.pc, 4) & 0x707f) == 0x2023   [watch all SW instr]
+    watch paddr_read(cpu.pc, 4) == 0x02c787b3          [watch a specific instr]
+    
+    watch cpu.pc == 0x80001258
+    until cpu.pc == 0x80001258
+
+
+-> 断c函数或者c语句直接用breakpoint, 可以用condition/if来限制 (提升debug效率)：
+     b mmio_read if cpu.pc == 0x80001258
+     condition 1 cpu.pc == 0x80001258                  [add additional condition on triggering breakpoint 1]
+    
+
+
+
+

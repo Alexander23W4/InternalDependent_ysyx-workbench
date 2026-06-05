@@ -27,6 +27,11 @@ The way TRM works is reflected in cpu_exec() and exec_once().
 
    为人也保持自身的独立性和自我意志，不追求过度的与大量其他个体与环境的兼容性和所谓某些哲学性上人的完美
      
+
+
+
+
+     
 $$$ [RT-Thread]
 The key to the batch processing system is to have a background program that automatically 
   loads a new foreground program for execution when one foreground program finishes execution.

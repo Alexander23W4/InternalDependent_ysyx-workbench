@@ -31,6 +31,22 @@ strip - Discards symbols.
 
 
 
+Linking：
+
+linker做符号解析和elf-section合并工作，符号解析通过symtab
+
+符号解析时存在两个集合，一个是D（defined）一个是U （undefined），linker会去其他的.o文件的symtab里面找U里面对应的符号
+符号解析时无法检查（判断）符号类型，如果原变量类型和extern标注的类型不一样，会产生undefined behaviour
+
+合并的时候，做重定位，给变量和函数重新分配地址，外部的函数做(aupic+jalr)/jal 跳转，外部变量做s/l/lui指令store/load
+
+关于全局变量： const variable 存在rodata段， static variable如果初始化存在data段，普通全局变量如果初始化存在data段。 如果没有初始化（static/common）则放在bss段。
+⭐：全局变量做好使用static修饰，因为static变量是局部符号（属于每个文件自己），不参与符号解析。如果要使用，则加前缀等使命名变得unique,避免linker 报 multiple definition
+    全局变量一定要初始化，不然是tentative definition, 会产生UB
+
+
+静态链接：将一堆库函数的.o打包成.a文件，符号解析时按需取出用到的.o文件
+
 
 
 

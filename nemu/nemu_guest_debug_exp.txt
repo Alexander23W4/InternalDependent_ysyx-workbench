@@ -6,7 +6,10 @@ Display:    cpu.pc    paddr_read(cpu.pc, 4)   cpu.gpr[..]
     display/x cpu.pc
 
 使用trace：
-elf access：e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-riscv32-nemu.elf (hexdump)
+elf access：
+e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-riscv32-nemu.elf (hexdump)   nm riscv32-nemu-interpreter
+  addr2line -e riscv32-nemu-interpreter 0x5aa1 --> /home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/sdb.c:318
+
 
 
 ----> ANALYSIS:
@@ -16,7 +19,7 @@ elf access：e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-ris
     watch (paddr_read(cpu.pc, 4) & 0x707f) == 0x2023   [watch all SW instr]
     watch paddr_read(cpu.pc, 4) == 0x02c787b3         [watch a specific instr]
     
-    watch cpu.pc==0x80001258
+    watch cpu.pc == 0x80001258
     until cpu.pc == 0x80001258
 
 
@@ -30,13 +33,38 @@ elf access：e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-ris
 
 
 
+$$$ --->> Binutils Toolkits:
+
+ld - the GNU linker.
+as - the GNU assembler.
+
+addr2line - Converts addresses into filenames and line numbers.
+ar - A utility for creating, modifying and extracting from archives.
+c++filt - Filter to demangle encoded C++ symbols.
+dlltool - Creates files for building and using DLLs.
+elfedit - Allows alteration of ELF format files.
+gprof - Displays profiling information.
+gprofng - Collects and displays application performance data.
+nlmconv - Converts object code into an NLM.
+nm - Lists symbols from object files.
+objcopy - Copies and translates object files.
+objdump - Displays information from object files.
+ranlib - Generates an index to the contents of an archive.
+readelf - Displays information from any ELF format object file.
+size - Lists the section sizes of an object or archive file.
+strings - Lists printable strings from files.
+strip - Discards symbols.
 
 
 
 $$$ --->> ELF: Executable and Linkable Format
+  man 5 elf
     elf文件 7f 45（ELF）linux系统下面，.o .elf .bin（非裸机纯binary文件）都是elf文件，都能用readelf来parse并且查看，elf的strtab, symtab等信息为链接和gdb等debug软件
         提供了针对 binary instr的context specification.
 
+  Write Text phase, Execute data phase will cause segment fault
+
+Sections: 
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al       
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
@@ -51,8 +79,8 @@ Section Headers:
   [ 5] .comment          PROGBITS        00000000 0013d4 00002b 01  MS  0   0  1       about compiler
   [ 6] .riscv.attributes RISCV_ATTRIBUTE 00000000 0013ff 00001f 00      0   0  1       about riscv
   [ 7] .symtab           SYMTAB          00000000 001420 0002b0 10      8  22  4       symbol table
-  [ 8] .strtab           STRTAB          00000000 0016d0 0000e3 00      0   0  1       string table 
-  [ 9] .shstrtab         STRTAB          00000000 0017b3 00004f 00      0   0  1       Section Header String Table
+  [ 8] .strtab           STRTAB          00000000 0016d0 0000e3 00      0   0  1       string table  (Function name)
+  [ 9] .shstrtab         STRTAB          00000000 0017b3 00004f 00      0   0  1       Section Header String Table  (Section header name)
 
 可以基于ftrace进一步分析出调用memcpy()时的参数情况, 比如dest和src是否对齐, 拷贝的内存长度是长还是短, 然后根据频繁出现的组合对memcpy()的算法实现进行优化
 可以基于ftrace统计函数调用的次数, 对访问次数较多的函数进行优化, 可以显著提升程序的性能
@@ -60,3 +88,118 @@ Section Headers:
 可以基于mtrace得到程序的访存序列, 作为缓存(现代处理器中的另一个提升性能的部件)模型的输入, 对预取算法和替换算法的优化进行指导(你将会在Lab4中体会这一点)
 
 trace: debug    optimize function(ftrace)    optimize processor(branch prediction, cache) (itrace, mtrace)    
+
+// -----------------------------------------------------------------------------------------
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           RISC-V
+  Version:                           0x1
+  Entry point address:               0x80000000
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          5916 (bytes into file)
+  Flags:                             0x8, RVE, soft-float ABI
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         3
+  Size of section headers:           40 (bytes)
+  Number of section headers:         9
+  Section header string table index: 8
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+  [ 1] .text             PROGBITS        80000000 001000 000134 00  AX  0   0  4
+  [ 2] .rodata           PROGBITS        80000134 001134 000040 00   A  0   0  4
+  [ 3] .data             PROGBITS        80000178 001178 000240 00  WA  0   0  8
+  [ 4] .comment          PROGBITS        00000000 0013b8 00002b 01  MS  0   0  1
+  [ 5] .riscv.attributes RISCV_ATTRIBUTE 00000000 0013e3 00001a 00      0   0  1
+  [ 6] .symtab           SYMTAB          00000000 001400 000220 10      7  15  4
+  [ 7] .strtab           STRTAB          00000000 001620 0000af 00      0   0  1
+  [ 8] .shstrtab         STRTAB          00000000 0016cf 00004a 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)
+
+There are no section groups in this file.
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  RISCV_ATTRIBUT 0x0013e3 0x00000000 0x00000000 0x0001a 0x00000 R   0x1
+  LOAD           0x001000 0x80000000 0x80000000 0x00174 0x00174 R E 0x1000
+  LOAD           0x001178 0x80000178 0x80000178 0x00240 0x00240 RW  0x1000
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     .riscv.attributes 
+   01     .text .rodata 
+   02     .data 
+
+There is no dynamic section in this file.
+
+There are no relocations in this file.
+
+The decoding of unwind sections for machine type RISC-V is not currently supported.
+
+Symbol table '.symtab' contains 34 entries:
+   Num:    Value  Size Type    Bind   Vis      Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
+     1: 80000000     0 SECTION LOCAL  DEFAULT    1 .text
+     2: 80000134     0 SECTION LOCAL  DEFAULT    2 .rodata
+     3: 80000178     0 SECTION LOCAL  DEFAULT    3 .data
+     4: 00000000     0 SECTION LOCAL  DEFAULT    4 .comment
+     5: 00000000     0 SECTION LOCAL  DEFAULT    5 .riscv.attributes
+     6: 00000000     0 FILE    LOCAL  DEFAULT  ABS start.o
+     7: 80000000     0 NOTYPE  LOCAL  DEFAULT    1 $x
+     8: 00000000     0 FILE    LOCAL  DEFAULT  ABS add-longlong.c
+     9: 80000010     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    10: 80000028     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    11: 00000000     0 FILE    LOCAL  DEFAULT  ABS trm.c
+    12: 80000110     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    13: 80000118     0 NOTYPE  LOCAL  DEFAULT    1 $x
+    14: 80000134    64 OBJECT  LOCAL  DEFAULT    2 mainargs
+    15: 80000118    28 FUNC    GLOBAL HIDDEN     1 _trm_init
+    16: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _stack_pointer
+    17: 80000134     0 NOTYPE  GLOBAL DEFAULT    1 _etext
+    18: 80000000     0 NOTYPE  GLOBAL DEFAULT  ABS _pmem_start
+    19: 800003b8     0 NOTYPE  GLOBAL DEFAULT    3 _bss_start
+    20: 800003b8     0 NOTYPE  GLOBAL DEFAULT    3 edata
+    21: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _heap_start
+    22: 80001000     0 NOTYPE  GLOBAL DEFAULT    3 _stack_top
+    23: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 end
+    24: 80000010    24 FUNC    GLOBAL HIDDEN     1 check
+    25: 80000134     0 NOTYPE  GLOBAL DEFAULT    1 etext
+    26: 80000000    16 FUNC    GLOBAL DEFAULT    1 _start
+    27: 00000000     0 NOTYPE  GLOBAL DEFAULT  ABS _entry_offset
+    28: 80000028   232 FUNC    GLOBAL HIDDEN     1 main
+    29: 800003b8     0 NOTYPE  GLOBAL DEFAULT    3 _data
+    30: 80000178   512 OBJECT  GLOBAL HIDDEN     3 ans
+    31: 80009000     0 NOTYPE  GLOBAL DEFAULT    3 _end
+    32: 80000110     8 FUNC    GLOBAL HIDDEN     1 halt
+    33: 80000378    64 OBJECT  GLOBAL HIDDEN     3 test_data
+
+No version information found in this file.
+Attribute Section: riscv
+File Attributes
+  Tag_RISCV_arch: "rv32e1p9"
+
+
+
+偏移范围 (Hex),包含的段/结构,内容描述
+0x0000 - 0x0034,ELF Header,文件的“身份证”和入口地址
+0x0034 - 0x0094,Program Headers,告诉加载器如何把数据搬进内存
+0x1000 - 0x1134,.text,真正的二进制机器指令（代码）
+0x1134 - 0x1174,.rodata,只读数据（如程序里的字符串常量）
+0x1178 - 0x13b8,.data,全局变量、已初始化的数据
+0x13b8 - 0x13e3,.comment,编译器的版本签名
+0x13e3 - 0x13fd,.riscv.attributes,RISC-V 架构特性描述
+0x1400 - 0x1620,.symtab,符号表（函数名、变量名及其地址的索引）
+0x1620 - 0x171c,.strtab & .shstrtab,名字字符串库（保存所有函数名、段名）
+0x171c - 末尾,Section Header Table,整个索引表的目录

@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
         // printf("pc_idx: %u\n", pc_idx);
 
         if (pc_idx >= RAM_SIZE || pc_idx < 0){
-            printf("Invalid pc\n"); 
+            printf("Invalid pc\n");
             break;
         }
 
@@ -68,7 +68,13 @@ int main(int argc, char** argv) {
         // operation a period
         tick(top);
 
-        #if DIFF_TEST
+        #if TRACE_ENABLE
+        // ftrace:
+        
+
+        #endif
+
+        #if DIFF_TEST_ENABLE
         printf("Difftest circuiting.\n");
         cpu.pc = top->_pc;
         for (int i = 0; i < 32; i++) {

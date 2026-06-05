@@ -5,4 +5,4 @@ tools.o: ../csrc/tools.c ../csrc/test.h \
  /usr/local/share/verilator/include/verilated_types.h \
  /usr/local/share/verilator/include/verilated_funcs.h \
  /usr/local/share/verilator/include/vltstd/svdpi.h Vtop.h Vtop__Dpi.h \
- ../csrc/dbg.h
+ ../csrc/dbg.h ../config.h

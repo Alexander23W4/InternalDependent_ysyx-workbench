@@ -29,11 +29,17 @@ WARNING_IGNORE_FLAG=-Wno-UNUSEDSIGNAL
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
-DIFF_TEST=1    
-LOG_FILE=./record.txt
+
+# features
+DIFF_TEST_ENABLE=0
+TRACE_ENABLE=1 
+
 
 NPC_EXE=$(NPC_HOME)/obj_dir/Vtop
 ARGS=$(IMAGE).bin
+
+# config macro generation
+-include $(NPC_HOME)/scripts/config.mk 
 
 # difftest 
 ifneq ($(DIFF_TEST),)
@@ -44,8 +50,6 @@ endif
 
 
 
-$(LOG_FILE):
-	touch $(LOG_FILE)
 
 
 runtrace:
@@ -61,7 +65,7 @@ trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)
 
 # 3. --cc --exe --build -j 0 -Wall
-fasts: 
+fasts: generate_config
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES)
 
 npc-gdb:

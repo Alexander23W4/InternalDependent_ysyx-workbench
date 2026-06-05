@@ -10,11 +10,11 @@
 #include <getopt.h>
 #include <string.h>
 #include <inttypes.h>
+#include <../config.h>
 
 
 #define RAM_SIZE 50000000
 #define MEMORY_LOAD_EFFECTIVENESS 20000
-#define DIFF_TEST 0
 #define RAM_BASE 0x80000000
 
 #define MMIO_SERIAL 0xa00003f8

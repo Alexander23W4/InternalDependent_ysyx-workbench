@@ -6,4 +6,4 @@ dut.o: ../csrc/difftest/dut.c \
  /usr/local/share/verilator/include/verilated_types.h \
  /usr/local/share/verilator/include/verilated_funcs.h \
  /usr/local/share/verilator/include/vltstd/svdpi.h Vtop.h Vtop__Dpi.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/csrc/dbg.h
+ /home/wang/InternalDependent_ysyx-workbench/npc/csrc/dbg.h ../config.h

@@ -1,4 +1,5 @@
-CONFIG_FILE = $(NPC_HOME)/config.h
+CONFIG_FILE=$(NPC_HOME)/config.h
+
 
 # 创建头文件
 generate_config:
@@ -9,4 +10,6 @@ generate_config:
 	@echo "#define TRACE_ENABLE $(TRACE_ENABLE)" >> $(CONFIG_FILE)
 	@echo "#define IMAGE $(IMAGE)" >> $(CONFIG_FILE)
 	@echo "#endif" >> $(CONFIG_FILE)
+
+
 

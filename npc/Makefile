@@ -48,7 +48,6 @@ ARGS+=-d $(DIFF_REF_SO)
 endif
 
 
-
 runtrace:
 	$(EXE)
 	$(WAVE_GEN) $(TOP_MODULE).vcd
@@ -62,7 +61,7 @@ trace:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WAVE_GEN_FLAG) $(V_SRC) $(CPP_SRC)
 
 # 3. --cc --exe --build -j 0 -Wall
-fasts: generate_config
+fasts:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES)
 
 npc-gdb:

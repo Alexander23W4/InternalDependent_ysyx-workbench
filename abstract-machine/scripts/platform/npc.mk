@@ -17,6 +17,7 @@ MAINARGS_MAX_LEN = 64
 MAINARGS_PLACEHOLDER = the_insert-arg_rule_in_Makefile_will_insert_mainargs_here
 CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINARGS_PLACEHOLDER)
 
+
 -include $(NPC_HOME)/Makefile
 
 update-npc:
@@ -29,6 +30,7 @@ ifeq ($(TRACE_ENABLE),1)
 	cp $(IMAGE).elf $(IMAGE).txt $(NPC_HOME)/build_rsrc/
 endif
 
+
 insert-arg: image
 	@python3 $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
 
@@ -37,11 +39,11 @@ image: image-dep
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
-run: insert-arg update-npc
+run: insert-arg update-npc generate_config
 	@echo "================================= RUN NPC SIMULATION ====================================="
 	$(NPC_EXE) $(ARGS)
 
-gdb: insert-arg update-npc
+gdb: insert-arg update-npc generate_config
 	@echo "================================= GDB ====================================="
 	$(MAKE) -C $(NPC_HOME) npc-gdb
 ifeq ($(DIFF_TEST_ENABLE),1)

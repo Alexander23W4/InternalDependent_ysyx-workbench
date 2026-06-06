@@ -74,10 +74,13 @@ static void difftest_abort_print(CPU_state* ref) {
 }
 
 static void checkregs(CPU_state *ref) {
-  difftest_abort_print(ref);
+  // difftest_abort_print(ref);
   if (!difftest_checkregs(ref)) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);
+  #if TRACE_ENABLE
+    i_ring_buf_logout(&ring_buf);
+  #endif
     assert(0);
   }
 }

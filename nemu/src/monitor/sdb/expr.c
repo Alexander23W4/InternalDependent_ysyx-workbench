@@ -19,7 +19,7 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-#include </home/wang/My_ysyx-workbench/nemu/include/memory/paddr.h>
+#include </home/wang/InternalDependent_ysyx-workbench/nemu/include/memory/paddr.h>
 
 #define MAX_TOKEN_LENGTH 512
 #define READ_FILE "./input"

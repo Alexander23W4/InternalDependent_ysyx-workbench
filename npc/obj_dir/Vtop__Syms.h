@@ -17,6 +17,7 @@
 #include "Vtop___024root.h"
 
 // DPI TYPES for DPI Export callbacks (Internal use)
+using Vtop__Vcb_check_ram_op_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ram_op);
 using Vtop__Vcb_halt_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 
 // SYMS CLASS (contains all model state)

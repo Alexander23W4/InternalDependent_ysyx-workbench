@@ -13,6 +13,7 @@ Iteration:
 
 using namespace std;
 int endprog = 0;
+int ram_op = 0;
 uint32_t* ram = NULL;    
 CPU_state cpu = {};
 size_t img_size;
@@ -75,9 +76,11 @@ int main(int argc, char** argv) {
         trace file
         addr(pc) instr assembly 
 
-    */
+    */  
+        top->check_ram_op(&ram_op);
         get_itrace_line((uint32_t)(top->_pc), &ring_buf);
-
+        i_ring_buf_logout(&ring_buf);
+        
     #endif
 
     #if DIFF_TEST_ENABLE

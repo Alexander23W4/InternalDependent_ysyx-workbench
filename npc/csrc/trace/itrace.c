@@ -5,10 +5,17 @@ make itrace string
 append to trace.txt every circle
 */
 
+/*
+Hit bad trap
+Out of bound
+*/
+
 #define STR_HELPER(x) #x        
 #define STR(x) STR_HELPER(x)    
 
 #define IMAGETXT_QUOTED STR(IMAGETXT)
+extern int ram_op;
+extern uint32_t* ram;
 
 static FILE *fp = NULL;
 static uint32_t last_pc = 0;
@@ -28,10 +35,26 @@ void get_itrace_line(uint32_t pc, I_ring_buf* i_ring_buf) {
     while (fgets(line, sizeof(line), fp)) {
         if (strncmp(line, target, 8) == 0) {   // find pc
             int idx = (i_ring_buf->amt) % MAX_LOGAMT;
-        
-            strncpy(i_ring_buf->ring_buf[idx], line, MAX_LOGBUF - 1);
+
+            char* ptr = i_ring_buf->ring_buf[idx];
+            ptr += snprintf(ptr, MAX_LOGBUF, "%s", line);
+            ptr += snprintf(ptr, MAX_LOGBUF, "    ");
+
+            // mtrace
+            if(ram_op == 1){
+                ptr += snprintf(ptr, MAX_LOGBUF, "[LOAD RAM]");
+            }
+            else if(ram_op == 2){
+                ptr += snprintf(ptr, MAX_LOGBUF, "[STORE RAM]");
+            }
+            else{
+                ptr += snprintf(ptr, MAX_LOGBUF,"           ");
+            }
             
-            i_ring_buf->ring_buf[idx][MAX_LOGBUF - 1] = '\0';
+            ptr += snprintf(ptr, MAX_LOGBUF, "    ");
+
+            // ftrace
+
             i_ring_buf->amt++;
             last_pc = pc;
             return;

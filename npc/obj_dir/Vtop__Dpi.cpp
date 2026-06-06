@@ -14,6 +14,14 @@
 #include "Vtop__Dpi.h"
 #include "Vtop.h"
 
+#ifndef VL_DPIDECL_check_ram_op_
+#define VL_DPIDECL_check_ram_op_
+void check_ram_op(int* ram_op) {
+    // DPI export at vsrc/top.v:66:10
+    return Vtop::check_ram_op(ram_op);
+}
+#endif
+
 #ifndef VL_DPIDECL_halt_
 #define VL_DPIDECL_halt_
 void halt(int* endprog) {

@@ -78,6 +78,7 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     const char* name() const;
 
     /// DPI Export functions
+    static void check_ram_op(int* ram_op);
     static void halt(int* endprog);
 
     // Abstract methods from VerilatedModel

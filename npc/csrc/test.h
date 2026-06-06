@@ -24,6 +24,7 @@ extern char* diff_so_file;
 extern int endprog;
 extern const char *regs_name[];
 extern I_ring_buf ring_buf;
+extern int ram_op;
 
 typedef struct{
     uint32_t gpr[32];

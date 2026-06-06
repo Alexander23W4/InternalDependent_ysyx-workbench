@@ -15,6 +15,21 @@ void Vtop___024root____Vdpiexp_top__DOT__halt_TOP(Vtop__Syms* __restrict vlSymsp
     endprog = vlSymsp->TOP.top__DOT__ebreak;
 }
 
+void Vtop___024root____Vdpiexp_top__DOT__check_ram_op_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ram_op) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiexp_top__DOT__check_ram_op_TOP\n"); );
+    // Init
+    // Body
+    ram_op = ((((((IData)(vlSymsp->TOP.top__DOT__lb) 
+                  | (IData)(vlSymsp->TOP.top__DOT__lh)) 
+                 | (IData)(vlSymsp->TOP.top__DOT__lw)) 
+                | (IData)(vlSymsp->TOP.top__DOT__lbu)) 
+               | (IData)(vlSymsp->TOP.top__DOT__lhu))
+               ? 1U : ((((IData)(vlSymsp->TOP.top__DOT__sb) 
+                         | (IData)(vlSymsp->TOP.top__DOT__sh)) 
+                        | (IData)(vlSymsp->TOP.top__DOT__sw))
+                        ? 2U : 0U));
+}
+
 extern "C" unsigned int ram_read(unsigned int addr, int amount);
 
 VL_INLINE_OPT void Vtop___024root____Vdpiimwrap_top__DOT__ram_read_TOP(IData/*31:0*/ addr, IData/*31:0*/ amount, IData/*31:0*/ &ram_read__Vfuncrtn) {

@@ -6,6 +6,8 @@ Display:    cpu.pc    paddr_read(cpu.pc, 4)   cpu.gpr[..]
     display/x cpu.pc
 
 使用trace：
+
+
 elf access：
 e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-riscv32-nemu.elf (hexdump)   nm riscv32-nemu-interpreter
   addr2line -e riscv32-nemu-interpreter 0x5aa1 --> /home/wang/InternalDependent_ysyx-workbench/nemu/src/monitor/sdb/sdb.c:318

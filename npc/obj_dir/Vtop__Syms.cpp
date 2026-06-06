@@ -5,6 +5,7 @@
 #include "Vtop.h"
 #include "Vtop___024root.h"
 
+void Vtop___024root____Vdpiexp_top__DOT__check_ram_op_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ram_op);
 void Vtop___024root____Vdpiexp_top__DOT__halt_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 
 // FUNCTIONS
@@ -29,6 +30,7 @@ Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* mode
     __Vscope_top.configure(this, name(), "top", "top", -12, VerilatedScope::SCOPE_OTHER);
     // Setup export functions
     for (int __Vfinal = 0; __Vfinal < 2; ++__Vfinal) {
+        __Vscope_top.exportInsert(__Vfinal, "check_ram_op", (void*)(&Vtop___024root____Vdpiexp_top__DOT__check_ram_op_TOP));
         __Vscope_top.exportInsert(__Vfinal, "halt", (void*)(&Vtop___024root____Vdpiexp_top__DOT__halt_TOP));
     }
 }

@@ -16,4 +16,4 @@ typedef struct {
 
 void i_ring_buf_logout(I_ring_buf* i_ring_buf);
 
-void get_itrace_line(uint32_t pc, I_ring_buf* ring_buf);
+void get_itrace_line(uint32_t pc, I_ring_buf* i_ring_buf);

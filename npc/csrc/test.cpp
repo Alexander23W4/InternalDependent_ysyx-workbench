@@ -13,7 +13,7 @@ Iteration:
 
 using namespace std;
 int endprog = 0;
-uint32_t* ram = NULL;
+uint32_t* ram = NULL;    printf("%s\n", i_ring_buf->ring_buf[(start + i) % MAX_LOGAMT]);
 CPU_state cpu = {};
 size_t img_size;
 uint32_t instr;

@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
         // operation a period
         tick(top);
 
-        #if TRACE_ENABLE
+    #if TRACE_ENABLE
         // itrace
     /*
         trace file
@@ -77,11 +77,10 @@ int main(int argc, char** argv) {
 
     */
         get_itrace_line((uint32_t)(top->_pc), &ring_buf);
-        i_ring_buf_logout(&ring_buf);
 
-        #endif
+    #endif
 
-        #if DIFF_TEST_ENABLE
+    #if DIFF_TEST_ENABLE
         printf("Difftest circuiting.\n");
         cpu.pc = top->_pc;
         for (int i = 0; i < 32; i++) {
@@ -101,7 +100,7 @@ int main(int argc, char** argv) {
         else{
             difftest_step();
         }
-        #endif
+    #endif
 
 
         // check end
@@ -118,6 +117,9 @@ int main(int argc, char** argv) {
         printf("HIT BAD TRAP\n");
         printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
         prt_gprs(top);
+    #if TRACE_ENABLE
+        i_ring_buf_logout(&ring_buf);
+    #endif
     }
     else{
         printf("HIT GOOD TRAP\n");

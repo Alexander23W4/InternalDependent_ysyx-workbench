@@ -13,7 +13,7 @@ Iteration:
 
 using namespace std;
 int endprog = 0;
-uint32_t* ram = NULL;    printf("%s\n", i_ring_buf->ring_buf[(start + i) % MAX_LOGAMT]);
+uint32_t* ram = NULL;    
 CPU_state cpu = {};
 size_t img_size;
 uint32_t instr;
@@ -116,6 +116,7 @@ int main(int argc, char** argv) {
     if(top->dbg_reg[10] != 0){   
         printf("HIT BAD TRAP\n");
         printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
+
         prt_gprs(top);
     #if TRACE_ENABLE
         i_ring_buf_logout(&ring_buf);
@@ -124,6 +125,10 @@ int main(int argc, char** argv) {
     else{
         printf("HIT GOOD TRAP\n");
     }
+
+#if TRACE_ENABLE
+    close_trace_file();
+#endif
 
     top->final();
     free(ram);

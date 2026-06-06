@@ -26,7 +26,7 @@ void get_itrace_line(uint32_t pc, I_ring_buf* i_ring_buf) {
         fp = fopen(IMAGETXT_QUOTED, "r");
         assert(fp);
     }
-    char line[256];
+    char line[64];
     char target[20];
 
     snprintf(target, sizeof(target), "%08x:", pc);

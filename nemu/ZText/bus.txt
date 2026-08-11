@@ -1,0 +1,52 @@
+BUS is a communication protocol between hardware modules
+
+the module that initiates communication is generally called the master, and the module that responds to communication is called the slave.
+
+--> Simplest BUS
+
+In the simple interaction scenario above, the IFU, as the master, 
+    sends information to the IDU, which is the slave, with the information being the current instruction.
+
+Every cycle, the master sends valid information to the slave.
+Once the master sends valid information, the slave can receive it immediately.
+
+--> Asynchronous BUS 
+
+Information is considered valid only when the valid signal is valid.
+Once the master sends valid information, it is considered received by the slave immediately.
+
++-----+ inst  ---> +-----+
+| IFU | valid ---> | IDU |
++-----+            +-----+
+
+need to keep the processor's state unchanged when the instruction is invalid
+it is necessary to add a ready signal to the communication content to indicate when the IDU can receive the next instruction.
+
+
+Information is considered valid only when the valid signal is set.
+The information sent by the master is considered received by the slave only when the ready signal is set.
+
+--> Handshake Protocol
+
+Both signals being set, also known as a "handshake," 
+indicates that the master and slave have reached a consensus on the successful transmission of information.
+
+The asynchronous bus determines when to communicate through a handshake protocol. 
+At the RTL level, it mainly consists of two parts:  """@@@ interface signals and communication logic. """
+
+
+工作流： 需求 -> ISA -> 正确简单实现的 emulator & cpu & 驱动(for os) ->  通过pipeline, bus, cache提升硬件的能力
+
+根据需求， 选用指令集和扩展。在software层面也要有所考量，因为应用都是基于software, 什么 VME IOE CTE，在ISA-CPU层实现所有的扩展指令功能。
+后续在软件层面， 我们还需要开发底层驱动，让操作系统linux（在不同ISA与架构上实现抽象统一），能够调用的标准函数接口。 从而实现VME, CTE这样的基础软件功能。
+
+
+用哪个指令集， emulator和cpu必须完整正确简单的实现这个指令集的所有功能， base on the manual
+用difftest, trace等工具，debug, 确保基础功能不能够出错。
+然后， 在cpu的功能上加上bus, trace, 外围设备的交互连接， 使用第三方hardware库辅助开发（verilog）
+
+
+需要学习的开发工具:
+System verilog          Chisel
+
+

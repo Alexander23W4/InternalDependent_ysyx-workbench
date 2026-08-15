@@ -46,6 +46,10 @@ At the RTL level, it mainly consists of two parts:  """@@@ interface signals and
 然后， 在cpu的功能上加上bus, trace, 外围设备的交互连接， 使用第三方hardware库辅助开发（verilog）
 
 
+⭐: 需要熟悉的几个东西:
+bas-know   bas-env   projects & mateprg   workflow  
+
+
 需要学习的开发工具:
 System verilog          Chisel
 
@@ -54,4 +58,60 @@ linux(命令行)    The missing semester of CS education
 嵌入codex
 Verilog RTL -> layout        (RTL是一个中间桥梁   Hardware <--RTL--> C, 一边验证实现的正确性debug, 一边增加features for product)
 C & Binary  (Get pretty used of LINKING  OBJECT-FILE  ELF)
+
+
+熟悉整个层级架构: ISA(指令与要求('ABI)) -> cpu(二进制指令, bin文件 & 架构) ->  IOE,CTE,VME等的驱动文件 -> OS kernel -> 用户文件
+双剑合璧:
+   RTL Emulator 全部都在cpu层, 二者都实现ISA层的所有需求, 以及difftest, trace 这样的infrastructure tools
+   Emulator用c语言实现, 容易debug: gdb, sdb, 而且更容易与上层(OS)相接, 反复编译运行验证ISA实现的正确性. 而RTL的编译与debug较为复杂困难
+
+YSYX把IOE VME CTE和 cpu开发流程放在一起, 其实是把上层OS该有的东西也讲了, 这样相当于完整实现了一个计算机(PA)
+实际上, 单CPU开发只要保证实现了IOE VME CTE所需的所有ISA层的要求即可. 
+只有操作系统才考虑什么 内存分页  管理进程栈 之类的东西
+
+
+但是我们初始简单的cpu是不能接到成熟的linux系统上的
+也就是说, 开发上层的OS, 比如AM 是必要的
+我们可能必须要实现IOE, VME, CTE在 在用于测试的裸机OS里面, 来充分验证ISA层实现的正确性.
+所以学习这些, 也是必要的?
+
+
+大厂CPU开发流程:
+
+这个过程可以概括为以下几个核心阶段，它们与现代软件开发的理念（如“敏捷”和“左移”）也有许多共通之处。
+
+架构分析与定义：一切从需求开始。工程师需要分析目标工作负载（如AI训练、数据库），并基于此定义CPU的微架构。核心目标是优化PPA（性能、功耗、面积）。
+像ARM和Synopsys等公司会提供强大的模拟工具，让工程师在设计初期就能评估不同配置的效果。
+
+IP（知识产权核）集成：现代SoC（系统级芯片）几乎不会从零开始设计所有模块。团队会大量集成经过验证的第三方IP，如内存控制器、PCIe接口等。
+确保这些来自不同供应商的IP能与自研CPU核心无缝协作，是关键挑战之一。
+
+RTL设计与开发：这是硬件工程师将微架构设计转换为实际的寄存器传输级（RTL）代码（如Verilog或VHDL）的阶段，也就是你正在PA里做的事。
+在大厂，这个环节会严格遵循详细的设计规范和review流程，确保代码质量。
+
+功能验证：这是整个流程中最耗时、最关键的环节，没有之一。验证工程师的工作从RTL设计阶段就同步开始了，他们负责寻找并修复硬件设计中的每一个Bug。
+
+方法：包括模块级仿真、使用约束随机测试、硬件仿真加速器（如Synopsys ZeBu）和FPGA原型验证。
+
+数据：一个极其复杂的CPU（如Intel的Xeon Sapphire Rapids）在研发阶段曾累积超过500项硬件错误，历经十多次版本迭代才达到量产水准。
+
+理念：如今大厂推崇“左移”策略，即尽可能在流程早期（流片前）发现并修复问题，因为越晚修复，成本越高。
+
+物理实现与后端设计：当RTL设计通过验证，就会进入物理设计阶段。这包括将逻辑电路映射到物理的晶体管和金属层，并进行布局布线。
+EDA（电子设计自动化）工具在此阶段至关重要，用于在功耗、性能和面积之间寻找最佳平衡点。
+
+流片与制造：这是将最终的设计文件（GDSII格式）交给晶圆厂（如台积电、英特尔、三星）生产的过程。一次流片（Tape-out）成本极高，
+因此“一次流片成功（First Time Pass）”是所有团队的终极目标。例如，英特尔前CEO陈立武就曾推行铁腕政策，要求团队在A0版本（首次流片）就尽可能接近量产标准，
+否则可能导致项目负责人被问责。
+
+硅后验证与量产：晶圆回来后，并不意味着大功告成。工程团队需要进行硅后验证，在真实芯片上运行各种操作系统和应用程序，测试其性能、功耗和稳定性，并最终进行大规模量产和交付。
+
+
+
+软件仿真器（如Verilator）模拟现代高性能CPU的速度只有KHz级别，慢到无法接受。
+于是，大家把DUT部署到FPGA或专用的硬件仿真加速器（如Cadence Palladium）上，将电路仿真加速到MHz级别，提升了数百甚至上万倍。
+
+极致硬件化（SVM/DiffTest-L）：这是更前沿的探索。干脆把参考模型（REF）也用硬件电路（RTL）实现，和DUT一起放在FPGA上运行。
+这样，对比验证就变成了片上逻辑，彻底消除了软硬件通信开销。
+
 

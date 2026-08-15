@@ -50,3 +50,8 @@ At the RTL level, it mainly consists of two parts:  """@@@ interface signals and
 System verilog          Chisel
 
 
+linux(命令行)    The missing semester of CS education    
+嵌入codex
+Verilog RTL -> layout        (RTL是一个中间桥梁   Hardware <--RTL--> C, 一边验证实现的正确性debug, 一边增加features for product)
+C & Binary  (Get pretty used of LINKING  OBJECT-FILE  ELF)
+

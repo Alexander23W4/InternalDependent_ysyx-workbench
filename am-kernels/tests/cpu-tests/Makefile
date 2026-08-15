@@ -4,6 +4,9 @@
 
 # make ARCH=riscv32e-npc ALL=bit run
 # make ARCH=riscv32e-npc run
+
+# 这个就是组织起来一个make命令发给am的makefile
+
 RESULT = .result
 $(shell > $(RESULT))
 

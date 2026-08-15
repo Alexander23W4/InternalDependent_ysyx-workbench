@@ -265,6 +265,8 @@
 # ARCH_H := arch/riscv.h
 
 # ---------------------------------------------------------------------------------------------------------------------------
+# run 命令是在具体的platform那里定义的, nemu, npc都有自己的make run定义
+
 ### *Get a more readable version of this Makefile* by `make html` (requires python-markdown)
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
@@ -353,7 +355,7 @@ CXXFLAGS +=  $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
 ASFLAGS  += -MMD $(INCFLAGS)
 LDFLAGS  += -z noexecstack $(addprefix -T, $(LDSCRIPTS))
 
-## 4. Arch-Specific Configurations
+## 4. Arch-Specific Configurations  这里就把run的 platform specific定义拉过来了
 
 ### Paste in arch-specific configurations (e.g., from `scripts/x86_64-qemu.mk`)
 -include $(AM_HOME)/scripts/$(ARCH).mk
@@ -403,6 +405,7 @@ endif
 
 
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
+# 这里的linkage就包含了所有的.o和.a, 所以到这一步保证已经编译生成.a和.o, 之后就link就行了
 $(IMAGE).elf: $(LINKAGE) $(LDSCRIPTS)
 	@echo \# Creating image [$(ARCH)]
 	@echo + LD "->" $(IMAGE_REL).elf

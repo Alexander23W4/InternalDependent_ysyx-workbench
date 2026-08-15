@@ -22,12 +22,13 @@ CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINAR
 insert-arg: image
 	@python3 $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
 
+# image-dep的定义见 总makefile的 +> image-dep: $(IMAGE).elf
 image: image-dep
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
-# call nemu, run  ARGS  IMG
+# call nemu, run  ARGS  IMG   可以看到AM的makefile就是给nemu编译打包了一个$(IMAGE).bin拿给nemu运行就行了, 所有的编译配置都是根据nemu和对应的指令集生成的.
 run: insert-arg  elf-parse
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
 

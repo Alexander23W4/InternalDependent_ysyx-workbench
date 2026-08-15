@@ -302,7 +302,7 @@ ARCH_SPLIT = $(subst -, ,$(ARCH))
 ISA        = $(word 1,$(ARCH_SPLIT))
 PLATFORM   = $(word 2,$(ARCH_SPLIT))
 
-### Check if there is something to build
+### Check if there is something to build     SRCS在这里是 用户文件 比如dummy.c
 ifeq ($(flavor SRCS), undefined)
   $(error Nothing to build)
 endif
@@ -322,7 +322,8 @@ IMAGE_REL = build/$(NAME)-$(ARCH)      # image relative
 IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
 
-### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
+### Collect the files to be linked: object files (`.o`) and libraries (`.a`)  OBJS是用户文件('dummy.c)
+# 这一步定义完, linkage还只有用户文件, 之后LIB_TEMPLATE这个函数还会吧libs里面的文件都加进去, 最终linkage就包含所有需要编译的文件了, 然后送去链接生成IMG.elf
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
 LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
 LINKAGE   = $(OBJS)  # library archives are added by LIB_TEMPLATE below

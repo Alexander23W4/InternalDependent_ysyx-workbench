@@ -7,6 +7,30 @@
 
 # 这个就是组织起来一个make命令发给am的makefile
 
+# 生成的 Makefile.dummy 内容：
+# make
+# NAME = dummy
+# SRCS = tests/dummy.c
+# include ${AM_HOME}/Makefile
+
+# run 
+#   → all 
+#     → $(ALL) 
+#       → 对每个测试: % → Makefile.%
+
+# Makefile.dummy
+#   → 生成 Makefile.dummy 文件
+#   → make -f Makefile.dummy ARCH=minirv-npc run
+#     → 这个子 make 会：
+#       1. 使用 Makefile.dummy（定义了 NAME 和 SRCS）
+#       2. 包含 AM_HOME/Makefile
+#       3. AM Makefile 看到 SRCS = tests/dummy.c
+#       4. 编译 tests/dummy.c
+#       5. 生成 build/dummy-minirv-npc.elf 和 .bin
+#       6. 运行（如果是 run 目标）
+#   → 记录结果（PASS/FAIL）
+#   → 删除 Makefile.dummy
+
 RESULT = .result
 $(shell > $(RESULT))
 

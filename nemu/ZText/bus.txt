@@ -1,3 +1,6 @@
+tmux  终端模拟器
+
+
 BUS is a communication protocol between hardware modules
 
 the module that initiates communication is generally called the master, and the module that responds to communication is called the slave.
@@ -49,6 +52,7 @@ At the RTL level, it mainly consists of two parts:  """@@@ interface signals and
 ⭐: 需要熟悉的几个东西:
 bas-know   bas-env   projects & mateprg   workflow  
 
+bas-know: 数字模拟通信网络  C  Verilog System-verilog Chisel   
 
 需要学习的开发工具:
 System verilog          Chisel

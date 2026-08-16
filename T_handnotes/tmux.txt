@@ -1,0 +1,15 @@
+ctrl + b  General prefix
+
+split: % "
+
+switch session: direction keys 
+
+shut session(pane): x
+
+c: new window
+
+switch window: 0123...
+
+shut window: exit
+
+

@@ -46,6 +46,14 @@ marchid - 从中读出学号数字部分的十进制表示, 假设你的学号�
 实现后, 可在TRM进入main()函数前, 通过内联汇编读出上述两个CSR的值, 然后通过printf()输出它们.
 */
 
+/*
+写verilog / SV之前, 要画好硬件框图: 组合逻辑块  寄存器  IP核  连线
+
+硬件描述部分: 变量定义(wire reg logic)   连线   时序逻辑块  组合逻辑和组合逻辑块
+
+UVM部分
+
+*/
 module top(
     input clk,
     input rst,
@@ -54,7 +62,7 @@ module top(
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid
 );
-    // DPI-C interfaces:
+    // DPI-C interfaces(SV feature):
     export "DPI-C" task halt;
     task halt(output int endprog); 
         begin
@@ -94,10 +102,10 @@ module top(
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ------------------------------------------------------------------------------------------------------------
 
-    reg [31:0] pc;
+    reg [31:0] pc;   // reg
     assign _pc = pc;
 
-    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;
+    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;  // reg
     assign _mstatus = mstatus;
     assign _mepc = mepc;
     assign _mcause = mcause;
@@ -289,7 +297,7 @@ decode Decode(
     #define CSR_MEPC    0x341
     #define CSR_MCAUSE  0x342
 */
-
+    // wen 和 wdata 传到 registers 里面用来更新 GPR
     assign wdata = ({32{lui}} & immU) | 
                    ({32{add | addi | auipc}} & add_rst) | 
                    ({32{jalr | jal}} & pc_next_dft) |
@@ -330,7 +338,7 @@ decode Decode(
     assign lb_rst = {{25{lbu_rst[7]}}, lbu_rst[6:0]};
     assign lh_rst = {{17{lhu_rst[15]}}, lhu_rst[14:0]};
 
-
+    // 这个时序always块用来更新pc
     always @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h80000000;
@@ -385,7 +393,8 @@ decode Decode(
             end
         end
     end
-
+    
+    // 这个时序always块用来更新 ram 和 privileged_reg
     always @(posedge clk or posedge rst) begin
         if(!rst) begin
             // write ram

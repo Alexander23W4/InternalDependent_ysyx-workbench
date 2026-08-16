@@ -1,0 +1,9 @@
+bash command
+tmux
+git
+vim
+
+dotfile
+
+python3 : hex(10) bin(0xff) exit()
+

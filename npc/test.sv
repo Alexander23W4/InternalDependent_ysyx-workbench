@@ -86,7 +86,7 @@ always_ff @(posedge clk or posedge rst) begin
     
 end
 
-
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 // 数字电路中, 万物都是二进制, 可以统一为logic.
 // 但是不同的 有区分的变量类型 会带来更多方便
 
@@ -107,4 +107,39 @@ typedef logic[31:0] paddr_t;
 typedef logic[31:0] vaddr_t;
 
 
+// typedef struct packed
+typedef struct packed {
+    logic [3:0] sync;
+    logic [31:0] buffer_info;
+    logic ready; 
+} keyboard_t;
 
+
+keyboard_t xx_keybaord;
+
+logic xx_ready;
+
+assign xx_ready = xx_keyboard.ready;
+
+
+// enum 比较适合与多个同类型parameter(states)的定义
+typedef enum logic [1:0] {
+    STAY, JUMP, RUN
+} Mario;
+
+
+Mario state;
+Mario next;
+
+always_ff @(posedge clk or posedge rst) begin
+    if(rst) begin
+        current <= Mario'(0);
+    end else begin
+        current <= next;
+    end
+end
+
+
+// parameter 本身在两个地方出现:
+// 1. module #(parameter XXX = xx) (input logic //...); endmodule; 
+// 2. parameter logic [5:0] STATEX = 6'b000001; 

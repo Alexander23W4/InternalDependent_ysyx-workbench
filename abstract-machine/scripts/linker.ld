@@ -31,3 +31,14 @@ SECTIONS {
   _end = .;
   _heap_start = ALIGN(0x1000);
 }
+
+
+/*
+* 是通配符，表示所有文件
+
+*(entry)：所有目标文件中的 entry 段
+*(.text*)：所有目标文件中以 .text 开头的段
+: text：使用前面定义的 text 程序头
+*/
+
+

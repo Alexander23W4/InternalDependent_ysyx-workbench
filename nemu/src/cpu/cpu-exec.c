@@ -51,7 +51,7 @@ void statistic() {
   } 
 
 #if _LIMITED_ITRACE_REC_AVIL
-  i_ring_buf_logout(&i_ring_buf);
+  i_ring_buf_logout(&i_ring_buf);   // ouput itraces in i_ring_buf to i_ring_buf-file
 #endif
 
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
@@ -99,7 +99,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   
 
 // output itrace to cmd
   if (g_print_step) { 
-    IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); 
+    IFDEF(CONFIG_ITRACE, puts(_this->logbuf));   // // if so many instr exec once, do not output itrace to cmd (check in cpu_exec)
   }
 
 // difftest
@@ -134,18 +134,18 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
 
 #ifdef CONFIG_ITRACE   // Trace
   char *p = s->logbuf;
-  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);   // pc
+  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);   // output pc
   p += sprintf(p, "    ");
   int ilen = s->snpc - s->pc;   // 4
   int i;
-  uint8_t *inst = (uint8_t *)&s->isa.inst;
+  uint8_t *inst = (uint8_t *)&s->isa.inst;    // split 32 bit instr into 4 parts  e.g. 50 40 00 ef
 
 #ifdef CONFIG_ISA_x86
   for (i = 0; i < ilen; i ++) {
 #else
   for (i = ilen - 1; i >= 0; i --) {
 #endif
-    p += snprintf(p, 4, " %02x", inst[i]);   // instr
+    p += snprintf(p, 4, " %02x", inst[i]);   // output instr e.g. 50 40 00 ef
   }
   // aline
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
@@ -153,14 +153,14 @@ static void exec_once(Decode *s, vaddr_t pc) {    // execute once
   if (space_len < 0) space_len = 0;
   space_len = space_len * 3 + 1;
   memset(p, ' ', space_len);
-  p += space_len;
+  p += space_len;                       // 不同指令长度不同, 对齐
 
-  p += sprintf(p, "    ");
+  p += sprintf(p, "    ");              // sprintf returns amount of byte, memset returns the pointer
 
   int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 
-  int len = disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
-      MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);    // size = remaining space of logbuf
+  int len = disassemble(p, s->logbuf + sizeof(s->logbuf) - p,   
+      MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);    // output disassembly   size = remaining space of logbuf
   p += len;
 
 /*
@@ -224,7 +224,7 @@ static void execute(uint64_t n) {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
-  g_print_step = (n < MAX_INST_TO_PRINT);
+  g_print_step = (n < MAX_INST_TO_PRINT);     // if so many instr exec once, do not output itrace to cmd
   switch (nemu_state.state) {  // start state checking
     case NEMU_END: 
     case NEMU_ABORT: 

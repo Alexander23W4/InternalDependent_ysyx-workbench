@@ -1,0 +1,26 @@
+ 
+在PA中有五大基础设施: sdb, trace, native, DiffTest 和 gdb. 除了native 和 gdb, 其余三大基础设施都可以在NPC中搭建.
+
+首先确保nemu运行正确: 当nemu遇到bug时: bug可能来自于: customer-program  klib   ISA-specific-API  NEMU-C  NEMU-ISA
+
+首先通过native (无法测试klib里类似malloc函数) 排除前两个  
+然后bug出在NEMU-C的会比较特别, debug用gdb来解决
+如果是hit bad trap, out of bound 这些, 就用difftest来测试 (difftest无法测试IOE) , 如果测试均不通过, 则为ISA-specific-API的问题. 具体bug通过sdb和trace来找
+
+总的来说是 native -> gdb -> difftest -> trace -> sdb
+
+
+DC阶段个人目标:
+
+-> 开发所有infras给 NEMU 和 CPU , 并且能够 熟练调用 并且 熟悉源码
+
+NEMU: native  difftest  gdb  trace  sdb
+NPC: difftest  trace  sdb
+
+-> 回看 IOE 和 CTE 的源码, 熟悉所有细节
+
+运行所有可运行的测试 in am_kernel
+
+-> 熟悉整个IT层级结构 (反复feedback)
+
+-> 自主写几个涉及 IOE 和 CTE 的用户程序, 并且跑通

@@ -69,7 +69,7 @@ void init_disasm() {
 #endif
 }
 
-// e.g. lbu	a0, 0x10(t0)
+// e.g. lbu	a0, 0x10(t0)   llvm
 int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
   cs_insn *insn;
   size_t count = cs_disasm_dl(handle, code, nbyte, pc, 0, &insn);

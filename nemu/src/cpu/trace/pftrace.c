@@ -27,6 +27,56 @@
 读取数据：根据上一步得到的偏移和大小，直接从文件映射内存中读取符号表和字符串表的数据。
 */
 
+symbol Func_symbols[500];
+int function_amt = 0;
+
+
+void fill_symbols(Elf32_Ehdr *ehdr){
+    //  ehdr -> Section Header Table
+    Elf32_Shdr *shdr = (Elf32_Shdr *)((char *)ehdr + ehdr->e_shoff);
+
+    int shnum = ehdr->e_shnum;
+    // find .shstrtab（section name string table）
+    Elf32_Shdr *shstr_hdr = &shdr[ehdr->e_shstrndx];
+    char *shstrtab = (char *)ehdr + shstr_hdr->sh_offset;
+
+    // find .symtab & .strtab in sections
+    int sym_idx = -1, str_idx = -1;
+    for (int i = 0; i < shnum; i++) {
+        char *sec_name = shstrtab + shdr[i].sh_name;
+        if (strcmp(sec_name, ".symtab") == 0) {
+            sym_idx = i;
+        } else if (strcmp(sec_name, ".strtab") == 0) {
+            str_idx = i;
+        }
+    }
+
+    assert(sym_idx != -1);
+    assert(str_idx != -1);
+
+    // 读 .symtab
+    Elf32_Shdr *sym_hdr = &shdr[sym_idx];
+    Elf32_Sym *symtab = (Elf32_Sym *)((char *)ehdr + sym_hdr->sh_offset);
+    int sym_count = sym_hdr->sh_size / sym_hdr->sh_entsize;    // sym_count
+
+    // 读 .strtab
+    Elf32_Shdr *str_hdr = &shdr[str_idx];
+    char *strtab = (char *)ehdr + str_hdr->sh_offset;
+
+    // 遍历所有函数符号
+    for (int i = 0; i < sym_count; i++) {
+        Elf32_Sym *sym = &symtab[i];
+        int type = ELF32_ST_TYPE(sym->st_info);
+        
+        if (type == STT_FUNC) {
+            char *name = strtab + sym->st_name;
+            Func_symbols[function_amt].name = name;
+            Func_symbols[function_amt].low_addr = sym->st_value;
+            Func_symbols[function_amt].high_addr = sym->st_value + sym->st_size;
+            function_amt++;
+        }
+    }
+}
 
 char* get_elf_file(char* dir){
     char* temp = dir;
@@ -37,6 +87,7 @@ char* get_elf_file(char* dir){
     }
     return temp;
 }
+
 
 
 
@@ -91,49 +142,4 @@ void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size) {
     if (ehdr) {
         munmap(ehdr, file_size);
     }
-}
-
-void fill_symbols(Elf32_Ehdr *ehdr){
-    // 从 ehdr 定位到 Section Header Table
-    Elf32_Shdr *shdr = (Elf32_Shdr *)((char *)ehdr + ehdr->e_shoff);
-
-    int shnum = ehdr->e_shnum;
-    // 先找到 .shstrtab（section name string table）
-    Elf32_Shdr *shstr_hdr = &shdr[ehdr->e_shstrndx];
-    char *shstrtab = (char *)ehdr + shstr_hdr->sh_offset;
-
-    // 遍历所有 section，找 .symtab
-    int sym_idx = -1;
-    for (int i = 0; i < shnum; i++) {
-        char *sec_name = shstrtab + shdr[i].sh_name;
-        if (strcmp(sec_name, ".symtab") == 0) {
-            sym_idx = i;
-            break;
-        }
-    }
-
-    // sym_idx 就是 .symtab 的索引
-    assert(sym_idx != -1);
-
-    Elf32_Shdr *sym_hdr = &shdr[sym_idx];
-    Elf32_Sym *symtab = (Elf32_Sym *)((char *)ehdr + sym_hdr->sh_offset);
-    int sym_count = sym_hdr->sh_size / sym_hdr->sh_entsize;
-
-    for (int i = 0; i < sym_count; i++)
-    {
-        Elf32_Sym *sym = &symtab[i];
-        
-        // 获取 type: st_info 的低 4 位
-        int type = ELF32_ST_TYPE(sym->st_info);
-        
-        if (type == STT_FUNC) {
-            // 这是一个函数符号
-            char *name = strtab + sym->st_name;  // 需要先读 .strtab
-            printf("func: 0x%x %s\n", sym->st_value, name);
-        }
-    }
-    
-
-    printf("first sym value: 0x%x\n", symtab[0].st_value);
-
 }

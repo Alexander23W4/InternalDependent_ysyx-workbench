@@ -51,6 +51,11 @@ At the RTL level, it mainly consists of two parts:  """@@@ interface signals and
 
 ⭐: 需要熟悉的几个东西:
 bas-know   bas-env   projects & mateprg   workflow  
+或者说: 
+computer-science   
+information-technology     核心   外围(传设电)   上层更具体抽象的操作
+workflow    选型  写RTL,DUT-REF验证(功能验证)  性能验证    硅后   
+
 
 bas-know: 数字模拟通信网络  C  Verilog System-verilog Chisel   
 
@@ -90,12 +95,18 @@ YSYX把IOE VME CTE和 cpu开发流程放在一起, 其实是把上层OS该有的
 IP（知识产权核）集成：现代SoC（系统级芯片）几乎不会从零开始设计所有模块。团队会大量集成经过验证的第三方IP，如内存控制器、PCIe接口等。
 确保这些来自不同供应商的IP能与自研CPU核心无缝协作，是关键挑战之一。
 
-RTL设计与开发：这是硬件工程师将微架构设计转换为实际的寄存器传输级（RTL）代码（如Verilog或VHDL）的阶段，也就是你正在PA里做的事。
+RTL设计与开发：这是硬件工程师将微架构设计转换为实际的寄存器传输级（RTL）代码（如Verilog或VHDL）的阶段.
 在大厂，这个环节会严格遵循详细的设计规范和review流程，确保代码质量。
 
 功能验证：这是整个流程中最耗时、最关键的环节，没有之一。验证工程师的工作从RTL设计阶段就同步开始了，他们负责寻找并修复硬件设计中的每一个Bug。
 
 方法：包括模块级仿真、使用约束随机测试、硬件仿真加速器（如Synopsys ZeBu）和FPGA原型验证。
+
+验证方法	 速度	         调试能力	 成本	      主要用途
+模块级仿真	  最慢 (kHz)	   最好	    最低	   RTL设计初期、功能调试、覆盖率分析
+约束随机测试	取决于仿真平台	较好	  中等	    提升功能覆盖率，发现隐藏的Bug
+硬件仿真加速器	快 (MHz)	   中等	    较高	   系统级验证、长序列测试、大规模SoC验证
+FPGA原型验证	最快 (接近MHz)	最差	最高	    跑真实操作系统、软硬件协同验证、提前软件开发
 
 数据：一个极其复杂的CPU（如Intel的Xeon Sapphire Rapids）在研发阶段曾累积超过500项硬件错误，历经十多次版本迭代才达到量产水准。
 

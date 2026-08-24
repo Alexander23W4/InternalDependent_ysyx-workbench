@@ -1,4 +1,5 @@
 // klib -> platform (logisim, nemu, npc) -> ISA
+⭐: AM = TRM + IOE + CTE + VME + MPE
 
 software only operate ram & registers, hardware will automatically get info from ram & registers, and make control & specific execution
 so we do not need to care about ABI anymore as long as we complete ISA requirement in hardware

@@ -8,7 +8,7 @@
 /*
  All APIs in AM    
 
- IOE VME CTE TRM
+ AM = TRM + IOE + CTE + VME + MPE 
 */
 
 #include ARCH_H // this macro is defined in $CFLAGS

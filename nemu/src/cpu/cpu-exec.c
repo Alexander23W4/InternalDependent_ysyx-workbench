@@ -231,7 +231,7 @@ void cpu_exec(uint64_t n) {
     case NEMU_QUIT:  
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
       return;
-    default: nemu_state.state = NEMU_RUNNING;   // default set to RUNNING, if keep RUNNING, execute go through, single execute_loop & trace_and_difftest can change state
+    default: nemu_state.state = NEMU_RUNNING;  // default set to RUNNING, if keep RUNNING, execute go through, single execute_loop & trace_and_difftest can change state
   }
 
   uint64_t timer_start = get_time();

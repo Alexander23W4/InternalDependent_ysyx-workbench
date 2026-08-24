@@ -32,6 +32,11 @@ override ARGS += -b	   			 # run options
 
 # AM diliver command: $(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
 # Command to execute NEMU     BINARY: [nemu].bin    IMG: [guest&am].bin
+
+# 这是AM传给 nemu的 make指令的一个example: 
+# make -C /home/wang/InternalDependent_ysyx-workbench/nemu ISA=riscv32 run 
+# ARGS="-l /home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/nemu-log.txt" 
+# IMG=/home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/add-longlong-riscv32-nemu.bin  
 IMG ?=
 NEMU_EXEC := $(BINARY) $(ARGS) $(IMG)
 

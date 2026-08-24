@@ -37,7 +37,7 @@ int is_exit_status_bad();
 
 int main(int argc, char *argv[]) {   // the args will diliver to init_monitor -> parse_args() for get config info for init
   /* Initialize the monitor. */
-  _check_args(argc, argv);           // print out args
+  _check_args(argc, argv);           // print out args (%%Self Added)
 #ifdef CONFIG_TARGET_AM   
   am_init_monitor();
 #else
@@ -57,6 +57,7 @@ int main(int argc, char *argv[]) {   // the args will diliver to init_monitor ->
 
 
 void _check_args(int argc, char** argv){
+  printf("%s\n", ANSI_FMT("***PRINT ARGUMENTS!***", ANSI_FG_CYAN));
   for (int i = 0; i < argc; i++)
   {
     printf("arg%d: %s\n", i, argv[i]);

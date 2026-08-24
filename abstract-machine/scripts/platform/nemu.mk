@@ -47,6 +47,9 @@ image: image-dep
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 # call nemu, run  ARGS  IMG   可以看到AM的makefile就是给nemu编译打包了一个$(IMAGE).bin拿给nemu运行就行了, 所有的编译配置都是根据nemu和对应的指令集生成的.
+# make -C /home/wang/InternalDependent_ysyx-workbench/nemu ISA=riscv32 run 
+# ARGS="-l /home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/nemu-log.txt" 
+# IMG=/home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/add-longlong-riscv32-nemu.bin   
 run: insert-arg  elf-parse
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
 

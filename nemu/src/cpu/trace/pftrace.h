@@ -8,12 +8,15 @@
 #include <sys/stat.h>
 #include <elf.h>
 
-char* elf_file;
+char elf_file[256];
 
-char* get_elf_file(char* dir);
+void get_elf_file(const char* dir);
+
+void ftrace_init(const char* dir);
 
 typedef struct{
     char* name;
     uint32_t low_addr;
     uint32_t high_addr;
 }symbol;
+

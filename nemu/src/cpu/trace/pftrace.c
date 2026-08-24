@@ -30,6 +30,14 @@
 symbol Func_symbols[500];
 int function_amt = 0;
 
+void ftrace_init(const char* dir){
+    get_elf_file(dir);
+    printf("%s\n", elf_file);
+    size_t file_size;
+    Elf32_Ehdr* ehdr = map_elf_file(elf_file, &file_size);
+    fill_symbols(ehdr);
+    unmap_elf_file(ehdr, file_size);
+}
 
 void fill_symbols(Elf32_Ehdr *ehdr){
     //  ehdr -> Section Header Table
@@ -78,21 +86,18 @@ void fill_symbols(Elf32_Ehdr *ehdr){
     }
 }
 
-char* get_elf_file(char* dir){
-    char* temp = dir;
-    int len = strlen(temp);
+void get_elf_file(const char* dir) {  
+    strncpy(elf_file, dir, sizeof(elf_file) - 1);
+    elf_file[sizeof(elf_file) - 1] = '\0';
     
-    if (len >= 4 && strcmp(temp + len - 4, ".bin") == 0) {
-        strcpy(temp + len - 4, ".elf");
+    int len = strlen(elf_file);
+    if (len >= 4 && strcmp(elf_file + len - 4, ".bin") == 0) {
+        strcpy(elf_file + len - 4, ".elf");
     }
-    return temp;
 }
 
 
-
-
-// 映射 ELF 文件到内存，返回 Elf32_Ehdr 指针
-Elf32_Ehdr* map_elf_file(const char *elf_file) {
+Elf32_Ehdr* map_elf_file(const char *elf_file, size_t *file_size) {
     if (elf_file == NULL) {
         fprintf(stderr, "ELF file path is NULL\n");
         return NULL;
@@ -104,37 +109,30 @@ Elf32_Ehdr* map_elf_file(const char *elf_file) {
         return NULL;
     }
 
-    // 获取文件大小
     struct stat st;
     if (fstat(fd, &st) < 0) {
         perror("fstat failed");
         close(fd);
         return NULL;
     }
-    size_t file_size = st.st_size;
+    *file_size = st.st_size;  // 通过输出参数返回
 
-    // 将文件映射到内存
-    //    PROT_READ: 只读映射
-    //    MAP_PRIVATE: 修改不写回文件（安全）
-    void *elf_data = mmap(NULL, file_size, PROT_READ, MAP_PRIVATE, fd, 0);
+    void *elf_data = mmap(NULL, *file_size, PROT_READ, MAP_PRIVATE, fd, 0);
     if (elf_data == MAP_FAILED) {
         perror("mmap failed");
         close(fd);
         return NULL;
     }
 
-    // 关闭文件描述符（映射已经建立，可以关闭了）
     close(fd);
 
     Elf32_Ehdr *ehdr = (Elf32_Ehdr *)elf_data;
-    
 
     printf("ELF file mapped successfully: %s\n", elf_file);
     printf("  Entry point: 0x%x\n", ehdr->e_entry);
     printf("  Section header table offset: 0x%lx\n", (unsigned long)ehdr->e_shoff);
     printf("  Number of section headers: %d\n", ehdr->e_shnum);
 
-    // 返回 ELF 头指针
     return ehdr;
 }
 

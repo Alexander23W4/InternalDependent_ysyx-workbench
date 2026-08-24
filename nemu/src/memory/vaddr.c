@@ -24,7 +24,7 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {   // fetch
 word_t vaddr_read(vaddr_t addr, int len) {
   word_t result = paddr_read(addr, len);
 #if CONFIG_MTRACE
-  mtrace_flag = 1;
+  mtrace_flag = 1;    // mtrace
   mem_addr = addr;
   content = (int32_t) result;
 #endif
@@ -33,7 +33,7 @@ word_t vaddr_read(vaddr_t addr, int len) {
 
 void vaddr_write(vaddr_t addr, int len, word_t data) {
 #if CONFIG_MTRACE
-  mtrace_flag = 2;
+  mtrace_flag = 2;    // mtrace
   mem_addr = addr;
   content = (int32_t) data;
 #endif

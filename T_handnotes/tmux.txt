@@ -12,4 +12,4 @@ switch window: 0123...
 
 shut window: exit
 
-
+copy: ctrl-q  hjkl  enter

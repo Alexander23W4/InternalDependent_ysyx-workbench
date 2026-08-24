@@ -187,8 +187,8 @@ translate them into function names  (Throught ELF file)
 #if CONFIG_MTRACE
   if(mtrace_flag != 0){
     p += sprintf(p, "                   ");
-    if(mtrace_flag == 1){
-      p += sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
+    if(mtrace_flag == 1){    // mtrace_flag is changed in vaddr.c -> vaddr_read/write
+      p += sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);   
     }
     else if(mtrace_flag == 2){
       p += sprintf(p, "M_write: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);

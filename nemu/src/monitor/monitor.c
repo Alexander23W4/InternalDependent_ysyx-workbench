@@ -16,6 +16,7 @@
 #include <isa.h>
 #include <memory/paddr.h>
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/ftrace.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/pftrace.h"
 
 void init_rand();
 void init_log(const char *log_file);
@@ -24,6 +25,7 @@ void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
 void init_sdb();
 void init_disasm();
+
 
 static void welcome() {    // welcome
   Log("Trace: %s", MUXDEF(CONFIG_TRACE, ANSI_FMT("ON", ANSI_FG_GREEN), ANSI_FMT("OFF", ANSI_FG_RED)));
@@ -78,20 +80,23 @@ static int parse_args(int argc, char *argv[]) {  // break up (deal with) argumen
     {"diff"     , required_argument, NULL, 'd'},
     {"port"     , required_argument, NULL, 'p'},
     {"help"     , no_argument      , NULL, 'h'},
+    {"elf"      , no_argument      , NULL, 'e'},
     {0          , 0                , NULL,  0 },
   };
 
   int o;
-  while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {   
+  while ( (o = getopt_long(argc, argv, "-bhle:d:p:", table, NULL)) != -1) {   
     switch (o) {
       case 'b': sdb_set_batch_mode(); break;           // set batch mode == true
+      case 'e': get_elf_file(argv[argc - 1]); break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;   // scanf (stdin)   fscanf(file)  sscanf(string)
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;
       case 1: img_file = optarg; return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
-        printf("\t-b,--batch              run with batch mode\n");
+        printf("\t-b,--batch              run in batch mode\n");
+        printf("\t-e,--elf                send guest elf to nemu\n");
         printf("\t-l,--log=FILE           output log to FILE\n");
         printf("\t-d,--diff=REF_SO        run DiffTest with reference REF_SO\n");
         printf("\t-p,--port=PORT          run DiffTest with port PORT\n");

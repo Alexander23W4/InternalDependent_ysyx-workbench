@@ -84,6 +84,20 @@ Section Headers:
 trace: debug    optimize function(ftrace)    optimize processor(branch prediction, cache) (itrace, mtrace)    
 
 
+什么是符号(Symbol)
+符号是链接器用来连接不同目标文件的"桥梁"，主要用于：
+跨文件引用（如调用其他文件的函数）
+链接时决议（确定地址）
+调试信息（可选）
+
+符号表(symtab)只记录全局可见的标识符：
+全局函数
+全局变量
+静态函数（local binding）
+外部引用（UND）
+
+局部变量本质是临时寄存器操作, 不在symtab里面
+
 
 
 

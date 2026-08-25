@@ -30,6 +30,8 @@
 读取数据：根据上一步得到的偏移和大小，直接从文件映射内存中读取符号表和字符串表的数据。
 */
 
+char elf_file[256];
+symbol Func_symbols[500];
 int function_amt = 0;
 
 // Init, full process to build the func_symbols array
@@ -40,6 +42,7 @@ void ftrace_init(const char* dir){
     Elf32_Ehdr* ehdr = map_elf_file(elf_file, &file_size);
     fill_symbols(ehdr);
     unmap_elf_file(ehdr, file_size);
+    print_func_syms();
 }
 
 
@@ -160,3 +163,5 @@ void print_func_syms(void){
     }
     
 }
+
+

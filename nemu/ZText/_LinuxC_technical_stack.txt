@@ -1,0 +1,124 @@
+LinuxC  Technical Stack
+
+->When coding:
+use assert()
+avoid unspecific behavior
+make sure some critical implementation-defined behavior
+
+%(EMU) add dump_print after each state update.
+
+->Verification:
+1.LINT-Static Semantic check  (clang xxx.c --analyze -Xanalyzer -analyzer-output=text)
+2.Run sucessfully
+3.key GDB-Debug (use debug-gcc -> start gdb -> list -> breakpoint-> run ->display-> step/continue)
+    or rr(Reverse-Debug)
+4.valgrind
+5.sanitizer  gcc -fsanitize=undefined a.c && ./a.out   compiler automatically insert "assert" in the code, check undifined behavior
+
+->Makfile Experience:
+1.different gcc compiling requirement : 
+    e.g. debug: gcc -g -o0 xx.c -o xx
+         run  : gcc -o2 xx.c -o xx
+
+
+GCC
+GDB
+Makefile
+
+
+gcc 生成 .out  binary executable file
+gcc -ggdb -.. test.c -o test.out
+执行.out 文件
+若报错：
+1. 程序执行中 → CPU 算术错误 → 发出 SIGFPE 信号
+2. 内核收到信号 → 检查 kernel.core_pattern   core_pattern 决定了core怎么生成，放在那里等
+3. kernel 暂停程序 → 遍历进程所有内存页
+4. 写入 ELF core 文件 → 程序正式退出
+5. 终端显示 "(core dumped)"
+
+Core 文件结构：
+┌─────────────────┐
+│ ELF 头部        │ ← 文件格式 + 段信息
+├─────────────────┤
+│ 程序头部表      │ ← 描述各内存段位置
+├─────────────────┤
+│ .text 段        │ ← 代码（只读）
+├─────────────────┤
+│ .data/.bss 段   │ ← 全局变量
+├─────────────────┤
+│ 堆（heap）      │ ← malloc 分配
+├─────────────────┤
+│ 栈（stack）     │ ← 局部变量 + 调用栈
+├─────────────────┤
+│ 共享库          │ ← printf 等库函数
+└─────────────────┘
+
+==================================================================<GDB>================================================================
+
+->read core file by GDB, find the bug:
+gdb ./test.out core ./core.....
+
+common used command in (gdb) mode: f 1  f 2.... list(list the code context of the crash line) p ...(print)
+
+
+GDB commands: 
+
+break (b) (break main/ break file.c:100)
+info breakpoints
+delete (d) (delete breakpoints)
+
+print (p x)
+display
+
+run  (r)   从头开始执行程序
+step  (s)   下一条执行语句，最小颗粒度
+next  (n)   下一行，在当前函数内部的下一行，碰到子函数不会跳进去
+finish  （fin） 退出当前函数
+continue （c）下一個断点
+
+list
+bt  (show stack)
+layout src  (TUI)
+frame x (e.g. frame 1, 看之前一步是那个函数，Application: 现在处在某一个函数，不知道这个函数是谁调用的。similar to ftrace)
+
+*** Read BT infomation:
+(gdb) bt
+#0  0x0000000000100008 in ?? ()
+#1  0x00005555555cb490 in irq_handle ()
+#2  0x000000000000450b in ?? ()
+#3  0x0000000000000000 in ?? ()
+
+(gdb) p/x next      # 十六进制
+(gdb) p/d next      # 十进制
+(gdb) p/t next      # 二进制 (非常适合看寄存器掩码或标志位)
+
+
+bt的每一次call / ret的跳转的目标地址， 比如#1为irq_handle()入口地址，100008是irq_handle()内部执行时触发的跳转目标地址
+
+-> 断instr和pc可以用watchpoint：
+    watch (paddr_read(cpu.pc, 4) & 0x707f) == 0x2023   [watch all SW instr]
+    watch paddr_read(cpu.pc, 4) == 0x02c787b3          [watch a specific instr]
+    
+    watch cpu.pc == 0x80001258
+    until cpu.pc == 0x80001258
+
+
+-> 断c函数或者c语句直接用breakpoint, 可以用condition/if来限制 (提升debug效率)：
+     b mmio_read if cpu.pc == 0x80001258
+     condition 1 cpu.pc == 0x80001258                  [add additional condition on triggering breakpoint 1]
+    
+
+
+
+
+
+
+
+
+
+linuxC编译：
+gcc  clang  预编译 编译
+编译过程包括： 词法分析 语法分析  语义分析
+语义分析好工具： lint
+
+

@@ -85,7 +85,7 @@ static int parse_args(int argc, char *argv[]) {  // break up (deal with) argumen
   };
 
   int o;
-  while ( (o = getopt_long(argc, argv, "-bhle:d:p:", table, NULL)) != -1) {   
+  while ( (o = getopt_long(argc, argv, "-bhel:d:p:", table, NULL)) != -1) {   
     switch (o) {
       case 'b': sdb_set_batch_mode(); break;           // set batch mode == true
       case 'e': ftrace_init(argv[argc - 1]); break;

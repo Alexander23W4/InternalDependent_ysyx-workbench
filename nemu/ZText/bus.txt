@@ -38,6 +38,13 @@ The asynchronous bus determines when to communicate through a handshake protocol
 At the RTL level, it mainly consists of two parts:  """@@@ interface signals and communication logic. """
 
 
+
+
+
+
+
+
+
 工作流： 需求 -> ISA -> 正确简单实现的 emulator & cpu & 驱动(for os) ->  通过pipeline, bus, cache提升硬件的能力
 
 根据需求， 选用指令集和扩展。在software层面也要有所考量，因为应用都是基于software, 什么 VME IOE CTE，在ISA-CPU层实现所有的扩展指令功能。
@@ -47,6 +54,11 @@ At the RTL level, it mainly consists of two parts:  """@@@ interface signals and
 用哪个指令集， emulator和cpu必须完整正确简单的实现这个指令集的所有功能， base on the manual
 用difftest, trace等工具，debug, 确保基础功能不能够出错。
 然后， 在cpu的功能上加上bus, trace, 外围设备的交互连接， 使用第三方hardware库辅助开发（verilog）
+
+
+
+
+
 
 
 ⭐: 需要熟悉的几个东西:
@@ -83,6 +95,11 @@ YSYX把IOE VME CTE和 cpu开发流程放在一起, 其实是把上层OS该有的
 也就是说, 开发上层的OS, 比如AM 是必要的
 我们可能必须要实现IOE, VME, CTE在 在用于测试的裸机OS里面, 来充分验证ISA层实现的正确性.
 所以学习这些, 也是必要的?
+
+
+
+
+
 
 
 大厂CPU开发流程:

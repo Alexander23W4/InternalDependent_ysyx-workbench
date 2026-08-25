@@ -190,34 +190,44 @@ translate them into function names  (Throught ELF file)
   uint32_t current_inst = s->isa.inst;
   int space_before_itrace = 30 - len;
   memset(p, ' ', space_before_itrace);
-  p += space_before_itrace;
-  int itrace_len = 0;
+  p += space_before_itrace;   // 准备好对齐填入 ftrace
+
+  int ftrace_len = 0;
 
   int pre_index = 0;
   int dst_index = 0;
-  for (int i = 0; i < function_amt; i++)
-  {
-    if((s->pc < Func_symbols[i].high_addr) && (s->pc >= Func_symbols[i].low_addr)){
-      pre_index = i;
-    }
-    else if((s->dnpc < Func_symbols[i].high_addr) && (s->dnpc >= Func_symbols[i].low_addr)){
-      dst_index = i;
-    }
-  }
 
   if(current_inst == 0x00008067){
-    // ret
-    itrace_len = sprintf(p, "[RET] PRE: %s, DST: %s", Func_symbols[pre_index].name, Func_symbols[dst_index].name);
+    // ret 
+    for (int i = 0; i < function_amt; i++)
+    {
+      if((s->pc < Func_symbols[i].high_addr) && (s->pc >= Func_symbols[i].low_addr)){
+        pre_index = i;
+      }
+      else if((s->dnpc < Func_symbols[i].high_addr) && (s->dnpc >= Func_symbols[i].low_addr)){
+        dst_index = i;
+      }
+    }
+    ftrace_len = sprintf(p, "[RET] PRE: %s, DST: %s", Func_symbols[pre_index].name, Func_symbols[dst_index].name);
   }
   else if(((current_inst & 0x7F) == 0x6F) || (((current_inst & 0x7F) == 0x67) && (((current_inst >> 12) & 0x7) == 0))){
     // jal or jalr
-    itrace_len = sprintf(p, "[CALL] PRE: %s, DST: %s", Func_symbols[pre_index].name, Func_symbols[dst_index].name);
+    for (int i = 0; i < function_amt; i++)
+    {
+      if((s->pc < Func_symbols[i].high_addr) && (s->pc >= Func_symbols[i].low_addr)){
+        pre_index = i;
+      }
+      else if((s->dnpc < Func_symbols[i].high_addr) && (s->dnpc >= Func_symbols[i].low_addr)){
+        dst_index = i;
+      }
+    }
+    ftrace_len = sprintf(p, "[CALL] PRE: %s, DST: %s", Func_symbols[pre_index].name, Func_symbols[dst_index].name);
   }
 
-  p += itrace_len;
-  int itrace_remain_space = 50 - itrace_len;
-  memset(p, ' ', itrace_remain_space);
-  p += itrace_remain_space;
+  p += ftrace_len;
+  int ftrace_remain_space = 50 - ftrace_len;
+  memset(p, ' ', ftrace_remain_space);
+  p += ftrace_remain_space;
 
 #endif
 
@@ -234,8 +244,8 @@ translate them into function names  (Throught ELF file)
   }
 
   p += mtrace_len;
-  int mtrace_remain_space = 50 - mtrace_len;
-  memset(p, ' ', mtrace_remain_space);
+  int mtrace_remain_space = 70 - mtrace_len;
+  memset(p, ' ', mtrace_remain_space);   // ****
   p += mtrace_remain_space;
   
 #endif

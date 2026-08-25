@@ -15,12 +15,14 @@ DC阶段个人目标:
 -> 开发所有infras给 NEMU 和 CPU , 并且能够 熟练调用 并且 熟悉源码
 
 NEMU: native  difftest  gdb  trace  sdb
-NPC: difftest  trace  sdb
+CPU: difftest  trace  sdb
 
--> 回看 IOE 和 CTE 的源码, 熟悉所有细节
+-> 回看 IOE 和 CTE 的源码, 熟悉所有细节  并且跑对RT_Thread, 解决无法交互的问题
 
 运行所有可运行的测试 in am_kernel
 
 -> 熟悉整个IT层级结构 (反复feedback)
 
 -> 自主写几个设计 IOE 和 CTE 的用户程序, 并且跑通
+
+-> 将CPU综合

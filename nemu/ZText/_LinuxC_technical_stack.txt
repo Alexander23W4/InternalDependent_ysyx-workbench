@@ -59,7 +59,7 @@ Core 文件结构：
 gdb ./test.out core ./core.....
 
 common used command in (gdb) mode: f 1  f 2.... list(list the code context of the crash line) p ...(print)
-b*2/w, display -> run -> (p x); info display; s n c fin; list; frame   
+b*2/w, display -> run -> (p x); info display; info breakpoints(info b); s n c fin; list; frame   
 
 GDB commands: 
 

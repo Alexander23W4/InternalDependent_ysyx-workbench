@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <cpu/cpu.h>
 
-#define MAX_LOGBUF 128
+#define MAX_LOGBUF 512
 #define MAX_LOGAMT 300
 #define I_RING_BUF_LOGFILE "/home/wang/InternalDependent_ysyx-workbench/nemu/i_ring_buf_log.txt"
 

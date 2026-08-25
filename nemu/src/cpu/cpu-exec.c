@@ -23,6 +23,7 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/iringbuf.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/ftrace.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/mtrace.h"
+#include "../../src/cpu/trace/pftrace.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -170,36 +171,77 @@ We can record the destination address in the function call instruction, indicati
 translate them into function names  (Throught ELF file)
 */
 #if CONFIG_FTRACE
-  int jump_status = sieve_jump_func(s->isa.inst);
-  if(jump_status == 0 || jump_status == 1){
-    p += sprintf(p, "                   ");
-    uint32_t taddr = get_taddr(s->isa.inst, s->pc, cpu);
-    char* name = ftrace_get_func(taddr);
-    if(jump_status == 0){
-      p += sprintf(p, "call :%s, 0x%08x", name, taddr);
+  // int jump_status = sieve_jump_func(s->isa.inst);
+  // if(jump_status == 0 || jump_status == 1){
+  //   p += sprintf(p, "                   ");
+  //   uint32_t taddr = get_taddr(s->isa.inst, s->pc, cpu);
+  //   char* name = ftrace_get_func(taddr);
+  //   if(jump_status == 0){
+  //     p += sprintf(p, "call :%s, 0x%08x", name, taddr);
+  //   }
+  //   else{
+  //     p += sprintf(p, "ret :%s, 0x%08x", name, taddr);
+  //   }
+  // }
+
+// 在exec_once()中, 读取s->isa.inst, 判断 00008067 (ret)   jal & jalr (call)
+// ret-> 输出ret (监测现在pc的地址在哪个函数, 遍历aymarr输出函数名)  call -> 输出call (检测目的pc, 输出, 并且遍历symarr)
+// itrace 的 disassembly 长度是len, |->len<- ...|  ftrace   |
+  uint32_t current_inst = s->isa.inst;
+  int space_before_itrace = 30 - len;
+  memset(p, ' ', space_before_itrace);
+  p += space_before_itrace;
+  int itrace_len = 0;
+
+  int pre_index = 0;
+  int dst_index = 0;
+  for (int i = 0; i < function_amt; i++)
+  {
+    if((s->pc < Func_symbols[i].high_addr) && (s->pc >= Func_symbols[i].low_addr)){
+      pre_index = i;
     }
-    else{
-      p += sprintf(p, "ret :%s, 0x%08x", name, taddr);
+    else if((s->dnpc < Func_symbols[i].high_addr) && (s->dnpc >= Func_symbols[i].low_addr)){
+      dst_index = i;
     }
   }
+
+  if(current_inst == 0x00008067){
+    // ret
+    itrace_len = sprintf(p, "[RET] PRE: %s, DST: %s", Func_symbols[pre_index].name, Func_symbols[dst_index].name);
+  }
+  else if(((current_inst & 0x7F) == 0x6F) || ((current_inst & 0x7F) == 0x67) && (((current_inst >> 12) & 0x7) == 0)){
+    // jal or jalr
+    itrace_len = sprintf(p, "[CALL] PRE: %s, DST: %s", Func_symbols[pre_index].name, Func_symbols[dst_index].name);
+  }
+
+  p += itrace_len;
+  int itrace_remain_space = 50 - itrace_len;
+  memset(p, ' ', itrace_remain_space);
+  p += itrace_remain_space;
+
 #endif
 
 #if CONFIG_MTRACE
+  int mtrace_len;
   if(mtrace_flag != 0){
-    p += sprintf(p, "                   ");
     if(mtrace_flag == 1){    // mtrace_flag is changed in vaddr.c -> vaddr_read/write
-      p += sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);   
+      mtrace_len += sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);   
     }
     else if(mtrace_flag == 2){
-      p += sprintf(p, "M_write: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
+      mtrace_len += sprintf(p, "M_write: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
     }
     mtrace_flag = 0;
   }
+
+  p += mtrace_len;
+  int mtrace_remain_space = 50 - mtrace_len;
+  memset(p, ' ', mtrace_remain_space);
+  p += mtrace_remain_space;
+  
 #endif
 
 #if CONFIG_ETRACE
   if(s->isa.inst == 0x00000073){
-    p += sprintf(p, "                   ");
     p += sprintf(p, "[Exception] pc: 0x%08x\n", s->pc);
   }
 #endif

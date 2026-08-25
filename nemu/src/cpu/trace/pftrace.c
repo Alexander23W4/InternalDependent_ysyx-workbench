@@ -14,7 +14,11 @@ printf("%s\n", ANSI_FMT("***PRINT ARGUMENTS!***", ANSI_FG_CYAN));
 
 创建数据结构 symbol
 
-解析symtab的 所有FUNC列的 value(addr)  , 每个FUNC创建一个symbol, 对应其addr range 和他的名字
+解析symtab的 所有FUNC列的 value(addr)  , 每个FUNC创建一个symbol, 对应其addr range 和 name
+
+在exec_once()中, 读取s->isa.inst, 判断 00008067 (ret)   jal & jalr (call)
+ret-> 输出ret (监测现在pc的地址在哪个函数, 遍历aymarr输出函数名)  call -> 输出call (检测目的pc, 输出, 并且遍历symarr)
+
 
 */
 

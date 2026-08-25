@@ -9,7 +9,7 @@
 #include <elf.h>
 
 typedef struct{
-    char* name;
+    char name[256];
     uint32_t low_addr;
     uint32_t high_addr;
 } symbol;

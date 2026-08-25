@@ -85,13 +85,10 @@ void fill_symbols(Elf32_Ehdr *ehdr){
         int type = ELF32_ST_TYPE(sym->st_info);
         
         if (type == STT_FUNC) {
-            Func_symbols[function_amt].name = strtab + sym->st_name;
-            printf("XXXX: Symbol Names in Strtab: %s\n", strtab + sym->st_name);
+            strcpy(Func_symbols[function_amt].name, strtab + sym->st_name);
             Func_symbols[function_amt].low_addr = sym->st_value;
             Func_symbols[function_amt].high_addr = sym->st_value + sym->st_size;
-            printf("YYYY: Symbol Names in Symarr: %s\n", Func_symbols[function_amt]);
             function_amt++;
-            printf("%d\n", function_amt);
         }
     }
 }
@@ -162,8 +159,8 @@ void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size) {
 void print_func_syms(void){
     for (int i = 0; i < function_amt; i++)
     {
-        printf("%d: %s ", i, Func_symbols[i].name);   /// XXX
-        printf("Start Addr: %u, End Addr: %u\n", Func_symbols[i].low_addr, Func_symbols[i].high_addr);
+        printf("%d: %s ", i, Func_symbols[i].name);   
+        printf("Start Addr: 0x%8x, End Addr: 0x%8x\n", Func_symbols[i].low_addr, Func_symbols[i].high_addr);
     }
     
 }

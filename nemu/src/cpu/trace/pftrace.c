@@ -89,6 +89,7 @@ void fill_symbols(Elf32_Ehdr *ehdr){
             printf("XXXX: Symbol Names in Strtab: %s\n", strtab + sym->st_name);
             Func_symbols[function_amt].low_addr = sym->st_value;
             Func_symbols[function_amt].high_addr = sym->st_value + sym->st_size;
+            printf("YYYY: Symbol Names in Symarr: %s\n", Func_symbols[function_amt]);
             function_amt++;
             printf("%d\n", function_amt);
         }

@@ -23,4 +23,4 @@ NPC: difftest  trace  sdb
 
 -> 熟悉整个IT层级结构 (反复feedback)
 
--> 自主写几个涉及 IOE 和 CTE 的用户程序, 并且跑通
+-> 自主写几个设计 IOE 和 CTE 的用户程序, 并且跑通

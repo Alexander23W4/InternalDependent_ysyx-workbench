@@ -6,6 +6,8 @@
 // 而优化这些频繁发生的事件, 才能从统计意义上提升程序和系统的性能, 这才是性能优化的科学方法.
 
 /*
+printf("%s\n", ANSI_FMT("***PRINT ARGUMENTS!***", ANSI_FG_CYAN));
+
 碰到jarl  jar 时, 输出跳转地址 和 函数名称   碰到ret时, 从哪里返回
 
 碰到3种instr -> 计算跳转地址(call) -> 通过地址定位函数名称 
@@ -37,7 +39,6 @@ int function_amt = 0;
 // Init, full process to build the func_symbols array
 void ftrace_init(const char* dir){
     get_elf_file(dir);
-    printf("%s\n", elf_file);
     size_t file_size;
     Elf32_Ehdr* ehdr = map_elf_file(elf_file, &file_size);
     fill_symbols(ehdr);
@@ -85,9 +86,11 @@ void fill_symbols(Elf32_Ehdr *ehdr){
         
         if (type == STT_FUNC) {
             Func_symbols[function_amt].name = strtab + sym->st_name;
+            printf("XXXX: Symbol Names in Strtab: %s\n", strtab + sym->st_name);
             Func_symbols[function_amt].low_addr = sym->st_value;
             Func_symbols[function_amt].high_addr = sym->st_value + sym->st_size;
             function_amt++;
+            printf("%d\n", function_amt);
         }
     }
 }
@@ -137,8 +140,8 @@ Elf32_Ehdr* map_elf_file(const char *elf_file, size_t *file_size) {
     close(fd);
 
     Elf32_Ehdr *ehdr = (Elf32_Ehdr *)elf_data;
-
-    printf("ELF file mapped successfully: %s\n", elf_file);
+    printf("%s", ANSI_FMT("ELF file mapped successfully: ", ANSI_FG_CYAN));
+    printf("%s\n", elf_file);
     printf("  Entry point: 0x%x\n", ehdr->e_entry);
     printf("  Section header table offset: 0x%lx\n", (unsigned long)ehdr->e_shoff);
     printf("  Number of section headers: %d\n", ehdr->e_shnum);
@@ -158,7 +161,7 @@ void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size) {
 void print_func_syms(void){
     for (int i = 0; i < function_amt; i++)
     {
-        printf("%d: %s ", i, Func_symbols[i].name);
+        printf("%d: %s ", i, Func_symbols[i].name);   /// XXX
         printf("Start Addr: %u, End Addr: %u\n", Func_symbols[i].low_addr, Func_symbols[i].high_addr);
     }
     

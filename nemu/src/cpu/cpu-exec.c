@@ -209,7 +209,7 @@ translate them into function names  (Throught ELF file)
     // ret
     itrace_len = sprintf(p, "[RET] PRE: %s, DST: %s", Func_symbols[pre_index].name, Func_symbols[dst_index].name);
   }
-  else if(((current_inst & 0x7F) == 0x6F) || ((current_inst & 0x7F) == 0x67) && (((current_inst >> 12) & 0x7) == 0)){
+  else if(((current_inst & 0x7F) == 0x6F) || (((current_inst & 0x7F) == 0x67) && (((current_inst >> 12) & 0x7) == 0))){
     // jal or jalr
     itrace_len = sprintf(p, "[CALL] PRE: %s, DST: %s", Func_symbols[pre_index].name, Func_symbols[dst_index].name);
   }
@@ -222,13 +222,13 @@ translate them into function names  (Throught ELF file)
 #endif
 
 #if CONFIG_MTRACE
-  int mtrace_len;
+  int mtrace_len = 0;
   if(mtrace_flag != 0){
     if(mtrace_flag == 1){    // mtrace_flag is changed in vaddr.c -> vaddr_read/write
-      mtrace_len += sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);   
+      mtrace_len = sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);   
     }
     else if(mtrace_flag == 2){
-      mtrace_len += sprintf(p, "M_write: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
+      mtrace_len = sprintf(p, "M_write: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
     }
     mtrace_flag = 0;
   }

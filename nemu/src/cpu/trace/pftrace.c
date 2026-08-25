@@ -2,6 +2,9 @@
 
 // arg4: /home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/add-longlong-riscv32-nemu.bin
 
+// trace其实向我们展示了程序运行过程中的细节事件, 如果我们对这些事件进行统计意义上的分析, 我们就可以知道哪些事件才是频繁发生的, 
+// 而优化这些频繁发生的事件, 才能从统计意义上提升程序和系统的性能, 这才是性能优化的科学方法.
+
 /*
 碰到jarl  jar 时, 输出跳转地址 和 函数名称   碰到ret时, 从哪里返回
 
@@ -27,9 +30,9 @@
 读取数据：根据上一步得到的偏移和大小，直接从文件映射内存中读取符号表和字符串表的数据。
 */
 
-symbol Func_symbols[500];
 int function_amt = 0;
 
+// Init, full process to build the func_symbols array
 void ftrace_init(const char* dir){
     get_elf_file(dir);
     printf("%s\n", elf_file);
@@ -39,6 +42,8 @@ void ftrace_init(const char* dir){
     unmap_elf_file(ehdr, file_size);
 }
 
+
+// fill Func_symbols array
 void fill_symbols(Elf32_Ehdr *ehdr){
     //  ehdr -> Section Header Table
     Elf32_Shdr *shdr = (Elf32_Shdr *)((char *)ehdr + ehdr->e_shoff);
@@ -48,7 +53,7 @@ void fill_symbols(Elf32_Ehdr *ehdr){
     Elf32_Shdr *shstr_hdr = &shdr[ehdr->e_shstrndx];
     char *shstrtab = (char *)ehdr + shstr_hdr->sh_offset;
 
-    // find .symtab & .strtab in sections
+    // find .symtab & .strtab in sections      sym_idx & str_idx
     int sym_idx = -1, str_idx = -1;
     for (int i = 0; i < shnum; i++) {
         char *sec_name = shstrtab + shdr[i].sh_name;
@@ -62,7 +67,7 @@ void fill_symbols(Elf32_Ehdr *ehdr){
     assert(sym_idx != -1);
     assert(str_idx != -1);
 
-    // 读 .symtab
+    // 读 .symtab, get sym_count -> (in symtab)
     Elf32_Shdr *sym_hdr = &shdr[sym_idx];
     Elf32_Sym *symtab = (Elf32_Sym *)((char *)ehdr + sym_hdr->sh_offset);
     int sym_count = sym_hdr->sh_size / sym_hdr->sh_entsize;    // sym_count
@@ -71,14 +76,12 @@ void fill_symbols(Elf32_Ehdr *ehdr){
     Elf32_Shdr *str_hdr = &shdr[str_idx];
     char *strtab = (char *)ehdr + str_hdr->sh_offset;
 
-    // 遍历所有函数符号
     for (int i = 0; i < sym_count; i++) {
         Elf32_Sym *sym = &symtab[i];
         int type = ELF32_ST_TYPE(sym->st_info);
         
         if (type == STT_FUNC) {
-            char *name = strtab + sym->st_name;
-            Func_symbols[function_amt].name = name;
+            Func_symbols[function_amt].name = strtab + sym->st_name;
             Func_symbols[function_amt].low_addr = sym->st_value;
             Func_symbols[function_amt].high_addr = sym->st_value + sym->st_size;
             function_amt++;
@@ -86,6 +89,8 @@ void fill_symbols(Elf32_Ehdr *ehdr){
     }
 }
 
+
+// get elf file direction
 void get_elf_file(const char* dir) {  
     strncpy(elf_file, dir, sizeof(elf_file) - 1);
     elf_file[sizeof(elf_file) - 1] = '\0';
@@ -96,6 +101,8 @@ void get_elf_file(const char* dir) {
     }
 }
 
+
+// map and unmap elf file:
 
 Elf32_Ehdr* map_elf_file(const char *elf_file, size_t *file_size) {
     if (elf_file == NULL) {
@@ -140,4 +147,16 @@ void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size) {
     if (ehdr) {
         munmap(ehdr, file_size);
     }
+}
+
+
+// test func:
+
+void print_func_syms(void){
+    for (int i = 0; i < function_amt; i++)
+    {
+        printf("%d: %s ", i, Func_symbols[i].name);
+        printf("Start Addr: %u, End Addr: %u\n", Func_symbols[i].low_addr, Func_symbols[i].high_addr);
+    }
+    
 }

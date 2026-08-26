@@ -163,7 +163,7 @@ void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size) {
 void print_func_syms(void){
     for (int i = 0; i < function_amt; i++)
     {
-        printf("%d: %s ", i, Func_symbols[i].name);   
+        printf("%d: %s: ", i, Func_symbols[i].name);   
         printf("Start Addr: 0x%8x, End Addr: 0x%8x\n", Func_symbols[i].low_addr, Func_symbols[i].high_addr);
     }
     

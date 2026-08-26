@@ -86,6 +86,9 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
   void (*ref_difftest_init)(int) = dlsym(handle, "difftest_init");
   assert(ref_difftest_init);
 
+  printf("%s", ANSI_FMT("REF_SO file mapped successfully: ", ANSI_FG_CYAN));
+  printf("%s\n", ref_so_file);
+
   Log("Differential testing: %s", ANSI_FMT("ON", ANSI_FG_GREEN));
   Log("The result of every instruction will be compared with %s. "
       "This will help you a lot for debugging, but also significantly reduce the performance. "
@@ -157,6 +160,7 @@ void difftest_step(vaddr_t pc, vaddr_t npc) {
   ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
 
   checkregs(&ref_r, pc);     //
+  difftest_abort_print(&ref_r);
 }
 #else
 void init_difftest(char *ref_so_file, long img_size, int port) { }

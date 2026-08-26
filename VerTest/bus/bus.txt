@@ -91,6 +91,12 @@ whether two modules can communicate with each other solely depends on their stat
 
 
 
+读延迟为1周期的特性通常只有SRAM能够满足, 因为它能够使用与处理器制造相同的工艺进行生产, 但SRAM的价格十分昂贵. 
+为了实现更低成本的存储器, 通常会采用其他存储密度更大的工艺来制造存储器, 例如DRAM. 
+但由于电气特性, 这些存储器的读延迟通常大于处理器的1周期.
+
+
+
 
 
 

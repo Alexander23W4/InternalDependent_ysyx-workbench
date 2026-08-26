@@ -13,7 +13,7 @@ In the simple interaction scenario above, the IFU, as the master,
 Every cycle, the master sends valid information to the slave.
 Once the master sends valid information, the slave can receive it immediately.
 
---> Asynchronous BUS 
+--> ⭐ Asynchronous BUS 
 
 Information is considered valid only when the valid signal is valid.
 Once the master sends valid information, it is considered received by the slave immediately.
@@ -29,13 +29,17 @@ it is necessary to add a ready signal to the communication content to indicate w
 Information is considered valid only when the valid signal is set.
 The information sent by the master is considered received by the slave only when the ready signal is set.
 
---> Handshake Protocol
+--> Handshake Protocol (classical asynchronous bus)
+⭐
++-----+ inst  ---> +-----+
+| IFU | valid ---> | IDU |
++-----+ <--- ready +-----+
 
 Both signals being set, also known as a "handshake," 
 indicates that the master and slave have reached a consensus on the successful transmission of information.
 
-The asynchronous bus determines when to communicate through a handshake protocol. 
-At the RTL level, it mainly consists of two parts:  """@@@ interface signals and communication logic. """
+The asynchronous bus determines ⭐when to communicate through a handshake protocol. 
+At the RTL level, it mainly consists of two parts:  """@@@ ⭐interface signals and communication logic. """
 
 
 

@@ -23,7 +23,7 @@ engine_start()->direct cpu_exec(-1);
 // CONFIG_TARGET_AM : 
 
 #include <common.h>
-#define TEST_MODE 0
+#define EXPR_TEST_MODE 0
 #define TEST_FUNC() 
 
 extern void expr(char *e, bool *success);
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {   // the args will diliver to init_monitor ->
   init_monitor(argc, argv);          // starter, similar to BIOS
 #endif
 
-#if TEST_MODE
+#if EXPR_TEST_MODE
   bool success;
   expr(")", &success);
 #else 

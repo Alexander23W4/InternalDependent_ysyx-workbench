@@ -4,15 +4,61 @@ SystemVerilog（简称 SV）是硬件描述语言（HDL）Verilog 的扩展，�
 
 SystemVerilog 的语法和 Verilog 类似，但在许多方面提供了更为丰富的特性，比如面向对象编程、随机化、断言、接口等。
 
-Generally, 写在这里:
-logic  
 
+⭐ 关键字	核心作用	一句话理解
+module	描述硬件电路的基本单元，是设计实体的核心。	构建数字电路的基本“积木”。
+interface	封装模块间的通信协议和信号，简化连接并增强复用性。	将一组繁杂的连线打包成一个“插座”或“接口”。
+package	在多个模块间共享类型、常量、函数和任务，实现代码复用。	一个存放公用“工具和定义”的公共仓库。
+program	将测试台与设计逻辑分离，专门用于描述测试行为，提供更干净的仿真环境。	一个专门用于“测试”而非“设计”的独立模块。
+checker	用于封装断言和属性，形成独立的、可复用的验证单元。	一个专门做“实时检查”的监控器
+
+
+⭐ Generally, 写在这里:
+@@@@ RTL:
+---> 数据类型:
+逻辑类型:
+logic  
+bit：与 logic 相似，但只支持 0 或 1 的值。
+
+整数类型:
+int：32 位有符号整数。
+shortint：16 位有符号整数。
+longint：64 位有符号整数。
+byte：8 位有符号整数。
+integer：默认的 32 位整数类型。
+
+数组类型:
+定长数组：logic [7:0] arr[0:3]; 表示一个有 4 个元素的数组，每个元素为 8 位宽。
+动态数组：logic [7:0] arr[]; 数组的大小在运行时动态改变。
+队列：logic [7:0] queue[$]; 队列是动态的并可以增长或缩小。
+
+typedef    typedef struct
+
+----> 逻辑关键词:
 always_comb
 always_ff
 
 unique case    priority case
 for(int)   for(genvar)
+
+断言assert:
+    简单断言
+assert (a == b) else $fatal("Error: a is not equal to b");
+    假设和覆盖
+假设用于验证设计在某些条件下的行为，而覆盖则用于记录设计的状态。
+
+assume property (@(posedge clk) a |-> b); // 假设条件
+cover property (@(posedge clk) a |-> b);  // 覆盖条件
+
+
+
+@@@@ Validation & Verification (UVM):
+OOP 编程
+随机变量和约束, 随机化方法
+断言
+
 */
+
 logic a;
 logic [3:0] b;
 /*
@@ -20,6 +66,7 @@ logic是SV引入的一个数据类型，它明确地声明了一个变量是用�
 你在告诉阅读代码的人：“这是一个四态（0,1,X,Z）的变量，它代表一个数字信号。”
 这比区分wire和reg更直接地反映了硬件设计的核心——逻辑运算。
 */
+
 assign a = 16'habcd;
 
 logic [3:0][3:0] matrix;
@@ -160,11 +207,4 @@ end
 // 1. module #(parameter XXX = xx) (input logic //...); endmodule; 
 // 2. parameter logic [5:0] STATEX = 6'b000001;     
 
-/*
-关键字	核心作用	一句话理解
-module	描述硬件电路的基本单元，是设计实体的核心。	构建数字电路的基本“积木”。
-interface	封装模块间的通信协议和信号，简化连接并增强复用性。	将一组繁杂的连线打包成一个“插座”或“接口”。
-package	在多个模块间共享类型、常量、函数和任务，实现代码复用。	一个存放公用“工具和定义”的公共仓库。
-program	将测试台与设计逻辑分离，专门用于描述测试行为，提供更干净的仿真环境。	一个专门用于“测试”而非“设计”的独立模块。
-checker	用于封装断言和属性，形成独立的、可复用的验证单元。	一个专门做“实时检查”的监控器
-*/
+

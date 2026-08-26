@@ -34,6 +34,9 @@
 
 #define _LIMITED_ITRACE_REC_AVIL 1
 
+// if something like seg_fault comes up, as iringbuf_log.txt hasn't been filled, I want to find the specific instr position for leading fault
+#define FIND_INSTR_CAUSE_BUG 1
+
 // state machine "cpu" initialization:
 CPU_state cpu = {};    // define in isa-def.h
 
@@ -95,6 +98,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc, vaddr_t pre_pc) {   
 #if _LIMITED_ITRACE_REC_AVIL    // use iringbuf
   Assert(sizeof(_this->logbuf) <= MAX_LOGBUF, "itrace log buffer constraint.");
   strcpy(i_ring_buf.ring_buf[(i_ring_buf.amt++) % MAX_LOGAMT], _this->logbuf);
+  #ifdef   FIND_INSTR_CAUSE_BUG
+  printf("%s\n", _this->logbuf);
+  #endif
 #endif
 #endif
 

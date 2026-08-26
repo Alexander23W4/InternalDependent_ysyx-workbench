@@ -32,4 +32,7 @@ e.g. riscv64-linux-gnu-readelf -a add-riscv32-nemu.elf   hd add-riscv32-nemu.elf
 
 
 
-
+----> add FIND_INSTR_CAUSE_BUG in cpu-exec.c
+如果出现nemu-c的bug, 比如segment-fault, 但用gdb不太容易定位问题, 我想知道是运行到那个具体的instr, 或者说具体的 situation-position的时候, 产生这个error
+开启后, 输出logbuf 到 cmd
+然后可以用 watchpoint 定位这个位置

@@ -166,6 +166,10 @@ config ETRACE
     bool "Enable exception tracing (etrace)"
     default n
 
+config FIND_INSTR_CAUSE_BUG
+    bool "Locate the specific fault instr"
+    default n
+
 
 config DIFFTEST
   depends on TARGET_NATIVE_ELF

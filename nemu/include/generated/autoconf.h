@@ -34,3 +34,4 @@
 #define CONFIG_CC_GCC 1
 #define CONFIG_TRACE 1
 #define CONFIG_ISA "riscv32"
+#define CONFIG_FIND_INSTR_CAUSE_BUG 1

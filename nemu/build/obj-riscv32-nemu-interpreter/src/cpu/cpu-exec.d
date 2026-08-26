@@ -6,6 +6,7 @@ deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-int
     $(wildcard include/config/mbase.h) \
     $(wildcard include/config/target/am.h) \
     $(wildcard include/config/itrace/cond.h) \
+    $(wildcard include/config/find/instr/cause/bug.h) \
     $(wildcard include/config/itrace.h) \
     $(wildcard include/config/difftest.h) \
     $(wildcard include/config/watchpoint.h) \

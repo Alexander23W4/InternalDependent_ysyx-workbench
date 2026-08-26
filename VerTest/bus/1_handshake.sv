@@ -34,6 +34,7 @@ endmodule
 /*
 --> 一个标准的system verilog 总线结构:
 
+// ⭐: 总线示例: 
 // 文件: bus_if.sv
 interface bus_if #(
     parameter ADDR_WIDTH = 32,
@@ -78,13 +79,14 @@ interface bus_if #(
 endinterface
 
 --> 总线使用:
+// ⭐: 顶层top 示例:
 // 顶层：实例化接口
 module top (
     input logic clk,
     input logic rst_n
 );
 
-// ⭐ 在顶层模块中，接口需要被实例化为一个信号，并且将其作为连接传递到子模块
+// *** 在顶层模块中，接口需要被实例化为一个信号，并且将其作为连接传递到子模块
     bus_if #(.ADDR_WIDTH(32), .DATA_WIDTH(32)) bus (
         .clk(clk),
         .rst_n(rst_n)
@@ -115,90 +117,7 @@ endmodule
 | IFU | valid ---> | IDU |
 +-----+ <--- ready +-----+
 
-当收到ready时, 发出 instr
-当没有收到ready时, 保存 instr
-
-当没有收到instr是, valid为0
-收到为1
 */
-
-interface bus (
-    input clk,
-    input rst
-);
-// accliam signals:
-    logic [31:0] instr;
-    logic valid;
-    logic ready;
-
-// define characters:
-    modport master (
-        input ready,
-        output valid,
-        output [31:0] instr
-    );
-
-    modport slave (
-        input valid,
-        input [31:0] instr,
-        output ready
-    );
-
-endinterface
-
-module IFU (
-    input clk,
-    input rst,
-    bus.master bus
-);
-    logic [31:0] instr;
-    logic instr_ready;
-    logic cease_fetch;
-
-    always_ff @(posedge clk) begin
-        if(instr_ready) begin
-            bus.valid <= 1'b0;
-        end
-        else begin
-            bus.valid <= 1'b1;
-        end
-
-        if(valid) begin
-            bus.instr <= instr;
-            cease_fetch <= 1'b0;
-        end
-        else begin
-            cease_fetch <= 1'b1;
-        end
-    end
-
-endmodule
-
-module IDU (
-    input clk,
-    input rst,
-    bus.slave bus
-);
-    logic [31:0] instr;
-    logic ready;
-
-    always_ff @(posedge clk) begin
-        if(valid) begin
-            instr <= bus.instr;
-        end
-        else begin
-            instr <= instr;
-        end
-
-        if(ready) begin
-            bus.ready <= 1'b1;
-        end
-        else begin
-            bus.ready <= 1'b0;
-        end
-    end
-
-endmodule
 
 // ------------------------------------------
 
@@ -224,58 +143,151 @@ endinterface
 
 
 module IFU (
+    input logic clk,
+    input logic rst,
+    bus.master bus
+);
+
+    // 内部信号:
+    logic [31:0] instr_to_send;
+    logic        instr_fetch_ready;
+
+    logic        fetch_pending;
+
+    // ⭐: 模块内的的总线逻辑应当写成 基于内部和外部寄存器信号的 状态机
+    typedef enum {
+        SEND, PREPARE, WAITING
+    } state_t;
+
+    state_t state, next;
+
+    always_ff @(posedge clk or posedge rst) begin
+        if(rst) begin
+            fetch_pending <= 1'b0;
+            bus.instr <= `0;
+            bus.valid <= 1'b0;
+        end
+        else begin
+            state <= next;
+            unique case(state)
+                SNED: begin
+                    if(!bus.ready) next <= WAITING;
+                    else begin
+                        if(instr_fetch_ready) next <= state;
+                        else next <= PREPARE;
+                    end
+                end
+                PREPARE: begin
+                    if(!instr_fetch_ready) next <= state;
+                    else begin
+                        if(bus.ready) next <= SEND;
+                        else next <= WAITING;
+                    end
+                end
+                WAITING: begin
+                    if(!bus.ready) next <= state;
+                    else begin
+                        if(instr_fetch_ready) next <= SEND;
+                        else next <= PREPARE;
+                    end
+                end
+            endcase
+        end
+    end
+
+endmodule
+
+
+
+module IFU (
     input  logic clk,
     input  logic rst,
     bus.master bus
 );
 
-/*
-    modport master (
-        input  ready,
-        output valid,
-        output [31:0] instr
-    );
-    目标是发出instr
-    当ready = 1 且 instr_fetch_ready时 发出 instr
-    当instr_fetch_ready是, 发出valid, 否则 valid = 0
-
-
-*/
-    // 内部信号
-    // 内部传来信号
-    logic [31:0] instr_to_send;  // 现在fetch好的instr
+    // ===== 内部信号 =====
+    logic [31:0] instr_to_send;
     logic        instr_fetch_ready;
+    logic        fetch_pending;
 
-    // 反馈给内部的信号
-    logic        fetch_pending;   // 停止fetch的信号
+    // ===== 状态定义 =====
+    typedef enum logic [1:0] {
+        IDLE,       // 空闲：没有待发送的指令
+        SEND,       // 尝试发送：valid=1，等待 ready
+        WAIT_RDY    // 等待握手完成：valid=1，ready=0，保持数据
+    } state_t;
 
-    // 用来做逻辑判断的信号: instr_fetch_ready  ready
+    state_t state, next_state;
 
-    always_ff @(posedge clk or negedge rst) begin
-        if (!rst) begin
-            bus.valid   <= 1'b0;
-            bus.instr   <= '0;
-            fetch_pending <= 1'b0;  // 启动fetch
+    // ===== 数据保持寄存器 =====
+    logic [31:0] instr_holding;
+
+    // ===== 第一段：状态寄存器 + 数据保持 =====
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            state         <= IDLE;
+            instr_holding <= '0;
         end else begin
-
-            if(instr_fetch_ready) begin   
-                bus.valid <= 1'b1;
-                if(bus.ready) begin
-                    bus.instr <= instr_to_send;
-                    fetch_pending <= 1'b0;
-                end
-                else begin
-                    fetch_pending <= 1'b1;
-                end
+            state <= next_state;
+            // 在 IDLE 状态锁存新指令
+            if (state == IDLE && instr_fetch_ready) begin
+                instr_holding <= instr_to_send;
             end
-            else begin  
-                bus.valid <= 1'b0;
-                fetch_pending <= 1'b0;
-            end
-
         end
     end
+
+    // ===== 第二段：下一状态逻辑 + 输出逻辑（组合逻辑） =====
+    always_comb begin
+        // 默认值（防止锁存器）
+        next_state    = state;
+        bus.valid     = 1'b0;
+        bus.instr     = instr_holding;   // 默认输出保持的数据
+        fetch_pending = 1'b0;
+
+        case (state)
+            IDLE: begin
+                bus.valid = 1'b0;
+                if (instr_fetch_ready) begin
+                    // 有新指令，准备发送
+                    bus.instr = instr_to_send;
+                    bus.valid = 1'b1;
+                    if (bus.ready) begin
+                        // 同时握手完成，回到 IDLE
+                        next_state = IDLE;
+                    end else begin
+                        // 从设备未就绪，进入等待
+                        next_state = WAIT_RDY;
+                    end
+                end
+            end
+
+            WAIT_RDY: begin
+                // 保持 valid=1，等待 ready
+                bus.instr     = instr_holding;
+                bus.valid     = 1'b1;
+                fetch_pending = 1'b1;
+                if (bus.ready) begin
+                    // 握手完成，回到 IDLE
+                    next_state = IDLE;
+                end
+            end
+        endcase
+    end
+
+    // ===== 第三段（可选）：寄存输出信号，去除毛刺 =====
+    // 如果希望输出信号干净，可以加这一段
+    // always_ff @(posedge clk or posedge rst) begin
+    //     if (rst) begin
+    //         bus.valid <= 1'b0;
+    //         bus.instr <= '0;
+    //     end else begin
+    //         // 将组合逻辑的输出打一拍
+    //     end
+    // end
+
 endmodule
+
+
 
 module IDU (
     input  logic clk,

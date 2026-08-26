@@ -3,6 +3,19 @@
 #include <klib-macros.h>
 #include <stdarg.h>
 
+/*
+在klib中, 需要大家实现的函数主要分成三类:
+
+string.c:
+  内存和字符串的写入函数, 例如 memset(), strcpy()等.
+  内存和字符串的只读函数, 例如 memcmp(), strlen()等.
+
+stdio.c:
+  格式化输出函数, 例如sprintf()等.
+
+stdlib.c:
+  malloc ..
+*/
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 

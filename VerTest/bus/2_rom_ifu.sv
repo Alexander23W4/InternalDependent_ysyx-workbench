@@ -17,6 +17,7 @@
     在wait状态下, 将ifu_rdata作为有效指令继续执行, 并跳转到idle状态
 */
 
+// 此为simple_bus 的  ROM-IFU interface
 interface simple_bus;
 
     logic [31:0] ifu_rdata;

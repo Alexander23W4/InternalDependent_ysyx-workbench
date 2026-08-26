@@ -295,13 +295,13 @@ module IDU (
     input  logic rst,
     bus.slave bus
 );
-    logic [31:0] received_instr;
+    logic [31:0] instr_holding;   // IDU用来保存instr的寄存器
     logic        busy;
 
     // bus.instr   bus.valid     bus.ready
     // 只要 busy = 0  valid = 1就可以接收了
 
-    typedef enum  { 
+    typedef enum  logic [1:0] { 
         WAIT_INSTR,   // 无法接收到instr
         WAIT_DECODE   // 还没有decode完成, 无法递送instr
     } state_t;
@@ -314,21 +314,20 @@ module IDU (
         end
         else begin
             state <= next;
-            instr_holding <= received_instr;
+            if(!busy && bus.valid) begin   
+                instr_holding <= bus.instr;               
+            end
         end
     end
 
-    logic [31:0] instr_holding;
 
     always_comb begin 
         bus.ready = 1'b0;
         next = state;
-        received_instr = instr_holding;
 
         case (state)
             WAIT_INSTR: begin
                 bus.ready = 1'b1;
-                received_instr = bus.instr;
                 if(bus.valid) begin
                     bus.ready = 1'b0;   // 握手成功, 立刻拉低成1
                     next = WAIT_DECODE;
@@ -338,9 +337,6 @@ module IDU (
                 if(!busy) begin
                     next = WAIT_INSTR;
                 end
-            end
-            default: begin
-                
             end
         endcase
     end

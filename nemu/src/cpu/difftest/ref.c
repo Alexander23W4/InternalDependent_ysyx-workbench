@@ -30,6 +30,9 @@ In addition, difftest_raise_intr() is prepared for interrupts and is not used cu
 // requirement:
 //      buf is the origin ram arr of dut (index starts from 0)
 //      n: size (in byte)
+
+// 加上 __EXPORT之后, 外部 REF 就能够使用这些函数
+// 编译器在生成DLL时，就会将这个符号的信息记录到导出表（Export Table）中。这相当于给DLL挂上了一个“对外服务清单”，外部程序可以通过这个清单找到并调用这些功能。
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   if (direction == DIFFTEST_TO_REF) {
     uint8_t* ram = (uint8_t*)buf;
@@ -43,12 +46,12 @@ __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction)
 
 __EXPORT void difftest_regcpy(void *dut, bool direction) {
   CPU_state* dut_cpu = (CPU_state*)dut;
-  if (direction == DIFFTEST_TO_REF) {
+  if (direction == DIFFTEST_TO_REF) {   // copy DUT -> REF
     for (int i = 0; i < 32; i++) {
       cpu.gpr[i] = dut_cpu->gpr[i];
     }
     cpu.pc = dut_cpu->pc;
-  } else {       // TO_DUT
+  } else {       // copy REF -> DUT
     for (int i = 0; i < 32; i++) {
       dut_cpu->gpr[i]  = cpu.gpr[i];
     }

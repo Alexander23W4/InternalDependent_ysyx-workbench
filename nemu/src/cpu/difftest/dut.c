@@ -13,6 +13,18 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+/*
+这里DiffTest的设计结构: 
+首先将 REF 的实现动态链接过来, 提供 init 和 exec_once 接口给 DUT
+
+实现双向 reg_cpy 和 mem_cpy, 用于同步状态(reg_env)
+
+启动 REF (init), 并且同步初始状态
+
+** 在 DUT 的 exec 函数中, 运行difftest_step, 比较所有 reg_env  
+
+
+*/
 #include <dlfcn.h>
 
 #include <isa.h>
@@ -21,6 +33,7 @@
 #include <utils.h>
 #include <difftest-def.h>
 
+// REF function pointers
 void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction) = NULL;
 void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
 void (*ref_difftest_exec)(uint64_t n) = NULL;
@@ -66,6 +79,7 @@ void difftest_skip_dut(int nr_ref, int nr_dut) {
 void init_difftest(char *ref_so_file, long img_size, int port) {
   assert(ref_so_file != NULL);      // Open the incoming dynamic library file ref_so_file.
 
+  // Dynamic Loading
   // Resolve and relocate the API symbols in the dynamic libraries through dynamic loading, and return their addresses.
   void *handle;
   handle = dlopen(ref_so_file, RTLD_LAZY);
@@ -96,6 +110,8 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
 
   // Initialize the DIffTest function of the REF, the specific behavior varies from REF to REF.
   ref_difftest_init(port);
+
+  // Replicate DUT reg-env to REF: 
   // Copy the guest memory of the DUT into the REF.
   ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, DIFFTEST_TO_REF);
   // Copy the register state of the DUT into the REF.
@@ -133,7 +149,7 @@ step by step comprison, called in the mainloop of cpu_exec
 After executing an instruction in NEMU, it will let REF execute the same instruction in difftest_step(), 
   and then read out the registers in REF and compare them.
 */
-void difftest_step(vaddr_t pc, vaddr_t npc) {
+void difftest_step(vaddr_t pc, vaddr_t npc) {  // dut->pc, dut->dnpc
   CPU_state ref_r;
 
   if (skip_dut_nr_inst > 0) {
@@ -157,10 +173,10 @@ void difftest_step(vaddr_t pc, vaddr_t npc) {
   }
 
   ref_difftest_exec(1);
-  ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+  ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);  // 这个其实把 REF 内部的 reg_env(CPU_state) 复制到这里的 ref_r
 
-  checkregs(&ref_r, pc);     //
-  difftest_abort_print(&ref_r);
+  checkregs(&ref_r, pc);     // 比较 ref_r 和 dut_reg_env
+  // difftest_abort_print(&ref_r);    // If wanna print each circle comparison result
 }
 #else
 void init_difftest(char *ref_so_file, long img_size, int port) { }

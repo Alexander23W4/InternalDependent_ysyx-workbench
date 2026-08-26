@@ -228,8 +228,10 @@ translate them into function names  (Throught ELF file)
   }
 
   p += ftrace_len;
-  int ftrace_remain_space = 70 - ftrace_len;
-  memset(p, ' ', ftrace_remain_space);
+  int ftrace_remain_space = 50 - ftrace_len;
+  if(ftrace_remain_space > 0){
+    memset(p, ' ', ftrace_remain_space);
+  }
   p += ftrace_remain_space;
 
 #endif
@@ -248,7 +250,9 @@ translate them into function names  (Throught ELF file)
 
   p += mtrace_len;
   int mtrace_remain_space = 70 - mtrace_len;
-  memset(p, ' ', mtrace_remain_space);   // ****
+  if(mtrace_remain_space > 0){
+    memset(p, ' ', mtrace_remain_space);
+  }   
   p += mtrace_remain_space;
   
 #endif

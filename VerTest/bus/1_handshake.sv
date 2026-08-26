@@ -210,11 +210,10 @@ module IFU (
     logic        instr_fetch_ready;
     logic        fetch_pending;
 
-    // ===== 状态定义 =====
+    // ===== 状态定义 =====       ⭐: 状态的数量 = 需要等待的不同情况的数量
     typedef enum logic [1:0] {
-        IDLE,       // 空闲：没有待发送的指令
-        SEND,       // 尝试发送：valid=1，等待 ready
-        WAIT_RDY    // 等待握手完成：valid=1，ready=0，保持数据
+        IDLE,       // 空闲：没有待发送的指令, valid = 0
+        WAIT    // 等待握手完成：valid=1，ready=0，保持数据
     } state_t;
 
     state_t state, next_state;
@@ -223,7 +222,7 @@ module IFU (
     logic [31:0] instr_holding;
 
     // ===== 第一段：状态寄存器 + 数据保持 =====
-    always_ff @(posedge clk or posedge rst) begin
+    always_ff @(posedge clk or posedge rst) begin   // 总时序逻辑
         if (rst) begin
             state         <= IDLE;
             instr_holding <= '0;
@@ -236,9 +235,11 @@ module IFU (
         end
     end
 
-    // ===== 第二段：下一状态逻辑 + 输出逻辑（组合逻辑） =====
-    always_comb begin
-        // 默认值（防止锁存器）
+
+    // ===== 第二段：下一状态逻辑 + 输出逻辑（组合逻辑） =====    // next_state 组合逻辑
+    always_comb begin 
+
+        // ⭐: 默认值（防止锁存器）
         next_state    = state;
         bus.valid     = 1'b0;
         bus.instr     = instr_holding;   // 默认输出保持的数据
@@ -297,27 +298,51 @@ module IDU (
     logic [31:0] received_instr;
     logic        busy;
 
-    always_ff @(posedge clk or negedge rst) begin
-        if (!rst) begin
-            bus.ready <= 1'b0;
-            busy      <= 1'b0;
-            received_instr <= '0;
-        end else begin
-            // 默认：空闲时准备好接收
-            if (!busy) begin
-                bus.ready <= 1'b1;
-                if (bus.valid && bus.ready) begin  // 完整握手条件
-                    received_instr <= bus.instr;
-                    bus.ready      <= 1'b0;
-                    busy           <= 1'b1;
-                end
-            end else begin
-                // 模拟处理延迟
-                bus.ready <= 1'b0;
-                // 2 周期后释放 busy
-                // （这里简化，实际可用计数器）
-                busy <= 1'b0;
-            end
+    // bus.instr   bus.valid     bus.ready
+    // 只要 busy = 0  valid = 1就可以接收了
+
+    typedef enum  { 
+        WAIT_INSTR,   // 无法接收到instr
+        WAIT_DECODE   // 还没有decode完成, 无法递送instr
+    } state_t;
+
+    state_t state, next;
+
+    always_ff @(posedge clk or posedge rst) begin
+        if(rst) begin
+            state <= WAIT_INSTR;
+        end
+        else begin
+            state <= next;
+            instr_holding <= received_instr;
         end
     end
+
+    logic [31:0] instr_holding;
+
+    always_comb begin 
+        bus.ready = 1'b0;
+        next = state;
+        received_instr = instr_holding;
+
+        case (state)
+            WAIT_INSTR: begin
+                bus.ready = 1'b1;
+                received_instr = bus.instr;
+                if(bus.valid) begin
+                    bus.ready = 1'b0;   // 握手成功, 立刻拉低成1
+                    next = WAIT_DECODE;
+                end
+            end
+            WAIT_DECODE: begin
+                if(!busy) begin
+                    next = WAIT_INSTR;
+                end
+            end
+            default: begin
+                
+            end
+        endcase
+    end
+
 endmodule

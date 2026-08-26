@@ -6,8 +6,12 @@ SystemVerilog 的语法和 Verilog 类似，但在许多方面提供了更为丰
 
 Generally, 写在这里:
 logic  
+
 always_comb
 always_ff
+
+unique case    priority case
+for(int)   for(genvar)
 */
 logic a;
 logic [3:0] b;
@@ -40,8 +44,9 @@ adder a(.a(a), .c(c));
 
 // ***  always_comb 内部是串行逻辑, 后覆盖前
 // 使用always块是为了应用  if case
-always_comb begin
-    unique case (b)
+always_comb begin       
+    unique case (b)   // 使用 unique case 确保所有情况都已经包含, 负责仿真器会报错. 建议使用unique case代替普通case
+                        // unique case 可以避免信号出现 X/Z, 出现则报错
         4'd1: begin
             
         end
@@ -103,8 +108,8 @@ end
 
 
 // 自定义类型:
-typedef logic[31:0] word_t;
-typedef word_t[5:0] table_t;
+typedef logic [31:0] word_t;
+typedef word_t table_t [0:5];
 
 
 table_t table1;

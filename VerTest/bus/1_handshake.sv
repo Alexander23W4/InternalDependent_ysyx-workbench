@@ -2,12 +2,14 @@
 总线通常包含几十甚至上百根信号（地址、数据、控制、握手等）。如果用 module 端口一个个列出来，很容易连错顺序或遗漏。
 总线就是一个 ⭐接口, 包含 ⭐信号线 & 协议
 
-可以在 interface 中嵌入断言（assertions），实时检查协议是否被违反：
-通过 modport，同一个 interface 可以定义不同的角色方向：
+可以在 interface 中嵌入断言（assertions），实时检查协议是否被违反
+通过 modport，同一个 interface 可以定义不同的角色方向
+
+元电路怎么连到总线上面呢: module ahb_master (ahb_if.master bus);
 */
 
 /*
-一个标准的system verilog 总线结构:
+--> 一个标准的system verilog 总线结构:
 
 // 文件: bus_if.sv
 interface bus_if #(
@@ -51,6 +53,31 @@ interface bus_if #(
     assert property (valid_stable);
 
 endinterface
+
+--> 总线使用:
+// 顶层：实例化接口
+module top (
+    input logic clk,
+    input logic rst_n
+);
+    bus_if #(.ADDR_WIDTH(32), .DATA_WIDTH(32)) bus (
+        .clk(clk),
+        .rst_n(rst_n)
+    );
+
+    master u_master (.bus(bus.master));
+    slave  u_slave  (.bus(bus.slave));
+endmodule
+
+// Master 模块
+module master (bus_if.master bus);
+    // 直接使用 bus.addr, bus.wdata, bus.valid ...
+endmodule
+
+// Slave 模块
+module slave (bus_if.slave bus);
+    // 直接使用 bus.rdata, bus.ready ...
+endmodule
 
 */
 // 文件: message_if.sv

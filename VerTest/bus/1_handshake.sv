@@ -1,6 +1,6 @@
 /*
 总线通常包含几十甚至上百根信号（地址、数据、控制、握手等）。如果用 module 端口一个个列出来，很容易连错顺序或遗漏。
-总线就是一个 ⭐接口, 包含 ⭐信号线 & 协议
+总线就是一个 ⭐接口, 包含 ⭐信号线 & 协议(主要写在各个模块里面)
 
 可以在 interface 中嵌入断言（assertions），实时检查协议是否被违反
 通过 modport，同一个 interface 可以定义不同的角色方向
@@ -18,6 +18,8 @@ module my_complex_core (
     // debug_bus.addr, debug_bus.rdata ... 用于响应调试器
 
 endmodule
+
+⭐ 模块里面的 总线协议应该写成 state machine  状态机
 */
 module xxx (
     input clk,
@@ -235,6 +237,8 @@ module IFU (
     );
     目标是发出instr
     当ready = 1 且 instr_fetch_ready时 发出 instr
+    当instr_fetch_ready是, 发出valid, 否则 valid = 0
+
 
 */
     // 内部信号
@@ -243,43 +247,32 @@ module IFU (
     logic        instr_fetch_ready;
 
     // 反馈给内部的信号
-    logic        send_pending;   // 停止fetch的信号
+    logic        fetch_pending;   // 停止fetch的信号
+
+    // 用来做逻辑判断的信号: instr_fetch_ready  ready
 
     always_ff @(posedge clk or negedge rst) begin
         if (!rst) begin
             bus.valid   <= 1'b0;
             bus.instr   <= '0;
-            send_pending <= 1'b0;  // 启动fetch
+            fetch_pending <= 1'b0;  // 启动fetch
         end else begin
 
-            // 先安内
             if(instr_fetch_ready) begin   
                 bus.valid <= 1'b1;
+                if(bus.ready) begin
+                    bus.instr <= instr_to_send;
+                    fetch_pending <= 1'b0;
+                end
+                else begin
+                    fetch_pending <= 1'b1;
+                end
             end
-            else begin  // 这个周期没有fetch
+            else begin  
                 bus.valid <= 1'b0;
+                fetch_pending <= 1'b0;
             end
 
-
-
-            // 当有数据待发送且从设备准备好时，完成一次握手
-            if (send_pending && bus.ready) begin  // ready=1 且 send_pending
-                bus.valid   <= 1'b0;
-                send_pending <= 1'b0;  // 启动fetch
-            end
-            // 产生新指令（示例）
-            else if (!send_pending) begin   
-                // 模拟生成新指令
-                instr_to_send <= 32'hA5A5_5A5A;
-                bus.instr     <= 32'hA5A5_5A5A;
-                bus.valid     <= 1'b1;
-                send_pending  <= 1'b1;
-            end
-            // 如果从设备未准备好，保持 valid 为高，数据不变
-            else begin
-                bus.valid <= 1'b1;
-                bus.instr <= instr_to_send;  // 保持数据
-            end
         end
     end
 endmodule

@@ -17,7 +17,6 @@ int ram_op = 0;
 uint32_t* ram = NULL;    
 CPU_state cpu = {};
 size_t img_size;
-uint32_t instr;
 static int diff_flag = 0;
 uint32_t pc = 0;
 bool batch_mode = false;
@@ -31,80 +30,16 @@ int main(int argc, char** argv) {
     Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
 
-// ⭐ init()
+//  init
     _init(argc, argv, top);
 
 
-// ----------------------------------------------------------------------
-
-// ⭐ cpu-exec()
-    while(1){
-
-        // fetch
-        uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; 
-        // printf("pc: 0x%8x  ", top->_pc);
-        // printf("pc_idx: %u\n", pc_idx);
-
-        if (pc_idx >= RAM_SIZE || pc_idx < 0){
-            printf("Invalid pc\n");
-            break;
-        }
-
-        top->instr = ram[pc_idx];
-        instr = ram[pc_idx];
-        // printf("Current instr: 0x%08x \n", ram[pc_idx]);
-        
-
-        pc = top->_pc;   // 存下这个周期的pc;
-        // operation a period  ⭐ exec_once()
-        tick(top);
-
-    #if TRACE_ENABLE
-        // itrace
-        trace(top);
-        
-    #endif
-
-    #if DIFF_TEST_ENABLE
-        cpu.pc = top->_pc;
-        for (int i = 0; i < 32; i++) {
-            cpu.gpr[i] = top->dbg_reg[i];
-        }
-        cpu.mcause = top->_mcause;
-        cpu.mepc = top->_mepc;
-        cpu.mstatus = top->_mstatus;
-        cpu.mtvec = top->_mtvec;
-        cpu.mcycle = (((uint64_t)(top->_mcycleh)) << 32) + (uint64_t)(top->_mcycle);
+//  exec
+    main_loop()
 
 
-        if(diff_flag == 0){
-            init_difftest(diff_so_file, ram, img_size, 1);
-            diff_flag = 1;
-        }
-        else{
-            difftest_step();
-        }
-    #endif
-
-
-        // check end
-        top->halt(&endprog);
-
-        if(endprog){
-            printf("%s", ANSI_FMT("Hit ebreak instr, program end.\n", ANSI_FG_YELLOW));
-            break;
-        }
-    }   
-
-
-// ----------------------------------------------------------------------
-
-    // final check
-    final_check(top);
-
-
-    top->final();
-    free(ram);
-    delete top;
+//  end
+    end_process(top);
+    
     return 0;
 }

@@ -33,6 +33,10 @@ extern int ram_op;
 extern I_ring_buf ring;
 extern uint32_t pc;
 extern bool batch_mode;
+extern uint32_t* ram;    
+extern CPU_state cpu = {};
+extern size_t img_size;
+
 
 typedef struct{
     uint32_t gpr[32];
@@ -53,6 +57,11 @@ void parse_args(int argc, char *argv[]);
 void init_ram();
 void reset(Vtop* top);
 void load_memory(char* filename, uint32_t* M, size_t *img_size);
+void end_process(Vtop* top);
+
+void main_loop(Vtop* top);
+
+void exec_once(Vtop* top);
 
 void tick(Vtop* top);
 uint32_t ram_read(uint32_t addr, int amount);

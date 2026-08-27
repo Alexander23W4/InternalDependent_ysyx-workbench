@@ -61,6 +61,9 @@ DIFF_REF_SO=$(NEMU_HOME)/build/riscv32-nemu-interpreter-so
 ARGS+=-d $(DIFF_REF_SO)
 endif
 
+# other args dilivery
+ARGS+=-b
+
 # ------------------------------------------------------------------------------------------------------
 runtrace:
 	$(EXE)

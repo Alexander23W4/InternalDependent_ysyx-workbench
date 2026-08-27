@@ -81,3 +81,12 @@ void load_memory(char* filename, uint32_t* M, size_t *img_size) {
 
     printf("--LOAD %zu INSTR (%zu BYTES) TO M[]\n", loaded_instr, size);
 }
+
+
+void end_process(Vtop* top){
+    final_check(top);
+
+    top->final();
+    free(ram);
+    delete top;
+}

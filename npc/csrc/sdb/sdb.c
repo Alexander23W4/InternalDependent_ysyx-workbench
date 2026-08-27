@@ -15,3 +15,13 @@ watchpoint
 help
 
 */
+
+
+
+void main_loop(Vtop* top){
+    if(batch_mode){
+        while(1){
+            exec_once(top);
+        }
+    }
+}

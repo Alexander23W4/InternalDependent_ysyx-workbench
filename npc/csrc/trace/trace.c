@@ -55,7 +55,7 @@ void trace(Vtop* top){
         p += len;
     }
 
-      
+    printf("%s\n", ring.ring_buf[ring_pos]);
     ring.amt++;
 
     // 最终打开 ring_log.txt, 填入

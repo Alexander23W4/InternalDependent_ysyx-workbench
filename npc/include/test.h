@@ -13,7 +13,12 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/config.h"
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/log.h"
 
+/*
+头文件包含tip: 一个大头文件, 包含所有小头文件, 然后所有小头文件只做声明
+    所有的.c文件, 全部只包含大头文件
+*/
 
 #define RAM_SIZE 50000000
 #define MEMORY_LOAD_EFFECTIVENESS 20000

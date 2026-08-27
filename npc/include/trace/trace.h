@@ -1,15 +1,7 @@
-#include <verilated.h>
-#include "svdpi.h"
-#include "Vtop.h"
-#include "Vtop__Dpi.h"
-
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdint.h>
 #include <assert.h>
-#include <stdbool.h>
 #include <stdio.h>
-#include <cpu/cpu.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>

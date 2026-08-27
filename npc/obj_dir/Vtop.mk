@@ -35,7 +35,7 @@ VM_PREFIX = Vtop
 VM_MODPREFIX = Vtop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-	-I./csrc -I./csrc/difftest -I./csrc/trace \
+	-I./include -I./include/sub \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -46,8 +46,6 @@ VM_USER_CLASSES = \
 	dut \
 	test \
 	tools \
-	ftrace \
-	iringbuf \
 	trace \
 	disasm \
 
@@ -73,10 +71,6 @@ dut.o: ./csrc/difftest/dut.c
 test.o: ./csrc/test.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 tools.o: ./csrc/tools.c
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-ftrace.o: ./csrc/trace/ftrace.c
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-iringbuf.o: ./csrc/trace/iringbuf.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 trace.o: ./csrc/trace/trace.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

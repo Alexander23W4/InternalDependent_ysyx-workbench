@@ -21,8 +21,8 @@ EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 
 
 # 需要的头文件路径写在这里
-INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest -I./csrc/trace"
-GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest -I./csrc/trace"
+INC_SOURCES=-CFLAGS "-I./include -I./include/sub"
+GDB_INC_SOURCES=-CFLAGS "-g -I./include -I./include/sub"
 
 
 # ------------------------------------------------------------------------------------------------------

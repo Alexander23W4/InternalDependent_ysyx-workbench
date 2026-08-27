@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/csrc/test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/test.h"
 #include <dlfcn.h>
 
 #define RESET_VECTOR 0x80000000
@@ -79,7 +79,7 @@ static void checkregs(CPU_state *ref) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);
   #if TRACE_ENABLE
-    i_ring_buf_logout(&ring_buf);
+    i_ring_buf_logout(&ring);
   #endif
     assert(0);
   }

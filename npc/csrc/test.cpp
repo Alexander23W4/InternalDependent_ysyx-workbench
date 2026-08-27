@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/csrc/test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/test.h"
 
 /*
 Iteration:
@@ -19,7 +19,8 @@ CPU_state cpu = {};
 size_t img_size;
 uint32_t instr;
 static int diff_flag = 0;
-I_ring_buf ring_buf;
+
+I_ring_buf ring = {.amt = 0};
 
 
 // diliver .bin -> argv[1] 
@@ -144,9 +145,6 @@ int main(int argc, char** argv) {
     // final check
     final_check(top);
 
-#if TRACE_ENABLE
-    close_trace_file();
-#endif
 
     top->final();
     free(ram);

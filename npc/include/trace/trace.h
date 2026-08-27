@@ -1,12 +1,13 @@
+#include <verilated.h>
+#include "svdpi.h"
+#include "Vtop.h"
+#include "Vtop__Dpi.h"
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <assert.h>
-#include <cstring>
 
-#include <verilated.h>
-#include "svdpi.h"
-#include "Vtop.h"
 
 #define MAX_LOGBUF 512
 #define MAX_LOGAMT 300
@@ -19,13 +20,15 @@ typedef struct {
 
 extern I_ring_buf ring;
 
-void i_ring_buf_logout(I_ring_buf* i_ring_buf);
+// void i_ring_buf_logout(I_ring_buf* i_ring_buf);
 
-void get_itrace_line(uint32_t pc, I_ring_buf* i_ring_buf);
+// void get_itrace_line(uint32_t pc, I_ring_buf* i_ring_buf);
 
-void close_trace_file();
+// void close_trace_file();
 
 void trace(Vtop* top);
+
+void i_ring_buf_logout(I_ring_buf* i_ring_buf);
 
 
 extern int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);

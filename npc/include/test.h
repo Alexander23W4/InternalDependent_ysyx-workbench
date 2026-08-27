@@ -11,7 +11,8 @@
 #include <string.h>
 #include <inttypes.h>
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/config.h"
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/csrc/trace/trace.h"
+
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h"
 
 
 #define RAM_SIZE 50000000
@@ -23,8 +24,8 @@
 extern char* diff_so_file;
 extern int endprog;
 extern const char *regs_name[];
-extern I_ring_buf ring_buf;
 extern int ram_op;
+extern I_ring_buf ring;
 
 typedef struct{
     uint32_t gpr[32];

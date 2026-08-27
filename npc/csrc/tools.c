@@ -1,5 +1,4 @@
-#include "test.h"
-
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/test.h"
 
 char* diff_so_file = NULL; 
 
@@ -12,17 +11,17 @@ void tick(Vtop* top) {
 
 void final_check(Vtop* top){
     #if TRACE_ENABLE
-        i_ring_buf_logout(&ring_buf);
+        i_ring_buf_logout(&ring);
     #endif
     
     if(top->dbg_reg[10] != 0){   
-        printf("HIT BAD TRAP\n");
+        printf("[HIT BAD TRAP]\n");
         printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
 
         prt_gprs(top);
     }
     else{
-        printf("HIT GOOD TRAP\n");
+        printf("[HIT GOOD TRAP]\n");
     }
 }
 

@@ -232,15 +232,16 @@ static int cmd_x(char* args){
   }
   else {
     unsigned long base_addr = strtol(arg2, NULL, 16);  // string to long
-    if(base_addr >= PMEM_RIGHT || base_addr < PMEM_LEFT){
+    if(base_addr > PMEM_RIGHT - 3 || base_addr < PMEM_LEFT){
       printf("NOT AVAILABLE BASE ADDR\n");
       return 1;
     }
     unsigned long addr = base_addr;
     for (int i = 0; i < N; i++)
     {
-      if(addr > PMEM_RIGHT - 4){
+      if(addr > PMEM_RIGHT - 3){
         printf("HIT THE MEM CELLING WHILE READING\n");
+        return 1;
       }
       printf("0x%08x\n", paddr_read(addr, 4)); // output 8 bits, if not enough, fill 0 at left
       addr += 4;   // read 4 Bytes one time

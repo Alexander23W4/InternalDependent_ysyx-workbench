@@ -24,8 +24,12 @@
 头文件包含tip: 一个大头文件, 包含所有小头文件, 然后所有小头文件只做声明
     所有的.c文件, 全部只包含大头文件
 */
+#define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
+#define Log(format, ...) \
+    _Log(ANSI_FMT("[%s:%d %s] " format, ANSI_FG_BLUE) "\n", \
+        __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 
-#define RAM_SIZE 50000000
+#define RAM_SIZE 50000000    // unit: Word (4Byte)
 #define MEMORY_LOAD_EFFECTIVENESS 20000
 #define RAM_BASE 0x80000000
 

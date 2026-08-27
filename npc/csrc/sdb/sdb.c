@@ -125,23 +125,22 @@ void main_loop(Vtop* top){
 
 // ---------------------------------------------------------------------------
 
-static int cmd_hb(char* args){
+static void cmd_hb(char* args){
   Log("hb command started.");
   if(args == NULL){
     printf("No hex number given.\n");
-    return 0;    
+    return;
   }
   char* hex = args;
   if(hex[0] != '0' && (hex[1] != 'x' || hex[1] != 'X')){
     printf("NOT A HEXIMAL NUM\n");
-    return 1;
+    return;
   }
   printf("Result bin: %s\n", hex_to_bin(hex));
-  return 0;
 }
 
 // w   set new watchpoint
-static int cmd_w(char* args){   // complete
+static void cmd_w(char* args){   // complete
   Log("w command started.");
   if(args == NULL){
     printf("No expression given.\n");
@@ -207,7 +206,7 @@ static int cmd_p(char* args){
 }
 
 // x  check memory  (x N addr)
-static int cmd_x(char* args){
+static void cmd_x(char* args){
   Log("x command started.");
   char* arg1 = strtok(args, " ");
   char* arg2 = arg1 + strlen(arg1) + 1;
@@ -215,29 +214,29 @@ static int cmd_x(char* args){
   int N = atoi(arg1);
 
   if(N <= 0){
-    printf("NOT AVAILABLE MEM AMOUNT, MUST BE NUMBER AND LARGER THAN 0\n");
-    return 1;
+    printf("%s", ANSI_FMT("NOT AVAILABLE MEM AMOUNT, MUST BE NUMBER AND LARGER THAN 0\n", ANSI_FG_RED));
+    return;
   }
   if(arg2[0] != '0' && (arg2[1] != 'x' || arg2[1] != 'X')){
-    printf("NOT A HEXIMAL NUM\n");
-    return 1;
+    printf("%s", ANSI_FMT("NOT A HEXIMAL NUM\n", ANSI_FG_RED));
+    return;
   }
   else {
     unsigned long base_addr = strtol(arg2, NULL, 16);  // string to long
-    if(base_addr >= PMEM_RIGHT || base_addr < PMEM_LEFT){
-      printf("NOT AVAILABLE BASE ADDR\n");
-      return 1;
+    if(base_addr >= RAM_BASE + RAM_SIZE * 4 || base_addr < RAM_BASE){
+      printf("%s", ANSI_FMT("NOT AVAILABLE BASE ADDR\n", ANSI_FG_RED));
+      return;
     }
     unsigned long addr = base_addr;
     for (int i = 0; i < N; i++)
     {
-      if(addr > PMEM_RIGHT - 4){
-        printf("HIT THE MEM CELLING WHILE READING\n");
+      if(addr > RAM_BASE + RAM_SIZE - 4){
+        printf("%s", ANSI_FMT("HIT THE MEM CELLING WHILE READING\n", ANSI_FG_RED));
+        return;
       }
       printf("0x%08x\n", paddr_read(addr, 4)); // output 8 bits, if not enough, fill 0 at left
       addr += 4;   // read 4 Bytes one time
     }
-    return 0;
   }
 }
 

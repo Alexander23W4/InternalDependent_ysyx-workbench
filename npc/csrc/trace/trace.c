@@ -27,6 +27,7 @@ typedef struct {
 */
 
 static int ring_pos
+int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 
 void trace(Vtop* top){
     // 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
@@ -36,6 +37,7 @@ void trace(Vtop* top){
     char* p = ring.ring_buf[ring_pos];
     
 
+    // ITRACE:
     p += sprintf(p, "0x%08x", top->_pc);   // output pc
     p += sprintf(p, "    ");
 
@@ -43,13 +45,19 @@ void trace(Vtop* top){
     p += sprintf(p, "0x%08x", top->instr);   // output pc
     p += sprintf(p, "    ");
 
-    int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 
-    int len = disassemble(p, s->logbuf + sizeof(s->logbuf) - p,   
-        MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);    // output disassembly   size = remaining space of logbuf
-    p += len;
+    int ilen = 4;  
+    uint8_t *code = (uint8_t *)&top->instr;  // 指令的字节表示
 
+    int remaining = MAX_LOGBUF - (p - ring.ring_buf[ring_pos]);
 
+    int len = disassemble(p, remaining, top->_pc, code, ilen);
+    if (len > 0) {
+        p += len;
+    }
+
+      
+    ring.amt++;
 
     // 最终打开 ring_log.txt, 填入
     i_ring_buf_logout(&ring);

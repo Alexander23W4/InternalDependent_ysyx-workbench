@@ -46,6 +46,11 @@ int main(int argc, char** argv) {
     load_memory(argv[1], ram, &img_size);
     assert(img_size <= RAM_SIZE);
 
+    #if TRACE_ENABLE
+    init_disasm();
+    #endif
+
+
 // ----------------------------------------------------------------------
 
 // ⭐ cpu-exec()

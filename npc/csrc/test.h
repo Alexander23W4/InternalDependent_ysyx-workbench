@@ -10,7 +10,7 @@
 #include <getopt.h>
 #include <string.h>
 #include <inttypes.h>
-#include <../config.h>
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/config.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/csrc/trace/trace.h"
 
 

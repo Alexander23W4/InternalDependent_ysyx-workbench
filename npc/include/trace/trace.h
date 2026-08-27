@@ -25,12 +25,18 @@ typedef struct{
     uint32_t high_addr;
 } symbol;
 
+extern uint32_t pc;
+
 extern I_ring_buf ring;
 
 extern char elf_file[256];
 extern symbol Func_symbols[500];
 extern int function_amt;
-extern uint32_t pc;
+
+
+extern uint32_t mem_addr;
+extern int32_t content;
+extern int mtrace_flag;
 
 
 void trace(Vtop* top);

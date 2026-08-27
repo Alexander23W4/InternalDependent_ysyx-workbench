@@ -98,6 +98,12 @@ uint32_t ram_read(uint32_t addr, int amount) {
         for (int i = 0; i < amount; i++) {
             result |= ((uint32_t)_ram[paddr + i]) << (8 * i);
         }
+        #ifdef TRACE_ENABLE
+            mtrace_flag = 1;    // mtrace
+            mem_addr = addr;
+            content = (int32_t) result;
+        #endif
+
         return result;
     }
     else {
@@ -122,7 +128,13 @@ void ram_write(uint32_t addr, uint32_t data, int amount) {
         for (int i = 0; i < amount; i++) {
             ram_byte[paddr + i] = (uint8_t)(data >> (8 * i));
         }
+        #ifdef TRACE_ENABLE
+            mtrace_flag = 2;    // mtrace
+            mem_addr = addr;
+            content = (int32_t) data;
+        #endif
     }
+    
     return;
 error:
     assert(0);

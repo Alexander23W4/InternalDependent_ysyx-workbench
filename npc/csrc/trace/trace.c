@@ -28,6 +28,15 @@ typedef struct {
 
 static int ring_pos;
 
+char elf_file[256];
+symbol Func_symbols[500];
+int function_amt = 0;
+
+uint32_t mem_addr;
+int32_t content;
+int mtrace_flag = 0;
+
+
 void trace(Vtop* top){
     // 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
 
@@ -102,32 +111,32 @@ void trace(Vtop* top){
     p += ftrace_remain_space;
 
 
-#if CONFIG_MTRACE
-  int mtrace_len = 0;
-  if(mtrace_flag != 0){
-    if(mtrace_flag == 1){    // mtrace_flag is changed in vaddr.c -> vaddr_read/write
-      mtrace_len = sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);   
+    // MTRACE
+    int mtrace_len = 0;
+    if(mtrace_flag != 0){
+        if(mtrace_flag == 1){    // mtrace_flag is changed in vaddr.c -> vaddr_read/write
+        mtrace_len = sprintf(p, "M_read: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);   
+        }
+        else if(mtrace_flag == 2){
+        mtrace_len = sprintf(p, "M_write: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
+        }
+        mtrace_flag = 0;
     }
-    else if(mtrace_flag == 2){
-      mtrace_len = sprintf(p, "M_write: [ADDR]0x%08x, [DATA]0x%08x (%d)\n", mem_addr, content, content);
-    }
-    mtrace_flag = 0;
-  }
 
-  p += mtrace_len;
-  int mtrace_remain_space = 70 - mtrace_len;
-  if(mtrace_remain_space > 0){
-    memset(p, ' ', mtrace_remain_space);
-  }   
-  p += mtrace_remain_space;
+    p += mtrace_len;
+    int mtrace_remain_space = 70 - mtrace_len;
+    if(mtrace_remain_space > 0){
+        memset(p, ' ', mtrace_remain_space);
+    }   
+    p += mtrace_remain_space;
   
-#endif
 
-#if CONFIG_ETRACE
-  if(s->isa.inst == 0x00000073){
-    p += sprintf(p, "[Exception] pc: 0x%08x\n", s->pc);
-  }
-#endif
+
+    // ETRACE
+    if(top->instr == 0x00000073){
+        p += sprintf(p, "[Exception] pc: 0x%08x\n", pc);
+    }
+
 
     // printf("%d: %s\n", ring.amt, ring.ring_buf[ring_pos]);
     ring.amt++;
@@ -147,11 +156,6 @@ void i_ring_buf_logout(I_ring_buf* i_ring_buf){
   fclose(f);
 }
 
-
-
-char elf_file[256];
-symbol Func_symbols[500];
-int function_amt = 0;
 
 // Init, full process to build the func_symbols array
 void ftrace_init(const char* dir){

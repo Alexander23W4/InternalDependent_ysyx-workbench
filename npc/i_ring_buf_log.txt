@@ -1,300 +1,397 @@
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x800000d8    0x00812783    lw	a5, 8(sp)                                                                    
-0x800000dc    0x00c12683    lw	a3, 0xc(sp)                                                                  
-0x800000e0    0x00878713    addi	a4, a5, 8                                                                  
-0x800000e4    0x04068693    addi	a3, a3, 0x40                                                               
-0x800000e8    0x00e12423    sw	a4, 8(sp)                                                                    
-0x800000ec    0x04000793    li	a5, 0x40                                                                     
-0x800000f0    0x00d12623    sw	a3, 0xc(sp)                                                                  
-0x800000f4    0xf6f710e3    bne	a4, a5, 0x80000054                                                          
-0x80000054    0x01012783    lw	a5, 0x10(sp)                                                                 
-0x80000058    0x00812703    lw	a4, 8(sp)                                                                    
-0x8000005c    0x00c12483    lw	s1, 0xc(sp)                                                                  
-0x80000060    0x00e787b3    add	a5, a5, a4                                                                  
-0x80000064    0x0007a603    lw	a2, 0(a5)                                                                    
-0x80000068    0x0047a783    lw	a5, 4(a5)                                                                    
-0x8000006c    0x00048413    mv	s0, s1                                                                       
-0x80000070    0x00f12223    sw	a5, 4(sp)                                                                    
-0x80000074    0x00000797    auipc	a5, 0                                                                     
-0x80000078    0x30478793    addi	a5, a5, 0x304                                                              
-0x8000007c    0x00f12823    sw	a5, 0x10(sp)                                                                 
-0x80000080    0x00078493    mv	s1, a5                                                                       
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    
-0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    
-0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    
-0x80000090    0x00f607b3    add	a5, a2, a5                                                                  
-0x80000094    0x00442683    lw	a3, 4(s0)                                                                    
-0x80000098    0x00042503    lw	a0, 0(s0)                                                                    
-0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                 
-0x800000a0    0x00670333    add	t1, a4, t1                                                                  
-0x800000a4    0x006585b3    add	a1, a1, t1                                                                  
-0x800000a8    0x00f54533    xor	a0, a0, a5                                                                  
-0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                  
-0x800000b0    0x00f56533    or	a0, a0, a5                                                                   
-0x800000b4    0x00153513    seqz	a0, a0                                                                     
-0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    
-0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                      
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                             
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                       
-0x800000c0    0x00848493    addi	s1, s1, 8                                                                  
-0x800000c4    0x00000797    auipc	a5, 0                                                                     
-0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                              
-0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    
-0x800000d0    0x00840413    addi	s0, s0, 8                                                                  
-0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                          
-0x800000d8    0x00812783    lw	a5, 8(sp)                                                                    
-0x800000dc    0x00c12683    lw	a3, 0xc(sp)                                                                  
-0x800000e0    0x00878713    addi	a4, a5, 8                                                                  
-0x800000e4    0x04068693    addi	a3, a3, 0x40                                                               
-0x800000e8    0x00e12423    sw	a4, 8(sp)                                                                    
-0x800000ec    0x04000793    li	a5, 0x40                                                                     
-0x800000f0    0x00d12623    sw	a3, 0xc(sp)                                                                  
-0x800000f4    0xf6f710e3    bne	a4, a5, 0x80000054                                                          
-0x800000f8    0x01c12083    lw	ra, 0x1c(sp)                                                                 
-0x800000fc    0x01812403    lw	s0, 0x18(sp)                                                                 
-0x80000100    0x01412483    lw	s1, 0x14(sp)                                                                 
-0x80000104    0x00000513    li	a0, 0                                                                        
-0x80000108    0x02010113    addi	sp, sp, 0x20                                                               
-0x8000010c    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                   
-0x8000012c    0x00100073    ebreak                                                                          
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xfffffffe (-2)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000fffe (65534)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x800003a0, [DATA]0x00000001 (1)
+                       
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x800003a4, [DATA]0x00000000 (0)
+                       
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x80000324, [DATA]0x0000ffff (65535)
+                   
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000320, [DATA]0x0000ffff (65535)
+                   
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xfffffffe (-2)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000fffe (65534)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x800003a8, [DATA]0x0000fffe (65534)
+                   
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x800003ac, [DATA]0x0000ffff (65535)
+                   
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x8000032c, [DATA]0x0000ffff (65535)
+                   
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000328, [DATA]0x0000fffc (65532)
+                   
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xfffffffe (-2)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000fffe (65534)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x800003b0, [DATA]0x0000ffff (65535)
+                   
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x800003b4, [DATA]0x0000ffff (65535)
+                   
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x80000334, [DATA]0x0000ffff (65535)
+                   
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000330, [DATA]0x0000fffd (65533)
+                   
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xfffffffe (-2)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000fffe (65534)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x800000d8    0x00812783    lw	a5, 8(sp)                                                                    M_read: [ADDR]0x80008fdc, [DATA]0x00000030 (48)
+                      
+0x800000dc    0x00c12683    lw	a3, 0xc(sp)                                                                  M_read: [ADDR]0x80008fe0, [DATA]0x000002f8 (760)
+                     
+0x800000e0    0x00878713    addi	a4, a5, 8                                                                                                                                        
+0x800000e4    0x04068693    addi	a3, a3, 0x40                                                                                                                                     
+0x800000e8    0x00e12423    sw	a4, 8(sp)                                                                    M_write: [ADDR]0x80008fdc, [DATA]0x00000038 (56)
+                     
+0x800000ec    0x04000793    li	a5, 0x40                                                                                                                                           
+0x800000f0    0x00d12623    sw	a3, 0xc(sp)                                                                  M_write: [ADDR]0x80008fe0, [DATA]0x80000338 (-2147482824)
+            
+0x800000f4    0xf6f710e3    bne	a4, a5, 0x80000054                                                                                                                                
+0x80000054    0x01012783    lw	a5, 0x10(sp)                                                                 M_read: [ADDR]0x80008fe4, [DATA]0x00000378 (888)
+                     
+0x80000058    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80008fdc, [DATA]0x00000038 (56)
+                      
+0x8000005c    0x00c12483    lw	s1, 0xc(sp)                                                                  M_read: [ADDR]0x80008fe0, [DATA]0x00000338 (824)
+                     
+0x80000060    0x00e787b3    add	a5, a5, a4                                                                                                                                        
+0x80000064    0x0007a603    lw	a2, 0(a5)                                                                    M_read: [ADDR]0x800003b0, [DATA]0x0000ffff (65535)
+                   
+0x80000068    0x0047a783    lw	a5, 4(a5)                                                                    M_read: [ADDR]0x800003b4, [DATA]0x0000ffff (65535)
+                   
+0x8000006c    0x00048413    mv	s0, s1                                                                                                                                             
+0x80000070    0x00f12223    sw	a5, 4(sp)                                                                    M_write: [ADDR]0x80008fd8, [DATA]0xffffffff (-1)
+                     
+0x80000074    0x00000797    auipc	a5, 0                                                                                                                                           
+0x80000078    0x30478793    addi	a5, a5, 0x304                                                                                                                                    
+0x8000007c    0x00f12823    sw	a5, 0x10(sp)                                                                 M_write: [ADDR]0x80008fe4, [DATA]0x80000378 (-2147482760)
+            
+0x80000080    0x00078493    mv	s1, a5                                                                                                                                             
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x80000378, [DATA]0x00000000 (0)
+                       
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x8000037c, [DATA]0x00000000 (0)
+                       
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x8000033c, [DATA]0x0000ffff (65535)
+                   
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000338, [DATA]0x0000ffff (65535)
+                   
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xffffffff (-1)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000ffff (65535)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x80000380, [DATA]0x00000001 (1)
+                       
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x80000384, [DATA]0x00000000 (0)
+                       
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x80000344, [DATA]0x00000000 (0)
+                       
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000340, [DATA]0x00000000 (0)
+                       
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xffffffff (-1)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000ffff (65535)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x80000388, [DATA]0x00000002 (2)
+                       
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x8000038c, [DATA]0x00000000 (0)
+                       
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x8000034c, [DATA]0x00000000 (0)
+                       
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000348, [DATA]0x00000001 (1)
+                       
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xffffffff (-1)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000ffff (65535)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x80000390, [DATA]0x0000ffff (65535)
+                   
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x80000394, [DATA]0x0000ffff (65535)
+                   
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x80000354, [DATA]0x0000ffff (65535)
+                   
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000350, [DATA]0x0000fffe (65534)
+                   
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xffffffff (-1)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000ffff (65535)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x80000398, [DATA]0x00000000 (0)
+                       
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x8000039c, [DATA]0x00000000 (0)
+                       
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x8000035c, [DATA]0x0000ffff (65535)
+                   
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000358, [DATA]0x0000ffff (65535)
+                   
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xffffffff (-1)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000ffff (65535)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x800003a0, [DATA]0x00000001 (1)
+                       
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x800003a4, [DATA]0x00000000 (0)
+                       
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x80000364, [DATA]0x00000000 (0)
+                       
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000360, [DATA]0x00000000 (0)
+                       
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xffffffff (-1)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000ffff (65535)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x800003a8, [DATA]0x0000fffe (65534)
+                   
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x800003ac, [DATA]0x0000ffff (65535)
+                   
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x8000036c, [DATA]0x0000ffff (65535)
+                   
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000368, [DATA]0x0000fffd (65533)
+                   
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xffffffff (-1)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000ffff (65535)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x80000084    0x0004a783    lw	a5, 0(s1)                                                                    M_read: [ADDR]0x800003b0, [DATA]0x0000ffff (65535)
+                   
+0x80000088    0x0044a303    lw	t1, 4(s1)                                                                    M_read: [ADDR]0x800003b4, [DATA]0x0000ffff (65535)
+                   
+0x8000008c    0x00412703    lw	a4, 4(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
+                   
+0x80000090    0x00f607b3    add	a5, a2, a5                                                                                                                                        
+0x80000094    0x00442683    lw	a3, 4(s0)                                                                    M_read: [ADDR]0x80000374, [DATA]0x0000ffff (65535)
+                   
+0x80000098    0x00042503    lw	a0, 0(s0)                                                                    M_read: [ADDR]0x80000370, [DATA]0x0000fffe (65534)
+                   
+0x8000009c    0x00c7b5b3    sltu	a1, a5, a2                                                                                                                                       
+0x800000a0    0x00670333    add	t1, a4, t1                                                                                                                                        
+0x800000a4    0x006585b3    add	a1, a1, t1                                                                                                                                        
+0x800000a8    0x00f54533    xor	a0, a0, a5                                                                                                                                        
+0x800000ac    0x00b6c7b3    xor	a5, a3, a1                                                                                                                                        
+0x800000b0    0x00f56533    or	a0, a0, a5                                                                                                                                         
+0x800000b4    0x00153513    seqz	a0, a0                                                                                                                                           
+0x800000b8    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80008fd4, [DATA]0xffffffff (-1)
+                     
+0x800000bc    0xf55ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
+0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
+0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0x800000c0    0x00848493    addi	s1, s1, 8                                                                                                                                        
+0x800000c4    0x00000797    auipc	a5, 0                                                                                                                                           
+0x800000c8    0x2f478793    addi	a5, a5, 0x2f4                                                                                                                                    
+0x800000cc    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80008fd4, [DATA]0x0000ffff (65535)
+                   
+0x800000d0    0x00840413    addi	s0, s0, 8                                                                                                                                        
+0x800000d4    0xfaf498e3    bne	s1, a5, 0x80000084                                                                                                                                
+0x800000d8    0x00812783    lw	a5, 8(sp)                                                                    M_read: [ADDR]0x80008fdc, [DATA]0x00000038 (56)
+                      
+0x800000dc    0x00c12683    lw	a3, 0xc(sp)                                                                  M_read: [ADDR]0x80008fe0, [DATA]0x00000338 (824)
+                     
+0x800000e0    0x00878713    addi	a4, a5, 8                                                                                                                                        
+0x800000e4    0x04068693    addi	a3, a3, 0x40                                                                                                                                     
+0x800000e8    0x00e12423    sw	a4, 8(sp)                                                                    M_write: [ADDR]0x80008fdc, [DATA]0x00000040 (64)
+                     
+0x800000ec    0x04000793    li	a5, 0x40                                                                                                                                           
+0x800000f0    0x00d12623    sw	a3, 0xc(sp)                                                                  M_write: [ADDR]0x80008fe0, [DATA]0x80000378 (-2147482760)
+            
+0x800000f4    0xf6f710e3    bne	a4, a5, 0x80000054                                                                                                                                
+0x800000f8    0x01c12083    lw	ra, 0x1c(sp)                                                                 M_read: [ADDR]0x80008ff0, [DATA]0x0000012c (300)
+                     
+0x800000fc    0x01812403    lw	s0, 0x18(sp)                                                                 M_read: [ADDR]0x80008fec, [DATA]0x00000000 (0)
+                       
+0x80000100    0x01412483    lw	s1, 0x14(sp)                                                                 M_read: [ADDR]0x80008fe8, [DATA]0x00000000 (0)
+                       
+0x80000104    0x00000513    li	a0, 0                                                                                                                                              
+0x80000108    0x02010113    addi	sp, sp, 0x20                                                                                                                                     
+0x8000010c    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                                                                                         
+0x8000012c    0x00100073    ebreak                                                                                                                                                

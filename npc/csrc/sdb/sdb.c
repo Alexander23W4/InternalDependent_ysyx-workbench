@@ -276,7 +276,15 @@ static int cmd_help(char *args) {    // !!! for every command added, update log 
   return 0;
 }
 
-char* hex_to_bin(const char *hex) {
+void init_sdb() {
+  /* Compile the regular expressions. */
+  init_regex();
+
+  /* Initialize the watchpoint pool. */
+  init_wp_pool();
+}
+
+static char* hex_to_bin(const char *hex) {
     if (!hex) return NULL;
 
     // skip 0x / 0X

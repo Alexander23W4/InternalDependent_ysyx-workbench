@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/config.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/config.h"
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/log.h"
@@ -62,6 +62,7 @@ void load_memory(char* filename, uint32_t* M, size_t *img_size);
 void end_process(Vtop* top);
 
 void main_loop(Vtop* top);
+void init_sdb();
 
 void exec_once(Vtop* top);
 

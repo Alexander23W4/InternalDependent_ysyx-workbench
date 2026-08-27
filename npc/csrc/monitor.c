@@ -13,6 +13,8 @@ void _init(int argc, char** argv, Vtop* top){
     // load code
     load_memory(argv[1], ram, &img_size);
 
+    init_sdb();
+
     #if TRACE_ENABLE
     init_disasm();
     ftrace_init(argv[1]);

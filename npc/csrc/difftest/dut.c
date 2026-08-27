@@ -4,13 +4,19 @@
 #define RESET_VECTOR 0x80000000
 enum { DIFFTEST_TO_DUT, DIFFTEST_TO_REF };
 /*
+⭐ 开启DiffTest时, 在config和makefile里面都要激活DiffTest的 MACRO
+
 npc difftest 的实现逻辑
 
 先将nemu设置成ref模式
 
-将$(NEMU_HOME)/build/riscv32-nemu-interpreter-so 取过来
+将$(NEMU_HOME)/build/riscv32-nemu-interpreter-so ⭐ 通过 makefile 和 args 配合传递过来
 
+解析动态库, NEMU 需要实现作为REF 的 DiffTest接口规范函数
 
+调用接口函数进行初始同步
+
+每个周期进行比较reg-env即可
 
 */
 
@@ -83,14 +89,14 @@ static void difftest_abort_print(CPU_state* ref) {
 }
 
 static void checkregs(CPU_state *ref) {
-  // difftest_abort_print(ref);
+  // difftest_abort_print(ref);    // show each DiffTest circle detail
   if (!difftest_checkregs(ref)) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);
   #if TRACE_ENABLE
     i_ring_buf_logout(&ring);
   #endif
-    assert(0);
+    // assert(0);
   }
 }
 

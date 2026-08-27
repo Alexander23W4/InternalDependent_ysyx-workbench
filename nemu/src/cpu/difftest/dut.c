@@ -83,6 +83,7 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
 
   // Dynamic Loading
   // Resolve and relocate the API symbols in the dynamic libraries through dynamic loading, and return their addresses.
+  // 这里的这些接口函数是由 北京开源芯片研究院（BOSC）的香山处理器团队 规定的 DiffTest接口规范, 这里的 REF Spike里面实现了这样的规范接口函数, 方便进行difftest
   void *handle;
   handle = dlopen(ref_so_file, RTLD_LAZY);
   assert(handle);

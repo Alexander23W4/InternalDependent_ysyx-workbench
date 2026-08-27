@@ -85,7 +85,6 @@ int main(int argc, char** argv) {
     #endif
 
     #if DIFF_TEST_ENABLE
-        printf("Difftest circuiting.\n");
         cpu.pc = top->_pc;
         for (int i = 0; i < 32; i++) {
             cpu.gpr[i] = top->dbg_reg[i];
@@ -111,10 +110,10 @@ int main(int argc, char** argv) {
         top->halt(&endprog);
 
         if(endprog){
-            printf("Hit ebreak instr, program end.\n");
+            printf("%s", ANSI_FMT("Hit ebreak instr, program end.\n", ANSI_FG_YELLOW));
             break;
         }
-    }
+    }   
 
 
 // ----------------------------------------------------------------------

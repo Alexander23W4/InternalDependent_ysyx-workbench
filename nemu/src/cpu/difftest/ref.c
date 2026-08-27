@@ -31,7 +31,7 @@ In addition, difftest_raise_intr() is prepared for interrupts and is not used cu
 //      buf is the origin ram arr of dut (index starts from 0)
 //      n: size (in byte)
 
-// 加上 __EXPORT之后, 外部 REF 就能够使用这些函数
+// 加上 __EXPORT之后, 外部就能够使用这些函数
 // 编译器在生成DLL时，就会将这个符号的信息记录到导出表（Export Table）中。这相当于给DLL挂上了一个“对外服务清单”，外部程序可以通过这个清单找到并调用这些功能。
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   if (direction == DIFFTEST_TO_REF) {

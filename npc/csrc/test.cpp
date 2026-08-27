@@ -20,6 +20,7 @@ size_t img_size;
 uint32_t instr;
 static int diff_flag = 0;
 uint32_t pc = 0;
+bool batch_mode;
 
 I_ring_buf ring = {.amt = 0};
 

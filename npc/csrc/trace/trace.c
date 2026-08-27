@@ -26,8 +26,7 @@ typedef struct {
 
 */
 
-static int ring_pos
-int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
+static int ring_pos;
 
 void trace(Vtop* top){
     // 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去

@@ -99,9 +99,10 @@ int main(int argc, char** argv) {
         addr(pc) instr assembly 
 
     */  
-        top->check_ram_op(&ram_op);
-        get_itrace_line((uint32_t)(top->_pc), &ring_buf);
-        i_ring_buf_logout(&ring_buf);
+        // top->check_ram_op(&ram_op);
+        // get_itrace_line((uint32_t)(top->_pc), &ring_buf);
+        // i_ring_buf_logout(&ring_buf);
+        trace(top);
         
     #endif
 

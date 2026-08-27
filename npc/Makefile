@@ -15,8 +15,8 @@ EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 ALL_SOURCES=$(shell find ./vsrc -name "*.v")
 SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
 
-INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest -I./csrc/trace"
-GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest -I./csrc/trace"
+INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest -I./csrc/trace -I./utils -I./tools"
+GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest -I./csrc/trace -I./utils -I./tools"
 
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx

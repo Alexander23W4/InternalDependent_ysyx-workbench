@@ -1,13 +1,4 @@
-test.o: ../csrc/test.cpp \
- /home/wang/InternalDependent_ysyx-workbench/npc/csrc/test.h \
- /usr/local/share/verilator/include/verilated.h \
- /usr/local/share/verilator/include/verilatedos.h \
- /usr/local/share/verilator/include/verilated_config.h \
- /usr/local/share/verilator/include/verilated_types.h \
- /usr/local/share/verilator/include/verilated_funcs.h \
- /usr/local/share/verilator/include/vltstd/svdpi.h Vtop.h Vtop__Dpi.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/csrc/dbg.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/config.h \
+trace.o: ../csrc/trace/trace.c \
  /home/wang/InternalDependent_ysyx-workbench/npc/csrc/trace/trace.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/capstone.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/platform.h \
@@ -28,4 +19,11 @@ test.o: ../csrc/test.cpp \
  /home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/mos65xx.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/bpf.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/sh.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/tricore.h
+ /home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/tricore.h \
+ /usr/local/share/verilator/include/verilated.h \
+ /usr/local/share/verilator/include/verilatedos.h \
+ /usr/local/share/verilator/include/verilated_config.h \
+ /usr/local/share/verilator/include/verilated_types.h \
+ /usr/local/share/verilator/include/verilated_funcs.h \
+ /usr/local/share/verilator/include/vltstd/svdpi.h Vtop.h \
+ ../csrc/trace/../../config.h

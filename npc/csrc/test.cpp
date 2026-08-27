@@ -21,15 +21,11 @@ uint32_t instr;
 static int diff_flag = 0;
 I_ring_buf ring_buf;
 
-void tick(Vtop* top) {
-    top->clk = 0;
-    top->eval();   //
-    top->clk = 1;
-    top->eval();
-}
 
 // diliver .bin -> argv[1]
 int main(int argc, char** argv) {
+
+// ⭐ init()
     assert(argc >= 2);
     parse_args(argc, argv);
 
@@ -38,7 +34,7 @@ int main(int argc, char** argv) {
     
     // malloc ram
     ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);
-    assert(ram);
+    assert(ram); 
 
     // rst
     top->rst = 1;  
@@ -50,9 +46,11 @@ int main(int argc, char** argv) {
     load_memory(argv[1], ram, &img_size);
     assert(img_size <= RAM_SIZE);
 
-// ---------------------------------------------------------
+// ----------------------------------------------------------------------
 
+// ⭐ cpu-exec()
     while(1){
+
         // fetch
         uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; 
         // printf("pc: 0x%8x  ", top->_pc);
@@ -67,9 +65,18 @@ int main(int argc, char** argv) {
         instr = ram[pc_idx];
         // printf("Current instr: 0x%08x \n", ram[pc_idx]);
         
-        // operation a period
+
+        // operation a period  ⭐ exec_once()
         tick(top);
 
+/*
+    npc trace 的开发 process:
+    
+    总体来说, 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
+
+    itrace: 每一个周期, 输出
+
+*/
     #if TRACE_ENABLE
         // itrace
     /*
@@ -115,19 +122,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    // final check
-    if(top->dbg_reg[10] != 0){   
-        printf("HIT BAD TRAP\n");
-        printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
 
-        prt_gprs(top);
-    #if TRACE_ENABLE
-        i_ring_buf_logout(&ring_buf);
-    #endif
-    }
-    else{
-        printf("HIT GOOD TRAP\n");
-    }
+// ----------------------------------------------------------------------
+
+    // final check
+    final_check(top);
 
 #if TRACE_ENABLE
     close_trace_file();

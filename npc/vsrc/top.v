@@ -54,6 +54,11 @@ marchid - 从中读出学号数字部分的十进制表示, 假设你的学号�
 UVM部分
 
 */
+
+/*
+
+
+*/
 module top(
     input clk,
     input rst,
@@ -62,45 +67,6 @@ module top(
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid
 );
-    // DPI-C interfaces(SV feature):
-    export "DPI-C" task halt;
-    task halt(output int endprog); 
-        begin
-            endprog = {{31{1'b0}}, ebreak};
-        end
-    endtask
-
-    export "DPI-C" task check_ram_op;
-    task check_ram_op(output int ram_op);
-        begin
-            if(lb | lh | lw | lbu | lhu) begin
-                ram_op = 32'd1;
-            end
-            else if(sb | sh | sw) begin
-                ram_op = 32'd2;
-            end
-            else begin
-                ram_op = 0;
-            end
-        end
-    endtask
-
-
-    import "DPI-C" function int unsigned ram_read(
-        input int unsigned addr,
-        input int amount
-    );
-
-    import "DPI-C" function void ram_write(
-        input int unsigned addr, 
-        input int unsigned data, 
-        input int amount
-    );
-
-
-// ------------------------------------------------------------------------------------------------------------
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ------------------------------------------------------------------------------------------------------------
 
     reg [31:0] pc;   // reg
     assign _pc = pc;
@@ -146,7 +112,7 @@ module top(
     assign pc_next_dft = pc + 32'd4;
 
 
-decode Decode(
+    decode Decode(
         .instr(instr),
 
         .addi(addi),
@@ -441,6 +407,48 @@ decode Decode(
             end
         end
     end
+
+
+// ------------------------------------------------------------------------------------------------------------
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ------------------------------------------------------------------------------------------------------------
+
+    // DPI-C interfaces(SV feature):
+
+    // 在cpp中, 仿真的时候 会自动生成 Vtop_Dpi.h, 声明 extern int halt(int *endprog);
+    export "DPI-C" task halt;
+    task halt(output int endprog); 
+        begin
+            endprog = {{31{1'b0}}, ebreak};
+        end
+    endtask
+
+    export "DPI-C" task check_ram_op;
+    task check_ram_op(output int ram_op);
+        begin
+            if(lb | lh | lw | lbu | lhu) begin
+                ram_op = 32'd1;
+            end
+            else if(sb | sh | sw) begin
+                ram_op = 32'd2;
+            end
+            else begin
+                ram_op = 0;
+            end
+        end
+    endtask
+
+
+    import "DPI-C" function int unsigned ram_read(
+        input int unsigned addr,
+        input int amount
+    );
+
+    import "DPI-C" function void ram_write(
+        input int unsigned addr, 
+        input int unsigned data, 
+        input int amount
+    );
 
 endmodule
 /* verilator lint_off UNUSEDSIGNAL */

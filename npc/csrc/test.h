@@ -40,6 +40,7 @@ extern uint32_t instr;
 extern CPU_state cpu;
 extern uint32_t* ram;
 
+void tick(Vtop* top);
 void parse_args(int argc, char *argv[]);
 void load_memory(char* filename, uint32_t* M, size_t *img_size);
 uint32_t ram_read(uint32_t addr, int amount);
@@ -47,6 +48,7 @@ void ram_write(uint32_t addr, uint32_t data, int amount);
 void prt_gprs(Vtop* top);
 uint32_t get_gpr(Vtop* top, int reg_id);
 void cpu_state_print();
+void final_check(Vtop* top);
 
 
 void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port);

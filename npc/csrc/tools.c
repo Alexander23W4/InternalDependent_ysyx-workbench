@@ -3,6 +3,31 @@
 
 char* diff_so_file = NULL; 
 
+void tick(Vtop* top) {
+    top->clk = 0;
+    top->eval();   //
+    top->clk = 1;
+    top->eval();
+}
+
+void final_check(Vtop* top){
+    #if TRACE_ENABLE
+        i_ring_buf_logout(&ring_buf);
+    #endif
+    
+    if(top->dbg_reg[10] != 0){   
+        printf("HIT BAD TRAP\n");
+        printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
+
+        prt_gprs(top);
+    }
+    else{
+        printf("HIT GOOD TRAP\n");
+    }
+}
+
+
+
 void parse_args(int argc, char *argv[]) {
     for (int i = 0; i < argc; i++)
     {

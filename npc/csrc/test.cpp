@@ -74,7 +74,17 @@ int main(int argc, char** argv) {
     
     总体来说, 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
 
-    itrace: 每一个周期, 输出
+    首先每个周期定位ring的位置, 直接sprintf 往 那个buffer里面填充
+
+    itrace: 每一个周期, 输出 _pc, instr(0x), diassemble 
+
+    ftrace:
+
+    mtrace:
+
+    etrace:
+
+    最终打开 ring_log.txt, 填入
 
 */
     #if TRACE_ENABLE

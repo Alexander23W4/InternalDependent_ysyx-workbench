@@ -223,18 +223,18 @@ static void cmd_x(char* args){
   }
   else {
     unsigned long base_addr = strtol(arg2, NULL, 16);  // string to long
-    if(base_addr >= RAM_BASE + RAM_SIZE * 4 || base_addr < RAM_BASE){
+    if(base_addr > RAM_BASE + RAM_SIZE * 4 - 4 || base_addr < RAM_BASE){
       printf("%s", ANSI_FMT("NOT AVAILABLE BASE ADDR\n", ANSI_FG_RED));
       return;
     }
     unsigned long addr = base_addr;
     for (int i = 0; i < N; i++)
     {
-      if(addr > RAM_BASE + RAM_SIZE - 4){
+      if(addr > RAM_BASE + RAM_SIZE * 4 - 4){
         printf("%s", ANSI_FMT("HIT THE MEM CELLING WHILE READING\n", ANSI_FG_RED));
         return;
       }
-      printf("0x%08x\n", paddr_read(addr, 4)); // output 8 bits, if not enough, fill 0 at left
+      printf("0x%08x\n", ram_read(addr, 4)); // output 8 bits, if not enough, fill 0 at left
       addr += 4;   // read 4 Bytes one time
     }
   }
@@ -245,7 +245,7 @@ static int cmd_info(char* args){
   Log("info command started.");
   char* arg = strtok(args, " ");
   if(strcmp(arg, "r") == 0){
-    isa_reg_display();
+    prt_gprs(top);
   }
   else if(strcmp(arg, "w") == 0){  // display watchpoints
     WP* temp = get_head();
@@ -264,22 +264,26 @@ static int cmd_info(char* args){
 
 // si  single pace execute (si N)
 // !!! when N >> available step, the output info of exec_once(): "addr content instr" will disappear
-static int cmd_si(char* args){
+static void cmd_si(char* args){
   Log("si command started.");
   char* arg = strtok(args, " ");
 
   int N = arg ? (int)atoi(arg) : 1;   // default N = 1
   if(N < 1){
-    printf("The step you choose to execute must be equal or larger than 1\n");
-    return 1;
+    printf("%s", ANSI_FMT("The step you choose to execute must be equal or larger than 1\n", ANSI_FG_RED));
+    return;
   }
   Log("Get N, N = %d", N);
-  cpu_exec(N);
-  return 0;
+  for (int i = 0; i < N; i++)
+  {
+    if(endprog){return;}
+    exec_once(top);
+  }
+  
 }
 
 // help
-static int cmd_help(char *args) {    // !!! for every command added, update log printed of "help"
+static void cmd_help(char *args) {    // !!! for every command added, update log printed of "help"
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
   int i;
@@ -294,12 +298,11 @@ static int cmd_help(char *args) {    // !!! for every command added, update log 
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(arg, cmd_table[i].name) == 0) {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
-        return 0;
+        return;
       }
     }
     printf("Unknown command '%s'\n", arg);
   }
-  return 0;
 }
 
 void init_sdb() {

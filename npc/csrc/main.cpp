@@ -17,9 +17,10 @@ int ram_op = 0;
 uint32_t* ram = NULL;    
 CPU_state cpu = {};
 size_t img_size;
-static int diff_flag = 0;
+int diff_flag = 0;
 uint32_t pc = 0;
 bool batch_mode = false;
+Vtop* top;
 
 I_ring_buf ring = {.amt = 0};
 
@@ -27,7 +28,7 @@ I_ring_buf ring = {.amt = 0};
 // diliver .bin -> argv[1] 
 int main(int argc, char** argv) {
 
-    Vtop* top = new Vtop;
+    top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
 
 //  init

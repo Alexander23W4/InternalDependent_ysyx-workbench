@@ -35,6 +35,7 @@
 
 #define MMIO_SERIAL 0xa00003f8
 
+extern Vtop* top;
 extern char* diff_so_file;  // ref 的 so文件
 extern int endprog;
 extern const char *regs_name[];
@@ -44,6 +45,7 @@ extern uint32_t pc;
 extern bool batch_mode;
 extern size_t img_size;
 extern uint32_t* ram;
+extern int diff_flag;
 
 
 typedef struct{

@@ -8,4 +8,5 @@ tools.o: ../csrc/tools.c \
  /usr/local/share/verilator/include/vltstd/svdpi.h Vtop.h Vtop__Dpi.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/dbg.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/config.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h \
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h

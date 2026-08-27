@@ -27,30 +27,6 @@ void final_check(Vtop* top){
 
 
 
-void parse_args(int argc, char *argv[]) {
-    printf("%s", ANSI_FMT("ARGS: \n", ANSI_FG_CYAN));
-    for (int i = 0; i < argc; i++)
-    {
-        printf("Argument[%d]: %s\n", i, argv[i]);
-    }
-
-    static struct option last_options[] = {
-        {"diff",     required_argument, NULL, 'd'},
-        {0,          0,                 NULL,  0 }
-    };
-
-    int o;
-    while ((o = getopt_long(argc, argv, "-d:h", last_options, NULL)) != -1) {
-        switch (o) {
-            case 'd':
-                diff_so_file = optarg;
-                printf("%s", ANSI_FMT("[NPC] Using Difftest REF: ", ANSI_FG_CYAN));
-                printf("%s\n", diff_so_file);
-                break;
-        }
-    }
-}
-
 void cpu_state_print(){
   printf("pc: 0x%08x\n", cpu.pc);
   for (int i = 0; i < 32; i++)
@@ -64,25 +40,6 @@ uint32_t get_gpr(Vtop* top, int reg_id) {
     return top->dbg_reg[reg_id]; 
 }
 
-
-void load_memory(char* filename, uint32_t* M, size_t *img_size) {
-    FILE *fp = fopen(filename, "rb");
-    assert(fp);
-
-    fseek(fp, 0, SEEK_END);   
-    size_t size = ftell(fp);   
-    printf("image size: %zu\n", size); 
-    fseek(fp, 0, SEEK_SET);      
-
-    if (img_size != NULL) {
-        *img_size = size;
-    }
-
-    size_t loaded_instr = fread(M, sizeof(uint32_t), RAM_SIZE, fp);
-    fclose(fp);
-
-    printf("--LOAD %zu INSTR (%zu BYTES) TO M[]\n", loaded_instr, size);
-}
 
 
 // allow misalign access

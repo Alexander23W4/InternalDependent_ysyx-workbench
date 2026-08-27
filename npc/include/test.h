@@ -48,9 +48,13 @@ extern uint32_t instr;
 extern CPU_state cpu;
 extern uint32_t* ram;
 
-void tick(Vtop* top);
+void _init(int argc, char** argv, Vtop* top);
 void parse_args(int argc, char *argv[]);
+void init_ram();
+void reset(Vtop* top);
 void load_memory(char* filename, uint32_t* M, size_t *img_size);
+
+void tick(Vtop* top);
 uint32_t ram_read(uint32_t addr, int amount);
 void ram_write(uint32_t addr, uint32_t data, int amount);
 void prt_gprs(Vtop* top);

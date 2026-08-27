@@ -20,7 +20,7 @@ size_t img_size;
 uint32_t instr;
 static int diff_flag = 0;
 uint32_t pc = 0;
-bool batch_mode;
+bool batch_mode = false;
 
 I_ring_buf ring = {.amt = 0};
 
@@ -28,31 +28,11 @@ I_ring_buf ring = {.amt = 0};
 // diliver .bin -> argv[1] 
 int main(int argc, char** argv) {
 
-// ⭐ init()
-    assert(argc >= 2);
-    parse_args(argc, argv);
-
     Vtop* top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
-    
-    // malloc ram
-    ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);
-    assert(ram); 
 
-    // rst
-    top->rst = 1;  
-    tick(top);
-    top->rst = 0; 
-    printf("Reset Released. Starting execution...\n");
-
-    // load code
-    load_memory(argv[1], ram, &img_size);
-    assert(img_size <= RAM_SIZE);
-
-    #if TRACE_ENABLE
-    init_disasm();
-    ftrace_init(argv[1]);
-    #endif
+// ⭐ init()
+    _init(argc, argv, top);
 
 
 // ----------------------------------------------------------------------

@@ -12,7 +12,7 @@ SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
 ALL_SOURCES=$(shell find ./vsrc -name "*.v")
 
 # 这里是用find递归搜索 ./csrc 下面所有的.c和.cpp文件
-CPP_SRC = $(shell find ./csrc -type f -name "*.c" -o -name "*.cpp")
+CPP_SRC = $(shell find ./csrc -path ./csrc/tools -prune -o -type f \( -name "*.c" -o -name "*.cpp" \) -print)
 
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
@@ -20,10 +20,9 @@ OBJ_DIR=./obj_dir
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 
 
-
 # 需要的头文件路径写在这里
-INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest -I./csrc/trace -I./utils -I./tools"
-GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest -I./csrc/trace -I./utils -I./tools -I./tools/sub"
+INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest -I./csrc/trace -I /usr/include/capstone/capstone.h"
+GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest -I./csrc/trace"
 
 # ------------------------------------------------------------------------------------------------------
 # Verilator basic setup

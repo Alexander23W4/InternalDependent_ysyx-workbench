@@ -35,7 +35,7 @@ VM_PREFIX = Vtop
 VM_MODPREFIX = Vtop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-	-I./csrc -I./csrc/difftest -I./csrc/trace -I./utils -I./tools \
+	-I./csrc -I./csrc/difftest -I./csrc/trace -I /usr/include/capstone/capstone.h \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -48,12 +48,14 @@ VM_USER_CLASSES = \
 	ftrace \
 	iringbuf \
 	trace \
+	disasm \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
 	./csrc \
 	./csrc/difftest \
 	./csrc/trace \
+	./csrc/utils \
 
 
 ### Default rules...
@@ -76,6 +78,8 @@ ftrace.o: ./csrc/trace/ftrace.c
 iringbuf.o: ./csrc/trace/iringbuf.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 trace.o: ./csrc/trace/trace.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+disasm.o: ./csrc/utils/disasm.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)

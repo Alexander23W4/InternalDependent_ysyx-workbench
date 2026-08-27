@@ -14,59 +14,55 @@
 ***************************************************************************************/
 // disassembly     machine code to assembly 
 
-#include <dlfcn.h>
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/capstone.h"
-// #include <common.h>
-
-#if defined(__APPLE__)
-#define CS_LIB_SUFFIX "5.dylib"
-#elif defined(__linux__)
-#define CS_LIB_SUFFIX "so.5"
-#else
-#error "Unsupported platform"
-#endif
-
-static size_t (*cs_disasm_dl)(csh handle, const uint8_t *code,
-    size_t code_size, uint64_t address, size_t count, cs_insn **insn);
-static void (*cs_free_dl)(cs_insn *insn, size_t count);
+#include <capstone/capstone.h>
+#include <assert.h>
+#include <stdio.h>
 
 static csh handle;
+static int initialized = 0;
 
-// init itrace when nemu starts
+// init disasm when program starts
 void init_disasm() {
-  void *dl_handle;
-  dl_handle = dlopen("tools/capstone/repo/libcapstone." CS_LIB_SUFFIX, RTLD_LAZY);
-  assert(dl_handle);
-
-  cs_err (*cs_open_dl)(cs_arch arch, cs_mode mode, csh *handle) = NULL;
-  cs_open_dl = dlsym(dl_handle, "cs_open");
-  assert(cs_open_dl);
-
-  cs_disasm_dl = dlsym(dl_handle, "cs_disasm");
-  assert(cs_disasm_dl);
-
-  cs_free_dl = dlsym(dl_handle, "cs_free");
-  assert(cs_free_dl);
-
-  cs_arch arch = CS_ARCH_RISCV;
-  cs_mode mode = CS_MODE_RISCV32 | CS_MODE_RISCVC;
-
-	int ret = cs_open_dl(arch, mode, &handle);
-  assert(ret == CS_ERR_OK);
-
+    if (initialized) return;
+    
+    // RISC-V 32位，支持压缩指令（C extension）
+    cs_err err = cs_open(CS_ARCH_RISCV, CS_MODE_RISCV32 | CS_MODE_RISCVC, &handle);
+    assert(err == CS_ERR_OK);
+    
+    // 可选：开启指令细节
+    cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);
+    
+    initialized = 1;
 }
 
-// e.g. lbu	a0, 0x10(t0)   llvm
+// disassemble one instruction, return number of chars written to str
 int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
-  cs_insn *insn;
-  size_t count = cs_disasm_dl(handle, code, nbyte, pc, 0, &insn);
-  assert(count == 1);
-  int n = 0;
-  n += snprintf(str + n, size - n, "%s", insn->mnemonic);
-
-  if (insn->op_str[0] != '\0') {
-    n += snprintf(str + n, size - n, "\t%s", insn->op_str);
-  }
-  cs_free_dl(insn, count);
-  return n; 
+    if (!initialized) {
+        init_disasm();
+    }
+    
+    cs_insn *insn;
+    size_t count = cs_disasm(handle, code, nbyte, pc, 1, &insn);
+    
+    if (count == 0) {
+        // 无法反汇编，输出原始字节
+        if (nbyte >= 4) {
+            return snprintf(str, size, "data: %02x%02x%02x%02x", 
+                            code[0], code[1], code[2], code[3]);
+        } else if (nbyte >= 2) {
+            return snprintf(str, size, "data: %02x%02x", code[0], code[1]);
+        } else {
+            return snprintf(str, size, "data: %02x", code[0]);
+        }
+    }
+    
+    int n = 0;
+    n += snprintf(str + n, size - n, "%s", insn[0].mnemonic);
+    
+    if (insn[0].op_str[0] != '\0') {
+        n += snprintf(str + n, size - n, "\t%s", insn[0].op_str);
+    }
+    
+    cs_free(insn, count);
+    return n;
 }

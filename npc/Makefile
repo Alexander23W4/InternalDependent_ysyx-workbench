@@ -8,16 +8,24 @@
 # riscv32-nemu-interpreter-so
 
 V_SRC=./vsrc/top.v
+SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
+ALL_SOURCES=$(shell find ./vsrc -name "*.v")
+
+# 这里是用find递归搜索 ./csrc 下面所有的.c和.cpp文件
 CPP_SRC = $(shell find ./csrc -type f -name "*.c" -o -name "*.cpp")
+
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
+
 EXE=$(OBJ_DIR)/V$(TOP_MODULE)
-ALL_SOURCES=$(shell find ./vsrc -name "*.v")
-SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
 
+
+
+# 需要的头文件路径写在这里
 INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest -I./csrc/trace -I./utils -I./tools"
-GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest -I./csrc/trace -I./utils -I./tools"
+GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest -I./csrc/trace -I./utils -I./tools -I./tools/sub"
 
+# ------------------------------------------------------------------------------------------------------
 # Verilator basic setup
 # for WARNING_IGNORE_FLAG : -Wno-xxx
 VERILATOR=verilator
@@ -30,14 +38,14 @@ STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
 
-# features
+# ------------------------------------------------------------------------------------------------------
+
 DIFF_TEST_ENABLE=0
 TRACE_ENABLE=1
 
+# ------------------------------------------------------------------------------------------------------
 
-NPC_EXE=$(NPC_HOME)/obj_dir/Vtop
-ARGS=$(IMAGE).bin
-
+# Features
 # config macro generation
 -include $(NPC_HOME)/scripts/config.mk 
 
@@ -47,6 +55,12 @@ DIFF_REF_SO=$(NEMU_HOME)/build/riscv32-nemu-interpreter-so
 ARGS+=-d $(DIFF_REF_SO)
 endif
 
+# ------------------------------------------------------------------------------------------------------
+
+NPC_EXE=$(NPC_HOME)/obj_dir/Vtop
+ARGS=$(IMAGE).bin
+
+# ------------------------------------------------------------------------------------------------------
 
 runtrace:
 	$(EXE)

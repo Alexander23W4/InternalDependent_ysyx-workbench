@@ -16,3 +16,7 @@ void i_ring_buf_logout(I_ring_buf* i_ring_buf){
 I_ring_buf ring = {.amt = 0};
 
 
+
+
+
+

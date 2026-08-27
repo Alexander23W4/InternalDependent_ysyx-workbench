@@ -22,7 +22,7 @@ static int diff_flag = 0;
 I_ring_buf ring_buf;
 
 
-// diliver .bin -> argv[1]
+// diliver .bin -> argv[1] 
 int main(int argc, char** argv) {
 
 // ⭐ init()

@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <assert.h>
 #include <cstring>
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/tools/capstone/repo/include/capstone/capstone.h"
 
 #include <verilated.h>
 #include "svdpi.h"

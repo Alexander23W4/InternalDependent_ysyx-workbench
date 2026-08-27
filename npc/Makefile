@@ -21,7 +21,7 @@ EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 
 
 # 需要的头文件路径写在这里
-INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest -I./csrc/trace -I /usr/include/capstone/capstone.h"
+INC_SOURCES=-CFLAGS "-I./csrc -I./csrc/difftest -I./csrc/trace -lcapstone"
 GDB_INC_SOURCES=-CFLAGS "-g -I./csrc -I./csrc/difftest -I./csrc/trace"
 
 # ------------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ trace:
 
 # 3. --cc --exe --build -j 0 -Wall
 fasts:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) -lcapstone
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES)
 
 npc-gdb:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES)

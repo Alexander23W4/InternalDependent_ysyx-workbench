@@ -24,6 +24,7 @@ CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINAR
 # update 仿真 npc -> C++
 update-npc:
 	@echo "===================================== Update NPC ====================================="
+	$(MAKE) -C $(NPC_HOME) clean_npc
 	$(MAKE) -C $(NPC_HOME) fasts
 ifeq ($(DIFF_TEST_ENABLE),1)
 	$(MAKE) -C $(NEMU_HOME)

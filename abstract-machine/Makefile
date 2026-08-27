@@ -356,7 +356,12 @@ CXXFLAGS +=  $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
 ASFLAGS  += -MMD $(INCFLAGS)
 LDFLAGS  += -z noexecstack $(addprefix -T, $(LDSCRIPTS))
 
-## 4. Arch-Specific Configurations  这里就把run的 platform specific定义拉过来了
+## 4. Arch-Specific Configurations  这里就把run的 platform specific定义拉过来了   
+
+# ⭐ 
+# 这里是先包含 ARCH 的 .mk, ARCH.mk再包含 platform.mk & ISA.mk
+# ISA.mk 里面定义了 cross_compile 交叉编译的config
+# 每个platform.mk 需要包含自己的 AM环境(vme.c cte.c..) 和 编译传递细节(把AM打包的elf文件交付给nemu和npc是有区别的)
 
 ### Paste in arch-specific configurations (e.g., from `scripts/x86_64-qemu.mk`)
 -include $(AM_HOME)/scripts/$(ARCH).mk

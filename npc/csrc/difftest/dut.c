@@ -3,7 +3,16 @@
 
 #define RESET_VECTOR 0x80000000
 enum { DIFFTEST_TO_DUT, DIFFTEST_TO_REF };
+/*
+npc difftest 的实现逻辑
 
+先将nemu设置成ref模式
+
+将$(NEMU_HOME)/build/riscv32-nemu-interpreter-so 取过来
+
+
+
+*/
 
 const char *regs_name[] = {
   "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",

@@ -19,9 +19,11 @@ DC阶段个人目标:
 NEMU: native  difftest  gdb  trace  sdb
 NPC: difftest  trace  gdb  sdb
 
--> 回看 IOE 和 CTE 的源码, 熟悉所有细节  并且跑对RT_Thread, 解决无法交互的问题
+-> 回看 IOE 和 CTE 的源码, 熟悉所有细节  并且跑对RT_Thread, 解决无法交互的问题.   这个阶段还有klib里面的标准库函数API的开发
 
 运行所有可运行的测试 in am_kernel
+
+-----> 以上内容要能够熟练说出是 怎么实现的, 怎么想的
 
 -> 熟悉整个IT层级结构 (反复feedback)
 

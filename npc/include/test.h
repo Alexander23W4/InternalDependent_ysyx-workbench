@@ -26,7 +26,7 @@
 
 #define MMIO_SERIAL 0xa00003f8
 
-extern char* diff_so_file;
+extern char* diff_so_file;  // ref 的 so文件
 extern int endprog;
 extern const char *regs_name[];
 extern int ram_op;

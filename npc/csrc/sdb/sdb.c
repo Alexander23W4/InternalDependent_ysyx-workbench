@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 /*
 sdb的底色是一个ISA状态机运行时的小工具的合集
@@ -20,7 +20,7 @@ help
 
 void main_loop(Vtop* top){
     if(batch_mode){
-        while(1){
+        while(!endprog){
             exec_once(top);
         }
     }

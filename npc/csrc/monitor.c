@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 void _init(int argc, char** argv, Vtop* top){
 

@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/test.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 
 void exec_once(Vtop* top){
@@ -51,6 +51,5 @@ void exec_once(Vtop* top){
 
     if(endprog){
         printf("%s", ANSI_FMT("Hit ebreak instr, program end.\n", ANSI_FG_YELLOW));
-        break;
     }
 }

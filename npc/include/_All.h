@@ -33,9 +33,8 @@ extern int ram_op;
 extern I_ring_buf ring;
 extern uint32_t pc;
 extern bool batch_mode;
-extern uint32_t* ram;    
-extern CPU_state cpu = {};
 extern size_t img_size;
+extern uint32_t* ram;
 
 
 typedef struct{
@@ -48,9 +47,7 @@ typedef struct{
     uint64_t mcycle;
 } CPU_state;
 
-extern uint32_t instr;
 extern CPU_state cpu;
-extern uint32_t* ram;
 
 void _init(int argc, char** argv, Vtop* top);
 void parse_args(int argc, char *argv[]);

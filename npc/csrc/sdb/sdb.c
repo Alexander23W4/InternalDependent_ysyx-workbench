@@ -21,33 +21,32 @@ quit
 void init_regex();
 void init_wp_pool();
 
-static int cmd_c(char *args) {     // c   execute the guest code
+static void cmd_c(char *args) {     // c   execute the guest code
     while(!endprog){
         exec_once(top);
     }
-    return 0;
 }
 
-static int cmd_q(char *args) {     // q   quit the nemu sdb
+static void cmd_q(char *args) {     // q   quit the nemu sdb
     endprog = 1;
-    return -1;   // get out of mainloop
 }
 
-static int cmd_help(char *args);   // help   
+static void cmd_help(char *args);   // help   
 
-static int cmd_si(char* args);   // si 
+static void cmd_si(char* args);   // si 
 
-static int cmd_info(char* args);  // info
+static void cmd_info(char* args);  // info
 
-static int cmd_x(char* args);  // x scan memory
+static void cmd_x(char* args);  // x scan memory
 
-static int cmd_p(char* args);
+static void cmd_p(char* args);
 
-static int cmd_w(char* args); // set watchpoint (set breakpoint method: w $pc == ADDR)
+static void cmd_w(char* args); // set watchpoint (set breakpoint method: w $pc == ADDR)
 
-static int cmd_d(char* args); // delete watchpoint
+static void cmd_d(char* args); // delete watchpoint
 
-static int cmd_hb(char* args);
+static void cmd_hb(char* args);
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -70,7 +69,7 @@ static char* rl_gets() {
 static struct {  
   const char *name;
   const char *description;
-  int (*handler) (char *);
+  void (*handler) (char *);
 } cmd_table [] = {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
@@ -93,6 +92,34 @@ void main_loop(Vtop* top){
         while(!endprog){
             exec_once(top);
         }
+    }
+    // 不停的检查cmd输入, 直到检测到endprog==1, 退出
+    for (char *str; (str = rl_gets()) != NULL; ) {
+        char *str_end = str + strlen(str);
+
+        /* extract the first token as the command */
+        char *cmd = strtok(str, " ");
+        if (cmd == NULL) { continue; }
+
+        /* treat the remaining string as the arguments,
+        * which may need further parsing
+        */
+        char *args = cmd + strlen(cmd) + 1;
+        if (args >= str_end) {
+        args = NULL;
+        }
+
+        int i;      // start to get sdb command over and over
+
+        for (i = 0; i < NR_CMD; i ++) {
+        if (strcmp(cmd, cmd_table[i].name) == 0) {
+            cmd_table[i].handler(args)
+            if(endprog) {return;}
+            break;
+        }
+        }
+
+        if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
     }
 }
 

@@ -12,7 +12,7 @@ SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
 ALL_SOURCES=$(shell find ./vsrc -name "*.v")
 
 # 这里是用find递归搜索 ./csrc 下面所有的.c和.cpp文件
-CPP_SRC = $(shell find ./csrc -path ./csrc/tools -prune -o -type f \( -name "*.c" -o -name "*.cpp" \) -print)
+CPP_SRC = $(shell find ./csrc -type f \( -name "*.c" -o -name "*.cpp" \) -print)
 
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
@@ -75,7 +75,7 @@ trace:
 
 # 3. --cc --exe --build -j 0 -Wall
 fasts:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES)
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) -lcapstone
 
 npc-gdb:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES)

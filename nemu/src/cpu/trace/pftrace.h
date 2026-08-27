@@ -21,12 +21,9 @@ extern int function_amt;
 
 void get_elf_file(const char* dir);
 
-void ftrace_init(const char* dir);
-
-
 void ftrace_init(const char* dir);   // init func
 
-void get_elf_file(const char* dir);
+
 Elf32_Ehdr* map_elf_file(const char *elf_file, size_t *file_size);
 void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size);
 

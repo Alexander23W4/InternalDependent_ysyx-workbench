@@ -7,6 +7,15 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <assert.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <cpu/cpu.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <elf.h>
 
 
 #define MAX_LOGBUF 512
@@ -18,13 +27,19 @@ typedef struct {
     int amt;
 } I_ring_buf;
 
+typedef struct{
+    char name[256];
+    uint32_t low_addr;
+    uint32_t high_addr;
+} symbol;
+
 extern I_ring_buf ring;
 
-// void i_ring_buf_logout(I_ring_buf* i_ring_buf);
+extern char elf_file[256];
+extern symbol Func_symbols[500];
+extern int function_amt;
+extern uint32_t pc;
 
-// void get_itrace_line(uint32_t pc, I_ring_buf* i_ring_buf);
-
-// void close_trace_file();
 
 void trace(Vtop* top);
 
@@ -34,6 +49,22 @@ void i_ring_buf_logout(I_ring_buf* i_ring_buf);
 extern int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 
 extern void init_disasm();
+
+
+void get_elf_file(const char* dir);
+
+void ftrace_init(const char* dir);
+
+Elf32_Ehdr* map_elf_file(const char *elf_file, size_t *file_size);
+
+void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size);
+
+void fill_symbols(Elf32_Ehdr *ehdr);
+
+void print_func_syms(void);
+
+
+
 
 
 

@@ -19,6 +19,7 @@ CPU_state cpu = {};
 size_t img_size;
 uint32_t instr;
 static int diff_flag = 0;
+uint32_t pc = 0;
 
 I_ring_buf ring = {.amt = 0};
 
@@ -49,6 +50,7 @@ int main(int argc, char** argv) {
 
     #if TRACE_ENABLE
     init_disasm();
+    ftrace_init(argv[1]);
     #endif
 
 
@@ -72,37 +74,12 @@ int main(int argc, char** argv) {
         // printf("Current instr: 0x%08x \n", ram[pc_idx]);
         
 
+        pc = top->_pc;   // 存下这个周期的pc;
         // operation a period  ⭐ exec_once()
         tick(top);
 
-/*
-    npc trace 的开发 process:
-    
-    总体来说, 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
-
-    首先每个周期定位ring的位置, 直接sprintf 往 那个buffer里面填充
-
-    itrace: 每一个周期, 输出 _pc, instr(0x), diassemble 
-
-    ftrace:
-
-    mtrace:
-
-    etrace:
-
-    最终打开 ring_log.txt, 填入
-
-*/
     #if TRACE_ENABLE
         // itrace
-    /*
-        trace file
-        addr(pc) instr assembly 
-
-    */  
-        // top->check_ram_op(&ram_op);
-        // get_itrace_line((uint32_t)(top->_pc), &ring_buf);
-        // i_ring_buf_logout(&ring_buf);
         trace(top);
         
     #endif

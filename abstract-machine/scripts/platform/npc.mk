@@ -20,6 +20,8 @@ CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINAR
 
 -include $(NPC_HOME)/Makefile
 
+# ⭐: 我为npc加的编译配置主要在此
+# update 仿真 npc -> C++
 update-npc:
 	@echo "===================================== Update NPC ====================================="
 	$(MAKE) -C $(NPC_HOME) fasts
@@ -31,19 +33,22 @@ ifeq ($(TRACE_ENABLE),1)
 endif
 
 
+# 作用: 传递mainargs (传参给argv, argc)
 insert-arg: image
 	@python3 $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
 
+# 作用: 在用户环境下产生 .bin .elf .txt三个build文件
 image: image-dep
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
-run: insert-arg update-npc generate_config
+# 
+run: insert-arg update-npc 
 	@echo "================================= RUN NPC SIMULATION ====================================="
 	$(NPC_EXE) $(ARGS)
 
-gdb: insert-arg update-npc generate_config
+gdb: insert-arg update-npc 
 	@echo "================================= GDB ====================================="
 	$(MAKE) -C $(NPC_HOME) npc-gdb
 ifeq ($(DIFF_TEST_ENABLE),1)

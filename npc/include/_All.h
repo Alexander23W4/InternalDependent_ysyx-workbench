@@ -30,6 +30,12 @@
 #define RAM_BASE 0x80000000
 #define NR_WP 32
 
+typedef enum {
+    NPC_NORM = 0,
+    NPC_CRASH,
+    NPC_END,
+} NPC_status;
+
 typedef struct{
     uint32_t gpr[32];
     uint32_t pc;
@@ -50,9 +56,10 @@ typedef struct watchpoint {
 
 #define MMIO_SERIAL 0xa00003f8
 
+extern NPC_status Status;
+extern int endprog;
 extern Vtop* top;
 extern char* diff_so_file;  // ref 的 so文件
-extern int endprog;
 extern const char *regs_name[];
 extern int ram_op;
 extern I_ring_buf ring;
@@ -79,7 +86,7 @@ void init_sdb();
 void exec_once(Vtop* top);
 
 void init_regex();
-word_t expr(char *e, bool *success);
+uint32_t expr(char *e, bool *success);
 
 WP* new_wp();
 void free_wp(WP *wp);

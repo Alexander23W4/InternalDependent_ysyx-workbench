@@ -14,7 +14,7 @@ void final_check(Vtop* top){
         i_ring_buf_logout(&ring);
     #endif
     
-    if(top->dbg_reg[10] != 0){   
+    if(top->dbg_reg[10] != 0 || Status == NPC_CRASH){   
         printf("%s", ANSI_FMT("[HIT BAD TRAP]\n", ANSI_FG_RED));
         printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
 

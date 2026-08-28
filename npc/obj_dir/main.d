@@ -1,5 +1,5 @@
-trace.o: ../csrc/trace/trace.c \
- /home/wang/InternalDependent_ysyx-workbench/npc/include/test.h \
+main.o: ../csrc/main.cpp \
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h \
  /usr/local/share/verilator/include/verilated.h \
  /usr/local/share/verilator/include/verilatedos.h \
  /usr/local/share/verilator/include/verilated_config.h \
@@ -7,7 +7,6 @@ trace.o: ../csrc/trace/trace.c \
  /usr/local/share/verilator/include/verilated_funcs.h \
  /usr/local/share/verilator/include/vltstd/svdpi.h Vtop.h Vtop__Dpi.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/dbg.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/config.h \
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/config.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h \
- ../csrc/trace/../../config.h
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h

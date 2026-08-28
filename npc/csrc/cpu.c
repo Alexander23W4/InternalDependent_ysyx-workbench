@@ -1,5 +1,6 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
+NPC_status Status = NPC_NORM;
 
 void exec_once(Vtop* top){
     // fetch
@@ -8,8 +9,8 @@ void exec_once(Vtop* top){
     // printf("pc_idx: %u\n", pc_idx);
 
     if (pc_idx >= RAM_SIZE || pc_idx < 0){
-        printf("Invalid pc\n");
-        break;
+        printf("%s", ANSI_FMT("Fetch Fault, INVALID PC.\n", ANSI_FG_RED));
+        Status = NPC_CRASH;
     }
 
     top->instr = ram[pc_idx];
@@ -50,6 +51,7 @@ void exec_once(Vtop* top){
     top->halt(&endprog);
 
     if(endprog){
+        Status = NPC_END;
         printf("%s", ANSI_FMT("Hit ebreak instr, program end.\n", ANSI_FG_YELLOW));
     }
 }

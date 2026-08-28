@@ -22,13 +22,13 @@ void init_regex();
 void init_wp_pool();
 
 static void cmd_c(char *args) {     // c   execute the guest code
-    while(!endprog){
+    while(!(Status == NPC_END || Status == NPC_CRASH)){
         exec_once(top);
     }
 }
 
 static void cmd_q(char *args) {     // q   quit the nemu sdb
-    endprog = 1;
+    Status = NPC_END;
 }
 
 static void cmd_help(char *args);   // help   
@@ -89,11 +89,11 @@ static struct {
 
 void main_loop(Vtop* top){
     if(batch_mode){
-        while(!endprog){
+        while(!(Status == NPC_END || Status == NPC_CRASH)){
             exec_once(top);
         }
     }
-    // 不停的检查cmd输入, 直到检测到endprog==1, 退出
+    // 不停的检查cmd输入, 直到检测到State为 NPC_END 或者 NPC_CRASH, 退出
     for (char *str; (str = rl_gets()) != NULL; ) {
         char *str_end = str + strlen(str);
 
@@ -114,7 +114,7 @@ void main_loop(Vtop* top){
         for (i = 0; i < NR_CMD; i ++) {
         if (strcmp(cmd, cmd_table[i].name) == 0) {
             cmd_table[i].handler(args)
-            if(endprog) {return;}
+            if((Status == NPC_END || Status == NPC_CRASH)) {return;}
             break;
         }
         }
@@ -272,7 +272,7 @@ static void cmd_si(char* args){
   Log("Get N, N = %d", N);
   for (int i = 0; i < N; i++)
   {
-    if(endprog){return;}
+    if(Status == NPC_END || Status == NPC_CRASH){return;}
     exec_once(top);
   }
   

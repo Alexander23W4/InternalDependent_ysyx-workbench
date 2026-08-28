@@ -2,14 +2,14 @@
 
 char* diff_so_file = NULL; 
 
-void tick(Vtop* top) {
+void tick() {
     top->clk = 0;
     top->eval();   //
     top->clk = 1;
     top->eval();
 }
 
-void final_check(Vtop* top){
+void final_check(){
     #if TRACE_ENABLE
         i_ring_buf_logout(&ring);
     #endif
@@ -18,7 +18,7 @@ void final_check(Vtop* top){
         printf("%s", ANSI_FMT("[HIT BAD TRAP]\n", ANSI_FG_RED));
         printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
 
-        prt_gprs(top);
+        prt_gprs();
     }
     else{
         printf("%s", ANSI_FMT("[HIT GOOD TRAP]\n", ANSI_FG_GREEN));
@@ -36,7 +36,7 @@ void cpu_state_print(){
 }
 
 
-uint32_t get_gpr(Vtop* top, int reg_id) {
+uint32_t get_gpr(int reg_id) {
     return top->dbg_reg[reg_id]; 
 }
 
@@ -99,12 +99,12 @@ error:
     assert(0);
 }
 
-void prt_gprs(Vtop* top) {
+void prt_gprs() {
     printf("PC: [0x%08x] | ", top->_pc); 
     
     int count = 0;
     for (int i = 0; i < 32; i++) {
-        uint32_t val = get_gpr(top, i);
+        uint32_t val = get_gpr(i);
         if (val != 0) {
             printf("x%-2d: 0x%08x  ", i, val);
             count++;

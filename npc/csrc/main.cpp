@@ -32,15 +32,15 @@ int main(int argc, char** argv) {
     svSetScope(svGetScopeFromName("TOP.top"));
 
 //  init
-    _init(argc, argv, top);
+    _init(argc, argv);
 
 
 //  exec
-    main_loop(top);
+    main_loop();
 
 
 //  end
-    end_process(top);
+    end_process();
     
     return 0;
 }

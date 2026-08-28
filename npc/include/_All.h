@@ -73,17 +73,17 @@ extern int diff_flag;
 
 extern CPU_state cpu;
 
-void _init(int argc, char** argv, Vtop* top);
+void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);
 void init_ram();
-void reset(Vtop* top);
+void reset();
 void load_memory(char* filename, uint32_t* M, size_t *img_size);
-void end_process(Vtop* top);
+void end_process();
 
-void main_loop(Vtop* top);
+void main_loop();
 void init_sdb();
 
-void exec_once(Vtop* top);
+void exec_once();
 
 void init_regex();
 uint32_t expr(char *e, bool *success);
@@ -92,13 +92,13 @@ WP* new_wp();
 void free_wp(WP *wp);
 WP* get_head();
 
-void tick(Vtop* top);
+void tick();
 uint32_t ram_read(uint32_t addr, int amount);
 void ram_write(uint32_t addr, uint32_t data, int amount);
-void prt_gprs(Vtop* top);
-uint32_t get_gpr(Vtop* top, int reg_id);
+void prt_gprs();
+uint32_t get_gpr(int reg_id);
 void cpu_state_print();
-void final_check(Vtop* top);
+void final_check();
 
 
 void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port);

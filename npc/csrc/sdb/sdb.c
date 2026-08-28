@@ -23,7 +23,7 @@ void init_wp_pool();
 
 static void cmd_c(char *args) {     // c   execute the guest code
     while(!(Status == NPC_END || Status == NPC_CRASH)){
-        exec_once(top);
+        exec_once();
     }
 }
 
@@ -87,10 +87,10 @@ static struct {
 
 // --------------------------------------------------------------------------
 
-void main_loop(Vtop* top){
+void main_loop(){
     if(batch_mode){
         while(!(Status == NPC_END || Status == NPC_CRASH)){
-            exec_once(top);
+            exec_once();
         }
     }
     // 不停的检查cmd输入, 直到检测到State为 NPC_END 或者 NPC_CRASH, 退出
@@ -242,7 +242,7 @@ static int cmd_info(char* args){
   Log("info command started.");
   char* arg = strtok(args, " ");
   if(strcmp(arg, "r") == 0){
-    prt_gprs(top);
+    prt_gprs();
   }
   else if(strcmp(arg, "w") == 0){  // display watchpoints
     WP* temp = get_head();
@@ -273,7 +273,7 @@ static void cmd_si(char* args){
   for (int i = 0; i < N; i++)
   {
     if(Status == NPC_END || Status == NPC_CRASH){return;}
-    exec_once(top);
+    exec_once();
   }
   
 }

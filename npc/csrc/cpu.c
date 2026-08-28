@@ -2,7 +2,7 @@
 
 NPC_status Status = NPC_NORM;
 
-void exec_once(Vtop* top){
+void exec_once(){
     // fetch
     uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; 
     // printf("pc: 0x%8x  ", top->_pc);

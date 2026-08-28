@@ -1,6 +1,6 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
-void _init(int argc, char** argv, Vtop* top){
+void _init(int argc, char** argv){
 
     parse_args(argc, argv);
     
@@ -8,7 +8,7 @@ void _init(int argc, char** argv, Vtop* top){
     init_ram();
 
     // rst
-    reset(top);
+    reset();
 
     // load code
     load_memory(argv[1], ram, &img_size);
@@ -57,9 +57,9 @@ void init_ram(){
     assert(ram); 
 }
 
-void reset(Vtop* top){
+void reset(){
     top->rst = 1;  
-    tick(top);
+    tick();
     top->rst = 0; 
     printf("Reset Released. Starting execution...\n");
 }
@@ -85,8 +85,8 @@ void load_memory(char* filename, uint32_t* M, size_t *img_size) {
 }
 
 
-void end_process(Vtop* top){
-    final_check(top);
+void end_process(){
+    final_check();
 
     top->final();
     free(ram);

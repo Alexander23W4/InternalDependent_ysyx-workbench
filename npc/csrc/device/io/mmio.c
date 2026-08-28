@@ -26,16 +26,14 @@ static IOMap maps[NR_MAP] = {};   // maps
 static int nr_map = 0;
 
 // Init, Device operation
-static void report_mmio_overlap(const char *name1, paddr_t l1, paddr_t r1,
-    const char *name2, paddr_t l2, paddr_t r2) {
-  panic("MMIO region %s@[" FMT_PADDR ", " FMT_PADDR "] is overlapped "                 // assert(0) (panic)
-               "with %s@[" FMT_PADDR ", " FMT_PADDR "]", name1, l1, r1, name2, l2, r2);
+static void report_mmio_overlap(const char *name1, uint32_t l1, uint32_t r1, const char *name2, uint32_t l2, uint32_t r2) {
+  panic("MMIO region %s@[0x%x, 0x%x] is overlapped with %s@[0x%x, 0x%x]",name1, l1, r1, name2, l2, r2);
 }
 
 // add device to bus
-void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_callback_t callback) {
+void add_mmio_map(const char *name, uint32_t addr, void *space, uint32_t len, io_callback_t callback) {
   assert(nr_map < NR_MAP);
-  paddr_t left = addr, right = addr + len - 1;
+  uint32_t left = addr, right = addr + len - 1;
   if (in_pmem(left) || in_pmem(right)) {    // in physical ram range
     report_mmio_overlap(name, left, right, "pmem", PMEM_LEFT, PMEM_RIGHT);
   }
@@ -48,14 +46,12 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
   // low = addr    high = add + len -1
   maps[nr_map] = (IOMap){ .name = name, .low = addr, .high = addr + len - 1,      // addr len (low, high) 
     .space = space, .callback = callback };
-  Log("Add mmio map '%s' at [" FMT_PADDR ", " FMT_PADDR "]",
-      maps[nr_map].name, maps[nr_map].low, maps[nr_map].high);
-
+  Log("Add mmio map '%s' at [0x%x, 0x%x]", maps[nr_map].name, maps[nr_map].low, maps[nr_map].high);
   nr_map ++;
 }
 
 // Iterative Search
-static IOMap* fetch_mmio_map(paddr_t addr) {
+static IOMap* fetch_mmio_map(uint32_t addr) {
   int mapid = find_mapid_by_addr(maps, nr_map, addr);  // search according device in map[]
   return (mapid == -1 ? NULL : &maps[mapid]);
 }
@@ -63,11 +59,11 @@ static IOMap* fetch_mmio_map(paddr_t addr) {
 /* bus interface */ 
 // BUS interface to devices.   The toppest IOE API
 // MMIO Device addressing API (nestly call general I/O API map_read/write())
-word_t mmio_read(paddr_t addr, int len) {     // addr provided by upper layer, len provided by instr (sw, sb...)
+uint32_t mmio_read(uint32_t addr, int len) {     // addr provided by upper layer, len provided by instr (sw, sb...)
   return map_read(addr, len, fetch_mmio_map(addr));
 }
 
-void mmio_write(paddr_t addr, int len, word_t data) {
+void mmio_write(uint32_t addr, int len, uint32_t data) {
   map_write(addr, len, data, fetch_mmio_map(addr));
 }
 

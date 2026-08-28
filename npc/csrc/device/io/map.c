@@ -30,7 +30,7 @@ uint8_t* new_space(int size) {
   return p;
 }
 
-static void check_bound(IOMap *map, paddr_t addr) {
+static void check_bound(IOMap *map, uint32_t addr) {
   if (map == NULL) {
     Assert(map != NULL, "address (" FMT_PADDR ") is out of bound at pc = " FMT_WORD, addr, cpu.pc);
   } else {
@@ -40,7 +40,7 @@ static void check_bound(IOMap *map, paddr_t addr) {
   }
 }
 
-static void invoke_callback(io_callback_t c, paddr_t offset, int len, bool is_write) {   // call callback function
+static void invoke_callback(io_callback_t c, uint32_t offset, int len, bool is_write) {   // call callback function
   if (c != NULL) { c(offset, len, is_write); }    
 }
 
@@ -57,21 +57,21 @@ These two functions are core Device I/O API, when instr-ram-addr falls in device
   the API calls callback function for operating device internally (invoke_callback)
 */
 
-word_t map_read(paddr_t addr, int len, IOMap *map) {   // map 
+uint32_t map_read(uint32_t addr, int len, IOMap *map) {   // map 
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);     // check range  (assert)
 
-  paddr_t offset = addr - map->low;    // offset = read_addr - device_base_addr
+  uint32_t offset = addr - map->low;    // offset = read_addr - device_base_addr
   invoke_callback(map->callback, offset, len, false);  // prepare data to "space" 
-  word_t ret = host_read(map->space + offset, len);    // 这里map->space + offset, 这个指针直接指到对应的heap的位置上
+  uint32_t ret = host_read(map->space + offset, len);    // 这里map->space + offset, 这个指针直接指到对应的heap的位置上
   return ret;
 }
 
-void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
+void map_write(uint32_t addr, int len, uint32_t data, IOMap *map) {
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);
 
-  paddr_t offset = addr - map->low;
+  uint32_t offset = addr - map->low;
   host_write(map->space + offset, len, data);
   invoke_callback(map->callback, offset, len, true);
 }

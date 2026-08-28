@@ -14,6 +14,11 @@
 #define PAGE_MASK         (PAGE_SIZE - 1)
 #define MAP(c, f) c(f)
 
+#define RAM_SIZE 50000000    // unit: Word (4Byte)
+#define RAM_BASE 0x80000000
+#define PMEM_LEFT  RAM_BASE
+#define PMEM_RIGHT (RAM_BASE + RAM_SIZE * 4 - 1)
+
 typedef void (*alarm_handler_t) ();
 void add_alarm_handle(alarm_handler_t h);
 
@@ -37,6 +42,11 @@ void mmio_write(uint32_t addr, int len, uint32_t data);
 typedef void(*io_callback_t)(uint32_t, int, bool);
 uint8_t* new_space(int size);
 
+void add_mmio_map(const char *name, uint32_t addr, void *space, uint32_t len, io_callback_t callback);
+
+uint32_t map_read(uint32_t addr, int len, IOMap *map);
+void map_write(uint32_t addr, int len, uint32_t data, IOMap *map);
+
 
 typedef struct {
   const char *name;
@@ -45,6 +55,10 @@ typedef struct {
   void *space;
   io_callback_t callback;
 } IOMap;
+
+static inline bool in_pmem(paddr_t addr) {
+  return addr - RAM_BASE < (RAM_SIZE * 4);
+}
 
 static inline bool map_inside(IOMap *map, uint32_t addr) {
   return (addr >= map->low && addr <= map->high);
@@ -61,12 +75,6 @@ static inline int find_mapid_by_addr(IOMap *maps, int size, uint32_t addr) {  //
   return -1;
 }
 
-
-void add_mmio_map(const char *name, uint32_t addr, void *space, uint32_t len, io_callback_t callback);
-
-//
-uint32_t map_read(uint32_t addr, int len, IOMap *map);
-void map_write(uint32_t addr, int len, uint32_t data, IOMap *map);
 
 static inline uint32_t host_read(void *addr, int len) {
   switch (len) {

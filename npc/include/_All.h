@@ -115,6 +115,9 @@ void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port);
 void difftest_step();
 bool difftest_checkregs(CPU_state* ref_r);
 void difftest_state_print(CPU_state* ref);
+void difftest_skip_ref();
+void difftest_skip_dut(int nr_ref, int nr_dut);
+
 
 
 

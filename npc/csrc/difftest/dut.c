@@ -32,10 +32,24 @@ void (*ref_difftest_memcpy)(uint32_t addr, void *buf, size_t n, bool direction) 
 void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
 void (*ref_difftest_exec)(uint64_t n) = NULL;
 void (*ref_difftest_init)(int port) = NULL;
+static bool is_skip_ref = false;
+static int skip_dut_nr_inst = 0;
 
-/*
-get img_size
-*/
+
+
+void difftest_skip_ref() {  
+  is_skip_ref = true;
+
+  skip_dut_nr_inst = 0;
+}
+
+void difftest_skip_dut(int nr_ref, int nr_dut) {
+  skip_dut_nr_inst += nr_dut;
+
+  while (nr_ref -- > 0) {
+    ref_difftest_exec(1);
+  }
+}
 
 void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port) {
   assert(diff_so_file != NULL);      // Open the incoming dynamic library file ref_so_file.
@@ -122,7 +136,29 @@ After executing an instruction in NEMU, it will let REF execute the same instruc
   and then read out the registers in REF and compare them.
 */
 void difftest_step() {
+
   CPU_state ref_r;
+
+  if (skip_dut_nr_inst > 0) {
+    ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+    if (ref_r.pc == top->_pc) {
+      skip_dut_nr_inst = 0;
+      checkregs(&ref_r, top->_pc);   //
+      return;
+    }
+    skip_dut_nr_inst --;
+    if (skip_dut_nr_inst == 0)
+      panic("can not catch up with ref.pc = 0x%x at pc = 0x%x", ref_r.pc, pc);
+    return;
+  }
+
+  if (is_skip_ref) {
+    // to skip the checking of an instruction, just copy the reg state to reference design
+    ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF);
+    is_skip_ref = false;
+    return;
+  }
+
   ref_difftest_exec(1);
   ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
   checkregs(&ref_r);     //

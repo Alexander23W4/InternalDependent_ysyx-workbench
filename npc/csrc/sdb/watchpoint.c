@@ -92,7 +92,7 @@ void check_wp(uint32_t pre_pc){  // check_watchpoints
   while(temp){
     new_result = expr(temp->expression, &success);
     if(new_result != temp->result){   // if change, pause, output msg, return to sdb_mainloop()
-      if(Status == NPC_NORM) nemu_state.state = NPC_STOP;  
+      if(Status == NPC_NORM) Status = NPC_STOP;  
       printf("[WATCHPOINT] The value of expression %s is changed, at pc: 0x%x, previous: %u (0x%x), now %u (0x%x)\n", \
         temp->expression, pre_pc, temp->result, temp->result, new_result, new_result);
       temp->result = new_result;

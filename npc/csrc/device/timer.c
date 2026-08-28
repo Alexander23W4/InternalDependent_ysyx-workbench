@@ -20,9 +20,8 @@ During initialization, the i8253 timer registers an 8-byte port at 0x48 and an 8
 The CPU can access these two registers to obtain the current time represented in 64 bits.
 */
 
-#include <device/map.h>
-#include <device/alarm.h>
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
+
 
 static uint32_t *rtc_port_base = NULL;
 
@@ -36,21 +35,9 @@ static void rtc_io_handler(uint32_t offset, int len, bool is_write) {  // callba
   }
 }
 
-#ifndef CONFIG_TARGET_AM
-static void timer_intr() {
-  if (nemu_state.state == NEMU_RUNNING) {
-    extern void dev_raise_intr();
-    dev_raise_intr();
-  }
-}
-#endif
 
 void init_timer() {
   rtc_port_base = (uint32_t *)new_space(8);
-#ifdef CONFIG_HAS_PORT_IO
-  add_pio_map ("rtc", CONFIG_RTC_PORT, rtc_port_base, 8, rtc_io_handler);
-#else
   add_mmio_map("rtc", CONFIG_RTC_MMIO, rtc_port_base, 8, rtc_io_handler);    // name, addr, space, len, callback
-#endif
-  IFNDEF(CONFIG_TARGET_AM, add_alarm_handle(timer_intr));
+  add_alarm_handle(timer_intr);
 }

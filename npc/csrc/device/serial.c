@@ -14,7 +14,6 @@
 ***************************************************************************************/
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
-#include <device/map.h>
 
 /* http://en.wikibooks.org/wiki/Serial_Programming/8250_UART_Programming */
 // NOTE: this is compatible to 16550
@@ -26,7 +25,7 @@ static uint8_t *serial_base = NULL;
 
 
 static void serial_putc(char ch) {
-  MUXDEF(CONFIG_TARGET_AM, putch(ch), putc(ch, stderr));      // no CONFIG_TARGET_AM, so putc()
+  putc(ch, stderr);      
 }
 
 static void serial_io_handler(uint32_t offset, int len, bool is_write) {
@@ -43,10 +42,5 @@ static void serial_io_handler(uint32_t offset, int len, bool is_write) {
 
 void init_serial() {
   serial_base = new_space(8);  // 分配8 Byte的空间
-#ifdef CONFIG_HAS_PORT_IO
-  add_pio_map ("serial", CONFIG_SERIAL_PORT, serial_base, 8, serial_io_handler);
-#else
   add_mmio_map("serial", CONFIG_SERIAL_MMIO, serial_base, 8, serial_io_handler);    // addr CONFIG_SERIAL_MMIO, len 8 (8 Bytes)
-#endif
-
 }

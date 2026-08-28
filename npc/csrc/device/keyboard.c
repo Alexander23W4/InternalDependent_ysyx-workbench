@@ -13,19 +13,12 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-#include <device/map.h>
+
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 #define KEYDOWN_MASK 0x8000
 
-#ifndef CONFIG_TARGET_AM
 #include <SDL2/SDL.h>
 // SDL Official API: scancode  keydown
-
-/*
-Multi-key press solution: 
-  A full-keybrd state record arr, at each frame, read the pressed key-data until NONE, update state record arr
-  gather the keys whose state is pressed. 
-*/
 
 // Note that this is not the standard
 #define NEMU_KEYS(f) \
@@ -82,15 +75,7 @@ void send_key(uint8_t scancode, bool is_keydown) {
     key_enqueue(am_scancode);
   }
 }
-#else // !CONFIG_TARGET_AM
-#define NEMU_KEY_NONE 0
 
-static uint32_t key_dequeue() {
-  AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
-  uint32_t am_scancode = ev.keycode | (ev.keydown ? KEYDOWN_MASK : 0);
-  return am_scancode;
-}
-#endif
 
 // data register  4 bytes
 static uint32_t *i8042_data_port_base = NULL;
@@ -106,10 +91,8 @@ static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
 void init_i8042() {
   i8042_data_port_base = (uint32_t *)new_space(4);  // 1 Word, 4Byte
   i8042_data_port_base[0] = NEMU_KEY_NONE;
-#ifdef CONFIG_HAS_PORT_IO
-  add_pio_map ("keyboard", CONFIG_I8042_DATA_PORT, i8042_data_port_base, 4, i8042_data_io_handler);
-#else
+
   add_mmio_map("keyboard", CONFIG_I8042_DATA_MMIO, i8042_data_port_base, 4, i8042_data_io_handler);  // name, addr, space, len, callback
-#endif
-  IFNDEF(CONFIG_TARGET_AM, init_keymap());
+
+  init_keymap();
 }

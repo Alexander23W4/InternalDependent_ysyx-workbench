@@ -5,6 +5,7 @@
 
 /*
 在AM中, 显示相关的设备叫GPU, GPU是一个专门用来进行图形渲染的设备. 在NEMU中, 我们并不支持一个完整GPU的功能, 而仅仅保留绘制像素的基本功能.
+这是AM基于VGA设计的一个IO接口, 并不是标准的通用硬件接口
 
 1. AM_GPU_CONFIG, AM display controller information, can read the screen size information width and height. 
     Additionally, AM assumes that the screen size will not change during the system's operation.
@@ -20,6 +21,7 @@
   UART：drivers/tty/serial/ 目录下包含 8250、amba-pl011、omap 等具体控制器的驱动。
 
   对于裸机嵌入式来说, 下载标准库函数, 就有了IOE, 加上RTOS, 就有了CTE
+
 */
 
 

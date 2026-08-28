@@ -1,6 +1,11 @@
 #include <am.h>
 #include <klib-macros.h>
 
+/*
+  这些就相当于AM的硬件接口API 库函数, 对标linux的 #include <linux/gpio.h>, <linux/gpio/consumer.h> 这些标准库函数
+
+  CPU -> 硬件接口API(IOE) -> 具体用这个接口的某个设备的驱动 -> 用户应用程序
+*/
 void __am_timer_init();
 void __am_gpu_init();
 void __am_audio_init();

@@ -3,7 +3,6 @@
 NPC_status Status = NPC_NORM;
 
 void exec_once(){
-    Status = NPC_NORM;  // 由于watchpoint可能将status设置成 stop, 如果重新启动, 就将状态重新设置成 norm
     // fetch
     uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; 
     // printf("pc: 0x%8x  ", top->_pc);
@@ -22,21 +21,13 @@ void exec_once(){
     // operation a period  
     tick();
 
+    rep_cpu();
+
 #if TRACE_ENABLE
     trace();
 #endif
 
 #if DIFF_TEST_ENABLE
-    cpu.pc = top->_pc;
-    for (int i = 0; i < 32; i++) {
-        cpu.gpr[i] = top->dbg_reg[i];
-    }
-    cpu.mcause = top->_mcause;
-    cpu.mepc = top->_mepc;
-    cpu.mstatus = top->_mstatus;
-    cpu.mtvec = top->_mtvec;
-    cpu.mcycle = (((uint64_t)(top->_mcycleh)) << 32) + (uint64_t)(top->_mcycle);
-
 
     if(diff_flag == 0){
         init_difftest(diff_so_file, ram, img_size, 1);

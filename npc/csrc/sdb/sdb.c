@@ -25,6 +25,7 @@ void init_regex();
 void init_wp_pool();
 
 static void cmd_c(char *args) {     // c   execute the guest code
+    Status = NPC_NORM;  
     while(!(Status == NPC_END || Status == NPC_CRASH || Status == NPC_STOP)){
         exec_once();
     }
@@ -74,18 +75,18 @@ static struct {
   const char *description;
   void (*handler) (char *);
 } cmd_table [] = {
-  { "help", "Display information about all supported commands", cmd_help },
-  { "c", "Continue the execution of the program", cmd_c },
-  { "q", "Exit NEMU", cmd_q },
+  { "help", "Display information about all supported commands", cmd_help },   // @
+  { "c", "Continue the execution of the program", cmd_c },   // @
+  { "q", "Exit NEMU", cmd_q },   // @
 
   // more commands
-  { "si", "Single step debug", cmd_si},
-  { "info", "Print out some info", cmd_info},
-  { "x", "Scan memory", cmd_x},
-  { "p", "Expression evaluation", cmd_p},
+  { "si", "Single step debug", cmd_si},   // @
+  { "info", "Print out some info", cmd_info}, 
+  { "x", "Scan memory", cmd_x},   // @
+  { "p", "Expression evaluation", cmd_p}, // @
   { "d", "Delete watchpoint", cmd_d},
   { "w", "Create new watchpoint", cmd_w},
-  { "hb", "Hex to Binary", cmd_hb},
+  { "hb", "Hex to Binary", cmd_hb},   // @
 };
 
 // --------------------------------------------------------------------------
@@ -206,7 +207,7 @@ static void cmd_p(char* args){
   }
 }
 
-// x  check memory  (x N addr)
+// x  check memory  (x N addr)  @
 static void cmd_x(char* args){
   Log("x command started.");
   char* arg1 = strtok(args, " ");
@@ -274,6 +275,7 @@ static void cmd_si(char* args){
     printf("%s", ANSI_FMT("The step you choose to execute must be equal or larger than 1\n", ANSI_FG_RED));
     return;
   }
+  Status = NPC_NORM;  // 由于watchpoint可能将status设置成 stop, 如果重新启动, 就将状态重新设置成 norm
   Log("Get N, N = %d", N);
   for (int i = 0; i < N; i++)
   {

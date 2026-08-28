@@ -27,22 +27,6 @@ void final_check(){
 }
 
 
-
-void cpu_state_print(){
-  printf("pc: 0x%08x\n", cpu.pc);
-  for (int i = 0; i < 32; i++)
-  {
-    printf("reg: %d: %d\n", i, cpu.gpr[i]);
-  } 
-}
-
-
-uint32_t get_gpr(int reg_id) {
-    return top->dbg_reg[reg_id]; 
-}
-
-
-
 // allow misalign access
 uint32_t ram_read(uint32_t addr, int amount) {
     if((top->instr & 0x7f) == 3 || sdb_read_ram == 1){
@@ -101,24 +85,35 @@ error:
     assert(0);
 }
 
+void rep_cpu(){
+    cpu.pc = top->_pc;
+    for (int i = 0; i < 32; i++) {
+        cpu.gpr[i] = top->dbg_reg[i];
+    }
+    cpu.mcause = top->_mcause;
+    cpu.mepc = top->_mepc;
+    cpu.mstatus = top->_mstatus;
+    cpu.mtvec = top->_mtvec;
+    cpu.mcycle = (((uint64_t)(top->_mcycleh)) << 32) + (uint64_t)(top->_mcycle);
+}
+
+
 void prt_gprs() {
-    printf("PC: [0x%08x] | ", top->_pc); 
+    printf("PC: [0x%08x]\n", cpu.pc); 
     
     int count = 0;
     for (int i = 0; i < 32; i++) {
-        uint32_t val = get_gpr(i);
-        if (val != 0) {
-            printf("x%-2d: 0x%08x  ", i, val);
-            count++;
-            if (count % 4 == 0) printf("\n                | "); 
-        }
+        uint32_t val = cpu.gpr[i];
+        printf("x%-2d: 0x%08x  ", i, val);
+        count++;
+        if (count % 2 == 0) printf("\n"); 
     }
     printf("\n");
-    printf("mtvec:   0x%08x\n", top->_mtvec);
-    printf("mepc:    0x%08x\n", top->_mepc);
-    printf("mcause:  0x%08x\n", top->_mcause);
-    printf("mstatus: 0x%08x\n", top->_mstatus);
-    printf("mcycle: %" PRIu64 "\n", (((uint64_t)(top->_mcycleh)) << 32) + (uint64_t)(top->_mcycle));
+    printf("mtvec:   0x%08x\n", cpu.mtvec);
+    printf("mepc:    0x%08x\n", cpu.mepc);
+    printf("mcause:  0x%08x\n", cpu.mcause);
+    printf("mstatus: 0x%08x\n", cpu.mstatus);
+    printf("mcycle: %" PRIu64 "\n", cpu.mcycle);
 }
 
 
@@ -138,7 +133,7 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
   }
   if(strcmp(s+1, "0") == 0){
     *success = true;
-    return get_gpr(0);
+    return cpu.gpr[0];
   }
   if (strcmp(s+1, "pc") == 0) {
     *success = true;
@@ -148,8 +143,8 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
   {
     if(strcmp(s+1, regs[i]) == 0){
       *success = true;
-      printf("%s, register content: %d\n", s, get_gpr(i));
-      return get_gpr(i);
+      printf("%s, register content: %d\n", s, cpu.gpr[i]);
+      return cpu.gpr[i];
     }
   }
   printf("NO REGISTER MATCH.\n");

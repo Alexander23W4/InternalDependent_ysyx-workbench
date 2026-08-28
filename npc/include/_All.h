@@ -92,6 +92,8 @@ WP* new_wp();
 void free_wp(WP *wp);
 WP* get_head();
 
+char* hex_to_bin(const char *hex);
+
 void tick();
 uint32_t ram_read(uint32_t addr, int amount);
 void ram_write(uint32_t addr, uint32_t data, int amount);
@@ -99,9 +101,12 @@ void prt_gprs();
 uint32_t get_gpr(int reg_id);
 void cpu_state_print();
 void final_check();
+uint32_t isa_reg_str2val(const char *s, bool *success);
 
 
 void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port);
 void difftest_step();
 bool difftest_checkregs(CPU_state* ref_r);
 void difftest_state_print(CPU_state* ref);
+
+

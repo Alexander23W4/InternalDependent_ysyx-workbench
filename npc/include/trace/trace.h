@@ -34,7 +34,7 @@ extern int32_t content;
 extern int mtrace_flag;
 
 
-void trace(Vtop* top);
+void trace();
 
 void i_ring_buf_logout(I_ring_buf* i_ring_buf);
 

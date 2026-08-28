@@ -76,7 +76,7 @@ void load_memory(char* filename, uint32_t* M, size_t *img_size) {
     if (img_size != NULL) {
         *img_size = size;
     }
-    assert(img_size <= RAM_SIZE);
+    assert(*img_size <= RAM_SIZE);
 
     size_t loaded_instr = fread(M, sizeof(uint32_t), RAM_SIZE, fp);
     fclose(fp);

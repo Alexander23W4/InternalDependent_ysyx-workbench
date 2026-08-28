@@ -37,7 +37,7 @@ int32_t content;
 int mtrace_flag = 0;
 
 
-void trace(Vtop* top){
+void trace(){
     // 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
 
     // 定位:

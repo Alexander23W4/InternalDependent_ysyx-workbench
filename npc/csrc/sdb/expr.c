@@ -303,7 +303,7 @@ _expr_t eval(int p, int q) {   // if error, return -1
     // cal
     if(tokens[op].type == DEREF) {
       _expr_t addr = eval(op + 1, q);
-      return paddr_read(addr, 4);
+      return ram_read(addr, 4);
     }
     _expr_t val1 = eval(p, op - 1);
     _expr_t val2 = eval(op + 1, q);

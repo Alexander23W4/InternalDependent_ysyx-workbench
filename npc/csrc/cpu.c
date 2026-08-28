@@ -19,10 +19,10 @@ void exec_once(){
 
     pc = top->_pc;   // 存下这个周期的pc;
     // operation a period  
-    tick(top);
+    tick();
 
 #if TRACE_ENABLE
-    trace(top);
+    trace();
 #endif
 
 #if DIFF_TEST_ENABLE

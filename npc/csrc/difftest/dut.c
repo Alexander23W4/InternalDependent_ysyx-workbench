@@ -57,8 +57,6 @@ void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port) {
   ref_difftest_init = (void (*)(int))dlsym(handle, "difftest_init");
   assert(ref_difftest_init);
 
-  printf("The result of every instruction will be compared with %s.\n", diff_so_file);
-
   // Initialize the DIffTest function of the REF, the specific behavior varies from REF to REF.
   ref_difftest_init(port);
   // Copy the guest memory of the DUT into the REF.

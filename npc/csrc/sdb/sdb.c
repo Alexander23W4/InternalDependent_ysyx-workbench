@@ -29,7 +29,7 @@ static void cmd_c(char *args) {     // c   execute the guest code
 }
 
 static void cmd_q(char *args) {     // q   quit the nemu sdb
-    Status = NPC_END;
+    Status = NPC_QUIT;
 }
 
 static void cmd_help(char *args);   // help   
@@ -116,7 +116,7 @@ void main_loop(){
         for (i = 0; i < NR_CMD; i ++) {
         if (strcmp(cmd, cmd_table[i].name) == 0) {
             cmd_table[i].handler(args);
-            if((Status == NPC_END || Status == NPC_CRASH)) {return;}
+            if(Status == NPC_END || Status == NPC_CRASH || Status == NPC_QUIT) {return;}
             break;
         }
         }

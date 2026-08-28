@@ -34,6 +34,7 @@ typedef enum {
     NPC_NORM = 0,
     NPC_CRASH,
     NPC_END,
+    NPC_QUIT,
 } NPC_status;
 
 typedef struct{

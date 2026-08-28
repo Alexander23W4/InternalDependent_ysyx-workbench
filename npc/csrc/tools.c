@@ -13,10 +13,11 @@ void final_check(){
     #if TRACE_ENABLE
         i_ring_buf_logout(&ring);
     #endif
-    
-    if(top->dbg_reg[10] != 0 || Status == NPC_CRASH){   
+    if(Status == NPC_QUIT){
+        printf("%s", ANSI_FMT("[QUIT]\n", ANSI_FG_YELLOW));
+    }
+    else if(top->dbg_reg[10] != 0 || Status == NPC_CRASH){   
         printf("%s", ANSI_FMT("[HIT BAD TRAP]\n", ANSI_FG_RED));
-        printf("ERROR, PROGRAM ENDED, X0 is not equal to 0\n");
 
         prt_gprs();
     }

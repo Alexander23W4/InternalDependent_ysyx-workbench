@@ -55,7 +55,7 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
   nr_map ++;
 }
 
-// Runtime, BUS operation
+// Iterative Search
 static IOMap* fetch_mmio_map(paddr_t addr) {
   int mapid = find_mapid_by_addr(maps, nr_map, addr);  // search according device in map[]
   return (mapid == -1 ? NULL : &maps[mapid]);

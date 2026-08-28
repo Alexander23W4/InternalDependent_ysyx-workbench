@@ -20,6 +20,18 @@
 #include <SDL2/SDL.h>    // SDL
 #endif
 
+/*
+NEMU 的 内存映射定义 和 外设行为实现   (NEMU侧实现的就是 ⭐板级挂载外设, AM侧实现 API库函数(IOE))
+主要就是:  CPU定死MMIO接口内存映射(硬件逻辑连接)   NEMU的软件虚拟外设实现
+
+init_map(): 分配IO所需地址
+init所有IO接口与设备: add_mmio_map, 硬件连接所有IO接口, 完成内存映射   每个接口传一个handler,代表虚拟外设实现
+
+交互时: mmio_read/write() -> map_read/write()
+
+*/
+
+
 void init_map();
 void init_serial();
 void init_timer();
@@ -76,7 +88,7 @@ void sdl_clear_event_queue() {
 
 void init_device() {
   IFDEF(CONFIG_TARGET_AM, ioe_init());
-  init_map();    // init map
+  init_map();    // 在heap上分配一块地址空间, 用于存储IO数据
 
   IFDEF(CONFIG_HAS_SERIAL, init_serial());
   IFDEF(CONFIG_HAS_TIMER, init_timer());

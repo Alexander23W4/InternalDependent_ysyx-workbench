@@ -21,9 +21,9 @@
 #define IO_SPACE_MAX (32 * 1024 * 1024)
 
 static uint8_t *io_space = NULL;    // IO space
-static uint8_t *p_space = NULL;
+static uint8_t *p_space = NULL;     // 
 
-// distribute IO space
+// distribute IO space  这个是每个外设接口初始化的时候, 用new_space这个函数分配需要的内存在init_map()函数分配的 heap里面 (p_space)
 uint8_t* new_space(int size) {
   uint8_t *p = p_space;
   // page aligned;
@@ -65,8 +65,8 @@ word_t map_read(paddr_t addr, int len, IOMap *map) {   // map
   check_bound(map, addr);     // check range  (assert)
 
   paddr_t offset = addr - map->low;    // offset = read_addr - device_base_addr
-  invoke_callback(map->callback, offset, len, false);  // prepare data to "space"
-  word_t ret = host_read(map->space + offset, len);    //
+  invoke_callback(map->callback, offset, len, false);  // prepare data to "space" 
+  word_t ret = host_read(map->space + offset, len);    // 这里map->space + offset, 这个指针直接指到对应的heap的位置上
   return ret;
 }
 

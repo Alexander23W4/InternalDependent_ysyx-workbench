@@ -58,7 +58,8 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr))) return pmem_read(addr, len);
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
-  out_of_bound(addr);
+  // 如果是IOE out of bound, 在mmio里面就已经报 out of bound的错误了
+  out_of_bound(addr);  // 这是TRM的 out of bound 提示
   return 0;
 }
 void paddr_write(paddr_t addr, int len, word_t data) {     

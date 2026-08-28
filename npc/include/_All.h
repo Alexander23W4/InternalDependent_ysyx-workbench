@@ -70,6 +70,7 @@ extern bool batch_mode;
 extern size_t img_size;
 extern uint32_t* ram;
 extern int diff_flag;
+extern bool sdb_read_ram;
 
 
 

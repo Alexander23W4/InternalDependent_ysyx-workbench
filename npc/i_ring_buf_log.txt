@@ -1,14 +1,13 @@
-0x80000000    0x00000413    li	s0, 0                                                                                                                                              
-0x80000004    0x00009117    auipc	sp, 9                                                                                                                                           
-0x80000008    0xffc10113    addi	sp, sp, -4                                                                                                                                       
-0x8000000c    0x10c000ef    jal	0x80000118                [CALL] PRE: _start, DST: _trm_init                                                                                      
-0x80000118    0xff410113    addi	sp, sp, -0xc                                                                                                                                     
-0x8000011c    0x00000517    auipc	a0, 0                                                                                                                                           
-0x80000120    0x01850513    addi	a0, a0, 0x18                                                                                                                                     
-0x80000124    0x00112423    sw	ra, 8(sp)                                                                    M_write: [ADDR]0x80008ffc, [DATA]0x80000010 (-2147483632)
-            
-0x80000128    0xf01ff0ef    jal	0x80000028                [CALL] PRE: _trm_init, DST: main                                                                                        
-0x80000028    0xfe010113    addi	sp, sp, -0x20                                                                                                                                    
+
+
+
+
+
+
+
+
+
+
 
 
 

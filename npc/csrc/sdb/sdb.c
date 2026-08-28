@@ -23,7 +23,7 @@ void init_regex();
 void init_wp_pool();
 
 static void cmd_c(char *args) {     // c   execute the guest code
-    while(!(Status == NPC_END || Status == NPC_CRASH)){
+    while(!(Status == NPC_END || Status == NPC_CRASH || Status == NPC_STOP)){
         exec_once();
     }
 }
@@ -274,7 +274,7 @@ static void cmd_si(char* args){
   Log("Get N, N = %d", N);
   for (int i = 0; i < N; i++)
   {
-    if(Status == NPC_END || Status == NPC_CRASH){return;}
+    if(Status == NPC_END || Status == NPC_CRASH || Status == NPC_STOP){return;}
     exec_once();
   }
   

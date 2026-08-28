@@ -32,6 +32,7 @@
 
 typedef enum {
     NPC_NORM = 0,
+    NPC_STOP,
     NPC_CRASH,
     NPC_END,
     NPC_QUIT,
@@ -92,6 +93,7 @@ uint32_t expr(char *e, bool *success);
 WP* new_wp();
 void free_wp(WP *wp);
 WP* get_head();
+void check_wp(uint32_t pre_pc);
 
 char* hex_to_bin(const char *hex);
 

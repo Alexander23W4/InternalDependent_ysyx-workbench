@@ -3,6 +3,7 @@
 NPC_status Status = NPC_NORM;
 
 void exec_once(){
+    Status = NPC_NORM;  // 由于watchpoint可能将status设置成 stop, 如果重新启动, 就将状态重新设置成 norm
     // fetch
     uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; 
     // printf("pc: 0x%8x  ", top->_pc);
@@ -44,6 +45,10 @@ void exec_once(){
     else{
         difftest_step();
     }
+#endif
+
+#if WATCHPOINT_ENABLE
+    check_wp(pc);
 #endif
 
 

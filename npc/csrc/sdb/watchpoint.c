@@ -84,3 +84,19 @@ WP* get_head(){
   return head;
 }
 
+// if wp change, state = NEMU_STOP
+void check_wp(uint32_t pre_pc){  // check_watchpoints
+  WP* temp = get_head();
+  bool success = true;
+  uint32_t new_result = 0;
+  while(temp){
+    new_result = expr(temp->expression, &success);
+    if(new_result != temp->result){   // if change, pause, output msg, return to sdb_mainloop()
+      if(Status == NPC_NORM) nemu_state.state = NPC_STOP;  
+      printf("[WATCHPOINT] The value of expression %s is changed, at pc: 0x%x, previous: %u (0x%x), now %u (0x%x)\n", \
+        temp->expression, pre_pc, temp->result, temp->result, new_result, new_result);
+      temp->result = new_result;
+    }
+    temp = temp->next;  // check all wp before stop
+  }
+}

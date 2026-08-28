@@ -1,5 +1,6 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
-
+#include <readline/readline.h>
+#include <readline/history.h>
 /*
 sdb的底色是一个ISA状态机运行时的小工具的合集
 
@@ -113,7 +114,7 @@ void main_loop(){
 
         for (i = 0; i < NR_CMD; i ++) {
         if (strcmp(cmd, cmd_table[i].name) == 0) {
-            cmd_table[i].handler(args)
+            cmd_table[i].handler(args);
             if((Status == NPC_END || Status == NPC_CRASH)) {return;}
             break;
         }
@@ -238,7 +239,7 @@ static void cmd_x(char* args){
 }
 
 // info   print info (info r for register; info w for watchpoints)
-static int cmd_info(char* args){
+static void cmd_info(char* args){
   Log("info command started.");
   char* arg = strtok(args, " ");
   if(strcmp(arg, "r") == 0){

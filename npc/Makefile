@@ -62,7 +62,7 @@ ARGS+=-d $(DIFF_REF_SO)
 endif
 
 # other args dilivery
-ARGS+=-b
+ARGS+=
 
 # ------------------------------------------------------------------------------------------------------
 runtrace:
@@ -79,7 +79,7 @@ trace:
 
 # 3. --cc --exe --build -j 0 -Wall
 fasts:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) --LDFLAGS "-lcapstone"
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) --LDFLAGS "-lcapstone -lreadline"
 
 npc-gdb:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES)

@@ -1,5 +1,4 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
-#include "../../config.h"
 
 /*
     npc trace 的开发 process:

@@ -13,12 +13,9 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-#include <common.h>
-#include <utils.h>
-#include <device/alarm.h>
-#ifndef CONFIG_TARGET_AM
+
 #include <SDL2/SDL.h>    // SDL
-#endif
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 /*
 NEMU 的 内存映射定义 和 外设行为实现   (NEMU侧实现的就是 ⭐板级挂载外设, AM侧实现 API库函数(IOE))
@@ -34,18 +31,11 @@ Besides: 还有一个device_update()函数, 在exec_once()里面调用, 实时�
 */
 
 
-void init_map();
-void init_serial();
-void init_timer();
-void init_vga();
-void init_i8042();
-void init_audio();
-void init_disk();
-void init_sdcard();
-void init_alarm();
-
-void send_key(uint8_t, bool);
-void vga_update_screen();
+uint64_t get_time() {
+  if (boot_time == 0) boot_time = get_time_internal();
+  uint64_t now = get_time_internal();
+  return now - boot_time;
+}
 
 // *** device update (be called by execute() in every circle)
 // ⭐ 注意: 这个函数模拟的是 OS 的设备驱动轮询/事件循环, 不是硬件行为, 按理来说应该写在AM里面
@@ -56,17 +46,15 @@ void device_update() {
     return;
   }
   last = now;
-
-  IFDEF(CONFIG_HAS_VGA, vga_update_screen());    
-
-#ifndef CONFIG_TARGET_AM
+  
+  vga_update_screen();
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
       case SDL_QUIT:
-        nemu_state.state = NEMU_QUIT;
+        nemu_state.state = NPC_QUIT;
         break;
-#ifdef CONFIG_HAS_KEYBOARD    // 轮询读取键盘输入->send_key()->enqueue()
+
       // If a key was pressed
       case SDL_KEYDOWN:
       case SDL_KEYUP: {
@@ -75,31 +63,23 @@ void device_update() {
         send_key(k, is_keydown);
         break;
       }
-#endif
       default: break;
     }
   }
-#endif
 }
 
 void sdl_clear_event_queue() {
-#ifndef CONFIG_TARGET_AM
   SDL_Event event;
   while (SDL_PollEvent(&event));
-#endif
 }
 
 void init_device() {
-  IFDEF(CONFIG_TARGET_AM, ioe_init());
   init_map();    // 在heap上分配一块地址空间, 用于存储IO数据
 
-  IFDEF(CONFIG_HAS_SERIAL, init_serial());
-  IFDEF(CONFIG_HAS_TIMER, init_timer());
-  IFDEF(CONFIG_HAS_VGA, init_vga());
-  IFDEF(CONFIG_HAS_KEYBOARD, init_i8042());
-  IFDEF(CONFIG_HAS_AUDIO, init_audio());
-  IFDEF(CONFIG_HAS_DISK, init_disk());
-  IFDEF(CONFIG_HAS_SDCARD, init_sdcard());
+  init_serial();
+  init_timer();
+  init_vga();
+  init_i8042();
 
-  IFNDEF(CONFIG_TARGET_AM, init_alarm());
+
 }

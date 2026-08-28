@@ -19,6 +19,10 @@ void _init(int argc, char** argv){
     init_disasm();
     ftrace_init(argv[1]);
     #endif
+
+    #if DEVICE_ENABLE
+    init_device();
+    #endif
 }
 
 

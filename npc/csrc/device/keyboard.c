@@ -14,8 +14,7 @@
 ***************************************************************************************/
 
 #include <device/map.h>
-#include <utils.h>
-
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 #define KEYDOWN_MASK 0x8000
 
 #ifndef CONFIG_TARGET_AM

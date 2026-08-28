@@ -18,8 +18,7 @@
 -> 3. check (STORE & LOAD, e.g. sw sb) instr addr-operand, when not operate physical ram, call mmio_read/write()
 
 */
-#include <device/map.h>
-#include <memory/paddr.h>
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 #define NR_MAP 16
 

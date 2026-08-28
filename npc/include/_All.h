@@ -19,6 +19,9 @@
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/log.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/time.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/device.h"
+
 
 /*
 头文件包含tip: 一个大头文件, 包含所有小头文件, 然后所有小头文件只做声明
@@ -29,6 +32,7 @@
 #define MEMORY_LOAD_EFFECTIVENESS 20000
 #define RAM_BASE 0x80000000
 #define NR_WP 32
+#define TIMER_HZ 60
 
 typedef enum {
     NPC_NORM = 0,

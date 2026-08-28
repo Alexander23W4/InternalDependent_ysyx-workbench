@@ -22,7 +22,7 @@ The CPU can access these two registers to obtain the current time represented in
 
 #include <device/map.h>
 #include <device/alarm.h>
-#include <utils.h>
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 static uint32_t *rtc_port_base = NULL;
 

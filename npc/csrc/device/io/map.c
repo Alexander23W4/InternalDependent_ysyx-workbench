@@ -13,10 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-#include <isa.h>
-#include <memory/host.h>
-#include <memory/vaddr.h>
-#include <device/map.h>
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 #define IO_SPACE_MAX (32 * 1024 * 1024)
 

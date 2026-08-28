@@ -25,7 +25,7 @@ A palette is an array of color information, with each element occupying 4 bytes,
   Therefore, by using different palettes, it is possible to use different sets of 256 colors at different times.
 */
 
-#include <common.h>
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 #include <device/map.h>
 
 // 800*600 / 400*300(&)

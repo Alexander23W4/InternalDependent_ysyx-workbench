@@ -57,6 +57,8 @@ static void *lut[128] = {
 
 static void fail(void *buf) { panic("access nonexist register"); }
 
+
+// ⭐: 这三个是对上层 驱动 的统一API, 他把所有的AM IOE库函数 都统一到了这个 ioe_read() 和 ioe_write() 这两个API
 // all AM-device related API (IOE) is listed in lut as "AM_..._..." in amdev.h
 // init
 bool ioe_init() {   
@@ -71,5 +73,7 @@ bool ioe_init() {
 // These two are the highest level API in AM (AM->IOE)
 // universal IO API, lut[reg] (enum macros are defined in amdev.h)
 // the callback func is defined in specific device interface
+
+// io_read(AM_INPUT_KEYBRD, &kbd) 实际上就是调用 __am_input_keybrd(&kbd)
 void ioe_read (int reg, void *buf) { ((handler_t)lut[reg])(buf); }   
 void ioe_write(int reg, void *buf) { ((handler_t)lut[reg])(buf); }

@@ -1,2 +1,5 @@
 1. grep -r disassemble ./ --exclude-dir=tools
 2. find ./ -name "[regex]"
+
+
+grep -r __NATIVE_USE_KLIB__  ./ --exclude-dir=tools

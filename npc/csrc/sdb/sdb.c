@@ -58,7 +58,7 @@ static char* rl_gets() {
     line_read = NULL;
   }
 
-  line_read = readline("[NPC] ");
+  line_read = readline("(NPC) ");
 
   if (line_read && *line_read) {
     add_history(line_read);
@@ -93,6 +93,7 @@ void main_loop(){
         while(!(Status == NPC_END || Status == NPC_CRASH)){
             exec_once();
         }
+        return;
     }
     // 不停的检查cmd输入, 直到检测到State为 NPC_END 或者 NPC_CRASH, 退出
     for (char *str; (str = rl_gets()) != NULL; ) {

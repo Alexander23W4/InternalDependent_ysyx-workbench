@@ -24,14 +24,29 @@
 头文件包含tip: 一个大头文件, 包含所有小头文件, 然后所有小头文件只做声明
     所有的.c文件, 全部只包含大头文件
 */
-#define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
-#define Log(format, ...) \
-    _Log(ANSI_FMT("[%s:%d %s] " format, ANSI_FG_BLUE) "\n", \
-        __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 
 #define RAM_SIZE 50000000    // unit: Word (4Byte)
 #define MEMORY_LOAD_EFFECTIVENESS 20000
 #define RAM_BASE 0x80000000
+#define NR_WP 32
+
+typedef struct{
+    uint32_t gpr[32];
+    uint32_t pc;
+    uint32_t mepc;
+    uint32_t mstatus;
+    uint32_t mcause;
+    uint32_t mtvec;
+    uint64_t mcycle;
+} CPU_state;
+
+typedef struct watchpoint {
+  int NO;
+  struct watchpoint *next;
+  char expression[64];
+  uint32_t result;
+
+} WP;
 
 #define MMIO_SERIAL 0xa00003f8
 
@@ -48,15 +63,6 @@ extern uint32_t* ram;
 extern int diff_flag;
 
 
-typedef struct{
-    uint32_t gpr[32];
-    uint32_t pc;
-    uint32_t mepc;
-    uint32_t mstatus;
-    uint32_t mcause;
-    uint32_t mtvec;
-    uint64_t mcycle;
-} CPU_state;
 
 extern CPU_state cpu;
 
@@ -71,6 +77,13 @@ void main_loop(Vtop* top);
 void init_sdb();
 
 void exec_once(Vtop* top);
+
+void init_regex();
+word_t expr(char *e, bool *success);
+
+WP* new_wp();
+void free_wp(WP *wp);
+WP* get_head();
 
 void tick(Vtop* top);
 uint32_t ram_read(uint32_t addr, int amount);

@@ -34,7 +34,7 @@ void init_wp_pool() {
   free_ = wp_pool;   // at the beginning, all of the watchpoint is free
 }
 
-/* TODO: Implement the functionality of watchpoint */
+
 
 WP* new_wp(){
   if(free_ == NULL){

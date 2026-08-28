@@ -128,12 +128,12 @@ void main_loop(Vtop* top){
 static void cmd_hb(char* args){
   Log("hb command started.");
   if(args == NULL){
-    printf("No hex number given.\n");
+    printf("%s", ANSI_FMT("No hex number given.\n", ANSI_FG_RED));
     return;
   }
   char* hex = args;
   if(hex[0] != '0' && (hex[1] != 'x' || hex[1] != 'X')){
-    printf("NOT A HEXIMAL NUM\n");
+    printf("%s", ANSI_FMT("NOT A HEXIMAL NUM\n", ANSI_FG_RED));
     return;
   }
   printf("Result bin: %s\n", hex_to_bin(hex));
@@ -143,16 +143,16 @@ static void cmd_hb(char* args){
 static void cmd_w(char* args){   // complete
   Log("w command started.");
   if(args == NULL){
-    printf("No expression given.\n");
-    return 0;    
+    printf("%s", ANSI_FMT("No expression given.\n", ANSI_FG_RED));
+    return;    
   }
   char* expression = args;
   bool success = true;
   uint32_t result = expr(expression, &success);
   
   if(!success){
-    printf("Error expression.\n");
-    return 0;
+    printf("%s", ANSI_FMT("Error expression.\n", ANSI_FG_RED));
+    return;
   }
   else{
     printf("Add watchpoint successfully, RESULT: %u (0x%x)\n", result, result);
@@ -162,7 +162,6 @@ static void cmd_w(char* args){   // complete
   strncpy(wp->expression, args, sizeof(wp->expression) - 1);
   wp->expression[sizeof(wp->expression) - 1] = '\0';
   wp->result = result;  // restore original result
-  return 0;
 }
 
 // d   delete watchpoint

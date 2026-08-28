@@ -14,32 +14,27 @@
 ***************************************************************************************/
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
+#include <regex.h>
 
 #define MAX_TOKEN_LENGTH 512
-#define READ_FILE "./input"
+#define READ_FILE "./input"  // %%%
 #define _expr_t int64_t
 
-enum {      // !!! add regex token type here 
+enum {      
   TK_NOTYPE = 256,    // start from 256, avoid overlap with ASCII code
-  TK_EQ,      // automatic encode, 257
+  TK_EQ,              // automatic encode, 257
   TK_HEX,
   TK_NUM,
   TK_REG,
   TK_UEQ,
   TK_AND,
   DEREF,
-  /* TODO: Add more token types */
-
 };
 
-static struct rule {      // !!! add regex recognizition rules here, regex(str) + token type
+static struct rule {     
   const char *regex;
   int token_type;
 } rules[] = {
-
-  /* TODO: Add more rules.
-   * Pay attention to the precedence level of different rules.
-   */
 
   {" +", TK_NOTYPE},    // spaces
 
@@ -48,8 +43,8 @@ static struct rule {      // !!! add regex recognizition rules here, regex(str) 
   {"&&", TK_AND},
 
   {"0[xX][0-9a-fA-F]+", TK_HEX},    // hex number
-  {"[0-9]+", TK_NUM},   // decimal number
-  {"\\$[a-zA-Z0-9]+", TK_REG},  // register
+  {"[0-9]+", TK_NUM},               // decimal number
+  {"\\$[a-zA-Z0-9]+", TK_REG},      // register
 
   {"\\+", '+'},         // plus
   {"\\-", '-'},         // minus
@@ -333,7 +328,7 @@ _expr_t eval(int p, int q) {   // if error, return -1
 }
 
 
-word_t expr(char *e, bool *success) {   
+uint32_t expr(char *e, bool *success) {   
   if (!make_token(e)) {   // expression includes unmatched regex token
     *success = false;
     return 0;
@@ -356,7 +351,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   *success = true;
-  return (word_t)((uint32_t)val);
+  return ((uint32_t)val);
 }
 
 

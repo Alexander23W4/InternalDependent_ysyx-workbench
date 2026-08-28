@@ -23,7 +23,7 @@
 
 ** 在 DUT 的 exec 函数中, 运行difftest_step, 比较所有 reg_env  
 
-
+DiffTest对 IOE 和 CTE 都有兼容, 可以正常运行
 */
 #include <dlfcn.h>
 
@@ -47,7 +47,11 @@ static int skip_dut_nr_inst = 0;
 // ** some INSTRUCTION CAN NOT run in REF
 // this is used to let ref skip instructions which
 // can not produce consistent behavior with NEMU
-void difftest_skip_ref() {
+
+// ⭐ 这是跳过比如说IO指令, 因为NEMU中IO Devices的行为是我们自己定义的, 可能和REF中的Devices的行为不同, 
+//    导致Status有差异 (所以直接把Status重新复制给REF, IO指令这个周期就直接统一Status了, 怎么比都一样, 后面再重新开始正常比)
+// REF在这当中什么都不用管
+void difftest_skip_ref() {  
   is_skip_ref = true;
   // If such an instruction is one of the instruction packing in QEMU
   // (see below), we end the process of catching up with QEMU's pc to
@@ -137,6 +141,7 @@ static void difftest_abort_print(CPU_state* ref){
 }
 
 static void checkregs(CPU_state *ref, vaddr_t pc) {
+  // difftest_abort_print(ref);
   if (!isa_difftest_checkregs(ref, pc)) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);

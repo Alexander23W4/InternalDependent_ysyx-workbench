@@ -51,7 +51,7 @@ The  malloc() function allocates size bytes and returns a pointer to the allocat
        either NULL, or a unique pointer value that can later be successfully passed to free().
 
 */
-#if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
+#if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))    // 保证无论如何native都不是用klib的 malloc 和 free
 static Area heap_avail = {};    // available heap range: [start, end)
 void *malloc(size_t size) {
   // On native, malloc() will be called during initializaion of C runtime.

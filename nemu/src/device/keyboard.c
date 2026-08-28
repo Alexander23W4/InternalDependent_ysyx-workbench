@@ -46,18 +46,18 @@ enum {
   MAP(NEMU_KEYS, NEMU_KEY_NAME)    // NEMU_KEYS(NEMU_KEY_NAME) -> generate e.g. NEMU_KEY_NAME(ESCAPE) -> NEMU_KEY_ESCAPE ....
 };
 
-// map SDL_SCANCODE(official interface) to all same name NEMU_KEYS_..
-#define SDL_KEYMAP(k) keymap[SDL_SCANCODE_ ## k] = NEMU_KEY_ ## k;
+// map SDL_SCANCODE(official interface) to all same name NEMU_KEYS_..  SDL_SCANCODE_ESCAPE 是 SDL 库定义的标准扫描码（定义在 <SDL2/SDL_scancode.h> 中
+#define SDL_KEYMAP(k) keymap[SDL_SCANCODE_ ## k] = NEMU_KEY_ ## k;  
 static uint32_t keymap[256] = {};   
 
 static void init_keymap() {
-  MAP(NEMU_KEYS, SDL_KEYMAP)      // keymap[SDL_SCANCODE_ESCAPE] = NEMU_KEY_ESCAPE ...
+  MAP(NEMU_KEYS, SDL_KEYMAP)      // keymap[SDL_SCANCODE_ESCAPE] = NEMU_KEY_ESCAPE ... index是标准码, value是自定义码
 }
 
 
 
 #define KEY_QUEUE_LEN 1024
-static int key_queue[KEY_QUEUE_LEN] = {};
+static int key_queue[KEY_QUEUE_LEN] = {};    // 键盘的输入输出用 queue
 static int key_f = 0, key_r = 0;
 
 static void key_enqueue(uint32_t am_scancode) {  
@@ -105,7 +105,7 @@ static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
 
 // init  0xa0000060  4 bytes
 void init_i8042() {
-  i8042_data_port_base = (uint32_t *)new_space(4);
+  i8042_data_port_base = (uint32_t *)new_space(4);  // 1 Word, 4Byte
   i8042_data_port_base[0] = NEMU_KEY_NONE;
 #ifdef CONFIG_HAS_PORT_IO
   add_pio_map ("keyboard", CONFIG_I8042_DATA_PORT, i8042_data_port_base, 4, i8042_data_io_handler);

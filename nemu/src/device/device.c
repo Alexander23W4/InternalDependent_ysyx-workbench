@@ -29,6 +29,8 @@ init所有IO接口与设备: add_mmio_map, 硬件连接所有IO接口, 完成内
 
 交互时: mmio_read/write() -> map_read/write()
 
+Besides: 还有一个device_update()函数, 在exec_once()里面调用, 实时更新device的信息, 但是这不是硬件行为
+
 */
 
 
@@ -46,6 +48,7 @@ void send_key(uint8_t, bool);
 void vga_update_screen();
 
 // *** device update (be called by execute() in every circle)
+// ⭐ 注意: 这个函数模拟的是 OS 的设备驱动轮询/事件循环, 不是硬件行为, 按理来说应该写在AM里面
 void device_update() {
   static uint64_t last = 0;
   uint64_t now = get_time();
@@ -54,7 +57,7 @@ void device_update() {
   }
   last = now;
 
-  IFDEF(CONFIG_HAS_VGA, vga_update_screen());
+  IFDEF(CONFIG_HAS_VGA, vga_update_screen());    
 
 #ifndef CONFIG_TARGET_AM
   SDL_Event event;

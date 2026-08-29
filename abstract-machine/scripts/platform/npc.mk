@@ -26,7 +26,7 @@ update-npc:
 	@echo "===================================== Update NPC ====================================="
 	$(MAKE) -C $(NPC_HOME) clean_npc 
 	$(MAKE) -C $(NPC_HOME) fasts -B
-	cp $(IMAGE).elf $(IMAGE).txt $(NPC_HOME)/build_rsrc/
+	cp $(IMAGE).txt $(NPC_HOME)/build_rsrc/
 ifeq ($(DIFF_TEST_ENABLE),1)
 	$(MAKE) -C $(NEMU_HOME)
 endif
@@ -53,6 +53,6 @@ gdb: insert-arg update-npc
 	$(MAKE) -C $(NPC_HOME) npc-gdb
 	@echo "================================= GDB ====================================="
 	gdb --args $(NPC_EXE) $(ARGS)
-	
+
 
 .PHONY: insert-arg

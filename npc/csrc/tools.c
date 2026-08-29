@@ -56,6 +56,7 @@ uint32_t ram_read(uint32_t addr, int amount) {
     }
 }
 
+
 // doesn't misalign access
 void ram_write(uint32_t addr, uint32_t data, int amount) {
     uint32_t paddr = addr - RAM_BASE;

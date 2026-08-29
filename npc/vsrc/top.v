@@ -292,17 +292,41 @@ module top(
                    {{32{csrrw | csrrs | csrrc}} & csrw_rst};
 
     // read ram
-    wire [31:0] lw_rst;
-    wire [31:0] lbu_rst;
-    wire [31:0] lhu_rst;
-    wire [31:0] lb_rst;
-    wire [31:0] lh_rst;
+    logic [31:0] lw_rst;
+    logic [31:0] lbu_rst;
+    logic [31:0] lhu_rst;
+    logic [31:0] lb_rst;
+    logic [31:0] lh_rst;
+    logic [31:0] ram_read_data;
 
-    assign lw_rst = ram_read(add_rst, 4);
-    assign lbu_rst = ram_read(add_rst, 1);
-    assign lhu_rst = ram_read(add_rst, 2);
-    assign lb_rst = {{25{lbu_rst[7]}}, lbu_rst[6:0]};
-    assign lh_rst = {{17{lhu_rst[15]}}, lhu_rst[14:0]};
+    // assign lw_rst = ram_read(add_rst, 4);
+    // assign lbu_rst = ram_read(add_rst, 1);
+    // assign lhu_rst = ram_read(add_rst, 2);
+    // assign lb_rst = {{25{lbu_rst[7]}}, lbu_rst[6:0]};
+    // assign lh_rst = {{17{lhu_rst[15]}}, lhu_rst[14:0]};
+
+    always @(*) begin
+        ram_read_data = 0;
+        lw_rst = 0;
+        lbu_rst = 0;
+        lhu_rst = 0;
+        lb_rst = 0;
+        lh_rst = 0;
+
+        if (lw | lb | lbu | lh | lhu) begin
+            case (1'b1)
+                lw:  ram_read_data = ram_read(add_rst, 4);
+                lb, lbu: ram_read_data = ram_read(add_rst, 1);
+                lh, lhu: ram_read_data = ram_read(add_rst, 2);
+            endcase
+
+            lw_rst  = lw  ? ram_read_data : 0;
+            lbu_rst = lbu ? {24'b0, ram_read_data[7:0]} : 0;
+            lhu_rst = lhu ? {16'b0, ram_read_data[15:0]} : 0;
+            lb_rst  = lb  ? {{25{ram_read_data[7]}}, ram_read_data[6:0]} : 0;
+            lh_rst  = lh  ? {{17{ram_read_data[15]}}, ram_read_data[14:0]} : 0;
+        end
+    end
 
     // 这个时序always块用来更新pc
     always @(posedge clk or posedge rst) begin

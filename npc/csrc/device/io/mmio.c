@@ -54,7 +54,9 @@ inline int find_mapid_by_addr(IOMap *maps, int size, uint32_t addr) {  // check 
   int i;
   for (i = 0; i < size; i ++) {
     if (map_inside(maps + i, addr)) {    // check loop
+      #if DIFF_TEST_ENABLE
       difftest_skip_ref();   // skip check with REF(reference machine) when difftest, device behaviour perform different between REF & emulator
+      #endif
       return i;
     }
   }

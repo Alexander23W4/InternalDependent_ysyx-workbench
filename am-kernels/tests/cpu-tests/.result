@@ -1,5 +1,0 @@
-[  add-longlong] [1;31m***FAIL***[0m
-[         crc32] [1;31m***FAIL***[0m
-[           sum] [1;32mPASS[0m
-[         prime] [1;32mPASS[0m
-[     leap-year] [1;32mPASS[0m

@@ -45,7 +45,7 @@ static void invoke_callback(io_callback_t c, uint32_t offset, int len, bool is_w
 }
 
 void init_map() {
-  io_space = malloc(IO_SPACE_MAX);
+  io_space = (uint8_t*)malloc(IO_SPACE_MAX);
   assert(io_space);
   p_space = io_space;
 }
@@ -63,7 +63,7 @@ uint32_t map_read(uint32_t addr, int len, IOMap *map) {   // map
 
   uint32_t offset = addr - map->low;    // offset = read_addr - device_base_addr
   invoke_callback(map->callback, offset, len, false);  // prepare data to "space" 
-  uint32_t ret = host_read(map->space + offset, len);    // 这里map->space + offset, 这个指针直接指到对应的heap的位置上
+  uint32_t ret = host_read((void*)((uint8_t*)(map->space) + offset), len);    // 这里map->space + offset, 这个指针直接指到对应的heap的位置上
   return ret;
 }
 
@@ -72,6 +72,6 @@ void map_write(uint32_t addr, int len, uint32_t data, IOMap *map) {
   check_bound(map, addr);
 
   uint32_t offset = addr - map->low;
-  host_write(map->space + offset, len, data);
+  host_write((void*)((uint8_t*)(map->space) + offset), len, data);
   invoke_callback(map->callback, offset, len, true);
 }

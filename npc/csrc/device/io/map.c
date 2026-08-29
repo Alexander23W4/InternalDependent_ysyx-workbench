@@ -32,11 +32,12 @@ uint8_t* new_space(int size) {
 
 static void check_bound(IOMap *map, uint32_t addr) {
   if (map == NULL) {
+    #if TRACE_ENABLE
+    i_ring_buf_logout(&ring);
+    #endif
     Assert(map != NULL, "address (0x%x) is out of bound at pc = 0x%x", addr, cpu.pc);
   } else {
-    Assert(addr <= map->high && addr >= map->low,
-           "address (0x%x) is out of bound {%s} [0x%x, 0x%x] at pc = 0x%x",
-           addr, map->name, map->low, map->high, cpu.pc);
+    Assert(addr <= map->high && addr >= map->low, "address (0x%x) is out of bound {%s} [0x%x, 0x%x] at pc = 0x%x", addr, map->name, map->low, map->high, cpu.pc);
   }
 }
 

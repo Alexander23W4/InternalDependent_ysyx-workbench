@@ -1,377 +1,416 @@
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x800000a0    0x00c12783    lw	a5, 0xc(sp)                                                                  M_read: [ADDR]0x80008fe4, [DATA]0x00000028 (40)
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008dec, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008dec, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008df0, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008df0, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008df4, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008df4, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008df8, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008df8, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008dfc, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008dfc, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e00, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e00, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e04, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e04, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e08, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e08, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e0c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e0c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e10, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e10, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e14, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e14, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e18, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e18, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e1c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e1c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e20, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e20, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e24, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e24, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e28, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e28, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e2c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e2c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e30, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e30, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e34, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e34, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e38, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e38, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e3c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e3c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e40, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e40, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e44, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e44, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e48, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e48, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e4c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e4c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e50, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e50, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e54, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e54, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e58, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e58, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e5c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e5c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e60, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e60, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e64, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e64, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e68, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e68, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e6c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e6c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e70, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e70, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e74, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e74, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e78, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e78, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e7c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e7c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e80, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e80, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e84, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e84, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e88, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e88, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e8c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e8c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e90, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e90, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e94, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e94, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e98, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e98, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008e9c, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008e9c, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008ea0, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008ea0, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008ea4, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008ea4, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008ea8, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008ea8, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008eac, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008eac, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008eb0, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008eb0, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008eb4, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008eb4, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008eb8, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008eb8, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008ebc, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008ebc, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008ec0, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008ec0, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008ec4, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008ec4, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008ec8, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008ec8, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a84    0x0007a703    lw	a4, 0(a5)                                                                    M_read: [ADDR]0x80008ecc, [DATA]0x00000000 (0)
+                       
+0x80003a88    0xfe071ae3    bnez	a4, 0x80003a7c                                                                                                                                   
+0x80003a8c    0x00c7a023    sw	a2, 0(a5)                                                                    M_write: [ADDR]0x80008ecc, [DATA]0x800039f0 (-2147468816)
+            
+0x80003a90    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80003a94    0xfed798e3    bne	a5, a3, 0x80003a84                                                                                                                                
+0x80003a98    0x04c000ef    jal	0x80003ae4                [CALL] PRE: ioe_init, DST: __am_timer_init                                                                              
+0x80003ae4    0x00008067    ret                           [RET] PRE: __am_timer_init, DST: ioe_init                                                                               
+0x80003a9c    0x00812083    lw	ra, 8(sp)                                                                    M_read: [ADDR]0x80014fdc, [DATA]0x000024b8 (9400)
+                    
+0x80003aa0    0x00100513    li	a0, 1                                                                                                                                              
+0x80003aa4    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
+0x80003aa8    0x00008067    ret                           [RET] PRE: ioe_init, DST: main                                                                                          
+0x800024b8    0x00044783    lbu	a5, 0(s0)                                                                   M_read: [ADDR]0x80008c08, [DATA]0x00000031 (49)
                       
-0x800000a4    0x00100513    li	a0, 1                                                                                                                                              
-0x800000a8    0x00878413    addi	s0, a5, 8                                                                                                                                        
-0x800000ac    0x00812623    sw	s0, 0xc(sp)                                                                  M_write: [ADDR]0x80008fe4, [DATA]0x00000030 (48)
-                     
-0x800000b0    0xf61ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x800000b4    0x00412783    lw	a5, 4(sp)                                                                    M_read: [ADDR]0x80008fdc, [DATA]0x0000026c (620)
-                     
-0x800000b8    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x800000bc    0x00f12223    sw	a5, 4(sp)                                                                    M_write: [ADDR]0x80008fdc, [DATA]0x80000270 (-2147483024)
-            
-0x800000c0    0x00812783    lw	a5, 8(sp)                                                                    M_read: [ADDR]0x80008fe0, [DATA]0x000001f8 (504)
-                     
-0x800000c4    0x02078793    addi	a5, a5, 0x20                                                                                                                                     
-0x800000c8    0x00f12423    sw	a5, 8(sp)                                                                    M_write: [ADDR]0x80008fe0, [DATA]0x80000218 (-2147483112)
-            
-0x800000cc    0x04000793    li	a5, 0x40                                                                                                                                           
-0x800000d0    0xf8f412e3    bne	s0, a5, 0x80000054                                                                                                                                
-0x80000054    0x00412783    lw	a5, 4(sp)                                                                    M_read: [ADDR]0x80008fdc, [DATA]0x00000270 (624)
-                     
-0x80000058    0x00812403    lw	s0, 8(sp)                                                                    M_read: [ADDR]0x80008fe0, [DATA]0x00000218 (536)
-                     
-0x8000005c    0x00000497    auipc	s1, 0                                                                                                                                           
-0x80000060    0x1fc48493    addi	s1, s1, 0x1fc                                                                                                                                    
-0x80000064    0x0007a783    lw	a5, 0(a5)                                                                    M_read: [ADDR]0x80000270, [DATA]0x0000fffe (65534)
-                   
-0x80000068    0x00f12023    sw	a5, 0(sp)                                                                    M_write: [ADDR]0x80008fd8, [DATA]0xfffffffe (-2)
-                     
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000258, [DATA]0x00000000 (0)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000fffe (65534)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000218, [DATA]0x00000000 (0)
-                       
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x8000025c, [DATA]0x00000001 (1)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000fffe (65534)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x8000021c, [DATA]0x00000001 (1)
-                       
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000260, [DATA]0x00000002 (2)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000fffe (65534)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000220, [DATA]0x00000002 (2)
-                       
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000264, [DATA]0x0000ffff (65535)
-                   
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000fffe (65534)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000224, [DATA]0x0000ffff (65535)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000268, [DATA]0x00000000 (0)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000fffe (65534)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x8000007c    0x00078513    mv	a0, a5                                                                                                                                             
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000228, [DATA]0x0000fffe (65534)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x8000026c, [DATA]0x00000001 (1)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000fffe (65534)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x8000007c    0x00078513    mv	a0, a5                                                                                                                                             
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x8000022c, [DATA]0x0000fffe (65534)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000270, [DATA]0x0000fffe (65534)
-                   
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000fffe (65534)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000230, [DATA]0x0000fffe (65534)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000274, [DATA]0x0000ffff (65535)
-                   
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000fffe (65534)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000234, [DATA]0x0000ffff (65535)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x800000a0    0x00c12783    lw	a5, 0xc(sp)                                                                  M_read: [ADDR]0x80008fe4, [DATA]0x00000030 (48)
-                      
-0x800000a4    0x00100513    li	a0, 1                                                                                                                                              
-0x800000a8    0x00878413    addi	s0, a5, 8                                                                                                                                        
-0x800000ac    0x00812623    sw	s0, 0xc(sp)                                                                  M_write: [ADDR]0x80008fe4, [DATA]0x00000038 (56)
-                     
-0x800000b0    0xf61ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x800000b4    0x00412783    lw	a5, 4(sp)                                                                    M_read: [ADDR]0x80008fdc, [DATA]0x00000270 (624)
-                     
-0x800000b8    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x800000bc    0x00f12223    sw	a5, 4(sp)                                                                    M_write: [ADDR]0x80008fdc, [DATA]0x80000274 (-2147483020)
-            
-0x800000c0    0x00812783    lw	a5, 8(sp)                                                                    M_read: [ADDR]0x80008fe0, [DATA]0x00000218 (536)
-                     
-0x800000c4    0x02078793    addi	a5, a5, 0x20                                                                                                                                     
-0x800000c8    0x00f12423    sw	a5, 8(sp)                                                                    M_write: [ADDR]0x80008fe0, [DATA]0x80000238 (-2147483080)
-            
-0x800000cc    0x04000793    li	a5, 0x40                                                                                                                                           
-0x800000d0    0xf8f412e3    bne	s0, a5, 0x80000054                                                                                                                                
-0x80000054    0x00412783    lw	a5, 4(sp)                                                                    M_read: [ADDR]0x80008fdc, [DATA]0x00000274 (628)
-                     
-0x80000058    0x00812403    lw	s0, 8(sp)                                                                    M_read: [ADDR]0x80008fe0, [DATA]0x00000238 (568)
-                     
-0x8000005c    0x00000497    auipc	s1, 0                                                                                                                                           
-0x80000060    0x1fc48493    addi	s1, s1, 0x1fc                                                                                                                                    
-0x80000064    0x0007a783    lw	a5, 0(a5)                                                                    M_read: [ADDR]0x80000274, [DATA]0x0000ffff (65535)
-                   
-0x80000068    0x00f12023    sw	a5, 0(sp)                                                                    M_write: [ADDR]0x80008fd8, [DATA]0xffffffff (-1)
-                     
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000258, [DATA]0x00000000 (0)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000238, [DATA]0x00000000 (0)
-                       
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x8000025c, [DATA]0x00000001 (1)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x8000023c, [DATA]0x00000001 (1)
-                       
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000260, [DATA]0x00000002 (2)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000240, [DATA]0x00000002 (2)
-                       
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000264, [DATA]0x0000ffff (65535)
-                   
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000244, [DATA]0x0000ffff (65535)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000268, [DATA]0x00000000 (0)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x8000007c    0x00078513    mv	a0, a5                                                                                                                                             
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000248, [DATA]0x0000ffff (65535)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x8000026c, [DATA]0x00000001 (1)
-                       
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x8000007c    0x00078513    mv	a0, a5                                                                                                                                             
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x8000024c, [DATA]0x0000ffff (65535)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000270, [DATA]0x0000fffe (65534)
-                   
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x8000007c    0x00078513    mv	a0, a5                                                                                                                                             
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000250, [DATA]0x0000ffff (65535)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x8000006c    0x0004a503    lw	a0, 0(s1)                                                                    M_read: [ADDR]0x80000274, [DATA]0x0000ffff (65535)
-                   
-0x80000070    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80008fd8, [DATA]0x0000ffff (65535)
-                   
-0x80000074    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x80000078    0x00f55463    bge	a0, a5, 0x80000080                                                                                                                                
-0x80000080    0x00042683    lw	a3, 0(s0)                                                                    M_read: [ADDR]0x80000254, [DATA]0x0000ffff (65535)
-                   
-0x80000084    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x80000088    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x8000008c    0x00153513    seqz	a0, a0                                                                                                                                           
-0x80000090    0xf81ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x80000094    0x00000797    auipc	a5, 0                                                                                                                                           
-0x80000098    0x1e478793    addi	a5, a5, 0x1e4                                                                                                                                    
-0x8000009c    0xfc9798e3    bne	a5, s1, 0x8000006c                                                                                                                                
-0x800000a0    0x00c12783    lw	a5, 0xc(sp)                                                                  M_read: [ADDR]0x80008fe4, [DATA]0x00000038 (56)
-                      
-0x800000a4    0x00100513    li	a0, 1                                                                                                                                              
-0x800000a8    0x00878413    addi	s0, a5, 8                                                                                                                                        
-0x800000ac    0x00812623    sw	s0, 0xc(sp)                                                                  M_write: [ADDR]0x80008fe4, [DATA]0x00000040 (64)
-                     
-0x800000b0    0xf61ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x800000b4    0x00412783    lw	a5, 4(sp)                                                                    M_read: [ADDR]0x80008fdc, [DATA]0x00000274 (628)
-                     
-0x800000b8    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x800000bc    0x00f12223    sw	a5, 4(sp)                                                                    M_write: [ADDR]0x80008fdc, [DATA]0x80000278 (-2147483016)
-            
-0x800000c0    0x00812783    lw	a5, 8(sp)                                                                    M_read: [ADDR]0x80008fe0, [DATA]0x00000238 (568)
-                     
-0x800000c4    0x02078793    addi	a5, a5, 0x20                                                                                                                                     
-0x800000c8    0x00f12423    sw	a5, 8(sp)                                                                    M_write: [ADDR]0x80008fe0, [DATA]0x80000258 (-2147483048)
-            
-0x800000cc    0x04000793    li	a5, 0x40                                                                                                                                           
-0x800000d0    0xf8f412e3    bne	s0, a5, 0x80000054                                                                                                                                
-0x800000d4    0x00100513    li	a0, 1                                                                                                                                              
-0x800000d8    0xf39ff0ef    jal	0x80000010                [CALL] PRE: main, DST: check                                                                                            
-0x80000010    0x00050463    beqz	a0, 0x80000018                                                                                                                                   
-0x80000014    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x800000dc    0x01812083    lw	ra, 0x18(sp)                                                                 M_read: [ADDR]0x80008ff0, [DATA]0x00000110 (272)
-                     
-0x800000e0    0x01412403    lw	s0, 0x14(sp)                                                                 M_read: [ADDR]0x80008fec, [DATA]0x00000000 (0)
-                       
-0x800000e4    0x01012483    lw	s1, 0x10(sp)                                                                 M_read: [ADDR]0x80008fe8, [DATA]0x00000000 (0)
-                       
-0x800000e8    0x00000513    li	a0, 0                                                                                                                                              
-0x800000ec    0x01c10113    addi	sp, sp, 0x1c                                                                                                                                     
-0x800000f0    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                                                                                         
-0x80000110    0x00100073    ebreak                                                                                                                                                
+0x800024bc    0x00700713    li	a4, 7                                                                                                                                              
+0x800024c0    0xfcf78793    addi	a5, a5, -0x31                                                                                                                                    
+0x800024c4    0x0ff7f793    andi	a5, a5, 0xff                                                                                                                                     
+0x800024c8    0x08f76e63    bltu	a4, a5, 0x80002564                                                                                                                               
+0x800024cc    0x00006717    auipc	a4, 6                                                                                                                                           
+0x800024d0    0x70470713    addi	a4, a4, 0x704                                                                                                                                    
+0x800024d4    0x00279793    slli	a5, a5, 2                                                                                                                                        
+0x800024d8    0x00e787b3    add	a5, a5, a4                                                                                                                                        

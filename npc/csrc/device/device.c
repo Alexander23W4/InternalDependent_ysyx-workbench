@@ -41,8 +41,8 @@ void device_update() {
   }
   last = now;
   
-  vga_update_screen();
-  
+  // vga_update_screen();
+
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {

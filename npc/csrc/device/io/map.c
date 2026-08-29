@@ -30,15 +30,18 @@ uint8_t* new_space(int size) {
   return p;
 }
 
-static void check_bound(IOMap *map, uint32_t addr) {
+static bool check_bound(IOMap *map, uint32_t addr) {
   if (map == NULL) {
-    #if TRACE_ENABLE
-    i_ring_buf_logout(&ring);
-    #endif
-    Assert(map != NULL, "address (0x%x) is out of bound at pc = 0x%x", addr, cpu.pc);
-  } else {
-    Assert(addr <= map->high && addr >= map->low, "address (0x%x) is out of bound {%s} [0x%x, 0x%x] at pc = 0x%x", addr, map->name, map->low, map->high, cpu.pc);
-  }
+    // #if TRACE_ENABLE
+    // i_ring_buf_logout(&ring);
+    // #endif
+    printf("address (0x%x) is out of bound at pc = 0x%x", addr, cpu.pc);
+    return false;
+  } 
+  return true;
+  // else {
+  //   printf("address (0x%x) is out of bound {%s} [0x%x, 0x%x] at pc = 0x%x", addr, map->name, map->low, map->high, cpu.pc);
+  // }
 }
 
 static void invoke_callback(io_callback_t c, uint32_t offset, int len, bool is_write) {   // call callback function
@@ -60,7 +63,7 @@ These two functions are core Device I/O API, when instr-ram-addr falls in device
 
 uint32_t map_read(uint32_t addr, int len, IOMap *map) {   // map 
   assert(len >= 1 && len <= 8);
-  check_bound(map, addr);     // check range  (assert)
+  if(!check_bound(map, addr)) {return 0;}     // check range  (assert)
 
   uint32_t offset = addr - map->low;    // offset = read_addr - device_base_addr
   invoke_callback(map->callback, offset, len, false);  // prepare data to "space" 

@@ -101,7 +101,7 @@ static void difftest_abort_print(CPU_state* ref) {
 }
 
 static void checkregs(CPU_state *ref) {
-  // difftest_abort_print(ref);    // show each DiffTest circle detail
+  difftest_abort_print(ref);    // show each DiffTest circle detail
   if (!difftest_checkregs(ref)) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);

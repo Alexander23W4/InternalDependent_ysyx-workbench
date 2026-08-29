@@ -35,11 +35,10 @@ VM_PREFIX = Vtop
 VM_MODPREFIX = Vtop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-	-I./include -I./include/sub \
+	-g -I./include -I./include/sub \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
-	-lcapstone -lreadline -lSDL2 \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \

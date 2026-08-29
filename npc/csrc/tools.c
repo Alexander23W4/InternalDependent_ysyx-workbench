@@ -39,7 +39,6 @@ uint32_t ram_read(uint32_t addr, int amount) {
         if (paddr >= RAM_SIZE * 4){
             return mmio_read(addr, amount); 
             // printf("invalid ram_read addr, addr: 0x%08X, paddr: 0x%08X\n", addr, paddr);
-            return 0;
         }
         for (int i = 0; i < amount; i++) {
             result |= ((uint32_t)_ram[paddr + i]) << (8 * i);

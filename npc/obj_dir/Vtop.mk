@@ -50,6 +50,7 @@ VM_USER_CLASSES = \
 	mmio \
 	keyboard \
 	serial \
+	time \
 	timer \
 	vga \
 	dut \
@@ -96,6 +97,8 @@ mmio.o: ./csrc/device/io/mmio.c
 keyboard.o: ./csrc/device/keyboard.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 serial.o: ./csrc/device/serial.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+time.o: ./csrc/device/time.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 timer.o: ./csrc/device/timer.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

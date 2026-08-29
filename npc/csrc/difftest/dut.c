@@ -143,7 +143,7 @@ void difftest_step() {
     ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
     if (ref_r.pc == top->_pc) {
       skip_dut_nr_inst = 0;
-      checkregs(&ref_r, top->_pc);   //
+      checkregs(&ref_r);   //
       return;
     }
     skip_dut_nr_inst --;
@@ -163,3 +163,5 @@ void difftest_step() {
   ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
   checkregs(&ref_r);     //
 }
+
+

@@ -31,12 +31,6 @@ Besides: 还有一个device_update()函数, 在exec_once()里面调用, 实时�
 */
 
 
-uint64_t get_time() {
-  if (boot_time == 0) boot_time = get_time_internal();
-  uint64_t now = get_time_internal();
-  return now - boot_time;
-}
-
 // *** device update (be called by execute() in every circle)
 // ⭐ 注意: 这个函数模拟的是 OS 的设备驱动轮询/事件循环, 不是硬件行为, 按理来说应该写在AM里面
 void device_update() {
@@ -52,7 +46,7 @@ void device_update() {
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
       case SDL_QUIT:
-        nemu_state.state = NPC_QUIT;
+        Status = NPC_QUIT;
         break;
 
       // If a key was pressed

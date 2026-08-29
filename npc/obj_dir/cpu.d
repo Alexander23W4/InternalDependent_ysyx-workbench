@@ -9,4 +9,6 @@ cpu.o: ../csrc/cpu.c \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/dbg.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/config.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h \
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/time.h \
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/device.h

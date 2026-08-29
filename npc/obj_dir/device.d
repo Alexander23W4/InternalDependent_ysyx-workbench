@@ -1,4 +1,4 @@
-hex_to_bin.o: ../csrc/sdb/hex_to_bin.c \
+device.o: ../csrc/device/device.c \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h \
  /usr/local/share/verilator/include/verilated.h \
  /usr/local/share/verilator/include/verilatedos.h \
@@ -9,4 +9,6 @@ hex_to_bin.o: ../csrc/sdb/hex_to_bin.c \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/dbg.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/config.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h \
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/time.h \
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/device.h

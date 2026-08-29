@@ -42,6 +42,10 @@ void exec_once(){
     check_wp(pc);
 #endif
 
+#if DEVICE_ENABLE
+    device_update();
+#endif
+
 
     // check if end
     top->halt(&endprog);

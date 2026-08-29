@@ -50,6 +50,18 @@ void add_mmio_map(const char *name, uint32_t addr, void *space, uint32_t len, io
   nr_map ++;
 }
 
+inline int find_mapid_by_addr(IOMap *maps, int size, uint32_t addr) {  // check addr in all devices-addr-range, return map-device-index
+  int i;
+  for (i = 0; i < size; i ++) {
+    if (map_inside(maps + i, addr)) {    // check loop
+      difftest_skip_ref();   // skip check with REF(reference machine) when difftest, device behaviour perform different between REF & emulator
+      return i;
+    }
+  }
+  return -1;
+}
+
+
 // Iterative Search
 static IOMap* fetch_mmio_map(uint32_t addr) {
   int mapid = find_mapid_by_addr(maps, nr_map, addr);  // search according device in map[]

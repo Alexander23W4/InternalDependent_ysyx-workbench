@@ -23,24 +23,37 @@ The CPU can access these two registers to obtain the current time represented in
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 
-static uint32_t *rtc_port_base = NULL;
+static rtc_time_t* rtc_port_base = NULL;   // 1个 rtc_time_t
+static uint32_t* upt_port_base = NULL;     // 2个 uint32_t
 
 // call get_time(), get us time, and store in rtc_port_base (2x 32 bits register, the "space")
-static void rtc_io_handler(uint32_t offset, int len, bool is_write) {  // callback function, called when input/output 
+// 为了保持一致性, 不管offset是 0 还是 4, 都更新全部 uptime reg
+static void upt_io_handler(uint32_t offset, int len, bool is_write) {  // callback function, called when input/output 
   assert(offset == 0 || offset == 4);
   if (!is_write) {    // read only, offset must be 4
     uint64_t us = get_time();
-    if(offset == 0){
-      rtc_port_base[0] = (uint32_t)us;   // lw addr
-    }
-    else{
-      rtc_port_base[1] = (uint32_t)(us >> 32);   // lw addr+4
-    }     
+      upt_port_base[0] = (uint32_t)us;   // lw addr
+      upt_port_base[1] = (uint32_t)(us >> 32);   // lw addr+4  
+  }
+}
+
+static void rtc_io_handler(uint32_t offset, int len, bool is_write) {
+  assert(offset <= 10 && offset % 2 == 0);
+  if(!is_write) {
+    rtc_time_t rtc = get_absolute_time();
+    rtc_port_base->day = rtc.day;
+    rtc_port_base->month  = rtc.month;
+    rtc_port_base->day    = rtc.day;
+    rtc_port_base->hour   = rtc.hour;
+    rtc_port_base->minute = rtc.minute;
+    rtc_port_base->second = rtc.second;
   }
 }
 
 
 void init_timer() {
-  rtc_port_base = (uint32_t *)new_space(8);
-  add_mmio_map("rtc", CONFIG_RTC_MMIO, rtc_port_base, 8, rtc_io_handler);    // name, addr, space, len, callback
+  rtc_port_base = (rtc_time_t *)new_space(12);
+  upt_port_base = (uint32_t *)new_space(8);
+  add_mmio_map("rtc", CONFIG_RTC_MMIO, rtc_port_base, 12, rtc_io_handler);    // name, addr, space, len, callback
+  add_mmio_map("upt", CONFIG_UPTIME_MMIO, upt_port_base, 8, upt_io_handler);
 }

@@ -68,7 +68,7 @@ int main() {
   asm volatile("csrr %0, marchid"    : "=r"(marchid));
 
   printf("mvendorid: %d\n", mvendorid);
-  printf("marchid  : %d\n", marchid);
+  printf("=  : %d\n", marchid);
 
   // init context for each process
   pcb[0].cp = kcontext((Area) { pcb[0].stack, &pcb[0] + 1 }, f, (void *)1L);

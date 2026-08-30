@@ -28,11 +28,21 @@ typedef struct {
   uint32_t halt_ret;
 } NEMUState;
 
+typedef struct {
+    uint16_t year;    
+    uint16_t month;   
+    uint16_t day;    
+    uint16_t hour;    
+    uint16_t minute;  
+    uint16_t second; 
+} rtc_time_t;
+
 extern NEMUState nemu_state;
 
 // ----------- timer -----------
 
 uint64_t get_time();
+rtc_time_t get_absolute_time(void);
 
 // ----------- log -----------
 

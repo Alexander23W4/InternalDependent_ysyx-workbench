@@ -14,7 +14,9 @@
 ***************************************************************************************/
 
 #include <common.h>
+#include <time.h>
 #include MUXDEF(CONFIG_TIMER_GETTIMEOFDAY, <sys/time.h>, <time.h>)
+
 
 IFDEF(CONFIG_TIMER_CLOCK_GETTIME,
     static_assert(CLOCKS_PER_SEC == 1000000, "CLOCKS_PER_SEC != 1000000"));
@@ -46,4 +48,19 @@ uint64_t get_time() {
 
 void init_rand() {   // random number init (time seed)
   srand(get_time_internal());
+}
+
+rtc_time_t get_absolute_time(void) {
+    rtc_time_t rtc = {0};
+    time_t now = time(NULL);
+    struct tm *tm_info = localtime(&now);
+
+    rtc.year   = (uint16_t)(tm_info->tm_year + 1900);  
+    rtc.month  = (uint16_t)(tm_info->tm_mon + 1);      
+    rtc.day    = (uint16_t)tm_info->tm_mday;
+    rtc.hour   = (uint16_t)tm_info->tm_hour;
+    rtc.minute = (uint16_t)tm_info->tm_min;
+    rtc.second = (uint16_t)tm_info->tm_sec;
+
+    return rtc;
 }

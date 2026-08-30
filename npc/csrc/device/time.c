@@ -1,5 +1,5 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
-
+#include <time.h>
 
 static uint64_t boot_time = 0;
 

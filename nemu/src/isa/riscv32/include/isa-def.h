@@ -33,6 +33,8 @@ typedef struct {
   vaddr_t mepc;     // exception origin pc
   word_t mcause;    // exception number
   word_t mstatus;   // processor status
+  word_t mvendorid;
+  word_t marchid;
 
 } MUXDEF(CONFIG_RV64, riscv64_CPU_state, riscv32_CPU_state);  // this struct represent "cpu"
 

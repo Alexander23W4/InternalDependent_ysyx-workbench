@@ -20,7 +20,8 @@
 #define CSR_MTVEC   0x305
 #define CSR_MEPC    0x341
 #define CSR_MCAUSE  0x342
-
+#define CSR_MVENDORID 0xf11
+#define CSR_MARCHID   0xf12
 /*
 Trigger an interrupt/exception with ``NO''.
 Then return the address of the interrupt/exception vector.
@@ -87,6 +88,8 @@ word_t isa_csr_read(word_t csr_no) {
     case CSR_MTVEC:   return cpu.mtvec;
     case CSR_MEPC:    return cpu.mepc;
     case CSR_MCAUSE:  return cpu.mcause;
+    case CSR_MVENDORID: return cpu.mvendorid;
+    case CSR_MARCHID:   return cpu.marchid;
     default: 
       panic("Unimplemented or invalid CSR address for read: 0x%x", csr_no);
       return 0; 

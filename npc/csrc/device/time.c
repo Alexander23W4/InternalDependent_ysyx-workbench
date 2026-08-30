@@ -15,3 +15,18 @@ uint64_t get_time() {
     }
     return get_time_internal() - boot_time;
 }
+
+rtc_time_t get_absolute_time(void) {
+    rtc_time_t rtc = {0};
+    time_t now = time(NULL);
+    struct tm *tm_info = localtime(&now);
+
+    rtc.year   = (uint16_t)(tm_info->tm_year + 1900);  
+    rtc.month  = (uint16_t)(tm_info->tm_mon + 1);      
+    rtc.day    = (uint16_t)tm_info->tm_mday;
+    rtc.hour   = (uint16_t)tm_info->tm_hour;
+    rtc.minute = (uint16_t)tm_info->tm_min;
+    rtc.second = (uint16_t)tm_info->tm_sec;
+
+    return rtc;
+}

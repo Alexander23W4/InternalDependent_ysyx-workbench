@@ -35,7 +35,7 @@ static bool check_bound(IOMap *map, uint32_t addr) {
     // #if TRACE_ENABLE
     // i_ring_buf_logout(&ring);
     // #endif
-    printf("address (0x%x) is out of bound at pc = 0x%x", addr, cpu.pc);
+    // printf("address (0x%x) is out of bound at pc = 0x%x", addr, cpu.pc);
     return false;
   } 
   return true;

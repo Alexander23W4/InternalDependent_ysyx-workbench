@@ -1,9 +1,11 @@
 #define CONFIG_VGA_SIZE_400x300 1
 #define CONFIG_VGA_SHOW_SCREEN 1
+#define CONFIG_SERIAL_MMIO 0x10000000
 #define CONFIG_RTC_MMIO 0x10000048
+#define CONFIG_UPTIME_MMIO 0x10000054
+
 #define CONFIG_FB_ADDR 0xa1000000
 #define CONFIG_DISK_CTL_MMIO 0xa0000300
-#define CONFIG_SERIAL_MMIO 0x10000000
 #define CONFIG_I8042_DATA_MMIO 0xa0000060
 #define CONFIG_SB_SIZE 0x10000
 #define CONFIG_SB_ADDR 0xa1200000
@@ -28,9 +30,18 @@ typedef struct {
   io_callback_t callback;
 } IOMap;
 
+typedef struct {
+    uint16_t year;    
+    uint16_t month;   
+    uint16_t day;    
+    uint16_t hour;    
+    uint16_t minute;  
+    uint16_t second; 
+} rtc_time_t;
+
 typedef void (*alarm_handler_t) ();
 void add_alarm_handle(alarm_handler_t h);
-
+rtc_time_t get_absolute_time(void);
 
 void init_map();
 void init_serial();

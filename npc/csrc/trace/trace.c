@@ -276,6 +276,7 @@ void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size) {
 
 // test func:
 void print_func_syms(void){
+    printf("Find %d functions overall.\n", function_amt);
     for (int i = 0; i < function_amt; i++)
     {
         printf("%d: %s: ", i, Func_symbols[i].name);   

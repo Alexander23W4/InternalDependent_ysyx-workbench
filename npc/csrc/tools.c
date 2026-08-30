@@ -38,8 +38,10 @@ uint32_t ram_read(uint32_t addr, int amount) {
         
         if (paddr >= RAM_SIZE * 4){
             // printf("invalid ram_read addr, pc: 0x%08x, addr: 0x%08X, paddr: 0x%08X\n", cpu.pc, addr, paddr);
+            #if DEVICE_ENABLE
             return mmio_read(addr, amount); 
-            // return 0;
+            #endif
+            return 0;
         }
         for (int i = 0; i < amount; i++) {
             result |= ((uint32_t)_ram[paddr + i]) << (8 * i);
@@ -69,7 +71,12 @@ void ram_write(uint32_t addr, uint32_t data, int amount) {
     }
     else {
         if (paddr >= RAM_SIZE * 4){
+            #if DEVICE_ENABLE
             mmio_write(addr, amount, data);
+            #else
+            printf("invalid ram_write addr, pc: 0x%08x, addr: 0x%08X, paddr: 0x%08X\n", cpu.pc, addr, paddr);
+            assert(0);
+            #endif
             return;
         }
 

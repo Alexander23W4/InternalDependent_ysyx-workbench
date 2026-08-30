@@ -41,7 +41,7 @@ static void rtc_io_handler(uint32_t offset, int len, bool is_write) {
   assert(offset <= 10 && offset % 2 == 0);
   if(!is_write) {
     rtc_time_t rtc = get_absolute_time();
-    rtc_port_base->day = rtc.day;
+    rtc_port_base->year = rtc.year;
     rtc_port_base->month  = rtc.month;
     rtc_port_base->day    = rtc.day;
     rtc_port_base->hour   = rtc.hour;

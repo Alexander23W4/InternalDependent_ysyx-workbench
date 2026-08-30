@@ -11,10 +11,10 @@ void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {   // 8 Byte
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {   // 12 Byte
-  rtc->second = 0;
-  rtc->minute = 0;
-  rtc->hour   = 0;
-  rtc->day    = 0;
-  rtc->month  = 0;
-  rtc->year   = 1900;
+  rtc->second = (int)(*(volatile uint16_t *)(NPC_RTC_ADDR + 10));
+  rtc->minute = (int)(*(volatile uint16_t *)(NPC_RTC_ADDR + 8));
+  rtc->hour   = (int)(*(volatile uint16_t *)(NPC_RTC_ADDR + 6));
+  rtc->day    = (int)(*(volatile uint16_t *)(NPC_RTC_ADDR + 4));
+  rtc->month  = (int)(*(volatile uint16_t *)(NPC_RTC_ADDR + 2));
+  rtc->year   = (int)(*(volatile uint16_t *)NPC_RTC_ADDR);
 }

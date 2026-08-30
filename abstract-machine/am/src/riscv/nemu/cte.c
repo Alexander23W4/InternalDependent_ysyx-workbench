@@ -94,6 +94,9 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 
+/*
+如果要process对应的函数要传递多个参数, 那么需要引入辅助函数, 将辅助函数的入口作为entry, 然后辅助函数里面调用真正的功能函数
+*/
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
    // write at the bottom of the stack

@@ -1,4 +1,4 @@
-CTE 再总结
+CTE(Context Transfer Engine) 再总结
 
 依照管理: 首先强调exception handler feature 的硬件入口: ecall 和 mret.   
     加上几个CSR操作指令: csrw..
@@ -16,3 +16,13 @@ CTE 再总结
 -> 用户层:
 实现每个process (每个process的进行时地址会作为他自己的mepc)
 
+注意, CTE只操作更新切换pcb, 用户程序的代码并不存在pcb里面, 而是作为指针挂载在mepc
+
+想象成一个摩天轮, 每个箱体是一个Context Page(PCB), 下方只有一间接待室, load -> run -> write back -> switch -> load...
+
+
+从下往上看
+
+从上往下看: 用kcontext编写所有PCB -> 把操作手册交给管理员(怎么切换) -> 呼叫管理员(__am_asm_trap)(yield) -> 
+            管理员先write back, 然后判断 mcause 并按照操作手册 switch
+            

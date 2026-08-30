@@ -1,346 +1,343 @@
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f5f, [DATA]0x00004020 (16416)
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cbe, [DATA]0x00007274 (29300)
                    
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f60, [DATA]0x00002040 (8256)
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cbf, [DATA]0x00006172 (24946)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc0, [DATA]0x00006361 (25441)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc1, [DATA]0x00007463 (29795)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc2, [DATA]0x00002d74 (11636)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc3, [DATA]0x00006d2d (27949)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc4, [DATA]0x0000616d (24941)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc5, [DATA]0x00006361 (25441)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc6, [DATA]0x00006863 (26723)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc7, [DATA]0x00006968 (26984)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc8, [DATA]0x00006e69 (28265)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cc9, [DATA]0x0000656e (25966)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cca, [DATA]0x00002f65 (12133)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ccb, [DATA]0x0000612f (24879)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ccc, [DATA]0x00006d61 (28001)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ccd, [DATA]0x00002f6d (12141)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cce, [DATA]0x0000732f (29487)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ccf, [DATA]0x00007273 (29299)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd0, [DATA]0x00006372 (25458)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd1, [DATA]0x00002f63 (12131)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd2, [DATA]0x0000722f (29231)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd3, [DATA]0x00006972 (26994)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd4, [DATA]0x00007369 (29545)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd5, [DATA]0x00006373 (25459)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd6, [DATA]0x00007663 (30307)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd7, [DATA]0x00002f76 (12150)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd8, [DATA]0x00006e2f (28207)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cd9, [DATA]0x0000706e (28782)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cda, [DATA]0x00006370 (25456)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cdb, [DATA]0x00002f63 (12131)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cdc, [DATA]0x0000692f (26927)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cdd, [DATA]0x00006f69 (28521)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cde, [DATA]0x0000656f (25967)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008cdf, [DATA]0x00002e65 (11877)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce0, [DATA]0x0000632e (25390)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce1, [DATA]0x00003a63 (14947)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce2, [DATA]0x0000333a (13114)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce3, [DATA]0x00003233 (12851)
+                   
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce4, [DATA]0x00002032 (8242)
                     
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f61, [DATA]0x00007220 (29216)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f62, [DATA]0x00006972 (26994)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f63, [DATA]0x00007369 (29545)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f64, [DATA]0x00006373 (25459)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f65, [DATA]0x00007663 (30307)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f66, [DATA]0x00003376 (13174)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f67, [DATA]0x00003233 (12851)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f68, [DATA]0x00006532 (25906)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f69, [DATA]0x00000a65 (2661)
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce5, [DATA]0x00002020 (8224)
                     
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f6a, [DATA]0x0000000a (10)
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce6, [DATA]0x00000a20 (2592)
+                    
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce7, [DATA]0x0000000a (10)
                       
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f6b, [DATA]0x00002f00 (12032)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000594    0xfff40413    addi	s0, s0, -1                                                                                                                                       
-0x80000598    0xfe0410e3    bnez	s0, 0x80000578                                                                                                                                   
-0x80000578    0x00002497    auipc	s1, 2                                                                                                                                           
-0x8000057c    0x9d848493    addi	s1, s1, -0x628                                                                                                                                   
-0x80000580    0x04800513    li	a0, 0x48                                                                                                                                           
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f51, [DATA]0x00006c65 (27749)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f52, [DATA]0x00006c6c (27756)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f53, [DATA]0x00006f6c (28524)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f54, [DATA]0x00002c6f (11375)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f55, [DATA]0x0000202c (8236)
-                    
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f56, [DATA]0x00004120 (16672)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f57, [DATA]0x00004d41 (19777)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f58, [DATA]0x0000204d (8269)
-                    
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f59, [DATA]0x00005720 (22304)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f5a, [DATA]0x00006f57 (28503)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f5b, [DATA]0x0000726f (29295)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f5c, [DATA]0x00006c72 (27762)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f5d, [DATA]0x0000646c (25708)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f5e, [DATA]0x00002064 (8292)
-                    
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f5f, [DATA]0x00004020 (16416)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f60, [DATA]0x00002040 (8256)
-                    
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f61, [DATA]0x00007220 (29216)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f62, [DATA]0x00006972 (26994)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f63, [DATA]0x00007369 (29545)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f64, [DATA]0x00006373 (25459)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f65, [DATA]0x00007663 (30307)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f66, [DATA]0x00003376 (13174)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f67, [DATA]0x00003233 (12851)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f68, [DATA]0x00006532 (25906)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f69, [DATA]0x00000a65 (2661)
-                    
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f6a, [DATA]0x0000000a (10)
-                      
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000584    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000588    0x301000ef    jal	0x80001088                [CALL] PRE: hello, DST: putch                                                                                           
-0x80001088    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x8000108c    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x80001090    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
-0x8000058c    0x0004c503    lbu	a0, 0(s1)                                                                   M_read: [ADDR]0x80001f6b, [DATA]0x00002f00 (12032)
-                   
-0x80000590    0xfe051ae3    bnez	a0, 0x80000584                                                                                                                                   
-0x80000594    0xfff40413    addi	s0, s0, -1                                                                                                                                       
-0x80000598    0xfe0410e3    bnez	s0, 0x80000578                                                                                                                                   
-0x8000059c    0x00812083    lw	ra, 8(sp)                                                                    M_read: [ADDR]0x8009cfe4, [DATA]0x00000fb0 (4016)
-                    
-0x800005a0    0x00412403    lw	s0, 4(sp)                                                                    M_read: [ADDR]0x8009cfe0, [DATA]0x00000000 (0)
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a40    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0x80003a44    0xf59ff0ef    jal	0x8000399c                [CALL] PRE: fail, DST: putch                                                                                            
+0x8000399c    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x800039a0    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
+0x800039a4    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0x80003a48    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80008ce8, [DATA]0x00000000 (0)
                        
-0x800005a4    0x00012483    lw	s1, 0(sp)                                                                    M_read: [ADDR]0x8009cfdc, [DATA]0x00000000 (0)
-                       
-0x800005a8    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0x800005ac    0x00008067    ret                           [RET] PRE: hello, DST: main                                                                                             
-0x80000fb0    0xfb9ff06f    j	0x80000f68                  [CALL] PRE: main, DST: __am_timer_config                                                                                
-0x80000f68    0x00812083    lw	ra, 8(sp)                                                                    M_read: [ADDR]0x8009cff0, [DATA]0x000010b0 (4272)
-                    
-0x80000f6c    0x00412403    lw	s0, 4(sp)                                                                    M_read: [ADDR]0x8009cfec, [DATA]0x00000000 (0)
-                       
-0x80000f70    0x00012483    lw	s1, 0(sp)                                                                    M_read: [ADDR]0x8009cfe8, [DATA]0x00000000 (0)
-                       
-0x80000f74    0x00000513    li	a0, 0                                                                                                                                              
-0x80000f78    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0x80000f7c    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                                                                                         
-0x800010b0    0x00100073    ebreak                                                                                                                                                
+0x80003a4c    0xfe051ae3    bnez	a0, 0x80003a40                                                                                                                                   
+0x80003a50    0x00100513    li	a0, 1                                                                                                                                              
+0x80003a54    0xf55ff0ef    jal	0x800039a8                [CALL] PRE: fail, DST: halt                                                                                             
+0x800039a8    0x00100073    ebreak                                                                                                                                                

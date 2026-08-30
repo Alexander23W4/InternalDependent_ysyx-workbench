@@ -16,8 +16,8 @@ void putch(char ch) {
 }
 
 void halt(int code) {
-  asm volatile("ebreak");
-  while (1);
+  asm volatile("ebreak");   // 这里的code传入比如main函数的ret, 存在a0, ebreak来判断这个
+  while (1);   // 防止halt函数返回, 如果ebreak没有正确执行, 程序会卡死在这里
 }
 
 void _trm_init() {

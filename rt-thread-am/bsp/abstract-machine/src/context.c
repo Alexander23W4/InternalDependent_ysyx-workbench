@@ -133,6 +133,7 @@ static void wrapper(void *arg) {
 
 void (*wrapper_ptr)(void*) = wrapper;   // create a pointer to wrapper function
 
+// 直接占用栈底的一块地方存 wrapper 函数的参数
 rt_uint8_t *rt_hw_stack_init(void *tentry, void *parameter, rt_uint8_t *stack_addr, void *texit) {
   // Align
   uintptr_t stack_bottom = (uintptr_t)stack_addr;

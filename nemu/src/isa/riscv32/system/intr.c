@@ -67,9 +67,11 @@ Machine Cause register mcause.
   0 48–63 Designated for custom use
   0 ≥64 Reserved
 */
+
+// 主要就是存下  mcause mepc  这两个是context切换的关键, 切到中转站
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
-  cpu.mcause = NO;
-  cpu.mepc = epc;
+  cpu.mcause = NO;  //
+  cpu.mepc = epc;   // 
   cpu.mstatus = cpu.mstatus;
 
   return cpu.mtvec;  // jump to exception processing program addr

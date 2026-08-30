@@ -74,9 +74,11 @@ Context* __am_irq_handle(Context *c) {
 
 extern void __am_asm_trap(void);
 
+
 // Event(Context) -> specific callback function
 // When an event occurs, CTE will call this callback function with the event and the associated context as arguments, 
 // handing it over to the operating system for subsequent processing
+// 这个cte_init()是用户程序调用的, callback function 也是用户程序给
 bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
   /*

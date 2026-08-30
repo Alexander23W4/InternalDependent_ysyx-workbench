@@ -43,7 +43,7 @@ typedef union {
 // This build 2 * 4KB space at STACK AREA (in general stack, 2 tiny process stack)
 static PCB pcb[2], pcb_boot, *current = &pcb_boot;   
 
-// programs in both process 
+// programs in both process (只有这个是真正的用户程序)
 static void f(void *arg) {
   while (1) {
     putch("?AB"[(uintptr_t)arg > 2 ? 0 : (uintptr_t)arg]);  // "?AB"[1] = 'A'

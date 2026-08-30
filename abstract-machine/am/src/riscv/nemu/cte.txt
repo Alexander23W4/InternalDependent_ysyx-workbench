@@ -1,0 +1,18 @@
+CTE 再总结
+
+依照管理: 首先强调exception handler feature 的硬件入口: ecall 和 mret.   
+    加上几个CSR操作指令: csrw..
+
+所谓的CTE就是 __am_asm_trap(包含__am_irq_handle) 和 guest_process(以PCB: process control block为 handler) 之间切换
+
+-> OS层:
+实现中转站__am_asm_trap: 存储context到stack, 调用 __am_irq_handle, 根据上层要求切换context, 返回新context
+提供的API: kcontext (用于配置context)  yield (用于触发中断)
+
+-> 驱动层:
+实现切换逻辑的函数, 传递handler给__am_irq_handle
+调用kcontext配置所有process的context, 调用yield触发中断
+
+-> 用户层:
+实现每个process (每个process的进行时地址会作为他自己的mepc)
+

@@ -28,7 +28,7 @@ typedef struct {
 static int ring_pos;
 
 char elf_file[256];
-symbol Func_symbols[500];
+symbol Func_symbols[2048];
 int function_amt = 0;
 
 uint32_t mem_addr;

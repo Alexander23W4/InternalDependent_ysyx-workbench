@@ -37,7 +37,7 @@ ret-> 输出ret (监测现在pc的地址在哪个函数, 遍历aymarr输出函�
 */
 
 char elf_file[256];
-symbol Func_symbols[500];
+symbol Func_symbols[2048];
 int function_amt = 0;
 
 // Init, full process to build the func_symbols array
@@ -89,6 +89,7 @@ void fill_symbols(Elf32_Ehdr *ehdr){
         int type = ELF32_ST_TYPE(sym->st_info);
         
         if (type == STT_FUNC) {
+            // printf("%d\n", function_amt);
             strcpy(Func_symbols[function_amt].name, strtab + sym->st_name);
             Func_symbols[function_amt].low_addr = sym->st_value;
             Func_symbols[function_amt].high_addr = sym->st_value + sym->st_size;

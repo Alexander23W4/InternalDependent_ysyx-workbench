@@ -8,7 +8,7 @@ Disassembly of section .text:
 80000000:	00000413          	li	s0,0
 80000004:	00009117          	auipc	sp,0x9
 80000008:	ffc10113          	addi	sp,sp,-4 # 80009000 <_end>
-8000000c:	080000ef          	jal	ra,8000008c <_trm_init>
+8000000c:	088000ef          	jal	ra,80000094 <_trm_init>
 
 80000010 <main>:
 80000010:	ff010113          	addi	sp,sp,-16
@@ -17,7 +17,7 @@ Disassembly of section .text:
 8000001c:	00112623          	sw	ra,12(sp)
 80000020:	00912223          	sw	s1,4(sp)
 80000024:	00000417          	auipc	s0,0x0
-80000028:	08440413          	addi	s0,s0,132 # 800000a8 <_etext>
+80000028:	08c40413          	addi	s0,s0,140 # 800000b0 <_etext>
 8000002c:	04800513          	li	a0,72
 80000030:	0140006f          	j	80000044 <main+0x34>
 80000034:	054000ef          	jal	ra,80000088 <putch>
@@ -43,13 +43,15 @@ Disassembly of section .text:
 80000084:	00008067          	ret
 
 80000088 <putch>:
-80000088:	00008067          	ret
+80000088:	100007b7          	lui	a5,0x10000
+8000008c:	00a78023          	sb	a0,0(a5) # 10000000 <_entry_offset+0x10000000>
+80000090:	00008067          	ret
 
-8000008c <_trm_init>:
-8000008c:	ff410113          	addi	sp,sp,-12
-80000090:	00000517          	auipc	a0,0x0
-80000094:	04450513          	addi	a0,a0,68 # 800000d4 <mainargs>
-80000098:	00112423          	sw	ra,8(sp)
-8000009c:	f75ff0ef          	jal	ra,80000010 <main>
-800000a0:	00100073          	ebreak
-800000a4:	0000006f          	j	800000a4 <_trm_init+0x18>
+80000094 <_trm_init>:
+80000094:	ff410113          	addi	sp,sp,-12
+80000098:	00000517          	auipc	a0,0x0
+8000009c:	04450513          	addi	a0,a0,68 # 800000dc <mainargs>
+800000a0:	00112423          	sw	ra,8(sp)
+800000a4:	f6dff0ef          	jal	ra,80000010 <main>
+800000a8:	00100073          	ebreak
+800000ac:	0000006f          	j	800000ac <_trm_init+0x18>

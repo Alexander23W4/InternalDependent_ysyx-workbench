@@ -25,7 +25,7 @@ extern uint32_t pc;
 extern I_ring_buf ring;
 
 extern char elf_file[256];
-extern symbol Func_symbols[500];
+extern symbol Func_symbols[2048];
 extern int function_amt;
 
 

@@ -15,6 +15,7 @@ Multi-key press solution:
 
 // bool keydown; int keycode
 // my solution: send both makecode & breakcode
+
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   uint32_t data = inl(KBD_ADDR);   // data : makecode(keydown, send)   breakcode(!keydown, send)  none(data == 0) (shouldn't include keynone)
   kbd->keydown = false;

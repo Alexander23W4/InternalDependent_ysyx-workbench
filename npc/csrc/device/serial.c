@@ -25,7 +25,7 @@ static uint8_t *serial_base = NULL;
 
 
 static void serial_putc(char ch) {
-  putc(ch, stderr);      
+  putc(ch, stderr);    
 }
 
 static void serial_io_handler(uint32_t offset, int len, bool is_write) {
@@ -44,3 +44,4 @@ void init_serial() {
   serial_base = new_space(8);  // 分配8 Byte的空间
   add_mmio_map("serial", CONFIG_SERIAL_MMIO, serial_base, 8, serial_io_handler);    // addr CONFIG_SERIAL_MMIO, len 8 (8 Bytes)
 }
+

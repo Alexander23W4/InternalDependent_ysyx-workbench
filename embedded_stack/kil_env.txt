@@ -1,0 +1,62 @@
+拿到一个板子, 怎么配置keil环境.
+    以及设计到的配置文件都有什么作用,
+        在软件工程的角度, 这个program的文件组织形式应该是什么
+
+第1层：芯片识别与调试支持（Device + DFP）
+逻辑： 告诉Keil“我的芯片是哪个型号”，并让Keil拥有该芯片的硬件信息（寄存器地址、Flash大小、内核类型等）。
+
+Device 选择：在 Options for Target → Device 里选 STM32F407ZGT6。
+    这一步决定了编译器使用的预定义宏（如 STM32F40_41xxx）。
+DFP（Device Family Pack）：这是芯片的“硬件数据库”，包含芯片识别文件、
+    CMSIS核心头文件、Flash烧录算法、SVD调试描述文件等。必须安装，否则Keil不认识芯片。
+
+
+
+第2层：启动与硬件初始化（Startup + SystemInit）
+逻辑： 芯片上电后，C语言运行环境尚未建立。启动文件（.s）负责设置栈指针、调用 SystemInit() 配置时钟，
+    然后跳转到 main()。这是C程序运行的“前置条件”。
+
+启动文件 startup_stm32f407xx.s：由汇编编写，是芯片复位后执行的第一段代码。
+system_stm32f4xx.c：包含 SystemInit() 函数，在进入 main() 前被启动文件调用，
+    用于配置系统时钟（默认使用HSI或HSE，具体取决于芯片和你的配置）。
+
+
+第3层：标准库与驱动（StdPeriph_Driver）
+
+
+第4层：用户应用与配置文件（User）
+逻辑： 这是最终你写代码的地方。
+    但你的代码需要依赖两个关键配置——告诉标准库“这个芯片要启用哪些外设”的配置文件，以及你自己的 main.c。
+
+stm32f4xx_conf.h：标准库的“总开关”，用于启用或禁用特定外设的驱动头文件，并包含断言检查配置。
+    你在 main.c 里 #include "stm32f4xx.h" 后，这个文件会被自动包含。
+main.c：你的应用程序入口，包含 main() 函数和你的业务逻辑。
+stm32f4xx_it.c：中断服务函数存放处（虽然你可以自己写，但标准库模板提供了空壳，方便你填入中断处理代码）。
+
+
+
+MyProject/
+├── CORE/            ← 第2层：启动与硬件初始化
+│   ├── startup_stm32f407xx.s
+│   ├── core_cm4.h
+│   ├── core_cmFunc.h
+│   ├── core_cmInstr.h
+│   ├── core_cmSimd.h
+│   └── cmsis_*.h
+│
+├── USER/            ← 第4层：用户应用与配置文件
+│   ├── main.c
+│   ├── stm32f4xx_it.c
+│   ├── stm32f4xx_it.h
+│   ├── stm32f4xx_conf.h
+│   ├── system_stm32f4xx.c
+│   └── system_stm32f4xx.h
+│
+├── LIB/             ← 第3层：标准外设库
+│   ├── inc/
+│   │   └── (所有 .h)
+│   └── src/
+│       └── (所有 .c)
+│
+└── MDK-ARM/         ← Keil 工程文件（Keil自动生成）
+    └── Project.uvprojx

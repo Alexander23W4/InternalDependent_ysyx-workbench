@@ -119,6 +119,13 @@ Keil 根据你选择的芯片型号和工程配置，自动生成一个标准的
 
 下载好了之后, 新建program放在MDK-ARM文件夹下面, RTE(绿方块)界面选CMSIS和Device, 如果上一步骤没问题, 他能自动包含sys_AA.c和startup.s
 
+三方块(file extension): 把文件放入program
+
+魔法棒(option for Target):  注意调整几个东西
+    DFP版本 编译器 浮点精度  Define宏  inc_path  Debugger
+
+这样就基本完成了
+
 
 常见的后续问题:
 版本兼容性问题: 板卡厂商提供的外设库和CMSIS库, 和 网上下的DFP, 从CMSIS库, 还有keil选择的编译器版本不兼容

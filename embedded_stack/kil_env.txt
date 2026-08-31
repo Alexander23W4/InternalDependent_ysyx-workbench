@@ -43,14 +43,15 @@ MyProject/
 │   ├── core_cmInstr.h
 │   ├── core_cmSimd.h
 │   └── cmsis_*.h
+│   ├── system_stm32f4xx.c
+│   └── system_stm32f4xx.h
 │
 ├── USER/            ← 第4层：用户应用与配置文件
 │   ├── main.c
 │   ├── stm32f4xx_it.c
 │   ├── stm32f4xx_it.h
 │   ├── stm32f4xx_conf.h
-│   ├── system_stm32f4xx.c
-│   └── system_stm32f4xx.h
+|
 │
 ├── LIB/             ← 第3层：标准外设库
 │   ├── inc/
@@ -60,3 +61,29 @@ MyProject/
 │
 └── MDK-ARM/         ← Keil 工程文件（Keil自动生成）
     └── Project.uvprojx
+
+
+⭐ Cortex-M 嵌入式 CPU架构
+
+CMSIS 是 Cortex Microcontroller Software Interface Standard 的缩写，中文意为“Cortex 微控制器软件接口标准”。
+
+简单来说，它是 ARM 公司为所有 Cortex-M 系列处理器定义的一套统一的软件抽象层，目的是让不同的芯片厂商（如 ST、NXP、TI 等）
+    在使用相同的 Cortex-M 内核时，能提供一套兼容的软件接口。
+ 
+CMSIS 的组成
+组件	作用	对应文件
+CMSIS-CORE	内核寄存器定义、NVIC（中断控制器）、SysTick（系统定时器）、MPU（内存保护单元）等的标准接口	core_cm4.h、core_cmFunc.h 等
+CMSIS-DSP	DSP 指令的数学库（FFT、滤波、矩阵运算等）	arm_math.h 等
+CMSIS-RTOS	操作系统抽象层，让 RTOS 可以统一调用内核功能	cmsis_os.h
+CMSIS-Driver	外设驱动的统一接口（由芯片厂商实现）	—
+CMSIS-SVD	芯片寄存器描述的 XML 文件，供调试器使用	.svd 文件
+
+
+CMSIS 和 DFP 的关系
+概念	关系
+CMSIS	ARM 定义的软件接口标准，是“通用规则”
+DFP（Device Family Pack）	芯片厂商（如 ST）把 CMSIS 核心文件 + 芯片特定定义（Flash 算法、SVD 等）打包成的一个“芯片支持包”
+你的工程	通过 DFP 获取 CMSIS 核心文件，通过标准库（SPL）获取外设驱动
+
+CMSIS这些文件和标准库文件在同一层, 
+比如 core_cm4.h 包含 NVIC_SetPriority(USART1_IRQn, 0)这些函数

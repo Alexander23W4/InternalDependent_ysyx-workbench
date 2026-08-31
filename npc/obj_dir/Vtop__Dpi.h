@@ -22,7 +22,7 @@ extern "C" {
     extern void halt(int* endprog);
 
     // DPI IMPORTS
-    // DPI import at vsrc/top.v:442:42
+    // DPI import at vsrc/top.v:442:47
     extern unsigned int ram_read(unsigned int addr, int amount);
     // DPI import at vsrc/top.v:447:34
     extern void ram_write(unsigned int addr, unsigned int data, int amount);

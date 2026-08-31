@@ -439,7 +439,7 @@ module top(
     endtask
 
 
-    import "DPI-C" function int unsigned ram_read(
+    import "DPI-C" pure function int unsigned ram_read(
         input int unsigned addr,
         input int amount
     );

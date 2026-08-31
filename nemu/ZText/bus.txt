@@ -75,7 +75,7 @@ At the RTL level, it mainly consists of two parts:  """@@@ ⭐interface signals 
 
 用哪个指令集， emulator和cpu必须完整正确简单的实现这个指令集的所有功能， base on the manual
 用difftest, trace等工具，debug, 确保基础功能不能够出错。
-然后， 在cpu的功能上加上bus, trace, 外围设备的交互连接， 使用第三方hardware库辅助开发（verilog）
+然后， 在cpu的功能上加上bus, cache提升硬件的能力, 外围设备的交互连接， 使用第三方hardware库辅助开发（verilog）
 
 
 

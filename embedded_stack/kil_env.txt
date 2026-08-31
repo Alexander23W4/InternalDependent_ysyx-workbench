@@ -37,20 +37,21 @@ stm32f4xx_it.c：中断服务函数存放处（虽然你可以自己写，但标
 
 MyProject/
 ├── CORE/            ← 第2层：启动与硬件初始化
-│   ├── startup_stm32f407xx.s
+│   ├── startup_stm32f407xx.s   // 初始化汇编程序, 类似AM里面写的_start函数以及后续TRM的init操作, 包含分配栈针, 设置pc, load ram等
 │   ├── core_cm4.h
 │   ├── core_cmFunc.h
 │   ├── core_cmInstr.h
-│   ├── core_cmSimd.h
-│   └── cmsis_*.h
-│   ├── system_stm32f4xx.c
+│   ├── core_cmSimd.h     // 这几个内核CMSIS函数全部包括具体实现, 采用static inline形式
+│   └── cmsis_*.h         // 编译器兼容层、版本定义
+│   ├── system_stm32f4xx.c       // 相当于NEMU的启动流程里，配置好物理内存基地址、设备树、中断入口（如 mtvec）等准备工作
 │   └── system_stm32f4xx.h
+|   |__ stm32f4xx.h       // 寄存器宏
 │
 ├── USER/            ← 第4层：用户应用与配置文件
 │   ├── main.c
-│   ├── stm32f4xx_it.c
+│   ├── stm32f4xx_it.c      // am 中 cte.c的空壳   (具体外设中断响应逻辑(注册回调函数), 是用户编写并传入的)
 │   ├── stm32f4xx_it.h
-│   ├── stm32f4xx_conf.h
+│   ├── stm32f4xx_conf.h     // 标准库的“总开关”，用于启用或禁用特定外设的API头文件，并包含断言检查配置。
 |
 │
 ├── LIB/             ← 第3层：标准外设库
@@ -80,10 +81,31 @@ CMSIS-SVD	芯片寄存器描述的 XML 文件，供调试器使用	.svd 文件
 
 
 CMSIS 和 DFP 的关系
-概念	关系
-CMSIS	ARM 定义的软件接口标准，是“通用规则”
+概念	                                关系
+CMSIS	                        ARM 定义的软件接口标准，是“通用规则”
 DFP（Device Family Pack）	芯片厂商（如 ST）把 CMSIS 核心文件 + 芯片特定定义（Flash 算法、SVD 等）打包成的一个“芯片支持包”
-你的工程	通过 DFP 获取 CMSIS 核心文件，通过标准库（SPL）获取外设驱动
+你的工程	                    通过 DFP 获取 CMSIS 核心文件，通过标准库（SPL）获取外设驱动
 
 CMSIS这些文件和标准库文件在同一层, 
-比如 core_cm4.h 包含 NVIC_SetPriority(USART1_IRQn, 0)这些函数
+    比如 core_cm4.h 包含 NVIC_SetPriority(USART1_IRQn, 0)这些函数
+
+
+
+    ARM 统一了什么	                                            ARM 没统一什么
+内核操作（中断使能、NVIC、SysTick、堆栈指针操作）	            外设寄存器地址
+内核寄存器访问方式（__disable_irq()）	                    外设寄存器的位域定义（GPIO 的 MODER、OTYPER 在各厂商可能不同）
+系统控制空间基地址（0xE000E000）	                            外设 API 命名
+中断号命名规范（USART1_IRQn 由芯片厂商定义）	        外设初始化结构体（GPIO_InitTypeDef 是 ST 的写法，NXP 可能是 gpio_pin_config_t）
+CMSIS-CORE 头文件（core_cm4.h）	                        标准外设库（SPL）或 HAL 库
+
+
+⭐⭐: 链接脚本(.ld) [新概念]
+函数的先后顺序是谁规定的呢, 谁来告诉编译器这个逻辑顺序呢???  是链接脚本
+
+链接脚本是编译器/链接器决定函数放哪里的“总指挥”。
+它在 Keil 中通常是一个 .sct 文件（ARM 语法）或 .ld 文件（GCC 语法），由芯片厂商提供，你也可以自己修改。
+
+Keil 根据你选择的芯片型号和工程配置，自动生成一个标准的 .sct 链接脚本，然后把它交给链接器使用。
+
+
+⭐⭐⭐: 总结完整的keil配置流程:

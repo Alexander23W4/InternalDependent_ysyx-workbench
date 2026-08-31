@@ -111,7 +111,10 @@ Keil 根据你选择的芯片型号和工程配置，自动生成一个标准的
 ⭐⭐⭐: 总结完整的keil配置流程:  (假设device叫AA)
 去板卡的官网下载标准库文件, datasheet, 外设图纸等
 
-配置目录: CORE(下面放AA.h和sys_AA.h) LIB USER MDK-ARM  该放的都放好
+配置目录: CORE(下面放AA.h, sys_AA.h, 在网上下载兼容DFP版本的CMSIS-core-include函数并全部包含) 
+         LIB 
+         USER 
+         MDK-ARM  
 
 打开keil
 
@@ -130,3 +133,7 @@ Keil 根据你选择的芯片型号和工程配置，自动生成一个标准的
 常见的后续问题:
 版本兼容性问题: 板卡厂商提供的外设库和CMSIS库, 和 网上下的DFP, 从CMSIS库, 还有keil选择的编译器版本不兼容
             还体现在不同版本外设接口名称, 函数名称, 文件名称不匹配的问题
+
+
+
+具体在裸机嵌入式编程的时候, ⭐ 整板原理图  芯片datasheet(具体型号)

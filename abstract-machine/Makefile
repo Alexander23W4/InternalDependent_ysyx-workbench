@@ -323,7 +323,8 @@ IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
 
 ### Collect the files to be linked: object files (`.o`) and libraries (`.a`)  OBJS是用户文件('dummy.c)
-# 这一步定义完, linkage还只有用户文件, 之后LIB_TEMPLATE这个函数还会吧libs里面的文件都加进去, 最终linkage就包含所有需要编译的文件了, 然后送去链接生成IMG.elf
+# 这一步定义完, linkage还只有用户文件, 之后LIB_TEMPLATE这个函数还会吧LIBS里面的文件都加进去, 最终linkage就包含所有需要编译的文件了, 然后送去链接生成IMG.elf
+# 注意这里的LIBS
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
 LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
 LINKAGE   = $(OBJS)  # library archives are added by LIB_TEMPLATE below
@@ -393,11 +394,17 @@ $(DST_DIR)/%.o: %.S
 # @@@@@ ARCHIVE
 ifeq ($(MAKECMDGOALS),archive)
 ### Rule (archive): objects (`*.o`) -> `ARCHIVE.a` (ar)
+# 这里是, 只要文件make archive, 比如下面@$$(MAKE) -s -C $$(AM_HOME)/$(1) archive, 对所有的am和klib里面的.c .cpp .cc .S 文件都执行这个
+# 在这之前保证其作为目标文件走一遍前面的生成OBJ的流程(->.o)
+# 最终把所有的文件归档成kib.a和am.a
+
+# am/Makefile -> (抓取am文件)SRCS -> 调用主Makefile -> make archive(之前将SRCS->OBJS(.o)) -> AR ...
 $(ARCHIVE): $(OBJS)
 	@echo + AR "->" $(shell realpath $@ --relative-to .)
 	@$(AR) rcs $@ $^
 else
 # $(1): library name , $(n) n represents the para-index of "call"
+# 这里是在klib底下归档成klib.a  在am底下归档成am.a
 define LIB_TEMPLATE =
 $$(AM_HOME)/$(1)/build/$(1)-$$(ARCH).a: force
 	@$$(MAKE) -s -C $$(AM_HOME)/$(1) archive
@@ -407,12 +414,13 @@ endef
 ### Rule (recursive make): build a dependent library (am, klib, ...)
 $(foreach lib, $(LIBS), $(eval $(call LIB_TEMPLATE,$(lib))))
 endif
-
+# ⭐ 这里Linkage完成之后, 包含 guest.o  klib.a  am.a
 
 
 
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
 # 这里的linkage就包含了所有的.o和.a, 所以到这一步保证已经编译生成.a和.o, 之后就link就行了
+# 这里将LDSCRIPTS设置为隐式依赖, 是确保链接脚本修改后，$(IMAGE).elf 会自动重新链接，实现增量编译。
 $(IMAGE).elf: $(LINKAGE) $(LDSCRIPTS)
 	@echo \# Creating image [$(ARCH)]
 	@echo + LD "->" $(IMAGE_REL).elf

@@ -12,6 +12,10 @@ NAME = dummy  SRCS = tests/dummy.c MAKECMDGOALS
 $(ARCH).mk -> ISA.mk  PLATFORM.mk
 
 封装$(IMAGE).elf  文件 编译归档链接(flag + 规则)  
+am klib -> .a   guest -> .o 
+am.a klib.a guest.o 链接形成 $(IMAGE).elf
+
+
 
 几个Makefile文件的结构: 
 
@@ -31,6 +35,7 @@ ISA.mk(如riscv.mk)
 补充有关ISA的编译配置
 
 PLATFORM.mk(如nemu.mk)
+不同编译配置和平台配置
 定义AM层的MAKECMDGOALS规则
 
 

@@ -422,6 +422,9 @@ endif
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
 # 这里的linkage就包含了所有的.o和.a, 所以到这一步保证已经编译生成.a和.o, 之后就link就行了
 # 这里将LDSCRIPTS设置为隐式依赖, 是确保链接脚本修改后，$(IMAGE).elf 会自动重新链接，实现增量编译。
+# g++不仅仅是调用 ld，还会自动链接 C++ 标准库（libstdc++）、启动文件（crt1.o）和运行时依赖，确保 native 程序能在宿主机上正常运行。
+# 后面的 $(LDFLAGS_CXX) 中的库（如 -lSDL2、-lreadline）不会被强制全部链接 (cuz -no-whole-archive)
+# 裸机那条link指令: 没有 -whole-archive, 所以默认只会从 .a 中提取被直接引用的 .o 文件。
 $(IMAGE).elf: $(LINKAGE) $(LDSCRIPTS)
 	@echo \# Creating image [$(ARCH)]
 	@echo + LD "->" $(IMAGE_REL).elf

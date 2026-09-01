@@ -74,7 +74,6 @@ extern bool batch_mode;
 extern size_t img_size;
 extern uint32_t* ram;
 extern int diff_flag;
-extern bool sdb_read_ram;
 
 
 
@@ -103,6 +102,7 @@ void check_wp(uint32_t pre_pc);
 char* hex_to_bin(const char *hex);
 
 void tick();
+uint32_t ram_read_sdb(uint32_t addr, int amount);
 uint32_t ram_read(uint32_t addr, int amount);
 void ram_write(uint32_t addr, uint32_t data, int amount);
 void prt_gprs();

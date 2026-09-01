@@ -273,7 +273,7 @@
 0x80000094    0x0a418193    addi	gp, gp, 0xa4                                                                                                                                     
 0x80000098    0xfe312623    sw	gp, -0x14(sp)                                                                M_write: [ADDR]0x80050fc0, [DATA]0x800000a4 (-2147483484)
             
-0x8000009c    0xfec22203    lw	tp, -0x14(tp)                                                                M_read: [ADDR]0x80000090, [DATA]0x800001b7 (-2147483209)
+0x8000009c    0xfec22203    lw	tp, -0x14(tp)                                                                M_read: [ADDR]0x80050fc0, [DATA]0x800000a4 (-2147483484)
              
 0x800000a0    0x00020067    jr	tp                         [CALL] PRE: check, DST: _trm_init                                                                                       
 0x800000a4    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
@@ -368,7 +368,7 @@
 0x80000538    0x11c18193    addi	gp, gp, 0x11c                                                                                                                                    
 0x8000053c    0xfe312623    sw	gp, -0x14(sp)                                                                M_write: [ADDR]0x80050fc0, [DATA]0x8000011c (-2147483364)
             
-0x80000540    0xfec22203    lw	tp, -0x14(tp)                                                                M_read: [ADDR]0x80000534, [DATA]0x800001b7 (-2147483209)
+0x80000540    0xfec22203    lw	tp, -0x14(tp)                                                                M_read: [ADDR]0x80050fc4, [DATA]0x80000548 (-2147482296)
              
 0x80000544    0x00020067    jr	tp                         [CALL] PRE: main, DST: _trm_init                                                                                        
 0x80000548    0x00812783    lw	a5, 8(sp)                                                                    M_read: [ADDR]0x80050fdc, [DATA]0x00000038 (56)
@@ -467,7 +467,7 @@
 0x8000063c    0x0ec18193    addi	gp, gp, 0xec                                                                                                                                     
 0x80000640    0xfe312623    sw	gp, -0x14(sp)                                                                M_write: [ADDR]0x80050fc0, [DATA]0x800000ec (-2147483412)
             
-0x80000644    0xfec22203    lw	tp, -0x14(tp)                                                                M_read: [ADDR]0x80000638, [DATA]0x800001b7 (-2147483209)
+0x80000644    0xfec22203    lw	tp, -0x14(tp)                                                                M_read: [ADDR]0x80050fc4, [DATA]0x8000064c (-2147482036)
              
 0x80000648    0x00020067    jr	tp                         [CALL] PRE: main, DST: _trm_init                                                                                        
 0x8000064c    0x01c12083    lw	ra, 0x1c(sp)                                                                 M_read: [ADDR]0x80050ff0, [DATA]0x80000690 (-2147481968)

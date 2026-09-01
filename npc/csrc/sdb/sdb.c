@@ -19,8 +19,6 @@ quit
 */
 #define NR_CMD ARRLEN(cmd_table)
 
-bool sdb_read_ram = 0;
-
 void init_regex();
 void init_wp_pool();
 
@@ -236,8 +234,7 @@ static void cmd_x(char* args){
         printf("%s", ANSI_FMT("HIT THE MEM CELLING WHILE READING\n", ANSI_FG_RED));
         return;
       }
-      sdb_read_ram = 1;
-      printf("0x%08x\n", ram_read(addr, 4)); // output 8 bits, if not enough, fill 0 at left
+      printf("0x%08x\n", ram_read_sdb(addr, 4)); // output 8 bits, if not enough, fill 0 at left
       addr += 4;   // read 4 Bytes one time
     }
   }

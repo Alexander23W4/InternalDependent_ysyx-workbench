@@ -76,5 +76,4 @@ void init_device() {
   init_vga();
   init_i8042();
 
-
 }

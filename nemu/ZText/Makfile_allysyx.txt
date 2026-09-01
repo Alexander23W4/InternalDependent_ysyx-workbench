@@ -3,19 +3,19 @@
 封装Makefile.dummy 
 
 传递
-NAME = dummy  SRCS = tests/dummy.c
-传递
-MAKECMDGOALS
+NAME = dummy  SRCS = tests/dummy.c MAKECMDGOALS
 
 引出AM_Makefile  执行 make -s -f Make.dummy ARCH=$(ARCH) $(MAKECMDGOALS)  (make -s -f Make.dummy ARCH=minirv-npc run)
 
 
--include $(AM_HOME)/scripts/$(ARCH).mk
+-include $(ARCH).mk  
+$(ARCH).mk -> ISA.mk  PLATFORM.mk
 
-
-
+封装$(IMAGE).elf  文件 编译归档链接(flag + 规则)  
 
 几个Makefile文件的结构: 
+
+AM层:
 
 AM_Makefile: 
 Check Config   
@@ -31,5 +31,7 @@ ISA.mk(如riscv.mk)
 补充有关ISA的编译配置
 
 PLATFORM.mk(如nemu.mk)
+定义AM层的MAKECMDGOALS规则
+
 
 

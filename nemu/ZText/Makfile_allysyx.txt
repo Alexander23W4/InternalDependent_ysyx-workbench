@@ -1,0 +1,23 @@
+从用户程序出发: 以dummy为例
+封装Makefile.dummy 
+传递
+# NAME = dummy
+# SRCS = tests/dummy.c
+引出AM_Makefile  执行 make -s -f Make.dummy ARCH=$(ARCH) $(MAKECMDGOALS)  (make -s -f Make.dummy ARCH=minirv-npc run)
+
+
+-include $(AM_HOME)/scripts/$(ARCH).mk
+
+
+
+
+各层Makefile文件的结构: 
+
+Guest Makefile(以cpu_tests为例)
+
+
+AM_Makefile: 
+Check Config   
+Setup 编译整合所需变量(ISA, PLATFORM, DST_DIR, IMAGE)  
+Compiler & Flags & Compilation Rules
+Miscellaneous

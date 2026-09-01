@@ -332,7 +332,7 @@ LINKAGE   = $(OBJS)  # library archives are added by LIB_TEMPLATE below
 
 ### (Cross) compilers, e.g., mips-linux-gnu-g++
 AS        = $(CROSS_COMPILE)gcc
-CC        = $(CROSS_COMPILE)gcc
+CC        = $(CROSS_COMPILE)gcc 
 CXX       = $(CROSS_COMPILE)g++
 LD        = $(CROSS_COMPILE)ld  # linker
 AR        = $(CROSS_COMPILE)ar

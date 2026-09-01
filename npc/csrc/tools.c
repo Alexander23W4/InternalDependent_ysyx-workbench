@@ -30,8 +30,15 @@ void final_check(){
 // allow misalign access
 uint32_t ram_read(uint32_t addr, int amount) {
     if((top->instr & 0x7f) == 3 || sdb_read_ram == 1){
-        sdb_read_ram = 0;
         uint32_t paddr = addr - RAM_BASE;
+        
+        if(sdb_read_ram == 1){
+            if(paddr > 0x7ffffff){
+                return 0;
+            }
+        }
+        sdb_read_ram = 0;
+
         uint8_t* _ram = (uint8_t*) ram;
         assert(amount <= 4 && amount >= 1);
         uint32_t result = 0;

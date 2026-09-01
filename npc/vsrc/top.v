@@ -292,21 +292,31 @@ module top(
                    {{32{csrrw | csrrs | csrrc}} & csrw_rst};
 
     // read ram
-    wire [31:0] read_ram_rst;
 
-    wire [31:0] lw_rst;
-    wire [31:0] lbu_rst;
-    wire [31:0] lhu_rst;
-    wire [31:0] lb_rst;
-    wire [31:0] lh_rst;
+    reg [31:0] read_ram_rst;
+    reg [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
-    assign read_ram_rst = {lw | lbu | lhu | lb | lh} ? ram_read(add_rst, 4) : 0;
+    always @(*) begin
+        // 默认值
+        read_ram_rst = 0;
+        lw_rst  = 0;
+        lbu_rst = 0;
+        lhu_rst = 0;
+        lb_rst  = 0;
+        lh_rst  = 0;
 
-    assign lw_rst  = read_ram_rst;
-    assign lbu_rst = {24'b0, read_ram_rst[7:0]};
-    assign lhu_rst = {16'b0, read_ram_rst[15:0]};
-    assign lb_rst  = {{25{read_ram_rst[7]}}, read_ram_rst[6:0]};
-    assign lh_rst  = {{17{read_ram_rst[15]}}, read_ram_rst[14:0]};
+        // 只有在加载指令时才调用 ram_read
+        if (lw | lb | lbu | lh | lhu) begin
+            read_ram_rst = ram_read(add_rst, 4);
+            case (1'b1)
+                lw:  lw_rst  = read_ram_rst;
+                lbu: lbu_rst = {24'b0, read_ram_rst[7:0]};
+                lhu: lhu_rst = {16'b0, read_ram_rst[15:0]};
+                lb:  lb_rst  = {{25{read_ram_rst[7]}}, read_ram_rst[6:0]};
+                lh:  lh_rst  = {{17{read_ram_rst[15]}}, read_ram_rst[14:0]};
+            endcase
+        end
+    end
 
     // 这个时序always块用来更新pc
     always @(posedge clk or posedge rst) begin

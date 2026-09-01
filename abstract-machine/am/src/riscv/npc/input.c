@@ -6,14 +6,14 @@
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   uint32_t data = *(volatile uint32_t *)KBD_ADDR; 
-  if(data != 0){
-    printf("DATA:%d\n", data);
-  }
+  // if(data != 0){
+  //   printf("DATA:%d\n", data);
+  // }
   kbd->keydown = false;
   kbd->keycode = AM_KEY_NONE;   
 
   if((data & KEYDOWN_MASK) != 0){   // press
-    printf("AM--%d\n", data);  
+    // printf("AM--%d\n", data);  
     kbd->keydown = true;
     kbd->keycode = data - KEYDOWN_MASK;
   }

@@ -15,6 +15,10 @@ $(ARCH).mk -> ISA.mk  PLATFORM.mk
 am klib -> .a   guest -> .o 
 am.a klib.a guest.o 链接形成 $(IMAGE).elf
 
+对IMAGE进行 插入ARGS, 分身操作后, 执行 make指令传给 cpu层
+
+nemu为例, build.mk -> $(BINARY)   native.mk -> $(BINARY) $(ARGS) $(IMG)
+
 
 
 几个Makefile文件的结构: 
@@ -38,5 +42,7 @@ PLATFORM.mk(如nemu.mk)
 不同编译配置和平台配置
 定义AM层的MAKECMDGOALS规则
 
+CPU层(NEMU为例):
+Makefile build.mk filelist.mk  3者共同组成一个完整的 CONFIG-ITEMS-RULES Makefile
 
 

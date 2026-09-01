@@ -8,6 +8,8 @@
 	.hidden	putch
 	.type	putch, @function
 putch:
+	li	a5,268435456
+	sb	a0,0(a5)
 	ret
 	.size	putch, .-putch
 	.section	.text.halt,"ax",@progbits
@@ -17,7 +19,7 @@ putch:
 	.type	halt, @function
 halt:
 #APP
-# 18 "/home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/src/riscv/npc/trm.c" 1
+# 20 "/home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/src/riscv/npc/trm.c" 1
 	ebreak
 # 0 "" 2
 #NO_APP
@@ -35,7 +37,7 @@ _trm_init:
 	sw	ra,8(sp)
 	call	main
 #APP
-# 18 "/home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/src/riscv/npc/trm.c" 1
+# 20 "/home/wang/InternalDependent_ysyx-workbench/abstract-machine/am/src/riscv/npc/trm.c" 1
 	ebreak
 # 0 "" 2
 #NO_APP

@@ -16,15 +16,15 @@ extern "C" {
 
 
     // DPI EXPORTS
-    // DPI export at vsrc/top.v:427:10
+    // DPI export at vsrc/top.v:431:10
     extern void check_ram_op(int* ram_op);
-    // DPI export at vsrc/top.v:420:10
+    // DPI export at vsrc/top.v:424:10
     extern void halt(int* endprog);
 
     // DPI IMPORTS
-    // DPI import at vsrc/top.v:442:47
+    // DPI import at vsrc/top.v:446:42
     extern unsigned int ram_read(unsigned int addr, int amount);
-    // DPI import at vsrc/top.v:447:34
+    // DPI import at vsrc/top.v:451:34
     extern void ram_write(unsigned int addr, unsigned int data, int amount);
 
 #ifdef __cplusplus

@@ -292,17 +292,21 @@ module top(
                    {{32{csrrw | csrrs | csrrc}} & csrw_rst};
 
     // read ram
+    wire [31:0] read_ram_rst;
+
     wire [31:0] lw_rst;
     wire [31:0] lbu_rst;
     wire [31:0] lhu_rst;
     wire [31:0] lb_rst;
     wire [31:0] lh_rst;
 
-    assign lw_rst = ram_read(add_rst, 4);
-    assign lbu_rst = ram_read(add_rst, 1);
-    assign lhu_rst = ram_read(add_rst, 2);
-    assign lb_rst = {{25{lbu_rst[7]}}, lbu_rst[6:0]};
-    assign lh_rst = {{17{lhu_rst[15]}}, lhu_rst[14:0]};
+    assign read_ram_rst = {lw | lbu | lhu | lb | lh} ? ram_read(add_rst, 4) : 0;
+
+    assign lw_rst  = read_ram_rst;
+    assign lbu_rst = {24'b0, read_ram_rst[7:0]};
+    assign lhu_rst = {16'b0, read_ram_rst[15:0]};
+    assign lb_rst  = {{25{read_ram_rst[7]}}, read_ram_rst[6:0]};
+    assign lh_rst  = {{17{read_ram_rst[15]}}, read_ram_rst[14:0]};
 
     // 这个时序always块用来更新pc
     always @(posedge clk or posedge rst) begin
@@ -439,7 +443,7 @@ module top(
     endtask
 
 
-    import "DPI-C" pure function int unsigned ram_read(
+    import "DPI-C" function int unsigned ram_read(
         input int unsigned addr,
         input int amount
     );

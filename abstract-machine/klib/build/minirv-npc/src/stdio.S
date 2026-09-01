@@ -202,7 +202,7 @@ printf:
 	.string	"Not implemented"
 	.align	2
 .LC2:
-	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/src/stdio.c:123  \n"
+	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/src/stdio.c:136  \n"
 	.section	.text.vsprintf,"ax",@progbits
 	.align	2
 	.globl	vsprintf
@@ -355,7 +355,7 @@ sprintf:
 	.section	.rodata.snprintf.str1.4,"aMS",@progbits,1
 	.align	2
 .LC3:
-	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/src/stdio.c:203  \n"
+	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/src/stdio.c:216  \n"
 	.section	.text.snprintf,"ax",@progbits
 	.align	2
 	.globl	snprintf
@@ -395,7 +395,7 @@ snprintf:
 	.section	.rodata.vsnprintf.str1.4,"aMS",@progbits,1
 	.align	2
 .LC4:
-	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/src/stdio.c:207  \n"
+	.string	" @ /home/wang/InternalDependent_ysyx-workbench/abstract-machine/klib/src/stdio.c:220  \n"
 	.section	.text.vsnprintf,"ax",@progbits
 	.align	2
 	.globl	vsnprintf

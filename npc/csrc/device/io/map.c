@@ -68,7 +68,9 @@ uint32_t map_read(uint32_t addr, int len, IOMap *map) {   // map
   uint32_t offset = addr - map->low;    // offset = read_addr - device_base_addr
   invoke_callback(map->callback, offset, len, false);  // prepare data to "space" 
   uint32_t ret = host_read((void*)((uint8_t*)(map->space) + offset), len);    // 这里map->space + offset, 这个指针直接指到对应的heap的位置上
-  printf("HOST READ: %d\n", ret);
+  if(ret != 0){
+   printf("HOST READ: %d\n", ret);
+  }
   return ret;
 }
 

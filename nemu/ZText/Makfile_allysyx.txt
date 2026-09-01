@@ -1,8 +1,12 @@
 从用户程序出发: 以dummy为例
+传入 make ARCH=riscv32e-npc ALL=dummy run
 封装Makefile.dummy 
+
 传递
-# NAME = dummy
-# SRCS = tests/dummy.c
+NAME = dummy  SRCS = tests/dummy.c
+传递
+MAKECMDGOALS
+
 引出AM_Makefile  执行 make -s -f Make.dummy ARCH=$(ARCH) $(MAKECMDGOALS)  (make -s -f Make.dummy ARCH=minirv-npc run)
 
 
@@ -11,13 +15,21 @@
 
 
 
-各层Makefile文件的结构: 
-
-Guest Makefile(以cpu_tests为例)
-
+几个Makefile文件的结构: 
 
 AM_Makefile: 
 Check Config   
 Setup 编译整合所需变量(ISA, PLATFORM, DST_DIR, IMAGE)  
 Compiler & Flags & Compilation Rules
 Miscellaneous
+
+ARCH.mk(如riscv32-nemu.mk): 
+将所有ARCH-specific的flags 和 files 包含进去, 补充关于ARCH的配置给编译器
+比如: -melf32lriscv：告诉链接器使用 ELF 32 位小端 RISC-V 的输出格式
+
+ISA.mk(如riscv.mk)
+补充有关ISA的编译配置
+
+PLATFORM.mk(如nemu.mk)
+
+

@@ -24,6 +24,8 @@ testbench已经有了， 就是3个hex程序，但是并不知道细节，只知
 于是我用了和minirv-RTL一个一个对比的方法进行验证，一一比对每一个state的gpr和一些state para
 那么我认为这个debug方法是符合FPT的，只要enum（在这里是RTL）行为正确，那么最好应该开发出一个自动化对比工具，实现在每一个circle对比gpr和关键state para
 
+
+
 那么是时候了解行业顶尖的CPU前端设计的debug方法：
 
 模拟器类型典型代表特点: 

@@ -1,6 +1,18 @@
 #include <am.h>
+#include "npc.h"
+
+#define KEYDOWN_MASK 0x8000
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
-  kbd->keydown = 0;
-  kbd->keycode = AM_KEY_NONE;
+  uint32_t data = *(volatile uint32_t *)KBD_ADDR;   
+  kbd->keydown = false;
+  kbd->keycode = AM_KEY_NONE;   
+
+  if((data & KEYDOWN_MASK) != 0){   // press
+    kbd->keydown = true;
+    kbd->keycode = data - KEYDOWN_MASK;
+  }
+  else{    // 释放码或者0
+    kbd->keycode = data;
+  }
 }

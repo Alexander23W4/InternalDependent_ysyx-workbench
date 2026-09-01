@@ -236,7 +236,7 @@ SYSTEMIC UNDERSTANDING:
 libc
 运行时库
 系统调用接口
-以及 ABI 规则
+以及 ABI 规则   
 
 🔹 ABI（Application Binary Interface）
 ABI 是：

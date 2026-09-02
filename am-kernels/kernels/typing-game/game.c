@@ -3,7 +3,7 @@
 #include <klib-macros.h>
 
 #define FPS            30
-#define CPS             5
+#define CPS             5     // 字符生成速度
 #define CHAR_W          8
 #define CHAR_H         16
 #define NCHAR         128
@@ -11,6 +11,7 @@
 #define COL_RED      0xff0033
 #define COL_GREEN    0x00cc33
 #define COL_PURPLE   0x2a0a29
+#define COL_BLACK    0x000000
 
 enum { WHITE = 0, RED, GREEN, PURPLE };
 struct character {
@@ -36,7 +37,7 @@ void new_char() {
       c->ch = 'A' + randint(0, 25);
       c->x = randint(0, screen_w - CHAR_W);
       c->y = 0;
-      c->v = (screen_h - CHAR_H + 1) / randint(FPS * 3 / 2, FPS * 2);
+      c->v = (screen_h - CHAR_H + 1) / randint(FPS * 3 / 2, FPS * 2);   // 速度
       c->t = 0;
       return;
     }
@@ -44,7 +45,9 @@ void new_char() {
 }
 
 void game_logic_update(int frame) {
-  if (frame % (FPS / CPS) == 0) new_char();
+  // 生成新字符
+  if (frame % (FPS / CPS) == 0) new_char();   // 这里 6 桢一个 new char
+  // 更新已有字符
   for (int i = 0; i < LENGTH(chars); i++) {
     struct character *c = &chars[i];
     if (c->ch) {
@@ -113,24 +116,25 @@ void video_init() {
 
   extern char font[];
   for (int i = 0; i < CHAR_W * CHAR_H; i++)
-    blank[i] = COL_PURPLE;
+    blank[i] = COL_BLACK;
 
+  // 清空屏幕
   uint32_t blank_line[screen_w];
   for (int i = 0; i < screen_w; i++)
-    blank_line[i] = COL_PURPLE;
+    blank_line[i] = COL_BLACK;
 
-    // 
+  // 
   for (int y = 0; y < screen_h; y ++)
     io_write(AM_GPU_FBDRAW, 0, y, blank_line, screen_w, 1, false);
 
   for (int ch = 0; ch < 26; ch++) {
-    char *c = &font[CHAR_H * ch];
+    char *c = &font[CHAR_H * ch];    // c 指向当前字母的位图起始地址（每个字母占 16 字节）
     for (int i = 0, y = 0; y < CHAR_H; y++)
       for (int x = 0; x < CHAR_W; x++, i++) {
-        int t = (c[y] >> (CHAR_W - x - 1)) & 1;
-        texture[WHITE][ch][i] = t ? COL_WHITE : COL_PURPLE;
-        texture[GREEN][ch][i] = t ? COL_GREEN : COL_PURPLE;
-        texture[RED  ][ch][i] = t ? COL_RED   : COL_PURPLE;
+        int t = (c[y] >> (CHAR_W - x - 1)) & 1;   // t 通过位运算提取该像素的亮灭状态：1 表示笔画点，0 表示背景. 备好三种颜色的texture数据
+        texture[WHITE][ch][i] = t ? COL_WHITE : COL_BLACK;
+        texture[GREEN][ch][i] = t ? COL_GREEN : COL_BLACK;
+        texture[RED  ][ch][i] = t ? COL_RED   : COL_BLACK;
       }
   }
 }
@@ -145,19 +149,27 @@ char lut[256] = {
   [AM_KEY_Y] = 'Y', [AM_KEY_Z] = 'Z',
 };
 
+/*
+  读取用户输入  更新游戏逻辑   输出新的画面    (这三个要同步进行)
+  流程控制: frame(预期桢数)  current(逻辑桢数)  rendered(画面桢数), 目的是让画面桢数 和 逻辑桢数都跟上 预期桢数
+*/
 int main() {
+  // INIT ------------------------------------------------------------------------------------
+  // init am-device
   ioe_init();
-  video_init();
 
+  // get config
+  video_init();
   panic_on(!io_read(AM_TIMER_CONFIG).present, "requires timer");
   panic_on(!io_read(AM_INPUT_CONFIG).present, "requires keyboard");
 
   printf("Type 'ESC' to exit\n");
 
+  // GAME LOGIC -------------------------------------------------------------------------------
   int current = 0, rendered = 0;
   uint64_t t0 = io_read(AM_TIMER_UPTIME).us;
   while (1) {
-    int frames = (io_read(AM_TIMER_UPTIME).us - t0) / (1000000 / FPS);
+    int frames = (io_read(AM_TIMER_UPTIME).us - t0) / (1000000 / FPS);   // 启动到现在的桢数
 // update next frame
     for (; current < frames; current++) {
       game_logic_update(current);

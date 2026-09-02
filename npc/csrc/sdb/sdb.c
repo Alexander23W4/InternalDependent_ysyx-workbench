@@ -91,7 +91,7 @@ static struct {
 
 void main_loop(){
     if(batch_mode){
-        while(!(Status == NPC_END || Status == NPC_CRASH)){
+        while(!(Status == NPC_END || Status == NPC_CRASH || Status == NPC_QUIT)){
             exec_once();
         }
         return;

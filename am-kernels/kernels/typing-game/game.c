@@ -14,6 +14,8 @@
 #define COL_BLACK    0x000000
 
 enum { WHITE = 0, RED, GREEN, PURPLE };
+
+// 当前屏幕上的所有字符
 struct character {
   char ch;
   int x, y, v, t;
@@ -50,17 +52,17 @@ void game_logic_update(int frame) {
   // 更新已有字符
   for (int i = 0; i < LENGTH(chars); i++) {
     struct character *c = &chars[i];
-    if (c->ch) {
-      if (c->t > 0) {
+    if (c->ch) {   // '\0' 表示字符槽空闲
+      if (c->t > 0) {    // >0 表示闪退状态, 被击中的字符在消失前短暂停留
         if (--c->t == 0) {
           c->ch = '\0';
         }
-      } else {
+      } else {    // 下落状态
         c->y += c->v;
-        if (c->y < 0) {
+        if (c->y < 0) {  // 向上越界
           c->ch = '\0';
         }
-        if (c->y + CHAR_H >= screen_h) {
+        if (c->y + CHAR_H >= screen_h) {   // 触底
           miss++;
           c->v = 0;
           c->y = screen_h - CHAR_H;
@@ -154,7 +156,7 @@ char lut[256] = {
   流程控制: frame(预期桢数)  current(逻辑桢数)  rendered(画面桢数), 目的是让画面桢数 和 逻辑桢数都跟上 预期桢数
 */
 int main() {
-  // INIT ------------------------------------------------------------------------------------
+  // INIT ------------------------------------------------------------------------------------ 加载API, 初始化屏幕, 初始化游戏素材
   // init am-device
   ioe_init();
 

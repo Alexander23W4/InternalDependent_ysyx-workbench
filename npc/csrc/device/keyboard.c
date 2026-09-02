@@ -72,6 +72,9 @@ static uint32_t key_dequeue() {
 void send_key(uint8_t scancode, bool is_keydown) {
   if (Status == NPC_NORM && keymap[scancode] != NEMU_KEY_NONE) {
     uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);   //
+    if(am_scancode != 0){
+      printf("[NPC](send_key)(keyboard):%d\n", am_scancode);
+    }
     key_enqueue(am_scancode);
   }
 }
@@ -84,7 +87,10 @@ static uint32_t *i8042_data_port_base = NULL;
 static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
-  i8042_data_port_base[0] = key_dequeue();  // into 4 byte data register
+  i8042_data_port_base[0] = key_dequeue();  // into 4 byte data register  
+  if(i8042_data_port_base[0] != 0){
+    printf("[NPC](i8042_data_io_handler)(keyboard):%d\n", i8042_data_port_base[0]);
+  }
 }
 
 // init  0xa0000060  4 bytes

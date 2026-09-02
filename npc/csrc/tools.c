@@ -60,6 +60,9 @@ uint32_t ram_read(uint32_t addr, int amount) {
             // printf("invalid ram_read addr, pc: 0x%08x, addr: 0x%08X, paddr: 0x%08X\n", cpu.pc, addr, paddr);
             #if DEVICE_ENABLE
             result = mmio_read(addr, amount); 
+            if(addr == CONFIG_I8042_DATA_MMIO && result != 0){
+                printf("[NPC](ram_read)(keyboard):%d\n", result);
+            }
             ram_read_last_data = result;
             return result;
             #endif

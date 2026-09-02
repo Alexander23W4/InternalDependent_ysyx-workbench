@@ -64,7 +64,6 @@ These two functions are core Device I/O API, when instr-ram-addr falls in device
 uint32_t map_read(uint32_t addr, int len, IOMap *map) {   // map 
   assert(len >= 1 && len <= 8);
   if(!check_bound(map, addr)) {return 0;}     // check range  (assert)
-
   uint32_t offset = addr - map->low;    // offset = read_addr - device_base_addr
   invoke_callback(map->callback, offset, len, false);  // prepare data to "space" 
   uint32_t ret = host_read((void*)((uint8_t*)(map->space) + offset), len);    // 这里map->space + offset, 这个指针直接指到对应的heap的位置上

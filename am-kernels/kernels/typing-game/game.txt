@@ -46,8 +46,9 @@ NPC-RTL(N)  AM  IO(IO设备及其总线接口)  G(打字游戏)  V(Verilator仿�
   以及这些观察是如何帮助您理解程序运行的。
 
 
-C语言的printf输出, trace
-调试的方法gdb, sdb 定位具体instr, 具体pc  查看该周期的处理器行为    trace   
+C语言的printf输出
+ftrace(NPC之上的函数调用)
+调试的方法gdb, sdb 定位具体instr, 具体pc (NPC之下的Verilator-C以及处理器周期)
 
 
 3. 印象深刻的部分

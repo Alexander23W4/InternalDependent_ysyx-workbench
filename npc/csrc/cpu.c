@@ -14,6 +14,9 @@ void exec_once(){
     }
 
     top->instr = ram[pc_idx];
+    if((top->instr & 0x7f) != 3){
+        ram_read_last_pc = 0;
+    }
     // printf("Current instr: 0x%08x \n", ram[pc_idx]);
     
 

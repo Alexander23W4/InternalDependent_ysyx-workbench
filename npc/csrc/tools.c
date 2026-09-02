@@ -40,16 +40,16 @@ uint32_t ram_read_sdb(uint32_t addr, int amount){
     return result;
 }
 
-static uint32_t last_pc = 0;
-static uint32_t last_data = 0;
+uint32_t ram_read_last_pc = 0;
+uint32_t ram_read_last_data = 0;
 
 // allow misalign access
 uint32_t ram_read(uint32_t addr, int amount) {
     if((top->instr & 0x7f) == 3){   // 所有的l指令
-        if(cpu.pc == last_pc){
-            return last_data;
+        if(cpu.pc == ram_read_last_pc){
+            return ram_read_last_data;
         }
-        last_pc = cpu.pc;
+        ram_read_last_pc = cpu.pc;
         
         uint32_t paddr = addr - RAM_BASE;
         uint8_t* _ram = (uint8_t*) ram;
@@ -60,10 +60,10 @@ uint32_t ram_read(uint32_t addr, int amount) {
             // printf("invalid ram_read addr, pc: 0x%08x, addr: 0x%08X, paddr: 0x%08X\n", cpu.pc, addr, paddr);
             #if DEVICE_ENABLE
             result = mmio_read(addr, amount); 
-            last_data = result;
+            ram_read_last_data = result;
             return result;
             #endif
-            last_data = 0;
+            ram_read_last_data = 0;
             return 0;
         }
         for (int i = 0; i < amount; i++) {
@@ -75,7 +75,7 @@ uint32_t ram_read(uint32_t addr, int amount) {
             content = (int32_t) result;
         #endif
 
-        last_data = result;
+        ram_read_last_data = result;
         return result;
     }
     else {

@@ -78,20 +78,21 @@ void game_logic_update(int frame) {
 void render() {
   static int x[NCHAR], y[NCHAR], n = 0;
 
+  // 先擦除
   for (int i = 0; i < n; i++) {
-    io_write(AM_GPU_FBDRAW, x[i], y[i], blank, CHAR_W, CHAR_H, false);
+    io_write(AM_GPU_FBDRAW, x[i], y[i], blank, CHAR_W, CHAR_H, false);  // 只擦除上一桢写的地方
   }
 
   n = 0;
   for (int i = 0; i < LENGTH(chars); i++) {
     struct character *c = &chars[i];
     if (c->ch) {
-      x[n] = c->x; y[n] = c->y; n++;
-      int col = (c->v > 0) ? WHITE : (c->v < 0 ? GREEN : RED);
+      x[n] = c->x; y[n] = c->y; n++;   // 把当前位置存入 x[n]、y[n]，供下一帧擦除使用。
+      int col = (c->v > 0) ? WHITE : (c->v < 0 ? GREEN : RED);  
       io_write(AM_GPU_FBDRAW, c->x, c->y, texture[col][c->ch - 'A'], CHAR_W, CHAR_H, false);
     }
   }
-  io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);   //
+  io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);   // 刷新
   for (int i = 0; i < 40; i++) putch('\b');
   printf("Hit: %d; Miss: %d; Wrong: %d", hit, miss, wrong);
 }

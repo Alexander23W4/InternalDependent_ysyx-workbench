@@ -23,10 +23,10 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 // int x, y; void *pixels; int w, h; bool sync
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   if (ctl->sync) {
-    *(volatile uint32_t *)SYNC_ADDR = 1;
+    *(volatile uint32_t *)SYNC_ADDR = 1;   // 调用 vga_update_screen
   }
   // git width:
-  uint32_t vga_info = *(volatile uint32_t *)NPC_VGACTL_ADDR;
+  uint32_t vga_info = *(volatile uint32_t *)NPC_VGACTL_ADDR;  //
   int screen_w = (vga_info >> 16) & 0xFFFF;
 
   uint32_t *pixels = (uint32_t *)ctl->pixels;
@@ -38,7 +38,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     for (size_t j = ctl->x; j < ctl->x + ctl->w; j++)
     {
       vmem_index = (i * screen_w + j) * 4;
-      *(volatile uint32_t *)(NPC_FB_ADDR + vmem_index) = pixels[p_idx++];
+      *(volatile uint32_t *)(NPC_FB_ADDR + vmem_index) = pixels[p_idx++];  //
     }
     
   }

@@ -61,7 +61,7 @@ void game_logic_update(int frame) {
         }
       } else {    // 下落状态
         c->y += c->v;
-        if (c->y < 0) {  // 向上越界
+        if (c->y < 0) {  // 向上越界(被击中的字符)
           c->ch = '\0';
         }
         if (c->y + CHAR_H >= screen_h) {   // 触底
@@ -107,11 +107,11 @@ void check_hit(char ch) {
       m = i;
     }
   }
-  if (m == -1) {
+  if (m == -1) {   // 敲了有效按键, 但是不是屏幕中的, wrong
     wrong++;
   } else {
     hit++;
-    chars[m].v = -(screen_h - CHAR_H + 1) / (FPS);
+    chars[m].v = -(screen_h - CHAR_H + 1) / (FPS);  // 反向上升, 1s后从上方消失
   }
 }
 

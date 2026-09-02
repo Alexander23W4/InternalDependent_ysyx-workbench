@@ -332,8 +332,8 @@
 0x80000194    0x00050463    beqz	a0, 0x8000019c                                                                                                                                   
 0x8000019c    0x00812083    lw	ra, 8(sp)                                                                    M_read: [ADDR]0x80014fc0, [DATA]0x80000838 (-2147481544)
              
-0x800001a0    0x00412403    lw	s0, 4(sp)                                                                    M_read: [ADDR]0x80014fbc, [DATA]0x00000050 (80)
-                      
+0x800001a0    0x00412403    lw	s0, 4(sp)                                                                    M_read: [ADDR]0x80014fbc, [DATA]0x00000202 (514)
+                     
 0x800001a4    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
 0x800001a8    0x00008067    ret                           [RET] PRE: game_logic_update, DST: main                                                                                 
 0x80000838    0xfe849ae3    bne	s1, s0, 0x8000082c                                                                                                                                

@@ -30,6 +30,7 @@ __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd)调用 *(volatile uint32_t *)NPC_KBD_AD
 i8042_data_io_handler执行总线逻辑, dequeue取出字母A的码  (IOD)
 游戏读出keycode并且转化为字符'A'      (G)
 check_hit扫描字符表找到最下方的'A'并且改变其运动方向和速度, hit++  (G)
+游戏周期调用render(),render多次调用API接口io_write(AM_GPU_FBDRAW),先调用API擦除上一桢的所有写入, 再遍历字符表char调用API写画布, 最后再调用API刷新screen (G)
 
 
 

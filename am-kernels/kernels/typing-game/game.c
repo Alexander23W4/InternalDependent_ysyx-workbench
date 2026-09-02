@@ -94,7 +94,7 @@ void render() {
   }
   io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);   // 刷新
   for (int i = 0; i < 40; i++) putch('\b');
-  // printf("Hit: %d; Miss: %d; Wrong: %d", hit, miss, wrong);
+  printf("Hit: %d; Miss: %d; Wrong: %d", hit, miss, wrong);
 }
 
 /*
@@ -191,7 +191,7 @@ int main() {
       if (ev.keycode == AM_KEY_NONE) break;
       if (ev.keydown && ev.keycode == AM_KEY_ESCAPE) halt(0);
       if (ev.keydown && lut[ev.keycode]) {
-        printf("[GAME](main)(keybaord):%d\n", ev.keycode);
+        // printf("[GAME](main)(keybaord):%d\n", ev.keycode);
         check_hit(lut[ev.keycode]);
       }
     };

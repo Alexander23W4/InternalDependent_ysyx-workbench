@@ -1,392 +1,384 @@
-0x80000c34    0x00028513    mv	a0, t0                                                                                                                                             
-0x80000c38    0x06e2f263    bgeu	t0, a4, 0x80000c9c                                                                                                                               
-0x80000c3c    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000f0a0 (61600)
-                   
-0x80000c40    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80014f80, [DATA]0x80002790 (-2147473520)
-             
-0x80000c44    0x00068393    mv	t2, a3                                                                                                                                             
-0x80000c48    0x00f28633    add	a2, t0, a5                                                                                                                                        
-0x80000c4c    0x00261613    slli	a2, a2, 2                                                                                                                                        
-0x80000c50    0x00269793    slli	a5, a3, 2                                                                                                                                        
-0x80000c54    0x40f60633    sub	a2, a2, a5                                                                                                                                        
-0x80000c58    0x40e60633    sub	a2, a2, a4                                                                                                                                        
-0x80000c5c    0x00f707b3    add	a5, a4, a5                                                                                                                                        
-0x80000c60    0x11000737    lui	a4, 0x11000                                                                                                                                       
-0x80000c64    0x00e60633    add	a2, a2, a4                                                                                                                                        
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002950, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002954, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002958, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x8000295c, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002960, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002964, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002968, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x8000296c, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c94    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x0000008c (140)
-                     
-0x80000c98    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
                       
-0x80000c9c    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000f0a0 (61600)
-                   
-0x80000ca0    0x00412503    lw	a0, 4(sp)                                                                    M_read: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043c4, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043c8, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043cc, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043d0, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c5c    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x00000091 (145)
                      
-0x80000ca4    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000ca8    0x00f58733    add	a4, a1, a5                                                                                                                                        
-0x80000cac    0x00a60633    add	a2, a2, a0                                                                                                                                        
-0x80000cb0    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80014f78, [DATA]0x0000f230 (62000)
+0x80000c60    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
+                      
+0x80000c64    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000e8d0 (59600)
+                   
+0x80000c68    0x00412503    lw	a0, 4(sp)                                                                    M_read: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
+                     
+0x80000c6c    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x80000c70    0x00f58733    add	a4, a1, a5                                                                                                                                        
+0x80000c74    0x00a60633    add	a2, a2, a0                                                                                                                                        
+0x80000c78    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80014f78, [DATA]0x0000ea60 (60000)
                   
-0x80000cb4    0xf6e4eee3    bltu	s1, a4, 0x80000c30                                                                                                                               
-0x80000c30    0x00628733    add	a4, t0, t1                                                                                                                                        
-0x80000c34    0x00028513    mv	a0, t0                                                                                                                                             
-0x80000c38    0x06e2f263    bgeu	t0, a4, 0x80000c9c                                                                                                                               
-0x80000c3c    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000f230 (62000)
+0x80000c7c    0xf6e4eee3    bltu	s1, a4, 0x80000bf8                                                                                                                               
+0x80000bf8    0x00628733    add	a4, t0, t1                                                                                                                                        
+0x80000bfc    0x00028513    mv	a0, t0                                                                                                                                             
+0x80000c00    0x06e2f263    bgeu	t0, a4, 0x80000c64                                                                                                                               
+0x80000c04    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000ea60 (60000)
                    
-0x80000c40    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80014f80, [DATA]0x80002790 (-2147473520)
+0x80000c08    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80014f80, [DATA]0x80004334 (-2147466444)
              
-0x80000c44    0x00068393    mv	t2, a3                                                                                                                                             
-0x80000c48    0x00f28633    add	a2, t0, a5                                                                                                                                        
-0x80000c4c    0x00261613    slli	a2, a2, 2                                                                                                                                        
-0x80000c50    0x00269793    slli	a5, a3, 2                                                                                                                                        
-0x80000c54    0x40f60633    sub	a2, a2, a5                                                                                                                                        
-0x80000c58    0x40e60633    sub	a2, a2, a4                                                                                                                                        
-0x80000c5c    0x00f707b3    add	a5, a4, a5                                                                                                                                        
-0x80000c60    0x11000737    lui	a4, 0x11000                                                                                                                                       
-0x80000c64    0x00e60633    add	a2, a2, a4                                                                                                                                        
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002970, [DATA]0x00000000 (0)
+0x80000c0c    0x00068393    mv	t2, a3                                                                                                                                             
+0x80000c10    0x00f28633    add	a2, t0, a5                                                                                                                                        
+0x80000c14    0x00261613    slli	a2, a2, 2                                                                                                                                        
+0x80000c18    0x00269793    slli	a5, a3, 2                                                                                                                                        
+0x80000c1c    0x40f60633    sub	a2, a2, a5                                                                                                                                        
+0x80000c20    0x40e60633    sub	a2, a2, a4                                                                                                                                        
+0x80000c24    0x00f707b3    add	a5, a4, a5                                                                                                                                        
+0x80000c28    0x11000737    lui	a4, 0x11000                                                                                                                                       
+0x80000c2c    0x00e60633    add	a2, a2, a4                                                                                                                                        
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043d4, [DATA]0x00000000 (0)
                        
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002974, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002978, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x8000297c, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002980, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002984, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80002988, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c68    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x8000298c, [DATA]0x00000000 (0)
-                       
-0x80000c6c    0x00f60733    add	a4, a2, a5                                                                                                                                        
-0x80000c70    0x00168693    addi	a3, a3, 1                                                                                                                                        
-0x80000c74    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
-0x80000c78    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x000000d0 (208)
-                     
-0x80000c7c    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
-                       
-0x80000c80    0x00a68733    add	a4, a3, a0                                                                                                                                        
-0x80000c84    0x40770733    sub	a4, a4, t2                                                                                                                                        
-0x80000c88    0x006285b3    add	a1, t0, t1                                                                                                                                        
-0x80000c8c    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x80000c90    0xfcb76ce3    bltu	a4, a1, 0x80000c68                                                                                                                               
-0x80000c94    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x0000008c (140)
-                     
-0x80000c98    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
                       
-0x80000c9c    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000f230 (62000)
-                   
-0x80000ca0    0x00412503    lw	a0, 4(sp)                                                                    M_read: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043d8, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043dc, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043e0, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043e4, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043e8, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043ec, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043f0, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c5c    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x00000091 (145)
                      
-0x80000ca4    0x00148493    addi	s1, s1, 1                                                                                                                                        
-0x80000ca8    0x00f58733    add	a4, a1, a5                                                                                                                                        
-0x80000cac    0x00a60633    add	a2, a2, a0                                                                                                                                        
-0x80000cb0    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80014f78, [DATA]0x0000f3c0 (62400)
+0x80000c60    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
+                      
+0x80000c64    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000ea60 (60000)
+                   
+0x80000c68    0x00412503    lw	a0, 4(sp)                                                                    M_read: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
+                     
+0x80000c6c    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x80000c70    0x00f58733    add	a4, a1, a5                                                                                                                                        
+0x80000c74    0x00a60633    add	a2, a2, a0                                                                                                                                        
+0x80000c78    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80014f78, [DATA]0x0000ebf0 (60400)
                   
-0x80000cb4    0xf6e4eee3    bltu	s1, a4, 0x80000c30                                                                                                                               
-0x80000cb8    0x01c12083    lw	ra, 0x1c(sp)                                                                 M_read: [ADDR]0x80014f94, [DATA]0x8000031c (-2147482852)
+0x80000c7c    0xf6e4eee3    bltu	s1, a4, 0x80000bf8                                                                                                                               
+0x80000bf8    0x00628733    add	a4, t0, t1                                                                                                                                        
+0x80000bfc    0x00028513    mv	a0, t0                                                                                                                                             
+0x80000c00    0x06e2f263    bgeu	t0, a4, 0x80000c64                                                                                                                               
+0x80000c04    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000ebf0 (60400)
+                   
+0x80000c08    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80014f80, [DATA]0x80004334 (-2147466444)
              
-0x80000cbc    0x01812403    lw	s0, 0x18(sp)                                                                 M_read: [ADDR]0x80014f90, [DATA]0x80001de0 (-2147476000)
-             
-0x80000cc0    0x01412483    lw	s1, 0x14(sp)                                                                 M_read: [ADDR]0x80014f8c, [DATA]0x80014fa0 (-2147397728)
-             
-0x80000cc4    0x02010113    addi	sp, sp, 0x20                                                                                                                                     
-0x80000cc8    0x00008067    ret                           [RET] PRE: __am_gpu_fbdraw, DST: render                                                                                 
-0x8000031c    0x0000c397    auipc	t2, 0xc                                                                                                                                         
-0x80000320    0x47c38393    addi	t2, t2, 0x47c                                                                                                                                    
-0x80000324    0x01440413    addi	s0, s0, 0x14                                                                                                                                     
-0x80000328    0x00002797    auipc	a5, 2                                                                                                                                           
-0x8000032c    0x46878793    addi	a5, a5, 0x468                                                                                                                                    
-0x80000330    0xf4f412e3    bne	s0, a5, 0x80000274                                                                                                                                
-0x80000274    0x00044703    lbu	a4, 0(s0)                                                                   M_read: [ADDR]0x80001df4, [DATA]0x00000050 (80)
-                      
-0x80000278    0x00048593    mv	a1, s1                                                                                                                                             
-0x8000027c    0x00b00513    li	a0, 0xb                                                                                                                                            
-0x80000280    0xfbf70793    addi	a5, a4, -0x41                                                                                                                                    
-0x80000284    0x0a070063    beqz	a4, 0x80000324                                                                                                                                   
-0x80000288    0x0003a703    lw	a4, 0(t2)                                                                    M_read: [ADDR]0x8000c798, [DATA]0x00000005 (5)
+0x80000c0c    0x00068393    mv	t2, a3                                                                                                                                             
+0x80000c10    0x00f28633    add	a2, t0, a5                                                                                                                                        
+0x80000c14    0x00261613    slli	a2, a2, 2                                                                                                                                        
+0x80000c18    0x00269793    slli	a5, a3, 2                                                                                                                                        
+0x80000c1c    0x40f60633    sub	a2, a2, a5                                                                                                                                        
+0x80000c20    0x40e60633    sub	a2, a2, a4                                                                                                                                        
+0x80000c24    0x00f707b3    add	a5, a4, a5                                                                                                                                        
+0x80000c28    0x11000737    lui	a4, 0x11000                                                                                                                                       
+0x80000c2c    0x00e60633    add	a2, a2, a4                                                                                                                                        
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043f4, [DATA]0x00000000 (0)
                        
-0x8000028c    0x0000c697    auipc	a3, 0xc                                                                                                                                         
-0x80000290    0x10468693    addi	a3, a3, 0x104                                                                                                                                    
-0x80000294    0x0000c097    auipc	ra, 0xc                                                                                                                                         
-0x80000298    0x2fc08093    addi	ra, ra, 0x2fc                                                                                                                                    
-0x8000029c    0x00271713    slli	a4, a4, 2                                                                                                                                        
-0x800002a0    0x00442303    lw	t1, 4(s0)                                                                    M_read: [ADDR]0x80001df8, [DATA]0x000000dc (220)
-                     
-0x800002a4    0x00e682b3    add	t0, a3, a4                                                                                                                                        
-0x800002a8    0x00e08733    add	a4, ra, a4                                                                                                                                        
-0x800002ac    0x0003a083    lw	ra, 0(t2)                                                                    M_read: [ADDR]0x8000c798, [DATA]0x00000005 (5)
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
                        
-0x800002b0    0x00842603    lw	a2, 8(s0)                                                                    M_read: [ADDR]0x80001dfc, [DATA]0x0000011c (284)
-                     
-0x800002b4    0x00c42683    lw	a3, 0xc(s0)                                                                  M_read: [ADDR]0x80001e00, [DATA]0x00000000 (0)
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043f8, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
                        
-0x800002b8    0x0062a023    sw	t1, 0(t0)                                                                    M_write: [ADDR]0x8000c3a4, [DATA]0x000000dc (220)
-                    
-0x800002bc    0x00c42283    lw	t0, 0xc(s0)                                                                  M_read: [ADDR]0x80001e00, [DATA]0x00000000 (0)
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x800043fc, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
                        
-0x800002c0    0x00108093    addi	ra, ra, 1                                                                                                                                        
-0x800002c4    0x00d036b3    snez	a3, a3                                                                                                                                           
-0x800002c8    0x00c72023    sw	a2, 0(a4)                                                                    M_write: [ADDR]0x8000c5a4, [DATA]0x0000011c (284)
-                    
-0x800002cc    0x0013a023    sw	ra, 0(t2)                                                                    M_write: [ADDR]0x8000c798, [DATA]0x00000006 (6)
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80004400, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
                       
-0x800002d0    0x40d006b3    neg	a3, a3                                                                                                                                            
-0x800002d4    0x00000713    li	a4, 0                                                                                                                                              
-0x800002d8    0x00504663    bgtz	t0, 0x800002e4                                                                                                                                   
-0x800002dc    0x01a6f713    andi	a4, a3, 0x1a                                                                                                                                     
-0x800002e0    0x01a70713    addi	a4, a4, 0x1a                                                                                                                                     
-0x800002e4    0x00e787b3    add	a5, a5, a4                                                                                                                                        
-0x800002e8    0x00979793    slli	a5, a5, 9                                                                                                                                        
-0x800002ec    0x00002717    auipc	a4, 2                                                                                                                                           
-0x800002f0    0x4a470713    addi	a4, a4, 0x4a4                                                                                                                                    
-0x800002f4    0x00e787b3    add	a5, a5, a4                                                                                                                                        
-0x800002f8    0x00f12823    sw	a5, 0x10(sp)                                                                 M_write: [ADDR]0x80014fa8, [DATA]0x80007990 (-2147452528)
-            
-0x800002fc    0x00800793    li	a5, 8                                                                                                                                              
-0x80000300    0x00f12a23    sw	a5, 0x14(sp)                                                                 M_write: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80004404, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
                       
-0x80000304    0x01000793    li	a5, 0x10                                                                                                                                           
-0x80000308    0x00612423    sw	t1, 8(sp)                                                                    M_write: [ADDR]0x80014fa0, [DATA]0x000000dc (220)
-                    
-0x8000030c    0x00c12623    sw	a2, 0xc(sp)                                                                  M_write: [ADDR]0x80014fa4, [DATA]0x0000011c (284)
-                    
-0x80000310    0x00f12c23    sw	a5, 0x18(sp)                                                                 M_write: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80004408, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x8000440c, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80004410, [DATA]0x00eeeeee (15658734)
+                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x00000015 (21)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c5c    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x00000091 (145)
                      
-0x80000314    0x00010e23    sb	zero, 0x1c(sp)                                                               M_write: [ADDR]0x80014fb4, [DATA]0x00000000 (0)
+0x80000c60    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
                       
-0x80000318    0x6a0000ef    jal	0x800009b8                [CALL] PRE: render, DST: ioe_write                                                                                      
-0x800009b8    0x00251513    slli	a0, a0, 2                                                                                                                                        
-0x800009bc    0x00001797    auipc	a5, 1                                                                                                                                           
-0x800009c0    0xfc078793    addi	a5, a5, -0x40                                                                                                                                    
-0x800009c4    0x00a787b3    add	a5, a5, a0                                                                                                                                        
-0x800009c8    0x0007a783    lw	a5, 0(a5)                                                                    M_read: [ADDR]0x800019a8, [DATA]0x80000bb8 (-2147480648)
-             
-0x800009cc    0x00058513    mv	a0, a1                                                                                                                                             
-0x800009d0    0x00078067    jr	a5                         [CALL] PRE: ioe_write, DST: __am_gpu_fbdraw                                                                             
-0x80000bb8    0x01454783    lbu	a5, 0x14(a0)                                                                M_read: [ADDR]0x80014fb4, [DATA]0x80000100 (-2147483392)
-             
-0x80000bbc    0xfe010113    addi	sp, sp, -0x20                                                                                                                                    
-0x80000bc0    0x00812c23    sw	s0, 0x18(sp)                                                                 M_write: [ADDR]0x80014f90, [DATA]0x80001df4 (-2147475980)
-            
-0x80000bc4    0x00112e23    sw	ra, 0x1c(sp)                                                                 M_write: [ADDR]0x80014f94, [DATA]0x8000031c (-2147482852)
-            
-0x80000bc8    0x00912a23    sw	s1, 0x14(sp)                                                                 M_write: [ADDR]0x80014f8c, [DATA]0x80014fa0 (-2147397728)
-            
-0x80000bcc    0x00050413    mv	s0, a0                                                                                                                                             
-0x80000bd0    0x00078863    beqz	a5, 0x80000be0                                                                                                                                   
-0x80000be0    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
-                      
-0x80000be4    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x0000011c (284)
+0x80000c64    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000ebf0 (60400)
+                   
+0x80000c68    0x00412503    lw	a0, 4(sp)                                                                    M_read: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
                      
-0x80000be8    0x10000737    lui	a4, 0x10000                                                                                                                                       
-0x80000bec    0x10072683    lw	a3, 0x100(a4)                                                                                                                                      
-0x80000bf0    0x00f58733    add	a4, a1, a5                                                                                                                                        
-0x80000bf4    0x00f12623    sw	a5, 0xc(sp)                                                                  M_write: [ADDR]0x80014f84, [DATA]0x00000010 (16)
-                     
-0x80000bf8    0x00842783    lw	a5, 8(s0)                                                                    M_read: [ADDR]0x80014fa8, [DATA]0x80007990 (-2147452528)
+0x80000c6c    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x80000c70    0x00f58733    add	a4, a1, a5                                                                                                                                        
+0x80000c74    0x00a60633    add	a2, a2, a0                                                                                                                                        
+0x80000c78    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80014f78, [DATA]0x0000ed80 (60800)
+                  
+0x80000c7c    0xf6e4eee3    bltu	s1, a4, 0x80000bf8                                                                                                                               
+0x80000bf8    0x00628733    add	a4, t0, t1                                                                                                                                        
+0x80000bfc    0x00028513    mv	a0, t0                                                                                                                                             
+0x80000c00    0x06e2f263    bgeu	t0, a4, 0x80000c64                                                                                                                               
+0x80000c04    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x0000ed80 (60800)
+                   
+0x80000c08    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80014f80, [DATA]0x80004334 (-2147466444)
              
-0x80000bfc    0x0106d513    srli	a0, a3, 0x10                                                                                                                                     
-0x80000c00    0x00a12223    sw	a0, 4(sp)                                                                    M_write: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
-                    
-0x80000c04    0x00f12423    sw	a5, 8(sp)                                                                    M_write: [ADDR]0x80014f80, [DATA]0x80007990 (-2147452528)
-            
-0x80000c08    0x00058493    mv	s1, a1                                                                                                                                             
-0x80000c0c    0x0ae5f663    bgeu	a1, a4, 0x80000cb8                                                                                                                               
+0x80000c0c    0x00068393    mv	t2, a3                                                                                                                                             
+0x80000c10    0x00f28633    add	a2, t0, a5                                                                                                                                        
+0x80000c14    0x00261613    slli	a2, a2, 2                                                                                                                                        
+0x80000c18    0x00269793    slli	a5, a3, 2                                                                                                                                        
+0x80000c1c    0x40f60633    sub	a2, a2, a5                                                                                                                                        
+0x80000c20    0x40e60633    sub	a2, a2, a4                                                                                                                                        
+0x80000c24    0x00f707b3    add	a5, a4, a5                                                                                                                                        
+0x80000c28    0x11000737    lui	a4, 0x11000                                                                                                                                       
+0x80000c2c    0x00e60633    add	a2, a2, a4                                                                                                                                        
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80004414, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          

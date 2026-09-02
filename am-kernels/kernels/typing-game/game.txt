@@ -20,21 +20,23 @@
 
 用户成功按下一个字母并实现命中时，整个计算机系统（包括Verilator 仿真环境、NPC RTL 处理器、AM 抽象层、输入输出设备、运行时环境及打字游戏程序本身）是如何协同工作的:
 
-NPC  AM  IO(IO设备及其总线接口)  G(打字游戏)
+NPC-RTL(N)  AM  IO(IO设备及其总线接口)  G(打字游戏)  V(Verilator仿真环境)
 
 1.用户成功按下一个字母A   (IOD)
-2.device_update() 读取SDL event并且捕获 enqueue(A的am_scancode)  (IOD)
+2.device_update() 读取SDL event并且捕获 enqueue(A的am_scancode)  (IO)
 3.游戏周期调用io_read(AM_INPUT_KEYBRD);  (G)
-4.io_read(AM_INPUT_KEYBRD);展开, 调用AM_IOE API __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) (AM)
-5.__am_input_keybrd(AM_INPUT_KEYBRD_T *kbd)调用 *(volatile uint32_t *)NPC_KBD_ADDR; 通过MMIO 组合逻辑重定向到keyboard接口总线 (NPC)
-6.i8042_data_io_handler执行总线逻辑, dequeue取出字母A的码  (IOD)
-7.游戏读出keycode并且转化为字符'A'      (G)
-8.check_hit扫描字符表找到最下方的'A'并且改变其运动方向和速度, hit++  (G)
-9.游戏周期调用render(),render多次调用API接口io_write(AM_GPU_FBDRAW),先调用API擦除上一桢的所有写入, 再遍历字符表char调用API写画布, 最后再调用API刷新screen (G)
-10.io_write(AM_GPU_FBDRAW)调用__am_gpu_fbdraw(), 内部*(volatile uint32_t *)(NPC_FB_ADDR + vmem_index)写入画布地址, *(volatile uint32_t *)SYNC_ADDR = 1刷新 (AM)
-11.NPC MMIO将FB_ADDR定向到 画布对应物理地址, 将VGA_CTL_MMIO定向到 vga_update_screen()  (NPC)
-12.画布物理地址写入操作, vga_update_screen()实现交互逻辑, 如果SYNC = 1则硬件刷新screen. 更新后显示新的画面给用户, 实现游戏输入输出交互周期  (IOD)
-13.之后FPS个周期, 多次执行9-12步骤, 直到画面中'A'字母碰到屏幕上沿立即消失, 用时1s  (G)
+4.io_read(AM_INPUT_KEYBRD);展开, 调用AM_IOE API __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) 调用 *(volatile uint32_t *)NPC_KBD_ADDR;(AM)
+5.编译成 lw xx NPC_KBD_ADDR, NPC RTL经过Fetch Decode 识别出lw, 计算出addr和, 通过DPI-C接口调用ram_read()函数 (N)
+6.Verilator-C 执行ram_read(), 发现不在mem范围内从而MMIO重定向到map_read(),检索定向发现对应keybaord, 执行i8042_data_io_handler() (V)
+7.i8042_data_io_handler执行总线逻辑, dequeue取出字母A的码  (IO)
+8.ram_read()将值返回给RTL, RTL将返回值作为wdata, 拉高wen, 计算出raddr, GPR在下一个上升沿更新目标寄存器的值  (N)
+9.游戏读出keycode并且转化为字符'A'      (G)
+10.check_hit扫描字符表找到最下方的'A'并且改变其运动方向和速度, hit++  (G)
+11.游戏周期调用render(),render多次调用API接口io_write(AM_GPU_FBDRAW),先调用API擦除上一桢的所有写入, 再遍历字符表char调用API写画布, 最后再调用API刷新screen (G)
+12.io_write(AM_GPU_FBDRAW)调用__am_gpu_fbdraw(), 内部*(volatile uint32_t *)(NPC_FB_ADDR + vmem_index)写入画布地址, *(volatile uint32_t *)SYNC_ADDR = 1刷新 (AM)
+13.NPC MMIO将FB_ADDR定向到 画布对应物理地址, 将VGA_CTL_MMIO定向到 vga_update_screen()  (N, V)
+14.画布物理地址写入操作, vga_update_screen()实现交互逻辑, 如果SYNC = 1则硬件刷新screen. 更新后显示新的画面给用户, 实现游戏输入输出交互周期  (IO)
+15.之后FPS个周期, 多次执行9-12步骤, 直到画面中'A'字母碰到屏幕上沿立即消失, 用时1s  (G)
 
 
 

@@ -79,8 +79,8 @@ extern int diff_flag;
 
 extern CPU_state cpu;
 
-extern uint32_t ram_read_last_pc = 0;
-extern uint32_t ram_read_last_data = 0;
+extern uint32_t ram_read_last_pc;
+extern uint32_t ram_read_last_data;
 
 void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);

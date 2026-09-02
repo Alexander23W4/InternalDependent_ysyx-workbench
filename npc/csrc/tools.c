@@ -1,6 +1,8 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 char* diff_so_file = NULL; 
+uint32_t ram_read_last_pc = 0;
+uint32_t ram_read_last_data = 0;
 
 void tick() {
     top->clk = 0;
@@ -40,8 +42,6 @@ uint32_t ram_read_sdb(uint32_t addr, int amount){
     return result;
 }
 
-uint32_t ram_read_last_pc = 0;
-uint32_t ram_read_last_data = 0;
 
 // allow misalign access
 uint32_t ram_read(uint32_t addr, int amount) {

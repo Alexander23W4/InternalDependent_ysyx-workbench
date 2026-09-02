@@ -4,12 +4,14 @@
 #define CONFIG_RTC_MMIO 0x10000048
 #define CONFIG_UPTIME_MMIO 0x10000054
 #define CONFIG_I8042_DATA_MMIO 0x10000060
+#define CONFIG_VGA_CTL_MMIO 0x10000100
+#define CONFIG_FB_ADDR 0x11000000
 
-#define CONFIG_FB_ADDR 0xa1000000
+
 #define CONFIG_DISK_CTL_MMIO 0xa0000300
 #define CONFIG_SB_SIZE 0x10000
 #define CONFIG_SB_ADDR 0xa1200000
-#define CONFIG_VGA_CTL_MMIO 0xa0000100
+
 
 #define PAGE_SHIFT        12
 #define PAGE_SIZE         (1ul << PAGE_SHIFT)
@@ -49,6 +51,7 @@ void init_timer();
 void init_vga();
 void init_i8042();
 void send_key(uint8_t, bool);
+inline void update_screen();
 void vga_update_screen();
 uint64_t get_time();
 void device_update();

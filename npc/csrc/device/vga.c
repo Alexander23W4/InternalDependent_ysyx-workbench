@@ -66,7 +66,7 @@ static void init_screen() {
 }
 
 // &
-static inline void update_screen() {
+inline void update_screen() {
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(uint32_t));
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -87,7 +87,6 @@ void init_vga() {
 // vga ctl:
   vgactl_port_base = (uint32_t *)new_space(8);   // 2 * uint32_t  (8 Byte, 2 Word)
   vgactl_port_base[0] = (screen_width() << 16) | screen_height();   // vga info (canvas area) (First Word)
-
   add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8, vga_update_screen);     // 0xa0000100  vga control  // name, addr, space, len, callback
 
 

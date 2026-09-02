@@ -34,6 +34,7 @@ Besides: 还有一个device_update()函数, 在exec_once()里面调用, 实时�
 // *** device update (be called by execute() in every circle)
 // ⭐ 注意: 这个函数模拟的是 OS 的设备驱动轮询/事件循环, 不是硬件行为, 按理来说应该写在AM里面
 void device_update() {
+  // timer
   static uint64_t last = 0;
   uint64_t now = get_time();
   if (now - last < 1000000 / TIMER_HZ) {      // avoid checking too frequently
@@ -41,8 +42,10 @@ void device_update() {
   }
   last = now;
   
+  // vga
   // vga_update_screen();
 
+  // keyboard
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {

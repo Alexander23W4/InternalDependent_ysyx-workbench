@@ -1,8 +1,0 @@
-[  add-longlong] [1;32mPASS[0m
-[         crc32] [1;32mPASS[0m
-[           sum] [1;32mPASS[0m
-[         prime] [1;32mPASS[0m
-[     leap-year] [1;32mPASS[0m
-[       unalign] [1;32mPASS[0m
-[      goldbach] [1;32mPASS[0m
-[    matrix-mul] [1;32mPASS[0m

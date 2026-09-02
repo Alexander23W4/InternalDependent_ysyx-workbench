@@ -32,6 +32,8 @@ int randint(int l, int r) {
   return l + (rand() & 0x7fffffff) % (r - l + 1);
 }
 
+// ------------------------------------------------------------------------------------------------
+
 void new_char() {
   for (int i = 0; i < LENGTH(chars); i++) {
     struct character *c = &chars[i];
@@ -94,11 +96,14 @@ void render() {
   printf("Hit: %d; Miss: %d; Wrong: %d", hit, miss, wrong);
 }
 
+/*
+在所有下落的字符中，找出匹配该字母且“最靠下”的那个字符，然后根据是否找到匹配来更新游戏分数（hit 或 wrong），并触发命中后的动画效果。
+*/
 void check_hit(char ch) {
   int m = -1;
   for (int i = 0; i < LENGTH(chars); i++) {
     struct character *c = &chars[i];
-    if (ch == c->ch && c->v > 0 && (m < 0 || c->y > chars[m].y)) {
+    if (ch == c->ch && c->v > 0 && (m < 0 || c->y > chars[m].y)) { // 下落中最靠下的
       m = i;
     }
   }
@@ -172,11 +177,13 @@ int main() {
   uint64_t t0 = io_read(AM_TIMER_UPTIME).us;
   while (1) {
     int frames = (io_read(AM_TIMER_UPTIME).us - t0) / (1000000 / FPS);   // 启动到现在的桢数
-// update next frame
+
+// update next frame 更新逻辑
     for (; current < frames; current++) {
       game_logic_update(current);
     }
-// read guest input
+
+// read guest input 读取用户输入
     while (1) {
       AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
       if (ev.keycode == AM_KEY_NONE) break;
@@ -185,7 +192,8 @@ int main() {
         check_hit(lut[ev.keycode]);
       }
     };
-// cal next fram info
+
+// cal next fram info 更新画面
     if (current > rendered) {
       render();
       rendered = current;

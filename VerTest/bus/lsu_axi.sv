@@ -162,7 +162,8 @@ module LSU (
     input [31:0] wdata,
     input finish_arrange,   // 代表处理器后续部分处理完毕
     
-    output [31:0] rdata
+    output [31:0] rdata,
+    output error
 );
 // 外部控制信号与返回外部的信号:
     logic read, write;
@@ -182,7 +183,7 @@ module LSU (
             state <= IDLE;
             rdata_save <= `0;
         end else begin
-            if(state == R && bus.rvalid == 1'b1) begin
+            if(state == R && bus.rvalid && == 1'b1 && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
             end
             state <= next;
@@ -212,6 +213,7 @@ module LSU (
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
         next = state;
+        error = 1'b0;
         
         case(state)
             IDLE: begin
@@ -231,16 +233,23 @@ module LSU (
             end
 
             R: begin
-                if(bus.rvalid == 1'b1 && finish_arrange) begin
-                    bus.rready = 1'b1;
-                    if(decode_addr_ready && read) begin
-                        next = AR;
+                if(bus.rvalid == 1'b1) begin
+                    if(bus.rresp == 2'b00) begin
+                        if(finish_arrange) begin
+                            bus.ready = 1'b1;
+                            if(decode_addr_ready && read) begin
+                                next = AR;
+                            end
+                            else if(decode_addr_ready && write) begin
+                                next = AW;
+                            end
+                            else begin
+                                next = IDLE;
+                            end
+                        end
                     end
-                    else if(decode_addr_ready && write) begin
-                        next = AW;
-                    end
-                    else begin
-                        next = IDLE;
+                    else if(bus.rresp == 2'b10) begin
+                        error = 1'b1;
                     end
                 end
             end

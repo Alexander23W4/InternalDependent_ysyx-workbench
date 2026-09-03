@@ -123,6 +123,9 @@ wmask     --->   ===>   pstrb     --->   ===>   pwdata    --->
 <---     error          <---   pslverr          <---    prdata
                                                 <---   pslverr
 
+APB比 simple bus 少了reqReady对, 只有reqValid对, 那么只有master的主动表明发出状态, slave被动表明是否已经完成操作.
+    没有slave主动表示状态
+
 
 
 

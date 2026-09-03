@@ -215,6 +215,9 @@ ready           |       |       |
         +-------+       +-------+
 
 
+B 为 writing response, 没有reading response, reading response 是将数据的返回作为bresp
+
+
 
 
 

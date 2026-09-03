@@ -12,7 +12,7 @@
 ⭐ NEMU 对于npc的作用, 只能够作为difftest的ref, 其他的klib之下的部分, npc和nemu是不同的生态
     包括 cte vme mpe ioe的实现  npc-C++文件  npc-ISA, 都需要npc独立debug, 使用 gdb   difftest   sdb   trace
 
-DC阶段个人目标:
+DC阶段个人目标:  Infrasturcture   AM(IOE CTE klib)
 
 -> 开发所有infras给 NEMU 和 CPU , 并且能够 熟练调用 并且 熟悉源码
 

@@ -393,12 +393,11 @@ $(DST_DIR)/%.o: %.S
 
 
 # @@@@@ ARCHIVE
-ifeq ($(MAKECMDGOALS),archive)
 ### Rule (archive): objects (`*.o`) -> `ARCHIVE.a` (ar)
 # 这里是, 只要文件make archive, 比如下面@$$(MAKE) -s -C $$(AM_HOME)/$(1) archive, 对所有的am和klib里面的.c .cpp .cc .S 文件都执行这个
 # 在这之前保证其作为目标文件走一遍前面的生成OBJ的流程(->.o)
 # 最终把所有的文件归档成kib.a和am.a
-
+ifeq ($(MAKECMDGOALS),archive)
 # am/Makefile -> (抓取am文件)SRCS -> 调用主Makefile -> make archive(之前将SRCS->OBJS(.o)) -> AR ...
 $(ARCHIVE): $(OBJS)
 	@echo + AR "->" $(shell realpath $@ --relative-to .)

@@ -95,6 +95,38 @@ whether two modules can communicate with each other solely depends on their stat
 为了实现更低成本的存储器, 通常会采用其他存储密度更大的工艺来制造存储器, 例如DRAM. 
 但由于电气特性, 这些存储器的读延迟通常大于处理器的1周期.
 
+这是我们最终的 simple bus
++-----+ reqValid           ---> +-----+
+|     | <---           reqReady |     |
+|     | addr[log2(N)-1:0]  ---> |     |
+|     | wen                ---> |     |
+|     | wdata[31:0]        ---> |     |
+| CPU | wmask[3:0]         ---> | MEM |
+|     | <---          respValid |     |
+|     | respReady          ---> |     |
+|     | <---        rdata[31:0] |     |
+|     | <---              error |     |
++-----+                         +-----+
+
+⭐: 实现simple_bus -> 标准总线协议
+
+AMBA: AMBA(Advanced Microcontroller Bus Architecture)是一个在业界广泛使用的总线协议系列, 其中定义了面向各种性能场景的总线协议.
+
+APB(Advanced Peripheral Bus)是面向低速外设的总线协议.
+reqValid  --->          penable   --->          psel      --->
+addr      --->          paddr     --->          penable   --->
+wen       --->          pwrite    --->          paddr     --->
+wdata     --->    1     pwdata    --->    2     pwrite    --->
+wmask     --->   ===>   pstrb     --->   ===>   pwdata    --->
+<--- respValid          <---    pready          pstrb     --->
+<---     rdata          <---    prdata          <---    pready
+<---     error          <---   pslverr          <---    prdata
+                                                <---   pslverr
+
+
+
+
+
 
 
 

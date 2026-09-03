@@ -277,16 +277,23 @@ module LSU (
             end
 
             B: begin
-                if(bus.bvalid == 1'b1 && finish_arrange) begin
-                    bus.bready = 1'b1;
-                    if(decode_addr_ready && read) begin
-                        next = AR;
+                if(bus.bvalid == 1'b1) begin
+                    if(bus.bresp == 2'b00) begin
+                        if(finish_arrange) begin
+                            bus.ready = 1'b1;
+                            if(decode_addr_ready && read) begin
+                                next = AR;
+                            end
+                            else if(decode_addr_ready && write) begin
+                                next = AW;
+                            end
+                            else begin
+                                next = IDLE;
+                            end
+                        end
                     end
-                    else if(decode_addr_ready && write) begin
-                        next = AW;
-                    end
-                    else begin
-                        next = IDLE;
+                    if(bus.bresp == 2'b10) begin
+                        error = 1'b1;
                     end
                 end
             end

@@ -42,9 +42,18 @@ ID 标签	                 AWID, ARID, WID, RID, BID	                           
 数据结束标志	           WLAST, RLAST	                                                      标志突发传输中最后一个数据节拍。
 用户自定义	              AWUSER, WUSER, BUSER, ARUSER, RUSER	                              可选信号，用于用户自定义信息扩展。
 
-根据权衡, 不实现outstanding, 一次只处理一个读信号/写信号, 最多处理一个读信号+写信号
+读和写分离(读写并发)  地址和数据分离(DRAM可以先收地址)
 
-valid & ready 同时为1一个周期, 才叫握手成功, 一个读/写instr的操作需要两次握手来完成
-前一次先拉
+一次读操作:
+1次握手: 主设备arvalid和araddr持续拉高等待arready完成一周期握手
+2次握手: rvalid和rdata, rresp持续拉高, 等待rready完成一周期握手
+
+一次写操作:
+1次握手:AW
+2次握手:W
+3次握手:B
+
+根据权衡, 不实现outstanding, 而且指令是逐个执行
+
 
 */

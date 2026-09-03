@@ -183,6 +183,18 @@ module LSU (
     end
 
     always_comb begin
+        bus.wstrb = 4'b0000;  
+
+        if (sw) begin
+            bus.wstrb = 4'b1111;
+        end else if (sh) begin
+            bus.wstrb = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
+        end else if (sb) begin
+            bus.wstrb = 4'b0001 << addr[1:0];
+        end
+    end
+
+    always_comb begin
         bus.araddr = addr;
         bus.arvalid = 1'b0;
         bus.rready = 1'b0;

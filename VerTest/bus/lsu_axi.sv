@@ -42,6 +42,14 @@ ID 标签	                 AWID, ARID, WID, RID, BID	                           
 数据结束标志	           WLAST, RLAST	                                                      标志突发传输中最后一个数据节拍。
 用户自定义	              AWUSER, WUSER, BUSER, ARUSER, RUSER	                              可选信号，用于用户自定义信息扩展。
 
+对于resp信号:
+编码 ([1:0])	名称	含义
+2'b00	OKAY	传输成功（正常访问）
+2'b01	EXOKAY	独占访问成功（AXI4-Lite 通常不用）
+2'b10	SLVERR	从设备错误（Slave Error）
+2'b11	DECERR	译码错误（Decode Error）
+
+
 读和写分离(读写并发)  地址和数据分离(DRAM可以先收地址)
 
 一次读操作:

@@ -9,5 +9,42 @@
 动手编码：在编写RTL代码的过程中，遇到不确定的信号或行为，再回过头来查阅手册的详细章节。例如，当需要实现字节掩码时，就去查WSTRB的详细说明；需要实现计数器时，去查AWLEN的使用方式。
 
 
-阅读AXI Manual, 理解握手协议(确定完整的时序), 先看, 理解, 和ai确认没有问题vv
+阅读AXI Manual, 理解握手协议(确定完整的时序), 先看, 理解, 和ai确认没有问题
+
+⭐: 完整的AXI总线包含这个signal:
+
+araddr  ---> -+
+arvalid --->  AR
+<--- arready -+
+
+<--- rdata   -+
+<--- rresp    |
+<--- rvalid   R
+rready  ---> -+
+
+awaddr  ---> -+
+awvalid --->  AW
+<--- awready -+
+
+wdata   ---> -+
+wstrb   --->  |
+wvalid  --->  W
+<--- wready  -+
+
+<--- bresp   -+
+<--- bvalid   B
+bready  ---> -+
+
+信号类别	              主要信号（前缀）	                                                        作用
+全局信号	              ACLK, ARESETn	                                                     提供系统时钟和复位。
+地址/控制信息	           AWLEN, ARSIZE, AWBURST, AWLOCK, AWCACHE, AWPROT, AWQOS, AWREGION	  定义突发长度、类型、数据位宽、原子操作、缓存和访问权限等传输细节。
+ID 标签	                 AWID, ARID, WID, RID, BID	                                        用于乱序传输时匹配请求与响应，主设备通过它识别数据属于哪个请求。
+数据结束标志	           WLAST, RLAST	                                                      标志突发传输中最后一个数据节拍。
+用户自定义	              AWUSER, WUSER, BUSER, ARUSER, RUSER	                              可选信号，用于用户自定义信息扩展。
+
+根据权衡, 不实现outstanding, 一次只处理一个读信号/写信号, 最多处理一个读信号+写信号
+
+valid & ready 同时为1一个周期, 才叫握手成功, 一个读/写instr的操作需要两次握手来完成
+前一次先拉
+
 */

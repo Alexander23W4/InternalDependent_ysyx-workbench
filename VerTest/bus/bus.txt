@@ -126,7 +126,7 @@ wmask     --->   ===>   pstrb     --->   ===>   pwdata    --->
 APB比 simple bus 少了reqReady对, 只有reqValid对, 那么只有master的主动表明发出状态, slave被动表明是否已经完成操作.
     没有slave主动表示状态(slave没有办法表示就绪)
 
-⭐: simple bus还是一个 单通道、单事务 的总线, 并不能支持 流水线 和 out or order
+⭐: simple bus还是一个 单通道、单事务 的串行总线, 并不能支持 流水线 和 out or order
 1. 地址通道与数据通道未分离
 你的 Simple Bus 中，地址（addr）、写数据（wdata）、写使能（wen）等信号，和数据返回（rdata）、响应有效（respValid）是共用一套握手信号的。
 在 AXI 中，地址通道（Address Channel）和数据通道（Data Channel）是分离的。Master 可以连续发送多个地址请求（只要 AWREADY 为高），而 Slave 可以在后续的周期中返回数据，
@@ -140,12 +140,58 @@ AXI 还支持 Out-of-Order（乱序）传输，关键在于它有 AXID 信号。
 ⭐: 支持 流水线 和 out of order 的总线所需要的feature: 地址和数据分离    事务ID
 
 
+⭐ AXI(Advanced eXtensible Interface):  经典的 并行总线
+
+reqValid  --->           rreqValid --->           arvalid   --->  
+<---  reqReady           <--- rreqReady           <---   arready
+addr      --->           raddr     --->           araddr    --->
+wen       --->           <---rrespValid           <---    rvalid
+wdata     --->    1      rrespReady--->    2      rready    --->
+wmask     --->   ===>    <---     rdata   ===>    <---     rdata
+<--- respValid           <---    rerror           <---     rresp
+respReady --->           wreqValid --->           wvalid    --->
+<---     rdata           <--- wreqReady           <---    wready
+<---     error           waddr     --->           waddr     --->
+                         wdata     --->           wdata     --->
+                         wmask     --->           wstrb     --->
+                         <---wrespValid           <---    bvalid
+                         wrespReady--->           bready    --->
+                         <---    werror           <---     bresp
 
 
 
+                         arvalid   --->          araddr  ---> -+
+                         <---   arready          arvalid --->  AR
+                         araddr    --->          <--- arready -+
+                         <---    rvalid
+                  3      rready    --->    4     <--- rdata   -+
+                 ===>    <---     rdata   ===>   <--- rresp    |
+                         <---     rresp          <--- rvalid   R
+                         awvalid   --->          rready  ---> -+
+                         <---   awready
+                         awaddr    --->          awaddr  ---> -+
+                         wvalid    --->          awvalid --->  AW
+                         <---    wready          <--- awready -+
+                         wdata     --->
+                         wstrb     --->          wdata   ---> -+
+                         <---    bvalid          wstrb   --->  |
+                         bready    --->          wvalid  --->  W
+                         <---     bresp          <--- wready  -+
+
+                                                 <--- bresp   -+
+                                                 <--- bvalid   B
+                                                 bready  ---> -+
+
+AXI4-Lite是AXI的简化版, 它有5个事务通道, 分别是读地址(AR), 读数据(R), 写地址(AW), 写数据(W)和写回复(B). 
+    这些事务通道的工作状态只取决于各自的握手信号, 因此它们可以独立工作.
+
+读和写分离(读写并发)  地址和数据分离(DRAM可以先收地址)
 
 
+ master端尽量不要同时读写同一个地址. 如果实在无法避免, 可以在master端加入检测逻辑, 在检测到读写同相同地址时, 可以延迟写操作, 先读出旧数据; 
+    或者延迟读操作, 先写入数据, 再读出写入后的新数据. 
 
+IFU LSU
 
 
 

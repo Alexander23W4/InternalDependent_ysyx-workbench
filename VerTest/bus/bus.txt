@@ -226,10 +226,10 @@ ready           |       |       |
 
 B 为 writing response, 没有reading response, reading response 是将数据的返回作为bresp
 
-⭐ (多master) 仲裁器: 
+⭐ (多master) 仲裁器: 因为存储器只有一个总线接口, 所以一个总线要连多个master, 需要仲裁器
 仲裁器需要实现如下功能:
 
-调度: 选择一个正在发送有效请求的 master
+调度: 选择一个正在发送有效请求的 master  (!!!需要调度策略(算法))
 阻塞: 阻塞其他 master的访问
 转发: 将获得访问权的 master的请求转发给slave, 并在slave的请求到达时, 将其转发给之前的master
 

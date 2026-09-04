@@ -68,19 +68,13 @@ ID 标签	                 AWID, ARID, WID, RID, BID	                           
 
 /*
 Targets:
-1.
-实现 AXI4-Lite Slave（存储器）：
-处理 AR/AW/W/R/B 通道的握手。
-根据地址访问 RAM。
-返回正确的 rresp / bresp。
+在 slave 端增加写通道的 assert 保护（
 
-2.
-在 Slave 中注入 LFSR 随机延迟：
-实现一个 LFSR 生成随机数。
-在返回 rvalid 或 bvalid 前插入随机延迟。
+实现仲裁器: 
+    slave 收到请求后, 将slave_status置1, 然后判断 request 信号, 返回正在通信的 valid_master_ID
 
-3.
-在 Master 端增加写通道的 assert 保护（特别是 IFU）。
+    对于master来说, 如果slave_status为0, 就可以发送请求. 如果 slave_status 为1 且 valid_master_ID 为自己的ID, 就可以继续向下进行, 并将自己的request拉低
+
 */
 
 interface AXI4_Lite;
@@ -106,6 +100,11 @@ interface AXI4_Lite;
     logic        bvalid;
     logic        bready;
 
+    logic        slave_status;   // 0代表slave空闲, 1代表正忙
+    logic        valid_master_ID;   // 0 IFU   1 LSU
+    logic        IFU_request;    
+    logic        LSU_request
+
     modport master (
         output araddr, arvalid,
         input  arready,
@@ -120,7 +119,12 @@ interface AXI4_Lite;
         input  wready,
 
         input  bresp, bvalid,
-        output bready
+        output bready,
+
+        input slave_status,
+        input valid_masater_ID,
+        output IFU_request,
+        output LSU_request
     );
 
     modport slave (
@@ -137,7 +141,12 @@ interface AXI4_Lite;
         output wready,
         
         output bresp, bvalid,
-        input  bready
+        input  bready,
+
+        output slave_status,   // 组合
+        output valid_master_ID,   // 时序
+        input IFU_request,
+        input LSU_request
     );
 
 
@@ -154,6 +163,8 @@ module AXI_RAM (
     logic [31:0] rdata_save;
     logic [31:0] awaddr_save;
 
+    logic valid_master_ID_save;
+
     logic [7:0] delay_cnt;
 
     typedef enum [2:0]{ 
@@ -168,7 +179,7 @@ module AXI_RAM (
             rdata_save <= '0;
             awaddr_save <= '0;
             delay_cnt <= '0;
-
+            valid_master_ID_save <= 1'b0;
 
         end else begin
             state <= next;
@@ -180,11 +191,13 @@ module AXI_RAM (
 
 
             if(state == IDLE && bus.arvalid) begin
+                valid_master_ID_save <= bus.IFU_request ? 1'b0 : 1'b1;
                 rdata_save <= ram_read(bus.araddr, 4); 
                 delay_cnt <= random(8) + 1;
             end
 
             if(state == IDLE && bus.awvalid) begin
+                valid_master_ID_save <= bus.IFU_request ? 1'b0 : 1'b1;
                 if(bus.wvalid) begin
                     case(bus.wstrb)
                         4'b1111: ram_write(bus.awaddr, bus.wdata, 4);
@@ -218,10 +231,14 @@ module AXI_RAM (
         bus.bresp = 2'b00;
         bus.bvalid = 1'b0;
 
+        bus.slave_status = 1'b1;
+        bus.valid_master_ID = valid_master_ID_save;
+
         next = state;
 
         case(state)
             IDLE: begin
+                bus.slave_status = 1'b0;
                 if(bus.arvalid) begin
                     bus.arready = 1'b1;
                     next = R;
@@ -320,6 +337,7 @@ module AXI_LSU (
             read_complete_save <= 1'b0;
             write_complete_save <= 1'b0;
         end else begin
+
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
                 read_complete_save <= 1'b1;
@@ -334,6 +352,7 @@ module AXI_LSU (
             if(((state == R && bus.rvalid) || (state == B && bus.bvalid)) && bus.rresp == 2'b10) begin
                 error_save <= 1'b1; 
             end
+
             state <= next;
         end
     end

@@ -119,8 +119,10 @@ module AXI_XBAR (
 
     一次性只能完成一个握手, 读和写还是放在一起
 */
+// xbar 除了按照master的输入逻辑牵线, 不应包含其他任何操作.   就是 arbitrate + decode 和  纯组合牵线
 
-// ===== 时序逻辑：锁存读请求信息 =====
+// 这个时序块只是根据master的输入得出r_is_m0, r_slave_sel用于后续牵线, 不会对 所有的sm的状态造成任何影响, 只是一个内部 arbitrate + decode 的判断操作
+
 always_ff @(posedge clk or posedge reset) begin
     if(reset) begin
         r_is_m0     <= 1'b0;
@@ -150,58 +152,29 @@ always_ff @(posedge clk or posedge reset) begin
     end
 end
 
-// ===== 地址通道转发（组合逻辑） =====
-// 将 araddr 转发到对应的 Slave
-assign s0_araddr  = (r_slave_sel == 2'b01) ? 
-                    (r_is_m0 ? m0_araddr : m1_araddr) : '0;
-assign s0_arvalid = (r_slave_sel == 2'b01) ? 1'b1 : 1'b0;
 
-assign s1_araddr  = (r_slave_sel == 2'b10) ? 
-                    (r_is_m0 ? m0_araddr : m1_araddr) : '0;
-assign s1_arvalid = (r_slave_sel == 2'b10) ? 1'b1 : 1'b0;
+// araddr arvalid 
+assign s0_araddr  = (r_slave_sel == 2'b01) ? ((r_is_m0) ? m0_araddr : m1_araddr) : '0;
+assign s0_arvalid = (r_slave_sel == 2'b01);
+assign s1_araddr  = (r_slave_sel == 2'b10) ? ((r_is_m0) ? m0_araddr : m1_araddr) : '0;
+assign s1_arvalid = (r_slave_sel == 2'b10);
 
-// arready 反压
-assign m0_arready = (r_is_m0) ? 
-                    (r_slave_sel == 2'b01) ? s0_arready :
-                    (r_slave_sel == 2'b10) ? s1_arready :
-                    1'b1 : 1'b0;
+// arready
+assign m0_arready = (r_is_m0) ? ((r_slave_sel == 2'b01) ? s0_arready : (r_slave_sel == 2'b10) ? s1_arready : 1'b1) : 1'b0;
+assign m1_arready = (!r_is_m0) ? ((r_slave_sel == 2'b01) ? s0_arready : (r_slave_sel == 2'b10) ? s1_arready : 1'b1) : 1'b0;
 
-assign m1_arready = (!r_is_m0) ? 
-                    (r_slave_sel == 2'b01) ? s0_arready :
-                    (r_slave_sel == 2'b10) ? s1_arready :
-                    1'b1 : 1'b0;
+// rdata rresp rvalid
+assign m0_rdata  = (r_is_m0) ? ((r_slave_sel == 2'b01) ? s0_rdata : (r_slave_sel == 2'b10) ? s1_rdata : '0) : '0;
+assign m0_rresp  = (r_is_m0) ? ((r_slave_sel == 2'b01) ? s0_rresp : (r_slave_sel == 2'b10) ? s1_rresp : (r_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
+assign m0_rvalid = (r_is_m0) ? ((r_slave_sel == 2'b01) ? s0_rvalid : (r_slave_sel == 2'b10) ? s1_rvalid : (r_slave_sel == 2'b11)) : 1'b0;
 
-// ===== 读数据返回（组合逻辑三态赋值） =====
-// 数据来源选择
-wire [31:0] rdata_sel  = (r_slave_sel == 2'b01) ? s0_rdata :
-                         (r_slave_sel == 2'b10) ? s1_rdata :
-                         '0;
+assign m1_rdata  = (!r_is_m0) ? ((r_slave_sel == 2'b01) ? s0_rdata : (r_slave_sel == 2'b10) ? s1_rdata : '0) : '0;
+assign m1_rresp  = (!r_is_m0) ? ((r_slave_sel == 2'b01) ? s0_rresp : (r_slave_sel == 2'b10) ? s1_rresp : (r_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
+assign m1_rvalid = (!r_is_m0) ? ((r_slave_sel == 2'b01) ? s0_rvalid : (r_slave_sel == 2'b10) ? s1_rvalid : (r_slave_sel == 2'b11)) : 1'b0;
 
-wire [1:0]  rresp_sel  = (r_slave_sel == 2'b01) ? s0_rresp :
-                         (r_slave_sel == 2'b10) ? s1_rresp :
-                         (r_slave_sel == 2'b11) ? 2'b11 : 2'b00;
-
-wire        rvalid_sel = (r_slave_sel == 2'b01) ? s0_rvalid :
-                         (r_slave_sel == 2'b10) ? s1_rvalid :
-                         (r_slave_sel == 2'b11) ? 1'b1  : 1'b0;
-
-// 分发到对应 Master
-assign m0_rdata  = (r_is_m0) ? rdata_sel  : '0;
-assign m0_rresp  = (r_is_m0) ? rresp_sel  : 2'b00;
-assign m0_rvalid = (r_is_m0) ? rvalid_sel : 1'b0;
-
-assign m1_rdata  = (!r_is_m0) ? rdata_sel  : '0;
-assign m1_rresp  = (!r_is_m0) ? rresp_sel  : 2'b00;
-assign m1_rvalid = (!r_is_m0) ? rvalid_sel : 1'b0;
-
-// rready 转发到对应的 Slave
-assign s0_rready = (r_slave_sel == 2'b01) ? 
-                   (r_is_m0 ? m0_rready : m1_rready) : 1'b0;
-
-assign s1_rready = (r_slave_sel == 2'b10) ? 
-                   (r_is_m0 ? m0_rready : m1_rready) : 1'b0;
-
-
+// rready
+assign s0_rready = (r_slave_sel == 2'b01) ? ((r_is_m0) ? m0_rready : m1_rready) : 1'b0;
+assign s1_rready = (r_slave_sel == 2'b10) ? ((r_is_m0) ? m0_rready : m1_rready) : 1'b0;
 
 
 

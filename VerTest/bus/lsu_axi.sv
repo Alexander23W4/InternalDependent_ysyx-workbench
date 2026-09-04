@@ -143,7 +143,7 @@ module LSU (
     input __read, __write,
     input __sw, __sh, __sb,
 
-    // 这两个是只有在pc更新之后才清0, 完成之后一直为1
+    // 这两个信号只持续一个周期
     input __decode_addr_ready,  
     input __decode_data_ready,
 
@@ -187,7 +187,10 @@ module LSU (
             if(state == B && bus.bvalid && bus.rresp == 2'b00) begin
                 write_complete_save <= 1'b1;
             end
-
+            if(state != R && state != B) begin
+                read_complete_save <= 1'b0;
+                write_complete_save <= 1'b0;
+            end
             if(((state == R && bus.rvalid) || (state == B && bus.bvalid)) && bus.rresp == 2'b10) begin
                 error_save <= 1'b1; 
             end

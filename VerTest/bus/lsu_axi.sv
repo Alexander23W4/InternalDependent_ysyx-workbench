@@ -65,6 +65,22 @@ ID 标签	                 AWID, ARID, WID, RID, BID	                           
 
 
 */
+/*
+Targets:
+1.
+实现 AXI4-Lite Slave（存储器）：
+处理 AR/AW/W/R/B 通道的握手。
+根据地址访问 RAM。
+返回正确的 rresp / bresp。
+
+2.
+在 Slave 中注入 LFSR 随机延迟：
+实现一个 LFSR 生成随机数。
+在返回 rvalid 或 bvalid 前插入随机延迟。
+
+3.
+在 Master 端增加写通道的 assert 保护（特别是 IFU）。
+*/
 
 interface AXI4_Lite;
     logic [31:0] araddr;
@@ -127,6 +143,97 @@ interface AXI4_Lite;
     
 endinterface //AXI4_Lite
 
+// 单向面对接口, 没有额外的 控制信号, 数据, 地址 的输入输出
+module AXI_RAM (
+    AXI4_Lite.slave bus,
+
+    input clk, 
+    input reset
+);
+    logic [31:0] rdata;
+
+    logic [31:0] araddr_save;
+    logic [31:0] awaddr_save;
+    logic [31:0] wdata_save;
+    logic [3:0] wstrb_save;
+
+    typedef enum [2:0]{ 
+        IDLE, AR, R, AW, W, B
+    } state_t;
+    state_t state, next;
+
+    always_ff @( posedge clk or posedge reset ) begin
+        if(reset) begin
+            state <= IDLE;
+
+            araddr_save <= `0;
+            awaddr_save <= `0;
+            wdata_save <= `0;
+            wstrb_save <= `0;
+
+        end else begin
+            state <= next;
+            if(state == IDLE || bus.arvalid) begin
+                araddr_save <= bus.araddr;
+            end
+            if(state == IDLE || bus.awvalid) begin
+                awaddr_save <= bus.awaddr;
+            end
+            if(state == AR) begin
+                
+            end
+        end
+    end
+
+    always_comb begin
+        bus.arready = 1'b0;
+        bus.rresp = 2'b00;
+        bus.rvalid = 1'b0;
+
+        bus.awready = 1'b0;
+        bus.wready = 1'b0;
+        bus.bresp = 2'b00;
+        bus.bvalid = 1'b0;
+
+        next = state;
+
+        case(state)
+            IDLE: begin
+                if(bus.arvalid) begin
+                    bus.arready = 1'b1;
+                    next = AR;
+                end
+                else if(bus.awvalid) begin
+                    bus.awready = 1'b1;
+                    next = AW;
+                end
+            end
+            AR: begin
+                bus.rdata = ram_read(araddr_save, 4);    // 假如立即读到
+            end
+        endcase
+    end
+/*
+    modport slave (
+        input  araddr, arvalid,
+        output arready,
+
+        output rdata, rresp, rvalid,
+        input  rready,
+
+        input  awaddr, awvalid,
+        output awready,
+
+        input  wdata, wstrb, wvalid,
+        output wready,
+        
+        output bresp, bvalid,
+        input  bready
+    );
+*/
+    
+endmodule
+
 
 // 注意现阶段的npc只是一个多周期cpu, 不是一个多指令并行cpu, 不能够一次性执行多条指令. 
 // cpu必须判断所有反馈信号, 等到都完成了, 才可以更新pc
@@ -134,7 +241,7 @@ endinterface //AXI4_Lite
 // 现阶段cpu只有在 GPR IFU LSU 3个地方的操作上会有时序消耗, 其他全部是瞬时 组合逻辑
 
 // 所以cpu就是一大堆控制信号, 通过总线控制一堆时序模块, 控制他们的时序
-module LSU (
+module AXI_LSU (
     AXI4_Lite.master bus,
     
     input clk,
@@ -156,7 +263,7 @@ module LSU (
     output __read_complete,   // cpu读到这个, 需要立刻拿走数据启动GPR操作
     output __write_complete   // cpu读到这个, 需要立刻启动更新pc操作
 );
-// 外部控制信号与返回外部的信号:
+// 反馈信号
     logic [31:0] rdata_save;
     logic error_save;
     logic read_complete_save;
@@ -167,10 +274,13 @@ module LSU (
     assign __read_complete = read_complete_save;
     assign __write_complete = write_complete_save;
 
+// 状态
     typedef enum [2:0]{ 
         IDLE, AR, R, AW, W, B
     } state_t;
     state_t state, next;
+
+
 
     always_ff @( posedge clk or posedge reset ) begin
         if(reset) begin
@@ -300,7 +410,7 @@ endmodule
 
 // 注意, 给其他模块的控制信号并不是 拉高1周期 就完事了, 而是要等到 被控制模块 给一个反馈信号(被控制模块有这个义务), 代表知道了, 然后 控制模块 将控制信号及时清理(同样有义务)
 // 后续还需补充 input __error_is_arranged 
-module IFU (
+module AXI_IFU (
     AXI4_Lite.master bus,
     
     input clk,
@@ -393,3 +503,6 @@ module IFU (
     end
 
 endmodule
+
+
+

@@ -71,7 +71,7 @@ Targets:
 在 slave 端增加写通道的 assert 保护（
 
 实现仲裁器: 
-    slave 收到 request 请求后
+    slave 收到 request 请求后, 在下一个周期, 将slave_status 拉高, 再将 valid_mater_ID 设置为该master的
 
 */
 
@@ -166,10 +166,11 @@ module AXI_RAM (
     logic [7:0] delay_cnt;
 
     typedef enum [2:0]{ 
-        IDLE, R, W, B
+        IDLE, A, R, W, B
     } state_t;
     state_t state, next;
 
+// slave 收到 request 请求后, 在下一个周期, 将slave_status 拉高, 再将 valid_mater_ID 设置为该master的
     always_ff @( posedge clk or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
@@ -187,14 +188,18 @@ module AXI_RAM (
                 delay_cnt <= delay_cnt - 1'b1;
             end
 
+            if(state == IDLE) begin
+                valid_master_ID_save <= bus.IFU_request ? 1'b0 : 1'b1;
+            end
 
-            if(state == IDLE && bus.arvalid) begin
+
+            if(state == A && bus.arvalid) begin
                 valid_master_ID_save <= bus.IFU_request ? 1'b0 : 1'b1;
                 rdata_save <= ram_read(bus.araddr, 4); 
                 delay_cnt <= random(8) + 1;
             end
 
-            if(state == IDLE && bus.awvalid) begin
+            if(state == A && bus.awvalid) begin
                 valid_master_ID_save <= bus.IFU_request ? 1'b0 : 1'b1;
                 if(bus.wvalid) begin
                     case(bus.wstrb)
@@ -237,6 +242,11 @@ module AXI_RAM (
         case(state)
             IDLE: begin
                 bus.slave_status = 1'b0;
+                if(bus.IFU_request || bus.LSU_request) begin   // 现阶段不会两个同时发request, 所以这里不需要算法仲裁
+                    next = A;
+                end
+            end
+            A: begin
                 if(bus.arvalid) begin
                     bus.arready = 1'b1;
                     next = R;

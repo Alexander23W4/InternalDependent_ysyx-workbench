@@ -146,44 +146,45 @@ endinterface //AXI4_Lite
         output bready
     );
 */
-
+/*
+根据我的习惯, 之后模块间的 数据 和 地址信号正常命名, 控制信号前加 "__"
+*/
 module LSU (
     AXI4_Lite.master bus,
     
     input clk,
     input reset,
 
-    input read, write,
+    input __read, __write,
+    input __sw, __sh, __sb,
+
     // 这两个是只有在pc更新之后才清0, 完成之后一直为1
-    input decode_addr_ready,  
-    input decode_data_ready,
+    input __decode_addr_ready,  
+    input __decode_data_ready,
 
     input [31:0] addr,
     input [31:0] wdata,
     
     output [31:0] rdata,
-    output error
+    output __error
 );
 // 外部控制信号与返回外部的信号:
     logic [31:0] rdata_save;
     logic error_save;
 
     assign rdata = rdata_save;
-    assign error = error_save;
+    assign __error = error_save;
 
     typedef enum [2:0]{ 
         IDLE, AR, R, AW, W, B
     } state_t;
     state_t state, next;
 
-
-
     always_ff @( posedge clk or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            rdata_save <= `0;
+            rdata_save <= '0;
             error_save <= 1'b0;
-
         end else begin
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
@@ -193,18 +194,16 @@ module LSU (
             end
             state <= next;
         end
-        
     end
 
     always_comb begin
         bus.wstrb = 4'b0000;  
-
-        if (sw) begin
-            bus.wstrb = 4'b1111;
-        end else if (sh) begin
-            bus.wstrb = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
-        end else if (sb) begin
-            bus.wstrb = 4'b0001 << addr[1:0];
+        if (__write) begin
+            case (1'b1)
+                __sw: bus.wstrb = 4'b1111;
+                __sh: bus.wstrb = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
+                __sb: bus.wstrb = 4'b0001 << addr[1:0];
+            endcase
         end
     end
 
@@ -221,10 +220,10 @@ module LSU (
         
         case(state)
             IDLE: begin
-                if(decode_addr_ready && read) begin
+                if(__decode_addr_ready && __read) begin
                     next = AR;
                 end
-                else if(decode_addr_ready && write) begin
+                else if(__decode_addr_ready && __write) begin
                     next = AW;
                 end
             end
@@ -240,10 +239,10 @@ module LSU (
                 if(bus.rvalid == 1'b1) begin
                     if(bus.rresp == 2'b00) begin
                         bus.rready = 1'b1;
-                        if(decode_addr_ready && read) begin
+                        if(__decode_addr_ready && __read) begin
                             next = AR;
                         end
-                        else if(decode_addr_ready && write) begin
+                        else if(__decode_addr_ready && __write) begin
                             next = AW;
                         end
                         else begin
@@ -255,14 +254,14 @@ module LSU (
 
             AW: begin
                 bus.awvalid = 1'b1;
-                if(decode_data_ready) begin
+                if(__decode_data_ready) begin
                     bus.wvalid = 1'b1;
                 end
                 if(bus.awready == 1'b1) begin
                     if(bus.wready == 1'b1) begin
                         next = B;
                     end
-                    else if(decode_data_ready) begin
+                    else if(__decode_data_ready) begin
                         next = W;
                     end
                 end
@@ -279,10 +278,10 @@ module LSU (
                 if(bus.bvalid == 1'b1) begin
                     if(bus.bresp == 2'b00) begin
                         bus.bready = 1'b1;
-                        if(decode_addr_ready && read) begin
+                        if(__decode_addr_ready && __read) begin
                             next = AR;
                         end
-                        else if(decode_addr_ready && write) begin
+                        else if(__decode_addr_ready && __write) begin
                             next = AW;
                         end
                         else begin
@@ -291,34 +290,105 @@ module LSU (
                     end
                 end
             end
-
         endcase
     end
-/*
-    modport master (
-        output araddr, arvalid,
-        input  arready,
 
-        input  rdata, rvalid,       rresp
-        output rready,
-
-        output awaddr, awvalid,
-        input  awready,
-
-        output wdata, wvalid,       wstrb
-        input  wready,
-
-        input  bvalid,              bresp
-        output bready
-    );
-*/
-
-    
 endmodule
 
 
+/*
+根据我的习惯, 之后模块间的 数据 和 地址信号正常命名, 控制信号前加 "__"
+*/
+module IFU (
+    AXI4_Lite.master bus,
+    
+    input clk,
+    input reset,
+    
+    input __pc_is_updated,
 
+    input [31:0] pc,
+    output [31:0] rdata,
 
+    output __error
+);
+// 外部控制信号与返回外部的信号:
+    logic [31:0] rdata_save;
+    logic error_save;
 
+    assign rdata = rdata_save;
+    assign __error = error_save;
 
+    typedef enum [2:0]{ 
+        IDLE, AR, R
+    } state_t;
+    state_t state, next;
+
+    always_ff @( posedge clk or posedge reset ) begin
+        if(reset) begin
+            state <= IDLE;
+            rdata_save <= '0;
+            error_save <= 1'b0;
+        end else begin
+            if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
+                rdata_save <= bus.rdata;
+            end
+            if(state == R && bus.rvalid && bus.rresp == 2'b10) begin
+                error_save <= 1'b1; 
+            end
+            state <= next;
+        end
+    end
+
+    always_comb begin
+        bus.araddr = addr;
+        bus.arvalid = 1'b0;
+
+        bus.rready = 1'b0;
+
+        bus.awaddr = `0;
+        bus.awvalid = 1'b0;
+
+        bus.wdata = `0;
+        bus.wstrb = `0;
+        bus.wvalid = 1'b0;
+
+        bus.bready = 1'b0;
+
+        next = state;
+        
+        case(state)
+            IDLE: begin
+                if(__pc_is_updated) begin
+                    next = AR;
+                end
+            end
+
+            AR: begin
+                bus.arvalid = 1'b1;
+                if(bus.arready == 1'b1) begin
+                    next = R;
+                end
+            end
+
+            R: begin
+                if(bus.rvalid == 1'b1) begin
+                    if(bus.rresp == 2'b00) begin
+                        bus.rready = 1'b1;
+                        if(__decode_addr_ready && __read) begin
+                            next = AR;
+                        end
+                        else if(__decode_addr_ready && __write) begin
+                            next = AW;
+                        end
+                        else begin
+                            next = IDLE;
+                        end
+                    end
+                end
+            end
+        endcase
+    end
+
+endmodule
 

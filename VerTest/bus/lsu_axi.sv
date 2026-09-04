@@ -128,27 +128,8 @@ interface AXI4_Lite;
 endinterface //AXI4_Lite
 
 
-/*
-    modport master (
-        output araddr, arvalid,
-        input  arready,
-
-        input  rdata, rvalid,       rresp
-        output rready,
-
-        output awaddr, awvalid,
-        input  awready,
-
-        output wdata, wvalid,       wstrb
-        input  wready,
-
-        input  bvalid,              bresp
-        output bready
-    );
-*/
-/*
-根据我的习惯, 之后模块间的 数据 和 地址信号正常命名, 控制信号前加 "__"
-*/
+// 注意现阶段的npc只是一个多周期cpu, 不是一个多指令并行cpu, 不能够一次性执行多条指令. 
+// cpu必须判断所有反馈信号, 等到都完成了, 才可以更新pc
 module LSU (
     AXI4_Lite.master bus,
     
@@ -167,7 +148,9 @@ module LSU (
     
     output [31:0] rdata,
     
-    output __error
+    output __error,
+    output __read_complete,
+    output __write_complete
 );
 // 外部控制信号与返回外部的信号:
     logic [31:0] rdata_save;

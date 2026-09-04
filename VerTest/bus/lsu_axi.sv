@@ -153,38 +153,43 @@ module LSU (
     input clk,
     input reset,
 
-    input sw, sb, sh, lw, lb, lbu, lhu, lh,
+    input read, write,
     // 这两个是只有在pc更新之后才清0, 完成之后一直为1
     input decode_addr_ready,  
     input decode_data_ready,
 
     input [31:0] addr,
     input [31:0] wdata,
-    input finish_arrange,   // 代表处理器后续部分处理完毕
     
     output [31:0] rdata,
     output error
 );
 // 外部控制信号与返回外部的信号:
-    logic read, write;
     logic [31:0] rdata_save;
+    logic error_save;
 
-    assign read = lw | lb | lbu | lhu | lh;
-    assign write = sw | sb | sh;
     assign rdata = rdata_save;
+    assign error = error_save;
 
     typedef enum [2:0]{ 
         IDLE, AR, R, AW, W, B
     } state_t;
     state_t state, next;
 
+
+
     always_ff @( posedge clk or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
             rdata_save <= `0;
+            error_save <= 1'b0;
+
         end else begin
-            if(state == R && bus.rvalid && == 1'b1 && bus.rresp == 2'b00) begin
+            if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
+            end
+            if(((state == R && bus.rvalid) || (state == B && bus.bvalid)) && bus.rresp == 2'b10) begin
+                error_save <= 1'b1; 
             end
             state <= next;
         end
@@ -213,7 +218,6 @@ module LSU (
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
         next = state;
-        error = 1'b0;
         
         case(state)
             IDLE: begin
@@ -235,21 +239,16 @@ module LSU (
             R: begin
                 if(bus.rvalid == 1'b1) begin
                     if(bus.rresp == 2'b00) begin
-                        if(finish_arrange) begin
-                            bus.ready = 1'b1;
-                            if(decode_addr_ready && read) begin
-                                next = AR;
-                            end
-                            else if(decode_addr_ready && write) begin
-                                next = AW;
-                            end
-                            else begin
-                                next = IDLE;
-                            end
+                        bus.rready = 1'b1;
+                        if(decode_addr_ready && read) begin
+                            next = AR;
                         end
-                    end
-                    else if(bus.rresp == 2'b10) begin
-                        error = 1'b1;
+                        else if(decode_addr_ready && write) begin
+                            next = AW;
+                        end
+                        else begin
+                            next = IDLE;
+                        end
                     end
                 end
             end
@@ -263,7 +262,7 @@ module LSU (
                     if(bus.wready == 1'b1) begin
                         next = B;
                     end
-                    else begin
+                    else if(decode_data_ready) begin
                         next = W;
                     end
                 end
@@ -279,21 +278,16 @@ module LSU (
             B: begin
                 if(bus.bvalid == 1'b1) begin
                     if(bus.bresp == 2'b00) begin
-                        if(finish_arrange) begin
-                            bus.ready = 1'b1;
-                            if(decode_addr_ready && read) begin
-                                next = AR;
-                            end
-                            else if(decode_addr_ready && write) begin
-                                next = AW;
-                            end
-                            else begin
-                                next = IDLE;
-                            end
+                        bus.bready = 1'b1;
+                        if(decode_addr_ready && read) begin
+                            next = AR;
                         end
-                    end
-                    if(bus.bresp == 2'b10) begin
-                        error = 1'b1;
+                        else if(decode_addr_ready && write) begin
+                            next = AW;
+                        end
+                        else begin
+                            next = IDLE;
+                        end
                     end
                 end
             end

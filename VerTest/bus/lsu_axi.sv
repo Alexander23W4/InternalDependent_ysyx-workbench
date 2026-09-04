@@ -65,6 +65,7 @@ ID 标签	                 AWID, ARID, WID, RID, BID	                           
 
 
 */
+
 /*
 Targets:
 1.
@@ -151,8 +152,9 @@ module AXI_RAM (
     input reset
 );
     logic [31:0] rdata_save;
-
     logic [31:0] awaddr_save;
+
+    logic [7:0] delay_cnt;
 
     typedef enum [2:0]{ 
         IDLE, R, W, B
@@ -163,16 +165,25 @@ module AXI_RAM (
         if(reset) begin
             state <= IDLE;
 
-            rdata_save <= `0;
-
-            awaddr_save <= `0;
+            rdata_save <= '0;
+            awaddr_save <= '0;
+            delay_cnt <= '0;
 
 
         end else begin
             state <= next;
+
+
+            if(delay_cnt > 0) begin
+                delay_cnt <= delay_cnt - 1'b1;
+            end
+
+
             if(state == IDLE && bus.arvalid) begin
                 rdata_save <= ram_read(bus.araddr, 4); 
+                delay_cnt <= random(8) + 1;
             end
+
             if(state == IDLE && bus.awvalid) begin
                 if(bus.wvalid) begin
                     case(bus.wstrb)
@@ -180,6 +191,7 @@ module AXI_RAM (
                         4'b1100, 4'b0011: ram_write(bus.awaddr, bus.wdata, 2);
                         4'b1000, 4'b0100, 4'b0010, 4'b0001: ram_write(bus.awaddr, bus.wdata, 1);
                     endcase
+                    delay_cnt <= random(8) + 1;
                 end else begin
                     awaddr_save <= bus.awaddr;                   
                 end
@@ -189,6 +201,7 @@ module AXI_RAM (
                     4'b1111: ram_write(awaddr_save, bus.wdata, 4);
                     4'b1100, 4'b0011: ram_write(awaddr_save, bus.wdata, 2);
                     4'b1000, 4'b0100, 4'b0010, 4'b0001: ram_write(awaddr_save, bus.wdata, 1);
+                    delay_cnt <= random(8) + 1;
                 endcase
             end
         end
@@ -225,9 +238,11 @@ module AXI_RAM (
                 end
             end
             R: begin
-                bus.rvalid = 1'b1;
-                if(bus.rready) begin
-                    next = IDLE;
+                if(!delay_cnt) begin
+                    bus.rvalid = 1'b1;
+                    if(bus.rready) begin
+                        next = IDLE;
+                    end
                 end
             end
             W: begin
@@ -237,9 +252,11 @@ module AXI_RAM (
                 end
             end
             B: begin
-                bus.bvalid = 1'b1;
-                if(bus.bready) begin
-                    next = IDLE;
+                if(!delay_cnt) begin
+                    bus.bvalid = 1'b1;
+                    if(bus.bready) begin
+                        next = IDLE;
+                    end
                 end
             end
         endcase

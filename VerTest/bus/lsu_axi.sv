@@ -298,6 +298,7 @@ endmodule
 
 
 // 注意, 给其他模块的控制信号并不是 拉高1周期 就完事了, 而是要等到 被控制模块 给一个反馈信号(被控制模块有这个义务), 代表知道了, 然后 控制模块 将控制信号及时清理(同样有义务)
+// 后续还需补充 input __error_is_arranged 
 module IFU (
     AXI4_Lite.master bus,
     

@@ -150,15 +150,14 @@ module AXI_RAM (
     input clk, 
     input reset
 );
-    logic [31:0] rdata;
+    logic [31:0] rdata_save;
 
-    logic [31:0] araddr_save;
     logic [31:0] awaddr_save;
     logic [31:0] wdata_save;
     logic [3:0] wstrb_save;
 
     typedef enum [2:0]{ 
-        IDLE, AR, R, AW, W, B
+        IDLE, R, W, B
     } state_t;
     state_t state, next;
 
@@ -166,18 +165,26 @@ module AXI_RAM (
         if(reset) begin
             state <= IDLE;
 
-            araddr_save <= `0;
+            rdata_save <= `0;
+
             awaddr_save <= `0;
-            wdata_save <= `0;
-            wstrb_save <= `0;
+
 
         end else begin
             state <= next;
-            if(state == IDLE || bus.arvalid) begin
-                araddr_save <= bus.araddr;
+            if(state == IDLE && bus.arvalid) begin
+                rdata_save <= ram_read(bus.araddr, 4); 
             end
-            if(state == IDLE || bus.awvalid) begin
-                awaddr_save <= bus.awaddr;
+            if(state == IDLE && bus.awvalid) begin
+                if(bus.wvalid) begin
+                    case(bus.wstrb)
+                        4'b1111: ram_write(bus.awaddr, bus.wdata, 4);
+                        4'b1100, 4'b0011: ram_write(bus.awaddr, bus.wdata, 2);
+                        4'b1000, 4'b0100, 4'b0010, 4'b0001: ram_write(bus.awaddr, bus.wdata, 1);
+                    endcase
+                end else begin
+                    awaddr_save <= bus.awaddr;                   
+                end
             end
             if(state == AR) begin
                 
@@ -189,6 +196,7 @@ module AXI_RAM (
         bus.arready = 1'b0;
         bus.rresp = 2'b00;
         bus.rvalid = 1'b0;
+        bus.rdata = rdata_save;
 
         bus.awready = 1'b0;
         bus.wready = 1'b0;
@@ -201,15 +209,26 @@ module AXI_RAM (
             IDLE: begin
                 if(bus.arvalid) begin
                     bus.arready = 1'b1;
-                    next = AR;
+                    next = R;
                 end
                 else if(bus.awvalid) begin
                     bus.awready = 1'b1;
-                    next = AW;
+                    if(bus.wvalid) begin
+                        next = B;
+                    end
+                    next = W;
                 end
             end
-            AR: begin
-                bus.rdata = ram_read(araddr_save, 4);    // 假如立即读到
+            R: begin
+                bus.rvalid = 1'b1;
+                if(bus.rready) begin
+                    next = IDLE;
+                end
+            end
+            W: begin
+                if(bus.wvalid) begin
+                    
+                end
             end
         endcase
     end
@@ -315,7 +334,7 @@ module AXI_LSU (
                 __sw: bus.wstrb = 4'b1111;
                 __sh: bus.wstrb = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
                 __sb: bus.wstrb = 4'b0001 << addr[1:0];
-            endcase
+            endcase 
         end
     end
 

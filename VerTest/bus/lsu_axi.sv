@@ -153,8 +153,6 @@ module AXI_RAM (
     logic [31:0] rdata_save;
 
     logic [31:0] awaddr_save;
-    logic [31:0] wdata_save;
-    logic [3:0] wstrb_save;
 
     typedef enum [2:0]{ 
         IDLE, R, W, B
@@ -186,8 +184,12 @@ module AXI_RAM (
                     awaddr_save <= bus.awaddr;                   
                 end
             end
-            if(state == AR) begin
-                
+            if(state == W && bus.wvalid) begin
+                case(bus.wstrb)
+                    4'b1111: ram_write(awaddr_save, bus.wdata, 4);
+                    4'b1100, 4'b0011: ram_write(awaddr_save, bus.wdata, 2);
+                    4'b1000, 4'b0100, 4'b0010, 4'b0001: ram_write(awaddr_save, bus.wdata, 1);
+                endcase
             end
         end
     end
@@ -214,9 +216,12 @@ module AXI_RAM (
                 else if(bus.awvalid) begin
                     bus.awready = 1'b1;
                     if(bus.wvalid) begin
+                        bus.wready = 1'b1;
                         next = B;
                     end
-                    next = W;
+                    else begin
+                        next = W;               
+                    end
                 end
             end
             R: begin
@@ -227,29 +232,18 @@ module AXI_RAM (
             end
             W: begin
                 if(bus.wvalid) begin
-                    
+                    bus.wready = 1'b1;
+                    next = B;
+                end
+            end
+            B: begin
+                bus.bvalid = 1'b1;
+                if(bus.bready) begin
+                    next = IDLE;
                 end
             end
         endcase
     end
-/*
-    modport slave (
-        input  araddr, arvalid,
-        output arready,
-
-        output rdata, rresp, rvalid,
-        input  rready,
-
-        input  awaddr, awvalid,
-        output awready,
-
-        input  wdata, wstrb, wvalid,
-        output wready,
-        
-        output bresp, bvalid,
-        input  bready
-    );
-*/
     
 endmodule
 

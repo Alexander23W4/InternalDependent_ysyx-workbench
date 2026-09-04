@@ -130,6 +130,10 @@ endinterface //AXI4_Lite
 
 // 注意现阶段的npc只是一个多周期cpu, 不是一个多指令并行cpu, 不能够一次性执行多条指令. 
 // cpu必须判断所有反馈信号, 等到都完成了, 才可以更新pc
+
+// 现阶段cpu只有在 GPR IFU LSU 3个地方的操作上会有时序消耗, 其他全部是瞬时 组合逻辑
+
+// 所以cpu就是一大堆控制信号, 通过总线控制一堆时序模块, 控制他们的时序
 module LSU (
     AXI4_Lite.master bus,
     
@@ -149,15 +153,19 @@ module LSU (
     output [31:0] rdata,
     
     output __error,
-    output __read_complete,
-    output __write_complete
+    output __read_complete,   // cpu读到这个, 需要立刻拿走数据启动GPR操作
+    output __write_complete   // cpu读到这个, 需要立刻启动更新pc操作
 );
 // 外部控制信号与返回外部的信号:
     logic [31:0] rdata_save;
     logic error_save;
+    logic read_complete_save;
+    logic write_complete_save;
 
     assign rdata = rdata_save;
     assign __error = error_save;
+    assign __read_complete = read_complete_save;
+    assign __write_complete = write_complete_save;
 
     typedef enum [2:0]{ 
         IDLE, AR, R, AW, W, B
@@ -169,10 +177,17 @@ module LSU (
             state <= IDLE;
             rdata_save <= '0;
             error_save <= 1'b0;
+            read_complete_save <= 1'b0;
+            write_complete_save <= 1'b0;
         end else begin
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
+                read_complete_save <= 1'b1;
             end
+            if(state == B && bus.bvalid && bus.rresp == 2'b00) begin
+                write_complete_save <= 1'b1;
+            end
+
             if(((state == R && bus.rvalid) || (state == B && bus.bvalid)) && bus.rresp == 2'b10) begin
                 error_save <= 1'b1; 
             end

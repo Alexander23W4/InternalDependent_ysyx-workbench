@@ -71,9 +71,7 @@ Targets:
 在 slave 端增加写通道的 assert 保护（
 
 实现仲裁器: 
-    slave 收到请求后, 将slave_status置1, 然后判断 request 信号, 返回正在通信的 valid_master_ID
-
-    对于master来说, 如果slave_status为0, 就可以发送请求. 如果 slave_status 为1 且 valid_master_ID 为自己的ID, 就可以继续向下进行, 并将自己的request拉低
+    slave 收到 request 请求后
 
 */
 
@@ -282,12 +280,17 @@ module AXI_RAM (
 endmodule
 
 
+
+
+
+
 // 注意现阶段的npc只是一个多周期cpu, 不是一个多指令并行cpu, 不能够一次性执行多条指令. 
 // cpu必须判断所有反馈信号, 等到都完成了, 才可以更新pc
 
 // 现阶段cpu只有在 GPR IFU LSU 3个地方的操作上会有时序消耗, 其他全部是瞬时 组合逻辑
 
 // 所以cpu就是一大堆控制信号, 通过总线控制一堆时序模块, 控制他们的时序
+
 module AXI_LSU (
     AXI4_Lite.master bus,
     
@@ -310,6 +313,8 @@ module AXI_LSU (
     output __read_complete,   // cpu读到这个, 需要立刻拿走数据启动GPR操作
     output __write_complete   // cpu读到这个, 需要立刻启动更新pc操作
 );
+// 对于master来说, 如果slave_status为0, 就可以发送请求. 如果 slave_status 为1 且 valid_master_ID 为自己的ID, 就可以继续向下进行, 并将自己的request拉低
+
 // 反馈信号
     logic [31:0] rdata_save;
     logic error_save;
@@ -359,7 +364,7 @@ module AXI_LSU (
 
     always_comb begin
         bus.wstrb = 4'b0000;  
-        if (__write) begin
+        if (__write && (state != IDLE)) begin
             case (1'b1)
                 __sw: bus.wstrb = 4'b1111;
                 __sh: bus.wstrb = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
@@ -369,23 +374,39 @@ module AXI_LSU (
     end
 
     always_comb begin
-        bus.araddr = addr;
+        bus.araddr = (state == IDLE) ? '0 : addr;
         bus.arvalid = 1'b0;
         bus.rready = 1'b0;
-        bus.awaddr = addr;
+
+        bus.awaddr = (state == IDLE) ? '0 : addr;
         bus.awvalid = 1'b0;
-        bus.wdata = wdata;
+        bus.wdata = (state == IDLE) ? '0 : wdata;
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
+
+        bus.IFU_request = 1'b0;
+        bus.LSU_request = 1'b0;
+
         next = state;
         
+        /*
+            先保证所有output信号默认都是0    
+            在slave_status为0的时候, 先发LSU_request, 下个周期接收 valid_master_ID, 如果是自己的, 再跳到AR/AW, 将arvalid置为1
+        */
         case(state)
             IDLE: begin
-                if(__decode_addr_ready && __read) begin
-                    next = AR;
+                if(bus.slave_status == 1'b0) begin
+                    if(__decode_addr_ready && (__read || __write)) begin   // 只有读写指令的时候才允许触发总线交互
+                        bus.LSU_request = 1'b1;
+                    end
                 end
-                else if(__decode_addr_ready && __write) begin
-                    next = AW;
+                if(bus.slave_status == 1'b1 && bus.valid_master_ID == 1'b1) begin
+                    if(__read) begin
+                        next = AR;
+                    end
+                    else if(__write) begin
+                        next = AW;
+                    end
                 end
             end
 
@@ -473,7 +494,6 @@ module AXI_IFU (
     output __instr_valid,   //  提示cpu fetch 完成, 可以decode了
     output __error
 );
-
 // 外部控制信号与返回外部的信号:
     logic [31:0] rdata_save;
     logic error_save;
@@ -508,9 +528,13 @@ module AXI_IFU (
             state <= next;
         end
     end
+/*
+    先保证所有output信号默认都是0    
+    在slave_status为0的时候, 先发LSU_request, 下个周期接收 valid_master_ID, 如果是自己的, 再跳到AR/AW, 将arvalid置为1
+*/
 
     always_comb begin
-        bus.araddr = pc;
+        bus.araddr = (state == IDLE) ? '0 : pc;
         bus.arvalid = 1'b0;
         bus.rready = 1'b0;
         bus.awaddr = '0;
@@ -519,11 +543,20 @@ module AXI_IFU (
         bus.wstrb = '0;
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
+
+        bus.IFU_request = 1'b0;
+        bus.LSU_request = 1'b0;
+
         next = state;
         
         case(state)
             IDLE: begin
-                if(__pc_is_updated) begin
+                if(slave_status == 1'b0) begin
+                    if(__pc_is_updated) begin
+                        bus.IFU_request = 1'b1;
+                    end
+                end
+                if(slave_status == 1'b1 && bus.valid_master_ID == 1'b0) begin
                     next = AR;
                 end
             end

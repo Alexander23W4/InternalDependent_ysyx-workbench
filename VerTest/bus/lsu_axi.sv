@@ -166,6 +166,7 @@ module LSU (
     input [31:0] wdata,
     
     output [31:0] rdata,
+    
     output __error
 );
 // 外部控制信号与返回外部的信号:
@@ -296,27 +297,29 @@ module LSU (
 endmodule
 
 
-/*
-根据我的习惯, 之后模块间的 数据 和 地址信号正常命名, 控制信号前加 "__"
-*/
+// 注意, 给其他模块的控制信号并不是 拉高1周期 就完事了, 而是要等到 被控制模块 给一个反馈信号(被控制模块有这个义务), 代表知道了, 然后 控制模块 将控制信号及时清理(同样有义务)
 module IFU (
     AXI4_Lite.master bus,
     
     input clk,
     input reset,
     
-    input __pc_is_updated,
+    input __pc_is_updated,   // cpu 应当只拉高此信号一个周期
 
     input [31:0] pc,
     output [31:0] rdata,
 
+    output __instr_valid,   //  提示cpu fetch 完成, 可以decode了
     output __error
 );
+
 // 外部控制信号与返回外部的信号:
     logic [31:0] rdata_save;
     logic error_save;
+    logic instr_valid_save;
 
     assign rdata = rdata_save;
+    assign __instr_valid = instr_valid_save;
     assign __error = error_save;
 
     typedef enum [2:0]{ 
@@ -329,9 +332,14 @@ module IFU (
             state <= IDLE;
             rdata_save <= '0;
             error_save <= 1'b0;
+            instr_valid_save <= 1'b0;
         end else begin
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
+                instr_valid_save <= 1'b1;   
+            end
+            if(state == IDLE || state == AR) begin
+                instr_valid_save <= 1'b0;
             end
             if(state == R && bus.rvalid && bus.rresp == 2'b10) begin
                 error_save <= 1'b1; 
@@ -341,20 +349,15 @@ module IFU (
     end
 
     always_comb begin
-        bus.araddr = addr;
+        bus.araddr = pc;
         bus.arvalid = 1'b0;
-
         bus.rready = 1'b0;
-
-        bus.awaddr = `0;
+        bus.awaddr = '0;
         bus.awvalid = 1'b0;
-
-        bus.wdata = `0;
-        bus.wstrb = `0;
+        bus.wdata = '0;
+        bus.wstrb = '0;
         bus.wvalid = 1'b0;
-
         bus.bready = 1'b0;
-
         next = state;
         
         case(state)
@@ -375,11 +378,8 @@ module IFU (
                 if(bus.rvalid == 1'b1) begin
                     if(bus.rresp == 2'b00) begin
                         bus.rready = 1'b1;
-                        if(__decode_addr_ready && __read) begin
+                        if(__pc_is_updated) begin
                             next = AR;
-                        end
-                        else if(__decode_addr_ready && __write) begin
-                            next = AW;
                         end
                         else begin
                             next = IDLE;
@@ -391,4 +391,3 @@ module IFU (
     end
 
 endmodule
-

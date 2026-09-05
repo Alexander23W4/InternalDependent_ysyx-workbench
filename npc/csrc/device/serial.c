@@ -41,7 +41,7 @@ static void serial_io_handler(uint32_t offset, int len, bool is_write) {
 }
 
 void init_serial() {
-  serial_base = new_space(8);  // 分配8 Byte的空间, 但是其实只用第一个Byte
+  serial_base = new_space(8);  // 分配8 Byte 的空间, 但是其实只用第一个Byte
   add_mmio_map("serial", CONFIG_SERIAL_MMIO, serial_base, 8, serial_io_handler);    // addr CONFIG_SERIAL_MMIO, len 8 (8 Bytes)
 }
 

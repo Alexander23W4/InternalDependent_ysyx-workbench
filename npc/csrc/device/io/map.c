@@ -15,12 +15,12 @@
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
-#define IO_SPACE_MAX (32 * 1024 * 1024)
+#define IO_SPACE_MAX (32 * 1024 * 1024)   // 8192 * 4096 (8192 pages)
 
 static uint8_t *io_space = NULL;    // IO space
 static uint8_t *p_space = NULL;     // 
 
-// distribute IO space  这个是每个外设接口初始化的时候, 用new_space这个函数分配需要的内存在init_map()函数分配的 heap里面 (p_space)
+// distribute IO space  这个是每个外设接口初始化的时候, 用new_space这个函数分配需要的内存在init_map()函数分配的 heap里面 (p_space). 按页分配
 uint8_t* new_space(int size) {
   uint8_t *p = p_space;
   // page aligned;
@@ -32,10 +32,11 @@ uint8_t* new_space(int size) {
 
 static bool check_bound(IOMap *map, uint32_t addr) {
   if (map == NULL) {
-    // #if TRACE_ENABLE
-    // i_ring_buf_logout(&ring);
-    // #endif
-    // printf("address (0x%x) is out of bound at pc = 0x%x", addr, cpu.pc);
+    #if TRACE_ENABLE
+    i_ring_buf_logout(&ring);
+    #endif
+    printf("[check_bound]: address (0x%x) is out of bound at pc = 0x%x", addr, cpu.pc);
+    Status = NPC_CRASH;
     return false;
   } 
   return true;
@@ -72,7 +73,7 @@ uint32_t map_read(uint32_t addr, int len, IOMap *map) {   // map
 
 void map_write(uint32_t addr, int len, uint32_t data, IOMap *map) {
   assert(len >= 1 && len <= 8);
-  check_bound(map, addr);
+  if(!check_bound(map, addr)) {return};
 
   uint32_t offset = addr - map->low;
   host_write((void*)((uint8_t*)(map->space) + offset), len, data);

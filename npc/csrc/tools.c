@@ -66,6 +66,8 @@ uint32_t ram_read(uint32_t addr, int amount) {
             ram_read_last_data = result;
             return result;
             #endif
+            printf("[ram_read]: The addr 0x%08x is out of bound, which might caused by DEVICE DISABLE setting. Please Check Out!\n", addr);
+            Status = NPC_CRASH;
             ram_read_last_data = 0;
             return 0;
         }

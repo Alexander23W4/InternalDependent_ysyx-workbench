@@ -187,7 +187,7 @@ Disassembly of section .text:
 8000028c:	04100513          	li	a0,65
 80000290:	00140413          	addi	s0,s0,1
 80000294:	f91ff0ef          	jal	ra,80000224 <putch>
-80000298:	00044503          	lbu	a0,0(s0)
+80000298:	00044503          	lbu	a0,0(s0)  
 8000029c:	fe051ae3          	bnez	a0,80000290 <fail+0x18>
 800002a0:	00000417          	auipc	s0,0x0
 800002a4:	67440413          	addi	s0,s0,1652 # 80000914 <mainargs+0x4c>

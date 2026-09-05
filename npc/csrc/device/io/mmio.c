@@ -22,6 +22,16 @@
 
 #define NR_MAP 16
 
+/*
+typedef void(*io_callback_t)(uint32_t, int, bool);
+typedef struct {
+  const char *name;
+  uint32_t low;
+  uint32_t high;
+  void *space;
+  io_callback_t callback;
+} IOMap;
+*/
 static IOMap maps[NR_MAP] = {};   // maps
 static int nr_map = 0;
 

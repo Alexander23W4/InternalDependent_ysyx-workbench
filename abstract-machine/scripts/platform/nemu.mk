@@ -39,6 +39,8 @@ CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINAR
 insert-arg: image
 	@python3 $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
 
+
+
 # image-dep的定义见 总makefile的 +> image-dep: $(IMAGE).elf, image-dep在AM的makefile里面将所有相关文件编译链接打包生成$(IMAGE).elf
 # 后面几句的作用是: 反汇编生成.txt  把.elf转化为可以让nemu运行的纯二进制文件$(IMAGE).bin
 image: image-dep
@@ -46,7 +48,10 @@ image: image-dep
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
-# call nemu, run  ARGS  IMG   可以看到AM的makefile就是给nemu编译打包了一个$(IMAGE).bin拿给nemu运行就行了, 所有的编译配置都是根据nemu和对应的指令集生成的.
+
+
+
+# ⭐ call nemu, run  ARGS  IMG   可以看到AM的makefile就是给nemu编译打包了一个$(IMAGE).bin拿给nemu运行就行了, 所有的编译配置都是根据nemu和对应的指令集生成的.
 # make -C /home/wang/InternalDependent_ysyx-workbench/nemu ISA=riscv32 run 
 # ARGS="-l /home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/nemu-log.txt" 
 # IMG=/home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/add-longlong-riscv32-nemu.bin   
@@ -57,3 +62,6 @@ gdb: insert-arg
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) gdb ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
 
 .PHONY: insert-arg
+
+
+# ⭐ 总的来说: make -s -f Make.dummy ARCH=riscv32-nemu run -->  [nemu.mk]run --> insert-arg  --> image --> image-dep <--> [AM Makefile] IMAGE.elf 

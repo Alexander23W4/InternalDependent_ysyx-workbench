@@ -1,343 +1,384 @@
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000962, [DATA]0x63617274 (1667330676)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000963, [DATA]0x74636172 (1952670066)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000964, [DATA]0x2d746361 (762602337)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000965, [DATA]0x6d2d7463 (1831695459)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000966, [DATA]0x616d2d74 (1634545012)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000967, [DATA]0x63616d2d (1667329325)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000968, [DATA]0x6863616d (1751343469)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000969, [DATA]0x69686361 (1768448865)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000096a, [DATA]0x6e696863 (1852401763)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000096b, [DATA]0x656e6968 (1701734760)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000096c, [DATA]0x2f656e69 (795176553)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000096d, [DATA]0x612f656e (1630496110)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000096e, [DATA]0x6d612f65 (1835085669)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000096f, [DATA]0x2f6d612f (795697455)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000970, [DATA]0x732f6d61 (1932488033)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000971, [DATA]0x72732f6d (1920151405)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000972, [DATA]0x6372732f (1668444975)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000973, [DATA]0x2f637273 (795046515)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000974, [DATA]0x722f6372 (1915708274)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000975, [DATA]0x69722f63 (1769090915)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000976, [DATA]0x7369722f (1936290351)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000977, [DATA]0x63736972 (1668508018)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000978, [DATA]0x76637369 (1986229097)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000979, [DATA]0x2f766373 (796287859)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000097a, [DATA]0x6e2f7663 (1848604259)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000097b, [DATA]0x706e2f76 (1886269302)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000097c, [DATA]0x63706e2f (1668312623)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000097d, [DATA]0x2f63706e (795045998)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000097e, [DATA]0x692f6370 (1764713328)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000097f, [DATA]0x6f692f63 (1869164387)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000980, [DATA]0x656f692f (1701800239)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000981, [DATA]0x2e656f69 (778399593)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000982, [DATA]0x632e656f (1663985007)
-              
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000983, [DATA]0x3a632e65 (979578469)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000984, [DATA]0x343a632e (876241710)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000985, [DATA]0x33343a63 (859060835)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000986, [DATA]0x2033343a (540226618)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000987, [DATA]0x20203334 (538981172)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000988, [DATA]0x0a202033 (169877555)
-               
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x80000989, [DATA]0x000a2020 (663584)
-                  
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000098a, [DATA]0x00000a20 (2592)
-                    
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000098b, [DATA]0x0000000a (10)
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c5c    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x00000014 (20)
                       
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002c8    0x00140413    addi	s0, s0, 1                                                                                                                                        
-0x800002cc    0xf59ff0ef    jal	0x80000224                [CALL] PRE: fail, DST: putch                                                                                            
-0x80000224    0x100007b7    lui	a5, 0x10000                                                                                                                                       
-0x80000228    0x00a78023    sb	a0, 0(a5)                                                                                                                                          
-0x8000022c    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
-0x800002d0    0x00044503    lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x8000098c, [DATA]0x00000000 (0)
+0x80000c60    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
+                      
+0x80000c64    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x00003070 (12400)
+                   
+0x80000c68    0x00412503    lw	a0, 4(sp)                                                                    M_read: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
+                     
+0x80000c6c    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x80000c70    0x00f58733    add	a4, a1, a5                                                                                                                                        
+0x80000c74    0x00a60633    add	a2, a2, a0                                                                                                                                        
+0x80000c78    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80014f78, [DATA]0x00003200 (12800)
+                  
+0x80000c7c    0xf6e4eee3    bltu	s1, a4, 0x80000bf8                                                                                                                               
+0x80000bf8    0x00628733    add	a4, t0, t1                                                                                                                                        
+0x80000bfc    0x00028513    mv	a0, t0                                                                                                                                             
+0x80000c00    0x06e2f263    bgeu	t0, a4, 0x80000c64                                                                                                                               
+0x80000c04    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x00003200 (12800)
+                   
+0x80000c08    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80014f80, [DATA]0x80001b34 (-2147476684)
+             
+0x80000c0c    0x00068393    mv	t2, a3                                                                                                                                             
+0x80000c10    0x00f28633    add	a2, t0, a5                                                                                                                                        
+0x80000c14    0x00261613    slli	a2, a2, 2                                                                                                                                        
+0x80000c18    0x00269793    slli	a5, a3, 2                                                                                                                                        
+0x80000c1c    0x40f60633    sub	a2, a2, a5                                                                                                                                        
+0x80000c20    0x40e60633    sub	a2, a2, a4                                                                                                                                        
+0x80000c24    0x00f707b3    add	a5, a4, a5                                                                                                                                        
+0x80000c28    0x11000737    lui	a4, 0x11000                                                                                                                                       
+0x80000c2c    0x00e60633    add	a2, a2, a4                                                                                                                                        
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cb4, [DATA]0x00000000 (0)
                        
-0x800002d4    0xfe051ae3    bnez	a0, 0x800002c8                                                                                                                                   
-0x800002d8    0x00100513    li	a0, 1                                                                                                                                              
-0x800002dc    0xf55ff0ef    jal	0x80000230                [CALL] PRE: fail, DST: halt                                                                                             
-0x80000230    0x00100073    ebreak                                                                                                                                                
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cb8, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cbc, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cc0, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cc4, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cc8, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001ccc, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cd0, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c5c    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x00000014 (20)
+                      
+0x80000c60    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
+                      
+0x80000c64    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x00003200 (12800)
+                   
+0x80000c68    0x00412503    lw	a0, 4(sp)                                                                    M_read: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
+                     
+0x80000c6c    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x80000c70    0x00f58733    add	a4, a1, a5                                                                                                                                        
+0x80000c74    0x00a60633    add	a2, a2, a0                                                                                                                                        
+0x80000c78    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80014f78, [DATA]0x00003390 (13200)
+                  
+0x80000c7c    0xf6e4eee3    bltu	s1, a4, 0x80000bf8                                                                                                                               
+0x80000bf8    0x00628733    add	a4, t0, t1                                                                                                                                        
+0x80000bfc    0x00028513    mv	a0, t0                                                                                                                                             
+0x80000c00    0x06e2f263    bgeu	t0, a4, 0x80000c64                                                                                                                               
+0x80000c04    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x00003390 (13200)
+                   
+0x80000c08    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80014f80, [DATA]0x80001b34 (-2147476684)
+             
+0x80000c0c    0x00068393    mv	t2, a3                                                                                                                                             
+0x80000c10    0x00f28633    add	a2, t0, a5                                                                                                                                        
+0x80000c14    0x00261613    slli	a2, a2, 2                                                                                                                                        
+0x80000c18    0x00269793    slli	a5, a3, 2                                                                                                                                        
+0x80000c1c    0x40f60633    sub	a2, a2, a5                                                                                                                                        
+0x80000c20    0x40e60633    sub	a2, a2, a4                                                                                                                                        
+0x80000c24    0x00f707b3    add	a5, a4, a5                                                                                                                                        
+0x80000c28    0x11000737    lui	a4, 0x11000                                                                                                                                       
+0x80000c2c    0x00e60633    add	a2, a2, a4                                                                                                                                        
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cd4, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cd8, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cdc, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001ce0, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001ce4, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001ce8, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cec, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cf0, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c5c    0x00442583    lw	a1, 4(s0)                                                                    M_read: [ADDR]0x80014fa4, [DATA]0x00000014 (20)
+                      
+0x80000c60    0x01042783    lw	a5, 0x10(s0)                                                                 M_read: [ADDR]0x80014fb0, [DATA]0x00000010 (16)
+                      
+0x80000c64    0x00012603    lw	a2, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x00003390 (13200)
+                   
+0x80000c68    0x00412503    lw	a0, 4(sp)                                                                    M_read: [ADDR]0x80014f7c, [DATA]0x00000190 (400)
+                     
+0x80000c6c    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x80000c70    0x00f58733    add	a4, a1, a5                                                                                                                                        
+0x80000c74    0x00a60633    add	a2, a2, a0                                                                                                                                        
+0x80000c78    0x00c12023    sw	a2, 0(sp)                                                                    M_write: [ADDR]0x80014f78, [DATA]0x00003520 (13600)
+                  
+0x80000c7c    0xf6e4eee3    bltu	s1, a4, 0x80000bf8                                                                                                                               
+0x80000bf8    0x00628733    add	a4, t0, t1                                                                                                                                        
+0x80000bfc    0x00028513    mv	a0, t0                                                                                                                                             
+0x80000c00    0x06e2f263    bgeu	t0, a4, 0x80000c64                                                                                                                               
+0x80000c04    0x00012783    lw	a5, 0(sp)                                                                    M_read: [ADDR]0x80014f78, [DATA]0x00003520 (13600)
+                   
+0x80000c08    0x00812703    lw	a4, 8(sp)                                                                    M_read: [ADDR]0x80014f80, [DATA]0x80001b34 (-2147476684)
+             
+0x80000c0c    0x00068393    mv	t2, a3                                                                                                                                             
+0x80000c10    0x00f28633    add	a2, t0, a5                                                                                                                                        
+0x80000c14    0x00261613    slli	a2, a2, 2                                                                                                                                        
+0x80000c18    0x00269793    slli	a5, a3, 2                                                                                                                                        
+0x80000c1c    0x40f60633    sub	a2, a2, a5                                                                                                                                        
+0x80000c20    0x40e60633    sub	a2, a2, a4                                                                                                                                        
+0x80000c24    0x00f707b3    add	a5, a4, a5                                                                                                                                        
+0x80000c28    0x11000737    lui	a4, 0x11000                                                                                                                                       
+0x80000c2c    0x00e60633    add	a2, a2, a4                                                                                                                                        
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cf4, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cf8, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001cfc, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001d00, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        
+0x80000c58    0xfcb76ce3    bltu	a4, a1, 0x80000c30                                                                                                                               
+0x80000c30    0x0007a583    lw	a1, 0(a5)                                                                    M_read: [ADDR]0x80001d04, [DATA]0x00000000 (0)
+                       
+0x80000c34    0x00f60733    add	a4, a2, a5                                                                                                                                        
+0x80000c38    0x00168693    addi	a3, a3, 1                                                                                                                                        
+0x80000c3c    0x00b72023    sw	a1, 0(a4)                                                                                                                                          
+0x80000c40    0x00042283    lw	t0, 0(s0)                                                                    M_read: [ADDR]0x80014fa0, [DATA]0x0000004b (75)
+                      
+0x80000c44    0x00c42303    lw	t1, 0xc(s0)                                                                  M_read: [ADDR]0x80014fac, [DATA]0x00000008 (8)
+                       
+0x80000c48    0x00a68733    add	a4, a3, a0                                                                                                                                        
+0x80000c4c    0x40770733    sub	a4, a4, t2                                                                                                                                        
+0x80000c50    0x006285b3    add	a1, t0, t1                                                                                                                                        
+0x80000c54    0x00478793    addi	a5, a5, 4                                                                                                                                        

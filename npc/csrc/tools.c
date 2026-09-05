@@ -16,15 +16,15 @@ void final_check(){
         i_ring_buf_logout(&ring);
     #endif
     if(Status == NPC_QUIT){
-        printf("%s", ANSI_FMT("[QUIT]\n", ANSI_FG_YELLOW));
+        printf("%s", ANSI_FMT("\n[QUIT]\n", ANSI_FG_YELLOW));
     }
     else if(top->dbg_reg[10] != 0 || Status == NPC_CRASH){   
-        printf("%s", ANSI_FMT("[HIT BAD TRAP]\n", ANSI_FG_RED));
+        printf("%s", ANSI_FMT("\n[HIT BAD TRAP]\n", ANSI_FG_RED));
 
         prt_gprs();
     }
     else{
-        printf("%s", ANSI_FMT("[HIT GOOD TRAP]\n", ANSI_FG_GREEN));
+        printf("%s", ANSI_FMT("\n[HIT GOOD TRAP]\n", ANSI_FG_GREEN));
     }
 }
 

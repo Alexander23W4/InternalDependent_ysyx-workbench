@@ -73,7 +73,7 @@ uint32_t map_read(uint32_t addr, int len, IOMap *map) {   // map
 
 void map_write(uint32_t addr, int len, uint32_t data, IOMap *map) {
   assert(len >= 1 && len <= 8);
-  if(!check_bound(map, addr)) {return};
+  if(!check_bound(map, addr)) {return;}
 
   uint32_t offset = addr - map->low;
   host_write((void*)((uint8_t*)(map->space) + offset), len, data);

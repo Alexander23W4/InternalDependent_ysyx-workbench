@@ -105,6 +105,7 @@ static void checkregs(CPU_state *ref) {
   if (!difftest_checkregs(ref)) {
     printf("Difftest Abort.\n");
     difftest_abort_print(ref);
+    Status = NPC_CRASH;
   #if TRACE_ENABLE
     i_ring_buf_logout(&ring);
   #endif

@@ -167,20 +167,22 @@ void ftrace_init(const char* dir){
 }
 
 
-// fill Func_symbols array
+// fill Func_symbols array     Section Headers -> 3 个 table: symtab  strtab  shstrtab
+// 这里的查找逻辑是: section headers -> shstrtab -> symtab & strtab
 void fill_symbols(Elf32_Ehdr *ehdr){
     //  ehdr -> Section Header Table
-    Elf32_Shdr *shdr = (Elf32_Shdr *)((char *)ehdr + ehdr->e_shoff);
+    Elf32_Shdr *shdr = (Elf32_Shdr *)((char *)ehdr + ehdr->e_shoff);  // 定位到 Section Header Table
 
-    int shnum = ehdr->e_shnum;
+    int shnum = ehdr->e_shnum;                 // section 数量
+
     // find .shstrtab（section name string table）
-    Elf32_Shdr *shstr_hdr = &shdr[ehdr->e_shstrndx];
-    char *shstrtab = (char *)ehdr + shstr_hdr->sh_offset;
+    Elf32_Shdr *shstr_hdr = &shdr[ehdr->e_shstrndx];      // 根据 shstrtab 在 sht 中的 index来定位 shstrtab section在 sht 中的位置
+    char *shstrtab = (char *)ehdr + shstr_hdr->sh_offset;    // 定位 shstrtab (Section Header String Table)
 
     // find .symtab & .strtab in sections      sym_idx & str_idx
     int sym_idx = -1, str_idx = -1;
     for (int i = 0; i < shnum; i++) {
-        char *sec_name = shstrtab + shdr[i].sh_name;
+        char *sec_name = shstrtab + shdr[i].sh_name;    // shdr[i].sh_name 为 每个 section 的 name 在 shstrtab 中的偏移量
         if (strcmp(sec_name, ".symtab") == 0) {
             sym_idx = i;
         } else if (strcmp(sec_name, ".strtab") == 0) {
@@ -235,30 +237,33 @@ Elf32_Ehdr* map_elf_file(size_t *file_size) {
         return NULL;
     }
 
-    int fd = open(elf_file, O_RDONLY);
+    int fd = open(elf_file, O_RDONLY);   // 文件描述符 fd
     if (fd < 0) {
         perror("open ELF file failed");
+        assert(0);
         return NULL;
     }
 
     struct stat st;
-    if (fstat(fd, &st) < 0) {
+    if (fstat(fd, &st) < 0) {   // 获取文件的状态信息，包括大小、权限
         perror("fstat failed");
         close(fd);
+        assert(0);
         return NULL;
     }
-    *file_size = st.st_size;  // 通过输出参数返回
+    *file_size = st.st_size;  
 
-    void *elf_data = mmap(NULL, *file_size, PROT_READ, MAP_PRIVATE, fd, 0);
+    void *elf_data = mmap(NULL, *file_size, PROT_READ, MAP_PRIVATE, fd, 0);   // 复制一份
     if (elf_data == MAP_FAILED) {
         perror("mmap failed");
         close(fd);
+        assert(0);
         return NULL;
     }
 
     close(fd);
 
-    Elf32_Ehdr *ehdr = (Elf32_Ehdr *)elf_data;
+    Elf32_Ehdr *ehdr = (Elf32_Ehdr *)elf_data;    // 转化指针 (格式)
     printf("%s", ANSI_FMT("ELF file mapped successfully: ", ANSI_FG_CYAN));
     printf("%s\n", elf_file);
     printf("  Entry point: 0x%x\n", ehdr->e_entry);

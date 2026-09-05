@@ -12,12 +12,12 @@ Disassembly of section .text:
 
 80000010 <schedule>:
 80000010:	00000717          	auipc	a4,0x0
-80000014:	7a070713          	addi	a4,a4,1952 # 800007b0 <current>
+80000014:	7a470713          	addi	a4,a4,1956 # 800007b4 <current>
 80000018:	00072683          	lw	a3,0(a4)
 8000001c:	00000617          	auipc	a2,0x0
-80000020:	79860613          	addi	a2,a2,1944 # 800007b4 <pcb>
+80000020:	79c60613          	addi	a2,a2,1948 # 800007b8 <pcb>
 80000024:	00008797          	auipc	a5,0x8
-80000028:	79078793          	addi	a5,a5,1936 # 800087b4 <pcb+0x8000>
+80000028:	79478793          	addi	a5,a5,1940 # 800087b8 <pcb+0x8000>
 8000002c:	00b6a023          	sw	a1,0(a3)
 80000030:	00c68463          	beq	a3,a2,80000038 <schedule+0x28>
 80000034:	00060793          	mv	a5,a2
@@ -71,9 +71,9 @@ Disassembly of section .text:
 800000e4:	60050513          	addi	a0,a0,1536 # 800006e0 <_etext+0x94>
 800000e8:	3b4000ef          	jal	ra,8000049c <printf>
 800000ec:	00008417          	auipc	s0,0x8
-800000f0:	6c840413          	addi	s0,s0,1736 # 800087b4 <pcb+0x8000>
+800000f0:	6cc40413          	addi	s0,s0,1740 # 800087b8 <pcb+0x8000>
 800000f4:	00000497          	auipc	s1,0x0
-800000f8:	6c048493          	addi	s1,s1,1728 # 800007b4 <pcb>
+800000f8:	6c448493          	addi	s1,s1,1732 # 800007b8 <pcb>
 800000fc:	00040593          	mv	a1,s0
 80000100:	00100693          	li	a3,1
 80000104:	00000617          	auipc	a2,0x0
@@ -85,7 +85,7 @@ Disassembly of section .text:
 8000011c:	00000617          	auipc	a2,0x0
 80000120:	f2860613          	addi	a2,a2,-216 # 80000044 <f>
 80000124:	00010597          	auipc	a1,0x10
-80000128:	69058593          	addi	a1,a1,1680 # 800107b4 <pcb_boot>
+80000128:	69458593          	addi	a1,a1,1684 # 800107b8 <pcb_boot>
 8000012c:	00040513          	mv	a0,s0
 80000130:	00f4a023          	sw	a5,0(s1)
 80000134:	16c000ef          	jal	ra,800002a0 <kcontext>
@@ -128,7 +128,7 @@ Disassembly of section .text:
 800001b4 <_trm_init>:
 800001b4:	ff010113          	addi	sp,sp,-16
 800001b8:	00000517          	auipc	a0,0x0
-800001bc:	53450513          	addi	a0,a0,1332 # 800006ec <mainargs>
+800001bc:	53850513          	addi	a0,a0,1336 # 800006f0 <mainargs>
 800001c0:	00112623          	sw	ra,12(sp)
 800001c4:	ee9ff0ef          	jal	ra,800000ac <main>
 800001c8:	00050513          	mv	a0,a0
@@ -137,7 +137,7 @@ Disassembly of section .text:
 
 800001d4 <__am_irq_handle>:
 800001d4:	00018797          	auipc	a5,0x18
-800001d8:	5e07a783          	lw	a5,1504(a5) # 800187b4 <user_handler>
+800001d8:	5e47a783          	lw	a5,1508(a5) # 800187b8 <user_handler>
 800001dc:	00050593          	mv	a1,a0
 800001e0:	06078e63          	beqz	a5,8000025c <__am_irq_handle+0x88>
 800001e4:	08052683          	lw	a3,128(a0)
@@ -173,9 +173,9 @@ Disassembly of section .text:
 8000025c:	00008067          	ret
 80000260:	04600613          	li	a2,70
 80000264:	00000597          	auipc	a1,0x0
-80000268:	4c858593          	addi	a1,a1,1224 # 8000072c <mainargs+0x40>
+80000268:	4cc58593          	addi	a1,a1,1228 # 80000730 <mainargs+0x40>
 8000026c:	00000517          	auipc	a0,0x0
-80000270:	51850513          	addi	a0,a0,1304 # 80000784 <mainargs+0x98>
+80000270:	51c50513          	addi	a0,a0,1308 # 80000788 <mainargs+0x98>
 80000274:	228000ef          	jal	ra,8000049c <printf>
 80000278:	00100513          	li	a0,1
 8000027c:	f2dff0ef          	jal	ra,800001a8 <halt>
@@ -187,7 +187,7 @@ Disassembly of section .text:
 8000028c:	30571073          	csrw	mtvec,a4
 80000290:	00100513          	li	a0,1
 80000294:	00018717          	auipc	a4,0x18
-80000298:	52f72023          	sw	a5,1312(a4) # 800187b4 <user_handler>
+80000298:	52f72223          	sw	a5,1316(a4) # 800187b8 <user_handler>
 8000029c:	00008067          	ret
 
 800002a0 <kcontext>:
@@ -352,7 +352,7 @@ Disassembly of section .text:
 800004f4:	00048913          	mv	s2,s1
 800004f8:	02500993          	li	s3,37
 800004fc:	00000a17          	auipc	s4,0x0
-80000500:	2a4a0a13          	addi	s4,s4,676 # 800007a0 <types>
+80000500:	2a8a0a13          	addi	s4,s4,680 # 800007a4 <types>
 80000504:	03000b13          	li	s6,48
 80000508:	00100a93          	li	s5,1
 8000050c:	0180006f          	j	80000524 <printf+0x88>

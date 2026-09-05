@@ -24,6 +24,7 @@ deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-int
   /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/ftrace.h \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/cpu/cpu.h \
   /home/wang/InternalDependent_ysyx-workbench/nemu/include/cpu/decode.h \
+  /home/wang/InternalDependent_ysyx-workbench/nemu/src/cpu/trace/pftrace.h \
 
 /home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter-so/src/monitor/monitor.o: $(deps_/home/wang/InternalDependent_ysyx-workbench/nemu/build/obj-riscv32-nemu-interpreter-so/src/monitor/monitor.o)
 

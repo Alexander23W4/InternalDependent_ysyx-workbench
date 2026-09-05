@@ -18,3 +18,7 @@ void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {   // 12 Byte
   rtc->month  = (int)(*(volatile uint16_t *)(NPC_RTC_ADDR + 2));
   rtc->year   = (int)(*(volatile uint16_t *)NPC_RTC_ADDR);
 }
+
+
+
+

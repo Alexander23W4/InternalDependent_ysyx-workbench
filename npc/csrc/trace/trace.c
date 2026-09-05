@@ -160,10 +160,10 @@ void i_ring_buf_logout(I_ring_buf* i_ring_buf){
 void ftrace_init(const char* dir){
     get_elf_file(dir);
     size_t file_size;
-    Elf32_Ehdr* ehdr = map_elf_file(elf_file, &file_size);
+    Elf32_Ehdr* ehdr = map_elf_file(&file_size);
     fill_symbols(ehdr);
     unmap_elf_file(ehdr, file_size);
-    print_func_syms();
+    print_func_syms();  //
 }
 
 
@@ -228,9 +228,10 @@ void get_elf_file(const char* dir) {
 
 // map and unmap elf file:
 
-Elf32_Ehdr* map_elf_file(const char *elf_file, size_t *file_size) {
+Elf32_Ehdr* map_elf_file(size_t *file_size) {
     if (elf_file == NULL) {
         fprintf(stderr, "ELF file path is NULL\n");
+        assert(0);
         return NULL;
     }
 

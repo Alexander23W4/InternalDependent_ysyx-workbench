@@ -48,7 +48,7 @@ void get_elf_file(const char* dir);
 
 void ftrace_init(const char* dir);
 
-Elf32_Ehdr* map_elf_file(const char *elf_file, size_t *file_size);
+Elf32_Ehdr* map_elf_file(size_t *file_size);
 
 void unmap_elf_file(Elf32_Ehdr *ehdr, size_t file_size);
 

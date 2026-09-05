@@ -1,7 +1,8 @@
 [1;34m[src/utils/log.c:30 init_log] Log is written to /home/wang/InternalDependent_ysyx-workbench/am-kernels/kernels/hello/build/nemu-log.txt[0m
 [1;34m[src/memory/paddr.c:54 init_mem] physical memory area [0x80000000, 0x87ffffff][0m
 [1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'serial' at [0xa00003f8, 0xa00003ff][0m
-[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'rtc' at [0xa0000048, 0xa000004f][0m
+[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'rtc' at [0xa0000048, 0xa0000053][0m
+[1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'upt' at [0xa0000054, 0xa000005b][0m
 [1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'vgactl' at [0xa0000100, 0xa0000107][0m
 [1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'vmem' at [0xa1000000, 0xa10752ff][0m
 [1;34m[src/device/io/mmio.c:52 add_mmio_map] Add mmio map 'keyboard' at [0xa0000060, 0xa0000063][0m
@@ -12,7 +13,7 @@
 [1;34m[src/cpu/difftest/dut.c:114 init_difftest] The result of every instruction will be compared with /home/wang/InternalDependent_ysyx-workbench/nemu/tools/spike-diff/build/riscv32-spike-so. This will help you a lot for debugging, but also significantly reduce the performance. If it is not necessary, you can turn it off in menuconfig.[0m
 [1;34m[src/monitor/monitor.c:31 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:32 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
-[1;34m[src/monitor/monitor.c:35 welcome] Build time: 19:49:09, Aug 28 2026[0m
+[1;34m[src/monitor/monitor.c:35 welcome] Build time: 17:07:31, Aug 30 2026[0m
 0x80000000:     00 00 04 13     mv	s0, zero                                                                                                                                           
 0x80000004:     00 00 91 17     auipc	sp, 9                                                                                                                                           
 0x80000008:     ff c1 01 13     addi	sp, sp, -4                                                                                                                                       
@@ -400,10 +401,83 @@
 0x80000048:     00 14 84 93     addi	s1, s1, 1                                                                                                                                        
 0x8000004c:     fe 05 18 e3     bnez	a0, -0x10                                                                                                                                        
 0x8000003c:     03 25 08 63     beq	a0, s2, 0x30                                                                                                                                      
-0x8000006c:     00 09 c5 03     lbu	a0, 0(s3)                                                                   M_read: [ADDR]0x800000e4, [DATA]0x00000000 (0)
-                       
+0x8000006c:     00 09 c5 03     lbu	a0, 0(s3)                                                                   M_read: [ADDR]0x800000e4, [DATA]0x00000061 (97)
+                      
 0x80000070:     00 09 84 13     mv	s0, s3                                                                                                                                             
 0x80000074:     fc 05 08 e3     beqz	a0, -0x30                                                                                                                                        
+0x80000078:     00 14 04 13     addi	s0, s0, 1                                                                                                                                        
+0x8000007c:     01 00 00 ef     jal	0x10                      [CALL] PRE: main, DST: putch                                                                                            
+0x8000008c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
+0x80000090:     3e a7 8c 23     sb	a0, 0x3f8(a5)                                                                M_write: [ADDR]0xa00003f8, [DATA]0x00000061 (97)
+                     
+0x80000094:     00 00 80 67     ret                           [RET] PRE: putch, DST: main                                                                                             
+0x80000080:     00 04 45 03     lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x800000e5, [DATA]0x00000073 (115)
+                     
+0x80000084:     fe 05 1a e3     bnez	a0, -0xc                                                                                                                                         
+0x80000078:     00 14 04 13     addi	s0, s0, 1                                                                                                                                        
+0x8000007c:     01 00 00 ef     jal	0x10                      [CALL] PRE: main, DST: putch                                                                                            
+0x8000008c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
+0x80000090:     3e a7 8c 23     sb	a0, 0x3f8(a5)                                                                M_write: [ADDR]0xa00003f8, [DATA]0x00000073 (115)
+                    
+0x80000094:     00 00 80 67     ret                           [RET] PRE: putch, DST: main                                                                                             
+0x80000080:     00 04 45 03     lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x800000e6, [DATA]0x00000064 (100)
+                     
+0x80000084:     fe 05 1a e3     bnez	a0, -0xc                                                                                                                                         
+0x80000078:     00 14 04 13     addi	s0, s0, 1                                                                                                                                        
+0x8000007c:     01 00 00 ef     jal	0x10                      [CALL] PRE: main, DST: putch                                                                                            
+0x8000008c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
+0x80000090:     3e a7 8c 23     sb	a0, 0x3f8(a5)                                                                M_write: [ADDR]0xa00003f8, [DATA]0x00000064 (100)
+                    
+0x80000094:     00 00 80 67     ret                           [RET] PRE: putch, DST: main                                                                                             
+0x80000080:     00 04 45 03     lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x800000e7, [DATA]0x00000066 (102)
+                     
+0x80000084:     fe 05 1a e3     bnez	a0, -0xc                                                                                                                                         
+0x80000078:     00 14 04 13     addi	s0, s0, 1                                                                                                                                        
+0x8000007c:     01 00 00 ef     jal	0x10                      [CALL] PRE: main, DST: putch                                                                                            
+0x8000008c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
+0x80000090:     3e a7 8c 23     sb	a0, 0x3f8(a5)                                                                M_write: [ADDR]0xa00003f8, [DATA]0x00000066 (102)
+                    
+0x80000094:     00 00 80 67     ret                           [RET] PRE: putch, DST: main                                                                                             
+0x80000080:     00 04 45 03     lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x800000e8, [DATA]0x00000061 (97)
+                      
+0x80000084:     fe 05 1a e3     bnez	a0, -0xc                                                                                                                                         
+0x80000078:     00 14 04 13     addi	s0, s0, 1                                                                                                                                        
+0x8000007c:     01 00 00 ef     jal	0x10                      [CALL] PRE: main, DST: putch                                                                                            
+0x8000008c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
+0x80000090:     3e a7 8c 23     sb	a0, 0x3f8(a5)                                                                M_write: [ADDR]0xa00003f8, [DATA]0x00000061 (97)
+                     
+0x80000094:     00 00 80 67     ret                           [RET] PRE: putch, DST: main                                                                                             
+0x80000080:     00 04 45 03     lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x800000e9, [DATA]0x00000073 (115)
+                     
+0x80000084:     fe 05 1a e3     bnez	a0, -0xc                                                                                                                                         
+0x80000078:     00 14 04 13     addi	s0, s0, 1                                                                                                                                        
+0x8000007c:     01 00 00 ef     jal	0x10                      [CALL] PRE: main, DST: putch                                                                                            
+0x8000008c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
+0x80000090:     3e a7 8c 23     sb	a0, 0x3f8(a5)                                                                M_write: [ADDR]0xa00003f8, [DATA]0x00000073 (115)
+                    
+0x80000094:     00 00 80 67     ret                           [RET] PRE: putch, DST: main                                                                                             
+0x80000080:     00 04 45 03     lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x800000ea, [DATA]0x00000064 (100)
+                     
+0x80000084:     fe 05 1a e3     bnez	a0, -0xc                                                                                                                                         
+0x80000078:     00 14 04 13     addi	s0, s0, 1                                                                                                                                        
+0x8000007c:     01 00 00 ef     jal	0x10                      [CALL] PRE: main, DST: putch                                                                                            
+0x8000008c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
+0x80000090:     3e a7 8c 23     sb	a0, 0x3f8(a5)                                                                M_write: [ADDR]0xa00003f8, [DATA]0x00000064 (100)
+                    
+0x80000094:     00 00 80 67     ret                           [RET] PRE: putch, DST: main                                                                                             
+0x80000080:     00 04 45 03     lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x800000eb, [DATA]0x00000066 (102)
+                     
+0x80000084:     fe 05 1a e3     bnez	a0, -0xc                                                                                                                                         
+0x80000078:     00 14 04 13     addi	s0, s0, 1                                                                                                                                        
+0x8000007c:     01 00 00 ef     jal	0x10                      [CALL] PRE: main, DST: putch                                                                                            
+0x8000008c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
+0x80000090:     3e a7 8c 23     sb	a0, 0x3f8(a5)                                                                M_write: [ADDR]0xa00003f8, [DATA]0x00000066 (102)
+                    
+0x80000094:     00 00 80 67     ret                           [RET] PRE: putch, DST: main                                                                                             
+0x80000080:     00 04 45 03     lbu	a0, 0(s0)                                                                   M_read: [ADDR]0x800000ec, [DATA]0x00000000 (0)
+                       
+0x80000084:     fe 05 1a e3     bnez	a0, -0xc                                                                                                                                         
+0x80000088:     fb df f0 6f     j	-0x44                       [CALL] PRE: main, DST: _trm_init                                                                                        
 0x80000044:     00 14 c5 03     lbu	a0, 1(s1)                                                                   M_read: [ADDR]0x800000dd, [DATA]0x00000027 (39)
                       
 0x80000048:     00 14 84 93     addi	s1, s1, 1                                                                                                                                        
@@ -453,6 +527,6 @@
 0x800000ac:     00 05 05 13     mv	a0, a0                                                                                                                                             
 0x800000b0:     00 10 00 73     ebreak                                                                                                                                                
 [1;34m[src/cpu/cpu-exec.c:307 cpu_exec] nemu: [1;32mHIT GOOD TRAP[0m at pc = 0x800000b0[0m
-[1;34m[src/cpu/cpu-exec.c:60 statistic] host time spent = 1,287 us[0m
-[1;34m[src/cpu/cpu-exec.c:61 statistic] total guest instructions = 348[0m
-[1;34m[src/cpu/cpu-exec.c:62 statistic] simulation frequency = 270,396 inst/s[0m
+[1;34m[src/cpu/cpu-exec.c:60 statistic] host time spent = 1,897 us[0m
+[1;34m[src/cpu/cpu-exec.c:61 statistic] total guest instructions = 405[0m
+[1;34m[src/cpu/cpu-exec.c:62 statistic] simulation frequency = 213,494 inst/s[0m

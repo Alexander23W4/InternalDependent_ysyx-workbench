@@ -11,13 +11,13 @@ Disassembly of section .text:
 8000000c:	1a0000ef          	jal	ra,800001ac <_trm_init>
 
 80000010 <schedule>:
-80000010:	00001717          	auipc	a4,0x1
-80000014:	80070713          	addi	a4,a4,-2048 # 80000810 <current>
+80000010:	00000717          	auipc	a4,0x0
+80000014:	7fc70713          	addi	a4,a4,2044 # 8000080c <current>
 80000018:	00072683          	lw	a3,0(a4)
 8000001c:	00000617          	auipc	a2,0x0
-80000020:	7f860613          	addi	a2,a2,2040 # 80000814 <pcb>
+80000020:	7f460613          	addi	a2,a2,2036 # 80000810 <pcb>
 80000024:	00008797          	auipc	a5,0x8
-80000028:	7f078793          	addi	a5,a5,2032 # 80008814 <pcb+0x8000>
+80000028:	7ec78793          	addi	a5,a5,2028 # 80008810 <pcb+0x8000>
 8000002c:	00b6a023          	sw	a1,0(a3)
 80000030:	00c68463          	beq	a3,a2,80000038 <schedule+0x28>
 80000034:	00060793          	mv	a5,a2
@@ -70,9 +70,9 @@ Disassembly of section .text:
 800000e0:	66450513          	addi	a0,a0,1636 # 80000740 <_etext+0x94>
 800000e4:	378000ef          	jal	ra,8000045c <printf>
 800000e8:	00008417          	auipc	s0,0x8
-800000ec:	72c40413          	addi	s0,s0,1836 # 80008814 <pcb+0x8000>
+800000ec:	72840413          	addi	s0,s0,1832 # 80008810 <pcb+0x8000>
 800000f0:	00000497          	auipc	s1,0x0
-800000f4:	72448493          	addi	s1,s1,1828 # 80000814 <pcb>
+800000f4:	72048493          	addi	s1,s1,1824 # 80000810 <pcb>
 800000f8:	00040593          	mv	a1,s0
 800000fc:	00100693          	li	a3,1
 80000100:	00000617          	auipc	a2,0x0
@@ -84,7 +84,7 @@ Disassembly of section .text:
 80000118:	00000617          	auipc	a2,0x0
 8000011c:	f2c60613          	addi	a2,a2,-212 # 80000044 <f>
 80000120:	00010597          	auipc	a1,0x10
-80000124:	6f458593          	addi	a1,a1,1780 # 80010814 <pcb_boot>
+80000124:	6f058593          	addi	a1,a1,1776 # 80010810 <pcb_boot>
 80000128:	00040513          	mv	a0,s0
 8000012c:	00f4a023          	sw	a5,0(s1)
 80000130:	164000ef          	jal	ra,80000294 <kcontext>
@@ -126,7 +126,7 @@ Disassembly of section .text:
 800001ac <_trm_init>:
 800001ac:	ff410113          	addi	sp,sp,-12
 800001b0:	00000517          	auipc	a0,0x0
-800001b4:	5a050513          	addi	a0,a0,1440 # 80000750 <mainargs>
+800001b4:	59c50513          	addi	a0,a0,1436 # 8000074c <mainargs>
 800001b8:	00112423          	sw	ra,8(sp)
 800001bc:	eedff0ef          	jal	ra,800000a8 <main>
 800001c0:	00100073          	ebreak
@@ -134,7 +134,7 @@ Disassembly of section .text:
 
 800001c8 <__am_irq_handle>:
 800001c8:	00018797          	auipc	a5,0x18
-800001cc:	64c7a783          	lw	a5,1612(a5) # 80018814 <user_handler>
+800001cc:	6487a783          	lw	a5,1608(a5) # 80018810 <user_handler>
 800001d0:	00050593          	mv	a1,a0
 800001d4:	06078e63          	beqz	a5,80000250 <__am_irq_handle+0x88>
 800001d8:	04052683          	lw	a3,64(a0)
@@ -170,9 +170,9 @@ Disassembly of section .text:
 80000250:	00008067          	ret
 80000254:	01200613          	li	a2,18
 80000258:	00000597          	auipc	a1,0x0
-8000025c:	53858593          	addi	a1,a1,1336 # 80000790 <mainargs+0x40>
+8000025c:	53458593          	addi	a1,a1,1332 # 8000078c <mainargs+0x40>
 80000260:	00000517          	auipc	a0,0x0
-80000264:	58450513          	addi	a0,a0,1412 # 800007e4 <mainargs+0x94>
+80000264:	58050513          	addi	a0,a0,1408 # 800007e0 <mainargs+0x94>
 80000268:	1f4000ef          	jal	ra,8000045c <printf>
 8000026c:	00100513          	li	a0,1
 80000270:	f35ff0ef          	jal	ra,800001a4 <halt>
@@ -184,7 +184,7 @@ Disassembly of section .text:
 80000280:	30571073          	.4byte	0x30571073
 80000284:	00100513          	li	a0,1
 80000288:	00018717          	auipc	a4,0x18
-8000028c:	58f72623          	sw	a5,1420(a4) # 80018814 <user_handler>
+8000028c:	58f72423          	sw	a5,1416(a4) # 80018810 <user_handler>
 80000290:	00008067          	ret
 
 80000294 <kcontext>:
@@ -328,7 +328,7 @@ Disassembly of section .text:
 80000494:	0e050e63          	beqz	a0,80000590 <printf+0x134>
 80000498:	00078713          	mv	a4,a5
 8000049c:	00000497          	auipc	s1,0x0
-800004a0:	36448493          	addi	s1,s1,868 # 80000800 <types>
+800004a0:	36048493          	addi	s1,s1,864 # 800007fc <types>
 800004a4:	0180006f          	j	800004bc <printf+0x60>
 800004a8:	00a70023          	sb	a0,0(a4)
 800004ac:	00140413          	addi	s0,s0,1

@@ -37,11 +37,12 @@ void init_disasm() {
     cs_err err = cs_open(CS_ARCH_RISCV, mode, &handle);
     if (err != CS_ERR_OK) {
         fprintf(stderr, "Error: Failed to open Capstone (err=%d)\n", err);
+        assert(0);
         return;
     }
 
     // 开启指令细节
-    cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);
+    cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);  // handle
 
     initialized = 1;
 }
@@ -62,7 +63,7 @@ int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
     }
 
     cs_insn *insn;
-    // count 参数传 0，让 Capstone 自动识别指令数量，但限制最多解码 1 条
+    // count   0，让 Capstone 自动识别指令数量，但限制最多解码 1 条
     size_t count = cs_disasm(handle, code, nbyte, pc, 1, &insn);
 
     if (count == 0) {
@@ -86,7 +87,7 @@ int disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
 
     // 反汇编成功，写入 mnemonic 和 op_str
     int n = 0;
-    n += snprintf(str + n, size - n, "%s", insn[0].mnemonic);
+    n += snprintf(str + n, size - n, "%s", insn[0].mnemonic);  // 助记符
 
     if (insn[0].op_str[0] != '\0') {
         n += snprintf(str + n, size - n, "\t%s", insn[0].op_str);

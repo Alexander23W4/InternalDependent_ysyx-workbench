@@ -28,7 +28,7 @@ typedef struct {
 static int ring_pos;
 
 char elf_file[256];
-symbol Func_symbols[2048];
+symbol Func_symbols[2048]; //
 int function_amt = 0;
 
 uint32_t mem_addr;
@@ -168,7 +168,7 @@ void ftrace_init(const char* dir){
 
 
 // fill Func_symbols array     Section Headers -> 3 个 table: symtab  strtab  shstrtab
-// 这里的查找逻辑是: section headers -> shstrtab -> symtab & strtab
+// 这里的查找逻辑是: section headers -> shstrtab -> symtab & strtab (symtab -> strtab 找对应 sym 的 name)
 void fill_symbols(Elf32_Ehdr *ehdr){
     //  ehdr -> Section Header Table
     Elf32_Shdr *shdr = (Elf32_Shdr *)((char *)ehdr + ehdr->e_shoff);  // 定位到 Section Header Table
@@ -176,7 +176,7 @@ void fill_symbols(Elf32_Ehdr *ehdr){
     int shnum = ehdr->e_shnum;                 // section 数量
 
     // find .shstrtab（section name string table）
-    Elf32_Shdr *shstr_hdr = &shdr[ehdr->e_shstrndx];      // 根据 shstrtab 在 sht 中的 index来定位 shstrtab section在 sht 中的位置
+    Elf32_Shdr *shstr_hdr = &shdr[ehdr->e_shstrndx];      // 根据 shstrtab 在 sht 中的 index 来定位 shstrtab section在 sht 中的位置
     char *shstrtab = (char *)ehdr + shstr_hdr->sh_offset;    // 定位 shstrtab (Section Header String Table)
 
     // find .symtab & .strtab in sections      sym_idx & str_idx
@@ -195,12 +195,12 @@ void fill_symbols(Elf32_Ehdr *ehdr){
 
     // 读 .symtab, get sym_count -> (in symtab)
     Elf32_Shdr *sym_hdr = &shdr[sym_idx];
-    Elf32_Sym *symtab = (Elf32_Sym *)((char *)ehdr + sym_hdr->sh_offset);
+    Elf32_Sym *symtab = (Elf32_Sym *)((char *)ehdr + sym_hdr->sh_offset);   // 定位 symtab 
     int sym_count = sym_hdr->sh_size / sym_hdr->sh_entsize;    // sym_count
 
     // 读 .strtab
     Elf32_Shdr *str_hdr = &shdr[str_idx];
-    char *strtab = (char *)ehdr + str_hdr->sh_offset;
+    char *strtab = (char *)ehdr + str_hdr->sh_offset;   // 定位 strtab
 
     for (int i = 0; i < sym_count; i++) {
         Elf32_Sym *sym = &symtab[i];

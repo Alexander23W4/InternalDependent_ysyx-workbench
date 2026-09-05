@@ -37,7 +37,7 @@ int main() {
 
   bool has_audio = io_read(AM_AUDIO_CONFIG).present;
   if (has_audio) {
-    io_write(AM_AUDIO_CTRL, AUDIO_FREQ, AUDIO_CHANNEL, 1024);
+    io_write(AM_AUDIO_CTRL, AUDIO_FREQ, AUDIO_CHANNEL, 1024);   //
     audio_left = audio_len = &audio_payload_end - &audio_payload;
     sbuf.start = &audio_payload;
   }
@@ -60,7 +60,7 @@ int main() {
        while (should_play > 0) {
          int len = (should_play > 4096 ? 4096 : should_play);
          sbuf.end = sbuf.start + len;
-         io_write(AM_AUDIO_PLAY, sbuf);
+         io_write(AM_AUDIO_PLAY, sbuf);  //
          sbuf.start += len;
          should_play -= len;
        }

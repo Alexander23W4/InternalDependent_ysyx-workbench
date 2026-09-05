@@ -13,7 +13,7 @@
 [1;34m[src/cpu/difftest/dut.c:114 init_difftest] The result of every instruction will be compared with /home/wang/InternalDependent_ysyx-workbench/nemu/tools/spike-diff/build/riscv32-spike-so. This will help you a lot for debugging, but also significantly reduce the performance. If it is not necessary, you can turn it off in menuconfig.[0m
 [1;34m[src/monitor/monitor.c:31 welcome] Trace: [1;32mON[0m[0m
 [1;34m[src/monitor/monitor.c:32 welcome] If trace is enabled, a log file will be generated to record the trace. This may lead to a large log file. If it is not necessary, you can disable it in menuconfig[0m
-[1;34m[src/monitor/monitor.c:35 welcome] Build time: 17:07:31, Aug 30 2026[0m
+[1;34m[src/monitor/monitor.c:35 welcome] Build time: 10:55:41, Sep  5 2026[0m
 0x80000000:     00 00 04 13     mv	s0, zero                                                                                                                                           
 0x80000004:     01 40 91 17     auipc	sp, 0x1409                                                                                                                                      
 0x80000008:     ff c1 01 13     addi	sp, sp, -4                                                                                                                                       
@@ -1157,18 +1157,18 @@
 0x80000364:     00 05 85 13     mv	a0, a1                                                                                                                                             
 0x80000368:     00 07 80 67     jr	a5                         [CALL] PRE: ioe_read, DST: __am_timer_uptime                                                                            
 0x8000038c:     a0 00 07 b7     lui	a5, 0xa0000                                                                                                                                       
-0x80000390:     05 47 a7 03     lw	a4, 0x54(a5)                                                                 M_read: [ADDR]0xa0000054, [DATA]0x00000aa0 (2720)
+0x80000390:     05 47 a7 03     lw	a4, 0x54(a5)                                                                 M_read: [ADDR]0xa0000054, [DATA]0x00000a30 (2608)
                     
 0x80000394:     05 87 a7 83     lw	a5, 0x58(a5)                                                                 M_read: [ADDR]0xa0000058, [DATA]0x00000000 (0)
                        
-0x80000398:     00 e5 20 23     sw	a4, 0(a0)                                                                    M_write: [ADDR]0x81408fa0, [DATA]0x00000aa0 (2720)
+0x80000398:     00 e5 20 23     sw	a4, 0(a0)                                                                    M_write: [ADDR]0x81408fa0, [DATA]0x00000a30 (2608)
                    
 0x8000039c:     00 f5 22 23     sw	a5, 4(a0)                                                                    M_write: [ADDR]0x81408fa4, [DATA]0x00000000 (0)
                       
 0x800003a0:     00 00 80 67     ret                           [RET] PRE: __am_timer_uptime, DST: main                                                                                 
 0x8000008c:     00 19 2b 17     auipc	s6, 0x192                                                                                                                                       
 0x80000090:     bb 4b 0b 13     addi	s6, s6, -0x44c                                                                                                                                   
-0x80000094:     01 01 2a 03     lw	s4, 0x10(sp)                                                                 M_read: [ADDR]0x81408fa0, [DATA]0x00000aa0 (2720)
+0x80000094:     01 01 2a 03     lw	s4, 0x10(sp)                                                                 M_read: [ADDR]0x81408fa0, [DATA]0x00000a30 (2608)
                     
 0x80000098:     01 41 2c 83     lw	s9, 0x14(sp)                                                                 M_read: [ADDR]0x81408fa4, [DATA]0x00000000 (0)
                        
@@ -1199,7 +1199,7 @@
                       
 0x800005d4:     45 31 2e 23     sw	s3, 0x45c(sp)                                                                M_write: [ADDR]0x81408f5c, [DATA]0x00000000 (0)
                       
-0x800005d8:     45 41 2c 23     sw	s4, 0x458(sp)                                                                M_write: [ADDR]0x81408f58, [DATA]0x00000aa0 (2720)
+0x800005d8:     45 41 2c 23     sw	s4, 0x458(sp)                                                                M_write: [ADDR]0x81408f58, [DATA]0x00000a30 (2608)
                    
 0x800005dc:     45 51 2a 23     sw	s5, 0x454(sp)                                                                M_write: [ADDR]0x81408f54, [DATA]0xfffff484 (-2940)
                   
@@ -1217,7 +1217,7 @@
             
 0x800005fc:     46 d1 2e 23     sw	a3, 0x47c(sp)                                                                M_write: [ADDR]0x81408f7c, [DATA]0x81400e40 (-2126508480)
             
-0x80000600:     48 e1 20 23     sw	a4, 0x480(sp)                                                                M_write: [ADDR]0x81408f80, [DATA]0x00000aa0 (2720)
+0x80000600:     48 e1 20 23     sw	a4, 0x480(sp)                                                                M_write: [ADDR]0x81408f80, [DATA]0x00000a30 (2608)
                    
 0x80000604:     49 01 24 23     sw	a6, 0x488(sp)                                                                M_write: [ADDR]0x81408f88, [DATA]0x00000000 (0)
                       
@@ -1362,7 +1362,7 @@
                     
 0x8000069c:     46 01 29 03     lw	s2, 0x460(sp)                                                                M_read: [ADDR]0x81408f60, [DATA]0x00000000 (0)
                        
-0x800006a0:     45 81 2a 03     lw	s4, 0x458(sp)                                                                M_read: [ADDR]0x81408f58, [DATA]0x00000aa0 (2720)
+0x800006a0:     45 81 2a 03     lw	s4, 0x458(sp)                                                                M_read: [ADDR]0x81408f58, [DATA]0x00000a30 (2608)
                     
 0x800006a4:     45 41 2a 83     lw	s5, 0x454(sp)                                                                M_read: [ADDR]0x81408f54, [DATA]0xfffff484 (-2940)
                    

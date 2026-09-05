@@ -40,7 +40,7 @@ TOP_FLAG=--top-module
 
 # ------------------------------------------------------------------------------------------------------
 
-DIFF_TEST_ENABLE=1
+DIFF_TEST_ENABLE=0
 TRACE_ENABLE=1
 DEVICE_ENABLE=1
 

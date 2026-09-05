@@ -33,6 +33,8 @@ implement 5 CSRs     mstatus  mepc  mtvec  mcause mcycle
 
 
 /*
+
+
 实现后, 尝试通过内联汇编多次读出mcycle寄存器, 检查其值是否自动递增. 在内联汇编中可以使用伪指令csrr, 其对应的真实指令即为csrrs.
 
 为了标识不同同学的NPC, 我们可以利用CSR中的标识寄存器. 具体地, RISC-V中定义了mvendorid和marchid这两个CSR, 我们可以利用它们存放一些标识信息. 
@@ -72,7 +74,7 @@ module top(
     assign _pc = pc;
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;  // reg
-    
+
     assign _mstatus = mstatus;
     assign _mepc = mepc;
     assign _mcause = mcause;
@@ -323,7 +325,7 @@ module top(
     always @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h80000000;
-            mstatus <= 32'h00001800;
+            mstatus <= 32'h00001800;   //
             mcause <= 0;
             mepc <= 0;
             mtvec <= 0;
@@ -361,12 +363,12 @@ module top(
             end
 
             // system
-            else if(ecall) begin
+            else if(ecall) begin    //
                 mepc <= pc;
                 mcause <= 32'h0000000b;
                 pc <= mtvec;
             end
-            else if(mret) begin
+            else if(mret) begin     //
                 pc <= mepc;
             end
             else begin

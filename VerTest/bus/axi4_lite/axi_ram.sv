@@ -1,6 +1,11 @@
-// 单向面对接口, 没有额外的 控制信号, 数据, 地址 的输入输出
+/*
+单向面对接口, 没有额外的 控制信号, 数据, 地址 的输入输出
 
-// ⭐$$: RAM应只能处理 读 或者 写, 不能够同时处理 读和写
+⭐$$: RAM 应只能处理 读 或者 写, 不能够同时处理 读和写. 我这里读写共同使用一个状态机, 整体上是满足的. 
+    这里的这个接口, 应该有判断, 如果 arvalid 和 awvalid 同时到来. (现在暂时不会同时到来)
+
+*/
+
 module AXI_RAM (
     AXI4_Lite.slave bus,
 
@@ -29,11 +34,9 @@ module AXI_RAM (
         end else begin
             state <= next;
 
-
             if(delay_cnt > 0) begin
                 delay_cnt <= delay_cnt - 1'b1;
             end
-
 
             if(state == IDLE && bus.arvalid) begin
                 rdata_save <= ram_read(bus.araddr, 4); 

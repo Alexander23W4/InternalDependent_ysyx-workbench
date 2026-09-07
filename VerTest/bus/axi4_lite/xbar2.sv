@@ -8,7 +8,8 @@
  */
 
  /*
- Xbar设计思想: 不关注每个master/slave 具体的要求 (比如RAM 无法同时处理读和写), 留给每个 master 和 slave 自己的接口层进行设定 和 限制
+ Xbar设计思想: 不关注每个master/slave 具体的要求 (比如RAM 无法同时处理读和写), 留给每个 master 和 slave 自己的接口层进行设定 和 限制 
+ ⭐: 我的Xbar不进行更多具体的错误处理, 只处理 out of bound  
     Xbar 只实现最多 一个写和一个读 的总线匹配
 
  仲裁策略：固定优先级 (IFU > LSU), 这是现在的仲裁策略

@@ -5,6 +5,10 @@
 
 // 后续还需补充 input __error_is_arranged, 我现在默认是只要error出现, __error就一直为0, 然后cpu处理__error的逻辑直接设置成崩溃报错 (NPC_CRASH)
 
+// ⭐: 因为接上总线的master的 本质工作就是 访地址(访存+访外设), 所以我们把 PMA 就直接加到每一个总线 master 里面 (错误的尽早出发原则)
+
+// ⭐: 不要让状态机卡在 除了IDLE的其他状态, 卡在IDLE是可以的
+
 module AXI_IFU (
     AXI4_Lite.master bus,
     
@@ -20,6 +24,35 @@ module AXI_IFU (
     output __error
 );
 // 外部控制信号与返回外部的信号:
+
+    // PMA
+
+    localparam PMA_ENTRIES = 2;
+
+    typedef struct packed {
+        logic [31:0] base;
+        logic [31:0] size;
+        logic        executable;
+        logic        readable;
+        logic        writable;
+    } pma_entry_t;
+
+    pma_entry_t pma_table [PMA_ENTRIES] = '{
+        '{base: 32'h80000000, size: 32'h07ffffff, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SRAM
+        '{base: 32'h10000000, size: 32'h00001000, executable: 1'b0, readable: 1'b0, writable: 1'b1}   // UART (只写)
+    };
+
+    function automatic logic is_executable(input [31:0] addr);
+        for (int i = 0; i < PMA_ENTRIES; i++) begin
+            if (addr >= pma_table[i].base && 
+                addr < pma_table[i].base + pma_table[i].size) begin
+                return pma_table[i].executable;
+            end
+        end
+        return 1'b0;  // 默认不可执行
+    endfunction
+
+
 
     logic [31:0] rdata_save;
     logic error_save;
@@ -91,18 +124,8 @@ module AXI_IFU (
 
             R: begin
                 if(bus.rvalid == 1'b1) begin
-                    bus.rready == 1'b1;
-                    if(bus.rresp == 2'b00) begin
-                        if(__pc_is_updated) begin   // 兼容 这个周期握手刚实现, 下个周期rdata才给出去, 但是我的pc就可以完成更新, 并且下个周期ifu同时开始下一次fetch 的情况
-                            next = AR;
-                        end
-                        else begin
-                            next = IDLE;
-                        end
-                    end
-                    else begin
-                        next = IDLE;
-                    end
+                    bus.rready = 1'b1;
+                    next = IDLE;
                 end
             end
         endcase

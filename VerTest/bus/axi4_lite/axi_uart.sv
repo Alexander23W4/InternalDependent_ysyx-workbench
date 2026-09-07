@@ -1,7 +1,7 @@
 /*
 编写一个AXI4-Lite接口的slave模块, 其中包含一个设备寄存器. 当往这个设备寄存器发送写请求时, 则将写入数据的低8位作为字符, 通过$write()或printf()输出. 
 
-设备的要求: 只能够写  错误处理: 读, 错误访问地址, 错误写指令 
+设备的要求: 只能够写  错误处理: 读, 错误访问地址(Xbar只判断了地址范围, 这里要判断地址必须==UART_ADDR 这一个地址), 错误写指令  
 
 ⭐: 即便出现错误, 或者说我的这个设备不支持的访问, 也必须走完状态机, 不能锁死到一个状态上, 并且通过 resp 信号来返回 error
 */
@@ -135,7 +135,7 @@ module AXI_UART (
             end
         endcase
     end
-    
+
     property p_read_channels_zero;
         @(posedge clk) 
         (bus.araddr == 32'b0) &&

@@ -49,7 +49,7 @@ module AXI_IFU (
             if(state == IDLE || state == AR) begin
                 instr_valid_save <= 1'b0;
             end
-            if(state == R && bus.rvalid && bus.rresp == 2'b10) begin
+            if(state == R && bus.rvalid && (bus.rresp == 2'b10 || bus.rresp == 2'b11)) begin
                 error_save <= 1'b1; 
             end
             state <= next;
@@ -91,14 +91,17 @@ module AXI_IFU (
 
             R: begin
                 if(bus.rvalid == 1'b1) begin
+                    bus.rready == 1'b1;
                     if(bus.rresp == 2'b00) begin
-                        bus.rready = 1'b1;
                         if(__pc_is_updated) begin   // 兼容 这个周期握手刚实现, 下个周期rdata才给出去, 但是我的pc就可以完成更新, 并且下个周期ifu同时开始下一次fetch 的情况
                             next = AR;
                         end
                         else begin
                             next = IDLE;
                         end
+                    end
+                    else begin
+                        next = IDLE;
                     end
                 end
             end

@@ -18,6 +18,14 @@ Xbar实现纯逻辑对接, 通过握手信号来判断, addr判断, 添加assert
 
 然后上层的 AXI interface设置好 
 
+
+编码	 名称	  含义	          说明
+2'b00	OKAY	正常访问成功	传输成功完成，数据有效
+2'b01	EXOKAY	独占访问成功	AXI4-Lite不支持！ 仅用于AXI4全功能版
+2'b10	SLVERR	Slave错误	Slave内部错误（如访问未初始化区域、权限错误等）
+2'b11	DECERR	解码错误	地址未映射到任何Slave（由Interconnect返回）
+
+
 */
 
 interface AXI4_Lite;

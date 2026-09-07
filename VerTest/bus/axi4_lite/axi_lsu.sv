@@ -68,7 +68,7 @@ module AXI_LSU (
                 read_complete_save <= 1'b0;
                 write_complete_save <= 1'b0;
             end
-            if(((state == R && bus.rvalid) || (state == B && bus.bvalid)) && bus.rresp == 2'b10) begin
+            if(((state == R && bus.rvalid && (bus.rresp == 2'b10 || bus.rresp == 2'b11)) || (state == B && bus.bvalid && (bus.bresp == 2'b10 || bus.bresp == 2'b11)))) begin
                 error_save <= 1'b1; 
             end
 
@@ -130,8 +130,8 @@ module AXI_LSU (
 
             R: begin
                 if(bus.rvalid == 1'b1) begin
+                    bus.rready = 1'b1;              // 无论成功还是错误，都拉高rready完成传输
                     if(bus.rresp == 2'b00) begin
-                        bus.rready = 1'b1;
                         if(__decode_addr_ready && __read) begin
                             next = AR;
                         end
@@ -141,6 +141,9 @@ module AXI_LSU (
                         else begin
                             next = IDLE;
                         end
+                    end 
+                    else begin
+                        next = IDLE;    // 错误也要完成状态机循环
                     end
                 end
             end
@@ -169,8 +172,8 @@ module AXI_LSU (
 
             B: begin
                 if(bus.bvalid == 1'b1) begin
+                    bus.bready = 1'b1;
                     if(bus.bresp == 2'b00) begin
-                        bus.bready = 1'b1;
                         if(__decode_addr_ready && __read) begin
                             next = AR;
                         end
@@ -180,6 +183,9 @@ module AXI_LSU (
                         else begin
                             next = IDLE;
                         end
+                    end
+                    else begin
+                        next = IDLE;
                     end
                 end
             end

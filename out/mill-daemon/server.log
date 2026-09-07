@@ -1,0 +1,21 @@
+pid:129676 2026-09-07T16:37:31.763790305 [t1] running server in /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon
+pid:129676 2026-09-07T16:37:31.802247414 [t1] acceptTimeout=Some(30 minutes)
+pid:129676 2026-09-07T16:37:31.82433149 [t1] server file locked
+pid:129676 2026-09-07T16:37:31.852967113 [t1] listening on port 34609
+pid:129676 2026-09-07T16:37:31.866692217 [t1] handling run for Socket[addr=/127.0.0.1,port=34392,localport=34609]
+pid:129676 2026-09-07T16:37:31.876158608 [t35] prepareConnection Socket[addr=/127.0.0.1,port=34392,localport=34609]
+pid:129676 2026-09-07T16:37:31.881656428 [t35] 1 active connections
+pid:129676 2026-09-07T16:37:31.897129046 [t36] handleConnection: starting RPC server
+pid:129676 2026-09-07T16:37:31.96990093 [t36] handleConnection: running RPC server
+pid:129676 2026-09-07T16:37:31.970727601 [t36] [MillDaemon-Socket[addr=/127.0.0.1,port=34392,localport=34609]] Initializing Mill RPC server... Waiting for the `initialize` message.
+pid:129676 2026-09-07T16:37:32.10507426 [t36] [MillDaemon-Socket[addr=/127.0.0.1,port=34392,localport=34609]] Initialized, waiting for messages.
+pid:129676 2026-09-07T16:37:33.226737418 [t36] [MillDaemon-Socket[addr=/127.0.0.1,port=34392,localport=34609]] Transport wire broken.
+pid:129676 2026-09-07T16:37:33.228063166 [t36] handleConnection: RPC server finished normally, exitCode=0
+pid:129676 2026-09-07T16:37:33.228736273 [t35] done=true, idle=true, lastClientAlive=false
+pid:129676 2026-09-07T16:37:33.231844721 [t35] 0 active connections
+pid:129676 2026-09-07T17:07:33.234260073 [t34] shutting down due inactivity
+pid:129676 2026-09-07T17:07:33.236176362 [t1] removing /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/socketPort
+pid:129676 2026-09-07T17:07:33.236868247 [t1] removed /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/socketPort
+pid:129676 2026-09-07T17:07:33.237206058 [t1] releasing daemonLock
+pid:129676 2026-09-07T17:07:33.238551665 [t1] daemonLock released
+pid:129676 2026-09-07T17:07:33.238915986 [t1] exiting server

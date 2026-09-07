@@ -68,113 +68,34 @@ module top(
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid  // 
 );
+    `include "dpi_tasks.v"
 
     reg [31:0] pc;   // reg
     assign _pc = pc;
 
-    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;  // reg
+    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;
+    assign {_mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid} = {mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid};
 
-    assign _mstatus = mstatus;
-    assign _mepc = mepc;
-    assign _mcause = mcause;
-    assign _mtvec = mtvec;
-    assign _mcycle = mcycle;
-    assign _mcycleh = mcycleh;
-    assign _mvendorid = mvendorid;
-    assign _marchid = marchid;
+    
 
     wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
     wire add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
     wire lb, lh, lw, lbu, lhu, sb, sh, sw;
     wire beq, bne, blt, bge, bltu, bgeu;
-    wire jal, jalr;
-    wire lui, auipc;
-    wire ebreak, ecall;
-    wire mret, csrrw, csrrs, csrrc;
+    wire jal, jalr, lui, auipc;
+    wire ebreak, ecall, mret, csrrw, csrrs, csrrc;
 
-    wire [4:0] rd;
-    wire [4:0] rs1;
-    wire [4:0] rs2;
+    wire [4:0] rd, rs1, rs2;
+    wire [31:0] immI, immU, immS, immB, immJ, immCSR;
 
-    wire [31:0] immI;
-    wire [31:0] immU;
-    wire [31:0] immS;
-    wire [31:0] immB;
-    wire [31:0] immJ;
-    wire [31:0] immCSR;
-
-
-    wire [31:0] wdata;
-    wire [31:0] rdata1;
-    wire [31:0] rdata2;
+    wire [31:0] wdata, rdata1, rdata2;
     wire wen;
 
     wire [31:0] pc_next_dft;
-
     assign pc_next_dft = pc + 32'd4;
 
 
-    decode Decode(
-        .instr(instr),
-
-        .addi(addi),
-        .slti(slti),
-        .sltiu(sltiu),
-        .xori(xori),
-        .ori(ori),
-        .andi(andi),
-        .slli(slli),
-        .srli(srli),
-        .srai(srai),
-
-        .add(add), 
-        .sub(sub), 
-        .sll(sll), 
-        .slt(slt), 
-        .sltu(sltu), 
-        .xor_inst(xor_inst), 
-        .srl(srl), 
-        .sra(sra), 
-        .or_inst(or_inst), 
-        .and_inst(and_inst), 
-
-        .lb(lb),
-        .lh(lh),
-        .lw(lw),
-        .lbu(lbu),
-        .lhu(lhu),
-        .sb(sb),
-        .sh(sh),
-        .sw(sw),
-
-        .beq(beq),
-        .bne(bne),
-        .blt(blt),
-        .bge(bge),
-        .bltu(bltu),
-        .bgeu(bgeu),
-        .jal(jal),
-        .jalr(jalr),
-
-        .lui(lui),
-        .auipc(auipc),
-        .ebreak(ebreak),
-        .ecall(ecall),
-        .mret(mret),
-        .csrrw(csrrw),
-        .csrrs(csrrs),
-        .csrrc(csrrc),
-
-        .rd(rd),
-        .rs1(rs1),
-        .rs2(rs2),
-        .immI(immI),
-        .immU(immU),
-        .immS(immS),
-        .immB(immB), 
-        .immJ(immJ),
-        .immCSR(immCSR)
-    );
+    decode Decode(.*);
 
     dbg_register #(5, 32) GPR (
         .clk(clk),
@@ -188,115 +109,75 @@ module top(
         .dbg_regs(dbg_reg)
     );
 
+/*------------------------------------------------------------------------------------------------------------
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+-------------------------------------------------------------------------------------------------------------*/
 
 
-    assign wen = add | addi | sub | lui | auipc | 
-                 and_inst | or_inst | xor_inst | andi | ori | xori | 
-                 sll | srl | sra | slli | srli | srai | 
-                 slt | sltu | slti | sltiu | 
-                 jal | jalr | 
-                 lb | lh | lw | lbu | lhu | 
-                 csrrw | csrrs | csrrc; 
+    AXI4_Lite bus_ifu ();
+    AXI4_Lite bus_lsu ();
+
+    ALU alu_inst (.*);
+
+    wire        ifu_instr_valid;
+    wire [1:0]  ifu_error;
+    wire        ifu_master_validation_error;
+    wire [31:0] ifu_rdata;
+
+    AXI_IFU ifu (
+        .bus    (bus_ifu),              // AXI4_Lite.master 接口
+        .clk    (clk),
+        .reset  (rst),
+        .__pc_is_updated   (pc_is_updated),
+        .pc                (pc),
+        .rdata             (ifu_rdata),
+        .__instr_valid     (ifu_instr_valid),
+        .__error           (ifu_error),
+        .__master_validation_error (ifu_master_validation_error)
+    );
 
 
-    wire [31:0] add1 = (auipc | jal | blt | bltu | bge | bgeu | bne | beq) ? pc : rdata1;
+    wire        lsu_error;
+    wire        lsu_read_complete;
+    wire        lsu_write_complete;
+    wire [31:0] lsu_rdata;
 
-    wire [31:0] add2 = ({32{add}} & rdata2) |
-                       ({32{sw | sb | sh}} & immS) |
-                       ({32{auipc}} & immU) |
-                       ({32{jal}} & immJ) |
-                       ({32{jalr | lbu | lw | lhu | lh | lb | addi}} & immI) |
-                       ({32{blt | bltu | bge | bgeu | bne | beq}} & immB);
-
-
-    wire [31:0] add_rst = add1 + add2;
-
-
-    // other arithm/logic
-    wire[31:0] sub_rst = rdata1 - rdata2;
-    wire[31:0] xor_rst = rdata1 ^ rdata2;
-    wire[31:0] xori_rst = rdata1 ^ immI;
-    wire[31:0] or_rst = rdata1 | rdata2;
-    wire[31:0] ori_rst = rdata1 | immI;
-    wire[31:0] and_rst = rdata1 & rdata2;
-    wire[31:0] andi_rst = rdata1 & immI;
-
-    wire[31:0] slt_rst  = {31'b0, ($signed(rdata1) < $signed(rdata2))};
-    wire[31:0] sltu_rst = {31'b0, (rdata1 < rdata2)};
-    wire[31:0] slti_rst = {31'b0, ($signed(rdata1) < $signed(immI))};
-    wire[31:0] sltiu_rst= {31'b0, (rdata1 < immI)};
-
-    wire[4:0]  shamt_r  = rdata2[4:0];
-    wire[4:0]  shamt_i  = immI[4:0];
-    wire[31:0] sll_rst  = rdata1 << shamt_r;
-    wire[31:0] slli_rst = rdata1 << shamt_i;
-    wire[31:0] srl_rst  = rdata1 >> shamt_r;
-    wire[31:0] srli_rst = rdata1 >> shamt_i;
-    wire[31:0] sra_rst  = $signed(rdata1) >>> shamt_r;
-    wire[31:0] srai_rst = $signed(rdata1) >>> shamt_i;
-
-    reg [31:0] csrw_rst;
-    always @(*) begin
-        case(immCSR) 
-            32'h00000300: csrw_rst = mstatus;
-            32'h00000305: csrw_rst = mtvec;
-            32'h00000341: csrw_rst = mepc;
-            32'h00000342: csrw_rst = mcause;
-            32'h00000b00: csrw_rst = mcycle;
-            32'h00000b80: csrw_rst = mcycleh;
-            32'h00000f11: csrw_rst = mvendorid;
-            32'h00000f12: csrw_rst = marchid;
-            default: csrw_rst = 0;
-        endcase
-    end 
-
-/*
-  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
-  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) | src1, rs1));
-  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) & ~(src1), rs1));
-
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.mepc);   // mstatus to go 
-
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc)); 
+    AXI_LSU lsu (
+        .bus    (bus_lsu),              // AXI4_Lite.master 接口
+        .clk    (clk),
+        .reset  (rst),
+        .__read              (lsu_read),
+        .__write             (lsu_write),
+        .__sw                (lsu_sw),
+        .__sh                (lsu_sh),
+        .__sb                (lsu_sb),
+        .__decode_addr_ready (lsu_decode_addr_ready),
+        .__decode_data_ready (lsu_decode_data_ready),
+        .addr                (lsu_addr),
+        .wdata               (lsu_wdata),
+        .rdata               (lsu_rdata),
+        .__error             (lsu_error),
+        .__read_complete     (lsu_read_complete),
+        .__write_complete    (lsu_write_complete)
+    );
 
 
-    #define CSR_MSTATUS 0x300
-    #define CSR_MTVEC   0x305
-    #define CSR_MEPC    0x341
-    #define CSR_MCAUSE  0x342
-*/
-    // wen 和 wdata 传到 registers 里面用来更新 GPR
-    assign wdata = ({32{lui}} & immU) | 
-                   ({32{add | addi | auipc}} & add_rst) | 
-                   ({32{jalr | jal}} & pc_next_dft) |
-                   ({32{lw}} & lw_rst) |
-                   ({32{lbu}} & lbu_rst) |
-                   ({32{lhu}} & lhu_rst) |
-                   ({32{lb}} & lb_rst) |
-                   ({32{lh}} & lh_rst) |
-                   ({32{sub}} & sub_rst) |
-                   ({32{xor_inst}} & xor_rst) |
-                   ({32{xori}} & xori_rst) |
-                   ({32{or_inst}} & or_rst) |
-                   ({32{ori}} & ori_rst) |
-                   ({32{and_inst}} & and_rst) |
-                   ({32{andi}} & andi_rst) |
-                   ({32{sll}} & sll_rst) |
-                   ({32{slli}} & slli_rst) |
-                   ({32{srl}} & srl_rst) |
-                   ({32{srli}} & srli_rst) |
-                   ({32{sra}} & sra_rst) |
-                   ({32{srai}} & srai_rst) |
-                   ({32{slt}} & slt_rst) |
-                   ({32{slti}} & slti_rst) |
-                   ({32{sltu}} & sltu_rst) |
-                   ({32{sltiu}} & sltiu_rst) |
-                   {{32{csrrw | csrrs | csrrc}} & csrw_rst};
+
+    // 用于总线交互的控制信号的状态机
+    always_ff @( posedge clk or posedge rst ) begin : blockName
+        
+    end
+
+
+
 
     // read ram
 
     reg [31:0] read_ram_rst;
     reg [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
+
+    wire [31:0] add_rst;     
+    wire [31:0] csrw_rst;    
 
     always @(*) begin
         // 默认值
@@ -397,8 +278,6 @@ module top(
                     32'h00000305: mtvec <= rdata1;
                     32'h00000341: mepc <= rdata1;
                     32'h00000342: mcause <= rdata1;
-                    // 32'h00000b00: mcycle <= rdata1;
-                    // 32'h00000b80: mcycleh <= rdata1;
                 endcase
             end
             else if (|{{5{csrrs}} & rs1}) begin
@@ -407,8 +286,6 @@ module top(
                     32'h00000305: mtvec <= rdata1 | csrw_rst;
                     32'h00000341: mepc <= rdata1 | csrw_rst;
                     32'h00000342: mcause <= rdata1 | csrw_rst;
-                    // 32'h00000b00: mcycle <= rdata1 | csrw_rst;
-                    // 32'h00000b80: mcycleh <= rdata1 | csrw_rst;
                 endcase
             end
             else if (|{{5{csrrc}} & rs1}) begin
@@ -417,56 +294,16 @@ module top(
                     32'h00000305: mtvec <= csrw_rst & (~rdata1);
                     32'h00000341: mepc <= csrw_rst & (~rdata1);
                     32'h00000342: mcause <= csrw_rst & (~rdata1);
-                    // 32'h00000b00: mcycle <= rdata1 & (~csrw_rst);
-                    // 32'h00000b80: mcycleh <= rdata1 & (~csrw_rst);
                 endcase
             end
         end
     end
 
 
-// ------------------------------------------------------------------------------------------------------------
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ------------------------------------------------------------------------------------------------------------
 
-    // DPI-C interfaces(SV feature):
-
-    // 在cpp中, 仿真的时候 会自动生成 Vtop_Dpi.h, 声明 extern int halt(int *endprog);
-    export "DPI-C" task halt;
-    task halt(output int endprog); 
-        begin
-            endprog = {{31{1'b0}}, ebreak};
-        end
-    endtask
-
-    export "DPI-C" task check_ram_op;
-    task check_ram_op(output int ram_op);
-        begin
-            if(lb | lh | lw | lbu | lhu) begin
-                ram_op = 32'd1;
-            end
-            else if(sb | sh | sw) begin
-                ram_op = 32'd2;
-            end
-            else begin
-                ram_op = 0;
-            end
-        end
-    endtask
-
-
-    import "DPI-C" function int unsigned ram_read(
-        input int unsigned addr,
-        input int amount
-    );
-
-    import "DPI-C" function void ram_write(
-        input int unsigned addr, 
-        input int unsigned data, 
-        input int amount
-    );
 
 endmodule
 /* verilator lint_off UNUSEDSIGNAL */
+
 
 

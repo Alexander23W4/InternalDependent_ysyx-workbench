@@ -1,0 +1,55 @@
+2026-09-07T08:37:31Z launchOrConnectToServer: mill.client.lock.Locks@7f2cfe3f
+2026-09-07T08:37:31Z Acquiring the launcher lock: PidLock{@22f59fa, path='/home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/launcherLock'}
+2026-09-07T08:37:31Z launchOrConnectToServer attempt
+2026-09-07T08:37:31Z Checking if the daemon lock is available: PidLock{@6c7a164b, path='/home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/daemonLock'}
+2026-09-07T08:37:31Z The daemon lock is available, starting the server.
+2026-09-07T08:37:31Z The server has started: OsProcess(129676)
+2026-09-07T08:37:31Z Waiting for the server to take the daemon lock: PidLock{@6c7a164b, path='/home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/daemonLock'}
+2026-09-07T08:37:31Z The server OsProcess(129676) has taken the daemon lock: PidLock{@6c7a164b, path='/home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/daemonLock'}
+2026-09-07T08:37:31Z Reading server port: /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon
+2026-09-07T08:37:31Z launchOrConnectToServer attempt
+2026-09-07T08:37:31Z Checking if the daemon lock is available: PidLock{@6c7a164b, path='/home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/daemonLock'}
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID exception
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID exception
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID exception
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID exception
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID exception
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID exception
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID: 129676
+2026-09-07T08:37:31Z Reading server port: /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon
+2026-09-07T08:37:31Z launchOrConnectToServer attempt
+2026-09-07T08:37:31Z Checking if the daemon lock is available: PidLock{@6c7a164b, path='/home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/daemonLock'}
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID: 129676
+2026-09-07T08:37:31Z Reading server port: /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon
+2026-09-07T08:37:31Z launchOrConnectToServer attempt
+2026-09-07T08:37:31Z Checking if the daemon lock is available: PidLock{@6c7a164b, path='/home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/daemonLock'}
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID: 129676
+2026-09-07T08:37:31Z Reading server port: /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon
+2026-09-07T08:37:31Z launchOrConnectToServer attempt
+2026-09-07T08:37:31Z Checking if the daemon lock is available: PidLock{@6c7a164b, path='/home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/daemonLock'}
+2026-09-07T08:37:31Z The daemon lock is not available, there is already a server running.
+2026-09-07T08:37:31Z Trying to read the process ID of a running daemon from /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon/processId
+2026-09-07T08:37:31Z Read PID: 129676
+2026-09-07T08:37:31Z Reading server port: /home/wang/InternalDependent_ysyx-workbench/out/mill-daemon
+2026-09-07T08:37:31Z Read server port
+2026-09-07T08:37:31Z Connecting: 34609
+2026-09-07T08:37:31Z runWithConnection (RPC): Launched(34609,Some(Socket[addr=localhost/127.0.0.1,port=34609,localport=34392]),OsProcess(129676))
+2026-09-07T08:37:33Z runWithConnection exit code: 0

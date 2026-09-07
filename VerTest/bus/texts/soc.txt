@@ -44,3 +44,11 @@ Reserved	其他
 `define UART_REG_II `UART_ADDR_WIDTH'd8  // Interrupt identification
 `define UART_REG_LC `UART_ADDR_WIDTH'd12 // Line Control
 
+完整的AXI总线协议包含 arsize/awsize信号
+
+
+⭐: 使用 non-volatile memory 来存放最初的程序, 使用 mask ROM (MROM)
+
+TODO:
+修改NPC的复位PC值, 使其从MROM中取出第一条指令, 并修改mrom_read()函数, 使其总是返回一条ebreak指令. 如果你的实现正确, NPC取到的第一条指令即是ebreak指令, 从而结束仿真.
+

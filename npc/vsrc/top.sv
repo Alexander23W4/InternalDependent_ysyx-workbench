@@ -66,7 +66,9 @@ module top(
     input rst,
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
-    output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid  
+    output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,
+    output [1:0] __ifu_error, __lsu_error,
+    output __ifu_master_validation_error
 );
     `include "dpi_tasks.v"
 
@@ -146,7 +148,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     );
 
 
-    logic        __lsu_error;
+    logic [1:0]  __lsu_error;
     logic        __lsu_read_complete;   // cpu读到这个, 需要立刻拿走数据启动GPR操作
     logic        __lsu_write_complete;   // cpu读到这个, 需要立刻启动更新pc操作
     logic [31:0] lsu_rdata;

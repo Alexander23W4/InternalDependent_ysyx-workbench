@@ -5,6 +5,8 @@
 
 // 所以cpu就是一大堆控制信号, 通过总线控制一堆时序模块, 控制他们的时序
 
+// ⭐: lsu先不加PMA
+
 module AXI_LSU (
     AXI4_Lite.master bus,
     

@@ -21,7 +21,8 @@ module AXI_IFU (
     output [31:0] rdata,
 
     output __instr_valid,   //  提示cpu fetch 完成, 可以decode了 (外围给自己输出给cpu的 反馈信号 定要求)
-    output __error
+    output [1:0] __error,   //  普通错误号
+    output __master_validation_error    // 该master 非法访问
 );
 // 外部控制信号与返回外部的信号:
 
@@ -55,36 +56,50 @@ module AXI_IFU (
 
 
     logic [31:0] rdata_save;
-    logic error_save;
+    logic [1:0] error_save;
     logic instr_valid_save;
+    logic master_validation_error_save;
 
     assign rdata = rdata_save;
     assign __instr_valid = instr_valid_save;
     assign __error = error_save;
+    assign __master_validation_error = master_validation_error_save;
 
     typedef enum [2:0]{ 
         IDLE, AR, R
     } state_t;
     state_t state, next;
 
+
     always_ff @( posedge clk or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
             rdata_save <= '0;
-            error_save <= 1'b0;
+            error_save <= 2'b00;
             instr_valid_save <= 1'b0;
+            master_validation_error_save <= 1'b0;
 
         end else begin
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
-                rdata_save <= bus.rdata;
-                instr_valid_save <= 1'b1;   
+                if(bus.rresp == 2'b00) begin
+                    rdata_save <= bus.rdata;
+                    instr_valid_save <= 1'b1;                       
+                end
+                else begin
+                    error_save <= bus.resp;
+                end
             end
+
             if(state == IDLE || state == AR) begin
                 instr_valid_save <= 1'b0;
             end
-            if(state == R && bus.rvalid && (bus.rresp != 2'b00)) begin
-                error_save <= 1'b1; 
+
+            if(state == IDLE || __pc_is_updated) begin
+                if(!is_executable(pc)) begin
+                    master_validation_error_save <= 1'b1;
+                end
             end
+
             state <= next;
         end
     end

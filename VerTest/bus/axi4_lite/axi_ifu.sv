@@ -13,7 +13,7 @@ module AXI_IFU (
     
     input __pc_is_updated,   // cpu 应当只拉高此信号一个周期 (外围对cpu的控制信号提要求)
 
-    input [31:0] pc,
+    input [31:0] pc,     // ⭐$$: 遗留问题: 这个pc该让cpu保持多久
     output [31:0] rdata,
 
     output __instr_valid,   //  提示cpu fetch 完成, 可以decode了 (外围给自己输出给cpu的 反馈信号 定要求)
@@ -24,7 +24,6 @@ module AXI_IFU (
     logic [31:0] rdata_save;
     logic error_save;
     logic instr_valid_save;
-    logic [31:0] pc_save;
 
     assign rdata = rdata_save;
     assign __instr_valid = instr_valid_save;
@@ -41,7 +40,7 @@ module AXI_IFU (
             rdata_save <= '0;
             error_save <= 1'b0;
             instr_valid_save <= 1'b0;
-            pc_save <= '0;
+
         end else begin
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
@@ -53,9 +52,6 @@ module AXI_IFU (
             if(state == R && bus.rvalid && bus.rresp == 2'b10) begin
                 error_save <= 1'b1; 
             end
-            if(state == IDLE && __pc_is_updated) begin
-                pc_save <= pc;
-            end
             state <= next;
         end
     end
@@ -65,7 +61,7 @@ module AXI_IFU (
 */
 
     always_comb begin
-        bus.araddr = pc_save;
+        bus.araddr = pc;
         bus.arvalid = 1'b0;
         bus.rready = 1'b0;
 
@@ -84,7 +80,6 @@ module AXI_IFU (
                     bus.arvalid = 1'b1;
                     next = AR;
                 end
-
             end
 
             AR: begin

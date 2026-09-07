@@ -7,6 +7,8 @@
 
 # riscv32-nemu-interpreter-so
 
+# ⭐: 这里的引用文件名都要改
+
 V_SRC=./vsrc/top.v
 SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
 ALL_SOURCES=$(shell find ./vsrc -name "*.v")

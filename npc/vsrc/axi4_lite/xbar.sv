@@ -17,7 +17,7 @@
  ⭐$$: 先版本默认两个master不会同时发送arvalid, 之后需要兼容这样的情况
  */
 
-module AXI_XBAR (
+module ysyx_26040135_AXI_XBAR (
     input clk,
     input reset,
 

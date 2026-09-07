@@ -58,15 +58,19 @@ UVM部分
 */
 
 /*
+⭐: 接入ysyxSoC
+依次按照以下步骤将NPC接入ysyxSoC:
 
+依照ysyxSoC/spec/cpu-interface.md中的master总线, 将之前实现的AXI4Lite协议扩展到完整的AXI4
 
 */
-module top(
+module ysyx_26040135(
     input clk,
     input rst,
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,
+
     output [1:0] __ifu_error, __lsu_error,
     output __ifu_master_validation_error
 );
@@ -100,11 +104,11 @@ module top(
     assign pc_next_dft = pc + 32'd4;
 
 
-    decode Decode(.*);
+    ysyx_26040135_decode Decode(.*);
 
     logic __GPR_wvalid;  // ⭐
 
-    dbg_register #(5, 32) GPR (
+    ysyx_26040135_dbg_register #(5, 32) GPR (
         .clk(clk),
         .wen(wen),
         .raddr1(rs1),
@@ -117,15 +121,15 @@ module top(
         .__GPR_wvalid(__GPR_wvalid)
     );
 
-    ALU alu_inst (.*);
+    ysyx_26040135_ALU alu_inst (.*);
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 
 
-    AXI4_Lite bus_ifu ();
-    AXI4_Lite bus_lsu ();
+    ysyx_26040135_AXI4 bus_ifu ();
+    ysyx_26040135_AXI4 bus_lsu ();
 
     logic [31:0] instr;
 
@@ -135,7 +139,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic        __ifu_master_validation_error;
     logic        __pc_is_updated;    // ⭐  // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
 
-    AXI_IFU ifu (
+    ysyx_26040135_AXI_IFU ifu (
         .bus    (bus_ifu),              // AXI4_Lite.master 接口
         .clk    (clk),
         .reset  (rst),
@@ -163,7 +167,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic __read = lb | lh | lw | lbu | lhu;
     logic __write = sb | sh | sw;
 __
-    AXI_LSU lsu (
+    ysyx_26040135_AXI_LSU lsu (
         .bus    (bus_lsu),              // AXI4_Lite.master 接口
         .clk    (clk),
         .reset  (rst),
@@ -182,7 +186,7 @@ __
         .__write_complete    (__lsu_write_complete)   // @@-->
     );
 
-    AXI_XBAR xbar (
+    ysyx_26040135_AXI_XBAR xbar (
         .clk(clk),
         .reset(rst),
         .m0(bus_ifu),  

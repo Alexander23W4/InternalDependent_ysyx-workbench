@@ -7,7 +7,7 @@
 ⭐: 没有需要进行的错误处理, 顶多进行 访问地址的判断, 但是Xbar已经做过了.
 */
 
-module AXI_RAM (
+module ysyx_26040135_AXI_RAM (
     AXI4_Lite.slave bus,
 
     input clk, 

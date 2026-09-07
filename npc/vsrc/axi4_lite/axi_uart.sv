@@ -6,7 +6,7 @@
 ⭐: 即便出现错误, 或者说我的这个设备不支持的访问, 也必须走完状态机, 不能锁死到一个状态上, 并且通过 resp 信号来返回 error
 */
 
-module AXI_UART (
+module ysyx_26040135_AXI_UART (
     AXI4_Lite.slave bus,
 
     input clk, 

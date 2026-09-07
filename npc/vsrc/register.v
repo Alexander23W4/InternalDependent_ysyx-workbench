@@ -1,4 +1,4 @@
-module register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
+module ysyx_26040135_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
   input clk,
   input wen,
   

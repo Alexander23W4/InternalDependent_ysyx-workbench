@@ -1,4 +1,4 @@
-module ALU (
+module ysyx_26040135_ALU (
 
     input  [31:0] pc,
     input  [31:0] rdata1,

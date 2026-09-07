@@ -92,7 +92,7 @@ INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(
 */
 
 /* verilator lint_on UNUSEDSIGNAL */
-module decode(
+module ysyx_26040135_decode(
     input [31:0] instr,
 
 // opcodes  

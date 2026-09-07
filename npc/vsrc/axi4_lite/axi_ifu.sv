@@ -9,7 +9,7 @@
 
 // ⭐: 不要让状态机卡在 除了IDLE的其他状态, 卡在IDLE是可以的
 
-module AXI_IFU (
+module ysyx_26040135_AXI_IFU (
     AXI4_Lite.master bus,
     
     input clk,

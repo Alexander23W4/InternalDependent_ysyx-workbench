@@ -28,7 +28,7 @@ Xbar实现纯逻辑对接, 通过握手信号来判断, addr判断, 添加assert
 
 */
 
-interface AXI4_Lite;
+interface ysyx_26040135_AXI4;
     logic [31:0] araddr;
     logic        arvalid;
     logic        arready;

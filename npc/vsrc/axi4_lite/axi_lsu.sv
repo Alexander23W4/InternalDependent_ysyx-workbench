@@ -7,7 +7,7 @@
 
 // ⭐: lsu先不加PMA
 
-module AXI_LSU (
+module ysyx_26040135_AXI_LSU (
     AXI4_Lite.master bus,
     
     input clk,

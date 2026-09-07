@@ -49,7 +49,7 @@ module AXI_IFU (
             if(state == IDLE || state == AR) begin
                 instr_valid_save <= 1'b0;
             end
-            if(state == R && bus.rvalid && (bus.rresp == 2'b10 || bus.rresp == 2'b11)) begin
+            if(state == R && bus.rvalid && (bus.rresp != 2'b00)) begin
                 error_save <= 1'b1; 
             end
             state <= next;

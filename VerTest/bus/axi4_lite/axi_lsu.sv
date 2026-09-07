@@ -68,7 +68,7 @@ module AXI_LSU (
                 read_complete_save <= 1'b0;
                 write_complete_save <= 1'b0;
             end
-            if(((state == R && bus.rvalid && (bus.rresp == 2'b10 || bus.rresp == 2'b11)) || (state == B && bus.bvalid && (bus.bresp == 2'b10 || bus.bresp == 2'b11)))) begin
+            if(((state == R && bus.rvalid && bus.rresp != 2'b00) || (state == B && bus.bvalid && bus.bresp != 2'b00))) begin
                 error_save <= 1'b1; 
             end
 

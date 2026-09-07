@@ -12,7 +12,7 @@
 module ysyx_26040135_AXI_IFU (
     AXI4_Lite.master bus,
     
-    input clk,
+    input clock,
     input reset,
     
     input __pc_is_updated,   // cpu 应当只拉高此信号一个周期 (外围对cpu的控制信号提要求)
@@ -71,7 +71,7 @@ module ysyx_26040135_AXI_IFU (
     state_t state, next;
 
 
-    always_ff @( posedge clk or posedge reset ) begin
+    always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
             rdata_save <= '0;
@@ -148,7 +148,7 @@ module ysyx_26040135_AXI_IFU (
 
 // assert
     property p_write_channels_zero;
-        @(posedge clk) 
+        @(posedge clock) 
         (bus.awaddr == 32'b0) &&
         (bus.awvalid == 1'b0) &&
         (bus.wdata == 32'b0) &&

@@ -10,7 +10,7 @@
 module ysyx_26040135_AXI_RAM (
     AXI4_Lite.slave bus,
 
-    input clk, 
+    input clock, 
     input reset
 );
     logic [31:0] rdata_save;
@@ -24,7 +24,7 @@ module ysyx_26040135_AXI_RAM (
     state_t state, next;
 
 // slave 收到 request 请求后, 在下一个周期, 将slave_status 拉高, 再将 valid_mater_ID 设置为该master的
-    always_ff @( posedge clk or posedge reset ) begin
+    always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
 

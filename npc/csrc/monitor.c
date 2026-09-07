@@ -7,7 +7,7 @@ void _init(int argc, char** argv){
     // malloc ram
     init_ram();
 
-    // rst
+    // reset
     reset();
 
     // load code
@@ -62,9 +62,9 @@ void init_ram(){
 }
 
 void reset(){
-    top->rst = 1;  
+    top->reset = 1;  
     tick();
-    top->rst = 0; 
+    top->reset = 0; 
     printf("Reset Released. Starting execution...\n");
 }
 

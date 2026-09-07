@@ -5,9 +5,9 @@ uint32_t ram_read_last_pc = 0;
 uint32_t ram_read_last_data = 0;
 
 void tick() {
-    top->clk = 0;
+    top->clock = 0;
     top->eval();   //
-    top->clk = 1;
+    top->clock = 1;
     top->eval();
 }
 

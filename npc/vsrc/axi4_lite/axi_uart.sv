@@ -9,7 +9,7 @@
 module ysyx_26040135_AXI_UART (
     AXI4_Lite.slave bus,
 
-    input clk, 
+    input clock, 
     input reset
 );
     logic [31:0] awaddr_save;
@@ -25,7 +25,7 @@ module ysyx_26040135_AXI_UART (
     parameter UART_ADDR = 32'h10000000;
 
 // slave 收到 request 请求后, 在下一个周期, 将slave_status 拉高, 再将 valid_mater_ID 设置为该master的
-    always_ff @( posedge clk or posedge reset ) begin
+    always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
 
@@ -137,7 +137,7 @@ module ysyx_26040135_AXI_UART (
     end
 
     property p_read_channels_zero;
-        @(posedge clk) 
+        @(posedge clock) 
         (bus.araddr == 32'b0) &&
         (bus.arvalid == 1'b0) &&
         (bus.rready == 1'b0);

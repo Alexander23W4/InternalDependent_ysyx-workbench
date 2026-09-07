@@ -65,8 +65,10 @@ UVM部分
 
 */
 module ysyx_26040135(
-    input clk,
-    input rst,
+    input clock,
+    input reset,
+    input io_interrupt,   //
+
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,
@@ -109,7 +111,7 @@ module ysyx_26040135(
     logic __GPR_wvalid;  // ⭐
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
-        .clk(clk),
+        .clock(clock),
         .wen(wen),
         .raddr1(rs1),
         .raddr2(rs2),
@@ -141,8 +143,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     ysyx_26040135_AXI_IFU ifu (
         .bus    (bus_ifu),              // AXI4_Lite.master 接口
-        .clk    (clk),
-        .reset  (rst),
+        .clock    (clock),
+        .reset  (reset),
         .__pc_is_updated   (__pc_is_updated),   
         .pc                (pc),
         .rdata             (instr),
@@ -169,8 +171,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 __
     ysyx_26040135_AXI_LSU lsu (
         .bus    (bus_lsu),              // AXI4_Lite.master 接口
-        .clk    (clk),
-        .reset  (rst),
+        .clock    (clock),
+        .reset  (reset),
         .__read              (__read),
         .__write             (__write),
         .__sw                (__sw),
@@ -187,8 +189,8 @@ __
     );
 
     ysyx_26040135_AXI_XBAR xbar (
-        .clk(clk),
-        .reset(rst),
+        .clock(clock),
+        .reset(reset),
         .m0(bus_ifu),  
         .m1(bus_lsu),
         .s0(bus_uart),  
@@ -241,8 +243,8 @@ __
 
 
     // 主状态机时序逻辑
-    always_ff @(posedge clk or posedge rst) begin
-        if(rst) begin
+    always_ff @(posedge clock or posedge reset) begin
+        if(reset) begin
             pc <= 32'h80000000;
             mstatus <= 32'h00001800;   
             mcause <= 0;
@@ -328,8 +330,8 @@ __
     end
     
     // 仅用来更新 CSR
-    always_ff @(posedge clk or posedge rst) begin
-        if((!rst) && state == UDPC) begin
+    always_ff @(posedge clock or posedge reset) begin
+        if((!reset) && state == UDPC) begin
             // privilege
             if(csrrw) begin
                 case(immCSR)  // case CSR addr

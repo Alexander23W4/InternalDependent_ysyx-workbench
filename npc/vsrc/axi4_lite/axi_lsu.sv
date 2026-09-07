@@ -10,7 +10,7 @@
 module ysyx_26040135_AXI_LSU (
     AXI4_Lite.master bus,
     
-    input clk,
+    input clock,
     input reset,
 
     input __read, __write,
@@ -50,7 +50,7 @@ module ysyx_26040135_AXI_LSU (
 
 
 
-    always_ff @( posedge clk or posedge reset ) begin
+    always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
             rdata_save <= '0;

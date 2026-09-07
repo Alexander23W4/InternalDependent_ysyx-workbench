@@ -18,7 +18,7 @@
  */
 
 module ysyx_26040135_AXI_XBAR (
-    input clk,
+    input clock,
     input reset,
 
     // Master 0 (IFU)
@@ -67,7 +67,7 @@ module ysyx_26040135_AXI_XBAR (
         endcase
     end
 
-    always_ff @(posedge clk or posedge reset) begin
+    always_ff @(posedge clock or posedge reset) begin
         if (reset) begin
             r_state <= R_IDLE;
             r_latched_is_m0 <= 1'b0;
@@ -154,7 +154,7 @@ module ysyx_26040135_AXI_XBAR (
         endcase
     end
 
-    always_ff @(posedge clk or posedge reset) begin
+    always_ff @(posedge clock or posedge reset) begin
         if (reset) begin
             w_state <= W_IDLE;
             w_latched_is_m0 <= 1'b0;

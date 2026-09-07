@@ -63,10 +63,9 @@ UVM部分
 module top(
     input clk,
     input rst,
-    input [31:0] instr,
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
-    output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid  // 
+    output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid  
 );
     `include "dpi_tasks.v"
 
@@ -77,21 +76,24 @@ module top(
     assign {_mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid} = {mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid};
 
     
+    // from decode
+    logic addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
+    logic add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
+    logic lb, lh, lw, lbu, lhu, sb, sh, sw;
+    logic beq, bne, blt, bge, bltu, bgeu;
+    logic jal, jalr, lui, auipc;
+    logic ebreak, ecall, mret, csrrw, csrrs, csrrc;
 
-    wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
-    wire add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
-    wire lb, lh, lw, lbu, lhu, sb, sh, sw;
-    wire beq, bne, blt, bge, bltu, bgeu;
-    wire jal, jalr, lui, auipc;
-    wire ebreak, ecall, mret, csrrw, csrrs, csrrc;
+    logic [4:0] rd, rs1, rs2;
+    logic [31:0] immI, immU, immS, immB, immJ, immCSR;
 
-    wire [4:0] rd, rs1, rs2;
-    wire [31:0] immI, immU, immS, immB, immJ, immCSR;
+    // from alu
+    logic [31:0] add_rst;     
+    logic [31:0] csrw_rst;    
+    logic [31:0] wdata, rdata1, rdata2;
+    logic wen;
 
-    wire [31:0] wdata, rdata1, rdata2;
-    wire wen;
-
-    wire [31:0] pc_next_dft;
+    logic [31:0] pc_next_dft;
     assign pc_next_dft = pc + 32'd4;
 
 
@@ -109,6 +111,8 @@ module top(
         .dbg_regs(dbg_reg)
     );
 
+    ALU alu_inst (.*);
+
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
@@ -117,92 +121,96 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     AXI4_Lite bus_ifu ();
     AXI4_Lite bus_lsu ();
 
-    ALU alu_inst (.*);
+    logic [31:0] instr;
 
-    wire        ifu_instr_valid;
-    wire [1:0]  ifu_error;
-    wire        ifu_master_validation_error;
-    wire [31:0] ifu_rdata;
+
+    wire        __ifu_instr_valid;
+    wire [1:0]  __ifu_error;
+    wire        __ifu_master_validation_error;
+    wire        __pc_is_updated;    // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
 
     AXI_IFU ifu (
         .bus    (bus_ifu),              // AXI4_Lite.master 接口
         .clk    (clk),
         .reset  (rst),
-        .__pc_is_updated   (pc_is_updated),
+        .__pc_is_updated   (__pc_is_updated),
         .pc                (pc),
-        .rdata             (ifu_rdata),
-        .__instr_valid     (ifu_instr_valid),
-        .__error           (ifu_error),
-        .__master_validation_error (ifu_master_validation_error)
+        .rdata             (instr),
+        .__instr_valid     (__ifu_instr_valid),
+        .__error           (__ifu_error),
+        .__master_validation_error (__ifu_master_validation_error)
     );
 
 
-    wire        lsu_error;
-    wire        lsu_read_complete;
-    wire        lsu_write_complete;
-    wire [31:0] lsu_rdata;
+    logic        __lsu_error;
+    logic        __lsu_read_complete;   // cpu读到这个, 需要立刻拿走数据启动GPR操作
+    logic        __lsu_write_complete;   // cpu读到这个, 需要立刻启动更新pc操作
+    logic [31:0] lsu_rdata;
 
+    logic __addr_ready;  // 这两个信号只持续一个周期 (在__ifu_instr_valid出来的瞬时拉高一个周期)
+    logic __data_ready;  
+
+
+    logic __sw = sw;
+    logic __sh = sh;
+    logic __sb = sb;
+    logic __read = lb | lh | lw | lbu | lhu;
+    logic __write = sb | sh | sw;
+__
     AXI_LSU lsu (
         .bus    (bus_lsu),              // AXI4_Lite.master 接口
         .clk    (clk),
         .reset  (rst),
-        .__read              (lsu_read),
-        .__write             (lsu_write),
-        .__sw                (lsu_sw),
-        .__sh                (lsu_sh),
-        .__sb                (lsu_sb),
-        .__decode_addr_ready (lsu_decode_addr_ready),
-        .__decode_data_ready (lsu_decode_data_ready),
-        .addr                (lsu_addr),
-        .wdata               (lsu_wdata),
+        .__read              (__read),
+        .__write             (__write),
+        .__sw                (__sw),
+        .__sh                (__sh),
+        .__sb                (__sb),
+        .__addr_ready        (__addr_ready),
+        .__data_ready        (__data_ready),
+        .addr                (add_rst),
+        .wdata               (rdata2),
         .rdata               (lsu_rdata),
-        .__error             (lsu_error),
-        .__read_complete     (lsu_read_complete),
-        .__write_complete    (lsu_write_complete)
+        .__error             (__lsu_error),
+        .__read_complete     (__lsu_read_complete),
+        .__write_complete    (__lsu_write_complete)
     );
 
+    AXI_XBAR xbar (
+        .clk(clk),
+        .reset(rst),
+        .m0(bus_ifu),  
+        .m1(bus_lsu),
+        .s0(bus_uart),  
+        .s1(bus_sram)
+    );
+
+    logic [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
+
+    lw_rst  = lsu_rdata;
+    lbu_rst = {24'b0, lsu_rdata[7:0]};
+    lhu_rst = {16'b0, lsu_rdata[15:0]};
+    lb_rst  = {{25{lsu_rdata[7]}}, lsu_rdata[6:0]};
+    lh_rst  = {{17{lsu_rdata[15]}}, lsu_rdata[14:0]};
 
 
-    // 用于总线交互的控制信号的状态机
-    always_ff @( posedge clk or posedge rst ) begin : blockName
+
+
+    typedef enum [2:0]{ 
+        FETCH, IO, UDGPR, UDPC
+    } state_t;
+    state_t state, next;
+
+
+    always_comb begin : Stat_Machine
         
     end
 
 
 
 
-    // read ram
-
-    reg [31:0] read_ram_rst;
-    reg [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
-
-    wire [31:0] add_rst;     
-    wire [31:0] csrw_rst;    
-
-    always @(*) begin
-        // 默认值
-        read_ram_rst = 0;
-        lw_rst  = 0;
-        lbu_rst = 0;
-        lhu_rst = 0;
-        lb_rst  = 0;
-        lh_rst  = 0;
-
-        // 只有在加载指令时才调用 ram_read
-        if (lw | lb | lbu | lh | lhu) begin
-            read_ram_rst = ram_read(add_rst, 4);
-            case (1'b1)
-                lw:  lw_rst  = read_ram_rst;
-                lbu: lbu_rst = {24'b0, read_ram_rst[7:0]};
-                lhu: lhu_rst = {16'b0, read_ram_rst[15:0]};
-                lb:  lb_rst  = {{25{read_ram_rst[7]}}, read_ram_rst[6:0]};
-                lh:  lh_rst  = {{17{read_ram_rst[15]}}, read_ram_rst[14:0]};
-            endcase
-        end
-    end
-
-    // 这个时序always块用来更新pc
-    always @(posedge clk or posedge rst) begin
+    // 用来更新pc
+    always_ff @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h80000000;
             mstatus <= 32'h00001800;   //
@@ -213,6 +221,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             mcycleh <= 0;
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
+
+            state <= FETCH;
         end
         else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
@@ -257,22 +267,11 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         end
     end
     
-    // 这个时序always块用来更新 ram 和 privileged_reg
-    always @(posedge clk or posedge rst) begin
+    // 仅用来更新 CSR
+    always_ff @(posedge clk or posedge rst) begin
         if(!rst) begin
-            // write ram
-            if(sw) begin
-                ram_write(add_rst, rdata2, 4);
-            end
-            else if(sb) begin
-                ram_write(add_rst, rdata2, 1);
-            end
-            else if(sh) begin
-                ram_write(add_rst, rdata2, 2);
-            end
-
             // privilege
-            else if(csrrw) begin
+            if(csrrw) begin
                 case(immCSR)  // case CSR addr
                     32'h00000300: mstatus <= rdata1;
                     32'h00000305: mtvec <= rdata1;
@@ -304,6 +303,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 endmodule
 /* verilator lint_off UNUSEDSIGNAL */
+
 
 
 

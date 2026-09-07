@@ -17,8 +17,8 @@ module AXI_LSU (
     input __sw, __sh, __sb,
 
     // 这两个信号只持续一个周期
-    input __decode_addr_ready,  
-    input __decode_data_ready,
+    input __addr_ready,  
+    input __data_ready,
 
     input [31:0] addr,
     input [31:0] wdata,
@@ -108,7 +108,7 @@ module AXI_LSU (
         */
         case(state)
             IDLE: begin
-                if(__decode_addr_ready && (__read || __write)) begin   // 只有读写指令的时候才允许触发总线交互
+                if(__addr_ready && (__read || __write)) begin   // 只有读写指令的时候才允许触发总线交互
                     if(__read) begin
                         bus.arvalid = 1'b1;
                         next = AR;
@@ -116,7 +116,7 @@ module AXI_LSU (
                     else if(__write) begin
                         bus.awvalid = 1'b1;
                         next = AW;
-                        if(__decode_data_ready) begin
+                        if(__data_ready) begin
                             bus.wvalid = 1'b1;
                         end
                     end
@@ -134,10 +134,10 @@ module AXI_LSU (
                 if(bus.rvalid == 1'b1) begin
                     bus.rready = 1'b1;              // 无论成功还是错误，都拉高rready完成传输
                     if(bus.rresp == 2'b00) begin
-                        if(__decode_addr_ready && __read) begin
+                        if(__addr_ready && __read) begin
                             next = AR;
                         end
-                        else if(__decode_addr_ready && __write) begin
+                        else if(__addr_ready && __write) begin
                             next = AW;
                         end
                         else begin
@@ -152,14 +152,14 @@ module AXI_LSU (
 
             AW: begin
                 bus.awvalid = 1'b1;
-                if(__decode_data_ready) begin
+                if(__data_ready) begin
                     bus.wvalid = 1'b1;
                 end
                 if(bus.awready == 1'b1) begin
                     if(bus.wready == 1'b1) begin
                         next = B;
                     end
-                    else if(__decode_data_ready) begin
+                    else if(__data_ready) begin
                         next = W;
                     end
                 end
@@ -176,10 +176,10 @@ module AXI_LSU (
                 if(bus.bvalid == 1'b1) begin
                     bus.bready = 1'b1;
                     if(bus.bresp == 2'b00) begin
-                        if(__decode_addr_ready && __read) begin
+                        if(__addr_ready && __read) begin
                             next = AR;
                         end
-                        else if(__decode_addr_ready && __write) begin
+                        else if(__addr_ready && __write) begin
                             next = AW;
                         end
                         else begin

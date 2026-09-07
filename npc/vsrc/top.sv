@@ -54,6 +54,7 @@ marchid - 从中读出学号数字部分的十进制表示, 假设你的学号�
 
 UVM部分
 
+// ⭐  打⭐标注的都是cpu的 流控制 信号, 流控制信号固定使用寄存器, 用时序逻辑赋值
 */
 
 /*
@@ -99,6 +100,7 @@ module top(
 
     decode Decode(.*);
 
+
     dbg_register #(5, 32) GPR (
         .clk(clk),
         .wen(wen),
@@ -124,19 +126,19 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic [31:0] instr;
 
 
-    wire        __ifu_instr_valid;
-    wire [1:0]  __ifu_error;
-    wire        __ifu_master_validation_error;
-    wire        __pc_is_updated;    // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
+    logic        __ifu_instr_valid;
+    logic [1:0]  __ifu_error;
+    logic        __ifu_master_validation_error;
+    logic        __pc_is_updated;    // ⭐  // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
 
     AXI_IFU ifu (
         .bus    (bus_ifu),              // AXI4_Lite.master 接口
         .clk    (clk),
         .reset  (rst),
-        .__pc_is_updated   (__pc_is_updated),
+        .__pc_is_updated   (__pc_is_updated),   
         .pc                (pc),
         .rdata             (instr),
-        .__instr_valid     (__ifu_instr_valid),
+        .__instr_valid     (__ifu_instr_valid),   // @@-->
         .__error           (__ifu_error),
         .__master_validation_error (__ifu_master_validation_error)
     );
@@ -147,8 +149,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic        __lsu_write_complete;   // cpu读到这个, 需要立刻启动更新pc操作
     logic [31:0] lsu_rdata;
 
-    logic __addr_ready;  // 这两个信号只持续一个周期 (在__ifu_instr_valid出来的瞬时拉高一个周期)
-    logic __data_ready;  
+    logic __addr_ready;  // ⭐  // 这两个信号只持续一个周期 (在__ifu_instr_valid出来的瞬时拉高一个周期)
+    logic __data_ready;  // ⭐
 
 
     logic __sw = sw;
@@ -166,14 +168,14 @@ __
         .__sw                (__sw),
         .__sh                (__sh),
         .__sb                (__sb),
-        .__addr_ready        (__addr_ready),
-        .__data_ready        (__data_ready),
+        .__addr_ready        (__addr_ready),   
+        .__data_ready        (__data_ready),   
         .addr                (add_rst),
         .wdata               (rdata2),
         .rdata               (lsu_rdata),
         .__error             (__lsu_error),
-        .__read_complete     (__lsu_read_complete),
-        .__write_complete    (__lsu_write_complete)
+        .__read_complete     (__lsu_read_complete),   // @@-->
+        .__write_complete    (__lsu_write_complete)   // @@-->
     );
 
     AXI_XBAR xbar (
@@ -203,7 +205,28 @@ __
 
 
     always_comb begin : Stat_Machine
-        
+        next = state;
+        case(state)
+            FETCH: begin
+                if(__ifu_instr_valid) begin
+                    next = IO;
+                end
+            end
+            IO: begin
+                if(__lsu_read_complete) begin
+                    next = UDGPR;
+                end
+                else if(__lsu_write_complete) begin
+                    next = UDPC;
+                end
+            end
+            GPR: begin    // 固定一周期
+                next = UDPC;
+            end
+            UDPC: begin   // 固定一周期
+                next = FETCH;
+            end
+        endcase 
     end
 
 
@@ -213,7 +236,7 @@ __
     always_ff @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h80000000;
-            mstatus <= 32'h00001800;   //
+            mstatus <= 32'h00001800;   
             mcause <= 0;
             mepc <= 0;
             mtvec <= 0;

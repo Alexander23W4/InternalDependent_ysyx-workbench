@@ -25,7 +25,7 @@ module AXI_LSU (
     
     output [31:0] rdata,
     
-    output __error,
+    output [1:0] __error,
     output __read_complete,   // cpu读到这个, 需要立刻拿走数据启动GPR操作
     output __write_complete   // cpu读到这个, 需要立刻启动更新pc操作
 );
@@ -33,7 +33,7 @@ module AXI_LSU (
 
 // 反馈信号
     logic [31:0] rdata_save;
-    logic error_save;
+    logic [1:0] error_save;
     logic read_complete_save;
     logic write_complete_save;
 
@@ -54,7 +54,7 @@ module AXI_LSU (
         if(reset) begin
             state <= IDLE;
             rdata_save <= '0;
-            error_save <= 1'b0;
+            error_save <= 2'b00;
             read_complete_save <= 1'b0;
             write_complete_save <= 1'b0;
         end else begin
@@ -70,8 +70,11 @@ module AXI_LSU (
                 read_complete_save <= 1'b0;
                 write_complete_save <= 1'b0;
             end
-            if(((state == R && bus.rvalid && bus.rresp != 2'b00) || (state == B && bus.bvalid && bus.bresp != 2'b00))) begin
-                error_save <= 1'b1; 
+            if(state == R && bus.rvalid && bus.rresp != 2'b00) begin
+                error_save <= bus.rresp; 
+            end
+            if(state == B && bus.bvalid && bus.bresp != 2'b00) begin
+                error_save <= bus.bresp;
             end
 
             state <= next;

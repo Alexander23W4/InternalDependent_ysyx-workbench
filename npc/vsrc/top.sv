@@ -100,6 +100,7 @@ module top(
 
     decode Decode(.*);
 
+    logic __GPR_wvalid;  // ⭐
 
     dbg_register #(5, 32) GPR (
         .clk(clk),
@@ -110,7 +111,8 @@ module top(
         .wdata(wdata),
         .rdata1(rdata1),
         .rdata2(rdata2),
-        .dbg_regs(dbg_reg)
+        .dbg_regs(dbg_reg),
+        .__GPR_wvalid(__GPR_wvalid)
     );
 
     ALU alu_inst (.*);
@@ -232,7 +234,7 @@ __
 
 
 
-    // 用来更新pc
+    // 主状态机时序逻辑
     always_ff @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h80000000;
@@ -245,54 +247,83 @@ __
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
 
+            __pc_is_updated <= 1'b0;
+            __GPR_wvalid <= 1'b0;
+            __addr_ready <= 1'b0;
+            __data_ready <= 1'b0;
+
             state <= FETCH;
         end
         else begin
-            {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
-            // pc update
-            if(jalr) begin
-                pc <= add_rst & ~32'h1;
-            end
-            else if(jal) begin
-                pc <= add_rst;
-            end
-            else if(blt) begin
-                pc <= ($signed(rdata1) < $signed(rdata2)) ? add_rst : pc_next_dft;
-            end
-            else if(beq) begin
-                pc <= (rdata1 == rdata2) ? add_rst : pc_next_dft;
-            end
-            else if(bne) begin
-                pc <= (rdata1 != rdata2) ? add_rst : pc_next_dft;
-            end
-            else if(bge) begin
-                pc <= ($signed(rdata1) >= $signed(rdata2)) ? add_rst : pc_next_dft;
-            end
-            else if(bltu) begin
-                pc <= (rdata1 < rdata2) ? add_rst : pc_next_dft;
-            end
-            else if(bgeu) begin
-                pc <= (rdata1 >= rdata2) ? add_rst : pc_next_dft;
+            if(state == FETCH) begin
+                __pc_is_update <= 1'b0;
+                if(__ifu_instr_valid) begin
+                    __addr_ready <= 1'b1;
+                    __data_ready <= 1'b1;
+                end
             end
 
-            // system
-            else if(ecall) begin    //
-                mepc <= pc;
-                mcause <= 32'h0000000b;
-                pc <= mtvec;
+            if(state == IO) begin
+                __addr_ready <= 1'b0;
+                __data_ready <= 1'b0;
+                if(__lsu_read_complete) begin
+                    __GPR_wvalid <= 1'b1;
+                end
             end
-            else if(mret) begin     //
-                pc <= mepc;
+
+            if(state == UDGPR) begin
+                __GPR_wvalid <= 1'b0;
             end
-            else begin
-                pc <= pc_next_dft;
+
+
+            if(state == UDPC) begin
+                __pc_is_update <= 1'b1;
+                {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
+                // pc update
+                if(jalr) begin
+                    pc <= add_rst & ~32'h1;
+                end
+                else if(jal) begin
+                    pc <= add_rst;
+                end
+                else if(blt) begin
+                    pc <= ($signed(rdata1) < $signed(rdata2)) ? add_rst : pc_next_dft;
+                end
+                else if(beq) begin
+                    pc <= (rdata1 == rdata2) ? add_rst : pc_next_dft;
+                end
+                else if(bne) begin
+                    pc <= (rdata1 != rdata2) ? add_rst : pc_next_dft;
+                end
+                else if(bge) begin
+                    pc <= ($signed(rdata1) >= $signed(rdata2)) ? add_rst : pc_next_dft;
+                end
+                else if(bltu) begin
+                    pc <= (rdata1 < rdata2) ? add_rst : pc_next_dft;
+                end
+                else if(bgeu) begin
+                    pc <= (rdata1 >= rdata2) ? add_rst : pc_next_dft;
+                end
+
+                // system
+                else if(ecall) begin    //
+                    mepc <= pc;
+                    mcause <= 32'h0000000b;
+                    pc <= mtvec;
+                end
+                else if(mret) begin     //
+                    pc <= mepc;
+                end
+                else begin
+                    pc <= pc_next_dft;
+                end
             end
         end
     end
     
     // 仅用来更新 CSR
     always_ff @(posedge clk or posedge rst) begin
-        if(!rst) begin
+        if((!rst) && state == UDPC) begin
             // privilege
             if(csrrw) begin
                 case(immCSR)  // case CSR addr

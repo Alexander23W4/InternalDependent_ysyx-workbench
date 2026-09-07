@@ -11,6 +11,8 @@ module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     output [DATA_WIDTH-1:0] rdata2,
 
     output [(DATA_WIDTH * (2**ADDR_WIDTH)) - 1 : 0] dbg_regs
+
+    input __GPR_wvalid;
 );
     reg [DATA_WIDTH-1:0] gpr [2**ADDR_WIDTH-1:0];
 
@@ -18,7 +20,7 @@ module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     assign rdata2 = gpr[raddr2];
 
     always @(posedge clk) begin
-        if (wen && waddr != 0) gpr[waddr] <= wdata;
+        if (wen && waddr != 0 && __GPR_wvalid) gpr[waddr] <= wdata;
     end
 
     genvar i;

@@ -101,6 +101,7 @@ module AXI_XBAR (
     logic [1:0]  r_latched_slave_sel;
     logic [31:0] r_latched_addr;
 
+// 加一个状态机, 这样就避免一个master正在交互, 另一个master直接发arvalid抢占总线的情况
     always_comb begin
         r_next = r_state;
         case (r_state)
@@ -139,7 +140,8 @@ module AXI_XBAR (
                         r_latched_slave_sel <= 2'b10;
                     else
                         r_latched_slave_sel <= 2'b11;
-                end else if (m1_arvalid) begin
+                end 
+                else if (m1_arvalid) begin
                     r_latched_is_m0 <= 1'b0;
                     r_latched_addr <= m1_araddr;
                     if (m1_araddr >= 32'h10000000 && m1_araddr <= 32'h10000007)
@@ -162,34 +164,16 @@ module AXI_XBAR (
     assign m0_arready = (r_state == R_IDLE) ? 1'b1 : 1'b0;
     assign m1_arready = (r_state == R_IDLE) ? 1'b1 : 1'b0;
 
-    assign m0_rdata  = (r_latched_is_m0) ? 
-                       ((r_latched_slave_sel == 2'b01) ? s0_rdata : 
-                        (r_latched_slave_sel == 2'b10) ? s1_rdata : '0) : '0;
-    assign m0_rresp  = (r_latched_is_m0) ? 
-                       ((r_latched_slave_sel == 2'b01) ? s0_rresp : 
-                        (r_latched_slave_sel == 2'b10) ? s1_rresp : 
-                        (r_latched_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
-    assign m0_rvalid = (r_latched_is_m0) ? 
-                       ((r_latched_slave_sel == 2'b01) ? s0_rvalid : 
-                        (r_latched_slave_sel == 2'b10) ? s1_rvalid : 
-                        (r_latched_slave_sel == 2'b11)) : 1'b0;
+    assign m0_rdata  = (r_latched_is_m0) ? ((r_latched_slave_sel == 2'b01) ? s0_rdata : (r_latched_slave_sel == 2'b10) ? s1_rdata : '0) : '0;
+    assign m0_rresp  = (r_latched_is_m0) ? ((r_latched_slave_sel == 2'b01) ? s0_rresp : (r_latched_slave_sel == 2'b10) ? s1_rresp : (r_latched_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
+    assign m0_rvalid = (r_latched_is_m0) ? ((r_latched_slave_sel == 2'b01) ? s0_rvalid : (r_latched_slave_sel == 2'b10) ? s1_rvalid : (r_latched_slave_sel == 2'b11)) : 1'b0;
 
-    assign m1_rdata  = (!r_latched_is_m0) ? 
-                       ((r_latched_slave_sel == 2'b01) ? s0_rdata : 
-                        (r_latched_slave_sel == 2'b10) ? s1_rdata : '0) : '0;
-    assign m1_rresp  = (!r_latched_is_m0) ? 
-                       ((r_latched_slave_sel == 2'b01) ? s0_rresp : 
-                        (r_latched_slave_sel == 2'b10) ? s1_rresp : 
-                        (r_latched_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
-    assign m1_rvalid = (!r_latched_is_m0) ? 
-                       ((r_latched_slave_sel == 2'b01) ? s0_rvalid : 
-                        (r_latched_slave_sel == 2'b10) ? s1_rvalid : 
-                        (r_latched_slave_sel == 2'b11)) : 1'b0;
+    assign m1_rdata  = (!r_latched_is_m0) ? ((r_latched_slave_sel == 2'b01) ? s0_rdata : (r_latched_slave_sel == 2'b10) ? s1_rdata : '0) : '0;
+    assign m1_rresp  = (!r_latched_is_m0) ? ((r_latched_slave_sel == 2'b01) ? s0_rresp : (r_latched_slave_sel == 2'b10) ? s1_rresp : (r_latched_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
+    assign m1_rvalid = (!r_latched_is_m0) ? ((r_latched_slave_sel == 2'b01) ? s0_rvalid : (r_latched_slave_sel == 2'b10) ? s1_rvalid : (r_latched_slave_sel == 2'b11)) : 1'b0;
 
-    assign s0_rready = (r_latched_slave_sel == 2'b01) ? 
-                       (r_latched_is_m0 ? m0_rready : m1_rready) : 1'b0;
-    assign s1_rready = (r_latched_slave_sel == 2'b10) ? 
-                       (r_latched_is_m0 ? m0_rready : m1_rready) : 1'b0;
+    assign s0_rready = (r_latched_slave_sel == 2'b01) ? (r_latched_is_m0 ? m0_rready : m1_rready) : 1'b0;
+    assign s1_rready = (r_latched_slave_sel == 2'b10) ? (r_latched_is_m0 ? m0_rready : m1_rready) : 1'b0;
 
 
     // ============================================================
@@ -258,6 +242,7 @@ module AXI_XBAR (
     end
 
     // ----- 写通道组合逻辑 -----
+// ----- 写通道组合逻辑 -----
     assign s0_awaddr  = (w_latched_slave_sel == 2'b01) ? w_latched_addr : '0;
     assign s0_awvalid = (w_latched_slave_sel == 2'b01) && (w_state == W_BUSY);
     assign s1_awaddr  = (w_latched_slave_sel == 2'b10) ? w_latched_addr : '0;
@@ -266,43 +251,22 @@ module AXI_XBAR (
     assign m0_awready = (w_state == W_IDLE) ? 1'b1 : 1'b0;
     assign m1_awready = (w_state == W_IDLE) ? 1'b1 : 1'b0;
 
-    assign s0_wdata  = (w_latched_slave_sel == 2'b01) ? 
-                       (w_latched_is_m0 ? m0_wdata : m1_wdata) : '0;
-    assign s0_wstrb  = (w_latched_slave_sel == 2'b01) ? 
-                       (w_latched_is_m0 ? m0_wstrb : m1_wstrb) : '0;
-    assign s0_wvalid = (w_latched_slave_sel == 2'b01) && (w_state == W_BUSY) &&
-                       (w_latched_is_m0 ? m0_wvalid : m1_wvalid);
-    assign s1_wdata  = (w_latched_slave_sel == 2'b10) ? 
-                       (w_latched_is_m0 ? m0_wdata : m1_wdata) : '0;
-    assign s1_wstrb  = (w_latched_slave_sel == 2'b10) ? 
-                       (w_latched_is_m0 ? m0_wstrb : m1_wstrb) : '0;
-    assign s1_wvalid = (w_latched_slave_sel == 2'b10) && (w_state == W_BUSY) &&
-                       (w_latched_is_m0 ? m0_wvalid : m1_wvalid);
+    assign s0_wdata  = (w_latched_slave_sel == 2'b01) ? (w_latched_is_m0 ? m0_wdata : m1_wdata) : '0;
+    assign s0_wstrb  = (w_latched_slave_sel == 2'b01) ? (w_latched_is_m0 ? m0_wstrb : m1_wstrb) : '0;
+    assign s0_wvalid = (w_latched_slave_sel == 2'b01) && (w_state == W_BUSY) && (w_latched_is_m0 ? m0_wvalid : m1_wvalid);
+    assign s1_wdata  = (w_latched_slave_sel == 2'b10) ? (w_latched_is_m0 ? m0_wdata : m1_wdata) : '0;
+    assign s1_wstrb  = (w_latched_slave_sel == 2'b10) ? (w_latched_is_m0 ? m0_wstrb : m1_wstrb) : '0;
+    assign s1_wvalid = (w_latched_slave_sel == 2'b10) && (w_state == W_BUSY) && (w_latched_is_m0 ? m0_wvalid : m1_wvalid);
 
-    assign m0_wready  = (w_state == W_BUSY && w_latched_is_m0) ? 1'b1 : 1'b0;
-    assign m1_wready  = (w_state == W_BUSY && !w_latched_is_m0) ? 1'b1 : 1'b0;
+    assign m0_wready = (w_state == W_BUSY && w_latched_is_m0) ? 1'b1 : 1'b0;
+    assign m1_wready = (w_state == W_BUSY && !w_latched_is_m0) ? 1'b1 : 1'b0;
 
-    assign m0_bresp  = (w_latched_is_m0) ? 
-                       ((w_latched_slave_sel == 2'b01) ? s0_bresp : 
-                        (w_latched_slave_sel == 2'b10) ? s1_bresp : 
-                        (w_latched_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
-    assign m0_bvalid = (w_latched_is_m0) ? 
-                       ((w_latched_slave_sel == 2'b01) ? s0_bvalid : 
-                        (w_latched_slave_sel == 2'b10) ? s1_bvalid : 
-                        (w_latched_slave_sel == 2'b11)) : 1'b0;
+    assign m0_bresp  = (w_latched_is_m0) ? ((w_latched_slave_sel == 2'b01) ? s0_bresp : (w_latched_slave_sel == 2'b10) ? s1_bresp : (w_latched_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
+    assign m0_bvalid = (w_latched_is_m0) ? ((w_latched_slave_sel == 2'b01) ? s0_bvalid : (w_latched_slave_sel == 2'b10) ? s1_bvalid : (w_latched_slave_sel == 2'b11)) : 1'b0;
 
-    assign m1_bresp  = (!w_latched_is_m0) ? 
-                       ((w_latched_slave_sel == 2'b01) ? s0_bresp : 
-                        (w_latched_slave_sel == 2'b10) ? s1_bresp : 
-                        (w_latched_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
-    assign m1_bvalid = (!w_latched_is_m0) ? 
-                       ((w_latched_slave_sel == 2'b01) ? s0_bvalid : 
-                        (w_latched_slave_sel == 2'b10) ? s1_bvalid : 
-                        (w_latched_slave_sel == 2'b11)) : 1'b0;
+    assign m1_bresp  = (!w_latched_is_m0) ? ((w_latched_slave_sel == 2'b01) ? s0_bresp : (w_latched_slave_sel == 2'b10) ? s1_bresp : (w_latched_slave_sel == 2'b11) ? 2'b11 : 2'b00) : 2'b00;
+    assign m1_bvalid = (!w_latched_is_m0) ? ((w_latched_slave_sel == 2'b01) ? s0_bvalid : (w_latched_slave_sel == 2'b10) ? s1_bvalid : (w_latched_slave_sel == 2'b11)) : 1'b0;
 
-    assign s0_bready = (w_latched_slave_sel == 2'b01) ? 
-                       (w_latched_is_m0 ? m0_bready : m1_bready) : 1'b0;
-    assign s1_bready = (w_latched_slave_sel == 2'b10) ? 
-                       (w_latched_is_m0 ? m0_bready : m1_bready) : 1'b0;
-
+    assign s0_bready = (w_latched_slave_sel == 2'b01) ? (w_latched_is_m0 ? m0_bready : m1_bready) : 1'b0;
+    assign s1_bready = (w_latched_slave_sel == 2'b10) ? (w_latched_is_m0 ? m0_bready : m1_bready) : 1'b0;
 endmodule

@@ -19,72 +19,82 @@ Xbar实现纯逻辑对接, 通过握手信号来判断, addr判断, 添加assert
 然后上层的 AXI interface设置好 
 
 
-编码	 名称	  含义	          说明
-2'b00	OKAY	正常访问成功	传输成功完成，数据有效
-2'b01	EXOKAY	独占访问成功	AXI4-Lite不支持！ 仅用于AXI4全功能版
-2'b10	SLVERR	Slave错误	Slave内部错误（如访问未初始化区域、权限错误等）
-2'b11	DECERR	解码错误	地址未映射到任何Slave（由Interconnect返回）
-
-
+编码      名称        含义              说明
+2'b00    OKAY        正常访问成功      传输成功完成，数据有效
+2'b01    EXOKAY      独占访问成功      AXI4-Lite不支持！ 仅用于AXI4全功能版
+2'b10    SLVERR      Slave错误         Slave内部错误（如访问未初始化区域、权限错误等）
+2'b11    DECERR      解码错误          地址未映射到任何Slave（由Interconnect返回）
 */
 
 interface ysyx_26040135_AXI4;
+
     logic [31:0] araddr;
+    logic [3:0]  arid;
+    logic [7:0]  arlen;
+    logic [2:0]  arsize;
+    logic [1:0]  arburst;
     logic        arvalid;
     logic        arready;
 
     logic [31:0] rdata;
+    logic [3:0]  rid;
     logic [1:0]  rresp;
+    logic        rlast;
     logic        rvalid;
     logic        rready;
 
     logic [31:0] awaddr;
+    logic [3:0]  awid;
+    logic [7:0]  awlen;
+    logic [2:0]  awsize;
+    logic [1:0]  awburst;
     logic        awvalid;
     logic        awready;
 
     logic [31:0] wdata;
     logic [3:0]  wstrb;
+    logic        wlast;
     logic        wvalid;
     logic        wready;
 
+    logic [3:0]  bid;
     logic [1:0]  bresp;
     logic        bvalid;
     logic        bready;
 
     modport master (
-        output araddr, arvalid,
+        output araddr, arid, arlen, arsize, arburst, arvalid,
         input  arready,
 
-        input  rdata, rresp, rvalid,
+        input  rdata, rid, rresp, rlast, rvalid,
         output rready,
 
-        output awaddr, awvalid,
+        output awaddr, awid, awlen, awsize, awburst, awvalid,
         input  awready,
 
-        output wdata, wstrb, wvalid,
+        output wdata, wstrb, wlast, wvalid,
         input  wready,
 
-        input  bresp, bvalid,
-        output bready,
+        input  bid, bresp, bvalid,
+        output bready
     );
 
     modport slave (
-        input  araddr, arvalid,
+        input  araddr, arid, arlen, arsize, arburst, arvalid,
         output arready,
 
-        output rdata, rresp, rvalid,
+        output rdata, rid, rresp, rlast, rvalid,
         input  rready,
 
-        input  awaddr, awvalid,
+        input  awaddr, awid, awlen, awsize, awburst, awvalid,
         output awready,
 
-        input  wdata, wstrb, wvalid,
+        input  wdata, wstrb, wlast, wvalid,
         output wready,
-        
-        output bresp, bvalid,
-        input  bready,
+
+        output bid, bresp, bvalid,
+        input  bready
     );
 
+endinterface
 
-    
-endinterface //AXI4_Lite

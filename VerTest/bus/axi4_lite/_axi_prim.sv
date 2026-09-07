@@ -357,7 +357,7 @@ module AXI_LSU (
                 rdata_save <= bus.rdata;
                 read_complete_save <= 1'b1;
             end
-            if(state == B && bus.bvalid && bus.rresp == 2'b00) begin
+            if(state == B && bus.bvalid && bus.bresp == 2'b00) begin
                 write_complete_save <= 1'b1;
             end
             if(state != R && state != B) begin
@@ -384,7 +384,7 @@ module AXI_LSU (
     end
 
     always_comb begin
-        bus.araddr = (state == IDLE) ? '0 : addr;
+        bus.araddr = (state == IDLE) ? '0 : addr;   // 这个是为了兼容多master 的自定义协议, 所有master都不能在IDLE(抢总线)的时候发送有效信息, 所以规定的
         bus.arvalid = 1'b0;
         bus.rready = 1'b0;
 

@@ -7,6 +7,12 @@
  * 仲裁策略：固定优先级 (IFU > LSU)
  */
 
+ /*
+ 仲裁策略：固定优先级 (IFU > LSU), 这是现在的仲裁策略
+
+ ⭐$$: 先版本默认两个master不会同时发送arvalid, 之后需要兼容这样的情况
+ */
+
 module AXI_XBAR (
     input clk,
     input reset,

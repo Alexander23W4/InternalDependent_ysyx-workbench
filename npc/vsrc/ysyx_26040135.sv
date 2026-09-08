@@ -232,7 +232,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic        __ifu_instr_valid;
     logic [1:0]  __ifu_error;      // ⭐⭐ 引出C
     logic        __ifu_master_validation_error;    // ⭐⭐ 引出C
-    logic        __pc_is_updated;    // ⭐  // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
+    logic        __pc_is_updated;    // ⭐⭐ 引出C, 代表一个周期结束  // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
 
     ysyx_26040135_AXI_IFU ifu (
         .bus                            (bus_ifu.master),              // AXI4_Lite.master 接口
@@ -415,7 +415,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         end
         else begin
             if(state == FETCH) begin
-                __pc_is_update <= 1'b0;
+                __pc_is_updated <= 1'b0;
                 if(__ifu_instr_valid) begin
                     __addr_ready <= 1'b1;
                     __data_ready <= 1'b1;
@@ -436,7 +436,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
             if(state == UDPC) begin
-                __pc_is_update <= 1'b1;
+                __pc_is_updated <= 1'b1;
                 {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
                 // pc update
                 if(jalr) begin

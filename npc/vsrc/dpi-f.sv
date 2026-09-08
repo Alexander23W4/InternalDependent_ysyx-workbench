@@ -49,11 +49,6 @@ function void debug_read_all(
     output int mtvec,
     output int mcycle,
     output int mcycleh,
-    output int mvendorid,
-    output int marchid,
-    output int ifu_error,
-    output int lsu_error,
-    output int master_validation_error,
     output int instr
 );
     instr = instr;
@@ -67,9 +62,29 @@ function void debug_read_all(
     mtvec = _mtvec;
     mcycle = _mcycle;
     mcycleh = _mcycleh;
-    mvendorid = _mvendorid;
-    marchid = _marchid;
+
+
+endfunction
+
+export "DPI-C" function check_error;
+
+function void check_error(
+    output int ifu_error,
+    output int lsu_error,
+    output int master_validation_error
+);
     ifu_error = {30'b0, __ifu_error};
     lsu_error = {30'b0, __lsu_error};
     master_validation_error = {31'b0, __ifu_master_validation_error};
+
 endfunction
+
+export "DPI-C" function check_end;
+
+function void check_end(
+    output int period_end
+);
+    period_end = {30'b0, __pc_is_updated};
+endfunction
+
+

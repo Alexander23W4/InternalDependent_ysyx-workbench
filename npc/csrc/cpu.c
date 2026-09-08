@@ -3,24 +3,12 @@
 NPC_status Status = NPC_NORM;
 
 void exec_once(){
-    // fetch
-    uint32_t pc_idx = (top->_pc - RAM_BASE) >> 2; 
-    // printf("pc: 0x%8x  ", top->_pc);
-    // printf("pc_idx: %u\n", pc_idx);
 
-    if (pc_idx >= RAM_SIZE || pc_idx < 0){
-        printf("%s", ANSI_FMT("Fetch Fault, INVALID PC.\n", ANSI_FG_RED));
-        Status = NPC_CRASH;
-    }
-
-    top->instr = ram[pc_idx];
     if((top->instr & 0x7f) != 3){
         ram_read_last_pc = 0;
     }
-    // printf("Current instr: 0x%08x \n", ram[pc_idx]);
     
-
-    pc = top->_pc;   // 存下这个周期的pc;
+    pc = cpu.pc;   // 存下这个周期的pc;
     // operation a period  
     tick();
 

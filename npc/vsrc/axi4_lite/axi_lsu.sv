@@ -84,34 +84,51 @@ module ysyx_26040135_AXI_LSU (
 
     always_comb begin
         bus.wstrb = 4'b0000;  
-        bus.arsize = 3'b000;
-        bus.awsize = 3'b000;
+        bus.arsize = 3'b010;
+        bus.awsize = 3'b010;
         if (__write) begin
             case (1'b1)
-                __sw: bus.wstrb = 4'b1111;
-                __sh: bus.wstrb = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
-                __sb: bus.wstrb = 4'b0001 << addr[1:0];
-            endcase 
+                __sw: begin
+                    bus.wstrb  = 4'b1111;
+                    bus.awsize = 3'b010;
+                end
+                __sh: begin
+                    bus.wstrb  = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
+                    bus.awsize = 3'b001;
+                end
+                __sb: begin
+                    bus.wstrb  = 4'b0001 << addr[1:0];
+                    bus.awsize = 3'b000;
+                end
+            endcase
         end
         if(__read) begin
             case(1'b1)
-                __lw: bus.arsize = 3'b100;
-                __lh | __lhu: bus.arsize = 3'b010;
-                __lb | __lbu: bus.arsize = 3'b001;
+                __lw: bus.arsize = 3'b010;
+                __lh | __lhu: bus.arsize = 3'b001;
+                __lb | __lbu: bus.arsize = 3'b000;
             endcase
         end 
     end
 
     always_comb begin
-        bus.araddr = addr;
+
         bus.arvalid = 1'b0;
+        bus.araddr = addr;
+        bus.arid = 4'b0000;
+        bus.arlen = 8'h00;
+        bus.arburst = 2'b00;
         bus.rready = 1'b0;
 
-        bus.awaddr = addr;
         bus.awvalid = 1'b0;
+        bus.awaddr = addr;
         bus.wdata = wdata;
+        bus.awid = 4'b0000;
+        bus.awlen = 8'h00;
+        bus.awburst = 2'b00;
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
+
 
         next = state;
         

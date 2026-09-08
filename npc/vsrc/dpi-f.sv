@@ -45,8 +45,7 @@ function void debug_read_all(
     output int mepc,
     output int mcause,
     output int mtvec,
-    output int mcycle,
-    output int mcycleh,
+    output longint mcycle,
     output int instr
 );
     instr = instr;
@@ -58,9 +57,7 @@ function void debug_read_all(
     mepc = _mepc;
     mcause = _mcause;
     mtvec = _mtvec;
-    mcycle = _mcycle;
-    mcycleh = _mcycleh;
-
+    mcycle = {_mcycleh, _mcycle};  // 合并
 
 endfunction
 

@@ -22,8 +22,8 @@ void exec_once(){
     }
 
     // 读取cpu的状态
+    debug_read_all(cpu.gpr, &cpu.pc, &cpu.mstatus, &cpu.mepc, &cpu.mcause, &cpu.mtvec, &cpu.mcycle, &instr);
     
-
 
 #if TRACE_ENABLE
     trace();

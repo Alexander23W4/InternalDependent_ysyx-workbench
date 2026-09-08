@@ -24,8 +24,6 @@ task check_ram_op(output int ram_op);
     end
 endtask
 
-export "DPI-C" task 
-
 
 import "DPI-C" function int unsigned ram_read(
     input int unsigned addr,

@@ -11,6 +11,19 @@ void tick() {
     top->eval();
 }
 
+void error_handler(){
+    Status = NPC_CRASH;
+    if(ifu_error){
+        printf("%s", ANSI_FMT("IFU_error\n", ANSI_FG_RED));
+    }
+    else if(lsu_error){
+        printf("%s", ANSI_FMT("LSU_error\n", ANSI_FG_RED));
+    }
+    else if(master_validation_error){
+        printf("%s", ANSI_FMT("IFU visit unexpected addr\n", ANSI_FG_RED));
+    }
+}
+
 void final_check(){
     #if TRACE_ENABLE
         i_ring_buf_logout(&ring);
@@ -122,18 +135,6 @@ void ram_write(uint32_t addr, uint32_t data, int amount) {
     return;
 error:
     assert(0);
-}
-
-void rep_cpu(){
-    cpu.pc = top->
-    for (int i = 0; i < 32; i++) {
-        cpu.gpr[i] = top->dbg_reg[i];
-    }
-    cpu.mcause = top->_mcause;
-    cpu.mepc = top->_mepc;
-    cpu.mstatus = top->_mstatus;
-    cpu.mtvec = top->_mtvec;
-    cpu.mcycle = (((uint64_t)(top->_mcycleh)) << 32) + (uint64_t)(top->_mcycle);
 }
 
 

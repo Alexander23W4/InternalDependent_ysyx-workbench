@@ -88,6 +88,8 @@ extern int ifu_error;
 extern int lsu_error;
 extern int master_validation_error;
 
+extern int period_end;
+
 void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);
 void init_ram();
@@ -111,13 +113,14 @@ void check_wp(uint32_t pre_pc);
 char* hex_to_bin(const char *hex);
 
 void tick();
+void error_handler();
 uint32_t ram_read_sdb(uint32_t addr, int amount);
 uint32_t ram_read(uint32_t addr, int amount);
 void ram_write(uint32_t addr, uint32_t data, int amount);
 void prt_gprs();
 void final_check();
 uint32_t isa_reg_str2val(const char *s, bool *success);
-void rep_cpu();
+
 
 
 void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port);
@@ -136,13 +139,6 @@ extern "C" void mrom_read(int32_t addr, int32_t *data) {
 extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(0); }
 
 
-
-extern "C" {
-    void debug_read_all(int *dbg_regs, int *pc, int *mstatus, int *mepc, 
-                        int *mcause, int *mtvec, int *mcycle, int *mcycleh,
-                        int *mvendorid, int *marchid, int *ifu_error,
-                        int *lsu_error, int *master_validation_error);
-}
 
 
 

@@ -39,6 +39,8 @@ int ifu_error = 0;
 int lsu_error = 0;
 int master_validation_error = 0;
 
+int period_end = 0;
+
 I_ring_buf ring = {.amt = 0};
 
 

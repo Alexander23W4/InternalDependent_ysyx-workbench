@@ -9,10 +9,21 @@ void exec_once(){
     }
     
     pc = cpu.pc;   // 存下这个周期的pc;
-    // operation a period  
-    tick();
 
-    rep_cpu();
+    // 一直运行直到这周期结束, pc更新    并且不断监测cpu是否有报错
+    while(!period_end){
+        tick();
+        check_end(&period_end);
+        check_error(&ifu_error, &lsu_error, &master_validation_error);
+        if(ifu_error || lsu_error || master_validation_error){
+            error_handler();
+            return;
+        }
+    }
+
+    // 读取cpu的状态
+    
+
 
 #if TRACE_ENABLE
     trace();

@@ -24,6 +24,10 @@ void error_handler(){
     }
 }
 
+
+
+
+
 void final_check(){
     #if TRACE_ENABLE
         i_ring_buf_logout(&ring);
@@ -39,102 +43,6 @@ void final_check(){
     else{
         printf("%s", ANSI_FMT("\n[HIT GOOD TRAP]\n", ANSI_FG_GREEN));
     }
-}
-
-uint32_t ram_read_sdb(uint32_t addr, int amount){
-    uint32_t paddr = addr - RAM_BASE;
-    uint8_t* _ram = (uint8_t*) ram;
-    assert(amount <= 4 && amount >= 1);
-    uint32_t result = 0;   
-    if (paddr >= 0x7ffffff){
-        return 0;
-    }
-    for (int i = 0; i < amount; i++) {
-        result |= ((uint32_t)_ram[paddr + i]) << (8 * i);
-    }
-    return result;
-}
-
-
-// allow misalign access
-uint32_t ram_read(uint32_t addr, int amount) {
-    if((top->instr & 0x7f) == 3){   // 所有的l指令
-        if(cpu.pc == ram_read_last_pc){
-            return ram_read_last_data;
-        }
-        ram_read_last_pc = cpu.pc;
-        
-        uint32_t paddr = addr - RAM_BASE;
-        uint8_t* _ram = (uint8_t*) ram;
-        assert(amount <= 4 && amount >= 1);
-        uint32_t result = 0;
-        
-        if (paddr >= 0x7ffffff){
-            // printf("invalid ram_read addr, pc: 0x%08x, addr: 0x%08X, paddr: 0x%08X\n", cpu.pc, addr, paddr);
-            #if DEVICE_ENABLE
-            result = mmio_read(addr, amount); 
-            // if(addr == CONFIG_I8042_DATA_MMIO && result != 0){
-            //     printf("[NPC](ram_read)(keyboard):%d\n", result);
-            // }
-            ram_read_last_data = result;
-            return result;
-            #endif
-            printf("[ram_read]: The addr 0x%08x is out of bound, which might caused by DEVICE DISABLE setting. Please Check Out!\n", addr);
-            Status = NPC_CRASH;
-            ram_read_last_data = 0;
-            return 0;
-        }
-        for (int i = 0; i < amount; i++) {
-            result |= ((uint32_t)_ram[paddr + i]) << (8 * i);
-        }
-        #ifdef TRACE_ENABLE
-            mtrace_flag = 1;    // mtrace
-            mem_addr = addr;
-            content = (int32_t) result;
-        #endif
-
-        ram_read_last_data = result;
-        return result;
-    }
-    else {
-        return 0;
-    }
-}
-
-
-// doesn't misalign access
-void ram_write(uint32_t addr, uint32_t data, int amount) {
-    uint32_t paddr = addr - RAM_BASE;
-    assert(amount <= 4 && amount >= 1);
-    uint8_t* ram_byte = (uint8_t*)ram; 
-    check((paddr % amount) == 0, "misaligned access, paddr: 0x%08X, amount: %d", paddr, amount);
-    if (addr == MMIO_SERIAL){
-        putc((char)data, stderr);
-    }
-    else {
-        if (paddr >= RAM_SIZE * 4){
-            #if DEVICE_ENABLE
-            mmio_write(addr, amount, data);
-            #else
-            printf("invalid ram_write addr, pc: 0x%08x, addr: 0x%08X, paddr: 0x%08X\n", cpu.pc, addr, paddr);
-            assert(0);
-            #endif
-            return;
-        }
-
-        for (int i = 0; i < amount; i++) {
-            ram_byte[paddr + i] = (uint8_t)(data >> (8 * i));
-        }
-        #ifdef TRACE_ENABLE
-            mtrace_flag = 2;    // mtrace
-            mem_addr = addr;
-            content = (int32_t) data;
-        #endif
-    }
-    
-    return;
-error:
-    assert(0);
 }
 
 

@@ -9,35 +9,8 @@ task halt(output int endprog);
     end
 endtask
 
-export "DPI-C" task check_ram_op;
-task check_ram_op(output int ram_op);
-    begin
-        if(lb | lh | lw | lbu | lhu) begin
-            ram_op = 32'd1;
-        end
-        else if(sb | sh | sw) begin
-            ram_op = 32'd2;
-        end
-        else begin
-            ram_op = 0;
-        end
-    end
-endtask
-
-
-import "DPI-C" function int unsigned ram_read(
-    input int unsigned addr,
-    input int amount
-);
-
-import "DPI-C" function void ram_write(
-    input int unsigned addr, 
-    input int unsigned data, 
-    input int amount
-);
 
 export "DPI-C" function debug_read_all;
-
 function void debug_read_all(
     output int dbg_regs[32],  // 数组，32个寄存器
     output int pc,
@@ -61,8 +34,9 @@ function void debug_read_all(
 
 endfunction
 
-export "DPI-C" function check_error;
 
+
+export "DPI-C" function check_error;
 function void check_error(
     output int ifu_error,
     output int lsu_error,
@@ -74,8 +48,9 @@ function void check_error(
 
 endfunction
 
-export "DPI-C" function check_end;
 
+
+export "DPI-C" function check_end;
 function void check_end(
     output int period_end
 );

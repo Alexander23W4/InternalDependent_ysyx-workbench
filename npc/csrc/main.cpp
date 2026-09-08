@@ -14,13 +14,13 @@
 
 --> exec_once(只有这个跟cpu真正的运行相关联, 调用tick, 其他函数均没有可以操作rtl的接口, 其他函数只是为了其feature要读取cpu的状态, exec_once有义务正确读取这些状态): 
 
+--> feature: 包含 device  trace  difftest  sdb
+首先移除device和ram
 
 */
 
 using namespace std;
 
-// 待定
-int ram_op = 0;
 uint32_t pc = 0;
 
 // verilator仿真环境整体流程控制

@@ -14,8 +14,11 @@
 
 --> exec_once(只有这个跟cpu真正的运行相关联, 调用tick, 其他函数均没有可以操作rtl的接口, 其他函数只是为了其feature要读取cpu的状态, exec_once有义务正确读取这些状态): 
 
---> feature: 包含 device  trace  difftest  sdb
+--> feature: 包含 trace  difftest  sdb
 首先移除device和ram
+
+现在trace 和 sdb(除了x和expr的访存) 应该都能正常使用
+ram的访问除了 difftest 里面有一个 mem copy, 初始化的时候, 比较难搞, 现在difftest无法正常使用
 
 */
 

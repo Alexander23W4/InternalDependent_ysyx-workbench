@@ -163,21 +163,24 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic __data_ready;  // ⭐
 
 
-    logic __sw = sw;
-    logic __sh = sh;
-    logic __sb = sb;
+
     logic __read = lb | lh | lw | lbu | lhu;
     logic __write = sb | sh | sw;
-__
+
     ysyx_26040135_AXI_LSU lsu (
         .bus    (bus_lsu),              // AXI4_Lite.master 接口
         .clock    (clock),
         .reset  (reset),
         .__read              (__read),
         .__write             (__write),
-        .__sw                (__sw),
-        .__sh                (__sh),
-        .__sb                (__sb),
+        .__sw                (sw),
+        .__sh                (sh),
+        .__sb                (sb),
+        .__lw                (lw),
+        .__lb                (lb),
+        .__lbu               (lbu),
+        .__lhu               (lhu),
+        .__lh                (lh),
         .__addr_ready        (__addr_ready),   
         .__data_ready        (__data_ready),   
         .addr                (add_rst),

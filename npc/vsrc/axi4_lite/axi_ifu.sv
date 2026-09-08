@@ -10,7 +10,7 @@
 // ⭐: 不要让状态机卡在 除了IDLE的其他状态, 卡在IDLE是可以的
 
 module ysyx_26040135_AXI_IFU (
-    AXI4_Lite.master bus,
+    ysyx_26040135_AXI4.master bus,
     
     input clock,
     input reset,
@@ -109,14 +109,22 @@ module ysyx_26040135_AXI_IFU (
 */
 
     always_comb begin
-        bus.araddr = pc;
         bus.arvalid = 1'b0;
+        bus.araddr = pc;
+        bus.arid = 4'b0000;
+        bus.arlen = 8'h00;
+        bus.arsize = 3'b010;
+        bus.arburst = 2'b00;
         bus.rready = 1'b0;
 
-        bus.awaddr = '0;
         bus.awvalid = 1'b0;
+        bus.awaddr = '0;
         bus.wdata = '0;
         bus.wstrb = '0;
+        bus.awid = 4'b0000;
+        bus.awsize = 3'b010;
+        bus.awlen = 8'h00;
+        bus.awburst = 2'b00;
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
 

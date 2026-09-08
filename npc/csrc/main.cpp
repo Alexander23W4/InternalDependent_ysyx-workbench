@@ -1,39 +1,29 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 /*
-Iteration:
-    substitute all of the verilog operator symbols to hardware model
-    implement IOE (optional)
+修改流程:
 
-    trace
-    sdb
 
-    print all "status parameters"
 */
 
 using namespace std;
-int endprog = 0;
+
+// 待定
 int ram_op = 0;
-uint32_t* ram = NULL;    
-CPU_state cpu = {};
+uint32_t* ram = NULL;   
+uint32_t pc = 0;
+
+// verilator仿真环境整体流程控制
+int endprog = 0; 
 size_t img_size;
 int diff_flag = 0;
-uint32_t pc = 0;
 bool batch_mode = false;
-Vtop* top;
 
+Vtop* top;               // 只有clock 和 reset
+
+// verilator仿真环境所需的cpu状态
+CPU_state cpu = {};
 int instr = 0;
-int dbg_regs[32];
-int _pc = 0;
-
-int mstatus = 0;
-int mepc = 0;
-int mcause = 0;
-int mtvec = 0;
-int mcycle = 0;
-int mcycleh = 0;
-int mvendorid = 0;
-int marchid = 0;
 
 int ifu_error = 0;
 int lsu_error = 0;

@@ -22,6 +22,20 @@ uint32_t pc = 0;
 bool batch_mode = false;
 Vtop* top;
 
+int dbg_regs;
+int pc;
+int mstatus;
+int mepc;
+int mcause;
+int mtvec;
+int mcycle;
+int mcycleh;
+int mvendorid;
+int marchid;
+int ifu_error;
+int lsu_error;
+int master_validation_error;
+
 I_ring_buf ring = {.amt = 0};
 
 

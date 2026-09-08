@@ -131,7 +131,12 @@ extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(0); }
 
 
 
-
+extern "C" {
+    void debug_read_all(int *dbg_regs, int *pc, int *mstatus, int *mepc, 
+                        int *mcause, int *mtvec, int *mcycle, int *mcycleh,
+                        int *mvendorid, int *marchid, int *ifu_error,
+                        int *lsu_error, int *master_validation_error);
+}
 
 
 

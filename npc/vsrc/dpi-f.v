@@ -24,6 +24,8 @@ task check_ram_op(output int ram_op);
     end
 endtask
 
+export "DPI-C" task 
+
 
 import "DPI-C" function int unsigned ram_read(
     input int unsigned addr,
@@ -35,3 +37,37 @@ import "DPI-C" function void ram_write(
     input int unsigned data, 
     input int amount
 );
+
+export "DPI-C" function debug_read_all;
+
+function void debug_read_all(
+    output int dbg_regs,
+    output int pc,
+    output int mstatus,
+    output int mepc,
+    output int mcause,
+    output int mtvec,
+    output int mcycle,
+    output int mcycleh,
+    output int mvendorid,
+    output int marchid,
+    output int ifu_error,
+    output int lsu_error,
+    output int master_validation_error,
+    output int instr
+);
+    instr = instr;
+    dbg_regs = dbg_reg;
+    pc = _pc;
+    mstatus = _mstatus;
+    mepc = _mepc;
+    mcause = _mcause;
+    mtvec = _mtvec;
+    mcycle = _mcycle;
+    mcycleh = _mcycleh;
+    mvendorid = _mvendorid;
+    marchid = _marchid;
+    ifu_error = {30'b0, __ifu_error};
+    lsu_error = {30'b0, __lsu_error};
+    master_validation_error = {31'b0, __ifu_master_validation_error};
+endfunction

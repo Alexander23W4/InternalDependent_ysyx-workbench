@@ -22,19 +22,22 @@ uint32_t pc = 0;
 bool batch_mode = false;
 Vtop* top;
 
-int dbg_regs;
-int pc;
-int mstatus;
-int mepc;
-int mcause;
-int mtvec;
-int mcycle;
-int mcycleh;
-int mvendorid;
-int marchid;
-int ifu_error;
-int lsu_error;
-int master_validation_error;
+int instr = 0;
+int dbg_regs[32];
+int _pc = 0;
+
+int mstatus = 0;
+int mepc = 0;
+int mcause = 0;
+int mtvec = 0;
+int mcycle = 0;
+int mcycleh = 0;
+int mvendorid = 0;
+int marchid = 0;
+
+int ifu_error = 0;
+int lsu_error = 0;
+int master_validation_error = 0;
 
 I_ring_buf ring = {.amt = 0};
 

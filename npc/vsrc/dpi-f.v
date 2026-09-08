@@ -41,7 +41,7 @@ import "DPI-C" function void ram_write(
 export "DPI-C" function debug_read_all;
 
 function void debug_read_all(
-    output int dbg_regs,
+    output int dbg_regs[32],  // 数组，32个寄存器
     output int pc,
     output int mstatus,
     output int mepc,
@@ -57,7 +57,9 @@ function void debug_read_all(
     output int instr
 );
     instr = instr;
-    dbg_regs = dbg_reg;
+    for (int i = 0; i < 32; i++) begin
+        dbg_regs[i] = dbg_reg[i*32 +: 32];  // 提取第 i 个 GPR
+    end
     pc = _pc;
     mstatus = _mstatus;
     mepc = _mepc;

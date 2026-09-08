@@ -76,11 +76,28 @@ extern uint32_t* ram;
 extern int diff_flag;
 
 
-
 extern CPU_state cpu;
 
 extern uint32_t ram_read_last_pc;
 extern uint32_t ram_read_last_data;
+
+// internal drawout signals
+extern int instr;
+extern int dbg_regs[32];
+extern int _pc;
+
+extern int mstatus;
+extern int mepc;
+extern int mcause;
+extern int mtvec;
+extern int mcycle;
+extern int mcycleh;
+extern int mvendorid;
+extern int marchid;
+
+extern int ifu_error;
+extern int lsu_error;
+extern int master_validation_error;
 
 void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);

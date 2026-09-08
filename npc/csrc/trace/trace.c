@@ -49,12 +49,12 @@ void trace(){
     p += sprintf(p, "    ");
 
 
-    p += sprintf(p, "0x%08x", top->instr);   // output pc
+    p += sprintf(p, "0x%08x", instr);   // output pc
     p += sprintf(p, "    ");
 
 
     int ilen = 4;  
-    uint8_t *code = (uint8_t *)&top->instr;  // 指令的字节表示
+    uint8_t *code = (uint8_t *)&instr;  // 指令的字节表示
 
     int remaining = MAX_LOGBUF - (p - ring.ring_buf[ring_pos]);
 
@@ -65,7 +65,7 @@ void trace(){
 
     // FTRACE
 
-    uint32_t current_inst = top->instr;
+    uint32_t current_inst = instr;
     int space_before_itrace = 30 - len;
     memset(p, ' ', space_before_itrace);
     p += space_before_itrace;   // 准备好对齐填入 ftrace
@@ -82,7 +82,7 @@ void trace(){
         if((pc < Func_symbols[i].high_addr) && (pc >= Func_symbols[i].low_addr)){
             pre_index = i;
         }
-        else if((top->_pc < Func_symbols[i].high_addr) && (top->_pc >= Func_symbols[i].low_addr)){
+        else if((cpu.pc < Func_symbols[i].high_addr) && (cpu.pc >= Func_symbols[i].low_addr)){
             dst_index = i;
         }
         }
@@ -95,7 +95,7 @@ void trace(){
         if((pc < Func_symbols[i].high_addr) && (pc >= Func_symbols[i].low_addr)){
             pre_index = i;
         }
-        else if((top->_pc < Func_symbols[i].high_addr) && (top->_pc >= Func_symbols[i].low_addr)){
+        else if((cpu.pc < Func_symbols[i].high_addr) && (cpu.pc >= Func_symbols[i].low_addr)){
             dst_index = i;
         }
         }
@@ -132,7 +132,7 @@ void trace(){
 
 
     // ETRACE
-    if(top->instr == 0x00000073){
+    if(instr == 0x00000073){
         p += sprintf(p, "[Exception] pc: 0x%08x\n", pc);
     }
 

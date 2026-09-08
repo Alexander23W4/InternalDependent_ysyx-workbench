@@ -26,8 +26,6 @@ void error_handler(){
 
 
 
-
-
 void final_check(){
     #if TRACE_ENABLE
         i_ring_buf_logout(&ring);

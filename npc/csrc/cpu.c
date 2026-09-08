@@ -13,8 +13,8 @@ void exec_once(){
     // 一直运行直到这周期结束, pc更新    并且不断监测cpu是否有报错
     while(!period_end){
         tick();
-        check_end(&period_end);
-        check_error(&ifu_error, &lsu_error, &master_validation_error);
+        top->check_end(&period_end);
+        top->check_error(&ifu_error, &lsu_error, &master_validation_error);
         if(ifu_error || lsu_error || master_validation_error){
             error_handler();
             return;
@@ -22,8 +22,8 @@ void exec_once(){
     }
 
     // 读取cpu的状态
-    debug_read_all(cpu.gpr, &cpu.pc, &cpu.mstatus, &cpu.mepc, &cpu.mcause, &cpu.mtvec, &cpu.mcycle, &instr);
-    
+    top->debug_read_all(cpu.gpr, &cpu.pc, &cpu.mstatus, &cpu.mepc, &cpu.mcause, &cpu.mtvec, &cpu.mcycle, &instr);
+
 
 #if TRACE_ENABLE
     trace();

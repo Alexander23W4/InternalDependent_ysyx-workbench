@@ -76,6 +76,11 @@ ChipLink MEM	      0xc000_0000~0xffff_ffff
 
 ⭐: cpu要改, 把Xbar 去掉, 并且把接入 ysyxSoc Xbar 的 AXI_master 接口 output引出去
 
+大改npc:
+对外引脚已经完成
+2-1仲裁Xbar 已经完成
+
+还剩下用dpic-import函数导出 几个信号    pc  CSR  GPR  Error_msgs
 */
 
 module ysyx_26040135(

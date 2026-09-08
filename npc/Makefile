@@ -9,8 +9,9 @@
 
 # ⭐: 这里的引用文件名都要改
 
-V_SRC=./vsrc/top.v
-SOURCES=./vsrc/dbg_register.v ./vsrc/decode.v
+V_SRC=./vsrc/ysyx_26040135.sv
+SOURCES = $(shell find ./vsrc -name "*.v" -o -name "*.sv") 
+SOURCES += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 
 ALL_SOURCES=$(shell find ./vsrc -name "*.v")
 
 # 这里是用find递归搜索 ./csrc 下面所有的.c和.cpp文件
@@ -25,6 +26,8 @@ EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 # 需要的头文件路径写在这里
 INC_SOURCES=-CFLAGS "-I./include -I./include/sub"
 GDB_INC_SOURCES=-CFLAGS "-g -I./include -I./include/sub"
+
+PERIP_SRC = -I ../ysyxSoC/perip/uart16550/rtl -I ../ysyxSoC/perip/spi/rtl
 
 
 # ------------------------------------------------------------------------------------------------------
@@ -82,7 +85,8 @@ trace:
 
 # 3. --cc --exe --build -j 0 -Wall
 fasts:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) \
+	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
 
 npc-gdb:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"

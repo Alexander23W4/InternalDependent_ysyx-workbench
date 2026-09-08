@@ -1,0 +1,106 @@
+ysyxSoC介绍
+
+⭐: ysyxSoc 总线结构
+[CPU Core] 
+    | (AXI4-Master)
+[AXI4Xbar] (直通)
+    |
+[AXI4Fragmenter] (事务分片)
+    |
+[AXI4UserYanker] (ID暂存管理)
+    |
+[AXI4Xbar_1] (核心 1-to-3 AXI4路由矩阵)
+    +-----> Port 1 ------> [AXI4MROM] (BootROM)
+    +-----> Port 2 ------> [AXI4RAM]  (8KB SRAM)
+    +-----> Port 0 ------> [AXI4Buffer] (时序隔离)
+                               |
+                           [AXI4ToAPB Bridge] (协议翻译)
+                               |
+                           [APBDelayer] 
+                               |
+                           [APBFanout] (APB 1-to-7 分流中心)
+                               +---> Port 0 ---> [APBSPI]
+                               +---> Port 1 ---> [APBUart16550]
+                               +---> Port 2 ---> [APBPSRAM]
+                               +---> Port 3 ---> [APBGPIO]
+                               +---> Port 4 ---> [APBKeyboard]
+                               +---> Port 5 ---> [APBVGA]
+                               +---> Port 6 ---> [APBSDRAM]
+
+
+⭐: ysyxSoC包含的外围设备和相应的地址空间.
+
+设备	                     地址空间
+CLINT	              0x0200_0000~0x0200_ffff
+SRAM	              0x0f00_0000~0x0fff_ffff
+UART16550	          0x1000_0000~0x1000_0fff
+SPI master	          0x1000_1000~0x1000_1fff
+GPIO	              0x1000_2000~0x1000_200f
+PS2	                  0x1001_1000~0x1001_1007
+MROM	              0x2000_0000~0x2000_0fff
+VGA	                  0x2100_0000~0x211f_ffff
+Flash	              0x3000_0000~0x3fff_ffff
+ChipLink MMIO	      0x4000_0000~0x7fff_ffff
+PSRAM	              0x8000_0000~0x9fff_ffff
+SDRAM	              0xa000_0000~0xbfff_ffff
+ChipLink MEM	      0xc000_0000~0xffff_ffff
+Reserved	其他
+图中除了AXI以外, 还有APB, wishbone和SPI这些总线. 不过这些总线都比AXI简单, 甚至比AXI4-Lite还简单. 你已经了解AXI4-Lite了, 因此学习这些总线协议也并不难, 需要时可查阅相关手册.
+
+
+⭐: 两部分src.
+
+第一部分是ysyxSoC的总线部分, 我们主要借助开源社区rocket-chip项目的diplomacy框架来实现它, 相关代码在ysyxSoC/src/目录下. 
+    借助diplomacy, 我们可以很容易地将一个具备总线接口的设备接入ysyxSoC. 
+
+第二部分是ysyxSoC的设备部分, 我们收集了一些设备控制器的开源项目, 相关代码在ysyxSoC/perip/目录下. 
+部分设备通过直接实例化rocket-chip项目中的IP来实现, 这部分设备并不在ysyxSoC/perip/目录下, 具体可以参考ysyxSoC/src/中的相关代码
+
+
+⭐: 读多长的问题: (写有wstrb, 读没有, 这会成问题)
+对于设备来说, 读出1字节和读出4字节, 最终导致的行为可能不同. 
+
+    并非所有设备都适合通过AXI4-Lite总线接入.
+
+
+上述UART就不能通过数据位宽为32位的AXI4-Lite总线接入, 因为UART中设备寄存器的间隔只有1字节
+另一款设备寄存器地址空间如下的UART, 则可以通过数据位宽为32位的AXI4-Lite总线接入.
+
+// Register addresses
+`define UART_REG_RB `UART_ADDR_WIDTH'd0  // receiver buffer
+`define UART_REG_IE `UART_ADDR_WIDTH'd4  // Interrupt enable
+`define UART_REG_II `UART_ADDR_WIDTH'd8  // Interrupt identification
+`define UART_REG_LC `UART_ADDR_WIDTH'd12 // Line Control
+
+完整的AXI总线协议包含 arsize/awsize信号
+
+
+⭐: 使用 non-volatile memory 来存放最初的程序, 使用 mask ROM (MROM)
+
+具体来说，平台已经帮您实现并连接好了以下所有部分：
+总线互连与分发：
+AXI4 交叉开关（AXI4Xbar
+ 与 AXI4Xbar_1
+）：负责主干 AXI4 信号的路由与地址译码。
+
+协议桥接器（AXI4ToAPB
+）：自动将 AXI4 事务转换为 APB 事务。
+
+APB 分发器（APBFanout
+）：根据地址产生不同的片选信号（psel），分发给低速外设。
+
+各种外设控制器实现：
+内置存储器：只读 BootROM（AXI4MROM
+）和静态 SRAM（AXI4RAM
+）。
+
+慢速 I/O 与通信：UART 16550 串口（APBUart16550
+）、SPI Flash 控制器（APBSPI
+）、GPIO 控制器（APBGPIO
+）。
+
+高带宽/多媒体外设：PSRAM 控制器（APBPSRAM
+）、PS/2 键盘（APBKeyboard
+）、VGA 显卡控制器（APBVGA
+）以及 SDRAM 控制器（APBSDRAM
+）。

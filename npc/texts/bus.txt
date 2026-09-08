@@ -1,0 +1,361 @@
+tmux  终端模拟器
+
+
+BUS is a communication protocol between hardware modules
+
+the module that initiates communication is generally called the master, and the module that responds to communication is called the slave.
+
+--> Simplest BUS
+
+In the simple interaction scenario above, the IFU, as the master, 
+    sends information to the IDU, which is the slave, with the information being the current instruction.
+
+Every cycle, the master sends valid information to the slave.
+Once the master sends valid information, the slave can receive it immediately.
+
+--> ⭐ Asynchronous BUS 
+
+Information is considered valid only when the valid signal is valid.
+Once the master sends valid information, it is considered received by the slave immediately.
+
++-----+ inst  ---> +-----+
+| IFU | valid ---> | IDU |
++-----+            +-----+
+
+need to keep the processor's state unchanged when the instruction is invalid
+it is necessary to add a ready signal to the communication content to indicate when the IDU can receive the next instruction.
+
+
+Information is considered valid only when the valid signal is set.
+The information sent by the master is considered received by the slave only when the ready signal is set.
+
+--> Handshake Protocol (classical asynchronous bus)
+⭐
++-----+ inst  ---> +-----+
+| IFU | valid ---> | IDU |
++-----+ <--- ready +-----+
+
+Both signals being set, also known as a "handshake," 
+indicates that the master and slave have reached a consensus on the successful transmission of information.
+
+The asynchronous bus determines ⭐when to communicate through a handshake protocol. 
+At the RTL level, it mainly consists of two parts:  """@@@ ⭐interface signals and communication logic. """
+
+
++-----+ inst  ---> +-----+  ...  ---> +-----+  ...  ---> +-----+
+| IFU | valid ---> | IDU | valid ---> | EXU | valid ---> | WBU |
++-----+ <--- ready +-----+ <--- ready +-----+ <--- ready +-----+
+
+Unlike traditional textbooks, this is a message-controlled distributed multi-cycle processor, 
+
+⭐⭐ 基于消息控制 的 分布式多周期处理器
+where the "distributed" aspect lies in: 
+whether two modules can communicate with each other solely depends on their states, independent of other modules.
+
+对于流水线处理器, 则可以让IFU一直取指, 同时每个模块只要有消息处理完成, 就在每个周期都尝试向下游发送消息
+对于乱序执行处理器, 则可以看成在流水线的基础上进行很小的扩展: 
+    每一个下游模块中都有一个队列, 上游模块只需把消息发送到队列中, 就可以不用关心下游队列的状态继续工作
+
+例如在乱序执行处理器中, 上游模块可以一直工作, 直到下游模块中的队列满为止. 
+在分布式控制中, 能够非常容易插入一个新模块, 只需要修改该模块的上下游模块的接口实现即可. 因此, 分布式控制具有更好的可扩展性.
+
+
+⭐: CPU需要与外设通信, 需要实现各种 标准总线协议, 如AXI PCIE...
+
+为了解决这些问题, 在真实的芯片中, 处理器和存储器之间通过异步总线机制进行通信: 通信双方共同依据某种约定进行交互, 从而实现信息的正确传递.
+不过, 真实芯片中通常采用类似AXI的工业级总线协议, 细节繁多, 例如AXI总线协议总计约30多个信号. 
+这意味着, 如果要让真实的芯片和设备进行通信, 原则上就需要在处理器中实现这些总线协议. 
+
+
+--> IFU 和 ROM 通信: 
+在idle状态下, 需要将ifu_raddr设置为pc, 并跳转到wait状态
+在wait状态下, 将ifu_rdata作为有效指令继续执行, 并跳转到idle状态
+
+    ⭐: 写使能信号:
+处理器的状态就是时序逻辑元件, 只要让它们的写使能信号无效, 时序逻辑元件的值就不会发生变化. 
+因此, 你还需要在合适的状态下, 正确地设置NPC中各种时序逻辑元件的写使能信号.
+
+
+--> LSU 和 RAM 通信:
+
++-----+ addr[log2(N)-1:0]  ---> +-----+
+|     | wen                ---> |     |
+| CPU | wdata[31:0]        ---> | MEM |
+|     | wmask[3:0]         ---> |     |
+|     | <---        rdata[31:0] |     |
++-----+                         +-----+
+
+在第1个周期, IFU发出取指请求
+在第2个周期, IFU拿到指令, 并交给后续的模块译码, 发现是load指令后, 则通过LSU发出访存请求
+在第3个周期, LSU拿到数据, 并交给WBU写回寄存器
+
+
+
+读延迟为1周期的特性通常只有SRAM能够满足, 因为它能够使用与处理器制造相同的工艺进行生产, 但SRAM的价格十分昂贵. 
+为了实现更低成本的存储器, 通常会采用其他存储密度更大的工艺来制造存储器, 例如DRAM. 
+但由于电气特性, 这些存储器的读延迟通常大于处理器的1周期.
+
+这是我们最终的 simple bus
++-----+ reqValid           ---> +-----+
+|     | <---           reqReady |     |
+|     | addr[log2(N)-1:0]  ---> |     |
+|     | wen                ---> |     |
+|     | wdata[31:0]        ---> |     |
+| CPU | wmask[3:0]         ---> | MEM |
+|     | <---          respValid |     |
+|     | respReady          ---> |     |
+|     | <---        rdata[31:0] |     |
+|     | <---              error |     |
++-----+                         +-----+
+
+⭐: 实现simple_bus -> 标准总线协议
+
+AMBA: AMBA(Advanced Microcontroller Bus Architecture)是一个在业界广泛使用的总线协议系列, 其中定义了面向各种性能场景的总线协议.
+
+APB(Advanced Peripheral Bus)是面向低速外设的总线协议.
+reqValid  --->          penable   --->          psel      --->
+addr      --->          paddr     --->          penable   --->
+wen       --->          pwrite    --->          paddr     --->
+wdata     --->    1     pwdata    --->    2     pwrite    --->
+wmask     --->   ===>   pstrb     --->   ===>   pwdata    --->
+<--- respValid          <---    pready          pstrb     --->
+<---     rdata          <---    prdata          <---    pready
+<---     error          <---   pslverr          <---    prdata
+                                                <---   pslverr
+
+APB比 simple bus 少了reqReady对, 只有reqValid对, 那么只有master的主动表明发出状态, slave被动表明是否已经完成操作.
+    没有slave主动表示状态(slave没有办法表示就绪)
+
+⭐: simple bus还是一个 单通道、单事务 的串行总线, 并不能支持 流水线 和 out or order
+1. 地址通道与数据通道未分离
+你的 Simple Bus 中，地址（addr）、写数据（wdata）、写使能（wen）等信号，和数据返回（rdata）、响应有效（respValid）是共用一套握手信号的。
+在 AXI 中，地址通道（Address Channel）和数据通道（Data Channel）是分离的。Master 可以连续发送多个地址请求（只要 AWREADY 为高），而 Slave 可以在后续的周期中返回数据，
+    允许 “发地址 → 发地址 → 收数据 → 收数据” 的流水线操作。
+你的 Simple Bus 则是 “发请求 → 等响应 → 发下一个请求” 的串行流程。即使有握手信号，Master 也必须等待当前的 respValid 到来，才能释放总线并发出下一个请求。
+
+2. 缺乏事务 ID (Transaction ID) 机制
+AXI 还支持 Out-of-Order（乱序）传输，关键在于它有 AXID 信号。不同的事务带有不同的 ID，Slave 可以按自己的节奏完成它们，Master 再根据 ID 将返回的数据与之前的请求对应起来。
+你的 Simple Bus 没有 ID 字段，Master 无法区分当前返回的 rdata 对应的是哪一个请求。因此，Master 必须严格顺序地发送请求、等待响应，否则数据将无法对齐，导致系统错误。
+
+⭐: 支持 流水线 和 out of order 的总线所需要的feature: 地址和数据分离    事务ID
+
+
+⭐ AXI(Advanced eXtensible Interface):  经典的 并行总线
+
+reqValid  --->           rreqValid --->           arvalid   --->  
+<---  reqReady           <--- rreqReady           <---   arready
+addr      --->           raddr     --->           araddr    --->
+wen       --->           <---rrespValid           <---    rvalid
+wdata     --->    1      rrespReady--->    2      rready    --->
+wmask     --->   ===>    <---     rdata   ===>    <---     rdata
+<--- respValid           <---    rerror           <---     rresp
+respReady --->           wreqValid --->           wvalid    --->
+<---     rdata           <--- wreqReady           <---    wready
+<---     error           waddr     --->           waddr     --->
+                         wdata     --->           wdata     --->
+                         wmask     --->           wstrb     --->
+                         <---wrespValid           <---    bvalid
+                         wrespReady--->           bready    --->
+                         <---    werror           <---     bresp
+
+
+
+                         arvalid   --->          araddr  ---> -+
+                         <---   arready          arvalid --->  AR
+                         araddr    --->          <--- arready -+
+                         <---    rvalid
+                  3      rready    --->    4     <--- rdata   -+
+                 ===>    <---     rdata   ===>   <--- rresp    |
+                         <---     rresp          <--- rvalid   R
+                         awvalid   --->          rready  ---> -+
+                         <---   awready
+                         awaddr    --->          awaddr  ---> -+
+                         wvalid    --->          awvalid --->  AW
+                         <---    wready          <--- awready -+
+                         wdata     --->
+                         wstrb     --->          wdata   ---> -+
+                         <---    bvalid          wstrb   --->  |
+                         bready    --->          wvalid  --->  W
+                         <---     bresp          <--- wready  -+
+
+                                                 <--- bresp   -+
+                                                 <--- bvalid   B
+                                                 bready  ---> -+
+
+AXI4-Lite是AXI的简化版, 它有5个事务通道, 分别是读地址(AR), 读数据(R), 写地址(AW), 写数据(W)和写回复(B). 
+    这些事务通道的工作状态只取决于各自的握手信号, 因此它们可以独立工作.
+
+读和写分离(读写并发)  地址和数据分离(DRAM可以先收地址)
+
+一次读操作:
+1次握手: 主设备arvalid和araddr持续拉高等待arready完成一周期握手
+2次握手: rvalid和rdata, rresp持续拉高, 等待rready完成一周期握手
+
+一次写操作:
+1次握手:AW
+2次握手:W
+3次握手:B
+
+
+ master端尽量不要同时读写同一个地址. 如果实在无法避免, 可以在master端加入检测逻辑, 在检测到读写同相同地址时, 可以延迟写操作, 先读出旧数据; 
+    或者延迟读操作, 先写入数据, 再读出写入后的新数据. 
+
+⭐ 当前前需要实现AXI的两个总线接口: IFU LSU, slave 仅为 RAM
+
+⭐ 死锁 和 活锁   dead lock    live lock
+在AXI的实际使用中, 我们还需要避免和握手信号相关的两种情况:
+
+master和slave互相都在等待对方先将握手信号置1: master在等slave将ready置1后, 才将valid置1; 而slave则在等master将valid置1后, 才将ready置1. 
+    结果就是双方无限制地等待, 造成死锁(dead lock).
+
+master和slave都在试探性地握手, 但试探失败后又都取消握手:
+    在第1周期, master将valid置1, 但此时ready置0, 握手失败
+    在第2周期, slave发现上一个周期master将valid置1, 因此这个周期将ready置1; 但因为上一个周期握手失败, master在这个周期将valid置0, 于是这个周期握手仍然失败
+    在第3周期, master发现上一个周期slave将ready置1, 因此这个周期将valid置1; 但因为上一个周期握手失败, slave在这个周期将ready置0, 于是这个周期握手仍然失败
+    结果双方仍然无限制地等待, 造成活锁(live lock).
+        +---+   +---+   +---+   +---+
+ clk    |   |   |   |   |   |   |   |
+        +   +---+   +---+   +---+   +---+
+        +-------+       +-------+
+valid           |       |       |
+                +-------+       +--------
+                +-------+       +--------
+ready           |       |       |
+        +-------+       +-------+
+
+
+B 为 writing response, 没有reading response, reading response 是将数据的返回作为bresp
+
+⭐ 仲裁器(Arbiter)-(多master): 因为存储器只有一个总线接口, 所以一个总线要连多个master, 需要仲裁器
+仲裁器需要实现如下功能:
+
+调度: 选择一个正在发送有效请求的 master  (!!!需要调度策略(算法))
+阻塞: 阻塞其他 master的访问
+转发: 将获得访问权的 master的请求转发给slave, 并在slave的请求到达时, 将其转发给之前的master
+
+
+⭐ Xbar (Crossbar)
+实际上, 硬件是通过crossbar（有时也写作Xbar）模块来实现内存映射I/O. 
+Xbar是一个总线的多路开关模块, 可以根据输入端的总线请求的地址, 将请求转发到不同的输出端, 从而传递给不同的下游模块. 
+这些下游模块可能是设备, 也可能是另一个Xbar. 
+例如, 下图中的Arbiter用于从IFU和LSU中选择一个请求转发给下游, 下游的Xbar收到请求后, 根据请求中的地址将其转发给下游设备.
+
++-----+      +---------+      +------+      +------+
+| IFU | ---> |         |      |      | ---> | UART |  [0x1000_0000, 0x1000_0fff]
++-----+      |         |      |      |      +------+
+             | Arbiter | ---> | Xbar |
++-----+      |         |      |      |      +------+
+| LSU | ---> |         |      |      | ---> | SRAM |  [0x8000_0000, 0x80ff_ffff]
++-----+      +---------+      +------+      +------+
+
+这里的“地址译码”表示将请求的地址转换为下游总线通道的编号, 而Xbar中的地址译码器可以看作是内存映射I/O在硬件实现中的核心模块.
+
+如果有映射->转发   无映射->decerr(通过resp信号返回)
+
+Arbiter和Xbar也可以合并成一个多进多出的Xbar, 视场合也称为Interconnect或总线桥.
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+工作流： 需求 -> ISA -> 正确简单实现的 emulator & cpu & 驱动(for os) ->  通过pipeline, bus, cache提升硬件的能力
+
+根据需求， 选用指令集和扩展。在software层面也要有所考量，因为应用都是基于software, 什么 VME IOE CTE，在ISA-CPU层实现所有的扩展指令功能。
+后续在软件层面， 我们还需要开发底层驱动，让操作系统linux（在不同ISA与架构上实现抽象统一），能够调用的标准函数接口。 从而实现VME, CTE这样的基础软件功能。
+
+
+用哪个指令集， emulator和cpu必须完整正确简单的实现这个指令集的所有功能， base on the manual
+用difftest, trace等工具，debug, 确保基础功能不能够出错。
+然后， 在cpu的功能上加上bus, trace, 外围设备的交互连接， 使用第三方hardware库辅助开发（verilog）
+
+
+
+
+
+
+⭐: 需要熟悉的几个东西:
+bas-know   bas-env   projects & mateprg   workflow  
+或者说: 
+computer-science   
+information-technology     核心   外围(传设电)   上层更具体抽象的操作
+workflow    选型  写RTL,DUT-REF验证(功能验证)  性能验证    硅后   
+
+
+bas-know: 数字模拟通信网络  C  Verilog System-verilog Chisel   
+
+需要学习的开发工具:
+System verilog          Chisel
+
+
+linux(命令行)    The missing semester of CS education    
+嵌入codex
+Verilog RTL -> layout        (RTL是一个中间桥梁   Hardware <--RTL--> C, 一边验证实现的正确性debug, 一边增加features for product)
+C & Binary  (Get pretty used of LINKING  OBJECT-FILE  ELF)
+
+
+熟悉整个层级架构: ISA(指令与要求('ABI)) -> cpu(二进制指令, bin文件 & 架构) ->  IOE,CTE,VME等的驱动文件 -> OS kernel -> 用户文件
+双剑合璧:
+   RTL Emulator 全部都在cpu层, 二者都实现ISA层的所有需求, 以及difftest, trace 这样的infrastructure tools
+   Emulator用c语言实现, 容易debug: gdb, sdb, 而且更容易与上层(OS)相接, 反复编译运行验证ISA实现的正确性. 而RTL的编译与debug较为复杂困难
+
+YSYX把IOE VME CTE和 cpu开发流程放在一起, 其实是把上层OS该有的东西也讲了, 这样相当于完整实现了一个计算机(PA)
+实际上, 单CPU开发只要保证实现了IOE VME CTE所需的所有ISA层的要求即可. 
+只有操作系统才考虑什么 内存分页  管理进程栈 之类的东西
+
+
+但是我们初始简单的cpu是不能接到成熟的linux系统上的
+也就是说, 开发上层的OS, 比如AM 是必要的
+我们可能必须要实现IOE, VME, CTE在 在用于测试的裸机OS里面, 来充分验证ISA层实现的正确性.
+所以学习这些, 也是必要的?
+
+
+
+
+
+
+
+大厂CPU开发流程:
+
+这个过程可以概括为以下几个核心阶段，它们与现代软件开发的理念（如“敏捷”和“左移”）也有许多共通之处。
+
+架构分析与定义：一切从需求开始。工程师需要分析目标工作负载（如AI训练、数据库），并基于此定义CPU的微架构。核心目标是优化PPA（性能、功耗、面积）。
+像ARM和Synopsys等公司会提供强大的模拟工具，让工程师在设计初期就能评估不同配置的效果。
+
+IP（知识产权核）集成：现代SoC（系统级芯片）几乎不会从零开始设计所有模块。团队会大量集成经过验证的第三方IP，如内存控制器、PCIe接口等。
+确保这些来自不同供应商的IP能与自研CPU核心无缝协作，是关键挑战之一。
+
+RTL设计与开发：这是硬件工程师将微架构设计转换为实际的寄存器传输级（RTL）代码（如Verilog或VHDL）的阶段.
+在大厂，这个环节会严格遵循详细的设计规范和review流程，确保代码质量。
+
+功能验证：这是整个流程中最耗时、最关键的环节，没有之一。验证工程师的工作从RTL设计阶段就同步开始了，他们负责寻找并修复硬件设计中的每一个Bug。
+
+方法：包括模块级仿真、使用约束随机测试、硬件仿真加速器（如Synopsys ZeBu）和FPGA原型验证。
+
+验证方法	 速度	         调试能力	 成本	      主要用途
+模块级仿真	  最慢 (kHz)	   最好	    最低	   RTL设计初期、功能调试、覆盖率分析
+约束随机测试	取决于仿真平台	较好	  中等	    提升功能覆盖率，发现隐藏的Bug
+硬件仿真加速器	快 (MHz)	   中等	    较高	   系统级验证、长序列测试、大规模SoC验证
+FPGA原型验证	最快 (接近MHz)	最差	最高	    跑真实操作系统、软硬件协同验证、提前软件开发
+
+数据：一个极其复杂的CPU（如Intel的Xeon Sapphire Rapids）在研发阶段曾累积超过500项硬件错误，历经十多次版本迭代才达到量产水准。
+
+理念：如今大厂推崇“左移”策略，即尽可能在流程早期（流片前）发现并修复问题，因为越晚修复，成本越高。
+
+物理实现与后端设计：当RTL设计通过验证，就会进入物理设计阶段。这包括将逻辑电路映射到物理的晶体管和金属层，并进行布局布线。
+EDA（电子设计自动化）工具在此阶段至关重要，用于在功耗、性能和面积之间寻找最佳平衡点。
+
+流片与制造：这是将最终的设计文件（GDSII格式）交给晶圆厂（如台积电、英特尔、三星）生产的过程。一次流片（Tape-out）成本极高，
+因此“一次流片成功（First Time Pass）”是所有团队的终极目标。例如，英特尔前CEO陈立武就曾推行铁腕政策，要求团队在A0版本（首次流片）就尽可能接近量产标准，
+否则可能导致项目负责人被问责。
+
+硅后验证与量产：晶圆回来后，并不意味着大功告成。工程团队需要进行硅后验证，在真实芯片上运行各种操作系统和应用程序，测试其性能、功耗和稳定性，并最终进行大规模量产和交付。
+
+
+
+软件仿真器（如Verilator）模拟现代高性能CPU的速度只有KHz级别，慢到无法接受。
+于是，大家把DUT部署到FPGA或专用的硬件仿真加速器（如Cadence Palladium）上，将电路仿真加速到MHz级别，提升了数百甚至上万倍。
+
+极致硬件化（SVM/DiffTest-L）：这是更前沿的探索。干脆把参考模型（REF）也用硬件电路（RTL）实现，和DUT一起放在FPGA上运行。
+这样，对比验证就变成了片上逻辑，彻底消除了软硬件通信开销。
+
+

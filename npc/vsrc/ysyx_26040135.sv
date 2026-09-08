@@ -58,12 +58,26 @@ UVM部分
 */
 
 /*
-⭐: 接入ysyxSoC
-依次按照以下步骤将NPC接入ysyxSoC:
+⭐
+CLINT	              0x0200_0000~0x0200_ffff
+SRAM	              0x0f00_0000~0x0fff_ffff
+UART16550	          0x1000_0000~0x1000_0fff
+SPI master	          0x1000_1000~0x1000_1fff
+GPIO	              0x1000_2000~0x1000_200f
+PS2	                  0x1001_1000~0x1001_1007
+MROM	              0x2000_0000~0x2000_0fff
+VGA	                  0x2100_0000~0x211f_ffff
+Flash	              0x3000_0000~0x3fff_ffff
+ChipLink MMIO	      0x4000_0000~0x7fff_ffff
+PSRAM	              0x8000_0000~0x9fff_ffff
+SDRAM	              0xa000_0000~0xbfff_ffff
+ChipLink MEM	      0xc000_0000~0xffff_ffff
 
-依照ysyxSoC/spec/cpu-interface.md中的master总线, 将之前实现的AXI4Lite协议扩展到完整的AXI4
+
+⭐: cpu要改, 把Xbar 去掉, 并且把接入 ysyxSoc Xbar 的 AXI_master 接口 output引出去
 
 */
+
 module ysyx_26040135(
     input clock,
     input reset,
@@ -182,6 +196,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .__lhu               (lhu),
         .__lh                (lh),
         .__addr_ready        (__addr_ready),   
+
         .__data_ready        (__data_ready),   
         .addr                (add_rst),
         .wdata               (rdata2),
@@ -248,7 +263,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     // 主状态机时序逻辑
     always_ff @(posedge clock or posedge reset) begin
         if(reset) begin
-            pc <= 32'h80000000;
+            pc <= 32'h20000000;   // MROM 
             mstatus <= 32'h00001800;   
             mcause <= 0;
             mepc <= 0;

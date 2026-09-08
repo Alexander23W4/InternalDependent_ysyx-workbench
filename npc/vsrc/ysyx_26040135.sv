@@ -79,19 +79,13 @@ ChipLink MEM	      0xc000_0000~0xffff_ffff
 */
 
 module ysyx_26040135(
+    
+    // ⭐: 现在cpu的引脚已经完全符合要求
     input clock,
     input reset,
     input io_interrupt,   //
 
-    output [32*32-1:0] dbg_reg,
-    output [31:0] _pc,
-    output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,
 
-    output [1:0] __ifu_error, __lsu_error,
-    output __ifu_master_validation_error,
-
-    // AXI4 Master 接口 (连接到 XBAR)
-    // 写地址通道
     output        auto_master_out_awvalid,
     input         auto_master_out_awready,
     output [3:0]  auto_master_out_awid,
@@ -100,20 +94,17 @@ module ysyx_26040135(
     output [2:0]  auto_master_out_awsize,
     output [1:0]  auto_master_out_awburst,
 
-    // 写数据通道
     output        auto_master_out_wvalid,
     input         auto_master_out_wready,
     output [31:0] auto_master_out_wdata,
     output [3:0]  auto_master_out_wstrb,
     output        auto_master_out_wlast,
 
-    // 写响应通道
     input         auto_master_out_bvalid,
     output        auto_master_out_bready,
     input  [3:0]  auto_master_out_bid,
     input  [1:0]  auto_master_out_bresp,
 
-    // 读地址通道
     output        auto_master_out_arvalid,
     input         auto_master_out_arready,
     output [3:0]  auto_master_out_arid,
@@ -122,7 +113,6 @@ module ysyx_26040135(
     output [2:0]  auto_master_out_arsize,
     output [1:0]  auto_master_out_arburst,
 
-    // 读数据通道
     input         auto_master_out_rvalid,
     output        auto_master_out_rready,
     input  [3:0]  auto_master_out_rid,
@@ -130,8 +120,6 @@ module ysyx_26040135(
     input  [1:0]  auto_master_out_rresp,
     input         auto_master_out_rlast,
 
-    // AXI4 Slave 接口 (未使用，但端口存在)
-    // 写地址通道
     input         auto_slave_in_awvalid,
     output        auto_slave_in_awready,
     input  [3:0]  auto_slave_in_awid,
@@ -140,20 +128,17 @@ module ysyx_26040135(
     input  [2:0]  auto_slave_in_awsize,
     input  [1:0]  auto_slave_in_awburst,
 
-    // 写数据通道
     input         auto_slave_in_wvalid,
     output        auto_slave_in_wready,
     input  [31:0] auto_slave_in_wdata,
     input  [3:0]  auto_slave_in_wstrb,
     input         auto_slave_in_wlast,
 
-    // 写响应通道
     output        auto_slave_in_bvalid,
     input         auto_slave_in_bready,
     output [3:0]  auto_slave_in_bid,
     output [1:0]  auto_slave_in_bresp,
 
-    // 读地址通道
     input         auto_slave_in_arvalid,
     output        auto_slave_in_arready,
     input  [3:0]  auto_slave_in_arid,
@@ -162,7 +147,6 @@ module ysyx_26040135(
     input  [2:0]  auto_slave_in_arsize,
     input  [1:0]  auto_slave_in_arburst,
 
-    // 读数据通道
     output        auto_slave_in_rvalid,
     input         auto_slave_in_rready,
     output [3:0]  auto_slave_in_rid,
@@ -170,12 +154,17 @@ module ysyx_26040135(
     output [1:0]  auto_slave_in_rresp,
     output        auto_slave_in_rlast   
 
-
 );
+    logic [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
+    logic [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid     // ⭐⭐ 引出C
+
+    // logic [1:0] __ifu_error, __lsu_error,
+    // logic __ifu_master_validation_error,
+
     `include "dpi_tasks.v"
 
     reg [31:0] pc;   // reg
-    assign _pc = pc;
+    assign _pc = pc;   // ⭐⭐ 引出C
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;
     assign {_mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid} = {mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid};
@@ -236,26 +225,26 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic [31:0] instr;
 
     logic        __ifu_instr_valid;
-    logic [1:0]  __ifu_error;
-    logic        __ifu_master_validation_error;
+    logic [1:0]  __ifu_error;      // ⭐⭐ 引出C
+    logic        __ifu_master_validation_error;    // ⭐⭐ 引出C
     logic        __pc_is_updated;    // ⭐  // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
 
     ysyx_26040135_AXI_IFU ifu (
-        .bus    (bus_ifu.master),              // AXI4_Lite.master 接口
-        .clock    (clock),
-        .reset  (reset),
-        .__pc_is_updated   (__pc_is_updated),   
-        .pc                (pc),
-        .rdata             (instr),
-        .__instr_valid     (__ifu_instr_valid),   // @@-->
-        .__error           (__ifu_error),
-        .__master_validation_error (__ifu_master_validation_error)
+        .bus                            (bus_ifu.master),              // AXI4_Lite.master 接口
+        .clock                          (clock),
+        .reset                          (reset),
+        .__pc_is_updated                (__pc_is_updated),   
+        .pc                             (pc),
+        .rdata                          (instr),
+        .__instr_valid                  (__ifu_instr_valid),   // @@-->
+        .__error                        (__ifu_error),
+        .__master_validation_error      (__ifu_master_validation_error)
     );
 
 
 
 
-    logic [1:0]  __lsu_error;
+    logic [1:0]  __lsu_error;   // ⭐⭐ 引出C
     logic        __lsu_read_complete;   // cpu读到这个, 需要立刻拿走数据启动GPR操作
     logic        __lsu_write_complete;   // cpu读到这个, 需要立刻启动更新pc操作
     logic [31:0] lsu_rdata;
@@ -267,9 +256,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic __write = sb | sh | sw;
 
     ysyx_26040135_AXI_LSU lsu (
-        .bus    (bus_lsu.master),              
-        .clock    (clock),
-        .reset  (reset),
+        .bus                 (bus_lsu.master),              
+        .clock               (clock),
+        .reset               (reset),
         .__read              (__read),
         .__write             (__write),
         .__sw                (sw),
@@ -308,7 +297,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     assign auto_master_out_awsize   = xbar_out.master.awsize;
     assign auto_master_out_awburst  = xbar_out.master.awburst;
     assign xbar_out.master.awready  = auto_master_out_awready;
-    
+
     assign auto_master_out_wvalid   = xbar_out.master.wvalid;
     assign auto_master_out_wdata    = xbar_out.master.wdata;
     assign auto_master_out_wstrb    = xbar_out.master.wstrb;

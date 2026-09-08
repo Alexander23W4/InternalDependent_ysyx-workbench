@@ -9,7 +9,9 @@ void _start() {
 
 /*
 
-通过gcc和objcopy命令编译char-test, 并将ELF文件中的代码节单独抽取到char-test.bin中
+通过gcc和objcopy命令编译char-test, 并将ELF文件中的代码节单独抽取到char-test.bin中     ⭐: 只要纯代码
 修改仿真环境的相关代码, 读入char-test.bin并将其作为MROM的内容, 然后正确实现mrom_read()函数, 使其根据参数addr返回MROM中相应位置的内容
 
+
+意思是吧char-test.bin存到mrom里面 (和原来mem_load没有区别, 因为是仿真环境), 然后读这个输出'A'
 */

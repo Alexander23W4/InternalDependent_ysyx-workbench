@@ -9,9 +9,10 @@
 
 # ⭐: 这里的引用文件名都要改
 
-V_SRC=./vsrc/ysyx_26040135.sv
+V_SRC=../ysyxSoC/build/ysyxSoCFull.v
 SOURCES = $(shell find ./vsrc -name "*.v" -o -name "*.sv") 
 SOURCES += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 
+SOURCES += ../ysyxSoC/build/ysyxSoCFull.v
 ALL_SOURCES=$(shell find ./vsrc -name "*.v")
 
 # 这里是用find递归搜索 ./csrc 下面所有的.c和.cpp文件
@@ -37,7 +38,7 @@ VERILATOR=verilator
 WAVE_GEN=gtkwave
 CPP_FLAGS=--cc --exe --build
 BINARY_FLAGS=--binary
-DEFAULT_FLAGS=-Wall -j 
+DEFAULT_FLAGS=-Wall -j --timescale "1ns/1ns" --no-timing
 WARNING_IGNORE_FLAG=-Wno-UNUSEDSIGNAL
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace

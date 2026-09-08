@@ -28,6 +28,8 @@ I_ring_buf ring = {.amt = 0};
 // diliver .bin -> argv[1] 
 int main(int argc, char** argv) {
 
+    Verilated::commandArgs(argc, argv);   // 用于解决运行时plusargs功能报错的问题
+
     top = new Vtop;
     svSetScope(svGetScopeFromName("TOP.top"));
 

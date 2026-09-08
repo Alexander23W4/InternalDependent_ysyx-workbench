@@ -122,7 +122,8 @@ void difftest_skip_ref();
 void difftest_skip_dut(int nr_ref, int nr_dut);
 
 
-
+extern "C" void flash_read(int32_t addr, int32_t *data) { assert(0); }
+extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(0); }
 
 
 

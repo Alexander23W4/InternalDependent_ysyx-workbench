@@ -22,16 +22,16 @@ module ysyx_26040135_AXI_XBAR (
     input reset,
 
     // Master 0 (IFU)
-    AXI4_Lite.master m0,
+    ysyx_26040135_AXI4.master m0,
     
     // Master 1 (LSU)
-    AXI4_Lite.master m1,
+    ysyx_26040135_AXI4.master m1,
 
     // Slave 0 (UART)
-    AXI4_Lite.slave s0,
+    ysyx_26040135_AXI4.slave s0,
 
     // Slave 1 (SRAM)
-    AXI4_Lite.slave s1
+    ysyx_26040135_AXI4.slave s1
 );
 
     // ============================================================

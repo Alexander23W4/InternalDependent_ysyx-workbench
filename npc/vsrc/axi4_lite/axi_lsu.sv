@@ -8,13 +8,14 @@
 // ⭐: lsu先不加PMA
 
 module ysyx_26040135_AXI_LSU (
-    AXI4_Lite.master bus,
+    ysyx_26040135_AXI4.master bus,
     
     input clock,
     input reset,
 
     input __read, __write,
     input __sw, __sh, __sb,
+    input __lb, __lh, __lw, __lbu, __lhu,
 
     // 这两个信号只持续一个周期
     input __addr_ready,  
@@ -83,13 +84,22 @@ module ysyx_26040135_AXI_LSU (
 
     always_comb begin
         bus.wstrb = 4'b0000;  
-        if (__write && (state != IDLE)) begin
+        bus.arsize = 3'b000;
+        bus.awsize = 3'b000;
+        if (__write) begin
             case (1'b1)
                 __sw: bus.wstrb = 4'b1111;
                 __sh: bus.wstrb = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
                 __sb: bus.wstrb = 4'b0001 << addr[1:0];
             endcase 
         end
+        if(__read) begin
+            case(1'b1)
+                __lw: bus.arsize = 3'b100;
+                __lh | __lhu: bus.arsize = 3'b010;
+                __lb | __lbu: bus.arsize = 3'b001;
+            endcase
+        end 
     end
 
     always_comb begin

@@ -3,10 +3,6 @@
 NPC_status Status = NPC_NORM;
 
 void exec_once(){
-
-    if((top->instr & 0x7f) != 3){
-        ram_read_last_pc = 0;
-    }
     
     pc = cpu.pc;   // 存下这个周期的pc;
 
@@ -42,10 +38,6 @@ void exec_once(){
 
 #if WATCHPOINT_ENABLE
     check_wp(pc);
-#endif
-
-#if DEVICE_ENABLE
-    device_update();
 #endif
 
 

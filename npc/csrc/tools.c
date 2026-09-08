@@ -1,8 +1,6 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 char* diff_so_file = NULL; 
-uint32_t ram_read_last_pc = 0;
-uint32_t ram_read_last_data = 0;
 
 void tick() {
     top->clock = 0;

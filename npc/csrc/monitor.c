@@ -63,6 +63,5 @@ void end_process(){
     final_check();
 
     top->final();
-    free(ram);
     delete top;
 }

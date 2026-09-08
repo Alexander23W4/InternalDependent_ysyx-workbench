@@ -67,19 +67,14 @@ extern int endprog;
 extern Vtop* top;
 extern char* diff_so_file;  // ref 的 so文件
 extern const char *regs_name[];
-extern int ram_op;
 extern I_ring_buf ring;
 extern uint32_t pc;
 extern bool batch_mode;
 extern size_t img_size;
-extern uint32_t* ram;
 extern int diff_flag;
 
 
 extern CPU_state cpu;
-
-extern uint32_t ram_read_last_pc;
-extern uint32_t ram_read_last_data;
 
 // internal drawout signals
 extern int instr;
@@ -92,7 +87,6 @@ extern int period_end;
 
 void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);
-void init_ram();
 void reset();
 void load_memory(char* filename, uint32_t* M, size_t *img_size);
 void end_process();
@@ -114,9 +108,6 @@ char* hex_to_bin(const char *hex);
 
 void tick();
 void error_handler();
-uint32_t ram_read_sdb(uint32_t addr, int amount);
-uint32_t ram_read(uint32_t addr, int amount);
-void ram_write(uint32_t addr, uint32_t data, int amount);
 void prt_gprs();
 void final_check();
 uint32_t isa_reg_str2val(const char *s, bool *success);

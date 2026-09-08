@@ -35,7 +35,7 @@ void final_check(){
     if(Status == NPC_QUIT){
         printf("%s", ANSI_FMT("\n[QUIT]\n", ANSI_FG_YELLOW));
     }
-    else if(top->dbg_reg[10] != 0 || Status == NPC_CRASH){   
+    else if(cpu.gpr[10] != 0 || Status == NPC_CRASH){   
         printf("%s", ANSI_FMT("\n[HIT BAD TRAP]\n", ANSI_FG_RED));
 
         prt_gprs();
@@ -85,7 +85,7 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
   }
   if (strcmp(s+1, "pc") == 0) {
     *success = true;
-    return top->_pc;
+    return cpu.pc;
   }
   for (int i = 0; i < sizeof(regs) / sizeof(const char*); i++)
   {

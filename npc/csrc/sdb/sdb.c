@@ -39,8 +39,6 @@ static void cmd_si(char* args);   // si
 
 static void cmd_info(char* args);  // info
 
-static void cmd_x(char* args);  // x scan memory
-
 static void cmd_p(char* args);
 
 static void cmd_w(char* args); // set watchpoint (set breakpoint method: w $pc == ADDR)
@@ -80,7 +78,6 @@ static struct {
   // more commands
   { "si", "Single step debug", cmd_si},   // @
   { "info", "Print out some info", cmd_info}, 
-  { "x", "Scan memory", cmd_x},   // @
   { "p", "Expression evaluation", cmd_p}, // @
   { "d", "Delete watchpoint", cmd_d},
   { "w", "Create new watchpoint", cmd_w},
@@ -205,40 +202,6 @@ static void cmd_p(char* args){
   }
 }
 
-// x  check memory  (x N addr)  @
-static void cmd_x(char* args){
-  Log("x command started.");
-  char* arg1 = strtok(args, " ");
-  char* arg2 = arg1 + strlen(arg1) + 1;
-  Log("arg1: %s, arg2: %s", arg1, arg2);
-  int N = atoi(arg1);
-
-  if(N <= 0){
-    printf("%s", ANSI_FMT("NOT AVAILABLE MEM AMOUNT, MUST BE NUMBER AND LARGER THAN 0\n", ANSI_FG_RED));
-    return;
-  }
-  if(arg2[0] != '0' && (arg2[1] != 'x' || arg2[1] != 'X')){
-    printf("%s", ANSI_FMT("NOT A HEXIMAL NUM\n", ANSI_FG_RED));
-    return;
-  }
-  else {
-    unsigned long base_addr = strtol(arg2, NULL, 16);  // string to long
-    if(base_addr > RAM_BASE + RAM_SIZE * 4 - 4 || base_addr < RAM_BASE){
-      printf("%s", ANSI_FMT("NOT AVAILABLE BASE ADDR\n", ANSI_FG_RED));
-      return;
-    }
-    unsigned long addr = base_addr;
-    for (int i = 0; i < N; i++)
-    {
-      if(addr > RAM_BASE + RAM_SIZE * 4 - 4){
-        printf("%s", ANSI_FMT("HIT THE MEM CELLING WHILE READING\n", ANSI_FG_RED));
-        return;
-      }
-      printf("0x%08x\n", ram_read_sdb(addr, 4)); // output 8 bits, if not enough, fill 0 at left
-      addr += 4;   // read 4 Bytes one time
-    }
-  }
-}
 
 // info   print info (info r for register; info w for watchpoints)
 static void cmd_info(char* args){

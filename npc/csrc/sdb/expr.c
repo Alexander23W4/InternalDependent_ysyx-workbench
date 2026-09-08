@@ -301,10 +301,10 @@ _expr_t eval(int p, int q) {   // if error, return -1
     }
 
     // cal
-    if(tokens[op].type == DEREF) {
-      _expr_t addr = eval(op + 1, q);
-      return ram_read_sdb(addr, 4);
-    }
+    // if(tokens[op].type == DEREF) {
+    //   _expr_t addr = eval(op + 1, q);
+    //   return ram_read_sdb(addr, 4);
+    // }
     _expr_t val1 = eval(p, op - 1);
     _expr_t val2 = eval(op + 1, q);
 
@@ -354,31 +354,5 @@ uint32_t expr(char *e, bool *success) {
   return ((uint32_t)val);
 }
 
-
-void expr_test(){
-  FILE* fp = fopen("input", "r");
-  FILE* fpw = fopen("mismatch", "a");
-  assert(fp != NULL);
-  int miss_match = 0;
-
-  char line[512];
-  while(fgets(line, sizeof(line), fp)){
-    line[strcspn(line, "\n")] = '\0';
-    char* result_string = strtok(line, " ");
-    char* expression = result_string + strlen(result_string) + 1;
-    uint32_t result = atoi(result_string);
-    
-    bool success;
-    uint32_t my_result = expr(expression, &success);
-    printf("%s, result: %u, my_result: %u\n", expression, result, my_result);
-    if (my_result != result) {
-      miss_match++;
-      fprintf(fpw, "%s, result: %u, my_result: %u\n", expression, result, my_result);
-    }
-  }
-  printf("Total mismatches: %d\n", miss_match);
-  fclose(fp);
-  fclose(fpw);
-}
 
 

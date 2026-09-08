@@ -123,7 +123,9 @@ void difftest_skip_dut(int nr_ref, int nr_dut);
 
 
 extern "C" void mrom_read(int32_t addr, int32_t *data) {
-    *data = 0x00100073;  
+    if(addr == 0x20000000){
+        *data = 0x00100073;
+    }
 }
 extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(0); }
 

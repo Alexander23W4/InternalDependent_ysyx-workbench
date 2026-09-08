@@ -1,0 +1,15 @@
+#define UART_BASE 0x10000000L
+#define UART_TX   0
+void _start() {
+  *(volatile char *)(UART_BASE + UART_TX) = 'A';
+  *(volatile char *)(UART_BASE + UART_TX) = '\n';
+  while (1);
+}
+
+
+/*
+
+通过gcc和objcopy命令编译char-test, 并将ELF文件中的代码节单独抽取到char-test.bin中
+修改仿真环境的相关代码, 读入char-test.bin并将其作为MROM的内容, 然后正确实现mrom_read()函数, 使其根据参数addr返回MROM中相应位置的内容
+
+*/

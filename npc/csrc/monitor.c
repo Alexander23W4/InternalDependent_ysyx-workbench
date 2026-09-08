@@ -2,17 +2,13 @@
 
 void _init(int argc, char** argv){
 
-    parse_args(argc, argv);
-    
-    // malloc ram
-    init_ram();
+    // 仿真环境启动:
+    parse_args(argc, argv);  // @brief
 
-    // reset
-    reset();
+    reset();    // 按理来说这里reset pc到 MROM, 启动 bootloader, 后续跟随状态机运行就可以了 
 
-    // load code
-    load_memory(argv[1], ram, &img_size);
 
+    // features启动:
     init_sdb();
 
     #if TRACE_ENABLE
@@ -56,10 +52,6 @@ void parse_args(int argc, char *argv[]) {
     }
 }
 
-void init_ram(){
-    ram = (uint32_t*)malloc(sizeof(uint32_t) * RAM_SIZE);
-    assert(ram); 
-}
 
 void reset(){
     top->reset = 1;  
@@ -68,25 +60,6 @@ void reset(){
     printf("Reset Released. Starting execution...\n");
 }
 
-void load_memory(char* filename, uint32_t* M, size_t *img_size) {
-    FILE *fp = fopen(filename, "rb");
-    assert(fp);
-
-    fseek(fp, 0, SEEK_END);   
-    size_t size = ftell(fp);   
-    printf("image size: %zu\n", size); 
-    fseek(fp, 0, SEEK_SET);      
-
-    if (img_size != NULL) {
-        *img_size = size;
-    }
-    assert(*img_size <= RAM_SIZE);
-
-    size_t loaded_instr = fread(M, sizeof(uint32_t), RAM_SIZE, fp);
-    fclose(fp);
-
-    printf("--LOAD %zu INSTR (%zu BYTES) TO M[]\n", loaded_instr, size);
-}
 
 
 void end_process(){

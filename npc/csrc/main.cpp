@@ -2,6 +2,17 @@
 
 /*
 修改流程:
+先主要, 后feature (trace, difftest先不急)
+把仿真的主干流程弄清楚
+
+--> 启动:
+读args  
+直接reset初始化进入状态机, 无需load程序, 无需ram 
+启动features(暂时不管)
+
+--> main_loop, sdb的具体feature先不管, 只剩下exec_once
+
+--> exec_once(只有这个跟cpu真正的运行相关联, 调用tick, 其他函数均没有可以操作rtl的接口, 其他函数只是为了其feature要读取cpu的状态, exec_once有义务正确读取这些状态): 
 
 
 */
@@ -10,7 +21,6 @@ using namespace std;
 
 // 待定
 int ram_op = 0;
-uint32_t* ram = NULL;   
 uint32_t pc = 0;
 
 // verilator仿真环境整体流程控制

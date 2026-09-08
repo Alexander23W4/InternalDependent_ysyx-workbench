@@ -125,7 +125,7 @@ error:
 }
 
 void rep_cpu(){
-    cpu.pc = top->_pc;
+    cpu.pc = top->
     for (int i = 0; i < 32; i++) {
         cpu.gpr[i] = top->dbg_reg[i];
     }

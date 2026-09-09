@@ -90,13 +90,13 @@ module ysyx_26040135(
     input reset,
     input io_interrupt,   //
 
-
-    output        io_master_awvalid,
+    // 这种 普通的port 不能直接连到 interface modport, 应该先练到通用的interface port, 再连到 modport
+    output        io_master_awvalid,   
     input         io_master_awready,
     output [3:0]  io_master_awid,
     output [31:0] io_master_awaddr,
     output [7:0]  io_master_awlen,
-    output [2:0]  io_master_awsize,
+    output [2:0]  io_master_awsize, 
     output [1:0]  io_master_awburst,
 
     output        io_master_wvalid,
@@ -222,8 +222,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     ysyx_26040135_AXI4 bus_ifu ();
     ysyx_26040135_AXI4 bus_lsu ();
-    ysyx_26040135_AXI4 xbar_out();
-
 
 
     logic [31:0] instr;
@@ -286,49 +284,49 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
-    ysyx_26040135_AXI4_Xbar u_xbar (
-        .clock  (clock),
-        .reset  (reset),
-        .ifu_s  (bus_ifu.slave),  // Xbar 接收 IFU (使用 slave 接收)
-        .lsu_s  (bus_lsu.slave),  // Xbar 接收 LSU (使用 slave 接收)
-        .m_m    (xbar_out.master) // Xbar 输出合并后的 Master 接口
-    );
+ysyx_26040135_AXI4_Xbar u_xbar (
+    .clock  (clock),
+    .reset  (reset),
+    .ifu_s  (bus_ifu.slave),
+    .lsu_s  (bus_lsu.slave),
 
-    
-    
-    assign io_master_awvalid  = xbar_out.master.awvalid;
-    assign io_master_awid     = xbar_out.master.awid;
-    assign io_master_awaddr   = xbar_out.master.awaddr;
-    assign io_master_awlen    = xbar_out.master.awlen;
-    assign io_master_awsize   = xbar_out.master.awsize;
-    assign io_master_awburst  = xbar_out.master.awburst;
-    assign xbar_out.master.awready  = io_master_awready;
+    .m_m (
+        .awvalid (io_master_awvalid),
+        .awready (io_master_awready),
+        .awid    (io_master_awid),
+        .awaddr  (io_master_awaddr),
+        .awlen   (io_master_awlen),
+        .awsize  (io_master_awsize),
+        .awburst (io_master_awburst),
 
-    assign io_master_wvalid   = xbar_out.master.wvalid;
-    assign io_master_wdata    = xbar_out.master.wdata;
-    assign io_master_wstrb    = xbar_out.master.wstrb;
-    assign io_master_wlast    = xbar_out.master.wlast;
-    assign xbar_out.master.wready   = io_master_wready;
+        .wvalid  (io_master_wvalid),
+        .wready  (io_master_wready),
+        .wdata   (io_master_wdata),
+        .wstrb   (io_master_wstrb),
+        .wlast   (io_master_wlast),
 
-    assign io_master_bready   = xbar_out.master.bready;
-    assign xbar_out.master.bvalid   = io_master_bvalid;
-    assign xbar_out.master.bid      = io_master_bid;
-    assign xbar_out.master.bresp    = io_master_bresp;
+        .bvalid  (io_master_bvalid),
+        .bready  (io_master_bready),
+        .bid     (io_master_bid),
+        .bresp   (io_master_bresp),
 
-    assign io_master_arvalid  = xbar_out.master.arvalid;
-    assign io_master_arid     = xbar_out.master.arid;
-    assign io_master_araddr   = xbar_out.master.araddr;
-    assign io_master_arlen    = xbar_out.master.arlen;
-    assign io_master_arsize   = xbar_out.master.arsize;
-    assign io_master_arburst  = xbar_out.master.arburst;
-    assign xbar_out.master.arready  = io_master_arready;
+        .arvalid (io_master_arvalid),
+        .arready (io_master_arready),
+        .arid    (io_master_arid),
+        .araddr  (io_master_araddr),
+        .arlen   (io_master_arlen),
+        .arsize  (io_master_arsize),
+        .arburst (io_master_arburst),
 
-    assign xbar_out.master.rvalid   = io_master_rvalid;
-    assign io_master_rready   = xbar_out.master.rready;
-    assign xbar_out.master.rid      = io_master_rid;
-    assign xbar_out.master.rdata    = io_master_rdata;
-    assign xbar_out.master.rresp    = io_master_rresp;
-    assign xbar_out.master.rlast    = io_master_rlast;
+        .rvalid  (io_master_rvalid),
+        .rready  (io_master_rready),
+        .rid     (io_master_rid),
+        .rdata   (io_master_rdata),
+        .rresp   (io_master_rresp),
+        .rlast   (io_master_rlast)
+    )
+);
+
     assign io_slave_awready = 1'b0;
     assign io_slave_wready  = 1'b0;
     assign io_slave_bvalid  = 1'b0;

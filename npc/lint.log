@@ -1,0 +1,1716 @@
+verilator --lint-only -Wall -j --timescale "1ns/1ns" --no-timing --autoflush -Wno-UNUSEDSIGNAL -Wno-DECLFILENAME -Wno-VARHIDDEN -Wno-fatal -Wno-TIMESCALEMOD -Wno-MULTITOP \
+	-I./vsrc -I../ysyxSoC/perip/uart16550/rtl -I../ysyxSoC/perip/spi/rtl \
+	./vsrc/axi/axi4.sv ./vsrc/axi/axi_ifu.sv ./vsrc/axi/axi_lsu.sv ./vsrc/axi/axi4_xbar.sv ./vsrc/ysyx_26040135.sv ./vsrc/compo/decode.v ./vsrc/compo/dbg_register.v ./vsrc/compo/alu.v ../ysyxSoC/perip/vga/vga_top_apb.v ../ysyxSoC/perip/uart16550/rtl/uart_regs.v ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v ../ysyxSoC/perip/uart16550/rtl/raminfr.v ../ysyxSoC/perip/uart16550/rtl/uart_sync_flops.v ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v ../ysyxSoC/perip/uart16550/rtl/uart_top_apb.v ../ysyxSoC/perip/uart16550/rtl/uart_defines.v ../ysyxSoC/perip/sdram/core_sdram_axi4/sdram_axi_core.v ../ysyxSoC/perip/sdram/core_sdram_axi4/sdram_axi_pmem.v ../ysyxSoC/perip/sdram/core_sdram_axi4/sdram_axi.v ../ysyxSoC/perip/sdram/sdram.v ../ysyxSoC/perip/sdram/sdram_top_axi.v ../ysyxSoC/perip/sdram/sdram_top_apb.v ../ysyxSoC/perip/bitrev/bitrev.v ../ysyxSoC/perip/amba/axi4_delayer.v ../ysyxSoC/perip/amba/apb_delayer.v ../ysyxSoC/perip/spi/rtl/spi_clgen.v ../ysyxSoC/perip/spi/rtl/spi_defines.v ../ysyxSoC/perip/spi/rtl/spi_top_apb.v ../ysyxSoC/perip/spi/rtl/spi_top.v ../ysyxSoC/perip/spi/rtl/spi_shift.v ../ysyxSoC/perip/flash/flash.v ../ysyxSoC/perip/ps2/ps2_top_apb.v ../ysyxSoC/perip/psram/psram.v ../ysyxSoC/perip/psram/efabless/EF_PSRAM_CTRL_wb.v ../ysyxSoC/perip/psram/efabless/EF_PSRAM_CTRL.v ../ysyxSoC/perip/psram/psram_top_apb.v ../ysyxSoC/perip/gpio/gpio_top_apb.v \
+	../ysyxSoC/build/ysyxSoCFull.v
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/perip/sdram/core_sdram_axi4/sdram_axi_pmem.v:287:6: Cell pin connected by name with empty reference: 'accept_o'
+  287 |     .accept_o(),
+      |      ^~~~~~~~
+                          ... For warning description see https://verilator.org/warn/PINCONNECTEMPTY?v=5.008
+                          ... Use "/* verilator lint_off PINCONNECTEMPTY */" and lint_on around source to disable this message.
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1498:6: Cell pin connected by name with empty reference: 'io_slave_awready'
+ 1498 |     .io_slave_awready       ( ),
+      |      ^~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1505:6: Cell pin connected by name with empty reference: 'io_slave_wready'
+ 1505 |     .io_slave_wready        ( ),
+      |      ^~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1511:6: Cell pin connected by name with empty reference: 'io_slave_bvalid'
+ 1511 |     .io_slave_bvalid        ( ),
+      |      ^~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1512:6: Cell pin connected by name with empty reference: 'io_slave_bid'
+ 1512 |     .io_slave_bid      ( ),
+      |      ^~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1513:6: Cell pin connected by name with empty reference: 'io_slave_bresp'
+ 1513 |     .io_slave_bresp    ( ),
+      |      ^~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1514:6: Cell pin connected by name with empty reference: 'io_slave_arready'
+ 1514 |     .io_slave_arready       ( ),
+      |      ^~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1522:6: Cell pin connected by name with empty reference: 'io_slave_rvalid'
+ 1522 |     .io_slave_rvalid        ( ),
+      |      ^~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1523:6: Cell pin connected by name with empty reference: 'io_slave_rid'
+ 1523 |     .io_slave_rid      ( ),
+      |      ^~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1524:6: Cell pin connected by name with empty reference: 'io_slave_rdata'
+ 1524 |     .io_slave_rdata    ( ),
+      |      ^~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1525:6: Cell pin connected by name with empty reference: 'io_slave_rresp'
+ 1525 |     .io_slave_rresp    ( ),
+      |      ^~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1526:6: Cell pin connected by name with empty reference: 'io_slave_rlast'
+ 1526 |     .io_slave_rlast    ( )
+      |      ^~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:1730:6: Cell pin connected by name with empty reference: 'spi_irq_out'
+ 1730 |     .spi_irq_out ( )
+      |      ^~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5372:6: Cell pin connected by name with empty reference: 'externalPins_gpio_out'
+ 5372 |     .externalPins_gpio_out   ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5374:6: Cell pin connected by name with empty reference: 'externalPins_gpio_seg_0'
+ 5374 |     .externalPins_gpio_seg_0 ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5375:6: Cell pin connected by name with empty reference: 'externalPins_gpio_seg_1'
+ 5375 |     .externalPins_gpio_seg_1 ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5376:6: Cell pin connected by name with empty reference: 'externalPins_gpio_seg_2'
+ 5376 |     .externalPins_gpio_seg_2 ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5377:6: Cell pin connected by name with empty reference: 'externalPins_gpio_seg_3'
+ 5377 |     .externalPins_gpio_seg_3 ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5378:6: Cell pin connected by name with empty reference: 'externalPins_gpio_seg_4'
+ 5378 |     .externalPins_gpio_seg_4 ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5379:6: Cell pin connected by name with empty reference: 'externalPins_gpio_seg_5'
+ 5379 |     .externalPins_gpio_seg_5 ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5380:6: Cell pin connected by name with empty reference: 'externalPins_gpio_seg_6'
+ 5380 |     .externalPins_gpio_seg_6 ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5381:6: Cell pin connected by name with empty reference: 'externalPins_gpio_seg_7'
+ 5381 |     .externalPins_gpio_seg_7 ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5384:6: Cell pin connected by name with empty reference: 'externalPins_vga_r'
+ 5384 |     .externalPins_vga_r      ( ),
+      |      ^~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5385:6: Cell pin connected by name with empty reference: 'externalPins_vga_g'
+ 5385 |     .externalPins_vga_g      ( ),
+      |      ^~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5386:6: Cell pin connected by name with empty reference: 'externalPins_vga_b'
+ 5386 |     .externalPins_vga_b      ( ),
+      |      ^~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5387:6: Cell pin connected by name with empty reference: 'externalPins_vga_hsync'
+ 5387 |     .externalPins_vga_hsync  ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5388:6: Cell pin connected by name with empty reference: 'externalPins_vga_vsync'
+ 5388 |     .externalPins_vga_vsync  ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5389:6: Cell pin connected by name with empty reference: 'externalPins_vga_valid'
+ 5389 |     .externalPins_vga_valid  ( ),
+      |      ^~~~~~~~~~~~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: ../ysyxSoC/build/ysyxSoCFull.v:5391:6: Cell pin connected by name with empty reference: 'externalPins_uart_tx'
+ 5391 |     .externalPins_uart_tx    ( )
+      |      ^~~~~~~~~~~~~~~~~~~~
+%Warning-DEFPARAM: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:396:41: defparam is deprecated (IEEE 1800-2017 C.4.1)
+                                                                    : ... Suggest use instantiation with #(.width(...etc...))
+  396 |   defparam i_uart_sync_flops.width      = 1;
+      |                                         ^
+%Warning-DEFPARAM: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:397:41: defparam is deprecated (IEEE 1800-2017 C.4.1)
+                                                                    : ... Suggest use instantiation with #(.init_value(...etc...))
+  397 |   defparam i_uart_sync_flops.init_value = 1'b1;
+      |                                         ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:213:11: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  213 |   top  <= #1 'b0;
+      |           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:214:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  214 |   bottom  <= #1 'b0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:215:13: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  215 |   count  <= #1 'b0;
+      |             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:216:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  216 |   fifo[0] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:217:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  217 |   fifo[1] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:218:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  218 |   fifo[2] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:219:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  219 |   fifo[3] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:220:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  220 |   fifo[4] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:221:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  221 |   fifo[5] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:222:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  222 |   fifo[6] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:223:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  223 |   fifo[7] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:224:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  224 |   fifo[8] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:225:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  225 |   fifo[9] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:226:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  226 |   fifo[10] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:227:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  227 |   fifo[11] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:228:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  228 |   fifo[12] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:229:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  229 |   fifo[13] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:230:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  230 |   fifo[14] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:231:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  231 |   fifo[15] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:235:11: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  235 |   top  <= #1 'b0;
+      |           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:236:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  236 |   bottom  <= #1 'b0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:237:13: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  237 |   count  <= #1 'b0;
+      |             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:238:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  238 |   fifo[0] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:239:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  239 |   fifo[1] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:240:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  240 |   fifo[2] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:241:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  241 |   fifo[3] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:242:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  242 |   fifo[4] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:243:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  243 |   fifo[5] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:244:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  244 |   fifo[6] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:245:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  245 |   fifo[7] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:246:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  246 |   fifo[8] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:247:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  247 |   fifo[9] <= #1 0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:248:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  248 |   fifo[10] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:249:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  249 |   fifo[11] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:250:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  250 |   fifo[12] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:251:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  251 |   fifo[13] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:252:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  252 |   fifo[14] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:253:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  253 |   fifo[15] <= #1 0;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:260:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  260 |     top       <= #1 top_plus_1;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:261:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  261 |     fifo[top] <= #1 data_in[2:0];
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:262:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  262 |     count     <= #1 count + 1'b1;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:266:25: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  266 |         fifo[bottom] <= #1 0;
+      |                         ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:267:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  267 |     bottom   <= #1 bottom + 1'b1;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:268:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  268 |     count  <= #1 count - 1'b1;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:271:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  271 |     bottom   <= #1 bottom + 1'b1;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:272:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  272 |     top       <= #1 top_plus_1;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:273:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  273 |     fifo[top] <= #1 data_in[2:0];
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:283:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  283 |     overrun   <= #1 1'b0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:286:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  286 |     overrun   <= #1 1'b0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_rfifo.v:289:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver.fifo_rx
+  289 |     overrun   <= #1 1'b1;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:201:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  201 |         top    <= #1 'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:202:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  202 |         bottom <= #1 'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:203:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  203 |         count  <= #1 'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:205:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  205 |         top    <= #1 'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:206:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  206 |         bottom <= #1 'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:207:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  207 |         count  <= #1 'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:212:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  212 |                 top   <= #1 top_plus_1;
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:213:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  213 |                 count <= #1 count + 1'b1;
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:218:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  218 |                 bottom <= #1 bottom + 1'b1;
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:219:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  219 |                 count  <= #1 count - 1'b1;
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:222:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  222 |                 bottom <= #1 bottom + 1'b1;
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:223:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  223 |                 top    <= #1 top_plus_1;
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:234:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  234 |     overrun   <= #1 1'b0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:237:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  237 |     overrun   <= #1 1'b0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_tfifo.v:240:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                      : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter.fifo_tx
+  240 |     overrun   <= #1 1'b1;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_sync_flops.v:108:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                           : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.i_uart_sync_flops
+  108 |         flop_0 <= #Tp {width{init_value}};
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_sync_flops.v:110:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                           : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.i_uart_sync_flops
+  110 |         flop_0 <= #Tp async_dat_i;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_sync_flops.v:117:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                           : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.i_uart_sync_flops
+  117 |         sync_dat_o <= #Tp {width{init_value}};
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_sync_flops.v:119:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                           : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.i_uart_sync_flops
+  119 |         sync_dat_o <= #Tp {width{init_value}};
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_sync_flops.v:121:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                           : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.i_uart_sync_flops
+  121 |         sync_dat_o <= #Tp flop_0;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:94:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+   94 |       cnt <= #Tp {7+1{1'b0}};
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:98:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+   98 |           cnt <= #Tp pos_edge ? (cnt - {{7{1'b0}}, 1'b1}) : cnt;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:100:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  100 |           cnt <= #Tp !(|len) ? {1'b1, {7{1'b0}}} : {1'b0, len};
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:108:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  108 |       tip <= #Tp 1'b0;
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:110:12: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  110 |     tip <= #Tp 1'b1;
+      |            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:112:12: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  112 |     tip <= #Tp 1'b0;
+      |            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:119:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  119 |       s_out   <= #Tp 1'b0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:121:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  121 |       s_out <= #Tp (tx_clk || !tip) ? data[tx_bit_pos[7-1:0]] : s_out;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:128:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  128 |       data   <= #Tp {128{1'b0}};
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:133:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  133 |           data[31:24] <= #Tp p_in[31:24];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:135:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  135 |           data[23:16] <= #Tp p_in[23:16];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:137:25: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  137 |           data[15:8] <= #Tp p_in[15:8];
+      |                         ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:139:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  139 |           data[7:0] <= #Tp p_in[7:0];
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:144:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  144 |           data[63:56] <= #Tp p_in[31:24];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:146:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  146 |           data[55:48] <= #Tp p_in[23:16];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:148:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  148 |           data[47:40] <= #Tp p_in[15:8];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:150:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  150 |           data[39:32] <= #Tp p_in[7:0];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:155:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  155 |           data[95:88] <= #Tp p_in[31:24];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:157:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  157 |           data[87:80] <= #Tp p_in[23:16];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:159:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  159 |           data[79:72] <= #Tp p_in[15:8];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:161:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  161 |           data[71:64] <= #Tp p_in[7:0];
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:166:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  166 |           data[127:120] <= #Tp p_in[31:24];
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:168:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  168 |           data[119:112] <= #Tp p_in[23:16];
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:170:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  170 |           data[111:104] <= #Tp p_in[15:8];
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:172:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  172 |           data[103:96] <= #Tp p_in[7:0];
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_shift.v:233:34: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.shift
+  233 |       data[rx_bit_pos[7-1:0]] <= #Tp rx_clk ? s_in : data[rx_bit_pos[7-1:0]];
+      |                                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:73:14: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+   73 |       cnt <= #Tp {16{1'b1}};
+      |              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:77:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+   77 |           cnt <= #Tp divider;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:79:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+   79 |           cnt <= #Tp cnt - {{16-1{1'b0}}, 1'b1};
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:87:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+   87 |       clk_out <= #Tp 1'b0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:89:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+   89 |       clk_out <= #Tp (enable && cnt_zero && (!last_clk || clk_out)) ? ~clk_out : clk_out;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:97:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+   97 |         pos_edge  <= #Tp 1'b0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:98:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                              : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+   98 |         neg_edge  <= #Tp 1'b0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:102:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+  102 |         pos_edge  <= #Tp (enable && !clk_out && cnt_one) || (!(|divider) && clk_out) || (!(|divider) && go && !enable);
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_clgen.v:103:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                               : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top.clgen
+  103 |         neg_edge  <= #Tp (enable && clk_out && cnt_one) || (!(|divider) && !clk_out && enable);
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:282:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  282 |      rstate    <= #1 sr_idle;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:283:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  283 |    rbit_in     <= #1 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:284:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  284 |    rcounter16    <= #1 0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:285:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  285 |    rbit_counter   <= #1 0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:286:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  286 |    rparity_xor   <= #1 1'b0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:287:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  287 |    rframing_error  <= #1 1'b0;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:288:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  288 |    rparity_error   <= #1 1'b0;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:289:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  289 |    rparity     <= #1 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:290:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  290 |    rshift     <= #1 0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:291:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  291 |    rf_push     <= #1 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:292:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  292 |    rf_data_in    <= #1 0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:299:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  299 |    rf_push      <= #1 1'b0;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:300:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  300 |    rf_data_in    <= #1 0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:301:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  301 |    rcounter16    <= #1 4'b1110;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:304:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  304 |     rstate     <= #1 sr_rec_start;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:308:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  308 |      rf_push      <= #1 1'b0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:311:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  311 |       rstate <= #1 sr_idle;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:313:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  313 |       rstate <= #1 sr_rec_prepare;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:314:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  314 |     rcounter16 <= #1 rcounter16_minus_1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:318:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  318 |     2'b00 : rbit_counter <= #1 3'b100;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:319:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  319 |     2'b01 : rbit_counter <= #1 3'b101;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:320:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  320 |     2'b10 : rbit_counter <= #1 3'b110;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:321:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  321 |     2'b11 : rbit_counter <= #1 3'b111;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:325:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  325 |      rstate  <= #1 sr_rec_bit;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:326:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  326 |      rcounter16 <= #1 4'b1110;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:327:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  327 |      rshift  <= #1 0;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:330:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  330 |      rstate <= #1 sr_rec_prepare;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:331:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  331 |     rcounter16 <= #1 rcounter16_minus_1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:335:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  335 |      rstate <= #1 sr_end_bit;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:338:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  338 |      2'b00 : rshift[4:0]  <= #1 {srx_pad_i, rshift[4:1]};
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:339:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  339 |      2'b01 : rshift[5:0]  <= #1 {srx_pad_i, rshift[5:1]};
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:340:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  340 |      2'b10 : rshift[6:0]  <= #1 {srx_pad_i, rshift[6:1]};
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:341:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  341 |      2'b11 : rshift[7:0]  <= #1 {srx_pad_i, rshift[7:1]};
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:343:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  343 |     rcounter16 <= #1 rcounter16_minus_1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:348:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  348 |       rstate <= #1 sr_rec_parity;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:351:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  351 |       rstate <= #1 sr_rec_stop;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:352:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  352 |       rparity_error <= #1 1'b0;   
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:356:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  356 |      rstate <= #1 sr_rec_bit;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:357:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  357 |      rbit_counter <= #1 rbit_counter - 1'b1;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:359:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  359 |     rcounter16 <= #1 4'b1110;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:364:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  364 |      rparity <= #1 srx_pad_i;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:365:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  365 |      rstate <= #1 sr_ca_lc_parity;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:367:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  367 |     rcounter16 <= #1 rcounter16_minus_1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:370:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  370 |     rcounter16  <= #1 rcounter16_minus_1;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:371:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  371 |     rparity_xor <= #1 ^{rshift,rparity};  
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:372:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  372 |     rstate      <= #1 sr_check_parity;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:376:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  376 |      2'b00: rparity_error <= #1  rparity_xor == 0;   
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:377:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  377 |      2'b01: rparity_error <= #1 ~rparity;       
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:378:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  378 |      2'b10: rparity_error <= #1  rparity_xor == 1;    
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:379:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  379 |      2'b11: rparity_error <= #1  rparity;    
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:381:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  381 |     rcounter16 <= #1 rcounter16_minus_1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:382:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  382 |     rstate <= #1 sr_wait1;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:386:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  386 |     rstate <= #1 sr_rec_stop;
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:387:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  387 |     rcounter16 <= #1 4'b1110;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:390:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  390 |     rcounter16 <= #1 rcounter16_minus_1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:394:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  394 |      rframing_error <= #1 !srx_pad_i;  
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:395:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  395 |      rstate <= #1 sr_push;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:397:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  397 |     rcounter16 <= #1 rcounter16_minus_1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:405:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  405 |             rf_data_in  <= #1 {8'b0, 3'b100};  
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:407:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  407 |            rf_data_in  <= #1 {rshift, 1'b0, rparity_error, rframing_error};
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:408:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  408 |           rf_push     <= #1 1'b1;
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:409:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  409 |         rstate        <= #1 sr_idle;
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:413:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  413 |           rf_data_in  <= #1 {rshift, 1'b0, rparity_error, rframing_error};
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:414:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  414 |           rf_push     <= #1 1'b1;
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:415:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  415 |          rcounter16    <= #1 4'b1110;
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:416:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  416 |         rstate     <= #1 sr_rec_start;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:420:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  420 |  default : rstate <= #1 sr_idle;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:430:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  430 |     rf_push_q <= #1 rf_push;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:460:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  460 |   counter_b <= #1 8'd159;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:463:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  463 |   counter_b <= #1 brc_value;  
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:466:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  466 |   counter_b <= #1 counter_b - 1;   
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:476:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  476 |   counter_t <= #1 10'd639;  
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:479:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  479 |    counter_t <= #1 toc_value;
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_receiver.v:482:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                         : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.receiver
+  482 |    counter_t <= #1 counter_t - 1;  
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:216:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  216 |     tstate      <= #1 s_idle;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:217:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  217 |     stx_o_tmp   <= #1 1'b1;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:218:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  218 |     counter     <= #1 5'b0;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:219:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  219 |     shift_out   <= #1 7'b0;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:220:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  220 |     bit_out     <= #1 1'b0;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:221:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  221 |     parity_xor  <= #1 1'b0;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:222:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  222 |     tf_pop      <= #1 1'b0;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:223:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  223 |     bit_counter <= #1 3'b0;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:229:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  229 |                 tstate    <= #1 s_idle;
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:230:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  230 |                 stx_o_tmp <= #1 1'b1;
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:234:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  234 |                 tf_pop    <= #1 1'b0;
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:235:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  235 |                 stx_o_tmp <= #1 1'b1;
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:236:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  236 |                 tstate    <= #1 s_pop_byte;
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:239:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  239 |                 tf_pop <= #1 1'b1;
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:242:36: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  242 |                     bit_counter <= #1 3'b100;
+      |                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:243:36: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  243 |                     parity_xor  <= #1 ^tf_data_out[4:0];
+      |                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:246:36: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  246 |                     bit_counter <= #1 3'b101;
+      |                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:247:36: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  247 |                     parity_xor  <= #1 ^tf_data_out[5:0];
+      |                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:250:36: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  250 |                     bit_counter <= #1 3'b110;
+      |                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:251:36: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  251 |                     parity_xor  <= #1 ^tf_data_out[6:0];
+      |                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:254:36: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  254 |                     bit_counter <= #1 3'b111;
+      |                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:255:36: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  255 |                     parity_xor  <= #1 ^tf_data_out[7:0];
+      |                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:258:46: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  258 |                 {shift_out[6:0], bit_out} <= #1 tf_data_out;
+      |                                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:259:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  259 |                 tstate <= #1 s_send_start;
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:262:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  262 |                 tf_pop <= #1 1'b0;
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:264:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  264 |                     counter <= #1 5'b01111;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:268:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  268 |                     counter <= #1 0;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:269:31: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  269 |                     tstate <= #1 s_send_byte;
+      |                               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:272:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  272 |                     counter <= #1 counter - 1'b1;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:273:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  273 |                 stx_o_tmp <= #1 1'b0;
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:277:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  277 |                     counter <= #1 5'b01111;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:283:40: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  283 |                         bit_counter <= #1 bit_counter - 1'b1;
+      |                                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:284:55: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  284 |                         {shift_out[5:0],bit_out  } <= #1 {shift_out[6:1], shift_out[0]};
+      |                                                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:285:35: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  285 |                         tstate <= #1 s_send_byte;
+      |                                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:290:35: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  290 |                         tstate <= #1 s_send_stop;
+      |                                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:295:46: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  295 |                         2'b00:    bit_out <= #1 ~parity_xor;
+      |                                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:296:46: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  296 |                         2'b01:    bit_out <= #1 1'b1;
+      |                                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:297:46: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  297 |                         2'b10:    bit_out <= #1 parity_xor;
+      |                                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:298:46: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  298 |                         2'b11:    bit_out <= #1 1'b0;
+      |                                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:300:35: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  300 |                         tstate <= #1 s_send_parity;
+      |                                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:302:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  302 |                     counter <= #1 0;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:305:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  305 |                     counter <= #1 counter - 1'b1;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:306:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  306 |                 stx_o_tmp <= #1 bit_out;  
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:310:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  310 |                     counter <= #1 5'b01111;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:314:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  314 |                     counter <= #1 5'b0;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:315:31: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  315 |                     tstate <= #1 s_send_stop;
+      |                               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:318:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  318 |                     counter <= #1 counter - 1'b1;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:319:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  319 |                 stx_o_tmp <= #1 bit_out;
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:325:51: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  325 |                           3'b0zz:      counter <= #1 5'b01101;      
+      |                                                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:326:51: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  326 |                           3'b100:      counter <= #1 5'b10101;      
+      |                                                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:327:52: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  327 |                           default:      counter <= #1 5'b11101;      
+      |                                                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:333:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  333 |                     counter <= #1 0;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:334:31: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  334 |                     tstate <= #1 s_idle;
+      |                               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:337:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  337 |                     counter <= #1 counter - 1'b1;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:338:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  338 |                 stx_o_tmp <= #1 1'b1;
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:342:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  342 |             tstate <= #1 s_idle;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_transmitter.v:346:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                            : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs.transmitter
+  346 |     tf_pop <= #1 1'b0;   
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:144:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  144 |       wb_dat_o <= #Tp 32'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:146:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  146 |       wb_dat_o <= #Tp wb_dat;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:153:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  153 |       wb_ack_o <= #Tp 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:155:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  155 |       wb_ack_o <= #Tp wb_cyc_i & wb_stb_i & ~wb_ack_o;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:165:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  165 |       wb_int_o <= #Tp 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:167:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  167 |       wb_int_o <= #Tp 1'b1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:169:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  169 |       wb_int_o <= #Tp 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:176:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  176 |         divider <= #Tp {16{1'b0}};
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:185:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  185 |           divider[7:0] <= #Tp wb_dat_i[7:0];
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:187:30: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  187 |           divider[16-1:8] <= #Tp wb_dat_i[16-1:8];
+      |                              ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:214:15: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  214 |       ctrl <= #Tp {14{1'b0}};
+      |               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:218:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  218 |           ctrl[7:0] <= #Tp wb_dat_i[7:0] | {7'b0, ctrl[0]};
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:220:27: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  220 |           ctrl[14-1:8] <= #Tp wb_dat_i[14-1:8];
+      |                           ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:223:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  223 |       ctrl[8] <= #Tp 1'b0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:238:13: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  238 |       ss <= #Tp {8{1'b0}};
+      |             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/spi/rtl/spi_top.v:243:17: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                             : ... In instance ysyxSoCTop.dut.asic.lspi.mspi.u0_spi_top
+  243 |           ss <= #Tp wb_dat_i[8-1:0];
+      |                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:429:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  429 |         rf_pop <= #1 0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:432:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  432 |         rf_pop <= #1 0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:435:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  435 |         rf_pop <= #1 1;  
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:454:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  454 |         lsr_mask_d <= #1 0;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:456:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  456 |         lsr_mask_d <= #1 lsr_mask_condition;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:466:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  466 |         msi_reset <= #1 1;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:469:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  469 |         msi_reset <= #1 0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:472:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  472 |         msi_reset <= #1 1;  
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:482:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  482 |         lcr <= #1 8'b00000011;  
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:485:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  485 |         lcr <= #1 wb_dat_i;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:491:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  491 |         ier <= #1 4'b0000;  
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:492:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  492 |         dl[15:8] <= #1 8'b0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:498:25: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  498 |             dl[15:8] <= #1 wb_dat_i;
+      |                         ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:501:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  501 |             ier <= #1 wb_dat_i[3:0];  
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:507:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  507 |         fcr <= #1 2'b11;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:508:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  508 |         rx_reset <= #1 0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:509:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  509 |         tx_reset <= #1 0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:512:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  512 |         fcr <= #1 wb_dat_i[7:6];
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:513:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  513 |         rx_reset <= #1 wb_dat_i[1];
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:514:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  514 |         tx_reset <= #1 wb_dat_i[2];
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:516:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  516 |         rx_reset <= #1 0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:517:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  517 |         tx_reset <= #1 0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:523:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  523 |         mcr <= #1 5'b0;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:526:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  526 |             mcr <= #1 wb_dat_i[4:0];
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:532:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  532 |         scratch <= #1 0;  
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:535:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  535 |         scratch <= #1 wb_dat_i;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:541:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  541 |         dl[7:0]  <= #1 8'b0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:542:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  542 |         tf_push   <= #1 1'b0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:543:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  543 |         start_dlc <= #1 1'b0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:549:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  549 |             dl[7:0] <= #1 wb_dat_i;
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:550:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  550 |             start_dlc <= #1 1'b1;  
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:551:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  551 |             tf_push <= #1 1'b0;
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:555:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  555 |             tf_push   <= #1 1'b1;
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:556:26: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  556 |             start_dlc <= #1 1'b0;
+      |                          ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:560:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  560 |         start_dlc <= #1 1'b0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:561:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  561 |         tf_push   <= #1 1'b0;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:583:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  583 |           msr <= #1 0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:584:41: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  584 |           delayed_modem_signals[3:0] <= #1 0;
+      |                                         ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:587:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  587 |         msr[3:0] <= #1 msi_reset ? 4'b0 :
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:589:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  589 |         msr[7:4] <= #1 {dcd_c, ri_c, dsr_c, cts_c};
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:590:39: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  590 |         delayed_modem_signals[3:0] <= #1 {dcd, ri, dsr, cts};
+      |                                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:611:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  611 |     if (wb_rst_i) lsr0_d <= #1 0;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:612:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  612 |     else lsr0_d <= #1 lsr0;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:615:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  615 |     if (wb_rst_i) lsr0r <= #1 0;
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:616:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  616 |     else lsr0r <= #1 (rf_count==1 && rf_pop && !rf_push_pulse || rx_reset) ? 0 :  
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:623:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  623 |     if (wb_rst_i) lsr1_d <= #1 0;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:624:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  624 |     else lsr1_d <= #1 lsr1;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:627:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  627 |     if (wb_rst_i) lsr1r <= #1 0;
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:628:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  628 |     else    lsr1r <= #1    lsr_mask ? 0 : lsr1r || (lsr1 && ~lsr1_d);  
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:634:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  634 |     if (wb_rst_i) lsr2_d <= #1 0;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:635:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  635 |     else lsr2_d <= #1 lsr2;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:638:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  638 |     if (wb_rst_i) lsr2r <= #1 0;
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:639:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  639 |     else lsr2r <= #1 lsr_mask ? 0 : lsr2r || (lsr2 && ~lsr2_d);  
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:645:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  645 |     if (wb_rst_i) lsr3_d <= #1 0;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:646:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  646 |     else lsr3_d <= #1 lsr3;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:649:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  649 |     if (wb_rst_i) lsr3r <= #1 0;
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:650:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  650 |     else lsr3r <= #1 lsr_mask ? 0 : lsr3r || (lsr3 && ~lsr3_d);  
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:656:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  656 |     if (wb_rst_i) lsr4_d <= #1 0;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:657:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  657 |     else lsr4_d <= #1 lsr4;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:660:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  660 |     if (wb_rst_i) lsr4r <= #1 0;
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:661:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  661 |     else lsr4r <= #1 lsr_mask ? 0 : lsr4r || (lsr4 && ~lsr4_d);
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:667:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  667 |     if (wb_rst_i) lsr5_d <= #1 1;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:668:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  668 |     else lsr5_d <= #1 lsr5;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:671:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  671 |     if (wb_rst_i) lsr5r <= #1 1;
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:672:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  672 |     else lsr5r <= #1 (fifo_write) ? 0 :  lsr5r || (lsr5 && ~lsr5_d);
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:678:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  678 |     if (wb_rst_i) lsr6_d <= #1 1;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:679:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  679 |     else lsr6_d <= #1 lsr6;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:682:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  682 |     if (wb_rst_i) lsr6r <= #1 1;
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:683:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  683 |     else lsr6r <= #1 (fifo_write) ? 0 : lsr6r || (lsr6 && ~lsr6_d);
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:689:29: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  689 |     if (wb_rst_i) lsr7_d <= #1 0;
+      |                             ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:690:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  690 |     else lsr7_d <= #1 lsr7;
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:693:28: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  693 |     if (wb_rst_i) lsr7r <= #1 0;
+      |                            ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:694:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  694 |     else lsr7r <= #1 lsr_mask ? 0 : lsr7r || (lsr7 && ~lsr7_d);
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:700:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  700 |         dlc <= #1 0;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:703:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  703 |             dlc <= #1 dl - 1;                
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:705:20: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  705 |             dlc <= #1 dlc - 1;               
+      |                    ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:711:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  711 |         enable <= #1 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:714:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  714 |             enable <= #1 1'b1;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:716:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  716 |             enable <= #1 1'b0;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:736:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  736 |     block_cnt <= #1 8'd0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:739:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  739 |     block_cnt <= #1 block_value;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:742:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  742 |     block_cnt <= #1 block_cnt - 1;   
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:767:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  767 |     if (wb_rst_i) rls_int_d <= #1 0;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:768:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  768 |     else rls_int_d <= #1 rls_int;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:771:32: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  771 |     if (wb_rst_i) rda_int_d <= #1 0;
+      |                                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:772:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  772 |     else rda_int_d <= #1 rda_int;
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:775:33: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  775 |     if (wb_rst_i) thre_int_d <= #1 0;
+      |                                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:776:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  776 |     else thre_int_d <= #1 thre_int;
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:779:31: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  779 |     if (wb_rst_i) ms_int_d <= #1 0;
+      |                               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:780:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  780 |     else ms_int_d <= #1 ms_int;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:783:31: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  783 |     if (wb_rst_i) ti_int_d <= #1 0;
+      |                               ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:784:22: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  784 |     else ti_int_d <= #1 ti_int;
+      |                      ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:809:34: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  809 |     if (wb_rst_i) rls_int_pnd <= #1 0;
+      |                                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:811:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  811 |         rls_int_pnd <= #1 lsr_mask ? 0 :                           
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:816:34: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  816 |     if (wb_rst_i) rda_int_pnd <= #1 0;
+      |                                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:818:24: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  818 |         rda_int_pnd <= #1 ((rf_count == {1'b0,trigger_level}) && fifo_read) ? 0 :       
+      |                        ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:823:35: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  823 |     if (wb_rst_i) thre_int_pnd <= #1 0;
+      |                                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:825:25: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  825 |         thre_int_pnd <= #1 fifo_write || (iir_read & ~iir[0] & iir[3:1] == 3'b001)? 0 :
+      |                         ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:830:33: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  830 |     if (wb_rst_i) ms_int_pnd <= #1 0;
+      |                                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:832:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  832 |         ms_int_pnd <= #1 msr_read ? 0 :
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:837:33: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  837 |     if (wb_rst_i) ti_int_pnd <= #1 0;
+      |                                 ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:839:23: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  839 |         ti_int_pnd <= #1 fifo_read ? 0 :
+      |                       ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:848:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  848 |         int_o <= #1 1'b0;
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:850:18: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  850 |         int_o <= #1
+      |                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:864:16: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  864 |         iir <= #1 1;
+      |                ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:868:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  868 |         iir[3:1] <= #1 3'b011;     
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:869:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  869 |         iir[0] <= #1 1'b0;         
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:873:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  873 |         iir[3:1] <= #1 3'b010;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:874:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  874 |         iir[0] <= #1 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:878:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  878 |         iir[3:1] <= #1 3'b110;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:879:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  879 |         iir[0] <= #1 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:883:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  883 |         iir[3:1] <= #1 3'b001;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:884:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  884 |         iir[0] <= #1 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:888:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  888 |         iir[3:1] <= #1 3'b000;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:889:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  889 |         iir[0] <= #1 1'b0;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:892:21: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  892 |         iir[3:1] <= #1 0;
+      |                     ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:893:19: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                     : ... In instance ysyxSoCTop.dut.asic.luart.muart.Uregs
+  893 |         iir[0] <= #1 1'b1;
+      |                   ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_top_apb.v:49:34: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                       : ... In instance ysyxSoCTop.dut.asic.luart.muart
+   49 |              2'b00: reg_dat8_w = #1 in_pwdata[7:0];
+      |                                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_top_apb.v:50:34: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                       : ... In instance ysyxSoCTop.dut.asic.luart.muart
+   50 |              2'b01: reg_dat8_w = #1 in_pwdata[15:8];
+      |                                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_top_apb.v:51:34: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                       : ... In instance ysyxSoCTop.dut.asic.luart.muart
+   51 |              2'b10: reg_dat8_w = #1 in_pwdata[23:16];
+      |                                  ^
+%Warning-ASSIGNDLY: ../ysyxSoC/perip/uart16550/rtl/uart_top_apb.v:52:34: Ignoring timing control on this assignment/primitive due to --no-timing
+                                                                       : ... In instance ysyxSoCTop.dut.asic.luart.muart
+   52 |              2'b11: reg_dat8_w = #1 in_pwdata[31:24];
+      |                                  ^
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:11:17: Signal is not driven: 'in_pready'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   11 |   output        in_pready,
+      |                 ^~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:12:17: Signal is not driven: 'in_prdata'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   12 |   output [31:0] in_prdata,
+      |                 ^~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:13:17: Signal is not driven: 'in_pslverr'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   13 |   output        in_pslverr,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:15:17: Signal is not driven: 'vga_r'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   15 |   output [7:0]  vga_r,
+      |                 ^~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:16:17: Signal is not driven: 'vga_g'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   16 |   output [7:0]  vga_g,
+      |                 ^~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:17:17: Signal is not driven: 'vga_b'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   17 |   output [7:0]  vga_b,
+      |                 ^~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:18:17: Signal is not driven: 'vga_hsync'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   18 |   output        vga_hsync,
+      |                 ^~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:19:17: Signal is not driven: 'vga_vsync'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   19 |   output        vga_vsync,
+      |                 ^~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/vga/vga_top_apb.v:20:17: Signal is not driven: 'vga_valid'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lvga.mvga
+   20 |   output        vga_valid
+      |                 ^~~~~~~~~
+%Warning-UNUSEDPARAM: ../ysyxSoC/perip/spi/rtl/spi_top_apb.v:6:13: Parameter is not used: 'flash_addr_start'
+                                                                 : ... In instance ysyxSoCTop.dut.asic.lspi.mspi
+    6 |   parameter flash_addr_start = 32'h30000000,
+      |             ^~~~~~~~~~~~~~~~
+%Warning-UNUSEDPARAM: ../ysyxSoC/perip/spi/rtl/spi_top_apb.v:7:13: Parameter is not used: 'flash_addr_end'
+                                                                 : ... In instance ysyxSoCTop.dut.asic.lspi.mspi
+    7 |   parameter flash_addr_end   = 32'h3fffffff,
+      |             ^~~~~~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/ps2/ps2_top_apb.v:11:17: Signal is not driven: 'in_pready'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lkeyboard.mps2
+   11 |   output        in_pready,
+      |                 ^~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/ps2/ps2_top_apb.v:12:17: Signal is not driven: 'in_prdata'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lkeyboard.mps2
+   12 |   output [31:0] in_prdata,
+      |                 ^~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/ps2/ps2_top_apb.v:13:17: Signal is not driven: 'in_pslverr'
+                                                           : ... In instance ysyxSoCTop.dut.asic.lkeyboard.mps2
+   13 |   output        in_pslverr,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:11:17: Signal is not driven: 'in_pready'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   11 |   output        in_pready,
+      |                 ^~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:12:17: Signal is not driven: 'in_prdata'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   12 |   output [31:0] in_prdata,
+      |                 ^~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:13:17: Signal is not driven: 'in_pslverr'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   13 |   output        in_pslverr,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:15:17: Signal is not driven: 'gpio_out'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   15 |   output [15:0] gpio_out,
+      |                 ^~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:17:17: Signal is not driven: 'gpio_seg_0'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   17 |   output [7:0]  gpio_seg_0,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:18:17: Signal is not driven: 'gpio_seg_1'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   18 |   output [7:0]  gpio_seg_1,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:19:17: Signal is not driven: 'gpio_seg_2'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   19 |   output [7:0]  gpio_seg_2,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:20:17: Signal is not driven: 'gpio_seg_3'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   20 |   output [7:0]  gpio_seg_3,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:21:17: Signal is not driven: 'gpio_seg_4'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   21 |   output [7:0]  gpio_seg_4,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:22:17: Signal is not driven: 'gpio_seg_5'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   22 |   output [7:0]  gpio_seg_5,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:23:17: Signal is not driven: 'gpio_seg_6'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   23 |   output [7:0]  gpio_seg_6,
+      |                 ^~~~~~~~~~
+%Warning-UNDRIVEN: ../ysyxSoC/perip/gpio/gpio_top_apb.v:24:17: Signal is not driven: 'gpio_seg_7'
+                                                             : ... In instance ysyxSoCTop.dut.asic.lgpio.mgpio
+   24 |   output [7:0]  gpio_seg_7
+      |                 ^~~~~~~~~~
+%Warning-UNUSEDPARAM: ../ysyxSoC/perip/sdram/core_sdram_axi4/sdram_axi_core.v:91:12: Parameter is not used: 'CMD_TERMINATE'
+                                                                                   : ... In instance sdram_top_axi.u_sdram_axi.u_core
+   91 | localparam CMD_TERMINATE     = 4'b0110;
+      |            ^~~~~~~~~~~~~
+%Warning-BLKSEQ: ../ysyxSoC/perip/sdram/core_sdram_axi4/sdram_axi_pmem.v:92:10: Blocking assignment '=' in sequential logic process
+                                                                              : ... Suggest using delayed assignment '<='
+   92 |     mask = 0;
+      |          ^
+%Warning-BLKSEQ: ../ysyxSoC/perip/sdram/core_sdram_axi4/sdram_axi_pmem.v:102:25: Blocking assignment '=' in sequential logic process
+                                                                               : ... Suggest using delayed assignment '<='
+  102 |         8'd0:      mask = 32'h03;
+      |                         ^
+%Warning-SYNCASYNCNET: ../ysyxSoC/build/ysyxSoCFull.v:5366:9: Signal flopped as both synchronous and async: 'ysyxSoCTop.reset'
+                       ../ysyxSoC/perip/uart16550/rtl/uart_regs.v:428:9: ... Location of async usage
+  428 |     if (wb_rst_i)
+      |         ^~~~~~~~
+                       ../ysyxSoC/build/ysyxSoCFull.v:593:12: ... Location of sync usage
+  593 |       if (~reset & ~(~_arFIFOMap_0_T_6 | arFIFOMap_0_count)) begin  
+      |            ^~~~~

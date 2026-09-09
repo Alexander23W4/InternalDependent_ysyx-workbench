@@ -11,17 +11,17 @@ AM_SRCS := riscv/ysyxsoc/start.S \
 
 CFLAGS    += -fdata-sections -ffunction-sections
 LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
-LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
-LDFLAGS   += --gc-sections -e _start
+LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0    # ⭐$$ 物理内存从 0x80000000 开始,  程序入口相对于内存起始地址的偏移是 0
+LDFLAGS   += --gc-sections -e _start             # cpu 入口是 _start, 而非 main
 
-MAINARGS_MAX_LEN = 64
+# 以下是为了传递 mainargs 给 argv, argc
+MAINARGS_MAX_LEN = 64        
 MAINARGS_PLACEHOLDER = the_insert-arg_rule_in_Makefile_will_insert_mainargs_here
 CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINARGS_PLACEHOLDER)
 
 
 -include $(NPC_HOME)/Makefile
 
-# ⭐: 我为npc加的编译配置主要在此
 # update 仿真 npc -> C++
 update-npc:
 	@echo "===================================== Update NPC ====================================="

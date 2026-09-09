@@ -222,6 +222,43 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     ysyx_26040135_AXI4 bus_ifu ();
     ysyx_26040135_AXI4 bus_lsu ();
+    ysyx_26040135_AXI4 bus_master ();
+
+    assign io_master_awvalid = bus_master.awvalid;
+    assign io_master_awid    = bus_master.awid;
+    assign io_master_awaddr  = bus_master.awaddr;
+    assign io_master_awlen   = bus_master.awlen;
+    assign io_master_awsize  = bus_master.awsize;
+    assign io_master_awburst = bus_master.awburst;
+
+    assign bus_master.awready = io_master_awready;
+    assign io_master_wvalid = bus_master.wvalid;
+    assign io_master_wdata  = bus_master.wdata;
+    assign io_master_wstrb  = bus_master.wstrb;
+    assign io_master_wlast  = bus_master.wlast;
+
+
+    assign bus_master.wready = io_master_wready;
+    assign bus_master.bvalid = io_master_bvalid;
+    assign bus_master.bid    = io_master_bid;
+    assign bus_master.bresp  = io_master_bresp;
+
+
+    assign io_master_bready = bus_master.bready;
+    assign io_master_arvalid = bus_master.arvalid;
+    assign io_master_arid    = bus_master.arid;
+    assign io_master_araddr  = bus_master.araddr;
+    assign io_master_arlen   = bus_master.arlen;
+    assign io_master_arsize  = bus_master.arsize;
+    assign io_master_arburst = bus_master.arburst;
+
+    assign bus_master.arready = io_master_arready;
+    assign bus_master.rvalid = io_master_rvalid;
+    assign bus_master.rid    = io_master_rid;
+    assign bus_master.rdata  = io_master_rdata;
+    assign bus_master.rresp  = io_master_rresp;
+    assign bus_master.rlast  = io_master_rlast;
+    assign io_master_rready = bus_master.rready;
 
 
     logic [31:0] instr;
@@ -289,42 +326,7 @@ ysyx_26040135_AXI4_Xbar u_xbar (
     .reset  (reset),
     .ifu_s  (bus_ifu.slave),
     .lsu_s  (bus_lsu.slave),
-
-    .m_m (
-        .awvalid (io_master_awvalid),
-        .awready (io_master_awready),
-        .awid    (io_master_awid),
-        .awaddr  (io_master_awaddr),
-        .awlen   (io_master_awlen),
-        .awsize  (io_master_awsize),
-        .awburst (io_master_awburst),
-
-        .wvalid  (io_master_wvalid),
-        .wready  (io_master_wready),
-        .wdata   (io_master_wdata),
-        .wstrb   (io_master_wstrb),
-        .wlast   (io_master_wlast),
-
-        .bvalid  (io_master_bvalid),
-        .bready  (io_master_bready),
-        .bid     (io_master_bid),
-        .bresp   (io_master_bresp),
-
-        .arvalid (io_master_arvalid),
-        .arready (io_master_arready),
-        .arid    (io_master_arid),
-        .araddr  (io_master_araddr),
-        .arlen   (io_master_arlen),
-        .arsize  (io_master_arsize),
-        .arburst (io_master_arburst),
-
-        .rvalid  (io_master_rvalid),
-        .rready  (io_master_rready),
-        .rid     (io_master_rid),
-        .rdata   (io_master_rdata),
-        .rresp   (io_master_rresp),
-        .rlast   (io_master_rlast)
-    )
+    .m_m    (bus_master.master)
 );
 
     assign io_slave_awready = 1'b0;

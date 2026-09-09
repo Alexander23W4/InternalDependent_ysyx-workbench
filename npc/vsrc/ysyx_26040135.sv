@@ -74,13 +74,28 @@ SDRAM	              0xa000_0000~0xbfff_ffff
 ChipLink MEM	      0xc000_0000~0xffff_ffff
 
 
-⭐: cpu要改, 把Xbar 去掉, 并且把接入 ysyxSoc Xbar 的 AXI_master 接口 output引出去
+⭐: 
+可以用来自由计算的内存区间 - 堆区
+堆区需要分配在可写的内存区间, 因此可以分配在SRAM中
 
-大改npc:
-对外引脚已经完成
-2-1仲裁Xbar 已经完成
+程序 "入口" - main(const char *args)
+main()函数由AM上的程序提供, 但我们需要考虑整个运行时环境的入口, 即需要将程序链接到MROM的地址空间, 并保证TRM的第一条指令与NPC复位后的PC值一致
 
-还剩下用dpic-import函数导出 几个信号    pc  CSR  GPR  Error_msgs
+"退出"程序的方式 - halt()
+ysyxSoC不支持"关机"等功能, 为方便起见, 可借助ebreak指令让仿真环境结束仿真
+
+打印字符 - putch()
+可通过ysyxSoC中的UART16550进行输出
+
+由于NPC复位后从MROM开始执行, 而MROM不支持写入操作, 因此我们需要额外注意:
+程序中不能包含对全局变量的写入操作
+栈区需要分配在可写的SRAM中为ysyxSoC添加AM运行时环境
+
+添加一个riscv32e-ysyxsoc的新AM, 并按照上述方式提供TRM的API. 
+添加后, 将cpu-tests中的dummy测试编译到riscv32e-ysyxsoc, 并尝试在ysyxSoC的仿真环境中运行它.
+
+Hint: 为了完成这个任务, 你需要一些链接的知识. 如果你不熟悉, 可以参考"一生一芯"相关的视频和课件.
+
 */
 
 module ysyx_26040135(

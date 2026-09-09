@@ -296,52 +296,52 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .m_m    (xbar_out.master) // Xbar 输出合并后的 Master 接口
     );
 
-    assign auto_master_out_awvalid  = xbar_out.master.awvalid;
-    assign auto_master_out_awid     = xbar_out.master.awid;
-    assign auto_master_out_awaddr   = xbar_out.master.awaddr;
-    assign auto_master_out_awlen    = xbar_out.master.awlen;
-    assign auto_master_out_awsize   = xbar_out.master.awsize;
-    assign auto_master_out_awburst  = xbar_out.master.awburst;
-    assign xbar_out.master.awready  = auto_master_out_awready;
+    
+    
+    assign io_master_awvalid  = xbar_out.master.awvalid;
+    assign io_master_awid     = xbar_out.master.awid;
+    assign io_master_awaddr   = xbar_out.master.awaddr;
+    assign io_master_awlen    = xbar_out.master.awlen;
+    assign io_master_awsize   = xbar_out.master.awsize;
+    assign io_master_awburst  = xbar_out.master.awburst;
+    assign xbar_out.master.awready  = io_master_awready;
 
-    assign auto_master_out_wvalid   = xbar_out.master.wvalid;
-    assign auto_master_out_wdata    = xbar_out.master.wdata;
-    assign auto_master_out_wstrb    = xbar_out.master.wstrb;
-    assign auto_master_out_wlast    = xbar_out.master.wlast;
-    assign xbar_out.master.wready   = auto_master_out_wready;
+    assign io_master_wvalid   = xbar_out.master.wvalid;
+    assign io_master_wdata    = xbar_out.master.wdata;
+    assign io_master_wstrb    = xbar_out.master.wstrb;
+    assign io_master_wlast    = xbar_out.master.wlast;
+    assign xbar_out.master.wready   = io_master_wready;
 
-    assign auto_master_out_bready   = xbar_out.master.bready;
-    assign xbar_out.master.bvalid   = auto_master_out_bvalid;
-    assign xbar_out.master.bid      = auto_master_out_bid;
-    assign xbar_out.master.bresp    = auto_master_out_bresp;
+    assign io_master_bready   = xbar_out.master.bready;
+    assign xbar_out.master.bvalid   = io_master_bvalid;
+    assign xbar_out.master.bid      = io_master_bid;
+    assign xbar_out.master.bresp    = io_master_bresp;
 
-    assign auto_master_out_arvalid  = xbar_out.master.arvalid;
-    assign auto_master_out_arid     = xbar_out.master.arid;
-    assign auto_master_out_araddr   = xbar_out.master.araddr;
-    assign auto_master_out_arlen    = xbar_out.master.arlen;
-    assign auto_master_out_arsize   = xbar_out.master.arsize;
-    assign auto_master_out_arburst  = xbar_out.master.arburst;
-    assign xbar_out.master.arready  = auto_master_out_arready;
+    assign io_master_arvalid  = xbar_out.master.arvalid;
+    assign io_master_arid     = xbar_out.master.arid;
+    assign io_master_araddr   = xbar_out.master.araddr;
+    assign io_master_arlen    = xbar_out.master.arlen;
+    assign io_master_arsize   = xbar_out.master.arsize;
+    assign io_master_arburst  = xbar_out.master.arburst;
+    assign xbar_out.master.arready  = io_master_arready;
 
-    assign auto_master_out_rready   = xbar_out.master.rready;
-    assign xbar_out.master.rvalid   = auto_master_out_rvalid;
-    assign xbar_out.master.rid      = auto_master_out_rid;
-    assign xbar_out.master.rdata    = auto_master_out_rdata;
-    assign xbar_out.master.rresp    = auto_master_out_rresp;
-    assign xbar_out.master.rlast    = auto_master_out_rlast;
-
-    // cpu的slave输出引脚全部置0
-    assign auto_slave_in_awready = 1'b0;
-    assign auto_slave_in_wready  = 1'b0;
-    assign auto_slave_in_bvalid  = 1'b0;
-    assign auto_slave_in_bid     = 4'b0;
-    assign auto_slave_in_bresp   = 2'b0;
-    assign auto_slave_in_arready = 1'b0;
-    assign auto_slave_in_rvalid  = 1'b0;
-    assign auto_slave_in_rid     = 4'b0;
-    assign auto_slave_in_rdata   = 32'b0;
-    assign auto_slave_in_rresp   = 2'b0;
-    assign auto_slave_in_rlast   = 1'b0;
+    assign xbar_out.master.rvalid   = io_master_rvalid;
+    assign io_master_rready   = xbar_out.master.rready;
+    assign xbar_out.master.rid      = io_master_rid;
+    assign xbar_out.master.rdata    = io_master_rdata;
+    assign xbar_out.master.rresp    = io_master_rresp;
+    assign xbar_out.master.rlast    = io_master_rlast;
+    assign io_slave_awready = 1'b0;
+    assign io_slave_wready  = 1'b0;
+    assign io_slave_bvalid  = 1'b0;
+    assign io_slave_bid     = 4'b0;
+    assign io_slave_bresp   = 2'b0;
+    assign io_slave_arready = 1'b0;
+    assign io_slave_rvalid  = 1'b0;
+    assign io_slave_rid     = 4'b0;
+    assign io_slave_rdata   = 32'b0;
+    assign io_slave_rresp   = 2'b0;
+    assign io_slave_rlast   = 1'b0;
 
 
 /*------------------------------------------------------------------------------------------------------------
@@ -514,6 +514,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
+
+    `include "vsrc/dpi-f.sv"
 
 endmodule
 /* verilator lint_off UNUSEDSIGNAL */

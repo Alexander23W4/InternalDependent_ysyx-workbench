@@ -160,13 +160,14 @@ module ysyx_26040135(
     output        auto_slave_in_rlast   
 
 );
+
     logic [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
-    logic [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid     // ⭐⭐ 引出C
+    logic [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid, _pc; // ⭐⭐ 引出C
 
     // logic [1:0] __ifu_error, __lsu_error,
     // logic __ifu_master_validation_error,
 
-    `include "dpi_tasks.v"
+    `include "dpi-f.sv"
 
     reg [31:0] pc;   // reg
     assign _pc = pc;   // ⭐⭐ 引出C
@@ -350,11 +351,11 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     logic [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
-    lw_rst  = lsu_rdata;
-    lbu_rst = {24'b0, lsu_rdata[7:0]};
-    lhu_rst = {16'b0, lsu_rdata[15:0]};
-    lb_rst  = {{25{lsu_rdata[7]}}, lsu_rdata[6:0]};
-    lh_rst  = {{17{lsu_rdata[15]}}, lsu_rdata[14:0]};
+    assign lw_rst  = lsu_rdata;
+    assign lbu_rst = {24'b0, lsu_rdata[7:0]};
+    assign lhu_rst = {16'b0, lsu_rdata[15:0]};
+    assign lb_rst  = {{24{lsu_rdata[7]}}, lsu_rdata[7:0]};
+    assign lh_rst  = {{16{lsu_rdata[15]}}, lsu_rdata[15:0]};
 
 
 
@@ -381,7 +382,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                     next = UDPC;
                 end
             end
-            GPR: begin    // 固定一周期
+            UDGPR: begin    // 固定一周期
                 next = UDPC;
             end
             UDPC: begin   // 固定一周期

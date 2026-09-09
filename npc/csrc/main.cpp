@@ -20,6 +20,7 @@
 现在trace 和 sdb(除了x和expr的访存) 应该都能正常使用
 ram的访问除了 difftest 里面有一个 mem copy, 初始化的时候, 比较难搞, 现在difftest无法正常使用
 
+现在再外接上SRAM, 然后bootloader, 就能运行SRAM了, 可以开始debug
 */
 
 using namespace std;

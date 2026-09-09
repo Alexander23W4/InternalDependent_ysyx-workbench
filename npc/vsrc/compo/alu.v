@@ -34,11 +34,17 @@ module ysyx_26040135_ALU (
     input [31:0] lhu_rst,
 
 
-    output reg  [31:0] wdata,
-    output wire [31:0] add_rst,
-    output wire        wen,
-    output wire [31:0] csrw_rst
+    output [31:0] wdata,
+    output [31:0] add_rst,
+    output        wen,
+    output [31:0] csrw_rst
 );
+
+    // port types declared inside to avoid explicit net/reg in the port list
+    wire  [31:0] wdata;
+    wire  [31:0] add_rst;
+    wire         wen;
+    reg   [31:0] csrw_rst;
 
 
     assign wen = add | addi | sub | lui | auipc |

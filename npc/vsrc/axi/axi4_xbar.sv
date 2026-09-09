@@ -37,7 +37,7 @@ module ysyx_26040135_AXI4_Xbar (
     assign lsu_s.bid    = m_m.bid;
     assign lsu_s.bresp  = m_m.bresp;
     assign lsu_s.bvalid = m_m.bvalid;
-    assign m_m.bready   = m_m.bready;
+    assign m_m.bready   = lsu_s.bready;
 
 
     // ==========================================

@@ -86,7 +86,7 @@ module ysyx_26040135_AXI_IFU (
                     instr_valid_save <= 1'b1;                       
                 end
                 else begin
-                    error_save <= bus.resp;
+                    error_save <= bus.rresp;
                 end
             end
 

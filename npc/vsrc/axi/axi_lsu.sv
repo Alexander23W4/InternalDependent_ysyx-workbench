@@ -221,6 +221,10 @@ module ysyx_26040135_AXI_LSU (
                     end
                 end
             end
+
+            default: begin
+                next = IDLE;
+            end
         endcase
     end
 

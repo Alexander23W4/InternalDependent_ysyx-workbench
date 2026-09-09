@@ -54,7 +54,7 @@ export "DPI-C" function check_end;
 function void check_end(
     output int period_end
 );
-    period_end = {30'b0, __pc_is_updated};
+    period_end = {31'b0, __pc_is_updated};
 endfunction
 
 

@@ -358,7 +358,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
-    typedef enum [2:0]{ 
+    typedef enum [1:0]{ 
         FETCH, IO, UDGPR, UDPC
     } state_t;
     state_t state, next;

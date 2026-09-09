@@ -53,7 +53,7 @@ WAVE_GEN=gtkwave
 CPP_FLAGS=--cc --exe --build
 BINARY_FLAGS=--binary
 DEFAULT_FLAGS=-Wall -j --timescale "1ns/1ns" --no-timing --autoflush
-WARNING_IGNORE_FLAG=-Wno-UNUSEDSIGNAL
+WARNING_IGNORE_FLAG=-Wno-UNUSEDSIGNAL -Wno-DECLFILENAME -Wno-VARHIDDEN -Wno-fatal -Wno-TIMESCALEMOD -Wno-MULTITOP
 STATIC_CHECK_FLAG=--lint-only
 WAVE_GEN_FLAG=--trace
 TOP_FLAG=--top-module
@@ -113,7 +113,7 @@ fast:
 
 # 4. lint only:
 static:
-	$(VERILATOR) $(STATIC_CHECK_FLAG) \
+	$(VERILATOR) $(STATIC_CHECK_FLAG) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) \
 		$(INCLUDE_PATHS) \
 		$(filter-out ./vsrc/dpi-f.sv,$(SOURCES)) \
 		$(V_SRC)

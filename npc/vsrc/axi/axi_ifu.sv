@@ -65,7 +65,7 @@ module ysyx_26040135_AXI_IFU (
     assign __error = error_save;
     assign __master_validation_error = master_validation_error_save;
 
-    typedef enum [2:0]{ 
+    typedef enum [1:0]{ 
         IDLE, AR, R
     } state_t;
     state_t state, next;
@@ -150,6 +150,10 @@ module ysyx_26040135_AXI_IFU (
                     bus.rready = 1'b1;
                     next = IDLE;
                 end
+            end
+
+            default: begin
+                next = IDLE;
             end
         endcase
     end

@@ -10,10 +10,24 @@
 # ⭐: 这里的引用文件名都要改
 
 V_SRC=../ysyxSoC/build/ysyxSoCFull.v
-SOURCES = $(shell find ./vsrc -name "*.v" -o -name "*.sv") 
+
+AXI_SOURCES = \
+	./vsrc/axi/axi4.sv \
+	./vsrc/axi/axi_ifu.sv \
+	./vsrc/axi/axi_lsu.sv \
+	./vsrc/axi/axi4_xbar.sv
+
+RTL_SOURCES = \
+	./vsrc/ysyx_26040135.sv \
+	$(shell find ./vsrc/compo -type f -name "*.v")
+
+SOURCES = $(AXI_SOURCES) $(RTL_SOURCES) ./vsrc/dpi-f.sv
 SOURCES += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 
-SOURCES += ../ysyxSoC/build/ysyxSoCFull.v
-ALL_SOURCES=$(shell find ./vsrc -name "*.v")
+# SOURCES += ../ysyxSoC/build/ysyxSoCFull.v
+
+
+ALL_SOURCES := $(shell find ./vsrc -type f \( -name "*.sv" -o -name "*.v" \) -print)
+
 
 # 这里是用find递归搜索 ./csrc 下面所有的.c和.cpp文件
 CPP_SRC = $(shell find ./csrc -type f \( -name "*.c" -o -name "*.cpp" \) -print)
@@ -99,14 +113,10 @@ fast:
 
 # 4. lint only:
 static:
-	@echo "Linting vsrc only..."
-	@$(VERILATOR) $(STATIC_CHECK_FLAG) $(ALL_SOURCES) -Wno-MULTITOP || true
-	@if [ -f $(V_SRC) ]; then \
-		echo "ysyxSoC build found: attempting SoC+perip lint (may fail if perip headers/macros missing)"; \
-		$(VERILATOR) -cc $(DEFAULT_FLAGS) $(STATIC_CHECK_FLAG) $(INCLUDE_PATHS) $(V_SRC) $(SOURCES) || echo "SoC+perip lint failed (see messages), skipping"; \
-	else \
-		echo "$(V_SRC) not found, skipped SoC+perip lint"; \
-	fi
+	$(VERILATOR) $(STATIC_CHECK_FLAG) \
+		$(INCLUDE_PATHS) \
+		$(filter-out ./vsrc/dpi-f.sv,$(SOURCES)) \
+		$(V_SRC)
 
 lintall:
 	@$(VERILATOR) $(STATIC_CHECK_FLAG) $(ALL_SOURCES) -Wno-MULTITOP
@@ -125,3 +135,4 @@ clean_npc:
 # make fasts for getting Vtop
 # compile guest program & AM, nemu for difftest...  run 
 
+# ⭐: find ./vsrc -type f \( -name "*.v" -o -name "*.sv" \) -print

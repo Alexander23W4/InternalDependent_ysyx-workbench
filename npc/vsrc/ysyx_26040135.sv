@@ -167,8 +167,6 @@ module ysyx_26040135(
     // logic [1:0] __ifu_error, __lsu_error,
     // logic __ifu_master_validation_error,
 
-    `include "vsrc/dpi-f.sv"
-
     reg [31:0] pc;   // reg
     assign _pc = pc;   // ⭐⭐ 引出C
 

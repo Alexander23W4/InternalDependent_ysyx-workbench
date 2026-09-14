@@ -104,3 +104,28 @@ APB 分发器（APBFanout
 ）、VGA 显卡控制器（APBVGA
 ）以及 SDRAM 控制器（APBSDRAM
 ）。
+
+
+⭐: 成功 boot ysyxsoc-npc之后:
+
+
+⭐: 
+但在系统启动时, SRAM中并不包含有效的数据, 因此只能把数据段放到MROM中, 才能在系统启动时访问. 
+为了解决这个问题, 我们可以在程序真正开始执行前, 将数据段从MROM加载到SRAM中, 
+并让接下来的代码访问加载到SRAM中的数据段, 通过SRAM的可写特性支持全局变量的写入操作.
+
+bootloader: 系统启动时的加载器
+
+得到数据段在MROM中的地址MA(mrom address)和在SRAM中的地址SA(sram address), 以及数据段的长度LEN
+    对于MA, 我们可以在链接脚本的数据段开始前定义一个符号, 即可在运行时刻让bootloader获得该符号的地址; 
+    而对于LEN, 在链接脚本的数据段结束后定义一个符号, 与上述符号相减即可.
+    SA只能在链接阶段确定, 我们需要在链接脚本中定义SA. 
+
+将数据段从MA复制到SA        memcpy()
+
+让程序代码通过SA访问数据段
+
+
+⭐: 
+ 一种是虚拟内存地址(virtual memory address, VMA), 它表示程序运行时对象所在的地址; 
+ 另一种是加载内存地址(load memory address, LMA), 它表示程序运行前对象所在的地址

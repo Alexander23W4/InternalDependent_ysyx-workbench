@@ -42,13 +42,6 @@ ysyxSoC不支持"关机"等功能, 为方便起见, 可借助ebreak指令让仿�
 extern char _heap_start, _heap_end;
 int main(const char *args);
 
-/* 程序镜像(text/rodata/data/bss)整体链接在只读的 MROM(0x2000_0000) 里,
- * 只有栈和堆放在可写的 SRAM, 地址由 linker-ysyxsoc.ld 给出:
- *   _heap_start    = 0x0f00_0000   (SRAM 起点)
- *   _heap_end      = 0x0f00_1000   (低 4KB 是堆区)
- *   _stack_pointer = 0x0f00_2000   (SRAM 末尾是栈顶, 栈向下生长)
- * 因为 MROM 不可写, 所以这一步的程序里不能对全局变量做写操作。
- */
 Area heap = RANGE(&_heap_start, &_heap_end);      // 这里正式定义 heap 堆区, 然后malloc使用
 static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER); // defined in CFLAGS 
 

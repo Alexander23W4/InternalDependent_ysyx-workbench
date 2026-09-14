@@ -277,7 +277,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     assign io_master_rready = bus_master.rready;
 
 
+    logic [31:0] __instr;
     logic [31:0] instr;
+    assign instr = __instr;
 
     logic        __ifu_instr_valid;
     logic [1:0]  __ifu_error;      // ⭐⭐ 引出C
@@ -290,7 +292,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .reset                          (reset),
         .__pc_is_updated                (__pc_is_updated),   
         .pc                             (pc),
-        .rdata                          (instr),
+        .rdata                          (__instr),
         .__instr_valid                  (__ifu_instr_valid),   // @@-->
         .__error                        (__ifu_error),
         .__master_validation_error      (__ifu_master_validation_error)
@@ -439,7 +441,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         end
         else begin
             state <= next;
-            
+
             if(state == FETCH) begin
                 __pc_is_updated <= 1'b0;
                 if(__ifu_instr_valid) begin

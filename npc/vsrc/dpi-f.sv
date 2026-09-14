@@ -21,7 +21,7 @@ function void debug_read_all(
     output longint mcycle,
     output int instr
 );
-    instr = instr;
+    instr = __instr;
     for (int i = 0; i < 32; i++) begin
         dbg_regs[i] = dbg_reg[i*32 +: 32];  // 提取第 i 个 GPR
     end

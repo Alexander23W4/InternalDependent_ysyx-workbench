@@ -19,6 +19,7 @@ void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__debug_read_all_TOP\n"); );
     // Init
     // Body
+    instr = vlSymsp->TOP.ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__rdata_save;
     dbg_regs[0U] = vlSymsp->TOP.ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0U];
     dbg_regs[1U] = vlSymsp->TOP.ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[1U];
     dbg_regs[2U] = vlSymsp->TOP.ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[2U];

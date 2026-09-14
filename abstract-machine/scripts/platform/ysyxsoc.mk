@@ -48,11 +48,22 @@ run: insert-arg update-npc
 	@echo "================================= RUN NPC SIMULATION ====================================="
 	$(NPC_EXE) $(ARGS)
 
-gdb: insert-arg update-npc 
+# ⭐ gdb: 用带 -g 的 npc-gdb 目标编一份 debug 版, 再起 gdb
+#    注意这里必须先清 obj_dir: 否则已有的非 -g 目标文件不会重编
+#    (verilator 生成的 .o 只依赖 .cpp/.c, 不依赖 -CFLAGS), gdb 里就没有符号。
+#    用 clean_obj 而不是 clean_npc, 是为了不连带清掉 build_rsrc/。
+#    gdb 默认按当前目录找源码, 而编译时记录的是 ../csrc/xxx.c 这类相对路径,
+#    所以显式把几个源码目录喂给它
+GDB_SRC_DIRS = -ex "directory $(NPC_HOME)/csrc" \
+               -ex "directory $(NPC_HOME)/include" \
+               -ex "directory $(NPC_HOME)/obj_dir"
+
+gdb: insert-arg
 	@echo "================================= Build NPC (debug) ====================================="
+	$(MAKE) -C $(NPC_HOME) clean_obj
 	$(MAKE) -C $(NPC_HOME) npc-gdb
 	@echo "================================= GDB ====================================="
-	gdb --args $(NPC_EXE) $(ARGS)
+	gdb $(GDB_SRC_DIRS) --args $(NPC_EXE) $(ARGS)
 
 
 .PHONY: insert-arg

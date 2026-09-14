@@ -119,7 +119,8 @@ fasts:
 	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
 
 npc-gdb:
-	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
+	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) \
+	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
 
 fast:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(V_SRC) $(CPP_SRC) 
@@ -143,7 +144,13 @@ clean_npc:
 	rm -rf $(OBJ_DIR) 
 	rm -rf $(NPC_HOME)/build_rsrc/*
 
-.PHONY: all binary trace fast clean run top
+# 只清 obj_dir, 保留 build_rsrc。
+# 用于"必须用另一套 -CFLAGS 重编"的场合(比如 npc-gdb 的 -g):
+# verilator 生成的 .o 只依赖 .cpp/.c, 不依赖编译选项, 不清就会一直用旧的目标文件。
+clean_obj:
+	rm -rf $(OBJ_DIR)
+
+.PHONY: all binary trace fast clean run top clean_obj
 
 # make fasts for getting Vtop
 # compile guest program & AM, nemu for difftest...  run 

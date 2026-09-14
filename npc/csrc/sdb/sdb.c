@@ -90,6 +90,7 @@ void main_loop(){
     if(batch_mode){
         while(!(Status == NPC_END || Status == NPC_CRASH || Status == NPC_QUIT)){
             // printf("RUN\n");
+            printf("0x%08x\n", cpu.pc);
             exec_once();
         }
         return;

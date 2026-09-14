@@ -101,8 +101,12 @@ module ysyx_26040135_AXI4_Xbar (
     assign m_m.arvalid = select_lsu_ar ? lsu_s.arvalid : (select_ifu_ar ? ifu_s.arvalid : 1'b0);
 
     // arready 反馈分发
-    assign lsu_s.arready = (r_current_state == R_LSU) ? m_m.arready : 1'b0;
-    assign ifu_s.arready = (r_current_state == R_IFU) ? m_m.arready : 1'b0;
+    // ⭐ 必须和上面 arvalid 的发出条件对称(都用 select_*_ar):
+    //    否则在 R_IDLE 那一拍 m_m.arvalid 就已经把 AR 发给 SoC 了(SoC 会当场吃掉这笔事务并
+    //    转入 stateWaitRready), 而 master 因为状态还没寄存成 R_IFU/R_LSU 收不到 arready,
+    //    于是 master 停在 AR 态等 arready, SoC 在 stateWaitRready 等 rready -> 双向死锁。
+    assign lsu_s.arready = select_lsu_ar ? m_m.arready : 1'b0;
+    assign ifu_s.arready = select_ifu_ar ? m_m.arready : 1'b0;
 
 
     // ==========================================

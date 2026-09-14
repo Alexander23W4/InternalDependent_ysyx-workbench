@@ -6,7 +6,7 @@ void exec_once(){
     
     pc = cpu.pc;   // 存下这个周期的pc;
 
-    // 一直运行直到这周期结束, pc更新    并且不断监测cpu是否有报错
+    // 先运行到UDPC, 停下, 这样不会一开始reset之后就被卡住, 然后再运行一个周期停到FETCH, 获得新的pc值 (此时仍未旧的 instr)
     while(!period_end){
         tick();
         top->check_end(&period_end);
@@ -16,6 +16,8 @@ void exec_once(){
             return;
         }
     }
+    if(period_end) period_end = 0;
+    tick();
 
     // 读取cpu的状态
     // 注: DPI 导出函数 debug_read_all 的形参是 int*/long long*, 而 CPU_state 里存的是

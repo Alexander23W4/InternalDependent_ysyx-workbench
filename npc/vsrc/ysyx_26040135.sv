@@ -413,7 +413,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     end
 
 
-
+    logic __period_end;
 
     // 主状态机时序逻辑
     always_ff @(posedge clock or posedge reset) begin
@@ -432,6 +432,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             __GPR_wvalid <= 1'b0;
             __addr_ready <= 1'b0;
             __data_ready <= 1'b0;
+
+            __period_end <= 1'b0;
 
             state <= FETCH;
         end
@@ -454,11 +456,13 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             if(state == UDGPR) begin
                 __GPR_wvalid <= 1'b0;
+                __period_end <= 1'b1;
             end
 
 
             if(state == UDPC) begin
                 __pc_is_updated <= 1'b1;
+                __period_end <= 1'b0;
                 {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
                 // pc update
                 if(jalr) begin

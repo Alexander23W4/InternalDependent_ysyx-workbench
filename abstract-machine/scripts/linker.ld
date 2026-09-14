@@ -9,6 +9,11 @@ PHDRS 是定义两个 segment, text 和 data
 我们只需要给各个段分配sram的地址就ok, 这里的链接逻辑是, LDFLAGS 定义 sram 中能够使用的地址 pmem_start + _entry_offset;
 然后按照顺序把每个段放到这部分sram里面, 然后程序执行时, 会从ENTRY (这里是_start) 开始执行.
 
+⭐: 对于ysyxSoc, 还是依赖 AM 这一套进行链接, 也就是说, 出elf文件的过程无需特别关注, 
+  只需要改一些 linker.ld等配置, 使得能够根据elf文件成功把程序load到sram里面, 并且从正确位置开始运行
+
+  ⭐$$: 我们需要依靠硬件实现, 程序load, load的是bin文件, 代替原来的load_mem()函数
+
 */
 
 SECTIONS {

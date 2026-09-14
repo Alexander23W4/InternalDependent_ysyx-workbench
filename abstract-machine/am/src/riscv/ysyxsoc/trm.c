@@ -1,6 +1,6 @@
 #include <am.h>
 #include <klib-macros.h>
-#include "npc.h"
+#include "ysyxsoc.h"
 /*
 @@
 可以用来自由计算的内存区间 - 堆区
@@ -35,7 +35,7 @@ Area heap = RANGE(&_heap_start, PMEM_END);
 static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER); // defined in CFLAGS
 
 void putch(char ch) {
-  *(volatile uint8_t  *)NPC_SERIAL_ADDR = ch;
+  *(volatile uint8_t  *)YSYXSOC_SERIAL_ADDR = ch;
 }
 
 void halt(int code) {

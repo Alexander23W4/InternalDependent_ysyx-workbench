@@ -1,6 +1,15 @@
 #include <am.h>
 #include <klib-macros.h>
 #include "ysyxsoc.h"
+
+/*
+⭐⭐$$:
+现在的任务就是集成 sram 和 mrom, 然后配置对应的ysyxsoc-am, 跑通mem-test.
+而且要debug verilator仿真环境, 成功boot整个仿真环境
+
+主要涉及load bin的问题, 现阶段, bin文件load到mrom里面, 堆栈这些要配置到sram区域
+*/
+
 /*
 @@
 可以用来自由计算的内存区间 - 堆区

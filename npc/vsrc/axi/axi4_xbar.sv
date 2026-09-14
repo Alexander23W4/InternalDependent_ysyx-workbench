@@ -98,15 +98,19 @@ module ysyx_26040135_AXI4_Xbar (
     assign m_m.arlen   = select_lsu_ar ? lsu_s.arlen   : ifu_s.arlen;
     assign m_m.arsize  = select_lsu_ar ? lsu_s.arsize  : ifu_s.arsize;
     assign m_m.arburst = select_lsu_ar ? lsu_s.arburst : ifu_s.arburst;
-    assign m_m.arvalid = select_lsu_ar ? lsu_s.arvalid : (select_ifu_ar ? ifu_s.arvalid : 1'b0);
+    // ⭐ arvalid 只能用"已经寄存下来的仲裁结果"来发, 不能走 R_IDLE 那条快路径。
+    //    原因: IFU/LSU 都是在 IDLE 态拉起 arvalid, 进到 AR/AW 态才去检查 arready。
+    //    如果在 R_IDLE 就把 AR 发给 SoC, SoC 会当场吃掉这笔事务(转入 stateWaitRready)并立刻
+    //    开始给 rvalid; 而 master 那一拍状态还是 R_IDLE、收不到 arready, 要等下一拍进了 AR 态
+    //    才去等 arready —— 可这时 SoC 已经在等 rready 了 -> 双向死锁, 谁都动不了。
+    //    代价是每次 AR 多一拍, 换来与 master 的 AR 握手时序一致。
+    assign m_m.arvalid = (r_current_state == R_LSU) ? lsu_s.arvalid :
+                         (r_current_state == R_IFU) ? ifu_s.arvalid : 1'b0;
 
-    // arready 反馈分发
-    // ⭐ 必须和上面 arvalid 的发出条件对称(都用 select_*_ar):
-    //    否则在 R_IDLE 那一拍 m_m.arvalid 就已经把 AR 发给 SoC 了(SoC 会当场吃掉这笔事务并
-    //    转入 stateWaitRready), 而 master 因为状态还没寄存成 R_IFU/R_LSU 收不到 arready,
-    //    于是 master 停在 AR 态等 arready, SoC 在 stateWaitRready 等 rready -> 双向死锁。
-    assign lsu_s.arready = select_lsu_ar ? m_m.arready : 1'b0;
-    assign ifu_s.arready = select_ifu_ar ? m_m.arready : 1'b0;
+    // arready 反馈分发: 只在仲裁结果已经锁定到某个 master 之后, 才把它回给那个 master
+    // (arready 是电平信号, 绝不能在 R_IDLE 就对 master 透出, 否则会变成假握手)
+    assign lsu_s.arready = (r_current_state == R_LSU) ? m_m.arready : 1'b0;
+    assign ifu_s.arready = (r_current_state == R_IFU) ? m_m.arready : 1'b0;
 
 
     // ==========================================

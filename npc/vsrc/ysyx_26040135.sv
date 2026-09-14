@@ -438,6 +438,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             state <= FETCH;
         end
         else begin
+            state <= next;
+            
             if(state == FETCH) begin
                 __pc_is_updated <= 1'b0;
                 if(__ifu_instr_valid) begin

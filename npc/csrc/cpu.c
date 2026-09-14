@@ -18,7 +18,10 @@ void exec_once(){
     }
 
     // 读取cpu的状态
-    top->debug_read_all(cpu.gpr, &cpu.pc, &cpu.mstatus, &cpu.mepc, &cpu.mcause, &cpu.mtvec, &cpu.mcycle, &instr);
+    // 注: DPI 导出函数 debug_read_all 的形参是 int*/long long*, 而 CPU_state 里存的是
+    //     uint32_t/uint64_t, C++ 下不能隐式转换, 所以统一转一下指针类型
+    top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
+                        (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
 
 
 #if TRACE_ENABLE

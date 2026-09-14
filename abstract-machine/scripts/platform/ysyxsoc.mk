@@ -1,17 +1,16 @@
 AM_SRCS := riscv/ysyxsoc/start.S \
            riscv/ysyxsoc/trm.c \
-           riscv/ysyxsoc/ioe.c \
-           riscv/ysyxsoc/timer.c \
-           riscv/ysyxsoc/input.c \
-           riscv/ysyxsoc/cte.c \
-           riscv/ysyxsoc/trap.S \
            platform/dummy/vme.c \
-           platform/dummy/mpe.c \
-		   riscv/ysyxsoc/gpu.c \
+           platform/dummy/mpe.c
 
 CFLAGS    += -fdata-sections -ffunction-sections
-LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
-LDFLAGS   += --defsym=_pmem_start=0x0f000000 --defsym=_entry_offset=0x0    # ⭐$$ 这个定义是给 linkder.ld 用的, 确定 .bss stack 等放在那里, 这里要根据ysyxsoc 的 sram 地址定义
+LDSCRIPTS += $(AM_HOME)/scripts/linker-ysyxsoc.ld   # 使用ysyxsoc专属 linker.ld
+
+# ⭐$$ 这几个符号给 linker-ysyxsoc.ld 用:
+#   _pmem_start : 程序镜像起始地址 = MROM 基址, 必须与 NPC 复位后的 PC 一致
+#   _sram_start : 可写区(SRAM)基址, 栈和堆摆在这里
+#   _entry_offset: 入口相对镜像起点的偏移, 为 0 时 _start 正好落在 MROM 首地址
+LDFLAGS   += --defsym=_pmem_start=0x20000000 --defsym=_sram_start=0x0f000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start             # cpu 入口是 _start, 而非 main
 
 # 以下是为了传递 mainargs 给 argv, argc

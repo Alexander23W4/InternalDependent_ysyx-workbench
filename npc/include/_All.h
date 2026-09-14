@@ -19,8 +19,9 @@
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/log.h"
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/time.h"
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/device.h"
+// 注: 原来这里还 include 了 npc/include/time.h 和 npc/include/device.h,
+//     但这两个文件并不存在(git 里也从来没有), 而且 csrc 里已经不再使用
+//     NPC 自己的设备和定时器(NPC 外设已改由 ysyxSoC 提供), 所以直接去掉。
 
 
 /*
@@ -33,6 +34,14 @@
 #define RAM_BASE 0x80000000
 #define NR_WP 32
 #define TIMER_HZ 60
+
+/*
+ysyxSoC: MROM 0x2000_0000 ~ 0x2000_0fff (4KB, 只读, 不可写)
+MROM 在 RTL 里是个 "假 ROM": MROMHelper.v 通过 DPI-C 调 mrom_read() 取内容,
+所以 MROM 里装什么是完全由本仿真环境决定的 —— .bin 的第 0 个字节对应 0x2000_0000。
+*/
+#define MROM_BASE 0x20000000
+#define MROM_SIZE (4 * 1024)
 
 typedef enum {
     NPC_NORM = 0,
@@ -122,12 +131,13 @@ void difftest_skip_ref();
 void difftest_skip_dut(int nr_ref, int nr_dut);
 
 
-extern "C" void mrom_read(int32_t addr, int32_t *data) {
-    if(addr == 0x20000000){
-        *data = 0x00100073;
-    }
-}
-extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(0); }
+/*
+MROM 的内容数组 + 装载函数, 定义在 csrc/mrom.c。
+mrom_read()/flash_read() 是 Verilator 生成代码要调用的 DPI-C 函数, 只能在一个
+.c 文件里各定义一次; 放在头文件里会被 9 个 .c/.cpp 各定义一份 -> multiple definition。
+*/
+extern uint8_t mrom[MROM_SIZE];
+void load_mrom(const char *path);
 
 
 

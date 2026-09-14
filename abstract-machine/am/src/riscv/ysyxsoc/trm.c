@@ -8,6 +8,13 @@
 而且要debug verilator仿真环境, 成功boot整个仿真环境
 
 主要涉及load bin的问题, 现阶段, bin文件load到mrom里面, 堆栈这些要配置到sram区域
+
+
+
+方案: 将只读的 text rdata data bss 段这些通过linkner.ld直接预加载在 mrom里面, 依然还是使用 verilator-c
+    在linker.ld中配置 堆栈的地址, 使得堆栈分配到 sram 里面
+
+现在按照上述方案完成了 linker-ysyxsoc.ld 和 ysyxsoc.mk
 */
 
 /*
@@ -32,15 +39,17 @@ ysyxSoC不支持"关机"等功能, 为方便起见, 可借助ebreak指令让仿�
 添加后, 将cpu-tests中的dummy测试编译到riscv32e-ysyxsoc, 并尝试在ysyxSoC的仿真环境中运行它.
 */
 
-extern char _heap_start;
+extern char _heap_start, _heap_end;
 int main(const char *args);
 
-// 0x0f000000~0x0f001fff (8KB)
-extern char _pmem_start;
-#define PMEM_SIZE (8 * 1024)
-#define PMEM_END  ((uintptr_t)&_pmem_start + PMEM_SIZE)
-
-Area heap = RANGE(&_heap_start, PMEM_END);
+/* 程序镜像(text/rodata/data/bss)整体链接在只读的 MROM(0x2000_0000) 里,
+ * 只有栈和堆放在可写的 SRAM, 地址由 linker-ysyxsoc.ld 给出:
+ *   _heap_start    = 0x0f00_0000   (SRAM 起点)
+ *   _heap_end      = 0x0f00_1000   (低 4KB 是堆区)
+ *   _stack_pointer = 0x0f00_2000   (SRAM 末尾是栈顶, 栈向下生长)
+ * 因为 MROM 不可写, 所以这一步的程序里不能对全局变量做写操作。
+ */
+Area heap = RANGE(&_heap_start, &_heap_end);      // 这里正式定义 heap 堆区, 然后malloc使用
 static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER); // defined in CFLAGS 
 
 void putch(char ch) {

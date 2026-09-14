@@ -28,7 +28,7 @@ module ysyx_26040135_AXI_IFU (
 
     // PMA
 
-    localparam PMA_ENTRIES = 2;
+    localparam PMA_ENTRIES = 3;
 
     typedef struct packed {
         logic [31:0] base;
@@ -38,9 +38,14 @@ module ysyx_26040135_AXI_IFU (
         logic        writable;
     } pma_entry_t;
 
+    // ⭐ 换成 ysyxSoC 的地址映射(见 ysyxSoC/src/SoC.scala):
+    //    MROM  0x2000_0000 ~ 0x2000_0fff  只读, 程序镜像放这里, 复位后从这里取指
+    //    SRAM  0x0f00_0000 ~ 0x0f00_1fff  8KB 可读写, 栈/堆放这里
+    //    UART  0x1000_0000 ~ 0x1000_0fff  UART16550, 不可取指
     pma_entry_t pma_table [PMA_ENTRIES] = '{
-        '{base: 32'h80000000, size: 32'h07ffffff, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SRAM
-        '{base: 32'h10000000, size: 32'h00001000, executable: 1'b0, readable: 1'b0, writable: 1'b1}   // UART (只写)
+        '{base: 32'h20000000, size: 32'h00001000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // MROM
+        '{base: 32'h0f000000, size: 32'h00002000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SRAM
+        '{base: 32'h10000000, size: 32'h00001000, executable: 1'b0, readable: 1'b1, writable: 1'b1}   // UART16550
     };
 
     function automatic logic is_executable(input [31:0] addr);
@@ -103,10 +108,6 @@ module ysyx_26040135_AXI_IFU (
             state <= next;
         end
     end
-/*
-    先保证所有output信号默认都是0    
-    在slave_status为0的时候, 先发LSU_request, 下个周期接收 valid_master_ID, 如果是自己的, 再跳到AR/AW, 将arvalid置为1
-*/
 
     always_comb begin
         bus.arvalid = 1'b0;

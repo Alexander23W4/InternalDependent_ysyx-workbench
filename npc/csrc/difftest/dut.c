@@ -142,7 +142,7 @@ void difftest_step() {
 
   if (skip_dut_nr_inst > 0) {
     ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
-    if (ref_r.pc == top->_pc) {
+    if (ref_r.pc == cpu.pc) {    // 注: 顶层是 ysyxSoCFull, _pc 不再是顶层端口, 改用 debug_read_all 读出的 cpu.pc
       skip_dut_nr_inst = 0;
       checkregs(&ref_r);   //
       return;

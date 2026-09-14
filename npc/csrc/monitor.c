@@ -1,9 +1,14 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
+// 命令行里的 .bin 路径(见 parse_args 的 case 1), 装载 MROM 时要用
+static char *image_path = NULL;
+
 void _init(int argc, char** argv){
 
     // 仿真环境启动:
     parse_args(argc, argv);  // @brief
+
+    load_mrom(image_path);   // 把 AM 生成的 .bin 装进 MROM (地址 0x2000_0000)
 
     reset();    // 按理来说这里reset pc到 MROM, 启动 bootloader, 后续跟随状态机运行就可以了 
 
@@ -13,7 +18,7 @@ void _init(int argc, char** argv){
 
     #if TRACE_ENABLE
     init_disasm();
-    ftrace_init(argv[1]);
+    ftrace_init(image_path);
     #endif
 
 }
@@ -45,9 +50,13 @@ void parse_args(int argc, char *argv[]) {
                 break;
             case 'b':
                 batch_mode = true;
+                break;
+            case 1:                          // ⭐ 非选项参数: AM 生成的 .bin 路径
+                image_path = optarg;         // (getopt 用了前导 '-', 非选项会以 o==1 返回)
+                break;
         }
     }
-}
+}    
 
 
 void reset(){

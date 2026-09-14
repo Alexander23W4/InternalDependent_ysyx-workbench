@@ -60,7 +60,7 @@ UVM部分
 /*
 ⭐
 CLINT	              0x0200_0000~0x0200_ffff
-SRAM	              0x0f00_0000~0x0fff_ffff     0x0f00_0000~0x0f001fff (8KB)
+SRAM	              0x0f00_0000~0x0fff_ffff     0x0f000000~0x0f001fff (8KB)
 UART16550	          0x1000_0000~0x1000_0fff
 SPI master	          0x1000_1000~0x1000_1fff
 GPIO	              0x1000_2000~0x1000_200f

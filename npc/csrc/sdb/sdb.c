@@ -89,6 +89,7 @@ static struct {
 void main_loop(){
     if(batch_mode){
         while(!(Status == NPC_END || Status == NPC_CRASH || Status == NPC_QUIT)){
+            printf("RUN\n");
             exec_once();
         }
         return;

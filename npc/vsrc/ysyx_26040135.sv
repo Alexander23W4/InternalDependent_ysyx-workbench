@@ -379,8 +379,10 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     } state_t;
     state_t state, next;
 
+    logic io;
+    assign io = __read | __write;
 
-    always_comb begin : Stat_Machine
+    always_comb begin : State_Machine
         next = state;
         case(state)
             FETCH: begin
@@ -389,11 +391,16 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 end
             end
             IO: begin
-                if(__lsu_read_complete) begin
-                    next = UDGPR;
+                if(io) begin
+                    if(__lsu_read_complete) begin
+                        next = UDGPR;
+                    end
+                    else if(__lsu_write_complete) begin
+                        next = UDPC;
+                    end
                 end
-                else if(__lsu_write_complete) begin
-                    next = UDPC;
+                else begin
+                    next = UDGPR;
                 end
             end
             UDGPR: begin    // 固定一周期
@@ -421,7 +428,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
 
-            __pc_is_updated <= 1'b0;
+            __pc_is_updated <= 1'b1;
             __GPR_wvalid <= 1'b0;
             __addr_ready <= 1'b0;
             __data_ready <= 1'b0;
@@ -440,7 +447,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             if(state == IO) begin
                 __addr_ready <= 1'b0;
                 __data_ready <= 1'b0;
-                if(__lsu_read_complete) begin
+                if(__lsu_read_complete || !io) begin
                     __GPR_wvalid <= 1'b1;
                 end
             end

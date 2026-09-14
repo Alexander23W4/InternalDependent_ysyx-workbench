@@ -116,15 +116,19 @@ APB 分发器（APBFanout
 
 bootloader: 系统启动时的加载器
 
-得到数据段在MROM中的地址MA(mrom address)和在SRAM中的地址SA(sram address), 以及数据段的长度LEN
+得到数据段在MROM中的地址MA(mrom address)和在SRAM中的地址SA(sram address), 以及数据段的长度LEN (均在链接脚本ysyxsoc-linker.ld中确定)
+
     对于MA, 我们可以在链接脚本的数据段开始前定义一个符号, 即可在运行时刻让bootloader获得该符号的地址; 
     而对于LEN, 在链接脚本的数据段结束后定义一个符号, 与上述符号相减即可.
-    SA只能在链接阶段确定, 我们需要在链接脚本中定义SA. 
+    SA只能在链接阶段确定, 我们需要在链接脚本中定义SA. (使用VMA LMA映射)
 
 将数据段从MA复制到SA        memcpy()
 
-让程序代码通过SA访问数据段
+让程序代码通过SA访问数据段  
 
+
+这样程序访问的是位于mrom中的数据段, 但是实际操作的是sram中的数据段拷贝. 
+注意VMA 和 LMA 在链接脚本中的标注只是映射(重定向), 数据本身还是要通过bootloader进行真正拷贝
 
 ⭐: 
  一种是虚拟内存地址(virtual memory address, VMA), 它表示程序运行时对象所在的地址; 

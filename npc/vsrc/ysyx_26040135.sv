@@ -60,7 +60,7 @@ UVM部分
 /*
 ⭐
 CLINT	              0x0200_0000~0x0200_ffff
-SRAM	              0x0f00_0000~0x0fff_ffff
+SRAM	              0x0f00_0000~0x0fff_ffff     0x0f00_0000~0x0f001fff (8KB)
 UART16550	          0x1000_0000~0x1000_0fff
 SPI master	          0x1000_1000~0x1000_1fff
 GPIO	              0x1000_2000~0x1000_200f
@@ -111,7 +111,7 @@ module ysyx_26040135(
     output [3:0]  io_master_awid,
     output [31:0] io_master_awaddr,
     output [7:0]  io_master_awlen,
-    output [2:0]  io_master_awsize, 
+    output [2:0]  io_master_awsize,
     output [1:0]  io_master_awburst,
 
     output        io_master_wvalid,

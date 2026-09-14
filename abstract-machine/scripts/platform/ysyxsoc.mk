@@ -11,7 +11,7 @@ AM_SRCS := riscv/ysyxsoc/start.S \
 
 CFLAGS    += -fdata-sections -ffunction-sections
 LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
-LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0    # ⭐$$ 物理内存从 0x80000000 开始,  程序入口相对于内存起始地址的偏移是 0
+LDFLAGS   += --defsym=_pmem_start=0x0f000000 --defsym=_entry_offset=0x0    # ⭐$$ 这个定义是给 linkder.ld 用的, 确定 .bss stack 等放在那里, 这里要根据ysyxsoc 的 sram 地址定义
 LDFLAGS   += --gc-sections -e _start             # cpu 入口是 _start, 而非 main
 
 # 以下是为了传递 mainargs 给 argv, argc

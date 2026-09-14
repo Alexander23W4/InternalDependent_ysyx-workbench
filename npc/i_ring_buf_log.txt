@@ -1,15 +1,15 @@
-
-
-
-
-
-
-
-
-
-
-
-
+0x00000000    0x00000413    li	s0, 0                                                                                                                                              
+0x20000004    0xef002117    auipc	sp, 0xef002                                                                                                                                     
+0x20000008    0xffc10113    addi	sp, sp, -4                                                                                                                                       
+0x2000000c    0x00c000ef    jal	0x20000018                [CALL] PRE: _start, DST: _trm_init                                                                                      
+0x20000018    0xff410113    addi	sp, sp, -0xc                                                                                                                                     
+0x2000001c    0x00000517    auipc	a0, 0                                                                                                                                           
+0x20000020    0x01850513    addi	a0, a0, 0x18                                                                                                                                     
+0x20000024    0x00112423    sw	ra, 8(sp)                                                                                                                                          
+0x20000028    0xfe9ff0ef    jal	0x20000010                [CALL] PRE: _trm_init, DST: main                                                                                        
+0x20000010    0x00000513    li	a0, 0                                                                                                                                              
+0x20000014    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                                                                                         
+0x2000002c    0x00100073    ebreak                                                                                                                                                
 
 
 

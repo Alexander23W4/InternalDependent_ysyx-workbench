@@ -60,9 +60,19 @@ void parse_args(int argc, char *argv[]) {
 
 
 void reset(){
-    top->reset = 1;  
-    tick();
-    top->reset = 0; 
+    // ⭐ ysyxSoC 里 CPU 的 reset 不是直接接顶层 reset, 而是:
+    //      cpu.module.reset := SynchronizerShiftReg(reset, 10) || reset
+    //    (见 ysyxSoC/src/SoC.scala, 生成出 _cpu_reset_chain_io_q | reset)
+    //    它本意是"复位释放后再多压 10 拍", 但只有 reset 是被保持的【电平】时才成立:
+    //    如果这里只拉高一个 tick, 那 10 拍后延迟链会再吐出一个单周期复位脉冲,
+    //    CPU 就会在运行途中被复位一次 —— pc 回退到 0x20000000、instr 被清 0,
+    //    之后 pc 与取回的指令彻底错位, 所有 pc 相关的值(auipc/jal 链接/跳转目标)全错。
+    //    因此复位必须保持 >= 10 拍, 让延迟链吃满, 释放时两者一起落下。
+    top->reset = 1;
+    for (int i = 0; i < 20; i++) {
+        tick();
+    }
+    top->reset = 0;
     printf("Reset Released. Starting execution...\n");
 }
 

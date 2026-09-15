@@ -171,6 +171,8 @@ Sector是最小的擦除
 把整个 Sector 重新写回 Flash
 
 
+⭐: 使用SPI协议与flash交互:
+
 由于flash在片外, 为了精简外引脚, 使用SPI总线协议: Serial Peripheral Interface
 
 SPI总线总共只有4种信号:
@@ -191,3 +193,11 @@ slave的工作方式是类似的, 如果slave在SS信号有效的情况下收到
  有时还会约定时钟空闲时的电平(时钟极性, clock polarity): 是高电平空闲还是低电平空闲. 
  在发送和采样的过程中, SCK起到了同步的作用, 双方共同约定发送/采样的尾端和时机, 并在RTL层次正确地实现约定. 
  在真实场景中, 不同的slave可能有不同的约定, 这意味着在与不同slave通信的时候, master需要配合slave的约定来进行发送和采样.
+
+
+ 我们将SPI master看成是AXI和SPI之间的一个桥接模块, 用于将AXI请求转换成SPI请求, 从而与SPI的slave进行通信.
+
+
+ SPI驱动程序在与slave通信之前, 先设置SS寄存器来选择目标slave, 并按照slave的约定配置SPI master的控制寄存器, 
+ 然后再将需要传输的数据写入发送数据寄存器, 最后往某控制寄存器写入表示"开始传输"的命令. 
+ SPI驱动程序可以轮询SPI master的状态寄存器, 当状态标志为"忙碌"时则等待, 直到状态标志为"空闲"为止, 此时可从接收数据寄存器中读出slave的回复.

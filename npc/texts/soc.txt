@@ -263,3 +263,10 @@ APB目标地址是什么？
        └── Flash XIP地址
               ↓
            XIP FSM
+
+
+⭐: DRAM
+DRAM(Dynamic Random Access Memory)是一种目前广泛使用的存储器, 和SRAM相比, DRAM具有容量大, 成本低的特点. DRAM的存储单元通过一根晶体管和一个电容来存储1 bit
+
+有一类DRAM颗粒在内部集成了刷新的逻辑, 称为PSRAM(Pseudo Static Random Access Memory)颗粒. 
+PSRAM控制器无需实现刷新的功能, 也无需关心PSRAM颗粒的内部结构, 因此这种颗粒使用起来与SRAM很类似

@@ -149,3 +149,29 @@ bootloader: 系统启动时的加载器
 整个flash颗粒的存储阵列划分成256个块(Block), 每个块的大小是64KB; 
 每个块的内部又划分成16个扇区(Sector), 每个扇区的大小是4KB; 
 每个扇区的内部又划分成16个页(Page), 每个页的大小是256B.
+
+Sector是最小的擦除
+
+① Read
+   ↓
+把整个 Sector 保存到 RAM
+
+② Erase
+   ↓
+整个 Sector 被擦除
+   ↓
+11111111 11111111 ...
+
+③ Modify
+   ↓
+在 RAM 中修改 D
+
+④ Program
+   ↓
+把整个 Sector 重新写回 Flash
+
+
+
+
+
+

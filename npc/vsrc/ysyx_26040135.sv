@@ -430,7 +430,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     // 主状态机时序逻辑
     always_ff @(posedge clock or posedge reset) begin
         if(reset) begin
-            pc <= 32'h20000000;   // MROM 
+            pc <= 32'h30000000;   // FLASH 
             mstatus <= 32'h00001800;   
             mcause <= 0;
             mepc <= 0;

@@ -43,6 +43,18 @@ MROM 在 RTL 里是个 "假 ROM": MROMHelper.v 通过 DPI-C 调 mrom_read() 取�
 #define MROM_BASE 0x20000000
 #define MROM_SIZE (4 * 1024)
 
+/*
+ysyxSoC: Flash 0x3000_0000 ~ 0x3fff_ffff
+Flash 也是"假"的: spi_top_apb.v 里定义了 `define FAST_FLASH 之后, 对 flash 地址段的
+APB 读请求会被直接翻译成 flash_cmd -> DPI-C flash_read(), 完全绕开 SPI master.
+注意 flash_read() 拿到的 addr 是【相对 flash 基址的字节偏移】, 不是绝对地址:
+    spi_top_apb.v: .addr({8'b0, in_paddr[23:2], 2'b0})
+因为 0x3000_0000 的低 24 位是 0, 所以 in_paddr[23:2] 恰好就是偏移 >> 2.
+数组下标 = 字节偏移, 所以 flash[i] 对应地址 0x3000_0000 + i.
+*/
+#define FLASH_BASE 0x30000000
+#define FLASH_SIZE (16 * 1024 * 1024)
+
 typedef enum {
     NPC_NORM = 0,
     NPC_STOP,
@@ -132,12 +144,15 @@ void difftest_skip_dut(int nr_ref, int nr_dut);
 
 
 /*
-MROM 的内容数组 + 装载函数, 定义在 csrc/mrom.c。
+MROM / Flash 的内容数组 + 装载函数, 定义在 csrc/mrom.c 和 csrc/flash.c。
 mrom_read()/flash_read() 是 Verilator 生成代码要调用的 DPI-C 函数, 只能在一个
 .c 文件里各定义一次; 放在头文件里会被 9 个 .c/.cpp 各定义一份 -> multiple definition。
 */
 extern uint8_t mrom[MROM_SIZE];
 void load_mrom(const char *path);
+
+extern uint8_t flash[FLASH_SIZE];
+void load_flash(const char *path);
 
 
 

@@ -50,5 +50,6 @@ extern "C" void mrom_read(int32_t addr, int32_t *data) {
     }
 }
 
-// flash 这一步还没用上, 但 flash.v 里 import 了这个 DPI-C 函数, 链接时需要它存在
-extern "C" void flash_read(int32_t addr, int32_t *data) { assert(0); }
+// flash 那部分见 csrc/flash.c: flash.v 里的 flash_cmd 会 import flash_read() 这个
+// DPI-C 函数, 链接时需要它存在, 定义放在 flash.c。
+

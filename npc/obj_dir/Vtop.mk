@@ -45,6 +45,7 @@ VM_USER_LDLIBS = \
 VM_USER_CLASSES = \
 	cpu \
 	dut \
+	flash \
 	main \
 	monitor \
 	mrom \
@@ -77,6 +78,8 @@ VPATH += $(VM_USER_DIR)
 cpu.o: ./csrc/cpu.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 dut.o: ./csrc/difftest/dut.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+flash.o: ./csrc/flash.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 main.o: ./csrc/main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

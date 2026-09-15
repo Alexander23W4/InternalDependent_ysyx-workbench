@@ -201,3 +201,65 @@ slave的工作方式是类似的, 如果slave在SS信号有效的情况下收到
  SPI驱动程序在与slave通信之前, 先设置SS寄存器来选择目标slave, 并按照slave的约定配置SPI master的控制寄存器, 
  然后再将需要传输的数据写入发送数据寄存器, 最后往某控制寄存器写入表示"开始传输"的命令. 
  SPI驱动程序可以轮询SPI master的状态寄存器, 当状态标志为"忙碌"时则等待, 直到状态标志为"空闲"为止, 此时可从接收数据寄存器中读出slave的回复.
+
+              MROM
+              │
+              │ flash_read()
+              ▼
+          SPI Master
+              │
+              ▼
+            Flash
+              │
+              │ char-test
+              ▼
+             SRAM
+              │
+              ▼
+          执行 char-test
+
+
+CPU发起一次内存读
+       ↓
+spi_top_apb发现地址是Flash空间
+       ↓
+XIP FSM
+       ↓
+写SPI TX
+       ↓
+写SPI DIV
+       ↓
+写SPI SS
+       ↓
+写SPI CTRL
+       ↓
+等待SPI完成
+       ↓
+读RX
+       ↓
+APB返回数据
+       ↓
+CPU拿到instruction
+
+
+        软件版                       硬件版
+
+     flash_read()                  XIP FSM
+          │                            │
+          │ 操作SPI                    │ 操作SPI
+          ▼                            ▼
+     SPI Master                   SPI Master
+          │                            │
+          ▼                            ▼
+        Flash                        Flash
+
+
+APB目标地址是什么？
+       │
+       ├── SPI寄存器地址
+       │      ↓
+       │   正常SPI访问
+       │
+       └── Flash XIP地址
+              ↓
+           XIP FSM

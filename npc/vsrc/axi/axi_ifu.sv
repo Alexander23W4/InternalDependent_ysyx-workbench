@@ -28,7 +28,7 @@ module ysyx_26040135_AXI_IFU (
 
     // PMA
 
-    localparam PMA_ENTRIES = 3;
+    localparam PMA_ENTRIES = 4;
 
     typedef struct packed {
         logic [31:0] base;
@@ -39,10 +39,12 @@ module ysyx_26040135_AXI_IFU (
     } pma_entry_t;
 
     // ⭐ 换成 ysyxSoC 的地址映射(见 ysyxSoC/src/SoC.scala):
-    //    MROM  0x2000_0000 ~ 0x2000_0fff  只读, 程序镜像放这里, 复位后从这里取指
+    //    Flash 0x3000_0000 ~ 0x3fff_ffff  只读, 程序镜像放这里, 复位后从这里取指
+    //    MROM  0x2000_0000 ~ 0x2000_0fff  只读(程序改用 flash 之后这里已经没人取指了)
     //    SRAM  0x0f00_0000 ~ 0x0f00_1fff  8KB 可读写, 栈/堆放这里
     //    UART  0x1000_0000 ~ 0x1000_0fff  UART16550, 不可取指
     pma_entry_t pma_table [PMA_ENTRIES] = '{
+        '{base: 32'h30000000, size: 32'h10000000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // Flash (16MB 窗口, 和 flash_read 的偏移一致)
         '{base: 32'h20000000, size: 32'h00001000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // MROM
         '{base: 32'h0f000000, size: 32'h00002000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SRAM
         '{base: 32'h10000000, size: 32'h00001000, executable: 1'b0, readable: 1'b1, writable: 1'b1}   // UART16550

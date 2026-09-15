@@ -50,6 +50,28 @@ ysyxSoC不支持"关机"等功能, 为方便起见, 可借助ebreak指令让仿�
 串口收发端的参数配置要完全一致, 才能正确发送和接收字符. 通常用形如115200 8N1等方式来描述一组参数配置, 它表示波特率是115200, 字符长度是8位, 不带校验位, 1位停止位.
 */
 
+/*
+尝试编写一个AM程序, 在其中实现一个原型为uint32_t flash_read(uint32_t addr)的函数, 此处的flash_read()函数通过驱动SPI master, 读出flash颗粒中起始地址为addr的32位内容. 
+
+将需要发送给flash颗粒的命令设置到SPI master的TX寄存器中
+
+设置除数寄存器
+
+设置SS寄存器, 选择flash颗粒作为slave, 其slave编号为0
+
+设置控制寄存器:
+CHAR_LEN - 由于读命令的长度共32位, 且需要读出32位数据, 因此传输长度应为64位
+Rx_NEG和Tx_NEG - 需要根据slave的相关文档进行设置
+在真实芯片中, Rx_NEG和Tx_NEG设置错误可能会导致电路工作时的保持时间(hold)违例, 从而无法采样到正确的数据. 不过在verilator中没有时序的概念, 因此某些不正确的设置可能也会得到正确的结果, 但我们还是建议你在RTFM后严格按照约定来设置
+LSB - 需要根据slave的相关文档进行设置, 在必要情况下, 读出的数据可通过软件调整其尾端
+IE - 目前我们不使用中断功能
+ASS - 是否设置均可, 但需要与软件协同考虑
+轮询控制寄存器中的完成标志, 直到SPI master完成数据传输
+从SPI master的RX寄存器中读出slave返回的数据
+
+实现flash_read()后, 通过该函数从flash存储空间中读出内容, 并检查是否与仿真环境初始化时设置的内容一致.
+*/
+
 extern char _heap_start, _heap_end;
 int main(const char *args);
 
@@ -82,5 +104,93 @@ void _trm_init() {
   int ret = main(mainargs);
   halt(ret);
 }
+
+
+/*
+SPI master 的设备寄存器(ysyxSoC/perip/spi/rtl/spi_top.v, 字偏移 = in_paddr[4:2]):
+
+    +0x00 TX_0 / RX_0     +0x04 TX_1 / RX_1     +0x08 TX_2 / RX_2     +0x0c TX_3 / RX_3
+    +0x10 CTRL            +0x14 DIVIDER         +0x18 SS
+
+CTRL 位(spi_defines.v):
+    [6:0]  CHAR_LEN   [8] GO   [9] RX_NEG   [10] TX_NEG   [11] LSB   [12] IE   [13] ASS
+
+⚠ spi_top.v 写 CTRL 的实现是:
+      if (wb_sel_i[0]) ctrl[7:0] <= wb_dat_i[7:0] | {7'b0, ctrl[0]};
+  也就是 CHAR_LEN 的最低位只能被"置 1"、清不掉, 所以写进去的 CHAR_LEN 只能一直是偶数
+  或一直是奇数, 中途换奇偶会出问题. 我们固定用 64(偶数)。
+
+⚠ 实测: CHAR_LEN 就是"实际传输的位数"本身(不是位数减一), 而且是从 data[CHAR_LEN-1]
+  开始发. 所以 64 位传输要写 CHAR_LEN = 64, 发送的首位是 data[63] = TX_1 的最高位。
+
+⚠ SS 是"写 1 选中": spi_top.v 里 ss_pad_o = ~ss (ASS=0 时), 所以 SPI_SS = 1<<0
+  会把 flash(spi.ss[0]) 的片选拉低。
+
+⚠ 接收到的 32 位数据落在 data[31:0], 从 RX_0 读出来。但 flash 颗粒(flash.v)在往外吐
+  数据之前先做了一次字节翻转:
+      wire [31:0] data_bswap = {rdata[7:0], rdata[15:8], rdata[23:16], rdata[31:24]};
+  也就是线上是"低字节先出、每个字节内部 MSB 先出"。master 用 MSB first 收完, 拿到的是
+  字节序相反的 32 位, 需要软件再翻一次(讲义里说的"读出的数据可通过软件调整其尾端")。
+*/
+
+#define SPI_REG(off)        (*(volatile uint32_t *)(YSYXSOC_SPI_ADDR + (off)))
+
+#define SPI_TX0             SPI_REG(0x00)
+#define SPI_TX1             SPI_REG(0x04)
+#define SPI_RX0             SPI_REG(0x00)
+#define SPI_CTRL            SPI_REG(0x10)
+#define SPI_DIV             SPI_REG(0x14)
+#define SPI_SS              SPI_REG(0x18)
+
+#define SPI_CTRL_ASS        (1u << 13)
+#define SPI_CTRL_IE         (1u << 12)
+#define SPI_CTRL_LSB        (1u << 11)
+#define SPI_CTRL_TX_NEG     (1u << 10)
+#define SPI_CTRL_RX_NEG     (1u << 9)
+#define SPI_CTRL_GO         (1u << 8)
+#define SPI_CTRL_CHAR_LEN(x)((uint32_t)(x) & 0x7fu)
+
+/* 32 位字节翻转. flash 颗粒吐是"低字节先出", 收回来要翻一次才是真正的字。 */
+static inline uint32_t bswap32(uint32_t x)
+{
+    return ((x & 0x000000ffu) << 24) |
+           ((x & 0x0000ff00u) <<  8) |
+           ((x & 0x00ff0000u) >>  8) |
+           ((x & 0xff000000u) >> 24);
+}
+
+/* 通过 SPI master 读出 flash 颗粒里起始地址为 addr 的 32 位内容。
+ *
+ * flash 颗粒(spi/flash/flash.v)只认 03h 读命令:
+ *      8 位命令 0x03  +  24 位地址(都是 MSB first)  +  然后 miso 上 MSB first 吐 32 位数据
+ * 所以一次事务要发/收 64 位。 */
+uint32_t flash_read(uint32_t addr)
+{
+    /* 8 位命令 0x03 + 24 位地址. flash 空间是 0x3000_0000 起的 16MB,
+     * 而颗粒内部只要 24 位地址, 所以取低 24 位就是相对 flash 基址的偏移。 */
+    uint32_t cmd = (0x03u << 24) | (addr & 0x00ffffffu);
+
+    SPI_DIV = 1;         /* SCK 半周期 = 2 个系统时钟; verilator 里没有频率概念, 小值即可 */
+    SPI_SS  = 1u << 0;   /* 选中 0 号 slave = flash */
+
+    SPI_TX1 = cmd;       /* data[63:32] = 命令 + 地址, MSB first 会先发它 */
+    SPI_TX0 = 0;         /* data[31:0]  = 后面 32 拍用来收数据, 发什么都行 */
+
+    SPI_CTRL = SPI_CTRL_CHAR_LEN(64)   /* 64 位: 32 位命令+地址 + 32 位返回数据 */
+             | SPI_CTRL_GO;            /* LSB=0 MSB first, TX_NEG=0 RX_NEG=0, IE=0, ASS=0 */
+
+    /* GO 会在传输结束时由硬件自动清零 */
+    while (SPI_CTRL & SPI_CTRL_GO);
+
+    /* ⭐ 必须把 SS 放开. flash 颗粒(flash.v)里是
+     *        wire reset = ss;
+     *        always@(posedge sck or posedge reset) if (reset) state <= cmd_t;
+     *   也就是"片选拉高 = 复位它的状态机". 如果一直按着 SS 不放, 下一次事务时它还停在
+     *   data_t, 会把新的命令+地址也当数据收下去, 从第二次读开始就全错. */
+    SPI_SS = 0;
+
+    return bswap32(SPI_RX0);
+}
+
 
 

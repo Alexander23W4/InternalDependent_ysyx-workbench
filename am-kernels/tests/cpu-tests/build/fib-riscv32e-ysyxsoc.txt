@@ -7,7 +7,7 @@ Disassembly of section .text:
 20000000 <_start>:
 20000000:	00000413          	li	s0,0
 20000004:	ef002117          	auipc	sp,0xef002
-20000008:	ffc10113          	addi	sp,sp,-4 # f002000 <_end>
+20000008:	ffc10113          	addi	sp,sp,-4 # f002000 <_stack_pointer>
 2000000c:	098000ef          	jal	ra,200000a4 <_trm_init>
 
 20000010 <check>:
@@ -23,10 +23,10 @@ Disassembly of section .text:
 2000002c:	00812223          	sw	s0,4(sp)
 20000030:	00912023          	sw	s1,0(sp)
 20000034:	00112423          	sw	ra,8(sp)
-20000038:	00000417          	auipc	s0,0x0
-2000003c:	16840413          	addi	s0,s0,360 # 200001a0 <fib>
-20000040:	00000497          	auipc	s1,0x0
-20000044:	0c848493          	addi	s1,s1,200 # 20000108 <ans+0x8>
+20000038:	ef000417          	auipc	s0,0xef000
+2000003c:	06840413          	addi	s0,s0,104 # f0000a0 <fib>
+20000040:	ef000497          	auipc	s1,0xef000
+20000044:	fc848493          	addi	s1,s1,-56 # f000008 <ans+0x8>
 20000048:	00042683          	lw	a3,0(s0)
 2000004c:	00442783          	lw	a5,4(s0)
 20000050:	0004a503          	lw	a0,0(s1)
@@ -36,8 +36,8 @@ Disassembly of section .text:
 20000060:	00153513          	seqz	a0,a0
 20000064:	00f42223          	sw	a5,4(s0)
 20000068:	fa9ff0ef          	jal	ra,20000010 <check>
-2000006c:	00000797          	auipc	a5,0x0
-20000070:	1cc78793          	addi	a5,a5,460 # 20000238 <fib+0x98>
+2000006c:	ef000797          	auipc	a5,0xef000
+20000070:	0cc78793          	addi	a5,a5,204 # f000138 <fib+0x98>
 20000074:	00448493          	addi	s1,s1,4
 20000078:	fcf418e3          	bne	s0,a5,20000048 <main+0x20>
 2000007c:	00100513          	li	a0,1

@@ -136,3 +136,7 @@ bootloader: 系统启动时的加载器
  另一种是加载内存地址(load memory address, LMA), 它表示程序运行前对象所在的地址;
 
  二者都在 链接脚本 中定义, VMA是编译器最终会使用的地址, LMA是bootloader用于复制数据到VMA的源地址
+
+ 链接脚本里用 . 定义的符号，值全是 VMA。 所以 MA_start = .（在 .rodata 之后、.data 之前 → . 还在 MROM）碰巧是对的；
+ 而 MA_end = .（在 .bss > sram 之后）拿到的是 SRAM 地址。
+ 要拿 MROM 地址必须用 LOADADDR(段名)，或者用官方示例那招：源地址直接取 _etext（因为 .data 的 LMA 紧跟在 .text 后面）。

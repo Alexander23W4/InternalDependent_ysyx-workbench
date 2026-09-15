@@ -1,300 +1,300 @@
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000f0    0x00c12783    lw	a5, 0xc(sp)                                                                                                                                        
-0x200000f4    0x00100513    li	a0, 1                                                                                                                                              
-0x200000f8    0x00878413    addi	s0, a5, 8                                                                                                                                        
-0x200000fc    0xf61ff0ef    jal	0x2000005c                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x20000104    0x00412783    lw	a5, 4(sp)                                                                                                                                          
-0x20000108    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x2000010c    0x00812783    lw	a5, 8(sp)                                                                                                                                          
-0x20000114    0x02078793    addi	a5, a5, 0x20                                                                                                                                     
-0x20000118    0x04000793    li	a5, 0x40                                                                                                                                           
-0x20000120    0xf8f412e3    bne	s0, a5, 0x200000a4                                                                                                                                
-0x200000a4    0x00412783    lw	a5, 4(sp)                                                                                                                                          
-0x200000a8    0x00812403    lw	s0, 8(sp)                                                                                                                                          
-0x200000ac    0xef000497    auipc	s1, 0xef000                                                                                                                                     
-0x200000b0    0x05448493    addi	s1, s1, 0x54                                                                                                                                     
-0x200000b4    0x0007a783    lw	a5, 0(a5)                                                                                                                                          
-0x200000b8    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000cc    0x00078513    mv	a0, a5                                                                                                                                             
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000cc    0x00078513    mv	a0, a5                                                                                                                                             
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000f0    0x00c12783    lw	a5, 0xc(sp)                                                                                                                                        
-0x200000f4    0x00100513    li	a0, 1                                                                                                                                              
-0x200000f8    0x00878413    addi	s0, a5, 8                                                                                                                                        
-0x200000fc    0xf61ff0ef    jal	0x2000005c                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x20000104    0x00412783    lw	a5, 4(sp)                                                                                                                                          
-0x20000108    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x2000010c    0x00812783    lw	a5, 8(sp)                                                                                                                                          
-0x20000114    0x02078793    addi	a5, a5, 0x20                                                                                                                                     
-0x20000118    0x04000793    li	a5, 0x40                                                                                                                                           
-0x20000120    0xf8f412e3    bne	s0, a5, 0x200000a4                                                                                                                                
-0x200000a4    0x00412783    lw	a5, 4(sp)                                                                                                                                          
-0x200000a8    0x00812403    lw	s0, 8(sp)                                                                                                                                          
-0x200000ac    0xef000497    auipc	s1, 0xef000                                                                                                                                     
-0x200000b0    0x05448493    addi	s1, s1, 0x54                                                                                                                                     
-0x200000b4    0x0007a783    lw	a5, 0(a5)                                                                                                                                          
-0x200000b8    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000cc    0x00078513    mv	a0, a5                                                                                                                                             
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000cc    0x00078513    mv	a0, a5                                                                                                                                             
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000cc    0x00078513    mv	a0, a5                                                                                                                                             
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000bc    0x0004a503    lw	a0, 0(s1)                                                                                                                                          
-0x200000c0    0x00012783    lw	a5, 0(sp)                                                                                                                                          
-0x200000c4    0x00448493    addi	s1, s1, 4                                                                                                                                        
-0x200000c8    0x00f55463    bge	a0, a5, 0x200000d0                                                                                                                                
-0x200000d0    0x00042683    lw	a3, 0(s0)                                                                                                                                          
-0x200000d4    0x00440413    addi	s0, s0, 4                                                                                                                                        
-0x200000d8    0x40d50533    sub	a0, a0, a3                                                                                                                                        
-0x200000dc    0x00153513    seqz	a0, a0                                                                                                                                           
-0x200000e0    0xf81ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x200000e4    0xef000797    auipc	a5, 0xef000                                                                                                                                     
-0x200000e8    0x03c78793    addi	a5, a5, 0x3c                                                                                                                                     
-0x200000ec    0xfc9798e3    bne	a5, s1, 0x200000bc                                                                                                                                
-0x200000f0    0x00c12783    lw	a5, 0xc(sp)                                                                                                                                        
-0x200000f4    0x00100513    li	a0, 1                                                                                                                                              
-0x200000f8    0x00878413    addi	s0, a5, 8                                                                                                                                        
-0x200000fc    0xf61ff0ef    jal	0x2000005c                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x20000104    0x00412783    lw	a5, 4(sp)                                                                                                                                          
-0x20000108    0x00478793    addi	a5, a5, 4                                                                                                                                        
-0x2000010c    0x00812783    lw	a5, 8(sp)                                                                                                                                          
-0x20000114    0x02078793    addi	a5, a5, 0x20                                                                                                                                     
-0x20000118    0x04000793    li	a5, 0x40                                                                                                                                           
-0x20000120    0xf8f412e3    bne	s0, a5, 0x200000a4                                                                                                                                
-0x20000124    0x00100513    li	a0, 1                                                                                                                                              
-0x20000128    0xf39ff0ef    jal	0x20000060                [CALL] PRE: main, DST: check                                                                                            
-0x20000060    0x00050463    beqz	a0, 0x20000068                                                                                                                                   
-0x20000064    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0x2000012c    0x01812083    lw	ra, 0x18(sp)                                                                                                                                       
-0x20000130    0x01412403    lw	s0, 0x14(sp)                                                                                                                                       
-0x20000134    0x01012483    lw	s1, 0x10(sp)                                                                                                                                       
-0x20000138    0x00000513    li	a0, 0                                                                                                                                              
-0x2000013c    0x01c10113    addi	sp, sp, 0x1c                                                                                                                                     
-0x20000140    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                                                                                         
-0x20000180    0x00100073    ebreak                                                                                                                                                
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000090    0xfff40413    addi	s0, s0, -1                                                                                                                                       
+0x20000094    0xfe0410e3    bnez	s0, 0x20000074                                                                                                                                   
+0x20000074    0x00000497    auipc	s1, 0                                                                                                                                           
+0x20000078    0x0c048493    addi	s1, s1, 0xc0                                                                                                                                     
+0x2000007c    0x04800513    li	a0, 0x48                                                                                                                                           
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000080    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0x20000084    0x04c000ef    jal	0x200000d0                [CALL] PRE: hello, DST: putch                                                                                           
+0x200000d0    0x100007b7    lui	a5, 0x10000                                                                                                                                       
+0x200000d4    0x0057c783    lbu	a5, 5(a5)                                                                                                                                         
+0x200000d8    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0x200000dc    0x00079c63    bnez	a5, 0x200000f4                                                                                                                                   
+0x200000f4    0x00008067    ret                           [RET] PRE: putch, DST: hello                                                                                            
+0x20000088    0x0004c503    lbu	a0, 0(s1)                                                                                                                                         
+0x2000008c    0xfe051ae3    bnez	a0, 0x20000080                                                                                                                                   
+0x20000090    0xfff40413    addi	s0, s0, -1                                                                                                                                       
+0x20000094    0xfe0410e3    bnez	s0, 0x20000074                                                                                                                                   
+0x20000098    0x00812083    lw	ra, 8(sp)                                                                                                                                          
+0x2000009c    0x00412403    lw	s0, 4(sp)                                                                                                                                          
+0x200000a0    0x00012483    lw	s1, 0(sp)                                                                                                                                          
+0x200000a4    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
+0x200000a8    0x00008067    ret                           [RET] PRE: hello, DST: main                                                                                             
+0x200000c0    0x00812083    lw	ra, 8(sp)                                                                                                                                          
+0x200000c4    0x00000513    li	a0, 0                                                                                                                                              
+0x200000c8    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
+0x200000cc    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                                                                                         
+0x2000012c    0x00100073    ebreak                                                                                                                                                

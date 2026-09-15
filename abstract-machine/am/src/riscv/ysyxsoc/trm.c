@@ -68,9 +68,8 @@ void init_uart(void) {
 }
 
 void putch(char ch) {
-    while (!(*(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 5) & 0x20)){
-      *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 0) = ch;
-    }
+  while (!(*(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 5) & 0x20));  
+  *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 0) = ch;               
 }
 
 void halt(int code) {

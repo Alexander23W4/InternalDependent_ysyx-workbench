@@ -7,7 +7,6 @@ void hello() {
 }
 
 int main(){
-  putch('A');
   hello();
   return 0;
 }

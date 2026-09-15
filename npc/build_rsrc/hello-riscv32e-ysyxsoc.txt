@@ -9,7 +9,7 @@ Disassembly of section .text:
 20000004:	ef002117          	auipc	sp,0xef002
 20000008:	ffc10113          	addi	sp,sp,-4 # f002000 <_end>
 2000000c:	00000517          	auipc	a0,0x0
-20000010:	18450513          	addi	a0,a0,388 # 20000190 <_data_lma>
+20000010:	16c50513          	addi	a0,a0,364 # 20000178 <_data_lma>
 20000014:	ef000597          	auipc	a1,0xef000
 20000018:	fec58593          	addi	a1,a1,-20 # f000000 <_bss_end>
 2000001c:	ef000617          	auipc	a2,0xef000
@@ -28,7 +28,7 @@ Disassembly of section .text:
 20000050:	00058023          	sb	zero,0(a1)
 20000054:	00158593          	addi	a1,a1,1
 20000058:	ff5ff06f          	j	2000004c <_start+0x4c>
-2000005c:	09c000ef          	jal	ra,200000f8 <_trm_init>
+2000005c:	084000ef          	jal	ra,200000e0 <_trm_init>
 
 20000060 <hello>:
 20000060:	ff410113          	addi	sp,sp,-12
@@ -37,10 +37,10 @@ Disassembly of section .text:
 2000006c:	00912023          	sw	s1,0(sp)
 20000070:	00a00413          	li	s0,10
 20000074:	00000497          	auipc	s1,0x0
-20000078:	0c048493          	addi	s1,s1,192 # 20000134 <_etext>
+20000078:	0a848493          	addi	s1,s1,168 # 2000011c <_etext>
 2000007c:	04800513          	li	a0,72
 20000080:	00148493          	addi	s1,s1,1
-20000084:	04c000ef          	jal	ra,200000d0 <putch>
+20000084:	044000ef          	jal	ra,200000c8 <putch>
 20000088:	0004c503          	lbu	a0,0(s1)
 2000008c:	fe051ae3          	bnez	a0,20000080 <hello+0x20>
 20000090:	fff40413          	addi	s0,s0,-1
@@ -53,40 +53,34 @@ Disassembly of section .text:
 
 200000ac <main>:
 200000ac:	ff410113          	addi	sp,sp,-12
-200000b0:	04100513          	li	a0,65
-200000b4:	00112423          	sw	ra,8(sp)
-200000b8:	018000ef          	jal	ra,200000d0 <putch>
-200000bc:	fa5ff0ef          	jal	ra,20000060 <hello>
-200000c0:	00812083          	lw	ra,8(sp)
-200000c4:	00000513          	li	a0,0
-200000c8:	00c10113          	addi	sp,sp,12
-200000cc:	00008067          	ret
+200000b0:	00112423          	sw	ra,8(sp)
+200000b4:	fadff0ef          	jal	ra,20000060 <hello>
+200000b8:	00812083          	lw	ra,8(sp)
+200000bc:	00000513          	li	a0,0
+200000c0:	00c10113          	addi	sp,sp,12
+200000c4:	00008067          	ret
 
-200000d0 <putch>:
-200000d0:	100007b7          	lui	a5,0x10000
-200000d4:	0057c783          	lbu	a5,5(a5) # 10000005 <_end+0xffe005>
-200000d8:	0207f793          	andi	a5,a5,32
-200000dc:	00079c63          	bnez	a5,200000f4 <putch+0x24>
-200000e0:	10000737          	lui	a4,0x10000
-200000e4:	00a70023          	sb	a0,0(a4) # 10000000 <_end+0xffe000>
-200000e8:	00574783          	lbu	a5,5(a4)
-200000ec:	0207f793          	andi	a5,a5,32
-200000f0:	fe078ae3          	beqz	a5,200000e4 <putch+0x14>
-200000f4:	00008067          	ret
+200000c8 <putch>:
+200000c8:	10000737          	lui	a4,0x10000
+200000cc:	00574783          	lbu	a5,5(a4) # 10000005 <_end+0xffe005>
+200000d0:	0207f793          	andi	a5,a5,32
+200000d4:	fe078ce3          	beqz	a5,200000cc <putch+0x4>
+200000d8:	00a70023          	sb	a0,0(a4)
+200000dc:	00008067          	ret
 
-200000f8 <_trm_init>:
-200000f8:	ff410113          	addi	sp,sp,-12
-200000fc:	00112423          	sw	ra,8(sp)
-20000100:	100007b7          	lui	a5,0x10000
-20000104:	f8000713          	li	a4,-128
-20000108:	00e781a3          	sb	a4,3(a5) # 10000003 <_end+0xffe003>
-2000010c:	00100713          	li	a4,1
-20000110:	00e78023          	sb	a4,0(a5)
-20000114:	000780a3          	sb	zero,1(a5)
-20000118:	00300713          	li	a4,3
-2000011c:	00e781a3          	sb	a4,3(a5)
-20000120:	00000517          	auipc	a0,0x0
-20000124:	03050513          	addi	a0,a0,48 # 20000150 <mainargs>
-20000128:	f85ff0ef          	jal	ra,200000ac <main>
-2000012c:	00100073          	ebreak
-20000130:	0000006f          	j	20000130 <_trm_init+0x38>
+200000e0 <_trm_init>:
+200000e0:	ff410113          	addi	sp,sp,-12
+200000e4:	00112423          	sw	ra,8(sp)
+200000e8:	100007b7          	lui	a5,0x10000
+200000ec:	f8000713          	li	a4,-128
+200000f0:	00e781a3          	sb	a4,3(a5) # 10000003 <_end+0xffe003>
+200000f4:	00100713          	li	a4,1
+200000f8:	00e78023          	sb	a4,0(a5)
+200000fc:	000780a3          	sb	zero,1(a5)
+20000100:	00300713          	li	a4,3
+20000104:	00e781a3          	sb	a4,3(a5)
+20000108:	00000517          	auipc	a0,0x0
+2000010c:	03050513          	addi	a0,a0,48 # 20000138 <mainargs>
+20000110:	f9dff0ef          	jal	ra,200000ac <main>
+20000114:	00100073          	ebreak
+20000118:	0000006f          	j	20000118 <_trm_init+0x38>

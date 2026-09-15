@@ -38,10 +38,15 @@ insert-arg: image
 	@python3 $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
 
 # 作用: 在用户环境下产生 .bin .elf .txt三个build文件
+# ⭐ 这里不能再用 --set-section-flags .bss=alloc,contents 了.
+#    早期没有 bootloader 时, 那个 flag 是为了硬把 .bss 也塞进 .bin;
+#    现在 .bss 由 start.S 里的清零循环负责(它是 NOBITS, 本来就没有内容),
+#    留着这个 flag 只会让 objcopy 从 _data_end 一路补零补到 _bss_end,
+#    把 .bin 撑大(而多出来的那部分还不受 linker-ysyxsoc.ld 里 4KB MROM 的 ASSERT 保护).
 image: image-dep
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
-	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
+	@$(OBJCOPY) -S -O binary $(IMAGE).elf $(IMAGE).bin
 
 # 
 run: insert-arg update-npc 

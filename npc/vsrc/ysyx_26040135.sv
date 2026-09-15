@@ -309,8 +309,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic __addr_ready;  // ⭐  // 这两个信号只持续一个周期 (在__ifu_instr_valid出来的瞬时拉高一个周期)
     logic __data_ready;  // ⭐
 
-    logic __read = lb | lh | lw | lbu | lhu;
-    logic __write = sb | sh | sw;
+    // ⭐ 注意: 这里必须用 assign 连续赋值. 写成 "logic __read = lb | ...;" 只是变量初值,
+    //    只会在 t=0 求值一次(那时 lb..lhu 全为 0), 之后永远是 0 -> LSU 永远不会发起访存,
+    //    所有 load/store 都会静默地拿到 0 / 什么也不做.
+    logic __read, __write;
+    assign __read  = lb | lh | lw | lbu | lhu;
+    assign __write = sb | sh | sw;
 
     ysyx_26040135_AXI_LSU lsu (
         .bus                 (bus_lsu.master),              
@@ -367,11 +371,17 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     logic [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
+    // ⭐ 两个 slave 都是按"对齐字"返回数据的(MROM 的 DPI helper 读的是对齐字, SoC 里的
+    //    SRAM/AXI4RAM 也是直接返回 Memory[addr[12:2]]), 不会按 addr[1:0] 把字节挪到对应
+    //    通道上. 所以窄读的字节抽取必须由 CPU 自己做: 先按 addr[1:0] 右移再取低位.
+    logic [31:0] lsu_rdata_shifted;
+    assign lsu_rdata_shifted = lsu_rdata >> {add_rst[1:0], 3'b000};
+
     assign lw_rst  = lsu_rdata;
-    assign lbu_rst = {24'b0, lsu_rdata[7:0]};
-    assign lhu_rst = {16'b0, lsu_rdata[15:0]};
-    assign lb_rst  = {{24{lsu_rdata[7]}}, lsu_rdata[7:0]};
-    assign lh_rst  = {{16{lsu_rdata[15]}}, lsu_rdata[15:0]};
+    assign lbu_rst = {24'b0, lsu_rdata_shifted[7:0]};
+    assign lhu_rst = {16'b0, lsu_rdata_shifted[15:0]};
+    assign lb_rst  = {{24{lsu_rdata_shifted[7]}}, lsu_rdata_shifted[7:0]};
+    assign lh_rst  = {{16{lsu_rdata_shifted[15]}}, lsu_rdata_shifted[15:0]};
 
 
 

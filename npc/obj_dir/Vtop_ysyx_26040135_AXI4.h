@@ -20,10 +20,10 @@ class Vtop_ysyx_26040135_AXI4 final : public VerilatedModule {
     CData/*2:0*/ awsize;
     CData/*0:0*/ awvalid;
     CData/*3:0*/ wstrb;
-    CData/*0:0*/ wlast;
     CData/*0:0*/ wvalid;
     CData/*0:0*/ bready;
     IData/*31:0*/ araddr;
+    IData/*31:0*/ wdata;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

@@ -39,9 +39,10 @@ void load_mrom(const char *path) {
     printf("[MROM] loaded %zu byte(s) from %s\n", n, path);
 }
 
-// 按字节地址读一个 32bit 字 (小端), 与 AXI4MROM 的行为一致
+// 返回 addr 所在的"对齐字"(小端). 和 SoC 里真正的 SRAM(AXI4RAM -> Memory[addr[12:2]]) 保持
+// 一致: 两者都只给对齐字, 窄访问该取哪几个字节由 CPU 自己按 addr[1:0] 去抽.
 extern "C" void mrom_read(int32_t addr, int32_t *data) {
-    uint32_t off = (uint32_t)addr - (uint32_t)MROM_BASE;
+    uint32_t off = ((uint32_t)addr - (uint32_t)MROM_BASE) & ~3u;
     if (off + 4 <= MROM_SIZE) {
         memcpy(data, &mrom[off], 4);
     } else {

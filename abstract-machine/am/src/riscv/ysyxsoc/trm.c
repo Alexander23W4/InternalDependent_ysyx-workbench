@@ -39,14 +39,38 @@ ysyxSoC不支持"关机"等功能, 为方便起见, 可借助ebreak指令让仿�
 添加后, 将cpu-tests中的dummy测试编译到riscv32e-ysyxsoc, 并尝试在ysyxSoC的仿真环境中运行它.
 */
 
+
+/*
+设置串口收发参数, 具体包括波特率, 字符长度, 是否带校验位, 停止位的位宽等
+
+波特率指每秒传送的字符数. 不过通常并非直接在寄存器中设置波特率, 而是设置一个与波特率成反比的除数: 
+除数越小, 波特率越大, 传输速率越快, 但受电气特性的影响, 误码率也越高, 字符传送成功的概率越低; 
+相反, 除数越大, 波特率越小, 传输速率越慢, 软件等待的时间也越长. 除数的值还与串口控制器的工作频率有关, 后者即串口每秒传送的比特数, 可RTFM了解两者的具体关系.
+
+串口收发端的参数配置要完全一致, 才能正确发送和接收字符. 通常用形如115200 8N1等方式来描述一组参数配置, 它表示波特率是115200, 字符长度是8位, 不带校验位, 1位停止位.
+*/
+
 extern char _heap_start, _heap_end;
 int main(const char *args);
 
 Area heap = RANGE(&_heap_start, &_heap_end);      // 这里正式定义 heap 堆区, 然后malloc使用
-static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER); // defined in CFLAGS 
+static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER);     // defined in CFLAGS 
+
+
+void init_uart(void) {
+    *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 3) = 0x80;  // LCR: DLAB = 1    line control register, 打开除数锁存访问模式
+
+    // 写除数
+    *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 0) = 0x01;  // DLL
+    *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 1) = 0x00;  // DLM
+
+    *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 3) = 0x03;  // LCR: 8N1  恢复正常模式, 设置字符长度为8bit, 无停止位(bit3), 无校验位(bit2)
+}
 
 void putch(char ch) {
-  *(volatile uint8_t  *)YSYXSOC_SERIAL_ADDR = ch;
+    while (!(*(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 5) & 0x20)){
+      *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 0) = ch;
+    }
 }
 
 void halt(int code) {
@@ -55,6 +79,7 @@ void halt(int code) {
 }
 
 void _trm_init() {
+  init_uart();
   int ret = main(mainargs);
   halt(ret);
 }

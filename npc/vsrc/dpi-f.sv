@@ -57,4 +57,3 @@ function void check_end(
     period_end = {31'b0, __period_end};
 endfunction
 
-

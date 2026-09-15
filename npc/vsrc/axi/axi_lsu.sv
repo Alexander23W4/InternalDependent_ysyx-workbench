@@ -49,6 +49,11 @@ module ysyx_26040135_AXI_LSU (
     } state_t;
     state_t state, next;
 
+    // ⭐ AW/W 两个通道是独立的: 谁先被 slave 收下, 谁就置自己的 done 标志.
+    //    必须等两个都收下了才能去等 B, 而且各自的 valid 在 done 之前不能撤.
+    logic aw_done, w_done;
+    logic aw_done_next, w_done_next;
+
 
 
     always_ff @( posedge clock or posedge reset ) begin
@@ -58,7 +63,12 @@ module ysyx_26040135_AXI_LSU (
             error_save <= 2'b00;
             read_complete_save <= 1'b0;
             write_complete_save <= 1'b0;
+            aw_done <= 1'b0;
+            w_done  <= 1'b0;
         end else begin
+
+            aw_done <= aw_done_next;
+            w_done  <= w_done_next;
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
@@ -122,15 +132,22 @@ module ysyx_26040135_AXI_LSU (
 
         bus.awvalid = 1'b0;
         bus.awaddr = addr;
-        bus.wdata = wdata;
+        // ⭐ AXI 要求窄写的 wdata 落在 wstrb 指定的那几条字节通道上(和 araddr/awaddr 的
+        //    addr[1:0] 对应), 所以 sb/sh 必须把数据左移. 之前直接透传 wdata, 结果是
+        //    sb 到 offset 1/2/3 时写进去的是 0.
+        bus.wdata = wdata << {addr[1:0], 3'b000};
         bus.awid = 4'b0000;
         bus.awlen = 8'h00;
         bus.awburst = 2'b00;
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
+        // ⭐ awlen=0 -> 单拍写, 每一拍都是最后一拍. 这个信号之前完全没被赋值过.
+        bus.wlast = 1'b1;
 
 
         next = state;
+        aw_done_next = 1'b0;
+        w_done_next  = 1'b0;
         
         /*
             先保证所有output信号默认都是0    
@@ -144,11 +161,12 @@ module ysyx_26040135_AXI_LSU (
                         next = AR;
                     end
                     else if(__write) begin
-                        bus.awvalid = 1'b1;
+                        // ⭐ 这里只跳状态, 不发 AW.
+                        //    原因: 如果这一拍就把 awvalid 拉高而 awready 恰好也是 1, AW 当场
+                        //    被收走; 下一拍进了 AW 态又拉一次 awvalid(同一地址), 同一个 store
+                        //    就发了两次 AW. 多出来的那笔 AW 会一直挂在总线里, 等下一个 store
+                        //    的 wdata 一到就和它配对 -> 数据被写到了上一个 store 的地址上.
                         next = AW;
-                        if(__data_ready) begin
-                            bus.wvalid = 1'b1;
-                        end
                     end
                 end
             end
@@ -181,17 +199,17 @@ module ysyx_26040135_AXI_LSU (
             end
 
             AW: begin
-                bus.awvalid = 1'b1;
-                if(__data_ready) begin
-                    bus.wvalid = 1'b1;
-                end
-                if(bus.awready == 1'b1) begin
-                    if(bus.wready == 1'b1) begin
-                        next = B;
-                    end
-                    else if(__data_ready) begin
-                        next = W;
-                    end
+                // ⭐ AW 和 W 一起发, 各自收下之前都不撤; 两个都收下了才去等 B.
+                //    不能等 awready 再发 wvalid: SoC 里 SRAM 的 awready 本身就依赖 wvalid,
+                //    那样会双向死锁.
+                if(!aw_done) bus.awvalid = 1'b1;
+                if(!w_done)  bus.wvalid  = 1'b1;
+
+                aw_done_next = aw_done | bus.awready;
+                w_done_next  = w_done  | bus.wready;
+
+                if(aw_done_next && w_done_next) begin
+                    next = B;
                 end
             end
 

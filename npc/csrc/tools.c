@@ -10,6 +10,10 @@ void tick() {
 }
 
 void error_handler(){
+    // 出错时先把 CPU 状态读出来, 这样后面 final_check()/prt_gprs() 打出的
+    // PC 和寄存器才是"出错那一刻"的值, 而不是上一次 exec_once 留下的旧值
+    top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
+                        (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
     Status = NPC_CRASH;
     if(ifu_error){
         printf("%s", ANSI_FMT("IFU_error\n", ANSI_FG_RED));

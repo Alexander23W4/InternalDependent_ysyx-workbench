@@ -45,21 +45,27 @@ SECTIONS {
   } > mrom AT> mrom
 
 
-  /* =========================================================
-
+  /* ==================== 数据段: LMA 在 MROM, VMA 在 SRAM ====================*/
    . = ORIGIN(sram);
   .data : {
     _data_start = .;      /* SA: bootloader 搬完之后, 程序从这里访问数据段(VMA) */
     *(.data*)
+    *(.sdata*)            /* ⭐ 小数据段: -fdata-sections 加上 GCC 的默认
+                           *    -msmall-data-limit=8 会把 <=8 字节的全局变量塞进
+                           *    .sdata/.sbss。漏掉它们 -> 变成 orphan section ->
+                           *    ld 自己摆位置, 但 bootloader 只搬 _data_start..
+                           *    _data_end, 于是这些全局变量根本不会被搬过去 */
+    *(.sdata2*)
     _data_end = .;
   } > sram AT> mrom
   edata = .;
   _data = .;
 
   .bss : {
-    _bss_start = .;       /* .bss 没有初值, 由 bootloader 清零, 不参与搬运 */
+    _bss_start = .;       /* .bss 没有初值, 由 bootloader 清零, 不参与搬运, 但是仍然要重定向VMA 到 sram */
     *(.bss*)
     *(.sbss*)
+    *(.sbss2*)
     *(.scommon)
     _bss_end = .;
   } > sram AT> mrom
@@ -72,17 +78,14 @@ SECTIONS {
   ASSERT(LOADADDR(.data) + SIZEOF(.data) <= ORIGIN(mrom) + LENGTH(mrom),
          "AM image exceeds 4KB MROM")
 
-/*
- 让heap紧跟 .data和.bss
-*/
-  . = ALIGN(4);
-  _heap_start = .;
-  . = ORIGIN(sram) + LENGTH(sram) - STACK_RESERVE;
-  _heap_end = .;
-  _stack_top = .;
+/*⭐: 我的方案是给stack预留 STACK_RESERVE 大小的地址, heap 用数据段后面, stack前面的剩余的地址*/
+
+  _heap_start = ALIGN(4);
+  _heap_end   = ORIGIN(sram) + LENGTH(sram) - STACK_RESERVE;
+  _stack_top  = _heap_end;
   _stack_pointer = ORIGIN(sram) + LENGTH(sram);   /* 栈从这里向下生长 */
-  end = .;
-  _end = .;
+  end = _stack_pointer;
+  _end = _stack_pointer;
 
   /* .data/.bss + 堆 + 栈必须都放得下 */
   ASSERT(_heap_start <= _heap_end,

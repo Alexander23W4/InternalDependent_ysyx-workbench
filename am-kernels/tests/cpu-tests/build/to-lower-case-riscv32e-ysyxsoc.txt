@@ -1,0 +1,92 @@
+
+/home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/to-lower-case-riscv32e-ysyxsoc.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+20000000 <_start>:
+20000000:	00000413          	li	s0,0
+20000004:	ef002117          	auipc	sp,0xef002
+20000008:	ffc10113          	addi	sp,sp,-4 # f002000 <_end>
+2000000c:	00000517          	auipc	a0,0x0
+20000010:	16850513          	addi	a0,a0,360 # 20000174 <_data_lma>
+20000014:	ef000597          	auipc	a1,0xef000
+20000018:	fec58593          	addi	a1,a1,-20 # f000000 <ans>
+2000001c:	ef000617          	auipc	a2,0xef000
+20000020:	06460613          	addi	a2,a2,100 # f000080 <_bss_end>
+20000024:	00c5fc63          	bgeu	a1,a2,2000003c <_start+0x3c>
+20000028:	00054283          	lbu	t0,0(a0)
+2000002c:	00558023          	sb	t0,0(a1)
+20000030:	00150513          	addi	a0,a0,1
+20000034:	00158593          	addi	a1,a1,1
+20000038:	fedff06f          	j	20000024 <_start+0x24>
+2000003c:	ef000597          	auipc	a1,0xef000
+20000040:	04458593          	addi	a1,a1,68 # f000080 <_bss_end>
+20000044:	ef000617          	auipc	a2,0xef000
+20000048:	03c60613          	addi	a2,a2,60 # f000080 <_bss_end>
+2000004c:	00c5f863          	bgeu	a1,a2,2000005c <_start+0x5c>
+20000050:	00058023          	sb	zero,0(a1)
+20000054:	00158593          	addi	a1,a1,1
+20000058:	ff5ff06f          	j	2000004c <_start+0x4c>
+2000005c:	09c000ef          	jal	ra,200000f8 <_trm_init>
+
+20000060 <check>:
+20000060:	00050463          	beqz	a0,20000068 <check+0x8>
+20000064:	00008067          	ret
+20000068:	ff410113          	addi	sp,sp,-12
+2000006c:	00100513          	li	a0,1
+20000070:	00112423          	sw	ra,8(sp)
+20000074:	07c000ef          	jal	ra,200000f0 <halt>
+
+20000078 <main>:
+20000078:	ff410113          	addi	sp,sp,-12
+2000007c:	00812223          	sw	s0,4(sp)
+20000080:	00912023          	sw	s1,0(sp)
+20000084:	00112423          	sw	ra,8(sp)
+20000088:	00000413          	li	s0,0
+2000008c:	00000713          	li	a4,0
+20000090:	ef000497          	auipc	s1,0xef000
+20000094:	f7048493          	addi	s1,s1,-144 # f000000 <ans>
+20000098:	008486b3          	add	a3,s1,s0
+2000009c:	0006c503          	lbu	a0,0(a3)
+200000a0:	00140413          	addi	s0,s0,1
+200000a4:	40e50533          	sub	a0,a0,a4
+200000a8:	00153513          	seqz	a0,a0
+200000ac:	fb5ff0ef          	jal	ra,20000060 <check>
+200000b0:	0ff47713          	zext.b	a4,s0
+200000b4:	fbf70693          	addi	a3,a4,-65
+200000b8:	08000793          	li	a5,128
+200000bc:	0ff6f693          	zext.b	a3,a3
+200000c0:	01900613          	li	a2,25
+200000c4:	02070593          	addi	a1,a4,32
+200000c8:	00f40863          	beq	s0,a5,200000d8 <main+0x60>
+200000cc:	fcd666e3          	bltu	a2,a3,20000098 <main+0x20>
+200000d0:	0ff5f713          	zext.b	a4,a1
+200000d4:	fc5ff06f          	j	20000098 <main+0x20>
+200000d8:	00812083          	lw	ra,8(sp)
+200000dc:	00412403          	lw	s0,4(sp)
+200000e0:	00012483          	lw	s1,0(sp)
+200000e4:	00000513          	li	a0,0
+200000e8:	00c10113          	addi	sp,sp,12
+200000ec:	00008067          	ret
+
+200000f0 <halt>:
+200000f0:	00100073          	ebreak
+200000f4:	0000006f          	j	200000f4 <halt+0x4>
+
+200000f8 <_trm_init>:
+200000f8:	ff410113          	addi	sp,sp,-12
+200000fc:	00112423          	sw	ra,8(sp)
+20000100:	100007b7          	lui	a5,0x10000
+20000104:	f8000713          	li	a4,-128
+20000108:	00e781a3          	sb	a4,3(a5) # 10000003 <_end+0xffe003>
+2000010c:	00100713          	li	a4,1
+20000110:	00e78023          	sb	a4,0(a5)
+20000114:	000780a3          	sb	zero,1(a5)
+20000118:	00300713          	li	a4,3
+2000011c:	00e781a3          	sb	a4,3(a5)
+20000120:	00000517          	auipc	a0,0x0
+20000124:	01450513          	addi	a0,a0,20 # 20000134 <_etext>
+20000128:	f51ff0ef          	jal	ra,20000078 <main>
+2000012c:	00100073          	ebreak
+20000130:	0000006f          	j	20000130 <_trm_init+0x38>

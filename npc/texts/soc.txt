@@ -352,3 +352,36 @@ DDR SDRAM(Double Data Rate SDRAM)  它可以分别在时钟的上升沿和下降
 
 sence amplifier 是在选中一行之后, 读取微小的电压差, 然后放大到VDD 和 0, 然后外部再读取 sence amplifier
 读完, precharge, 把sence amplifier 的电平恢复到 VDD/2
+
+
+CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
+1	X	    X	    X	    COMMAND INHIBIT	           无命令
+0	1	    1	    1	    NO OPERATION	           NOP
+0	0	    1	    1	    ACTIVE	                激活目标存储体的一行
+0	1	    0	    1	    READ	                读出目标存储体的一列
+0	1	    0	    0	    WRITE	                写入目标存储体的一列
+0	1	    1	    0	    BURST TERMINATE	        停止当前的突发传输
+0	0	    1	    0	    PRECHARGE	关          闭存储体中已激活的行(预充电)
+0	0	    0	    1	    AUTO REFRESH	        刷新
+0	0	    0	    0	    LOAD MODE REGISTER	    设置Mode寄存器
+
+
+从DRAM颗粒接收到READ命令, 到读出存储阵列中的数据并传送到DQ总线上, 一般需要花费若干周期, 这个延迟称为CAS latency(有的教材翻译成CAS潜伏期). 
+
+    ⭐: 突发传输
+使用突发传输, 只需要发送一个READ指令, 就可以多个2n个字节
+// normal
+  1   1   1   1   1   1   1   1   1   1   1   1
+|---|---|---|---|---|---|---|---|---|---|---|---|
+  ^       |   ^       |   ^       |   ^       |
+  |       v   |       v   |       v   |       v
+ READ   data READ   data READ   data READ   data
+
+// burst
+  1   1   1   1   1   1
+|---|---|---|---|---|---|
+  ^       |   |   |   |
+  |       v   v   v   v
+ READ    1st 2nd 3rd 4th
+
+ 

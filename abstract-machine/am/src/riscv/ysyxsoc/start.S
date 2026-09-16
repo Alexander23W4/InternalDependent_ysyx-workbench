@@ -1,4 +1,4 @@
-.section fsbl, "fsbl"
+.section fsbl, "ax"
 .global _fsbl
 .type _fsbl, @function
 
@@ -22,7 +22,7 @@ _fsbl:
 
 
 
-.section ssbl, "ssbl"
+.section ssbl, "ax"
 .globl _start
 .type _start, @function
 
@@ -68,11 +68,6 @@ _start:
 
 
 
-/*
- * 搬运子程序: a0 = 源(LMA), a1 = 目的(VMA), a2 = 字节数
- * 按字搬(一次 4 字节, 少跑几轮), 尾巴不足 4 字节的再按字节搬。
- * 这个循环本身也住在 flash 里, 每条指令都要走一次 QSPI 取指, 所以能少一轮是一轮。
- */
 _boot_copy:
   li   t1, 4
   blt  a2, t1, 3f

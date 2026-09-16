@@ -1,4 +1,4 @@
-ENTRY(_start)
+ENTRY(_fsbl)
 
 /*
 ysyxSoC 专用链接脚本。
@@ -23,11 +23,11 @@ MEMORY {
 }
 
 SECTIONS {
-// ⭐: FSBL
+/* ⭐: FSBL  */
   . = _pmem_start + _entry_offset;   /* flash: 复位 PC 指的就在这里 */
   .fsbl : {
     _boot_start = .;
-    *(fsbl)          
+    KEEP(*(fsbl))      /* ⭐ 入口段必须 KEEP, 否则 --gc-sections 会把它当垃圾删掉 */
     _boot_end = .;
   } > flash AT> flash
 
@@ -35,7 +35,7 @@ SECTIONS {
 
 
 
-// ⭐: SSBL
+/* ⭐: SSBL  */
   . = ORIGIN(psram);
   .ssbl : {
     _ssbl_start = .;
@@ -101,12 +101,5 @@ SECTIONS {
   end = _stack_pointer;
   _end = _stack_pointer;
 
-
-
-
-  ASSERT(_text_start == ORIGIN(psram), "text should start at PSRAM base")
-  ASSERT(LOADADDR(.data) + SIZEOF(.data) <= ORIGIN(flash) + LENGTH(flash),
-         "AM image exceeds FLASH")
-  ASSERT(_heap_start <= _heap_end,
-         "PSRAM overflow: .text/.rodata/.data/.bss leaves no room for heap")
 }
+

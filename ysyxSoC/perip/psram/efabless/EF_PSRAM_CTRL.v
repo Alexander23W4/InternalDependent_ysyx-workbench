@@ -130,15 +130,16 @@ module PSRAM_READER (
 
 
 
-    // Sample with the negedge of sck     计数频率: 1/2 sck(每拍), 过掉20个sck, 分每4拍一个周期
+    // Sample with the negedge of sck     计数频率: 1/2 sck(每拍), 过掉20个sck, 分每4拍一个周期, 刚好一个周期8个sck, 发完4个Byte, 32 bits 的数据
     wire[1:0] byte_index = {counter[7:1] - 8'd10}[1:0];
 
     always @ (posedge clk)
-        if(counter >= 20 && counter <= FINAL_COUNT)
-            if(sck)
-                data[byte_index] <= {data[byte_index][3:0], din}; // Optimize!
+        if(counter >= 20 && counter <= FINAL_COUNT)    // 20 - 27
+            if(sck)     // ⭐: 用这样的方法进行取拍 sck
+                data[byte_index] <= {data[byte_index][3:0], din}; // Optimize!    // ⭐: DIN 这里处理din   (后8拍)
 
-    assign dout     =   (counter < 8)   ?   {3'b0, CMD_EBH[7 - counter]}:
+                                                                                  // ⭐: DOUT 这里书里dout (前20拍)
+    assign dout     =   (counter < 8)   ?   {3'b0, CMD_EBH[7 - counter]}:    
                         (counter == 8)  ?   saddr[23:20]        :
                         (counter == 9)  ?   saddr[19:16]        :
                         (counter == 10) ?   saddr[15:12]        :
@@ -147,7 +148,7 @@ module PSRAM_READER (
                         (counter == 13) ?   saddr[3:0]          :
                         4'h0;
 
-    assign douten   = (counter < 14);
+    assign douten   = (counter < 14);   // 14 拍之前, 
 
     assign done     = (counter == FINAL_COUNT+1);
 

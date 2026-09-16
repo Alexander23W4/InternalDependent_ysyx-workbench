@@ -1659,12 +1659,12 @@ verilator --cc --exe --build -Wall -j --timescale "1ns/1ns" --no-timing --autofl
                        ../ysyxSoC/build/ysyxSoCFull.v:593:12: ... Location of sync usage
   593 |       if (~reset & ~(~_arFIFOMap_0_T_6 | arFIFOMap_0_count)) begin  
       |            ^~~~~
-%Warning-MULTIDRIVEN: ../ysyxSoC/perip/spi/rtl/spi_top_apb.v:153:14: Signal has multiple driving blocks with different clocking: 'ysyxSoCFull.asic.lspi.mspi.wr_err_seen'
-                      ../ysyxSoC/perip/spi/rtl/spi_top_apb.v:201:7: ... Location of first driving block
-  201 |       wr_err_seen  <= 1'b0;
+%Warning-MULTIDRIVEN: ../ysyxSoC/perip/spi/rtl/spi_top_apb.v:159:14: Signal has multiple driving blocks with different clocking: 'ysyxSoCFull.asic.lspi.mspi.wr_err_seen'
+                      ../ysyxSoC/perip/spi/rtl/spi_top_apb.v:207:7: ... Location of first driving block
+  207 |       wr_err_seen  <= 1'b0;
       |       ^~~~~~~~~~~
-                      ../ysyxSoC/perip/spi/rtl/spi_top_apb.v:251:7: ... Location of other driving block
-  251 |       wr_err_seen <= 1'b1;
+                      ../ysyxSoC/perip/spi/rtl/spi_top_apb.v:257:7: ... Location of other driving block
+  257 |       wr_err_seen <= 1'b1;
       |       ^~~~~~~~~~~
 make[1]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
 make[1]: Entering directory '/home/wang/InternalDependent_ysyx-workbench/npc/obj_dir'

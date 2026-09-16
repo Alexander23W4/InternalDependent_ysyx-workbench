@@ -9,6 +9,7 @@ ysyxSoC 专用链接脚本。
 MEMORY {
   flash : ORIGIN = 0x30000000, LENGTH = 16M
   sram : ORIGIN = 0x0f000000, LENGTH = 8K
+  psram : ORIGIN = 0x80000000, LENGTH = 4M
 }
 
 /* 给栈"保底"的字节数: 堆最多长到 SRAM 末尾往前这么多, 保证堆撞不到栈。
@@ -31,7 +32,7 @@ SECTIONS {
 
 
   /* ==================== 数据段: LMA 在 MROM, VMA 在 SRAM ====================*/
-   . = ORIGIN(sram);
+   . = ORIGIN(psram);
   .data : {
     _data_start = .;      /* SA: bootloader 搬完之后, 程序从这里访问数据段(VMA) */
     *(.data*)
@@ -42,7 +43,7 @@ SECTIONS {
                            *    _data_end, 于是这些全局变量根本不会被搬过去 */
     *(.sdata2*)
     _data_end = .;
-  } > sram AT> flash
+  } > psram AT> flash
   edata = .;
   _data = .;
 
@@ -53,7 +54,7 @@ SECTIONS {
     *(.sbss2*)
     *(.scommon)
     _bss_end = .;
-  } > sram AT> flash
+  } > psram AT> flash
 
   /* bootloader 需要的三个量: MA / SA / LEN */
   _data_lma = LOADADDR(.data);    /* MA : 数据段在 MROM 里的地址(LMA) */
@@ -61,14 +62,14 @@ SECTIONS {
 
 
   ASSERT(LOADADDR(.data) + SIZEOF(.data) <= ORIGIN(flash) + LENGTH(flash),
-         "AM image exceeds 4KB MROM")
+         "AM image exceeds FLASH")
 
 /*⭐: 我的方案是给stack预留 STACK_RESERVE 大小的地址, heap 用数据段后面, stack前面的剩余的地址*/
 
   _heap_start = ALIGN(4);
-  _heap_end   = ORIGIN(sram) + LENGTH(sram) - STACK_RESERVE;
+  _heap_end   = ORIGIN(psram) + LENGTH(psram) - STACK_RESERVE;
   _stack_top  = _heap_end;
-  _stack_pointer = ORIGIN(sram) + LENGTH(sram);   /* 栈从这里向下生长 */
+  _stack_pointer = ORIGIN(psram) + LENGTH(psram);   /* 栈从这里向下生长 */
   end = _stack_pointer;
   _end = _stack_pointer;
 

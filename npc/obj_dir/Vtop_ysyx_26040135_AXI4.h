@@ -13,12 +13,12 @@ class Vtop_ysyx_26040135_AXI4 final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
-    CData/*2:0*/ arsize;
     CData/*0:0*/ arvalid;
+    CData/*2:0*/ arsize;
     CData/*0:0*/ rvalid;
     CData/*0:0*/ rready;
-    CData/*2:0*/ awsize;
     CData/*0:0*/ awvalid;
+    CData/*2:0*/ awsize;
     CData/*3:0*/ wstrb;
     CData/*0:0*/ wvalid;
     CData/*0:0*/ bready;

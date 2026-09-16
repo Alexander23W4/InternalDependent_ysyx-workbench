@@ -78,24 +78,28 @@ module PSRAM_READER (
         endcase
 
 /// 这里的写法是, 每一个 reg 的状态使用一个 always 块控制
+
+// STATE
     always @ (posedge clk or negedge rst_n)    // 状态机 时序
         if(!rst_n) state <= IDLE;
         else state <= nstate;
 
-    // Drive the Serial Clock (sck) @ clk/2
+// SCK  ⭐:看如何倍频
+    // Drive the Serial Clock (sck) @ clk/2     频率是cpu主频的1/2
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
-            sck <= 1'b0;
-        else if(~ce_n)
+            sck <= 1'b0;    
+        else if(~ce_n)   // 低电平有效, 有效的时候, 翻转
             sck <= ~ sck;
-        else if(state == IDLE)
+        else if(state == IDLE)  // IDLE的时候, 保持为0
             sck <= 1'b0;
 
+// CE_N
     // ce_n logic
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
             ce_n <= 1'b1;
-        else if(state == READ)
+        else if(state == READ)  // read的时候持续为低
             ce_n <= 1'b0;
         else
             ce_n <= 1'b1;

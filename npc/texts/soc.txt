@@ -318,3 +318,6 @@ PSRAM适中
     从 flash 里面 fetch bootloader, bootloader 搬运 到 psram 和 SRAM, bootloader 的最后一条指令是pc跳转到 PSRAM
     剩余的程序均在 PSRAM 中 fetch
 
+二级bootloader: 
+    只有一级bootloader 放到 flash里面, 先把二级bootloader 搬到 psram里面, 然后跳转到 psram 执行 二级 bootloader
+    

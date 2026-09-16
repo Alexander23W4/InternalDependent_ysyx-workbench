@@ -71,11 +71,17 @@ module PSRAM_READER (
 
     wire[7:0]   CMD_EBH = 8'heb;
 
+
+// NEXT STATE 
     always @*
         case (state)
             IDLE: if(rd) nstate = READ; else nstate = IDLE;
             READ: if(done) nstate = IDLE; else nstate = READ;
         endcase
+
+
+
+
 
 /// 这里的写法是, 每一个 reg 的状态使用一个 always 块控制
 
@@ -85,7 +91,7 @@ module PSRAM_READER (
         else state <= nstate;
 
 // SCK  ⭐:看如何倍频
-    // Drive the Serial Clock (sck) @ clk/2     频率是cpu主频的1/2
+    // Drive the Serial Clock (sck) @ clk/2     频率是cpu主频的1/2, read的时候是翻转, 其余时候为0
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
             sck <= 1'b0;    
@@ -95,7 +101,7 @@ module PSRAM_READER (
             sck <= 1'b0;
 
 // CE_N
-    // ce_n logic
+    // ce_n logic  read 的时候为低, 其余为高
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
             ce_n <= 1'b1;
@@ -104,6 +110,7 @@ module PSRAM_READER (
         else
             ce_n <= 1'b1;
 
+// COUNTER      跟随sck计数
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
             counter <= 8'b0;
@@ -112,6 +119,8 @@ module PSRAM_READER (
         else if(state == IDLE)
             counter <= 8'b0;
 
+
+// SADDR   在IDLE的最后一个周期读取 addr (24 bit)
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
             saddr <= 24'b0;
@@ -119,8 +128,11 @@ module PSRAM_READER (
             //saddr <= {addr[23:2], 2'b0};
             saddr <= {addr[23:0]};
 
-    // Sample with the negedge of sck
+
+
+    // Sample with the negedge of sck     计数频率: 1/2 sck(每拍), 过掉20个sck, 分每4拍一个周期
     wire[1:0] byte_index = {counter[7:1] - 8'd10}[1:0];
+
     always @ (posedge clk)
         if(counter >= 20 && counter <= FINAL_COUNT)
             if(sck)

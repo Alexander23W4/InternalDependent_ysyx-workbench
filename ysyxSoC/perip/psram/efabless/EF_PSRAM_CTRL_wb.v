@@ -62,6 +62,10 @@ module EF_PSRAM_CTRL_wb (
     wire        mw_wr;
     wire        mw_done;
 
+    // ⭐ READER 复位后会先发 35h 把颗粒切到 QPI, 之后 WRITER 也要用 QPI 格式
+    wire        qpi_mode;
+    wire        mr_busy;
+
     //wire        doe;
 
     // WB Control Signals
@@ -69,6 +73,12 @@ module EF_PSRAM_CTRL_wb (
     wire        wb_we           =   we_i & wb_valid;
     wire        wb_re           =   ~we_i & wb_valid;
     //wire[3:0]   wb_byte_sel     =   sel_i & {4{wb_we}};
+
+    // ⭐ 进入 QPI 模式之前不接受任何事务.
+    //    READER 复位后要先发 35h(不可被打断), 这时候如果放一笔事务进来, 引脚会被切到
+    //    WRITER / 或者 mr_rd 抢跑, 把 35h 的时序打断, 颗粒就永远进不了 QPI 模式。
+    //    上层不用管: pready 会一直压着, 等 qpi_mode 起来第一笔才开始跑。
+    wire        allow_xfer = qpi_mode;
 
     // The FSM
     reg         state, nstate;
@@ -81,7 +91,7 @@ module EF_PSRAM_CTRL_wb (
     always @* begin
         case(state)
             ST_IDLE :
-                if(wb_valid)
+                if(wb_valid && allow_xfer)
                     nstate = ST_WAIT;
                 else
                     nstate = ST_IDLE;
@@ -129,8 +139,8 @@ module EF_PSRAM_CTRL_wb (
                         2'b00;
                       */
 
-    assign mr_rd    = ( (state==ST_IDLE ) & wb_re );
-    assign mw_wr    = ( (state==ST_IDLE ) & wb_we );
+    assign mr_rd    = ( (state==ST_IDLE ) & wb_re & allow_xfer );
+    assign mw_wr    = ( (state==ST_IDLE ) & wb_we & allow_xfer );
 
     PSRAM_READER MR (
         .clk(clk_i),
@@ -145,7 +155,11 @@ module EF_PSRAM_CTRL_wb (
         .ce_n(mr_ce_n),
         .din(mr_din),
         .dout(mr_dout),
-        .douten(mr_doe)
+        .douten(mr_doe),
+
+        .qpi(qpi_mode),
+
+        .busy(mr_busy)
     );
 
     PSRAM_WRITER MW (
@@ -160,13 +174,20 @@ module EF_PSRAM_CTRL_wb (
         .ce_n(mw_ce_n),
         .din(mw_din),
         .dout(mw_dout),
-        .douten(mw_doe)
+        .douten(mw_doe),
+
+        .qpi(qpi_mode)
     );
 
-    assign sck  = wb_we ? mw_sck  : mr_sck;
-    assign ce_n = wb_we ? mw_ce_n : mr_ce_n;
-    assign dout = wb_we ? mw_dout : mr_dout;
-    assign douten  = wb_we ? {4{mw_doe}}  : {4{mr_doe}};
+    // ⭐ 不能只按 wb_we 选引脚: READER 在发 35h 的时候如果来了一笔写请求,
+    //    wb_we 已经是 1, 引脚会被切到还在 IDLE 的 WRITER 上, ce_n 一抬高就把
+    //    颗粒的异步复位触发了, 35h 白发。所以 READER 忙的时候一律归 READER。
+    wire use_mr = mr_busy | (~wb_we);
+
+    assign sck     = use_mr ? mr_sck      : mw_sck;
+    assign ce_n    = use_mr ? mr_ce_n     : mw_ce_n;
+    assign dout    = use_mr ? mr_dout     : mw_dout;
+    assign douten  = use_mr ? {4{mr_doe}} : {4{mw_doe}};
 
     assign mw_din = din;
     assign mr_din = din;

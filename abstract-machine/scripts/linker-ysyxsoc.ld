@@ -18,17 +18,21 @@ STACK_RESERVE = 0x4B000;
 
 SECTIONS {
   /* ==================== 只读镜像区: MROM ==================== */
-  . = _pmem_start + _entry_offset;
+  . = ORIGIN(sram);
   .text : {
+    _text_start = .;
     *(entry)          /* AM 的 start.S, 必须排在第一个, 保证 _start == NPC 复位 PC */
     *(.text*)
-  } > flash AT> flash
+    _text_end = .;
+  } > sram AT> flash
   etext = .;
   _etext = .;
 
   .rodata : {
+    _rodata_start = .;
     *(.rodata*)
-  } > flash AT> flash
+    _rodata_end = .;
+  } > sram AT> flash
 
 
   /* ==================== 数据段: LMA 在 MROM, VMA 在 SRAM ====================*/
@@ -57,8 +61,9 @@ SECTIONS {
   } > psram AT> flash
 
   /* bootloader 需要的三个量: MA / SA / LEN */
-  _data_lma = LOADADDR(.data);    /* MA : 数据段在 MROM 里的地址(LMA) */
-  _data_len = SIZEOF(.data);      /* LEN: 数据段长度 */
+  _text_lma = LOADADDR(.text);
+  _rodata_lma = LOADADDR(.rodata);
+  _data_lma = LOADADDR(.data);    
 
 
   ASSERT(LOADADDR(.data) + SIZEOF(.data) <= ORIGIN(flash) + LENGTH(flash),

@@ -1,6 +1,5 @@
 [  add-longlong] [1;32mPASS[0m
 [         crc32] [1;32mPASS[0m
-[  add-longlong] [1;32mPASS[0m
 [           sum] [1;32mPASS[0m
 [         prime] [1;32mPASS[0m
 [     leap-year] [1;32mPASS[0m
@@ -8,7 +7,6 @@
 [      goldbach] [1;32mPASS[0m
 [    matrix-mul] [1;32mPASS[0m
 [        string] [1;32mPASS[0m
-[    flash-read] [1;32mPASS[0m
 [        wanshu] [1;32mPASS[0m
 [          min3] [1;32mPASS[0m
 [          fact] [1;32mPASS[0m
@@ -18,7 +16,6 @@
 [   bubble-sort] [1;32mPASS[0m
 [     recursion] [1;32mPASS[0m
 [           fib] [1;32mPASS[0m
-[         psram] [1;32mPASS[0m
 [         mov-c] [1;32mPASS[0m
 [           div] [1;32mPASS[0m
 [        switch] [1;32mPASS[0m

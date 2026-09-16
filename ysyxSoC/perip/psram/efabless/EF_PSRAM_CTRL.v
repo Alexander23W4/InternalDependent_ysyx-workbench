@@ -22,26 +22,25 @@
 
     The controller was designed after https://www.issi.com/WW/pdf/66-67WVS4M8ALL-BLL.pdf
     utilizing both EBh and 38h commands for reading and writting.
-
-    Benchmark data collected using CM0 CPU when memory is PSRAM only
-
-        Benchmark       PSRAM (us)  1-cycle SRAM (us)   Slow-down
-        ---------       ----------  -----------------   ---------
-        xtea            840         212                 3.94
-        stress          1607        446                 3.6
-        hash            5340        1281                4.16
-        chacha          2814        320                 8.8
-        aes sbox        2370        322                 7.3
-        nqueens         3496        459                 7.6
-        mtrans          2171        2034                1.06
-        rle             903         155                 5.8
-        prime           549         97                  5.66
 */
 
 /*
-??????
-sck 1/2倍频
-35h  QPI
+⭐ 这里在原来 QSPI 的基础上加了 QPI 模式:
+
+    · 复位后, READER 先进 ENTER_QPI 状态, 用**基础 SPI**(命令也走 1 bit)发 35h,
+      把颗粒切到 QPI 模式; 之后 qpi 拉高, READER/WRITER 都改用 QPI 格式通信。
+    · 上层软件完全无感 —— 只是每笔访问少发几个 SCK。
+
+    两种模式的相位(SCK 拍数, counter 就是第几拍):
+
+                 命令         地址         dummy        数据(4字节)
+      SPI (1-4-4) 0..7 (1bit)  8..13(4bit)  14..19(6)   读 20..27 / 写 14..21
+      QPI (4-4-4) 0..1 (4bit)  2..7 (4bit)  8..13 (6)   读 14..21 / 写  8..15
+                                               │
+                    读命令 EBh 有 6 拍 dummy ──┘   写命令 38h 没有 dummy
+
+    EBh 读: SPI 8+6+6+8 = 28 拍 -> QPI 2+6+6+8 = 22 拍
+    38h 写: SPI 8+6+8   = 22 拍 -> QPI 2+6+8   = 16 拍
 */
 
 `timescale              1ns/1ps
@@ -60,63 +59,122 @@ module PSRAM_READER (
     output  reg             ce_n,
     input   wire [3:0]      din,
     output  wire [3:0]      dout,
-    output  wire            douten
+    output  wire            douten,
+
+    output  reg             qpi,   // 已经切到 QPI 模式(给 WRITER 用)
+    output  wire            busy   // 正在忙(ENTER_QPI 或 READ): 此时 QSPI 引脚必须归 READER
 );
 
-    localparam  IDLE = 1'b0,
-                READ = 1'b1;
+    localparam  IDLE      = 2'd0,
+                ENTER_QPI = 2'd1,
+                READ      = 2'd2;
 
+    wire [7:0]  CMD_EBH = 8'heb;
+    wire [7:0]  CMD_QPI = 8'h35;   // 进入 QPI 模式的命令
 
+    // ⭐ 状态有 3 个, 必须比 1 位宽(原来写成 1 位, ENTER_QPI 被截断成 IDLE 了)
+    reg  [1:0]  state, nstate;
+    reg  [7:0]  counter;
+    reg  [23:0] saddr;
+    reg  [7:0]  data [3:0];
 
-    wire [7:0]  FINAL_COUNT = 19 + size*2; // was 27: Always read 1 word     //////
+    // ---------- 相位边界(由 qpi 决定) ----------
+    wire [7:0] CMD_LAST    = qpi ? 8'd1  : 8'd7;
+    wire [7:0] ADDR_FIRST  = qpi ? 8'd2  : 8'd8;
+    wire [7:0] ADDR_LAST   = qpi ? 8'd7  : 8'd13;
+    wire [7:0] DUMMY_LAST  = qpi ? 8'd13 : 8'd19;
+    wire [7:0] DATA_FIRST  = qpi ? 8'd14 : 8'd20;
+    wire [7:0] FINAL_COUNT = DATA_FIRST + size*2 - 1;   // size=4 时: QPI 21 / SPI 27
 
-    reg         state, nstate;
-    reg [7:0]   counter;
-    reg [23:0]  saddr;    //////
-    reg [7:0]   data [3:0];   /////  4个元素, 每个元素的 8bits  ⭐: 这里个[3:0]是数组index了, 代表4个elements, 而非bits
+    // ⭐ ENTER_QPI 的结束条件要带上 sck: 状态机在 **sck 上升沿** 换拍, 如果只判
+    //    counter==7, 状态会在最后一拍的高电平**开始**就回 IDLE, 于是 dout 掉出
+    //    ENTER_QPI 分支, 命令的最后一位就发不出去了(35h 变成 34h)。
+    //    加上 sck 让它在最后一拍的下降沿才结束。
+    assign done = (state == ENTER_QPI) ? (counter == 8'd7 && sck)
+                                       : (counter == FINAL_COUNT + 1);
 
-    wire[7:0]   CMD_EBH = 8'heb;
+    // ⭐ 注意要把最后一个 sck 高电平也算进 busy:
+    //     READER 的 state 会在某一拍的 sck **上升沿** 回到 IDLE, 而那一拍的高电平还要
+    //     给颗粒采最后一位; 如果这时 mr_busy 掉 0, EF_PSRAM_CTRL_wb 就会把 QSPI 引脚
+    //     切到 WRITER, ce_n 被抬高 -> 颗粒异步复位, 最后一位直接丢掉(35h 会变成 34h)
+    assign busy = (state != IDLE) || sck;
 
+    // ---------- 命令拍 ----------
+    // SPI: 每拍 1 bit, 只走 SIO0;  QPI: 每拍 4 bit
+    wire [3:0] cmd_nib = qpi ? ((counter[0] == 1'b0) ? CMD_EBH[7:4] : CMD_EBH[3:0])
+                             : {3'b0, CMD_EBH[7 - counter[2:0]]};
 
-// NEXT STATE 
-    always @*
+    // ---------- 地址拍: 两种模式都是每拍 4 bit ----------
+    wire [7:0] addr_ph8 = counter - ADDR_FIRST;   // 0..5 (显式截位, 免得 lint 报 WIDTHTRUNC)
+    wire [2:0] addr_ph  = addr_ph8[2:0];
+    reg  [3:0] addr_nib;
+    always @(*) begin
+        case (addr_ph)
+            3'd0:    addr_nib = saddr[23:20];
+            3'd1:    addr_nib = saddr[19:16];
+            3'd2:    addr_nib = saddr[15:12];
+            3'd3:    addr_nib = saddr[11:8];
+            3'd4:    addr_nib = saddr[7:4];
+            default: addr_nib = saddr[3:0];
+        endcase
+    end
+
+    // ---------- 输出 ----------
+    assign dout = (state == ENTER_QPI)  ? {3'b0, CMD_QPI[7 - counter[2:0]]} :
+                  (counter <= CMD_LAST) ? cmd_nib :
+                  (counter <= ADDR_LAST)? addr_nib : 4'h0;
+
+    // 命令 + 地址阶段由控制器驱动 dio; 之后(dummy 和读数据)放开
+    assign douten = (state == ENTER_QPI) || (counter <= ADDR_LAST);
+
+    // ---------- 采样返回数据 ----------
+    // 数据阶段每 2 拍一个字节, 每拍 4 bit, 先高 nibble 后低 nibble
+    wire [7:0] byte_cnt = counter[7:1] - (qpi ? 8'd7 : 8'd10);
+    wire [1:0] byte_index = byte_cnt[1:0];
+
+    always @ (posedge clk)
+        if(counter >= DATA_FIRST && counter <= FINAL_COUNT)
+            if(sck)
+                data[byte_index] <= {data[byte_index][3:0], din};
+
+    // ---------- 状态机 ----------
+    always @(*)
         case (state)
-            IDLE: if(rd) nstate = READ; else nstate = IDLE;
-            READ: if(done) nstate = IDLE; else nstate = READ;
+            IDLE:      nstate = rd ? READ : IDLE;
+            ENTER_QPI: nstate = (counter == 8'd7 && sck) ? IDLE : ENTER_QPI;
+            READ:      nstate = done ? IDLE : READ;
+            default:   nstate = IDLE;
         endcase
 
+    always @ (posedge clk or negedge rst_n)
+        if(!rst_n) begin
+            state <= ENTER_QPI;     // 复位后第一件事就是发 35h 切 QPI
+            qpi   <= 1'b0;
+        end else begin
+            state <= nstate;
+            if(state == ENTER_QPI && counter == 8'd7 && sck) qpi <= 1'b1;
+        end
 
-
-
-
-/// 这里的写法是, 每一个 reg 的状态使用一个 always 块控制
-
-// STATE
-    always @ (posedge clk or negedge rst_n)    // 状态机 时序
-        if(!rst_n) state <= IDLE;
-        else state <= nstate;
-
-// SCK  ⭐:看如何倍频
-    // Drive the Serial Clock (sck) @ clk/2     频率是cpu主频的1/2, read的时候是翻转, 其余时候为0
+// SCK: ce_n 有效时每拍翻转; 一旦回 IDLE 就立刻停住(否则收尾时会多吐半个脉冲,
+//      颗粒会把它当成第 9 拍)
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
-            sck <= 1'b0;    
-        else if(~ce_n)   // 低电平有效, 有效的时候, 翻转
-            sck <= ~ sck;
-        else if(state == IDLE)  // IDLE的时候, 保持为0
             sck <= 1'b0;
+        else if(state == IDLE)
+            sck <= 1'b0;
+        else if(~ce_n)
+            sck <= ~ sck;
 
-// CE_N
-    // ce_n logic  read 的时候为低, 其余为高
+// CE_N: ENTER_QPI 和 READ 期间持续拉低
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
             ce_n <= 1'b1;
-        else if(state == READ)  // read的时候持续为低
+        else if(state == ENTER_QPI || state == READ)
             ce_n <= 1'b0;
         else
             ce_n <= 1'b1;
 
-// COUNTER      跟随sck计数
+// COUNTER: 跟随 sck 计数
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
             counter <= 8'b0;
@@ -125,51 +183,18 @@ module PSRAM_READER (
         else if(state == IDLE)
             counter <= 8'b0;
 
-
-// SADDR   在IDLE的最后一个周期读取 addr (24 bit)
+// SADDR: 在 IDLE 那一拍锁存地址
     always @ (posedge clk or negedge rst_n)
         if(!rst_n)
             saddr <= 24'b0;
         else if((state == IDLE) && rd)
-            //saddr <= {addr[23:2], 2'b0};
-            saddr <= {addr[23:0]};
-
-
-
-    // Sample with the negedge of sck     计数频率: 1/2 sck(每拍), 过掉20个sck, 分每4拍一个周期, 这里有4拍, 刚好一个周期, 8个sck, 发完4个Byte, 32 bits 的数据
-    wire[1:0] byte_index = {counter[7:1] - 8'd10}[1:0];
-
-    always @ (posedge clk)
-        if(counter >= 20 && counter <= FINAL_COUNT)    // 20 - 27
-            if(sck)     // ⭐: 用这样的方法进行取拍 sck
-                data[byte_index] <= {data[byte_index][3:0], din}; // Optimize!  // ⭐: DIN 这里处理din   (后8sck), 每个sck, psram发送4bits, 2拍填满一个Byte
-                                                                             // 发数据的时候, 每个Byte, 先发高位, 再发低位 
-
-
-
-
-                                                                                // ⭐: DOUT 这里处理dout (前20sck)
-    assign dout     =   (counter < 8)   ?   {3'b0, CMD_EBH[7 - counter]}:    // 前 8 sck, 一位一位发CMD_EBH, 先发高位
-                        (counter == 8)  ?   saddr[23:20]        :            
-                        (counter == 9)  ?   saddr[19:16]        :            // 8-13 sck (6 sck), 发送 addr, 每次发送4位, 先发高位
-                        (counter == 10) ?   saddr[15:12]        :
-                        (counter == 11) ?   saddr[11:8]         :
-                        (counter == 12) ?   saddr[7:4]          :
-                        (counter == 13) ?   saddr[3:0]          :
-                        4'h0;
-
-    assign douten   = (counter < 14);   // 14 拍之前, douten 为 1
-
-    // 在14-19 sck (6 sck) 是空闲
-
-    assign done     = (counter == FINAL_COUNT+1);
+            saddr <= addr;
 
     generate
         genvar i;
-        for(i=0; i<4; i=i+1)                
-            assign line[i*8+7: i*8] = data[i];    // 把 data -> line -> dat_o -> in_prdata
+        for(i=0; i<4; i=i+1)
+            assign line[i*8+7: i*8] = data[i];
     endgenerate
-
 
 endmodule
 
@@ -181,6 +206,7 @@ module PSRAM_WRITER (
     input   wire [31: 0]    line,
     input   wire [2:0]      size,
     input   wire            wr,
+    input   wire            qpi,   // ⭐ 来自 READER: 颗粒是否已经切到 QPI 模式
     output  wire            done,
 
     output  reg             sck,
@@ -189,22 +215,26 @@ module PSRAM_WRITER (
     output  wire [3:0]      dout,
     output  wire            douten
 );
-    //localparam  DATA_START = 14;
     localparam  IDLE = 1'b0,
                 WRITE = 1'b1;
-
-    wire[7:0]        FINAL_COUNT = 13 + size*2;
 
     reg         state, nstate;
     reg [7:0]   counter;
     reg [23:0]  saddr;
-    //reg [7:0]   data [3:0];
 
     wire[7:0]   CMD_38H = 8'h38;
 
+    // ---------- 相位边界 ----------
+    // 写命令没有 dummy, 所以 QPI 下地址结束就直接进数据
+    wire [7:0] CMD_LAST    = qpi ? 8'd1  : 8'd7;
+    wire [7:0] ADDR_FIRST  = qpi ? 8'd2  : 8'd8;
+    wire [7:0] ADDR_LAST   = qpi ? 8'd7  : 8'd13;
+    wire [7:0] DATA_FIRST  = qpi ? 8'd8  : 8'd14;
+    wire [7:0] FINAL_COUNT = DATA_FIRST + size*2 - 1;   // size=4 时: QPI 15 / SPI 21
+
     always @*
         case (state)
-            IDLE: if(wr) nstate = WRITE; else nstate = IDLE;
+            IDLE:  if(wr) nstate = WRITE; else nstate = IDLE;
             WRITE: if(done) nstate = IDLE; else nstate = WRITE;
         endcase
 
@@ -244,25 +274,38 @@ module PSRAM_WRITER (
         else if((state == IDLE) && wr)
             saddr <= addr;
 
-    assign dout     =   (counter < 8)   ?   {3'b0, CMD_38H[7 - counter]}:
-                        (counter == 8)  ?   saddr[23:20]        :
-                        (counter == 9)  ?   saddr[19:16]        :
-                        (counter == 10) ?   saddr[15:12]        :
-                        (counter == 11) ?   saddr[11:8]         :
-                        (counter == 12) ?   saddr[7:4]          :
-                        (counter == 13) ?   saddr[3:0]          :
-                        (counter == 14) ?   line[7:4]           :
-                        (counter == 15) ?   line[3:0]           :
-                        (counter == 16) ?   line[15:12]         :
-                        (counter == 17) ?   line[11:8]          :
-                        (counter == 18) ?   line[23:20]         :
-                        (counter == 19) ?   line[19:16]         :
-                        (counter == 20) ?   line[31:28]         :
-                        line[27:24];
+    // ---------- 命令拍 ----------
+    wire [3:0] cmd_nib = qpi ? ((counter[0] == 1'b0) ? CMD_38H[7:4] : CMD_38H[3:0])
+                             : {3'b0, CMD_38H[7 - counter[2:0]]};
 
-    assign douten   = (~ce_n);
+    // ---------- 地址拍 ----------
+    wire [7:0] addr_ph8 = counter - ADDR_FIRST;   // 0..5 (显式截位, 免得 lint 报 WIDTHTRUNC)
+    wire [2:0] addr_ph  = addr_ph8[2:0];
+    reg  [3:0] addr_nib;
+    always @(*) begin
+        case (addr_ph)
+            3'd0:    addr_nib = saddr[23:20];
+            3'd1:    addr_nib = saddr[19:16];
+            3'd2:    addr_nib = saddr[15:12];
+            3'd3:    addr_nib = saddr[11:8];
+            3'd4:    addr_nib = saddr[7:4];
+            default: addr_nib = saddr[3:0];
+        endcase
+    end
 
-    assign done     = (counter == FINAL_COUNT + 1);
+    // ---------- 数据拍: 每 2 拍一个字节, 先高 nibble ----------
+    wire [7:0] dat_off8 = counter - DATA_FIRST;   // 0..7 (显式截位)
+    wire [2:0] dat_off  = dat_off8[2:0];
+    wire [1:0] dat_byte = dat_off[2:1];
+    wire [3:0] dat_nib  = dat_off[0] ? line[{2'b0, dat_byte}*8 + 3 -: 4]   // 低 nibble
+                                     : line[{2'b0, dat_byte}*8 + 7 -: 4];  // 高 nibble
 
+    assign dout = (counter <= CMD_LAST)   ? cmd_nib  :
+                  (counter <= ADDR_LAST)  ? addr_nib :
+                  (counter <= FINAL_COUNT)? dat_nib  : 4'h0;
+
+    assign douten = (~ce_n);
+
+    assign done = (counter == FINAL_COUNT + 1);
 
 endmodule

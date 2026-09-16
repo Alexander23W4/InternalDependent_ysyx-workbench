@@ -2,6 +2,24 @@
 /home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/cpu-tests/build/prime-riscv32e-ysyxsoc.elf:     file format elf32-littleriscv
 
 
+Disassembly of section .fsbl:
+
+30000000 <_fsbl>:
+30000000:	00000517          	auipc	a0,0x0
+30000004:	03850513          	addi	a0,a0,56 # 30000038 <_boot_end>
+30000008:	50000597          	auipc	a1,0x50000
+3000000c:	ff858593          	addi	a1,a1,-8 # 80000000 <_start>
+30000010:	50000617          	auipc	a2,0x50000
+30000014:	0cc60613          	addi	a2,a2,204 # 800000dc <check>
+30000018:	00c5fc63          	bgeu	a1,a2,30000030 <_fsbl+0x30>
+3000001c:	00054283          	lbu	t0,0(a0)
+30000020:	00558023          	sb	t0,0(a1)
+30000024:	00150513          	addi	a0,a0,1
+30000028:	00158593          	addi	a1,a1,1
+3000002c:	fedff06f          	j	30000018 <_fsbl+0x18>
+30000030:	50000097          	auipc	ra,0x50000
+30000034:	fd0080e7          	jalr	-48(ra) # 80000000 <_start>
+
 Disassembly of section .ssbl:
 
 80000000 <_start>:
@@ -9,7 +27,7 @@ Disassembly of section .ssbl:
 80000004:	00010113          	mv	sp,sp
 80000008:	00000413          	li	s0,0
 8000000c:	b0000517          	auipc	a0,0xb0000
-80000010:	0d050513          	addi	a0,a0,208 # 300000dc <_text_lma>
+80000010:	10850513          	addi	a0,a0,264 # 30000114 <_text_lma>
 80000014:	00000597          	auipc	a1,0x0
 80000018:	0c858593          	addi	a1,a1,200 # 800000dc <_ssbl_end>
 8000001c:	00000617          	auipc	a2,0x0
@@ -18,7 +36,7 @@ Disassembly of section .ssbl:
 80000028:	00000097          	auipc	ra,0x0
 8000002c:	074080e7          	jalr	116(ra) # 8000009c <_boot_copy>
 80000030:	b0000517          	auipc	a0,0xb0000
-80000034:	25050513          	addi	a0,a0,592 # 30000280 <_rodata_lma>
+80000034:	28850513          	addi	a0,a0,648 # 300002b8 <_rodata_lma>
 80000038:	00000597          	auipc	a1,0x0
 8000003c:	24858593          	addi	a1,a1,584 # 80000280 <mainargs>
 80000040:	00000617          	auipc	a2,0x0
@@ -27,7 +45,7 @@ Disassembly of section .ssbl:
 8000004c:	00000097          	auipc	ra,0x0
 80000050:	050080e7          	jalr	80(ra) # 8000009c <_boot_copy>
 80000054:	b0000517          	auipc	a0,0xb0000
-80000058:	26c50513          	addi	a0,a0,620 # 300002c0 <_data_lma>
+80000058:	2a450513          	addi	a0,a0,676 # 300002f8 <_data_lma>
 8000005c:	00000597          	auipc	a1,0x0
 80000060:	26458593          	addi	a1,a1,612 # 800002c0 <ans>
 80000064:	00000617          	auipc	a2,0x0

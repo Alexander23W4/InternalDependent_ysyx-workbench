@@ -289,4 +289,24 @@ PSRAM控制器无需实现刷新的功能, 也无需关心PSRAM颗粒的内部�
 
 ⭐: 实现PSRAM后
 
-现在就是, 程序事先烧到flash里面, 然后bootloader把 text和rodata转移到 sram, 把 data bss heap stack 都建立到 PSRAM
+现在就是, 程序事先烧到flash里面, 然后bootloader把 text和rodata转移到 sram, 把 data bss heap stack 都建立到 PSRAM, 使得程序运行时 fetch 和 访存 的效率加快
+
+现在可以对比一下三种存储介质的访问路径和效率: 
+
+                         CPU
+                          │
+              ┌───────────┼────────────┐
+              │           │            │
+             SRAM        Flash        PSRAM
+              │           │            │
+             AXI        AXI/APB      AXI/APB
+              │           │            │
+          SRAM Ctrl    XIP/SPI      PSRAM Ctrl
+              │           │            │
+             SRAM        SPI          QSPI
+                          │            │
+                        Flash        PSRAM
+
+SRAM读写延迟只有1周期, 快速, 但是空间小
+Flash访问速度慢, 实际一次取指约 150 CPU cycles, 空间大
+PSRAM适中

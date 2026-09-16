@@ -210,6 +210,12 @@ module ysyx_26040135(
     logic [31:0] pc_next_dft;
     assign pc_next_dft = pc + 32'd4;
 
+    // ⭐ 跳转/分支目标必须在 GPR 写回**生效之前**锁存下来.
+    //    原因: jalr 的 add_rst = rs1 + imm, 而 rs1 可能就是 rd(典型的是 `jalr ra, off(ra)`,
+    //    也就是距离太远、链接器没法松弛成 jal 的 `call`)。GPR 的写回在 UDGPR 那拍就生效了,
+    //    等到 UDPC 再算 add_rst, rdata1 已经是写回后的新值 -> 跳转目标整体偏掉。
+    logic [31:0] jump_target;
+
 
     ysyx_26040135_decode Decode(.*);
 
@@ -471,6 +477,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             if(state == UDGPR) begin
                 __GPR_wvalid <= 1'b0;
                 __period_end <= 1'b1;
+                jump_target  <= add_rst;   // ⭐ 赶在 GPR 写回生效之前锁存
             end
 
 
@@ -480,28 +487,28 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
                 // pc update
                 if(jalr) begin
-                    pc <= add_rst & ~32'h1;
+                    pc <= jump_target & ~32'h1;
                 end
                 else if(jal) begin
-                    pc <= add_rst;
+                    pc <= jump_target;
                 end
                 else if(blt) begin
-                    pc <= ($signed(rdata1) < $signed(rdata2)) ? add_rst : pc_next_dft;
+                    pc <= ($signed(rdata1) < $signed(rdata2)) ? jump_target : pc_next_dft;
                 end
                 else if(beq) begin
-                    pc <= (rdata1 == rdata2) ? add_rst : pc_next_dft;
+                    pc <= (rdata1 == rdata2) ? jump_target : pc_next_dft;
                 end
                 else if(bne) begin
-                    pc <= (rdata1 != rdata2) ? add_rst : pc_next_dft;
+                    pc <= (rdata1 != rdata2) ? jump_target : pc_next_dft;
                 end
                 else if(bge) begin
-                    pc <= ($signed(rdata1) >= $signed(rdata2)) ? add_rst : pc_next_dft;
+                    pc <= ($signed(rdata1) >= $signed(rdata2)) ? jump_target : pc_next_dft;
                 end
                 else if(bltu) begin
-                    pc <= (rdata1 < rdata2) ? add_rst : pc_next_dft;
+                    pc <= (rdata1 < rdata2) ? jump_target : pc_next_dft;
                 end
                 else if(bgeu) begin
-                    pc <= (rdata1 >= rdata2) ? add_rst : pc_next_dft;
+                    pc <= (rdata1 >= rdata2) ? jump_target : pc_next_dft;
                 end
 
                 // system

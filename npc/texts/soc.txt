@@ -310,3 +310,11 @@ PSRAM控制器无需实现刷新的功能, 也无需关心PSRAM颗粒的内部�
 SRAM读写延迟只有1周期, 快速, 但是空间小
 Flash访问速度慢, 实际一次取指约 150 CPU cycles, 空间大
 PSRAM适中
+
+⭐: 程序烧到flash里面, 但是加载到大ram-psram里面, 一级bootloader 和 二级bootloader的实现
+
+一级bootloader:
+    程序运行时:
+    从 flash 里面 fetch bootloader, bootloader 搬运 到 psram 和 SRAM, bootloader 的最后一条指令是pc跳转到 PSRAM
+    剩余的程序均在 PSRAM 中 fetch
+

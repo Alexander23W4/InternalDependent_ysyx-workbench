@@ -45,9 +45,9 @@ module PSRAM_READER (
     input   wire            clk,
     input   wire            rst_n,
     input   wire [23:0]     addr,
-    input   wire            rd,
+    input   wire            rd,    // ctr -> 开始 read
     input   wire [2:0]      size,
-    output  wire            done,
+    output  wire            done,  // fed -> 结束 read
     output  wire [31:0]     line,
 
     output  reg             sck,
@@ -60,12 +60,14 @@ module PSRAM_READER (
     localparam  IDLE = 1'b0,
                 READ = 1'b1;
 
-    wire [7:0]  FINAL_COUNT = 19 + size*2; // was 27: Always read 1 word
+
+
+    wire [7:0]  FINAL_COUNT = 19 + size*2; // was 27: Always read 1 word     //////
 
     reg         state, nstate;
     reg [7:0]   counter;
-    reg [23:0]  saddr;
-    reg [7:0]   data [3:0];
+    reg [23:0]  saddr;    //////
+    reg [7:0]   data [3:0];   /////
 
     wire[7:0]   CMD_EBH = 8'heb;
 
@@ -75,7 +77,8 @@ module PSRAM_READER (
             READ: if(done) nstate = IDLE; else nstate = READ;
         endcase
 
-    always @ (posedge clk or negedge rst_n)
+/// 这里的写法是, 每一个 reg 的状态使用一个 always 块控制
+    always @ (posedge clk or negedge rst_n)    // 状态机 时序
         if(!rst_n) state <= IDLE;
         else state <= nstate;
 

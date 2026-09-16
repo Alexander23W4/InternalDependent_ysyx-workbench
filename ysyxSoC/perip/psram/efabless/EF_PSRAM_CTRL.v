@@ -73,7 +73,7 @@ module PSRAM_READER (
     reg         state, nstate;
     reg [7:0]   counter;
     reg [23:0]  saddr;    //////
-    reg [7:0]   data [3:0];   /////
+    reg [7:0]   data [3:0];   /////  4个元素, 每个元素的 8bits  ⭐: 这里个[3:0]是数组index了, 代表4个elements, 而非bits
 
     wire[7:0]   CMD_EBH = 8'heb;
 
@@ -136,22 +136,22 @@ module PSRAM_READER (
 
 
 
-    // Sample with the negedge of sck     计数频率: 1/2 sck(每拍), 过掉20个sck, 分每4拍一个周期, 刚好一个周期8个sck, 发完4个Byte, 32 bits 的数据
+    // Sample with the negedge of sck     计数频率: 1/2 sck(每拍), 过掉20个sck, 分每4拍一个周期, 这里有4拍, 刚好一个周期, 8个sck, 发完4个Byte, 32 bits 的数据
     wire[1:0] byte_index = {counter[7:1] - 8'd10}[1:0];
 
     always @ (posedge clk)
         if(counter >= 20 && counter <= FINAL_COUNT)    // 20 - 27
             if(sck)     // ⭐: 用这样的方法进行取拍 sck
-                data[byte_index] <= {data[byte_index][3:0], din}; // Optimize!    // ⭐: DIN 这里处理din   (后8拍)
+                data[byte_index] <= {data[byte_index][3:0], din}; // Optimize!  // ⭐: DIN 这里处理din   (后8sck), 每个sck, psram发送4bits, 2拍填满一个Byte
 
 
 
 
 
-                                                                                  // ⭐: DOUT 这里书里dout (前20拍)
-    assign dout     =   (counter < 8)   ?   {3'b0, CMD_EBH[7 - counter]}:    
-                        (counter == 8)  ?   saddr[23:20]        :
-                        (counter == 9)  ?   saddr[19:16]        :
+                                                                                // ⭐: DOUT 这里处理dout (前20sck)
+    assign dout     =   (counter < 8)   ?   {3'b0, CMD_EBH[7 - counter]}:    // 前 8 sck, 一位一位发CMD_EBH, 先发高位
+                        (counter == 8)  ?   saddr[23:20]        :            
+                        (counter == 9)  ?   saddr[19:16]        :            // 8-13 sck (6 sck), 发送 addr, 每次发送4位, 先发高位
                         (counter == 10) ?   saddr[15:12]        :
                         (counter == 11) ?   saddr[11:8]         :
                         (counter == 12) ?   saddr[7:4]          :
@@ -159,6 +159,8 @@ module PSRAM_READER (
                         4'h0;
 
     assign douten   = (counter < 14);   // 14 拍之前, douten 为 1
+
+    // 在14-19 sck (6 sck) 是空闲
 
     assign done     = (counter == FINAL_COUNT+1);
 

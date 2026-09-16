@@ -35,8 +35,9 @@ OUTPUT_DATA       WRITE_MEMORY
          ↓
         IDLE
 
-0x8000_0000~0x9fff_ffff  PSRAM 地址   4MB
+0x8000_0000~0x9fff_ffff  PSRAM 地址   4MB     PSRAM 使用 24bits 地址线, 最多16MB
 需要把 VME  bootloader 全部改成 PSRAM 的地址
+
 */
 
 module psram(
@@ -50,7 +51,7 @@ module psram(
 
   assign dio = 4'bz;
 
-  
+
 
 
 

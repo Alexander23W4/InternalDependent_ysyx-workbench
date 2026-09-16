@@ -135,7 +135,7 @@ module EF_PSRAM_CTRL_wb (
     PSRAM_READER MR (
         .clk(clk_i),
         .rst_n(~rst_i),
-        .addr({adr_i[23:2],2'b0}),
+        .addr({adr_i[23:2],2'b0}),    // 后24位, 默认4位对齐 (一次读取整字)
         .rd(mr_rd),
         //.size(size), Always read a word
         .size(3'd4),

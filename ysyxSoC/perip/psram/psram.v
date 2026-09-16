@@ -82,8 +82,7 @@ module psram(
   wire read_index;
   wire[1:0] read_byte;
 
-  // ⭐ 不能直接写 (counter-14)[2:1] —— Verilog 不允许对表达式做位选,
-  //    必须先把差值存成一个 wire 再选位
+
   wire [7:0] wcnt = counter - 8'd14;
   wire [7:0] rcnt = counter - 8'd20;
 
@@ -95,13 +94,11 @@ module psram(
   wire [21:0] rd_index = addr[21:0] + {20'b0, read_byte};
   wire [21:0] wr_index = addr[21:0] + {20'b0, write_byte};
 
-  // 只有"读数据阶段"才由 PSRAM 驱动 dio, 其余时刻必须放开:
-  // 命令/地址/写数据那几个阶段是控制器在驱动, 同时驱动会打架
+
   assign douten = (state == READ);
   assign dio = douten ? dout : 4'bz;
 
-  // 命令最后一位(counter==7)是在同一拍写进 ctrl 的, 而 next 是组合逻辑、
-  // 用的是还没更新的 ctrl, 所以判断要用"这一拍采完之后 ctrl 会变成什么"
+
   wire [7:0] ctrl_done = {ctrl[7:1], dio[0]};
 
   always @(posedge sck or posedge ce_n) begin
@@ -122,10 +119,6 @@ module psram(
       if (state == ADDR) begin
         addr[(13-counter)*4 +: 4] <= dio;
       end
-      // 写数据: 每拍 4 bit, 先高 nibble, 每 2 拍拼成 1 字节
-      // ⭐ 必须"两个 nibble 收齐了才写存储体". 因为窄写(字节/半字)时控制器会提前
-      //    结束传输, 如果第一个 nibble 就写下去, 下一个字节会被写进半个字节的垃圾
-      //    (比如只写 1 字节却把后一个字节的高 nibble 也改了)
       if (state == WRITE) begin
         if (wcnt[0] == 1'b0) begin
           wr_hi <= dio;                          // 先到的是高 nibble, 先存着

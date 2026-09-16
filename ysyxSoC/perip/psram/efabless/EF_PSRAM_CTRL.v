@@ -41,7 +41,7 @@
 /*
 ??????
 sck 1/2倍频
-
+35h  QPI
 */
 
 `timescale              1ns/1ps

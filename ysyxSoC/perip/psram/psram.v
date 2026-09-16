@@ -42,7 +42,7 @@ OUTPUT_DATA       WRITE_MEMORY
 
 module psram(
   input sck,
-  input ce_n,   // 低电平有效
+  input ce_n,   // 低电平有效, 认为完整传输结束前不会变成无效
   inout [3:0] dio    // 配合输出使能, 实现三态逻辑, 参考ysyxSoC/perip/psram/psram_top_apb.v 中 qspi_dio
                       // 控制, 地址, 数据的 input output 全部通过 dio
 );
@@ -51,8 +51,85 @@ module psram(
 
   assign dio = 4'bz;
 
+  localparam IDLE = 3'd0, CTRL = 3'd1, ADDR = 3'd2, ARRG = 3'd3, READ = 3'd4, WRITE = 3'd5;
+
+  reg [2:0] state, next;
+  reg [7:0] ctrl;
+  reg [23:0] addr;
+  reg [7:0] counter;    // 0-27
+  wire [31:0] data;
+
+  assign data[31:24] = memory[addr + 3];
+  assign data[23:16] = memory[addr + 2];
+  assign data[15:8]  = memory[addr + 1];
+  assign data[7:0]   = memory[addr];
 
 
+  always @(posedge sck) begin
+    state <= next;
+    if(state == IDLE) begin
+      counter <= 8'h00;
+    end else begin
+      counter <= counter + 8'h01;
+    end
+
+    if(state == CTRL) begin
+      ctrl[7-counter] = dio[0];
+    end
+    if(state == ADDR) begin
+      addr[(13-counter)*4+3:(13-counter)*4] = dio;
+    end
+    if(state == WRITE) begin
+      
+    end
+  end
+
+  always @(*) begin
+    next = state;
+    if(ce_n) begin
+      next = IDLE;
+    end else begin
+      case (state)
+        IDLE: begin
+          next = CTRL;
+        end
+        CTRL: begin
+          if(counter == 8'h07) begin
+            if(ctrl == 8'heb || ctrl == 8'h38) begin
+              next = ADDR;   
+            end
+          end
+        end
+        ADDR: begin
+          if(counter == 8'h0d) begin
+            if(ctrl == 8'h38) begin
+              next = WRITE;
+            end 
+            else if(ctrl == 8'heb) begin
+              next = ARRG;
+            end
+          end
+        end
+        ARRG: begin
+          if(counter == 8'h13) begin
+            if(ctrl == 8'heb) begin
+              next = READ;
+            end
+          end
+        end
+        WRITE: begin
+          if(counter == 8'h15) begin
+            next = IDLE;
+          end
+        end
+        READ: begin
+          if(counter == 8'h0b) begin
+            next = IDLE;
+          end
+        end
+      endcase
+    end
+  end
 
 
 endmodule

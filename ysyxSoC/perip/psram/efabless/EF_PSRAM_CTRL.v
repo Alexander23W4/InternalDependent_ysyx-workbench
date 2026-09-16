@@ -38,6 +38,12 @@
         prime           549         97                  5.66
 */
 
+/*
+??????
+sck 1/2倍频
+
+*/
+
 `timescale              1ns/1ps
 `default_nettype        none
 
@@ -138,6 +144,10 @@ module PSRAM_READER (
             if(sck)     // ⭐: 用这样的方法进行取拍 sck
                 data[byte_index] <= {data[byte_index][3:0], din}; // Optimize!    // ⭐: DIN 这里处理din   (后8拍)
 
+
+
+
+
                                                                                   // ⭐: DOUT 这里书里dout (前20拍)
     assign dout     =   (counter < 8)   ?   {3'b0, CMD_EBH[7 - counter]}:    
                         (counter == 8)  ?   saddr[23:20]        :
@@ -148,14 +158,14 @@ module PSRAM_READER (
                         (counter == 13) ?   saddr[3:0]          :
                         4'h0;
 
-    assign douten   = (counter < 14);   // 14 拍之前, 
+    assign douten   = (counter < 14);   // 14 拍之前, douten 为 1
 
     assign done     = (counter == FINAL_COUNT+1);
 
     generate
         genvar i;
         for(i=0; i<4; i=i+1)
-            assign line[i*8+7: i*8] = data[i];
+            assign line[i*8+7: i*8] = data[i];    // 把 data -> line -> dat_o -> in_prdata
     endgenerate
 
 

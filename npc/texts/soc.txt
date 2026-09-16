@@ -325,3 +325,26 @@ PSRAM适中
 
     也就是说, 分两段填psram, 第一段fetch 初始 pc 在 flash, 执行 fsbl, 把ssbl 放到 psram, 跳到 psram
     psram 执行 ssbl, 把剩下的程序放到 psram.
+
+
+⭐: SDRAM
+
+如果想要进一步提升访问DRAM颗粒的效率, 就要考虑将控制器和颗粒之间的串行总线改成并行总线了. 
+例如, 型号为MT48LC16M16A2的DRAM颗粒内部结构如下图所示. 该颗粒的引脚有39位, 分别包括:
+
+CLK, CKE - 时钟信号和时钟使能信号
+CS#, WE#, CAS#, #RAS - 命令信号
+BA[1:0] - 存储体地址
+A[12:0] - 地址
+DQ[15:0] - 数据
+DQM[1:0] - 数据掩码, 下图中的命名采用DQML和DQMH
+
+与SPI协议中采用分频输出的SCK不同, 这里的时钟信号CLK通常由DRAM控制器的时钟直接驱动, 
+这类DRAM称为同步DRAM, 即SDRAM(Synchronous Dynamic Random Access Memory).
+
+
+SDR SDRAM(Single Date Rate SDRAM)
+DDR SDRAM(Double Data Rate SDRAM)  它可以分别在时钟的上升沿和下降沿传输数据 此后依次出现了DDR2, DDR3, DDR4, DDR5, 它们均通过不同技术进一步提升数据传输带宽
+
+
+矩阵(储存提)

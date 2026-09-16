@@ -272,7 +272,7 @@ DRAM(Dynamic Random Access Memory)是一种目前广泛使用的存储器, 和SR
 PSRAM控制器无需实现刷新的功能, 也无需关心PSRAM颗粒的内部结构, 因此这种颗粒使用起来与SRAM很类似
 
 
-⭐: 扩展的SPI指令
+⭐: 扩展的SPI指令 命令 地址 数据
 
 为了与基础SPI协议的传输方式区别开来, slave通常会提供不同的命令来让master选择通过何种协议进行传输. 
 例如, 上文提到的型号为W25Q128JV的flash颗粒提供多种读命令:

@@ -23,25 +23,28 @@ MEMORY {
 }
 
 SECTIONS {
-  /* ================================================================
-   * 1. bootloader: 复位 PC 指向 flash 里的第一条指令, VMA == LMA == flash
-   *    只有它从 flash 执行(而且只执行一次)。它不能用 pc 相对的方式去访问
-   *    还没搬过去的 PSRAM 代码 —— ⭐搬完之后必须用绝对跳转跳过去。
-   * ================================================================ */
+// ⭐: FSBL
   . = _pmem_start + _entry_offset;   /* flash: 复位 PC 指的就在这里 */
-  .boot : {
+  .fsbl : {
     _boot_start = .;
-    *(entry)          
+    *(fsbl)          
     _boot_end = .;
   } > flash AT> flash
 
-  /* bootloader 用 lw 按字搬, 所以 .text 的 LMA 必须 4 字节对齐 */
   . = ALIGN(4);
 
-  /* ================================================================
-   * 2. 程序本体: LMA 在 flash(bootloader 从这里搬), VMA 在 PSRAM(在这里执行)
-   * ================================================================ */
+
+
+// ⭐: SSBL
   . = ORIGIN(psram);
+  .ssbl : {
+    _ssbl_start = .;
+    *(ssbl)
+    _ssbl_end = .;
+  } > psram AT > flash
+  _ssbl_lma = LOADADDR(.ssbl);
+
+
 
   .text : {
     _text_start = .;
@@ -55,18 +58,15 @@ SECTIONS {
     _rodata_end = .;
   } > psram AT> flash
 
-  /* bootloader 要用到的 LMA */
   _text_lma   = LOADADDR(.text);
   _rodata_lma = LOADADDR(.rodata);
 
+
+
   .data : {
-    _data_start = .;      /* SA: bootloader 搬完之后, 程序从这里访问数据段(VMA) */
+    _data_start = .;     
     *(.data*)
-    *(.sdata*)            /* ⭐ 小数据段: -fdata-sections 加上 GCC 的默认
-                           *    -msmall-data-limit=8 会把 <=8 字节的全局变量塞进
-                           *    .sdata/.sbss。漏掉它们 -> 变成 orphan section ->
-                           *    ld 自己摆位置, 但 bootloader 只搬 _data_start..
-                           *    _data_end, 于是这些全局变量根本不会被搬过去 */
+    *(.sdata*)            
     *(.sdata2*)
     _data_end = .;
   } > psram AT> flash
@@ -74,6 +74,9 @@ SECTIONS {
   _data = .;
 
   _data_lma = LOADADDR(.data);
+
+
+
 
   .bss : {
     _bss_start = .;       /* .bss 没有初值, 由 bootloader 清零, 不参与搬运 */
@@ -84,20 +87,20 @@ SECTIONS {
     _bss_end = .;
   } > psram
 
-  /* ================================================================
-   * 3. 堆: PSRAM 里 .bss 之后, 一直长到 PSRAM 末尾
-   *    (栈已经挪到 SRAM 了, 所以这里不用再给它留位置)
-   * ================================================================ */
+
+
+
   _heap_start = ALIGN(4);
   _heap_end   = ORIGIN(psram) + LENGTH(psram);
 
-  /* ================================================================
-   * 4. 栈: SRAM, 从 SRAM 末尾向下生长
-   * ================================================================ */
+
+
+
   _stack_pointer = ORIGIN(sram) + LENGTH(sram);
   _stack_top     = _stack_pointer;
   end = _stack_pointer;
   _end = _stack_pointer;
+
 
 
 

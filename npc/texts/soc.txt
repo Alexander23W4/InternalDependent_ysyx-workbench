@@ -321,3 +321,4 @@ PSRAM适中
 二级bootloader: 
     只有一级bootloader 放到 flash里面, 先把二级bootloader 搬到 psram里面, 然后跳转到 psram 执行 二级 bootloader
     
+    FSBL  SSBL

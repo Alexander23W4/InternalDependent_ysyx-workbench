@@ -1,20 +1,31 @@
-.section entry, "ax"
+.section fsbl, "fsbl"
+.global _fsbl
+.type _fsbl, @function
+
+_fsbl:
+    la   a0, _ssbl_lma
+    la   a1, _ssbl_start
+    la   a2, _ssbl_end
+
+1:
+    bgeu a1, a2, 2f
+    lbu  t0, 0(a0)
+    sb   t0, 0(a1)
+    addi a0, a0, 1
+    addi a1, a1, 1
+    j    1b
+
+2:
+    call _start
+
+
+
+
+
+.section ssbl, "ssbl"
 .globl _start
 .type _start, @function
 
-/*
- * ================== ⭐ bootloader ==================
- *
- * 复位后 PC 指向 flash(0x3000_0000)里的第一条指令, 也就是这里的 _start。
- * 这一段是**唯一**从 flash 执行的代码(而且只执行一次), 它负责:
- *     1. 把栈设到 SRAM 末尾
- *     2. 把 .text / .rodata / .data 从 flash 里的 LMA 搬到 PSRAM 里的 VMA
- *     3. 把 .bss 清零
- *     4. 跳到 PSRAM 里继续跑(_trm_init 在 .text 里, 这时已经在 PSRAM 了)
- *
- * ⚠ 搬完之后是绝对跳转: 链接脚本把 .text 的 VMA 定在 PSRAM, 所以 `call _trm_init`
- *    的 pcrel 位移 (PSRAM 地址 - flash 里的 pc) 由链接器算好, 一跳就进 PSRAM。
- */
 
 _start:
   la   sp, _stack_pointer      /* 栈: SRAM 末尾, 向下生长 */
@@ -53,6 +64,9 @@ _start:
 
   /* ---------- 5. 跳到 PSRAM 里的程序 ---------- */
   call _trm_init
+
+
+
 
 /*
  * 搬运子程序: a0 = 源(LMA), a1 = 目的(VMA), a2 = 字节数

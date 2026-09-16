@@ -368,7 +368,7 @@ CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
 
 从DRAM颗粒接收到READ命令, 到读出存储阵列中的数据并传送到DQ总线上, 一般需要花费若干周期, 这个延迟称为CAS latency(有的教材翻译成CAS潜伏期). 
 
-    ⭐: 突发传输
+    ⭐: 突发传输  burst transfer      transaction   beat
 使用突发传输, 只需要发送一个READ指令, 就可以多个2n个字节
 // normal
   1   1   1   1   1   1   1   1   1   1   1   1
@@ -377,11 +377,17 @@ CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
   |       v   |       v   |       v   |       v
  READ   data READ   data READ   data READ   data
 
-// burst
+// burst 
   1   1   1   1   1   1
 |---|---|---|---|---|---|
   ^       |   |   |   |
   |       v   v   v   v
  READ    1st 2nd 3rd 4th
 
- 
+ WRITE命令也支持突发传输, 也即, 若要写入8字节, 可以在发出WRITE命令后紧接着的3个周期内连续传输需要写入的数据. 
+ 至于一次突发传输的事务包含多少个节拍, 可以通过Mode寄存器来设置. Mode寄存器还可以设置CAS latency等参数.
+
+
+ ⭐: SDRAM的扩展
+
+一个维度是让一个地址存储更多位的信息, 称为位扩展; 另一个维度是增加地址的范围, 称为字扩展.

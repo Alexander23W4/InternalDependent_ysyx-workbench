@@ -347,4 +347,8 @@ SDR SDRAM(Single Date Rate SDRAM)
 DDR SDRAM(Double Data Rate SDRAM)  它可以分别在时钟的上升沿和下降沿传输数据 此后依次出现了DDR2, DDR3, DDR4, DDR5, 它们均通过不同技术进一步提升数据传输带宽
 
 
-矩阵(储存提)
+矩阵(存储体)  行地址  列地址  矩阵元素  存储单元
+读出放大器(sence amplifier)(行缓冲)
+
+sence amplifier 是在选中一行之后, 读取微小的电压差, 然后放大到VDD 和 0, 然后外部再读取 sence amplifier
+读完, precharge, 把sence amplifier 的电平恢复到 VDD/2

@@ -143,7 +143,7 @@ module PSRAM_READER (
         if(counter >= 20 && counter <= FINAL_COUNT)    // 20 - 27
             if(sck)     // ⭐: 用这样的方法进行取拍 sck
                 data[byte_index] <= {data[byte_index][3:0], din}; // Optimize!  // ⭐: DIN 这里处理din   (后8sck), 每个sck, psram发送4bits, 2拍填满一个Byte
-                                                                             // 发数据的时候先发低位  
+                                                                             // 发数据的时候, 每个Byte, 先发高位, 再发低位 
 
 
 

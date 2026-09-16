@@ -49,8 +49,6 @@ module psram(
 
   reg [7:0] memory [0:32'h3F_FFFF];   // 4MB
 
-  assign dio = 4'bz;
-
   localparam IDLE = 3'd0, CTRL = 3'd1, ADDR = 3'd2, ARRG = 3'd3, READ = 3'd4, WRITE = 3'd5;
 
   reg [2:0] state, next;
@@ -58,12 +56,18 @@ module psram(
   reg [23:0] addr;
   reg [7:0] counter;    // 0-27
   wire [31:0] data;
+  wire [1:0] write_byte;
+  wire read_index;
+  wire[1:0] read_byte;
 
   assign data[31:24] = memory[addr + 3];
   assign data[23:16] = memory[addr + 2];
   assign data[15:8]  = memory[addr + 1];
   assign data[7:0]   = memory[addr];
-
+  
+  assign write_byte = (counter-14)[2:1];
+  assign read_index = (counter-20)[0];
+  assign read_byte = (counter-20)[2:1];
 
   always @(posedge sck) begin
     state <= next;
@@ -74,13 +78,16 @@ module psram(
     end
 
     if(state == CTRL) begin
-      ctrl[7-counter] = dio[0];
+      ctrl[7-counter] <= dio[0];
     end
     if(state == ADDR) begin
-      addr[(13-counter)*4+3:(13-counter)*4] = dio;
+      addr[(13-counter)*4+3:(13-counter)*4] <= dio;
     end
     if(state == WRITE) begin
-      
+      memory[addr + write_byte] <= {memory[addr + write_byte][3:0], dio};
+    end
+    if(state == READ) begin
+      dio <= read_index ? memory[addr + read_byte][3:0] : memory[addr + read_byte][7:4];
     end
   end
 

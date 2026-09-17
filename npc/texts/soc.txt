@@ -457,3 +457,5 @@ D0 D1 D2 D3 D4 D5 D6 D7
 baud = f_clk / (16 × dl)   16是 uart16550 定义的, nvboard 里面的 divisor = 16 * dl  
 divisor 表示多少个时钟周期读取一个bit 
 
+ysyxsoc 中 将串口输出即通过 $(write)发送到CML, 也发送到顶层的 TX 引脚上
+

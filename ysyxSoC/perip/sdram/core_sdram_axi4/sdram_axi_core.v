@@ -83,6 +83,11 @@ localparam SDRAM_REFRESH_CNT     = 2 ** SDRAM_ROW_W;
 localparam SDRAM_START_DELAY     = 100000 / (1000 / SDRAM_MHZ); // 100uS
 localparam SDRAM_REFRESH_CYCLES  = (64000*SDRAM_MHZ) / SDRAM_REFRESH_CNT-1;
 
+
+
+
+
+
 localparam CMD_W             = 4;
 localparam CMD_NOP           = 4'b0111;
 localparam CMD_ACTIVE        = 4'b0011;
@@ -108,6 +113,8 @@ localparam STATE_WRITE0      = 4'd6;
 localparam STATE_WRITE1      = 4'd7;
 localparam STATE_PRECHARGE   = 4'd8;
 localparam STATE_REFRESH     = 4'd9;
+
+
 
 localparam AUTO_PRECHARGE    = 10;
 localparam ALL_BANKS         = 10;
@@ -186,7 +193,7 @@ wire [SDRAM_BANK_W-1:0] addr_bank_w = ram_addr_w[SDRAM_COL_W+2:SDRAM_COL_W+2-1];
 //-----------------------------------------------------------------
 always @ *
 begin
-    next_state_r   = state_q;
+    next_state_r   = state_q;   // 默认保持原状态
     target_state_r = target_state_q;
 
     case (state_q)
@@ -195,13 +202,13 @@ begin
     //-----------------------------------------
     STATE_INIT :
     begin
-        if (refresh_q)
+        if (refresh_q)          // 刷新之后, 才进入 IDLE 预备状态
             next_state_r = STATE_IDLE;
     end
     //-----------------------------------------
     // STATE_IDLE
     //-----------------------------------------
-    STATE_IDLE :
+    STATE_IDLE :  // 两种请求, 一种 refresh 请求, 一种 ram-req, 优先处理 refresh 
     begin
         // Pending refresh
         // Note: tRAS (open row time) cannot be exceeded due to periodic
@@ -210,17 +217,17 @@ begin
         begin
             // Close open rows, then refresh
             if (|row_open_q)
-                next_state_r = STATE_PRECHARGE;
+                next_state_r = STATE_PRECHARGE;   // 有行打开, 先 precharge 关闭这一行
             else
                 next_state_r = STATE_REFRESH;
 
-            target_state_r = STATE_REFRESH;
+            target_state_r = STATE_REFRESH;   // ⭐
         end
         // Access request
-        else if (ram_req_w)
+        else if (ram_req_w)             // 如果不需要刷新, 若有 ram 操作请求, 则处理
         begin
             // Open row hit
-            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])
+            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])  
             begin
                 if (!ram_rd_w)
                     next_state_r = STATE_WRITE0;

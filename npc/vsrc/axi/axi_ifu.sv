@@ -28,7 +28,7 @@ module ysyx_26040135_AXI_IFU (
 
     // PMA
 
-    localparam PMA_ENTRIES = 5;
+    localparam PMA_ENTRIES = 6;
 
     typedef struct packed {
         logic [31:0] base;

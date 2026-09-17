@@ -5,18 +5,18 @@
 
 */
 module sdram_top_apb (
-  input         clock,
-  input         reset,
-  input  [31:0] in_paddr,
-  input         in_psel,
-  input         in_penable,
-  input  [2:0]  in_pprot,
-  input         in_pwrite,
-  input  [31:0] in_pwdata,
-  input  [3:0]  in_pstrb,
-  output        in_pready,
-  output [31:0] in_prdata,
-  output        in_pslverr,
+  input         clock,        // APB 时钟
+  input         reset,        // APB 复位，拉高时清空状态
+  input  [31:0] in_paddr,     // APB 地址总线，访问 SDRAM 的目标地址
+  input         in_psel,      // APB 选择信号，表示当前设备被选中
+  input         in_penable,   // APB 使能信号，表示传输阶段有效
+  input  [2:0]  in_pprot,     // APB 保护位，通常用于权限/安全信息
+  input         in_pwrite,    // 1=写，0=读
+  input  [31:0] in_pwdata,    // APB 写数据总线
+  input  [3:0]  in_pstrb,     // 写字节掩码，控制 4 个字节是否写入
+  output        in_pready,    // APB 传输准备好，表示当前传输已完成
+  output [31:0] in_prdata,    // APB 读数据总线
+  output        in_pslverr,   // APB 错误标志，1 表示访问错误
 
 // 发给 SDRAM 的
   output        sdram_clk,

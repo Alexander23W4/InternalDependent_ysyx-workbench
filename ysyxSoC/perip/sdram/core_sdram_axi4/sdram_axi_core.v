@@ -96,7 +96,7 @@ localparam SDRAM_BANK_W          = 2;
 localparam SDRAM_DQM_W           = 4;       // 位扩展: 32 位 = 2 片 x 2 Byte, 每片 2 个 DQM
 localparam SDRAM_BANKS           = 2 ** SDRAM_BANK_W;     // 一共 4 个 bank
 
-localparam SDRAM_ROW_W           = 13;      // 行地址宽度, 颗粒固定 8192 行
+localparam SDRAM_ROW_W           = 13;      // 行地址宽度, 颗粒固定 8192 行     
 
 /*
 ⭐ 字节地址的位划分:   27位, 128MB 地址空间

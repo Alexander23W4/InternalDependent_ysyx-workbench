@@ -69,9 +69,10 @@ SPI master	          0x1000_1000~0x1000_1fff
 PSRAM	              0x8000_0000~0x9fff_ffff
 SDRAM	              0xa000_0000~0xbfff_ffff
 
+GPIO	              0x1000_2000~0x1000_200f
+
 ⭐
 CLINT	              0x0200_0000~0x0200_ffff
-GPIO	              0x1000_2000~0x1000_200f
 PS2	                  0x1001_1000~0x1001_1007
 VGA	                  0x2100_0000~0x211f_ffff
 ChipLink MMIO	      0x4000_0000~0x7fff_ffff

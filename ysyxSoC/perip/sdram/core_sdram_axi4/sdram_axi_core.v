@@ -140,22 +140,22 @@ localparam STATE_REFRESH     = 4'd9;
 
 
 
-localparam AUTO_PRECHARGE    = 10;
+localparam AUTO_PRECHARGE    = 10;    // SDRAM 地址线 A10 用来控制 Auto Precharge。
 localparam ALL_BANKS         = 10;
 
-localparam SDRAM_DATA_W      = 16;
+localparam SDRAM_DATA_W      = 16;    // DQ 数据总线 16 位
 
-localparam CYCLE_TIME_NS     = 1000 / SDRAM_MHZ;
+localparam CYCLE_TIME_NS     = 1000 / SDRAM_MHZ;   // 20ns 一个周期
 
 // SDRAM timing
-localparam SDRAM_TRCD_CYCLES = (20 + (CYCLE_TIME_NS-1)) / CYCLE_TIME_NS;
-localparam SDRAM_TRP_CYCLES  = (20 + (CYCLE_TIME_NS-1)) / CYCLE_TIME_NS;
-localparam SDRAM_TRFC_CYCLES = (60 + (CYCLE_TIME_NS-1)) / CYCLE_TIME_NS;
+localparam SDRAM_TRCD_CYCLES = (20 + (CYCLE_TIME_NS-1)) / CYCLE_TIME_NS;  // ACTIVATE 后, 等待 1 周期后才能发出 READ/WRITE 命令
+localparam SDRAM_TRP_CYCLES  = (20 + (CYCLE_TIME_NS-1)) / CYCLE_TIME_NS;  // PRECHARGE 后, 等待 1 周期后才能发出 ACTIVATE 命令
+localparam SDRAM_TRFC_CYCLES = (60 + (CYCLE_TIME_NS-1)) / CYCLE_TIME_NS;  // AUTO REFRESH 后, 等3周期才能发出 下一条命令
 
 //-----------------------------------------------------------------
 // External Interface
 //-----------------------------------------------------------------
-wire [ 31:0]  ram_addr_w       = inport_addr_i;
+wire [ 31:0]  ram_addr_w       = inport_addr_i;  
 wire [  3:0]  ram_wr_w         = inport_wr_i;
 wire          ram_rd_w         = inport_rd_i;
 wire          ram_accept_w;

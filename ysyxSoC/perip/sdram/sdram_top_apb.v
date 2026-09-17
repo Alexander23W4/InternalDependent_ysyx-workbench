@@ -18,12 +18,14 @@ module sdram_top_apb (
   output [31:0] in_prdata,
   output        in_pslverr,
 
+// 发给 SDRAM 的
   output        sdram_clk,
   output        sdram_cke,
   output        sdram_cs,
   output        sdram_ras,
   output        sdram_cas,
   output        sdram_we,
+
   output [12:0] sdram_a,
   output [ 1:0] sdram_ba,
   output [ 1:0] sdram_dqm,
@@ -51,7 +53,7 @@ module sdram_top_apb (
 
   wire is_read  = ((in_psel && !in_penable) || (state == ST_WAIT_ACCEPT)) && !in_pwrite;
   wire is_write = ((in_psel && !in_penable) || (state == ST_WAIT_ACCEPT)) &&  in_pwrite;
-  
+
   sdram_axi_core #(
     .SDRAM_MHZ(100),
     .SDRAM_ADDR_W(24),
@@ -76,6 +78,7 @@ module sdram_top_apb (
     .sdram_ras_o(sdram_ras),
     .sdram_cas_o(sdram_cas),
     .sdram_we_o(sdram_we),
+    
     .sdram_dqm_o(sdram_dqm),
     .sdram_addr_o(sdram_a),
     .sdram_ba_o(sdram_ba),

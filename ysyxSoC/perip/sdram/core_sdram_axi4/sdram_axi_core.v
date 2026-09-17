@@ -45,6 +45,7 @@ sac自动启动状态机, 按照固定的流程占用若干周期自动完成和
 然后看这些信号(主要是内部控制信号)的控制逻辑
 最后再去看状态机
 */
+
 module sdram_axi_core
 (
     // Inputs
@@ -62,6 +63,7 @@ module sdram_axi_core
     ,output          inport_ack_o
     ,output          inport_error_o
     ,output [ 31:0]  inport_read_data_o
+
     ,output          sdram_clk_o
     ,output          sdram_cke_o
     ,output          sdram_cs_o
@@ -138,7 +140,7 @@ localparam STATE_DELAY       = 4'd1;
 
 localparam STATE_IDLE        = 4'd2;
 
-localparam STATE_ACTIVATE    = 4'd3;
+localparam STATE_ACTIVATE    = 4'd3;  // 激活 row
 
 localparam STATE_READ        = 4'd4;
 localparam STATE_READ_WAIT   = 4'd5;
@@ -146,8 +148,8 @@ localparam STATE_READ_WAIT   = 4'd5;
 localparam STATE_WRITE0      = 4'd6;
 localparam STATE_WRITE1      = 4'd7;
 
-localparam STATE_PRECHARGE   = 4'd8;
-localparam STATE_REFRESH     = 4'd9;
+localparam STATE_PRECHARGE   = 4'd8;  // 关闭 row
+localparam STATE_REFRESH     = 4'd9;  
 
 
 
@@ -262,7 +264,7 @@ begin
         begin
             // Close open rows, then refresh
             if (|row_open_q)
-                next_state_r = STATE_PRECHARGE;   // 有行打开, 先 precharge 关闭这一行
+                next_state_r = STATE_PRECHARGE;   // 有行打开, 先 precharge 关闭这一行   (进行 refresh 和 读写 操作之前, 都需要 precharge)
             else
                 next_state_r = STATE_REFRESH;
 
@@ -272,7 +274,7 @@ begin
         else if (ram_req_w)             // 如果不需要刷新, 若有 ram 操作请求, 则处理
         begin
             // Open row hit
-            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])  
+            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])  // 刚好就是现在打开的row
             begin
                 if (!ram_rd_w)
                     next_state_r = STATE_WRITE0;
@@ -282,7 +284,7 @@ begin
             // Row miss, close row, open new row
             else if (row_open_q[addr_bank_w])
             begin
-                next_state_r   = STATE_PRECHARGE;
+                next_state_r   = STATE_PRECHARGE;   // 关掉当前的 row  (关闭->激活)
 
                 if (!ram_rd_w)
                     target_state_r = STATE_WRITE0;
@@ -292,7 +294,7 @@ begin
             // No open row, open row
             else
             begin
-                next_state_r   = STATE_ACTIVATE;
+                next_state_r   = STATE_ACTIVATE;    // 激活所需的 row  (直接激活)
 
                 if (!ram_rd_w)
                     target_state_r = STATE_WRITE0;
@@ -304,7 +306,7 @@ begin
     //-----------------------------------------
     // STATE_ACTIVATE
     //-----------------------------------------
-    STATE_ACTIVATE :
+    STATE_ACTIVATE :   // 确定有读写请求, 但是对应的row没有激活, 激活 row 
     begin
         // Proceed to read or write state
         next_state_r = target_state_r;
@@ -326,7 +328,7 @@ begin
         // Another pending read request (with no refresh pending)
         if (!refresh_q && ram_req_w && ram_rd_w)
         begin
-            // Open row hit
+            // Open row hit ⭐
             if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])
                 next_state_r = STATE_READ;
         end
@@ -348,7 +350,7 @@ begin
         // Another pending write request (with no refresh pending)
         if (!refresh_q && ram_req_w && (ram_wr_w != 4'b0))
         begin
-            // Open row hit
+            // Open row hit ⭐
             if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])
                 next_state_r = STATE_WRITE0;
         end
@@ -698,6 +700,10 @@ begin
     endcase
 end
 
+
+
+
+
 //-----------------------------------------------------------------
 // Record read events
 //-----------------------------------------------------------------
@@ -708,6 +714,8 @@ if (rst_i)
     rd_q    <= {(SDRAM_READ_LATENCY+2){1'b0}};
 else
     rd_q    <= {rd_q[SDRAM_READ_LATENCY:0], (state_q == STATE_READ)};
+
+
 
 //-----------------------------------------------------------------
 // Data Buffer
@@ -725,6 +733,8 @@ else if (rd_q[SDRAM_READ_LATENCY+1])
 
 // Read data output
 assign ram_read_data_w = {sample_data_q, data_buffer_q};
+
+
 
 //-----------------------------------------------------------------
 // ACK
@@ -749,6 +759,8 @@ assign ram_ack_w = ack_q;
 // Accept command in READ or WRITE0 states
 assign ram_accept_w = (state_q == STATE_READ || state_q == STATE_WRITE0);
 
+
+
 //-----------------------------------------------------------------
 // SDRAM I/O
 //-----------------------------------------------------------------
@@ -765,6 +777,8 @@ assign sdram_we_o   = command_q[0];
 assign sdram_dqm_o  = dqm_q;
 assign sdram_ba_o   = bank_q;
 assign sdram_addr_o = addr_q;
+
+
 
 //-----------------------------------------------------------------
 // Simulation only

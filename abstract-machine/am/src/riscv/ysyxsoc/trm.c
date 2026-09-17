@@ -86,7 +86,9 @@ void init_uart(void) {
     *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 0) = 0x01;  // DLL
     *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 1) = 0x00;  // DLM
 
-    *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 3) = 0x03;  // LCR: 8N1  恢复正常模式, 设置字符长度为8bit, 无停止位(bit3), 无校验位(bit2)
+    *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 3) = 0x03;  // LCR: 8N1  恢复正常模式, 设置字符长度为8bit, 一位停止位(bit2=0), 无校验位(bit3=0)
+    // ⭐: 8N1的具体含义: 8N1 = 8 位数据位、No parity（无校验）、1 位停止位
+    // 空闲(1) ─ 起始位(0) ─ D0 D1 D2 D3 D4 D5 D6 D7 ─ [校验位] ─ 停止位(1) ─ 空闲(1)
 }
 
 void putch(char ch) {

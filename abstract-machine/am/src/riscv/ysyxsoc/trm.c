@@ -96,6 +96,8 @@ void putch(char ch) {
   *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 0) = ch;               
 }
 
+
+
 void halt(int code) {
   asm volatile("ebreak");   // 这里的code传入比如main函数的ret, 存在a0, ebreak来判断这个
   while (1);   // 防止halt函数返回, 如果ebreak没有正确执行, 程序会卡死在这里

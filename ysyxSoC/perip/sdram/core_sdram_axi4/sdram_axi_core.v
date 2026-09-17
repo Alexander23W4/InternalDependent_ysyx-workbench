@@ -83,7 +83,8 @@ localparam SDRAM_ROW_W           = SDRAM_ADDR_W - SDRAM_COL_W - SDRAM_BANK_W;   
 
 localparam SDRAM_REFRESH_CNT     = 2 ** SDRAM_ROW_W;          // 8192行
 localparam SDRAM_START_DELAY     = 100000 / (1000 / SDRAM_MHZ); // 设置初始化等待100uS, 算出来相当于5000个周期
-localparam SDRAM_REFRESH_CYCLES  = (64000*SDRAM_MHZ) / SDRAM_REFRESH_CNT-1;  // 64ms内, 所有 row 都要刷新一遍
+localparam SDRAM_REFRESH_CYCLES  = (64000*SDRAM_MHZ) / SDRAM_REFRESH_CNT-1;  // 64ms内, 发出 8192 次refresh请求, 
+                                                                            // SDRAM每次收到这个请求, 都要按照逻辑刷新一个row
 
 
 // ⭐: SDRAM总容量: 8192 * 512 * 4 * 2(Byte) = 2^25 Bytes = 32 MB
@@ -101,6 +102,18 @@ localparam CMD_REFRESH       = 4'b0001;
 localparam CMD_LOAD_MODE     = 4'b0000;
 
 // Mode: Burst Length = 4 bytes, CAS=2
+/*
+模式寄存器配置:
+| 位       | 字段               |     值 | 含义               |
+| ------- | ---------------- | ----: | -------------------- |
+| A12:A10 | Reserved         | `000` | 保留，通常写 0         |
+| A9      | Write Burst Mode |   `0` | Burst write          |   Programmed Burst Length (读和写均按 M[2:0] 编程的突发长度执行）
+| A8:A7   | Operating Mode   |  `00` | Standard operation   |   
+| A6:A4   | CAS Latency      | `010` | **CAS = 2**          |   CAS
+| A3      | Burst Type       |   `0` | **Sequential**       |   突发类型 (Sequential; Interleaved)
+| A2:A0   | Burst Length     | `001` | **Burst Length = 2** |   突发长度
+
+*/
 localparam MODE_REG          = {3'b000,1'b0,2'b00,3'b010,1'b0,3'b001};
 
 // SM states

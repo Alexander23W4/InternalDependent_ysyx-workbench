@@ -391,3 +391,13 @@ CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
  ⭐: SDRAM的扩展
 
 一个维度是让一个地址存储更多位的信息, 称为位扩展; 另一个维度是增加地址的范围, 称为字扩展.
+
+⭐: 加上SDRAM之后的存储:
+程序烧录到flash
+fsbl fetch flash (load ssbl to SDRAM)
+ssbl fetch SDRAM (load rest of the text rodata data bss.. to SDRAM)
+run-time fetch SDRAM 
+cache use SRAM
+
+
+

@@ -54,7 +54,7 @@ module sdram(
   reg [2:0] state, next;
   reg [12:0] Mode_Reg;
   reg [2:0] cas_counter;
-  reg [2:0] burst_counter; 
+  reg [3:0] burst_counter; 
 
   wire [2:0] burst_length;
   wire burst_type;
@@ -74,10 +74,24 @@ module sdram(
 
   assign ctrl = {cs, ras, cas, we};
 
-  always @(*) begin
-    if()
-  end
+  function [3:0] calc_burst_len;
+    input [2:0] len;
+    begin
+      case (len)
+        3'd0: calc_burst_len = 4'd1;
+        3'd1: calc_burst_len = 4'd2;
+        3'd2: calc_burst_len = 4'd4;
+        default: calc_burst_len = 4'd8;
+      endcase
+    end
+  endfunction
 
+  reg [15:0] dq_out;
+  reg        dq_oe;    // 是SDRAM输出
+  reg [12:0] cur_a;
+  reg [ 1:0] cur_ba;
+
+  assign dq = dq_oe ? dq_out : 16'bz;
 
   always @(*) begin
     next = state;
@@ -101,51 +115,101 @@ CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
 */
     case (state)
       IDLE: begin
-        if(ctrl == 4'b0000) begin
+        if (ctrl == 4'b0000) begin
           next = MODE;
-        end
-        else if(ctrl == 4'b0101) begin
+        end else if (ctrl == 4'b0101) begin
           next = READ_WAIT;
-        end
-        else if(ctrl == 4'b0100) begin
+        end else if (ctrl == 4'b0100) begin
           next = WRITE;
         end
       end
       MODE: begin
-        if(ctrl != 4'b0000) begin
-          next = IDLE;
-        end
+        next = IDLE;
       end
       READ_WAIT: begin
-        if(cas_counter == 0) begin
+        if (cas_counter == 3'd0) begin
           next = READ;
         end
       end
       READ: begin
-        
+        if (burst_counter == 4'd0) begin
+          next = IDLE;
+        end else begin
+          next = READ;
+        end
+      end
+      WRITE: begin
+        if (burst_counter == 4'd0) begin
+          next = IDLE;
+        end else begin
+          next = WRITE;
+        end
       end
     endcase
-    
   end
 
   always @(posedge clk) begin
-    if(!cke) begin
+    if (!cke) begin
       state <= IDLE;
-      Mode_Reg <= '0;
-      cas_counter <= '0;
-      burst_counter <= '0;
+      Mode_Reg <= 13'b0;
+      cas_counter <= 3'b0;
+      burst_counter <= 4'b0;
+      cur_a <= 13'b0;
+      cur_ba <= 2'b0;
+      dq_out <= 16'b0;
+      dq_oe <= 1'b0;
     end else begin
       state <= next;
-      if(state == MODE) begin
-        Mode_Reg <= ...  // ⭐
+
+      if (state == MODE) begin
+        Mode_Reg <= a;
       end
-      if(state == IDLE && ctrl == 4'b0101) begin
-        cas_counter <= cas_latency;
+
+      if (state == IDLE) begin
+        if (ctrl == 4'b0000) begin
+          Mode_Reg <= a;
+        end else if (ctrl == 4'b0101) begin
+          cas_counter <= cas_latency;
+          cur_a <= a;
+          cur_ba <= ba;
+          burst_counter <= calc_burst_len(Mode_Reg[2:0]);
+          dq_oe <= 1'b0;
+        end else if (ctrl == 4'b0100) begin
+          cur_a <= a;
+          cur_ba <= ba;
+          burst_counter <= calc_burst_len(Mode_Reg[2:0]);
+        end
       end
-      if(state == READ_WAIT) begin
-        cas_counter <= cas_counter - 4'b0001;
-        if(cas_counter == 0) begin
-          burst_counter <= burst_amt;
+
+      if (state == READ_WAIT) begin
+        if (cas_counter != 3'd0) begin
+          cas_counter <= cas_counter - 3'd1;
+        end else begin
+          dq_oe <= 1'b1;
+          dq_out <= memory[cur_ba][cur_a][0];
+          cur_a <= cur_a + 13'd1;
+          burst_counter <= burst_counter - 4'd1;
+        end
+      end
+
+      if (state == READ) begin
+        if (burst_counter == 4'd0) begin
+          dq_oe <= 1'b0;
+          dq_out <= 16'b0;
+        end else begin
+          dq_oe <= 1'b1;
+          dq_out <= memory[cur_ba][cur_a][0];
+          cur_a <= cur_a + 13'd1;
+          burst_counter <= burst_counter - 4'd1;
+        end
+      end
+
+      if (state == WRITE) begin
+        if (burst_counter != 4'd0) begin
+          if (!dqm[0]) memory[cur_ba][cur_a][0][7:0] <= dq[7:0];
+          if (!dqm[1]) memory[cur_ba][cur_a][0][15:8] <= dq[15:8];
+          cur_a <= cur_a + 13'd1;
+          burst_counter <= burst_counter - 4'd1;
         end
       end
     end

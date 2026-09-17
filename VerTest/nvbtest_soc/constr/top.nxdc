@@ -1,9 +1,4 @@
 top=ALU4
 
-a (SW7, SW6, SW5, SW4)
-b (SW3, SW2, SW1, SW0)
-opcode (SW10, SW9, SW8)
-out (LD3, LD2, LD1, LD0)
-carry LD4
-overflow LD5
-zero LD6
+externalPins_uart_tx UART_TX
+externalPins_uart_rx UART_RX

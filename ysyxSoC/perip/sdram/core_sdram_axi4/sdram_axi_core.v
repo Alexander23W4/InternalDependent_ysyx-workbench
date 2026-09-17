@@ -56,7 +56,7 @@ module sdram_axi_core
     ,input  [  7:0]  inport_len_i
     ,input  [ 31:0]  inport_addr_i
     ,input  [ 31:0]  inport_write_data_i
-    ,input  [ 15:0]  sdram_data_input_i
+    ,input  [ 31:0]  sdram_data_input_i  //
 
     // Outputs
     ,output          inport_accept_o
@@ -70,11 +70,13 @@ module sdram_axi_core
     ,output          sdram_ras_o
     ,output          sdram_cas_o
     ,output          sdram_we_o
-    ,output [  1:0]  sdram_dqm_o
+    ,output [  3:0]  sdram_dqm_o   //
     ,output [ 12:0]  sdram_addr_o
     ,output [  1:0]  sdram_ba_o
-    ,output [ 15:0]  sdram_data_output_o
+    ,output [ 31:0]  sdram_data_output_o   //
     ,output          sdram_data_out_en_o
+
+    ,output          sdram_sel_o
 );
 
 
@@ -83,7 +85,7 @@ module sdram_axi_core
 // Key Params
 //-----------------------------------------------------------------
 parameter SDRAM_MHZ              = 50;
-parameter SDRAM_ADDR_W           = 24;          // 地址宽度
+parameter SDRAM_ADDR_W           = 24;          // 地址宽度, (可以增加, 从而进行字扩展)
 parameter SDRAM_COL_W            = 9;           // 列地址宽度    512列
 parameter SDRAM_READ_LATENCY     = 2;           // 设置的读延迟
 
@@ -91,7 +93,7 @@ parameter SDRAM_READ_LATENCY     = 2;           // 设置的读延迟
 // Defines / Local params
 //-----------------------------------------------------------------
 localparam SDRAM_BANK_W          = 2;
-localparam SDRAM_DQM_W           = 2;       // 每个 DQM 信号控制一个 Byte
+localparam SDRAM_DQM_W           = 4;       // 位扩展: 32 位 = 2 片 x 2 Byte, 每片 2 个 DQM
 localparam SDRAM_BANKS           = 2 ** SDRAM_BANK_W;     // 一共 4 个 bank
 
 localparam SDRAM_ROW_W           = SDRAM_ADDR_W - SDRAM_COL_W - SDRAM_BANK_W;     // 行地址宽度, 24-9-2 = 13   8192行
@@ -116,7 +118,7 @@ localparam CMD_PRECHARGE     = 4'b0010;
 localparam CMD_REFRESH       = 4'b0001;
 localparam CMD_LOAD_MODE     = 4'b0000;
 
-// Mode: Burst Length = 4 bytes, CAS=2
+// Mode: Burst Length = 1, CAS=2 (位扩展后 32 位一次取回, 不需要突发)
 /*
 模式寄存器配置:
 | 位       | 字段               |     值 | 含义               |
@@ -126,10 +128,11 @@ localparam CMD_LOAD_MODE     = 4'b0000;
 | A8:A7   | Operating Mode   |  `00` | Standard operation   |   
 | A6:A4   | CAS Latency      | `010` | **CAS = 2**          |   CAS
 | A3      | Burst Type       |   `0` | **Sequential**       |   突发类型 (Sequential; Interleaved)
-| A2:A0   | Burst Length     | `001` | **Burst Length = 2** |   突发长度
+| A2:A0   | Burst Length     | `000` | **Burst Length = 1** |   突发长度
 
 */
-localparam MODE_REG          = {3'b000,1'b0,2'b00,3'b010,1'b0,3'b001};
+// 位扩展后一次就能取回 32 位, 不再需要突发传输, 所以 Burst Length = 1
+localparam MODE_REG          = {3'b000,1'b0,2'b00,3'b010,1'b0,3'b000};
 
 // SM states
 localparam STATE_W           = 4;
@@ -156,7 +159,7 @@ localparam STATE_REFRESH     = 4'd9;
 localparam AUTO_PRECHARGE    = 10;    // SDRAM 地址线 A10 用来控制 Auto Precharge。
 localparam ALL_BANKS         = 10;
 
-localparam SDRAM_DATA_W      = 16;    // DQ 数据总线 16 位
+localparam SDRAM_DATA_W      = 32;    // 位扩展: DQ 数据总线 32 位 (2 片 x16)
 
 localparam CYCLE_TIME_NS     = 1000 / SDRAM_MHZ;   // 20ns 一个周期
 
@@ -222,7 +225,9 @@ wire [SDRAM_DATA_W-1:0] sdram_data_in_w;
 reg                    refresh_q;    // refresh
 
 reg [SDRAM_BANKS-1:0]  row_open_q;    // 每一位表示对应 Bank 有没有打开 Row
-reg [SDRAM_ROW_W-1:0]  active_row_q[0:SDRAM_BANKS-1];   // 每个 Bank 当前打开的row
+// ⭐ 字扩展: 多存 1 位片选, 否则 0xa0000000 和 0xa2000000 的 row/bank/col 完全相同,
+//    会被误判成"行命中"而跳过 ACTIVE, 读到另一对颗粒里的旧数据
+reg [SDRAM_ROW_W:0]    active_row_q[0:SDRAM_BANKS-1];   // 每个 Bank 当前打开的 {片选, row}
 
 reg  [STATE_W-1:0]     state_q;    // state
 reg  [STATE_W-1:0]     next_state_r;  // next  (r代表 combinational logic)
@@ -231,9 +236,24 @@ reg  [STATE_W-1:0]     target_state_q;    // 把 target_state_r 存进寄存器
 reg  [STATE_W-1:0]     delay_state_q;     // 进入 STATE_DELAY 之前，是什么状态触发了这个 delay
 
 // Address bits
+/*
+注意, 地址来到这里之前都是访存地址的透传: 比如
+0xa000200b = 1010 0000 0000 0000 0010 0000 0000 1011
+到这里直接是分割原始的访存地址: 
+row   = addr[24:12] = 0x0002
+bank  = addr[11:10] = 0
+word  = addr[9:2]   = 2
+A[8:0]= 000000100  = 0x004      (A[0]=0)
+*/
+// ⭐ 字扩展: 用地址的第 25 位(在行地址最高位 bit24 之上)作为额外的片选, 选择哪一对(x32)颗粒
+//    0 -> 第一对 0xa0000000~0xa1ffffff, 1 -> 第二对 0xa2000000~0xa3ffffff, 共 64MB
+//    注意不能取 bit24: 那是行地址最高位, 会被 addr_row_w 一起用掉, 每对就只剩一半行
+wire sdram_sel = ram_addr_w[SDRAM_ADDR_W+1];
 wire [SDRAM_ROW_W-1:0]  addr_col_w  = {{(SDRAM_ROW_W-SDRAM_COL_W){1'b0}}, ram_addr_w[SDRAM_COL_W:2], 1'b0};  // 半字 halfword 对齐后的列地址
 wire [SDRAM_ROW_W-1:0]  addr_row_w  = ram_addr_w[SDRAM_ADDR_W:SDRAM_COL_W+2+1];     // ram_addr_w[24:12]
 wire [SDRAM_BANK_W-1:0] addr_bank_w = ram_addr_w[SDRAM_COL_W+2:SDRAM_COL_W+2-1];    // ram_addr_w[11:10]
+
+assign sdram_sel_o = sdram_sel;
 
 //-----------------------------------------------------------------
 // SDRAM State Machine
@@ -274,7 +294,7 @@ begin
         else if (ram_req_w)             // 如果不需要刷新, 若有 ram 操作请求, 则处理
         begin
             // Open row hit
-            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])  // 刚好就是现在打开的row
+            if (row_open_q[addr_bank_w] && {sdram_sel, addr_row_w} == active_row_q[addr_bank_w])  // 刚好就是现在打开的row
             begin
                 if (!ram_rd_w)
                     next_state_r = STATE_WRITE0;
@@ -329,7 +349,7 @@ begin
         if (!refresh_q && ram_req_w && ram_rd_w)
         begin
             // Open row hit ⭐
-            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])
+            if (row_open_q[addr_bank_w] && {sdram_sel, addr_row_w} == active_row_q[addr_bank_w])
                 next_state_r = STATE_READ;
         end
     end
@@ -351,7 +371,7 @@ begin
         if (!refresh_q && ram_req_w && (ram_wr_w != 4'b0))
         begin
             // Open row hit ⭐
-            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])
+            if (row_open_q[addr_bank_w] && {sdram_sel, addr_row_w} == active_row_q[addr_bank_w])
                 next_state_r = STATE_WRITE0;
         end
     end
@@ -418,7 +438,7 @@ begin
         if (!refresh_q && ram_req_w && ram_rd_w)
         begin
             // Open row hit
-            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])
+            if (row_open_q[addr_bank_w] && {sdram_sel, addr_row_w} == active_row_q[addr_bank_w])
                 delay_r = 4'd0;
         end
     end
@@ -537,7 +557,7 @@ always @ (posedge clk_i or posedge rst_i)
 if (rst_i)
 begin
     command_q       <= CMD_NOP;
-    data_q          <= 16'b0;
+    data_q          <= {SDRAM_DATA_W{1'b0}};
     addr_q          <= {SDRAM_ROW_W{1'b0}};
     bank_q          <= {SDRAM_BANK_W{1'b0}};
     cke_q           <= 1'b0;
@@ -546,7 +566,7 @@ begin
     dqm_buffer_q    <= {SDRAM_DQM_W{1'b0}};
 
     for (idx=0;idx<SDRAM_BANKS;idx=idx+1)
-        active_row_q[idx] <= {SDRAM_ROW_W{1'b0}};
+        active_row_q[idx] <= {(SDRAM_ROW_W+1){1'b0}};
 
     row_open_q      <= {SDRAM_BANKS{1'b0}};
 end
@@ -611,7 +631,7 @@ begin
         addr_q        <= addr_row_w;
         bank_q        <= addr_bank_w;
 
-        active_row_q[addr_bank_w]  <= addr_row_w;
+        active_row_q[addr_bank_w]  <= {sdram_sel, addr_row_w};
         row_open_q[addr_bank_w]    <= 1'b1;
     end
     //-----------------------------------------
@@ -670,14 +690,15 @@ begin
         command_q       <= CMD_WRITE;
         addr_q          <= addr_col_w;
         bank_q          <= addr_bank_w;
-        data_q          <= ram_write_data_w[15:0];
+        // 位扩展 + BL=1: 一条 WRITE 命令就送出完整的 32 位数据
+        data_q          <= ram_write_data_w;
 
         // Disable auto precharge (auto close of row)
         addr_q[AUTO_PRECHARGE]  <= 1'b0;
 
-        // Write mask
-        dqm_q           <= ~ram_wr_w[1:0];
-        dqm_buffer_q    <= ~ram_wr_w[3:2];
+        // Write mask: 4 个 DQM 各管一个 Byte
+        dqm_q           <= ~ram_wr_w[3:0];
+        dqm_buffer_q    <= {SDRAM_DQM_W{1'b1}};
 
         data_rd_en_q    <= 1'b0;
     end
@@ -686,16 +707,15 @@ begin
     //-----------------------------------------
     STATE_WRITE1 :
     begin
-        // Burst continuation
+        // BL=1: 没有第二拍数据了, 这一拍只用来产生 ack
         command_q   <= CMD_NOP;
+        data_q      <= {SDRAM_DATA_W{1'b0}};
 
-        data_q      <= data_buffer_q;
+        // 全部字节屏蔽, 保证这一拍不会写进颗粒
+        dqm_q       <= {SDRAM_DQM_W{1'b1}};
 
         // Disable auto precharge (auto close of row)
         addr_q[AUTO_PRECHARGE]  <= 1'b0;
-
-        // Write mask
-        dqm_q       <= dqm_buffer_q;
     end
     endcase
 end
@@ -721,18 +741,16 @@ else
 // Data Buffer
 //-----------------------------------------------------------------
 
-// Buffer upper 16-bits of write data so write command can be accepted
-// in WRITE0. Also buffer lower 16-bits of read data.
+// 位扩展 + BL=1: 一次 CAS latency 之后 DQ 上就是完整的 32 位数据。
+// 这里在 rd_q 命中时把采样值锁一拍, 正好和 ack_q 对齐。
 always @ (posedge clk_i or posedge rst_i)
 if (rst_i)
-    data_buffer_q <= 16'b0;
-else if (state_q == STATE_WRITE0)
-    data_buffer_q <= ram_write_data_w[31:16];
+    data_buffer_q <= {SDRAM_DATA_W{1'b0}};
 else if (rd_q[SDRAM_READ_LATENCY+1])
     data_buffer_q <= sample_data_q;
 
 // Read data output
-assign ram_read_data_w = {sample_data_q, data_buffer_q};
+assign ram_read_data_w = data_buffer_q;
 
 
 

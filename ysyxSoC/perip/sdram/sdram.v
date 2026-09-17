@@ -30,9 +30,106 @@ CAS: 接收到READ命令, 把数据放到DQ总线上, 之间的时间延迟 dela
 此外, Mode寄存器只需要实现CAS Latency 和 Burst Length, 其他字段可忽略.
 
 // ⭐: SDRAM总容量: 8192 * 512 * 4 * 2(Byte) = 2^25 Bytes = 32 MB
+
+将SDRAM控制器的数据位宽扩展到32位
+实例化2个SDRAM颗粒的子模块, 模拟对2个SDRAM颗粒进行位扩展的场景. 为此, 你需要修改以下内容:
+
+SDRAM总线接口中部分信号的位宽
+
+如果你使用Verilog
+相反, 你可以在ysyxSoC/Makefile中添加一些命令, 这些命令可以在生成ysyxSoC/build/ysyxSoCFull.v后自动修改信号的位宽
+
+SDRAM控制器的内部实现
+实现位扩展后, 就不需要通过突发传输模式来访问SDRAM颗粒了, 经过一个CAS latency后, 就可以从扩展后的颗粒中读出32位数据. 
+
+尝试运行一些benchmark, 对比位扩展前后的性能变化.
+
+位扩展: 2 片 x16 的颗粒拼出一条 32 位数据总线
+  两片共用 clk/cke/命令/地址, DQ 各自负责一半:
+    u_chip0 -> dq[15:0]   字低半
+    u_chip1 -> dq[31:16]  字高半
+
+字扩展: 地址总线 24->25
+
 */
 
+//-----------------------------------------------------------------
+// 字扩展: 2 对(x32)颗粒共用同一条 32 位数据总线/地址/命令,
+//   靠各自的 cs 区分: 只有被 sel 选中的那一对才会收到低有效命令,
+//   另一对看到的是 cs=1(COMMAND INHIBIT), 停在 IDLE, 也不会去驱动 DQ。
+//     sel=0 -> u_pair0  (0xa0000000 ~ 0xa1ffffff)
+//     sel=1 -> u_pair1  (0xa2000000 ~ 0xa3ffffff)
+//   每对是 2 片 x16 做位扩展, 所以一共 4 片颗粒。
+//-----------------------------------------------------------------
 module sdram(
+  input        clk,
+  input        cke,
+
+  input        cs,
+  input        ras,
+  input        cas,
+  input        we,
+
+  input [12:0] a,
+  input [ 1:0] ba,
+  input [ 3:0] dqm,
+  inout [31:0] dq,
+
+  input        sel      // 字扩展片选(由控制器给出), 实为访存地址的第26位 addr[25]
+
+);
+
+// ⭐: 这里这个片选是 字扩展 的重点
+  wire broadcast_cmd = ~cs & ~ras & ~cas;   // 3个都是0, broadcast_cmd 才是1, 只有 MODE 模式
+
+// MODE是广播命令, 所以MODE时, 二者cs都是0, 都选中
+// 不是MODE时, 有效命令时cs==0, 及sel=1时, pair1的cs是0, 选中pair1, sel=0时, 选中pair0
+  sdram_cmb u_pair0(
+    .clk(clk), .cke(cke), .cs(cs | ( sel & ~broadcast_cmd)), .ras(ras), .cas(cas), .we(we),
+    .a(a), .ba(ba), .dqm(dqm), .dq(dq)
+  );
+
+  sdram_cmb u_pair1(
+    .clk(clk), .cke(cke), .cs(cs | (~sel & ~broadcast_cmd)), .ras(ras), .cas(cas), .we(we),
+    .a(a), .ba(ba), .dqm(dqm), .dq(dq)
+  );
+
+endmodule
+
+//-----------------------------------------------------------------
+// 一对颗粒: 2 片 x16 做位扩展, 拼出一条 32 位数据总线
+//-----------------------------------------------------------------
+module sdram_cmb(
+  input        clk,
+  input        cke,
+
+  input        cs,
+  input        ras,
+  input        cas,
+  input        we,
+
+  input [12:0] a,
+  input [ 1:0] ba,
+  input [ 3:0] dqm,
+  inout [31:0] dq
+);
+
+  sdram_chip u_chip0(
+    .clk(clk), .cke(cke), .cs(cs), .ras(ras), .cas(cas), .we(we),
+    .a(a), .ba(ba), .dqm(dqm[1:0]), .dq(dq[15:0])
+  );
+
+  sdram_chip u_chip1(
+    .clk(clk), .cke(cke), .cs(cs), .ras(ras), .cas(cas), .we(we),
+    .a(a), .ba(ba), .dqm(dqm[3:2]), .dq(dq[31:16])
+  );
+
+endmodule
+
+//-----------------------------------------------------------------
+// 单片 x16 SDRAM 颗粒的行为模型
+//-----------------------------------------------------------------
+module sdram_chip(
   input        clk,
   input        cke,
 

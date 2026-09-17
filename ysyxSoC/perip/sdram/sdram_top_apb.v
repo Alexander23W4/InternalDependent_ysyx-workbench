@@ -28,13 +28,15 @@ module sdram_top_apb (
 
   output [12:0] sdram_a,
   output [ 1:0] sdram_ba,
-  output [ 1:0] sdram_dqm,
-  inout  [15:0] sdram_dq
+  output [ 3:0] sdram_dqm,   // 位扩展: 2 片 x16, 每片 2 个 DQM
+  inout  [31:0] sdram_dq,     // 位扩展: 32 位数据总线
+
+  output        sdram_sel
 );
 
   wire sdram_dout_en;
-  wire [15:0] sdram_dout;
-  assign sdram_dq = sdram_dout_en ? sdram_dout : 16'bz;
+  wire [31:0] sdram_dout;
+  assign sdram_dq = sdram_dout_en ? sdram_dout : 32'bz;
 
   typedef enum [1:0] { ST_IDLE, ST_WAIT_ACCEPT, ST_WAIT_ACK } state_t;
   reg [1:0] state;
@@ -78,13 +80,15 @@ module sdram_top_apb (
     .sdram_ras_o(sdram_ras),
     .sdram_cas_o(sdram_cas),
     .sdram_we_o(sdram_we),
-    
+
     .sdram_dqm_o(sdram_dqm),
     .sdram_addr_o(sdram_a),
     .sdram_ba_o(sdram_ba),
     .sdram_data_input_i(sdram_dq),
     .sdram_data_output_o(sdram_dout),
-    .sdram_data_out_en_o(sdram_dout_en)
+    .sdram_data_out_en_o(sdram_dout_en),
+
+    .sdram_sel_o(sdram_sel)
   );
 
 endmodule

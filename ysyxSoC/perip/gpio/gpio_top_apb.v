@@ -101,9 +101,10 @@ always @(*) begin
       in_prdata = 32'h0;
     end else begin
       case (addr_sel)
-        // 4'h0: in_prdata = {16'h0, gpio_out_r};
-        4'h4: in_prdata = {16'h0, gpio_in};
-        // 4'h8: in_prdata = {seg_reg_3_r, seg_reg_2_r, seg_reg_1_r, seg_reg_0_r};
+        4'h0: in_prdata = {16'h0, gpio_out_r};                                   // 回读 LED 寄存器
+        4'h4: in_prdata = {16'h0, gpio_in};                                      
+        4'h8: in_prdata = {seg_reg_3_r, seg_reg_2_r, seg_reg_1_r, seg_reg_0_r};  // LED 和 seg 是可以读的, 本质是读状态寄存器
+        default: in_prdata = 32'h0;                                             
       endcase
     end
   end

@@ -56,18 +56,12 @@ module sdram(
   reg [2:0] cas_counter;
   reg [3:0] burst_counter; 
 
-  wire [2:0] burst_length;
-  wire burst_type;
-  wire [2:0] cas_latency;
-  wire [1:0] op_mode;
-  wire burst_mode;
-  wire [3:0] burst_amt; 
 
-  assign burst_length = Mode_Reg[2:0];   // 要支持111, 整页burst
-  assign burst_type = Mode_Reg[3];   // 只承认0, 不然卡死
-  assign cas_latency = Mode_Reg[6:4];
-  assign op_mode = Mode_Reg[8:7];    // 只承认0, 不然卡死
-  assign burst_mode = Mode_Reg[9];   // 只承认0, 不然卡死
+  // assign burst_length = Mode_Reg[2:0];   // 要支持111, 整页burst
+  // assign burst_type = Mode_Reg[3];   // 只承认0, 不然卡死
+  // assign cas_latency = Mode_Reg[6:4];
+  // assign op_mode = Mode_Reg[8:7];    // 只承认0, 不然卡死
+  // assign burst_mode = Mode_Reg[9];   // 只承认0, 不然卡死
 
 
   wire [3:0] ctrl;
@@ -168,13 +162,15 @@ CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
       if (state == IDLE) begin
         if (ctrl == 4'b0000) begin
           Mode_Reg <= a;
-        end else if (ctrl == 4'b0101) begin
-          cas_counter <= cas_latency;
+        end 
+        else if (ctrl == 4'b0101) begin
+          cas_counter <= Mode_Reg[6:4];
           cur_a <= a;
           cur_ba <= ba;
           burst_counter <= calc_burst_len(Mode_Reg[2:0]);
           dq_oe <= 1'b0;
-        end else if (ctrl == 4'b0100) begin
+        end 
+        else if (ctrl == 4'b0100) begin
           cur_a <= a;
           cur_ba <= ba;
           burst_counter <= calc_burst_len(Mode_Reg[2:0]);

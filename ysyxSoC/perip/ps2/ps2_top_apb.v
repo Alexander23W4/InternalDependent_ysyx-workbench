@@ -24,6 +24,9 @@ NVBoard 的 PS/2 就是标准帧（起始 0 + 8 位数据 LSB 先 + 奇校验 + 
 
   扩展键(如 PAGEUP)的扫描码是两个字节 0xE0, 0x7D, 控制器逐字节交给软件,
   由软件自己识别 0xE0 前缀 —— 硬件不做翻译。
+
+总体的逻辑就是, 采ps2_clk 的下降沿, 然后等起始位, 读完一桢之后, 再识别apb的信号, 如果apb要读, 就把数据给他, 在这之前都没有apb的信号什么事, 不管
+
 */
 
 
@@ -105,7 +108,7 @@ module ps2_top_apb(
         4'd10: begin
           if (dat & frame_ok) begin
             scancode       <= shifter;
-            scancode_valid <= 1'b1;
+            scancode_valid <= 1'b1;     // 写好了, 有新数据
           end
           bit_cnt <= 4'd0;
         end
@@ -114,7 +117,7 @@ module ps2_top_apb(
     end
     // ⭐ 软件读走之后就清掉"有新数据"标志。
     //    放在 else if 里: 万一读的同一拍正好收完一帧, 上面优先级更高, 新数据不会被清掉
-    else if (apb_read) begin
+    else if (apb_read) begin   
       scancode_valid <= 1'b0;
     end
   end

@@ -15,9 +15,7 @@ module gpio_top_apb(
   input  [3:0]  in_pstrb,     // 写字节掩码，控制 4 个字节是否写入
 
   output        in_pready,    // APB 传输准备好，表示当前传输已完成
-
   output [31:0] in_prdata,    // APB 读数据总线
-
   output        in_pslverr,   // APB 错误标志，1 表示访问错误
 
   output [15:0] gpio_out,  // led
@@ -44,43 +42,102 @@ GPIO	              0x1000_2000~0x1000_200f
 */
 
 
+localparam GPIO_BASE = 32'h10002000;
+
 reg [15:0] gpio_out_r;
-reg [7:0]  gpio_seg_0_r;
-reg [7:0]  gpio_seg_1_r;
-reg [7:0]  gpio_seg_2_r;
-reg [7:0]  gpio_seg_3_r;
-reg [7:0]  gpio_seg_4_r;
-reg [7:0]  gpio_seg_5_r;
-reg [7:0]  gpio_seg_6_r;
-reg [7:0]  gpio_seg_7_r;
+reg [7:0]  seg_reg_0_r;
+reg [7:0]  seg_reg_1_r;
+reg [7:0]  seg_reg_2_r;
+reg [7:0]  seg_reg_3_r;
+
+wire valid_access;
+wire [31:0] addr_off;
+wire [3:0]  addr_sel;
+
+assign valid_access = in_psel && in_penable && (in_paddr >= GPIO_BASE) && (in_paddr <= GPIO_BASE + 32'h0f);  // 读写通用的enable条件
+assign addr_off     = in_paddr - GPIO_BASE;
+assign addr_sel     = addr_off[3:0];
 
 assign gpio_out = gpio_out_r;
-assign ...
 
-wire [31:0] mask;
-assign mask = {{4{in_pstrb[3]}}, {4{in_pstrb[2]}}, {4{in_pstrb[1]}}, {4{in_pstrb[0]}}} & in_pwdata;
 
 always @(posedge clock or posedge reset) begin
-  if(reset) begin
-    
-  end else begin
-    if(in_psel && in_penable && in_pwrite) begin
-      if(in_paddr == 32'h10002000) begin
-        gpio_out_r <= mask[15:0];
+  if (reset) begin
+    gpio_out_r <= 16'h0;
+    gpio_seg_0_r <= 8'h0;
+    gpio_seg_1_r <= 8'h0;
+    gpio_seg_2_r <= 8'h0;
+    gpio_seg_3_r <= 8'h0;
+  end else if (valid_access && in_pwrite) begin
+    case (addr_sel)
+      4'h0: begin
+        if (in_pstrb[0]) gpio_out_r[ 7: 0] <= in_pwdata[ 7: 0];
+        if (in_pstrb[1]) gpio_out_r[15: 8] <= in_pwdata[15: 8];
       end
-      else if(in_paddr == 32'...)
+      4'h4: begin
+      end
+      4'h8: begin
+        if (in_pstrb[0]) seg_reg_0_r <= in_pwdata[ 7: 0];
+        if (in_pstrb[1]) seg_reg_1_r <= in_pwdata[15: 8];
+        if (in_pstrb[2]) seg_reg_2_r <= in_pwdata[23:16];
+        if (in_pstrb[3]) seg_reg_3_r <= in_pwdata[31:24];
+      end
+      default: begin
+      end
+    endcase
+  end
+end
+
+always @(*) begin
+  in_prdata = 32'h0;
+  in_pready = 1'b0;
+  in_pslverr = 1'b0;
+
+  if (in_psel && in_penable) begin
+    in_pready = 1'b1;
+
+    if ((in_paddr < GPIO_BASE) || (in_paddr > GPIO_BASE + 32'h0f)) begin
+      in_pslverr = 1'b1;
+      in_prdata = 32'h0;
+    end else begin
+      case (addr_sel)
+        // 4'h0: in_prdata = {16'h0, gpio_out_r};
+        4'h4: in_prdata = {16'h0, gpio_in};
+        // 4'h8: in_prdata = {seg_reg_3_r, seg_reg_2_r, seg_reg_1_r, seg_reg_0_r};
+      endcase
     end
   end
 end
 
+function [7:0] seg_decode(input [3:0] data);
+  case (data)
+    4'h0: seg_decode = 8'hc0;
+    4'h1: seg_decode = 8'hf9;
+    4'h2: seg_decode = 8'ha4;
+    4'h3: seg_decode = 8'hb0;
+    4'h4: seg_decode = 8'h99;
+    4'h5: seg_decode = 8'h92;
+    4'h6: seg_decode = 8'h82;
+    4'h7: seg_decode = 8'hf8;
+    4'h8: seg_decode = 8'h80;
+    4'h9: seg_decode = 8'h90;
+    4'ha: seg_decode = 8'h88;
+    4'hb: seg_decode = 8'h83;
+    4'hc: seg_decode = 8'hc6;
+    4'hd: seg_decode = 8'ha1;
+    4'he: seg_decode = 8'h86;
+    4'hf: seg_decode = 8'h8e;
+    default: seg_decode = 8'hff;
+  endcase
+endfunction
 
-always @(*) begin
-  in_prdata = '0;
-  in_pready = 1'b0;
-  if(in_psel && in_penable && !in_pwrite && in_paddr == 32'h10002004) begin   // 读
-    in_prdata = {{16{1'b0}}, gpio_in};
-    in_pready = 1'b0;
-  end
-end
+assign gpio_seg_0 = seg_decode(seg_reg_0_r[3:0]);
+assign gpio_seg_1 = seg_decode(seg_reg_0_r[7:4]);
+assign gpio_seg_2 = seg_decode(seg_reg_1_r[3:0]);
+assign gpio_seg_3 = seg_decode(seg_reg_1_r[7:4]);
+assign gpio_seg_4 = seg_decode(seg_reg_2_r[3:0]);
+assign gpio_seg_5 = seg_decode(seg_reg_2_r[7:4]);
+assign gpio_seg_6 = seg_decode(seg_reg_3_r[3:0]);
+assign gpio_seg_7 = seg_decode(seg_reg_3_r[7:4]);
 
 endmodule

@@ -68,23 +68,25 @@ module sdram_axi_core
 // Key Params
 //-----------------------------------------------------------------
 parameter SDRAM_MHZ              = 50;
-parameter SDRAM_ADDR_W           = 24;
-parameter SDRAM_COL_W            = 9;
-parameter SDRAM_READ_LATENCY     = 2;
+parameter SDRAM_ADDR_W           = 24;          // 地址宽度
+parameter SDRAM_COL_W            = 9;           // 列地址宽度    512列
+parameter SDRAM_READ_LATENCY     = 2;           // 设置的读延迟
 
 //-----------------------------------------------------------------
 // Defines / Local params
 //-----------------------------------------------------------------
 localparam SDRAM_BANK_W          = 2;
-localparam SDRAM_DQM_W           = 2;
-localparam SDRAM_BANKS           = 2 ** SDRAM_BANK_W;
-localparam SDRAM_ROW_W           = SDRAM_ADDR_W - SDRAM_COL_W - SDRAM_BANK_W;
-localparam SDRAM_REFRESH_CNT     = 2 ** SDRAM_ROW_W;
-localparam SDRAM_START_DELAY     = 100000 / (1000 / SDRAM_MHZ); // 100uS
-localparam SDRAM_REFRESH_CYCLES  = (64000*SDRAM_MHZ) / SDRAM_REFRESH_CNT-1;
+localparam SDRAM_DQM_W           = 2;       // 每个 DQM 信号控制一个 Byte
+localparam SDRAM_BANKS           = 2 ** SDRAM_BANK_W;     // 一共 4 个 bank
+
+localparam SDRAM_ROW_W           = SDRAM_ADDR_W - SDRAM_COL_W - SDRAM_BANK_W;     // 行地址宽度, 24-9-2 = 13   8192行
+
+localparam SDRAM_REFRESH_CNT     = 2 ** SDRAM_ROW_W;          // 8192行
+localparam SDRAM_START_DELAY     = 100000 / (1000 / SDRAM_MHZ); // 设置初始化等待100uS, 算出来相当于5000个周期
+localparam SDRAM_REFRESH_CYCLES  = (64000*SDRAM_MHZ) / SDRAM_REFRESH_CNT-1;  // 64ms内, 所有 row 都要刷新一遍
 
 
-
+// ⭐: SDRAM总容量: 8192 * 512 * 4 * 2(Byte) = 2^25 Bytes = 32 MB
 
 
 

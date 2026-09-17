@@ -153,11 +153,11 @@ localparam SDRAM_TRP_CYCLES  = (20 + (CYCLE_TIME_NS-1)) / CYCLE_TIME_NS;  // PRE
 localparam SDRAM_TRFC_CYCLES = (60 + (CYCLE_TIME_NS-1)) / CYCLE_TIME_NS;  // AUTO REFRESH 后, 等3周期才能发出 下一条命令
 
 //-----------------------------------------------------------------
-// External Interface
+// External Interface   ⭐: 把外部的inport信号转化成内部使用的信号  (外部控制信号和反馈信号)
 //-----------------------------------------------------------------
 wire [ 31:0]  ram_addr_w       = inport_addr_i;  
-wire [  3:0]  ram_wr_w         = inport_wr_i;
-wire          ram_rd_w         = inport_rd_i;
+wire [  3:0]  ram_wr_w         = inport_wr_i;    // 写请求, 对应4个Bytes
+wire          ram_rd_w         = inport_rd_i;    // 读请求
 wire          ram_accept_w;
 wire [ 31:0]  ram_write_data_w = inport_write_data_i;
 wire [ 31:0]  ram_read_data_w;
@@ -165,13 +165,13 @@ wire          ram_ack_w;
 
 wire          ram_req_w = (ram_wr_w != 4'b0) | ram_rd_w;
 
-assign inport_ack_o       = ram_ack_w;
+assign inport_ack_o       = ram_ack_w;      // 读/写已经完成
 assign inport_read_data_o = ram_read_data_w;
 assign inport_error_o     = 1'b0;
-assign inport_accept_o    = ram_accept_w;
+assign inport_accept_o    = ram_accept_w;    // 读/写请求已被接受
 
 //-----------------------------------------------------------------
-// Registers / Wires
+// Registers / Wires       ⭐: 内部控制寄存器 和 控制信号
 //-----------------------------------------------------------------
 
 // Xilinx placement pragmas:

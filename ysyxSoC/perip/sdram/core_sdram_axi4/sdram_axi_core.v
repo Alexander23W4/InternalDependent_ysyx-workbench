@@ -100,7 +100,7 @@ localparam SDRAM_REFRESH_CYCLES  = (64000*SDRAM_MHZ) / SDRAM_REFRESH_CNT-1;  // 
 
 
 
-localparam CMD_W             = 4;
+localparam CMD_W             = 4;    // 控制指令宽度
 localparam CMD_NOP           = 4'b0111;
 localparam CMD_ACTIVE        = 4'b0011;
 localparam CMD_READ          = 4'b0101;
@@ -127,14 +127,21 @@ localparam MODE_REG          = {3'b000,1'b0,2'b00,3'b010,1'b0,3'b001};
 
 // SM states
 localparam STATE_W           = 4;
+
 localparam STATE_INIT        = 4'd0;
+
 localparam STATE_DELAY       = 4'd1;
+
 localparam STATE_IDLE        = 4'd2;
+
 localparam STATE_ACTIVATE    = 4'd3;
+
 localparam STATE_READ        = 4'd4;
 localparam STATE_READ_WAIT   = 4'd5;
+
 localparam STATE_WRITE0      = 4'd6;
 localparam STATE_WRITE1      = 4'd7;
+
 localparam STATE_PRECHARGE   = 4'd8;
 localparam STATE_REFRESH     = 4'd9;
 
@@ -182,35 +189,45 @@ assign inport_accept_o    = ram_accept_w;    // 读/写请求已被接受
 //synthesis attribute IOB of bank_q is "TRUE"
 //synthesis attribute IOB of data_q is "TRUE"
 
-reg [CMD_W-1:0]        command_q;
+reg [CMD_W-1:0]        command_q;   // CS#	RAS#	CAS#	WE#	  控制指令
+
+/*
+ACTIVE   → Row Address   行地址
+READ     → Column Address  列地址
+WRITE    → Column Address
+
+PRECHARGE → A10 有特殊含义
+LOAD MODE → Mode Register
+*/
 reg [SDRAM_ROW_W-1:0]  addr_q;
+
 reg [SDRAM_DATA_W-1:0] data_q;
-reg                    data_rd_en_q;
-reg [SDRAM_DQM_W-1:0]  dqm_q;
-reg                    cke_q;
-reg [SDRAM_BANK_W-1:0] bank_q;
+reg                    data_rd_en_q;   // data_rd_en_q = 1 代表 SDRAM 驱动 DQ, 反之则是 sac 驱动 DQ
+reg [SDRAM_DQM_W-1:0]  dqm_q;    // DQM mask
+reg                    cke_q;    // cke_q = 1 → SDRAM 正常接受时钟/命令  cke_q = 0 → SDRAM 进入相应的低功耗/暂停状态
+reg [SDRAM_BANK_W-1:0] bank_q;   // 选择 bank
 
 // Buffer half word during read and write commands
-reg [SDRAM_DATA_W-1:0] data_buffer_q;
-reg [SDRAM_DQM_W-1:0]  dqm_buffer_q;
+reg [SDRAM_DATA_W-1:0] data_buffer_q;   // 一次 CPU 访问需要两个 SDRAM 数据传输。这个负责暂存另一半
+reg [SDRAM_DQM_W-1:0]  dqm_buffer_q;    // 对应的 DQM 也需要拆分并暂存
 
 wire [SDRAM_DATA_W-1:0] sdram_data_in_w;
 
-reg                    refresh_q;
+reg                    refresh_q;    // refresh
 
-reg [SDRAM_BANKS-1:0]  row_open_q;
-reg [SDRAM_ROW_W-1:0]  active_row_q[0:SDRAM_BANKS-1];
+reg [SDRAM_BANKS-1:0]  row_open_q;    // 每一位表示对应 Bank 有没有打开 Row
+reg [SDRAM_ROW_W-1:0]  active_row_q[0:SDRAM_BANKS-1];   // 每个 Bank 当前打开的row
 
-reg  [STATE_W-1:0]     state_q;
-reg  [STATE_W-1:0]     next_state_r;
-reg  [STATE_W-1:0]     target_state_r;
-reg  [STATE_W-1:0]     target_state_q;
-reg  [STATE_W-1:0]     delay_state_q;
+reg  [STATE_W-1:0]     state_q;    // state
+reg  [STATE_W-1:0]     next_state_r;  // next  (r代表 combinational logic)
+reg  [STATE_W-1:0]     target_state_r;    // 完成当前这个时序操作/延时以后，最终想去哪个状态
+reg  [STATE_W-1:0]     target_state_q;    // 把 target_state_r 存进寄存器
+reg  [STATE_W-1:0]     delay_state_q;     // 进入 STATE_DELAY 之前，是什么状态触发了这个 delay
 
 // Address bits
-wire [SDRAM_ROW_W-1:0]  addr_col_w  = {{(SDRAM_ROW_W-SDRAM_COL_W){1'b0}}, ram_addr_w[SDRAM_COL_W:2], 1'b0};
-wire [SDRAM_ROW_W-1:0]  addr_row_w  = ram_addr_w[SDRAM_ADDR_W:SDRAM_COL_W+2+1];
-wire [SDRAM_BANK_W-1:0] addr_bank_w = ram_addr_w[SDRAM_COL_W+2:SDRAM_COL_W+2-1];
+wire [SDRAM_ROW_W-1:0]  addr_col_w  = {{(SDRAM_ROW_W-SDRAM_COL_W){1'b0}}, ram_addr_w[SDRAM_COL_W:2], 1'b0};  // 半字 halfword 对齐后的列地址
+wire [SDRAM_ROW_W-1:0]  addr_row_w  = ram_addr_w[SDRAM_ADDR_W:SDRAM_COL_W+2+1];     // ram_addr_w[24:12]
+wire [SDRAM_BANK_W-1:0] addr_bank_w = ram_addr_w[SDRAM_COL_W+2:SDRAM_COL_W+2-1];    // ram_addr_w[11:10]
 
 //-----------------------------------------------------------------
 // SDRAM State Machine

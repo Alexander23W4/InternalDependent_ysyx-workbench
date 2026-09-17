@@ -1,3 +1,9 @@
+
+/*
+0xa000_0000~0xbfff_ffff
+
+
+*/
 module sdram_top_apb (
   input         clock,
   input         reset,

@@ -14,9 +14,9 @@ module gpio_top_apb(
   input  [31:0] in_pwdata,    // APB 写数据总线
   input  [3:0]  in_pstrb,     // 写字节掩码，控制 4 个字节是否写入
 
-  output        in_pready,    // APB 传输准备好，表示当前传输已完成
-  output [31:0] in_prdata,    // APB 读数据总线
-  output        in_pslverr,   // APB 错误标志，1 表示访问错误
+  output reg    in_pready,    // APB 传输准备好，表示当前传输已完成
+  output reg [31:0] in_prdata,// APB 读数据总线
+  output reg    in_pslverr,   // APB 错误标志，1 表示访问错误
 
   output [15:0] gpio_out,  // led
   input  [15:0] gpio_in,   // key
@@ -64,10 +64,10 @@ assign gpio_out = gpio_out_r;
 always @(posedge clock or posedge reset) begin
   if (reset) begin
     gpio_out_r <= 16'h0;
-    gpio_seg_0_r <= 8'h0;
-    gpio_seg_1_r <= 8'h0;
-    gpio_seg_2_r <= 8'h0;
-    gpio_seg_3_r <= 8'h0;
+    seg_reg_0_r <= 8'h0;
+    seg_reg_1_r <= 8'h0;
+    seg_reg_2_r <= 8'h0;
+    seg_reg_3_r <= 8'h0;
   end else if (valid_access && in_pwrite) begin
     case (addr_sel)
       4'h0: begin

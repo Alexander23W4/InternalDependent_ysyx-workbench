@@ -40,7 +40,7 @@ module ysyx_26040135_AXI_IFU (
 
     pma_entry_t pma_table [PMA_ENTRIES] = '{
         '{base: 32'h30000000, size: 32'h10000000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // Flash (16MB 窗口, 和 flash_read 的偏移一致)
-        '{base: 32'ha0000000, size: 32'h02000000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SDRAM
+        '{base: 32'ha0000000, size: 32'h08000000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SDRAM (字扩展后 128MB)
         '{base: 32'h80000000, size: 32'h00400000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // PSRAM
         '{base: 32'h20000000, size: 32'h00001000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // MROM
         '{base: 32'h0f000000, size: 32'h00002000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SRAM

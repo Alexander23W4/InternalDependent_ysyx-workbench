@@ -1,6 +1,6 @@
 
 /*
-0xa000_0000~0xbfff_ffff
+0xa000_0000~0xa7ff_ffff   (2 对 x32 颗粒字扩展, 每对 64MB)
 
 
 */
@@ -58,7 +58,7 @@ module sdram_top_apb (
 
   sdram_axi_core #(
     .SDRAM_MHZ(100),
-    .SDRAM_ADDR_W(24),
+    .SDRAM_ADDR_W(25),
     .SDRAM_COL_W(9),
     .SDRAM_READ_LATENCY(2)
   ) u_sdram_ctrl(

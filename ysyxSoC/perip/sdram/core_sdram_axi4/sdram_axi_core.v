@@ -85,8 +85,8 @@ module sdram_axi_core
 // Key Params
 //-----------------------------------------------------------------
 parameter SDRAM_MHZ              = 50;
-parameter SDRAM_ADDR_W           = 24;          // 地址宽度, (可以增加, 从而进行字扩展)
-parameter SDRAM_COL_W            = 9;           // 列地址宽度    512列
+parameter SDRAM_ADDR_W           = 25;          // 每对颗粒用到的最高地址位(行地址最高位); 字扩展再往上 1 位是片选
+parameter SDRAM_COL_W            = 9;           // 列地址宽度 512 列; 位扩展后一个列地址 = 一个 32 位字
 parameter SDRAM_READ_LATENCY     = 2;           // 设置的读延迟
 
 //-----------------------------------------------------------------
@@ -96,7 +96,20 @@ localparam SDRAM_BANK_W          = 2;
 localparam SDRAM_DQM_W           = 4;       // 位扩展: 32 位 = 2 片 x 2 Byte, 每片 2 个 DQM
 localparam SDRAM_BANKS           = 2 ** SDRAM_BANK_W;     // 一共 4 个 bank
 
-localparam SDRAM_ROW_W           = SDRAM_ADDR_W - SDRAM_COL_W - SDRAM_BANK_W;     // 行地址宽度, 24-9-2 = 13   8192行
+localparam SDRAM_ROW_W           = 13;      // 行地址宽度, 颗粒固定 8192 行
+
+// ⭐ 字节地址的位划分:   27位, 128MB 地址空间
+//     [26]      sel              (字扩展片选, 选哪一对颗粒)
+//     [25:13]   row   (13)  -> A[12:0]
+//     [12:11]   bank  ( 2)  -> BA[1:0]
+//     [10: 2]   col   ( 9)  -> A[8:0]          ⭐: 2-10 这 9 位作为列地址, 一个列地址直接代表一个word(4个字节), 而不是传统的一个地址一个字节
+//     [ 1: 0]   字内字节偏移                     ⭐: 就是原访存地址的后两位直接废掉, 这里我们不用, 也同时实现4字节对齐
+//   位扩展后一次传 32 位, 一个列地址就是一个整字, 所以列不再需要原来 BL=2 时的
+//   "半字对齐"移位(A[0]=0)。去掉移位后 512 个列全部可用: 每对 64MB, 两对共 128MB。
+localparam SDRAM_COL_LSB         = 2;
+localparam SDRAM_BANK_LSB        = SDRAM_COL_LSB + SDRAM_COL_W;      // 11
+localparam SDRAM_ROW_LSB         = SDRAM_BANK_LSB + SDRAM_BANK_W;    // 13
+localparam SDRAM_SEL_BIT         = SDRAM_ADDR_W + 1;                 // 26
 
 localparam SDRAM_REFRESH_CNT     = 2 ** SDRAM_ROW_W;          // 8192行
 localparam SDRAM_START_DELAY     = 100000 / (1000 / SDRAM_MHZ); // 设置初始化等待100uS, 算出来相当于5000个周期
@@ -245,13 +258,13 @@ bank  = addr[11:10] = 0
 word  = addr[9:2]   = 2
 A[8:0]= 000000100  = 0x004      (A[0]=0)
 */
-// ⭐ 字扩展: 用地址的第 25 位(在行地址最高位 bit24 之上)作为额外的片选, 选择哪一对(x32)颗粒
-//    0 -> 第一对 0xa0000000~0xa1ffffff, 1 -> 第二对 0xa2000000~0xa3ffffff, 共 64MB
-//    注意不能取 bit24: 那是行地址最高位, 会被 addr_row_w 一起用掉, 每对就只剩一半行
-wire sdram_sel = ram_addr_w[SDRAM_ADDR_W+1];
-wire [SDRAM_ROW_W-1:0]  addr_col_w  = {{(SDRAM_ROW_W-SDRAM_COL_W){1'b0}}, ram_addr_w[SDRAM_COL_W:2], 1'b0};  // 半字 halfword 对齐后的列地址
-wire [SDRAM_ROW_W-1:0]  addr_row_w  = ram_addr_w[SDRAM_ADDR_W:SDRAM_COL_W+2+1];     // ram_addr_w[24:12]
-wire [SDRAM_BANK_W-1:0] addr_bank_w = ram_addr_w[SDRAM_COL_W+2:SDRAM_COL_W+2-1];    // ram_addr_w[11:10]
+// ⭐ 字扩展: 用地址的第 26 位作为额外的片选, 选择哪一对(x32)颗粒
+//    0 -> 第一对 0xa0000000~0xa3ffffff, 1 -> 第二对 0xa4000000~0xa7ffffff, 共 128MB
+wire sdram_sel = ram_addr_w[SDRAM_SEL_BIT];
+
+wire [SDRAM_ROW_W-1:0]  addr_col_w  = {{(SDRAM_ROW_W-SDRAM_COL_W){1'b0}}, ram_addr_w[SDRAM_COL_LSB+SDRAM_COL_W-1:SDRAM_COL_LSB]};   // A[8:0] = addr[10:2], 一列一个整字
+wire [SDRAM_ROW_W-1:0]  addr_row_w  = ram_addr_w[SDRAM_ROW_LSB+SDRAM_ROW_W-1:SDRAM_ROW_LSB];        // addr[25:13]
+wire [SDRAM_BANK_W-1:0] addr_bank_w = ram_addr_w[SDRAM_BANK_LSB+SDRAM_BANK_W-1:SDRAM_BANK_LSB];     // addr[12:11]
 
 assign sdram_sel_o = sdram_sel;
 

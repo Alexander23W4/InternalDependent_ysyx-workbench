@@ -40,23 +40,23 @@ a0000034:	32850513          	addi	a0,a0,808 # 30000358 <_rodata_lma>
 a0000038:	00000597          	auipc	a1,0x0
 a000003c:	2e858593          	addi	a1,a1,744 # a0000320 <mainargs>
 a0000040:	00000617          	auipc	a2,0x0
-a0000044:	32060613          	addi	a2,a2,800 # a0000360 <_bss_end>
+a0000044:	32060613          	addi	a2,a2,800 # a0000360 <_rodata_end>
 a0000048:	40b60633          	sub	a2,a2,a1
 a000004c:	00000097          	auipc	ra,0x0
 a0000050:	050080e7          	jalr	80(ra) # a000009c <_boot_copy>
 a0000054:	90000517          	auipc	a0,0x90000
 a0000058:	34450513          	addi	a0,a0,836 # 30000398 <_data_lma>
-a000005c:	00000597          	auipc	a1,0x0
-a0000060:	30458593          	addi	a1,a1,772 # a0000360 <_bss_end>
-a0000064:	00000617          	auipc	a2,0x0
-a0000068:	2fc60613          	addi	a2,a2,764 # a0000360 <_bss_end>
+a000005c:	04000597          	auipc	a1,0x4000
+a0000060:	fa458593          	addi	a1,a1,-92 # a4000000 <_bss_end>
+a0000064:	04000617          	auipc	a2,0x4000
+a0000068:	f9c60613          	addi	a2,a2,-100 # a4000000 <_bss_end>
 a000006c:	40b60633          	sub	a2,a2,a1
 a0000070:	00000097          	auipc	ra,0x0
 a0000074:	02c080e7          	jalr	44(ra) # a000009c <_boot_copy>
-a0000078:	00000597          	auipc	a1,0x0
-a000007c:	2e858593          	addi	a1,a1,744 # a0000360 <_bss_end>
-a0000080:	00000617          	auipc	a2,0x0
-a0000084:	2e060613          	addi	a2,a2,736 # a0000360 <_bss_end>
+a0000078:	04000597          	auipc	a1,0x4000
+a000007c:	f8858593          	addi	a1,a1,-120 # a4000000 <_bss_end>
+a0000080:	04000617          	auipc	a2,0x4000
+a0000084:	f8060613          	addi	a2,a2,-128 # a4000000 <_bss_end>
 a0000088:	00c5f863          	bgeu	a1,a2,a0000098 <_start+0x98>
 a000008c:	00058023          	sb	zero,0(a1)
 a0000090:	00158593          	addi	a1,a1,1
@@ -86,7 +86,7 @@ Disassembly of section .text:
 a00000dc <check>:
 a00000dc:	00050463          	beqz	a0,a00000e4 <check+0x8>
 a00000e0:	00008067          	ret
-a00000e4:	ff410113          	addi	sp,sp,-12 # f001ff4 <_heap_end+0x6d001ff4>
+a00000e4:	ff410113          	addi	sp,sp,-12 # f001ff4 <_heap_end+0x67001ff4>
 a00000e8:	00100513          	li	a0,1
 a00000ec:	00112423          	sw	ra,8(sp)
 a00000f0:	138000ef          	jal	ra,a0000228 <halt>

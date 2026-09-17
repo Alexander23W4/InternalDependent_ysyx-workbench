@@ -399,5 +399,9 @@ ssbl fetch SDRAM (load rest of the text rodata data bss.. to SDRAM)
 run-time fetch SDRAM 
 cache use SRAM
 
+⭐⭐: RTFSC
+一般来说, 对于实现协议的代码, RTFSC的时候, 应当先理解 外部控制信号和反馈信号, 内部控制信号 的意义
+然后看这些信号(主要是内部控制信号)的控制逻辑
+最后再去看状态机
 
 

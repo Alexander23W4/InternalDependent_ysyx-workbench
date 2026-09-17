@@ -7,6 +7,7 @@ ysyxSoC 专用链接脚本。
       flash 0x3000_0000  16MB   LMA: 整个镜像"烧"在这里, 复位后也从这里取第一条指令
       psram 0x8000_0000   4MB   VMA: 程序本体(text/rodata/data/bss) + 堆
       sram  0x0f00_0000   8KB   栈
+      sdram 0xa000_0000~0xbfff_ffff
 
    为什么这么分: flash 只能 XIP 取指, 每取一条指令都要走一次 QSPI 事务, 很慢;
    搬到 PSRAM 之后指令从 PSRAM 取, 快很多(讲义里 microbench 的性能提升就来自这里)。
@@ -20,6 +21,7 @@ MEMORY {
   flash : ORIGIN = 0x30000000, LENGTH = 16M
   sram  : ORIGIN = 0x0f000000, LENGTH = 8K
   psram : ORIGIN = 0x80000000, LENGTH = 4M
+  sdram : ORIGIN = 0xa0000000, LENGTH = 32M
 }
 
 SECTIONS {
@@ -36,12 +38,12 @@ SECTIONS {
 
 
 /* ⭐: SSBL  */
-  . = ORIGIN(psram);
+  . = ORIGIN(sdram);
   .ssbl : {
     _ssbl_start = .;
     *(ssbl)
     _ssbl_end = .;
-  } > psram AT > flash
+  } > sdram AT > flash
   _ssbl_lma = LOADADDR(.ssbl);
 
 
@@ -50,13 +52,13 @@ SECTIONS {
     _text_start = .;
     *(.text*)
     _text_end = .;
-  } > psram AT> flash
+  } > sdram AT> flash
 
   .rodata : {
     _rodata_start = .;
     *(.rodata*)
     _rodata_end = .;
-  } > psram AT> flash
+  } > sdram AT> flash
 
   _text_lma   = LOADADDR(.text);
   _rodata_lma = LOADADDR(.rodata);
@@ -69,7 +71,7 @@ SECTIONS {
     *(.sdata*)            
     *(.sdata2*)
     _data_end = .;
-  } > psram AT> flash
+  } > sdram AT> flash
   edata = .;
   _data = .;
 
@@ -85,13 +87,13 @@ SECTIONS {
     *(.sbss2*)
     *(.scommon)
     _bss_end = .;
-  } > psram
+  } > sdram
 
 
 
 
   _heap_start = ALIGN(4);
-  _heap_end   = ORIGIN(psram) + LENGTH(psram);
+  _heap_end   = ORIGIN(sdram) + LENGTH(sdram);
 
 
 

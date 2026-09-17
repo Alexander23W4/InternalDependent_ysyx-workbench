@@ -82,8 +82,10 @@ module sdram(
 
   reg [15:0] dq_out;
   reg        dq_oe;    // 是SDRAM输出
-  reg [12:0] cur_a;
+  reg [ 8:0] cur_a;    // 突发传输的当前列地址
   reg [ 1:0] cur_ba;
+
+  reg [12:0] active_row [0:3];  // ACTIVE 命令激活的行, 每个 bank 一行
 
   assign dq = dq_oe ? dq_out : 16'bz;
 
@@ -95,7 +97,7 @@ CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
 1	   X	    X	    X	    COMMAND INHIBIT	         无命令
 0	   1	    1	    1	    NO OPERATION	           NOP
 
-0	   0	    1	    1	    ACTIVE	                激活目标存储体的一行 (NOP)   
+0	   0	    1	    1	    ACTIVE	                激活目标存储体的一行    @@
 
 0	   1	    0	    1	    READ	                  读出目标存储体的一列    @@
 0	   1	    0	    0	    WRITE	                  写入目标存储体的一列    @@
@@ -121,19 +123,20 @@ CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
         next = IDLE;
       end
       READ_WAIT: begin
-        if (cas_counter == 3'd0) begin
+        // 最后一个等待周期: 再下一拍(寄存器输出)正好是 CAS latency 到达的拍
+        if (cas_counter <= 3'd1) begin
           next = READ;
         end
       end
       READ: begin
-        if (burst_counter == 4'd0) begin
+        if (ctrl == 4'b0110 || burst_counter == 4'd0) begin   // burst terminate
           next = IDLE;
         end else begin
           next = READ;
         end
       end
       WRITE: begin
-        if (burst_counter == 4'd0) begin
+        if (ctrl == 4'b0110 || burst_counter == 4'd0) begin   // burst terminate
           next = IDLE;
         end else begin
           next = WRITE;
@@ -148,63 +151,65 @@ CS#	RAS#	CAS#	WE#	    命令名称	               命令含义
       Mode_Reg <= 13'b0;
       cas_counter <= 3'b0;
       burst_counter <= 4'b0;
-      cur_a <= 13'b0;
+      cur_a <= 9'b0;
       cur_ba <= 2'b0;
       dq_out <= 16'b0;
       dq_oe <= 1'b0;
     end else begin
       state <= next;
 
-      if (state == MODE) begin
-        Mode_Reg <= a;
-      end
-
       if (state == IDLE) begin
         if (ctrl == 4'b0000) begin
-          Mode_Reg <= a;
+          Mode_Reg <= a;                        // LOAD MODE REGISTER
         end 
+        else if (ctrl == 4'b0011) begin
+          active_row[ba] <= a;                  // ACTIVE: 激活该 bank 的一行
+        end
         else if (ctrl == 4'b0101) begin
-          cas_counter <= Mode_Reg[6:4];
-          cur_a <= a;
+          cas_counter <= Mode_Reg[6:4] - 3'd1;  // 命令在本拍被采样, 故少等一拍
+          cur_a <= a[8:0];
           cur_ba <= ba;
           burst_counter <= calc_burst_len(Mode_Reg[2:0]);
           dq_oe <= 1'b0;
         end 
         else if (ctrl == 4'b0100) begin
-          cur_a <= a;
+          // WRITE 命令与第一个数据同拍出现在总线上, 这里就要写下去
+          if (!dqm[0]) memory[ba][active_row[ba]][a[8:0]][7:0]  <= dq[7:0];
+          if (!dqm[1]) memory[ba][active_row[ba]][a[8:0]][15:8] <= dq[15:8];
+          cur_a <= a[8:0] + 9'd1;
           cur_ba <= ba;
-          burst_counter <= calc_burst_len(Mode_Reg[2:0]);
+          burst_counter <= calc_burst_len(Mode_Reg[2:0]) - 4'd1;
         end
       end
 
       if (state == READ_WAIT) begin
-        if (cas_counter != 3'd0) begin
-          cas_counter <= cas_counter - 3'd1;
-        end else begin
+        if (cas_counter <= 3'd1) begin
           dq_oe <= 1'b1;
-          dq_out <= memory[cur_ba][cur_a][0];
-          cur_a <= cur_a + 13'd1;
+          dq_out <= memory[cur_ba][active_row[cur_ba]][cur_a];
+          cur_a <= cur_a + 9'd1;
           burst_counter <= burst_counter - 4'd1;
+        end else begin
+          cas_counter <= cas_counter - 3'd1;
         end
       end
 
       if (state == READ) begin
-        if (burst_counter == 4'd0) begin
+        if (ctrl == 4'b0110 || burst_counter == 4'd0) begin
           dq_oe <= 1'b0;
           dq_out <= 16'b0;
         end else begin
           dq_oe <= 1'b1;
-          dq_out <= memory[cur_ba][cur_a][0];
-          cur_a <= cur_a + 13'd1;
+          dq_out <= memory[cur_ba][active_row[cur_ba]][cur_a];
+          cur_a <= cur_a + 9'd1;
           burst_counter <= burst_counter - 4'd1;
         end
       end
 
       if (state == WRITE) begin
-        if (burst_counter != 4'd0) begin
-          if (!dqm[0]) memory[cur_ba][cur_a][0][7:0] <= dq[7:0];
-          if (!dqm[1]) memory[cur_ba][cur_a][0][15:8] <= dq[15:8];
-          cur_a <= cur_a + 13'd1;
+        if (ctrl != 4'b0110 && burst_counter != 4'd0) begin
+          if (!dqm[0]) memory[cur_ba][active_row[cur_ba]][cur_a][7:0]  <= dq[7:0];
+          if (!dqm[1]) memory[cur_ba][active_row[cur_ba]][cur_a][15:8] <= dq[15:8];
+          cur_a <= cur_a + 9'd1;
           burst_counter <= burst_counter - 4'd1;
         end
       end

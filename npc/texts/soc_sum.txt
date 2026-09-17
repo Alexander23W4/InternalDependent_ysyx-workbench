@@ -1,0 +1,11 @@
+减少芯片的大小: ChipLink
+
+减少访存的时间: 
+    SDRAM (DRAM控制器, 专属protocol)
+    SRAM  (单周期IO, 快速)
+
+    Flash + 两级bootloader  (SPI, 慢, 仅烧录用, 使用bootloader节省运行时时间)
+
+
+其他: 
+    GPIO  UART  VGA  Keyboard ...

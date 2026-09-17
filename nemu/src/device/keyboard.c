@@ -78,7 +78,7 @@ static uint32_t key_dequeue() {
 // get scancode & is_keydown from SDL periodic checkloop. 
 // In terms of sdl-scancode, the breakcode & makecode are the same 
 void send_key(uint8_t scancode, bool is_keydown) {
-  if (nemu_state.state == NEMU_RUNNING && keymap[scancode] != NEMU_KEY_NONE) {
+  if (nemu_state.state == NEMU_RUNNING && keymap[scancode] != NEMU_KEY_NONE) {   // 是实际按键才入FIFO
     uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);   //
     key_enqueue(am_scancode);
   }

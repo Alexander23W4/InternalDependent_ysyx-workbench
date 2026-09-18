@@ -477,6 +477,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 if(__lsu_read_complete || !io) begin
                     __GPR_wvalid <= 1'b1;
                 end
+                if(io && __lsu_write_complete) begin
+                    __period_end <= 1'b1;
+                end
             end
 
             if(state == UDGPR) begin

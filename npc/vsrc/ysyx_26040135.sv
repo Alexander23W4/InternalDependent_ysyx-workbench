@@ -291,7 +291,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic [31:0] instr;
     assign instr = __instr;
 
-    logic        __ifu_instr_valid;
+    logic        __ifu_instr_valid;   // IFU 性能计数器
     logic [1:0]  __ifu_error;      // ⭐⭐ 引出C
     logic        __ifu_master_validation_error;    // ⭐⭐ 引出C
     logic        __pc_is_updated;    // ⭐⭐ 引出C, 代表一个周期结束  // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
@@ -312,8 +312,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
     logic [1:0]  __lsu_error;   // ⭐⭐ 引出C
-    logic        __lsu_read_complete;   // cpu读到这个, 需要立刻拿走数据启动GPR操作
-    logic        __lsu_write_complete;   // cpu读到这个, 需要立刻启动更新pc操作
+    logic        __lsu_read_complete;   // cpu读到这个, 需要立刻拿走数据启动GPR操作   // LSU 性能计数器
+    logic        __lsu_write_complete;   // cpu读到这个, 需要立刻启动更新pc操作     // LSU 性能计数器
     logic [31:0] lsu_rdata;
 
     logic __addr_ready;  // ⭐  // 这两个信号只持续一个周期 (在__ifu_instr_valid出来的瞬时拉高一个周期)

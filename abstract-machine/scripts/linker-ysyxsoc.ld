@@ -99,7 +99,7 @@ SECTIONS {
 
 
   _stack_pointer = ORIGIN(sram) + LENGTH(sram);
-  _stack_top     = _stack_pointer;
+  _stack_top     = ORIGIN(sram);
   end = _stack_pointer;
   _end = _stack_pointer;
 

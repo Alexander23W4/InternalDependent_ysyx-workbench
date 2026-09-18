@@ -56,7 +56,9 @@ int main(){
     while(check_cipher());
     printf("Pass chiper.\n");
     get_id();
-    seg_out(marchid);
+    seg_out(mvendorid);
+    printf("%d\n", mvendorid);
+    printf("%d\n", marchid);
 
     while(1){
         delay(100);

@@ -110,25 +110,42 @@ always @(*) begin
   end
 end
 
+/*
+⭐ 段码表必须和 NVBoard 的数码管模型对齐, 不能照抄常见的"共阳段码表"。
+
+NVBoard (nvboard/src/segs7.cpp) 的渲染规则:
+    slot 0..7 = A B C D E F G DP        (A 是最上面那横, DP 是小数点)
+    (newval >> k) & 1 == 0  ->  点亮 slot (7-k)      // 低电平点亮(共阳)
+  即:  value[7]->A  value[6]->B  value[5]->C  value[4]->D
+       value[3]->E  value[2]->F  value[1]->G  value[0]->DP
+
+而 .nxdc 里写的是
+    externalPins_gpio_seg_N (SEGN_A, SEGN_B, ..., SEGN_G, DECN_P)
+nvboard_bind_pin() 里 bit_offset = len-1-i, 也就是**第一个名字绑最高位**,
+所以 gpio_seg_N[7] 就是 A 段。
+
+因此下面这张表是按 value[7]=A ... value[0]=DP 排的,
+正好是常见那张"bit0=A 的共阳段码表"的按位反转 (0 从 C0 变 03)。
+*/
 function [7:0] seg_decode(input [3:0] data);
   case (data)
-    4'h0: seg_decode = 8'hc0;
-    4'h1: seg_decode = 8'hf9;
-    4'h2: seg_decode = 8'ha4;
-    4'h3: seg_decode = 8'hb0;
-    4'h4: seg_decode = 8'h99;
-    4'h5: seg_decode = 8'h92;
-    4'h6: seg_decode = 8'h82;
-    4'h7: seg_decode = 8'hf8;
-    4'h8: seg_decode = 8'h80;
-    4'h9: seg_decode = 8'h90;
-    4'ha: seg_decode = 8'h88;
-    4'hb: seg_decode = 8'h83;
-    4'hc: seg_decode = 8'hc6;
-    4'hd: seg_decode = 8'ha1;
-    4'he: seg_decode = 8'h86;
-    4'hf: seg_decode = 8'h8e;
-    default: seg_decode = 8'hff;
+    4'h0: seg_decode = 8'h03;   // A B C D E F
+    4'h1: seg_decode = 8'h9f;   //   B C
+    4'h2: seg_decode = 8'h25;   // A B   D E   G
+    4'h3: seg_decode = 8'h0d;   // A B C D     G
+    4'h4: seg_decode = 8'h99;   //   B C   F G
+    4'h5: seg_decode = 8'h49;   // A   C D F G
+    4'h6: seg_decode = 8'h41;   // A   C D E F G
+    4'h7: seg_decode = 8'h1f;   // A B C
+    4'h8: seg_decode = 8'h01;   // A B C D E F G
+    4'h9: seg_decode = 8'h09;   // A B C D   F G
+    4'ha: seg_decode = 8'h11;   // A B C   E F G
+    4'hb: seg_decode = 8'hc1;   //     C D E F G
+    4'hc: seg_decode = 8'h63;   // A     D E F
+    4'hd: seg_decode = 8'h85;   //   B C D E   G
+    4'he: seg_decode = 8'h61;   // A     D E F G
+    4'hf: seg_decode = 8'h71;   // A       E F G
+    default: seg_decode = 8'hff;   // 全灭
   endcase
 endfunction
 

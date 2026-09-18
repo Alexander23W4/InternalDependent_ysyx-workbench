@@ -94,7 +94,7 @@ void init_uart(void) {
 void putch(char ch) {
   while (!(*(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 5) & 0x20));  
   *(volatile uint8_t *)(YSYXSOC_SERIAL_ADDR + 0) = ch;               
-}
+} 
 
 
 
@@ -104,7 +104,7 @@ void halt(int code) {
 }
 
 void _trm_init() {
-  init_uart();
+  init_uart();    // 由于这里输出到 CML 的 uart 是属于 TRM, 所以在这里init, 不在 ioe_init() 初始化
   int ret = main(mainargs);
   halt(ret);
 }

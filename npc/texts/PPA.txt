@@ -1,0 +1,23 @@
+
+⭐: 根据不同的 场景 和 DUT的类型, 选择合适的 benchmark:
+
+不同的应用场景需要不同的代表性程序, 这就产生了不同的benchmark. 
+例如, Linpack用于代表超级计算场景, MLPerf用于代表机器学习训练场景, CloudSuite用于代表云计算场景, Embench用于代表嵌入式场景. 
+
+最著名的benchmark就是SPEC CPU, 用于评估CPU通用计算能力. 
+SPEC(Standard Performance Evaluation Corporation)是一个组织机构, 目标是建立维护用于评估计算机系统的各种标准
+
+
+⭐: 根据 ysyxsoc 的 feature, 选择合适的 benchmark:
+
+我们希望有一套适合教学场景的benchmark, 满足以下条件:
+
+规模不算太大, 在模拟器甚至在RTL仿真环境中的执行时间不到2小时
+可在裸机环境中运行, 无需启动Linux
+程序具有一定代表性, 不像CoreMark和Dhrystone那样采用合成程序
+
+
+⭐: 评判指标:
+benchmark 运行时长   (microbench)
+FPS                 (红白机等 游戏)
+

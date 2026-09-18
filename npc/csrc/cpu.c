@@ -1,6 +1,7 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 NPC_status Status = NPC_NORM;
+uint64_t instr_amt = 0;
 
 void exec_once(){
     
@@ -18,6 +19,7 @@ void exec_once(){
     }
     if(period_end) period_end = 0;
     tick();
+    instr_amt++;
 
     // 读取cpu的状态
     // 注: DPI 导出函数 debug_read_all 的形参是 int*/long long*, 而 CPU_state 里存的是

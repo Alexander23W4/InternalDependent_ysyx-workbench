@@ -105,6 +105,7 @@ extern int lsu_error;
 extern int master_validation_error;
 
 extern int period_end;
+extern uint64_t instr_amt;
 
 void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);
@@ -131,6 +132,7 @@ void tick();
 void error_handler();
 void prt_gprs();
 void final_check();
+void final_print();
 uint32_t isa_reg_str2val(const char *s, bool *success);
 
 

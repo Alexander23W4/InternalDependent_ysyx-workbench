@@ -81,6 +81,7 @@ void reset(){
 
 void end_process(){
     final_check();
+    final_print();
 
     top->final();
     delete top;

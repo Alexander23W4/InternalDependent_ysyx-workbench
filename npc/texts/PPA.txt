@@ -18,6 +18,29 @@ SPEC(Standard Performance Evaluation Corporation)是一个组织机构, 目标�
 
 
 ⭐: 评判指标:
-benchmark 运行时长   (microbench)
+benchmark 运行时长   (microbench)   (IA, CPI/IPC, F)
 FPS                 (红白机等 游戏)
+
+分解:
+        time      inst     cycle     time
+perf = ------- = ------ * ------- * -------
+        prog      prog      inst     cycle
+
+1. 减少指令个数 IA:
+修改程序, 采用更优的算法.
+采用更优的编译优化策略.
+设计并使用行为更复杂的指令集.
+
+2. 降低平均每条指令执行所需的周期数  CPI/IPC 
+微结构设计
+
+3. 减少每个周期的时间 F
+优化数字电路的前端设计, 减小关键路径的逻辑延迟.
+优化数字电路的后端设计, 减小关键路径的走线延迟.
+
+
+⭐: 评判指标的获取:
+动态指令数可在仿真环境中直接统计
+有了动态指令数, 再统计周期数, 即可计算出IPC
+电路的频率可查看综合器的报告获取
 

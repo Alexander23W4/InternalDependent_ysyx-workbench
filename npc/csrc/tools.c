@@ -45,6 +45,15 @@ void final_check(){
     }
 }
 
+void final_print(){
+  printf("%s", ANSI_FMT("[CYCLES] ", ANSI_FG_CYAN));
+  printf("%lu\n", cpu.mcycle);
+  printf("%s", ANSI_FMT("[INSTRS] ", ANSI_FG_CYAN));
+  printf("%lu\n", instr_amt);
+  printf("%s", ANSI_FMT("[CPI] ", ANSI_FG_CYAN));
+  printf("%lu\n", (uint64_t)(cpu.mcycle/instr_amt));
+}
+
 
 void prt_gprs() {
     printf("PC: [0x%08x]\n", cpu.pc); 

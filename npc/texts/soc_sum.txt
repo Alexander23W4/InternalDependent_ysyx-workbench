@@ -9,7 +9,6 @@
 
 
 ⭐: 工作流效率
--> 功能测试: 
 
                     CPU RTL
                        │
@@ -36,8 +35,9 @@ Formal    : 在给定约束下，数学上证明某个性质始终成立
 Emulation : 跑真实workload                           (大厂使用FPGA)
 
 
+-> 功能测试: 
 
--> 性能测试:
+-> 性能测试(优化PPA):
 
 IPC = Instructions / Cycles
 
@@ -48,6 +48,7 @@ Throughput
 Memory Bandwidth
 Cache Miss Rate
 Branch Misprediction Rate
+
 
 
 

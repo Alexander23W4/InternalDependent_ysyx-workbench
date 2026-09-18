@@ -8,7 +8,16 @@ NAME = rtthread
 SRCS = $(shell find src -name "*.c")
 CFLAGS += -DHAVE_CCONFIG_H -D__RTTHREAD__
 CFLAGS += -Wno-nonnull-compare
+# ⭐ extra.ld 里的 .data.extra / .bss.extra 是靠 INSERT 插进去的, 没有写加载区域。
+#    ysyxSoC 是 "VMA 在 SDRAM / LMA 在 flash" 的方案, 那些段会 LMA 落错地方、
+#    还会把后续段的 LMA 偏移弄乱; 所以 ysyxsoc 干脆不用 extra 脚本,
+#    那几条输入段直接写进了 linker-ysyxsoc.ld 的 .data / .bss 里。
+#    别的 ARCH(没有 MEMORY 区域)继续用 extra.ld。
+ifneq (,$(findstring ysyxsoc,$(ARCH)))
+# nothing: see linker-ysyxsoc.ld
+else
 LDFLAGS += -T extra.ld
+endif
 -include $(FILE_MK)
 -include $(AM_APPS_MK)
 include $(AM_HOME)/Makefile

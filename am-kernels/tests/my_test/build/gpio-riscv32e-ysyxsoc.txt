@@ -49,14 +49,14 @@ a0000058:	d8050513          	addi	a0,a0,-640 # 30000dd4 <_data_lma>
 a000005c:	00001597          	auipc	a1,0x1
 a0000060:	d4058593          	addi	a1,a1,-704 # a0000d9c <lut>
 a0000064:	00001617          	auipc	a2,0x1
-a0000068:	f4a60613          	addi	a2,a2,-182 # a0000fae <_data>
+a0000068:	f4c60613          	addi	a2,a2,-180 # a0000fb0 <key_status>
 a000006c:	40b60633          	sub	a2,a2,a1
 a0000070:	00000097          	auipc	ra,0x0
 a0000074:	02c080e7          	jalr	44(ra) # a000009c <_boot_copy>
 a0000078:	00001597          	auipc	a1,0x1
 a000007c:	f3858593          	addi	a1,a1,-200 # a0000fb0 <key_status>
 a0000080:	00001617          	auipc	a2,0x1
-a0000084:	f3e60613          	addi	a2,a2,-194 # a0000fbe <_bss_end>
+a0000084:	f4060613          	addi	a2,a2,-192 # a0000fc0 <__am_apps_bss_end>
 a0000088:	00c5f863          	bgeu	a1,a2,a0000098 <_start+0x98>
 a000008c:	00058023          	sb	zero,0(a1)
 a0000090:	00158593          	addi	a1,a1,1

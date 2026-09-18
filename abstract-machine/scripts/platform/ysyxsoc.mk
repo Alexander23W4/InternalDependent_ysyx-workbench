@@ -32,7 +32,7 @@ CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINAR
 
 
 
-NVBOARD_ENABLE ?= 1
+NVBOARD_ENABLE ?= 0
 
 # 把 ysyxSoC 接进 NVBoard 的那个仿真工程(顶层 ysyxSoCFull)
 NVBOARD_SIM_HOME ?= $(AM_HOME)/../VerTest/nvbtest_soc

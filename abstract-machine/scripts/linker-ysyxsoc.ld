@@ -57,6 +57,7 @@ SECTIONS {
   .rodata : {
     _rodata_start = .;
     *(.rodata*)
+    *(.srodata*)               /* 把srodata加进来 */
     _rodata_end = .;
   } > sdram AT> flash
 
@@ -65,13 +66,54 @@ SECTIONS {
 
 
 
+  /* ⭐ 这里除了标准 C 的 .data/.sdata, 还额外收了 rt-thread-am 的几条输入段
+        (FSymTab / VSymTab / .rti_fn* / UtestTcTab / __am_apps.data*)。
+        它们在 rt-thread-am 的 extra.ld 里本来是靠 "INSERT 插队" 塞进来的, 但 ysyxSoC 是
+        "VMA 在 SDRAM / LMA 在 flash, 靠 start.S 搬" 的方案, INSERT 插进来的段拿不到
+        AT> flash(于是 LMA 落在 SDRAM, objcopy 出来的 .bin 会几个 GB), 而且 INSERT 不推进
+        位置计数器, 会把 _data_end/_bss_end/_heap_start 全留在这些段前面。所以直接在这里
+        收编, 让 VMA/LMA 两边同步推进、_data_end 自然盖住它们。
+        编译普通 AM 程序时这些名字一个都匹配不到, 等于没写(不会有空段, 地址也不变)。
+
+        另外 _data_start.._data_end 必须与 _data_lma 起的一段 flash 严格逐字节对应,
+        且起始地址 4 字节对齐, 否则 start.S 里的 lw 搬运会非对齐陷入。 */
   .data : {
     _data_start = .;     
     *(.data*)
     *(.sdata*)            
     *(.sdata2*)
+
+    /* section information for finsh shell */
+    __fsymtab_start = .;
+    KEEP(*(FSymTab))
+    __fsymtab_end = .;
+    . = ALIGN(8);
+    __vsymtab_start = .;
+    KEEP(*(VSymTab))
+    __vsymtab_end = .;
+    . = ALIGN(8);
+
+    /* rt-thread 的自动初始化表(INIT_EXPORT), 按 .rti_fn.* 的字典序排, 所以用 SORT */
+    . = ALIGN(8);
+    __rt_init_start = .;
+    KEEP(*(SORT(.rti_fn*)))
+    __rt_init_end = .;
+    . = ALIGN(8);
+
+    __rt_utest_tc_tab_start = .;
+    KEEP(*(UtestTcTab))
+    __rt_utest_tc_tab_end = .;
+
+    . = ALIGN(8);
+    __am_apps_data_start = .;
+    *(__am_apps.data*)
+    *(__am_apps.sdata*)
+    __am_apps_data_end = .;
+    . = ALIGN(8);
+
     _data_end = .;
   } > sdram AT> flash
+
   edata = .;
   _data = .;
 
@@ -86,6 +128,15 @@ SECTIONS {
     *(.sbss*)
     *(.sbss2*)
     *(.scommon)
+
+    /* ⭐ 同上, rt-thread-am 的 __am_apps.bss* 也直接收编进 .bss,
+          这样 _bss_end 和 _heap_start 天然在它们后面(堆不会和 __am_apps.bss 重叠)。 */
+    . = ALIGN(8);
+    __am_apps_bss_start = .;
+    *(__am_apps.bss*)
+    *(__am_apps.sbss*)
+    *(__am_apps.scommon*)
+    __am_apps_bss_end = .;
     _bss_end = .;
   } > sdram
 

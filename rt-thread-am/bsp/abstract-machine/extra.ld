@@ -1,3 +1,8 @@
+/*
+注意这里有一个 INSERT BEFORE .data;   实现了插队
+
+*/
+
 SECTIONS {
   .data.extra : {
     /* section information for finsh shell */
@@ -29,7 +34,7 @@ SECTIONS {
     . = ALIGN(8);
   }
 }
-INSERT BEFORE .data;
+INSERT BEFORE .data;    
 
 SECTIONS {
   .bss.extra : {

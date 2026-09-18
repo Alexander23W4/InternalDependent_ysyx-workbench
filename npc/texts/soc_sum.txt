@@ -1,11 +1,72 @@
-减少芯片的大小: ChipLink
+
+
+⭐: PPA
+从soc开始, 我们就要认真考虑 PPA 了, 这是前端的关键
+
+从RTL(数字电路)层面减少PPA, 一定要有意识的学习标准的写法, 知道怎么写能够优化 PPA 
+
+从架构层面, 知道怎么样合理的安排 合适的指令集, 外设(外设总线), 大总线结构, cpu内部架构(流水线, cache), 这些来在宏观上优化 PPA
+
+
+⭐: 工作流效率
+-> 功能测试: 
+
+                    CPU RTL
+                       │
+       ┌───────────────┼────────────────┐
+       │               │                │
+       ▼               ▼                ▼
+  Simulation       Formal           Emulation
+       │               │                │
+       ▼               ▼                ▼
+ directed test    property check    FPGA/Emulator
+       │
+ random test
+       │
+ regression
+       │
+       ▼
+ reference model
+       │
+       ▼
+ differential check
+
+Simulation: 给我很多输入，我跑跑看有没有 bug             (大厂使用UVM)
+Formal    : 在给定约束下，数学上证明某个性质始终成立 
+Emulation : 跑真实workload                           (大厂使用FPGA)
+
+
+
+-> 性能测试:
+
+IPC = Instructions / Cycles
+
+CPI = Cycles / Instructions
+
+Execution Time
+Throughput
+Memory Bandwidth
+Cache Miss Rate
+Branch Misprediction Rate
+
+
+
+
+
+
+
+
+减少芯片的大小: ChipLink     减少 SRAM
 
 减少访存的时间: 
     SDRAM (DRAM控制器, 专属protocol)
-    SRAM  (单周期IO, 快速)
+    SRAM  (单周期IO, 快速)   
 
     Flash + 两级bootloader  (SPI, 慢, 仅烧录用, 使用bootloader节省运行时时间)
 
 
 其他: 
     GPIO  UART  VGA  Keyboard ...
+
+减少功耗:
+

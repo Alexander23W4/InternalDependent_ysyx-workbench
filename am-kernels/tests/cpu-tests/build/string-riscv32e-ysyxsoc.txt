@@ -40,23 +40,23 @@ a0000034:	35450513          	addi	a0,a0,852 # 30000384 <_rodata_lma>
 a0000038:	00000597          	auipc	a1,0x0
 a000003c:	31458593          	addi	a1,a1,788 # a000034c <_rodata_start>
 a0000040:	00000617          	auipc	a2,0x0
-a0000044:	3c060613          	addi	a2,a2,960 # a0000400 <_rodata_end>
+a0000044:	3c060613          	addi	a2,a2,960 # a0000400 <s>
 a0000048:	40b60633          	sub	a2,a2,a1
 a000004c:	00000097          	auipc	ra,0x0
 a0000050:	050080e7          	jalr	80(ra) # a000009c <_boot_copy>
 a0000054:	90000517          	auipc	a0,0x90000
 a0000058:	3e450513          	addi	a0,a0,996 # 30000438 <_data_lma>
-a000005c:	04000597          	auipc	a1,0x4000
-a0000060:	fa458593          	addi	a1,a1,-92 # a4000000 <s>
-a0000064:	04000617          	auipc	a2,0x4000
-a0000068:	fba60613          	addi	a2,a2,-70 # a400001e <_data>
+a000005c:	00000597          	auipc	a1,0x0
+a0000060:	3a458593          	addi	a1,a1,932 # a0000400 <s>
+a0000064:	00000617          	auipc	a2,0x0
+a0000068:	3ba60613          	addi	a2,a2,954 # a000041e <_data>
 a000006c:	40b60633          	sub	a2,a2,a1
 a0000070:	00000097          	auipc	ra,0x0
 a0000074:	02c080e7          	jalr	44(ra) # a000009c <_boot_copy>
-a0000078:	04000597          	auipc	a1,0x4000
-a000007c:	fa858593          	addi	a1,a1,-88 # a4000020 <str>
-a0000080:	04000617          	auipc	a2,0x4000
-a0000084:	fb460613          	addi	a2,a2,-76 # a4000034 <_bss_end>
+a0000078:	00000597          	auipc	a1,0x0
+a000007c:	3a858593          	addi	a1,a1,936 # a0000420 <str>
+a0000080:	00000617          	auipc	a2,0x0
+a0000084:	3b460613          	addi	a2,a2,948 # a0000434 <_bss_end>
 a0000088:	00c5f863          	bgeu	a1,a2,a0000098 <_start+0x98>
 a000008c:	00058023          	sb	zero,0(a1)
 a0000090:	00158593          	addi	a1,a1,1
@@ -94,8 +94,8 @@ a00000f0:	104000ef          	jal	ra,a00001f4 <halt>
 a00000f4 <main>:
 a00000f4:	ff410113          	addi	sp,sp,-12
 a00000f8:	00812223          	sw	s0,4(sp)
-a00000fc:	04000417          	auipc	s0,0x4000
-a0000100:	f0440413          	addi	s0,s0,-252 # a4000000 <s>
+a00000fc:	00000417          	auipc	s0,0x0
+a0000100:	30440413          	addi	s0,s0,772 # a0000400 <s>
 a0000104:	00842583          	lw	a1,8(s0)
 a0000108:	00042503          	lw	a0,0(s0)
 a000010c:	00112423          	sw	ra,8(sp)
@@ -105,8 +105,8 @@ a0000118:	00153513          	seqz	a0,a0
 a000011c:	fc1ff0ef          	jal	ra,a00000dc <check>
 a0000120:	00442583          	lw	a1,4(s0)
 a0000124:	00042503          	lw	a0,0(s0)
-a0000128:	04000497          	auipc	s1,0x4000
-a000012c:	ef848493          	addi	s1,s1,-264 # a4000020 <str>
+a0000128:	00000497          	auipc	s1,0x0
+a000012c:	2f848493          	addi	s1,s1,760 # a0000420 <str>
 a0000130:	178000ef          	jal	ra,a00002a8 <strcmp>
 a0000134:	01f55513          	srli	a0,a0,0x1f
 a0000138:	fa5ff0ef          	jal	ra,a00000dc <check>
@@ -131,8 +131,8 @@ a0000180:	00350513          	addi	a0,a0,3
 a0000184:	124000ef          	jal	ra,a00002a8 <strcmp>
 a0000188:	01f55513          	srli	a0,a0,0x1f
 a000018c:	f51ff0ef          	jal	ra,a00000dc <check>
-a0000190:	04000597          	auipc	a1,0x4000
-a0000194:	e8858593          	addi	a1,a1,-376 # a4000018 <str1>
+a0000190:	00000597          	auipc	a1,0x0
+a0000194:	28858593          	addi	a1,a1,648 # a0000418 <str1>
 a0000198:	00048513          	mv	a0,s1
 a000019c:	09c000ef          	jal	ra,a0000238 <strcpy>
 a00001a0:	00c42583          	lw	a1,12(s0)

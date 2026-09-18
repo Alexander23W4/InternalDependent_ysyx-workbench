@@ -86,7 +86,7 @@ Disassembly of section .text:
 a00000dc <check>:
 a00000dc:	00050463          	beqz	a0,a00000e4 <check+0x8>
 a00000e0:	00008067          	ret
-a00000e4:	ff410113          	addi	sp,sp,-12 # f001ff4 <_heap_end+0x6d001ff4>
+a00000e4:	ff410113          	addi	sp,sp,-12 # f001ff4 <_heap_end+0x67001ff4>
 a00000e8:	00100513          	li	a0,1
 a00000ec:	00112423          	sw	ra,8(sp)
 a00000f0:	0fc000ef          	jal	ra,a00001ec <halt>
@@ -102,7 +102,7 @@ a000010c:	04031863          	bnez	t1,a000015c <rc_crc32+0x68>
 a0000110:	edb882b7          	lui	t0,0xedb88
 a0000114:	00000397          	auipc	t2,0x0
 a0000118:	18838393          	addi	t2,t2,392 # a000029c <table.0>
-a000011c:	32028293          	addi	t0,t0,800 # edb88320 <_heap_end+0x4bb88320>
+a000011c:	32028293          	addi	t0,t0,800 # edb88320 <_heap_end+0x45b88320>
 a0000120:	10000493          	li	s1,256
 a0000124:	00030793          	mv	a5,t1
 a0000128:	00800713          	li	a4,8
@@ -148,7 +148,7 @@ a00001bc:	00000513          	li	a0,0
 a00001c0:	00112423          	sw	ra,8(sp)
 a00001c4:	f31ff0ef          	jal	ra,a00000f4 <rc_crc32>
 a00001c8:	beb067b7          	lui	a5,0xbeb06
-a00001cc:	cc778793          	addi	a5,a5,-825 # beb05cc7 <_heap_end+0x1cb05cc7>
+a00001cc:	cc778793          	addi	a5,a5,-825 # beb05cc7 <_heap_end+0x16b05cc7>
 a00001d0:	00f50533          	add	a0,a0,a5
 a00001d4:	00153513          	seqz	a0,a0
 a00001d8:	f05ff0ef          	jal	ra,a00000dc <check>

@@ -40,23 +40,23 @@ a0000034:	35450513          	addi	a0,a0,852 # 30000384 <_rodata_lma>
 a0000038:	00000597          	auipc	a1,0x0
 a000003c:	31458593          	addi	a1,a1,788 # a000034c <mainargs>
 a0000040:	00000617          	auipc	a2,0x0
-a0000044:	34c60613          	addi	a2,a2,844 # a000038c <_rodata_end>
+a0000044:	34c60613          	addi	a2,a2,844 # a000038c <ans>
 a0000048:	40b60633          	sub	a2,a2,a1
 a000004c:	00000097          	auipc	ra,0x0
 a0000050:	050080e7          	jalr	80(ra) # a000009c <_boot_copy>
 a0000054:	90000517          	auipc	a0,0x90000
 a0000058:	37050513          	addi	a0,a0,880 # 300003c4 <_data_lma>
-a000005c:	04000597          	auipc	a1,0x4000
-a0000060:	fa458593          	addi	a1,a1,-92 # a4000000 <ans>
-a0000064:	04000617          	auipc	a2,0x4000
-a0000068:	fac60613          	addi	a2,a2,-84 # a4000010 <_bss_end>
+a000005c:	00000597          	auipc	a1,0x0
+a0000060:	33058593          	addi	a1,a1,816 # a000038c <ans>
+a0000064:	00000617          	auipc	a2,0x0
+a0000068:	33860613          	addi	a2,a2,824 # a000039c <_bss_end>
 a000006c:	40b60633          	sub	a2,a2,a1
 a0000070:	00000097          	auipc	ra,0x0
 a0000074:	02c080e7          	jalr	44(ra) # a000009c <_boot_copy>
-a0000078:	04000597          	auipc	a1,0x4000
-a000007c:	f9858593          	addi	a1,a1,-104 # a4000010 <_bss_end>
-a0000080:	04000617          	auipc	a2,0x4000
-a0000084:	f9060613          	addi	a2,a2,-112 # a4000010 <_bss_end>
+a0000078:	00000597          	auipc	a1,0x0
+a000007c:	32458593          	addi	a1,a1,804 # a000039c <_bss_end>
+a0000080:	00000617          	auipc	a2,0x0
+a0000084:	31c60613          	addi	a2,a2,796 # a000039c <_bss_end>
 a0000088:	00c5f863          	bgeu	a1,a2,a0000098 <_start+0x98>
 a000008c:	00058023          	sb	zero,0(a1)
 a0000090:	00158593          	addi	a1,a1,1
@@ -146,8 +146,8 @@ a00001bc:	00012783          	lw	a5,0(sp)
 a00001c0:	00a787b3          	add	a5,a5,a0
 a00001c4:	f49794e3          	bne	a5,s1,a000010c <main+0x18>
 a00001c8:	00812703          	lw	a4,8(sp)
-a00001cc:	04000697          	auipc	a3,0x4000
-a00001d0:	e3468693          	addi	a3,a3,-460 # a4000000 <ans>
+a00001cc:	00000697          	auipc	a3,0x0
+a00001d0:	1c068693          	addi	a3,a3,448 # a000038c <ans>
 a00001d4:	00271793          	slli	a5,a4,0x2
 a00001d8:	00f687b3          	add	a5,a3,a5
 a00001dc:	0007a503          	lw	a0,0(a5)

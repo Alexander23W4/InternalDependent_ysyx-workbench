@@ -66,7 +66,7 @@ module vga_top_apb(
   //-----------------------------------------------------------------
   localparam FB_AW = 19;
 
-  reg [31:0] fb [0:(1<<FB_AW)-1];
+  reg [31:0] fb [0:(1<<FB_AW)-1];    // ⭐: 在这里直接定义显存
 
   wire             apb_wr = in_psel & in_penable &  in_pwrite;
   wire             apb_rd = in_psel & in_penable & ~in_pwrite;
@@ -99,7 +99,7 @@ module vga_top_apb(
 
   reg [9:0] x_cnt;
   reg [9:0] y_cnt;
-  always @(posedge clock) begin
+  always @(posedge clock) begin    // ⭐: 不停的扫描整个VGA mem(含profile), 在valid的空间内, 读取fb[]里面对应的像素值发出去, 如果正在扫profile, 那就什么都不发
     if (reset) begin
       x_cnt <= 10'd1;
       y_cnt <= 10'd1;
@@ -118,15 +118,17 @@ module vga_top_apb(
   wire [9:0]  v_addr = v_valid ? (y_cnt - (V_ACTIVE + 10'd1)) : 10'd0;   // 0..479
   wire [18:0] vga_index = v_addr * 19'd640 + {9'b0, h_addr};
 
+
   // 同步读出像素, 同时把同步信号也延后一拍对齐
   reg [31:0] pixel_q;
   reg        h_valid_q, v_valid_q, hsync_q, vsync_q;
+
   always @(posedge clock) begin
     pixel_q   <= fb[vga_index];
     h_valid_q <= h_valid;
     v_valid_q <= v_valid;
-    hsync_q   <= (x_cnt > H_SYNC);
-    vsync_q   <= (y_cnt > V_SYNC);
+    hsync_q   <= (x_cnt > H_SYNC);   // 换行了
+    vsync_q   <= (y_cnt > V_SYNC);   // 换桢了
   end
 
   assign vga_hsync = hsync_q;

@@ -86,7 +86,7 @@ Disassembly of section .text:
 a00000dc <check>:
 a00000dc:	00050463          	beqz	a0,a00000e4 <check+0x8>
 a00000e0:	00008067          	ret
-a00000e4:	ff410113          	addi	sp,sp,-12 # f001ff4 <_heap_end+0x6d001ff4>
+a00000e4:	ff410113          	addi	sp,sp,-12 # f001ff4 <_heap_end+0x67001ff4>
 a00000e8:	00100513          	li	a0,1
 a00000ec:	00112423          	sw	ra,8(sp)
 a00000f0:	054000ef          	jal	ra,a0000144 <halt>
@@ -104,7 +104,7 @@ a0000114:	00178793          	addi	a5,a5,1
 a0000118:	fed798e3          	bne	a5,a3,a0000108 <main+0x14>
 a000011c:	00012503          	lw	a0,0(sp)
 a0000120:	ffffd7b7          	lui	a5,0xffffd
-a0000124:	f8d78793          	addi	a5,a5,-115 # ffffcf8d <_heap_end+0x5dffcf8d>
+a0000124:	f8d78793          	addi	a5,a5,-115 # ffffcf8d <_heap_end+0x57ffcf8d>
 a0000128:	00f50533          	add	a0,a0,a5
 a000012c:	00153513          	seqz	a0,a0
 a0000130:	fadff0ef          	jal	ra,a00000dc <check>

@@ -4,4 +4,4 @@ include $(AM_HOME)/Makefile
 
 # make ARCH=riscv32-nemu run mainargs=i
 # make ARCH=riscv32e-npc run mainargs=h
-# make ARCH=riscv32e-ysyxsoc run mainargs=h
+# make ARCH=riscv32e-ysyxsoc run mainargs=v

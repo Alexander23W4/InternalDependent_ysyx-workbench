@@ -29,7 +29,23 @@ MAINARGS_PLACEHOLDER = the_insert-arg_rule_in_Makefile_will_insert_mainargs_here
 CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINARGS_PLACEHOLDER)
 
 
+
+
+
+NVBOARD_ENABLE ?= 1
+
+# 把 ysyxSoC 接进 NVBoard 的那个仿真工程(顶层 ysyxSoCFull)
+NVBOARD_SIM_HOME ?= $(AM_HOME)/../VerTest/nvbtest_soc
+NVBOARD_TOP      ?= ysyxSoCFull
+NVBOARD_EXE       = $(NVBOARD_SIM_HOME)/build/$(NVBOARD_TOP)
+
 -include $(NPC_HOME)/Makefile
+-include $(NVBOARD_HOME)/Makefile
+
+
+update-nvboard:
+	@echo "===================================== Update NVBoard ====================================="
+	$(MAKE) -C $(NVBOARD_SIM_HOME) $(if $(IMAGE),IMAGE=$(abspath $(IMAGE).bin))
 
 # update 仿真 npc -> C++
 update-npc:
@@ -47,28 +63,26 @@ endif
 insert-arg: image
 	@python3 $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
 
-# 作用: 在用户环境下产生 .bin .elf .txt三个build文件
-# ⭐ 这里不能再用 --set-section-flags .bss=alloc,contents 了.
-#    早期没有 bootloader 时, 那个 flag 是为了硬把 .bss 也塞进 .bin;
-#    现在 .bss 由 start.S 里的清零循环负责(它是 NOBITS, 本来就没有内容),
-#    留着这个 flag 只会让 objcopy 从 _data_end 一路补零补到 _bss_end,
-#    把 .bin 撑大(而多出来的那部分还不受 linker-ysyxsoc.ld 里 4KB MROM 的 ASSERT 保护).
+
 image: image-dep
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S -O binary $(IMAGE).elf $(IMAGE).bin
 
-# 
-run: insert-arg update-npc 
+
+# ⭐⭐ run: 按 NVBOARD_ENABLE 走两条路
+#     两条路都是"先把仿真器更新好, 再把 AM 生成的 $(IMAGE).bin 喂给它"。
+ifeq ($(NVBOARD_ENABLE),1)
+run: insert-arg update-nvboard
+	@echo "================================= RUN NVBOARD SIMULATION ====================================="
+	$(NVBOARD_EXE) $(IMAGE).bin
+else
+run: insert-arg update-npc
 	@echo "================================= RUN NPC SIMULATION ====================================="
 	$(NPC_EXE) $(ARGS)
+endif
 
-# ⭐ gdb: 用带 -g 的 npc-gdb 目标编一份 debug 版, 再起 gdb
-#    注意这里必须先清 obj_dir: 否则已有的非 -g 目标文件不会重编
-#    (verilator 生成的 .o 只依赖 .cpp/.c, 不依赖 -CFLAGS), gdb 里就没有符号。
-#    用 clean_obj 而不是 clean_npc, 是为了不连带清掉 build_rsrc/。
-#    gdb 默认按当前目录找源码, 而编译时记录的是 ../csrc/xxx.c 这类相对路径,
-#    所以显式把几个源码目录喂给它
+
 GDB_SRC_DIRS = -ex "directory $(NPC_HOME)/csrc" \
                -ex "directory $(NPC_HOME)/include" \
                -ex "directory $(NPC_HOME)/obj_dir"

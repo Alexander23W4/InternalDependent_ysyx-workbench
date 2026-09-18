@@ -5,52 +5,75 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VALU4_H_
-#define VERILATED_VALU4_H_  // guard
+#ifndef VERILATED_VYSYXSOCFULL_H_
+#define VERILATED_VYSYXSOCFULL_H_  // guard
 
 #include "verilated.h"
+#include "svdpi.h"
 
-class VALU4__Syms;
-class VALU4___024root;
+class VysyxSoCFull__Syms;
+class VysyxSoCFull___024root;
+class VysyxSoCFull___024unit;
+class VysyxSoCFull_ysyx_26040135_AXI4;
+
 
 // This class is the main interface to the Verilated model
-class VALU4 VL_NOT_FINAL : public VerilatedModel {
+class VysyxSoCFull VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    VALU4__Syms* const vlSymsp;
+    VysyxSoCFull__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&a,3,0);
-    VL_IN8(&b,3,0);
-    VL_IN8(&opcode,2,0);
-    VL_OUT8(&out,3,0);
-    VL_OUT8(&carry,0,0);
-    VL_OUT8(&overflow,0,0);
-    VL_OUT8(&zero,0,0);
+    VL_IN8(&clock,0,0);
+    VL_IN8(&reset,0,0);
+    VL_OUT8(&externalPins_gpio_seg_0,7,0);
+    VL_OUT8(&externalPins_gpio_seg_1,7,0);
+    VL_OUT8(&externalPins_gpio_seg_2,7,0);
+    VL_OUT8(&externalPins_gpio_seg_3,7,0);
+    VL_OUT8(&externalPins_gpio_seg_4,7,0);
+    VL_OUT8(&externalPins_gpio_seg_5,7,0);
+    VL_OUT8(&externalPins_gpio_seg_6,7,0);
+    VL_OUT8(&externalPins_gpio_seg_7,7,0);
+    VL_IN8(&externalPins_ps2_clk,0,0);
+    VL_IN8(&externalPins_ps2_data,0,0);
+    VL_OUT8(&externalPins_vga_r,7,0);
+    VL_OUT8(&externalPins_vga_g,7,0);
+    VL_OUT8(&externalPins_vga_b,7,0);
+    VL_OUT8(&externalPins_vga_hsync,0,0);
+    VL_OUT8(&externalPins_vga_vsync,0,0);
+    VL_OUT8(&externalPins_vga_valid,0,0);
+    VL_IN8(&externalPins_uart_rx,0,0);
+    VL_OUT8(&externalPins_uart_tx,0,0);
+    VL_OUT16(&externalPins_gpio_out,15,0);
+    VL_IN16(&externalPins_gpio_in,15,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
     // Otherwise the application code can consider these internals.
+    VysyxSoCFull___024unit* const __PVT____024unit;
+    VysyxSoCFull_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu;
+    VysyxSoCFull_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu;
+    VysyxSoCFull_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master;
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    VALU4___024root* const rootp;
+    VysyxSoCFull___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit VALU4(VerilatedContext* contextp, const char* name = "TOP");
-    explicit VALU4(const char* name = "TOP");
+    explicit VysyxSoCFull(VerilatedContext* contextp, const char* name = "TOP");
+    explicit VysyxSoCFull(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~VALU4();
+    virtual ~VysyxSoCFull();
   private:
-    VL_UNCOPYABLE(VALU4);  ///< Copying not allowed
+    VL_UNCOPYABLE(VysyxSoCFull);  ///< Copying not allowed
 
   public:
     // API METHODS
@@ -69,6 +92,12 @@ class VALU4 VL_NOT_FINAL : public VerilatedModel {
     uint64_t nextTimeSlot();
     /// Retrieve name of this model instance (as passed to constructor).
     const char* name() const;
+
+    /// DPI Export functions
+    static void check_end(int* period_end);
+    static void check_error(int* ifu_error, int* lsu_error, int* master_validation_error);
+    static void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr);
+    static void halt(int* endprog);
 
     // Abstract methods from VerilatedModel
     const char* hierName() const override final;

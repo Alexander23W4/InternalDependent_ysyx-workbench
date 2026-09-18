@@ -460,6 +460,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             state <= FETCH;
         end
         else begin
+            {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
             state <= next;
 
             if(state == FETCH) begin
@@ -488,7 +489,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             if(state == UDPC) begin
                 __pc_is_updated <= 1'b1;
                 __period_end <= 1'b0;
-                {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
                 // pc update
                 if(jalr) begin
                     pc <= jump_target & ~32'h1;

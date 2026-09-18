@@ -22,7 +22,6 @@ AM_DEVREG(10, GPU_STATUS,   RD, bool ready);
 AM_DEVREG(11, GPU_FBDRAW,   WR, int x, y; void *pixels; int w, h; bool sync);
 */
 
-#define SYNC_ADDR (NPC_VGACTL_ADDR + 4)   // sync_addr
 
 void __am_gpu_init() {
 
@@ -42,13 +41,12 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 // int x, y; void *pixels; int w, h; bool sync
+// 在 ysyxsoc 里面, VGA 没有状态寄存器, 并认为 VGA 是可以自动刷新的 (NVboard 的 VGA 是可以自动刷新的), 所以这里的sync 信号没有作用
+// 此函数的作用仅仅是向画布中写 pixel
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  if (ctl->sync) {
-    *(volatile uint32_t *)SYNC_ADDR = 1;   // 调用 vga_update_screen
-  }
-  // git width:
-  uint32_t vga_info = *(volatile uint32_t *)NPC_VGACTL_ADDR;  //
-  int screen_w = (vga_info >> 16) & 0xFFFF;
+
+
+  int screen_w = 640;    // 这里一定要获取完整画布的宽度, 因为这里的 w 参数不一定是完整画布的宽度(用户不一定想要写整个画布), 无法计算vmem_index
 
   uint32_t *pixels = (uint32_t *)ctl->pixels;
   int vmem_index = 0;
@@ -59,7 +57,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     for (size_t j = ctl->x; j < ctl->x + ctl->w; j++)
     {
       vmem_index = (i * screen_w + j) * 4;
-      *(volatile uint32_t *)(NPC_FB_ADDR + vmem_index) = pixels[p_idx++];  //
+      *(volatile uint32_t *)(YSYXSOC_VGA_ADDR + vmem_index) = pixels[p_idx++];  // 一次写一个 word, 4 Bytes
     }
     
   }

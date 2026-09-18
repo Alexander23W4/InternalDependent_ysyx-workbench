@@ -30,6 +30,8 @@ extern "C" {
     extern void flash_read(int addr, int* data);
     // DPI import at ../ysyxSoC/build/ysyxSoCFull.v:5422:30
     extern void mrom_read(int raddr, int* rdata);
+    // DPI import at vsrc/dpi-f.sv:61:30
+    extern void perf_event(svBit ifu_instr_valid, svBit lsu_read_complete, svBit lsu_write_complete);
 
 #ifdef __cplusplus
 }

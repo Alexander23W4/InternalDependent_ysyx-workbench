@@ -462,6 +462,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
             state <= next;
+            
+            perf_event(
+                __ifu_instr_valid,
+                __lsu_read_complete,
+                __lsu_write_complete
+            );
 
             if(state == FETCH) begin
                 __pc_is_updated <= 1'b0;

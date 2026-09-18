@@ -57,3 +57,9 @@ function void check_end(
     period_end = {31'b0, __period_end};
 endfunction
 
+
+import "DPI-C" function void perf_event(
+    input bit ifu_instr_valid,
+    input bit lsu_read_complete,
+    input bit lsu_write_complete
+);

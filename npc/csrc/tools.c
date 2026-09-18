@@ -54,6 +54,19 @@ void final_print() {
 
   printf("%s", ANSI_FMT("[CPI] ", ANSI_FG_CYAN));
   printf("%.3f\n", (double)cpu.mcycle / (double)instr_amt);
+  printf("\n");
+
+  printf("Performance Counter: \n");
+  
+  printf("%s", ANSI_FMT("[IFU_FETCH_CNT] ", ANSI_FG_CYAN));
+  printf("%lu\n", ifu_instr_count);
+
+  printf("%s", ANSI_FMT("[LSU_READ_CNT] ", ANSI_FG_CYAN));
+  printf("%lu\n", lsu_read_count);
+
+  printf("%s", ANSI_FMT("[LSU_WRITE_CNT] ", ANSI_FG_CYAN));
+  printf("%lu\n", lsu_write_count);
+
 }
 
 
@@ -109,4 +122,24 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
   printf("NO REGISTER MATCH.\n");
   *success = false;
   return 0;
+}
+
+
+uint64_t ifu_instr_count = 0;
+uint64_t lsu_read_count = 0;
+uint64_t lsu_write_count = 0;
+
+extern "C" void perf_event(
+    unsigned char ifu_instr_valid,
+    unsigned char lsu_read_complete,
+    unsigned char lsu_write_complete
+) {
+    if (ifu_instr_valid)
+        ifu_instr_count++;
+
+    if (lsu_read_complete)
+        lsu_read_count++;
+
+    if (lsu_write_complete)
+        lsu_write_count++;
 }

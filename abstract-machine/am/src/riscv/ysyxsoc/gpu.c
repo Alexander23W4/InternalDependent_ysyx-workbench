@@ -12,6 +12,9 @@ ysyxSoC/perip/vga/vga_top_apb.v   VGA控制器
 接入NVBoard, 绑定相关引脚
 在AM IOE中添加代码, 将像素信息写入VGA控制器的帧缓冲中
 由于NVBoard提供的VGA机制是自动刷新的, 因此无需实现AM中的画面同步功能
+
+⭐: 
+注意, 
 */
 
 #define SYNC_ADDR (NPC_VGACTL_ADDR + 4)   // sync_addr

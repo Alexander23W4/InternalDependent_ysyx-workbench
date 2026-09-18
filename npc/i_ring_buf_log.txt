@@ -270,10 +270,10 @@
 0xa00000d8    0x00008067    ret                           [RET] PRE: _start, DST: _trm_init                                                                                       
 0xa0000054    0x90000517    auipc	a0, 0x90000                                                                                                                                     
 0xa0000058    0x14450513    addi	a0, a0, 0x144                                                                                                                                    
-0xa000005c    0x04000597    auipc	a1, 0x4000                                                                                                                                      
-0xa0000060    0xfa458593    addi	a1, a1, -0x5c                                                                                                                                    
-0xa0000064    0x04000617    auipc	a2, 0x4000                                                                                                                                      
-0xa0000068    0xf9c60613    addi	a2, a2, -0x64                                                                                                                                    
+0xa000005c    0x00000597    auipc	a1, 0                                                                                                                                           
+0xa0000060    0x10458593    addi	a1, a1, 0x104                                                                                                                                    
+0xa0000064    0x00000617    auipc	a2, 0                                                                                                                                           
+0xa0000068    0x0fc60613    addi	a2, a2, 0xfc                                                                                                                                     
 0xa000006c    0x40b60633    sub	a2, a2, a1                                                                                                                                        
 0xa0000070    0x00000097    auipc	ra, 0                                                                                                                                           
 0xa0000074    0x02c080e7    jalr	0x2c(ra)                 [CALL] PRE: _start, DST: _trm_init                                                                                      
@@ -281,10 +281,10 @@
 0xa00000a0    0x00664e63    blt	a2, t1, 0xa00000bc                                                                                                                                
 0xa00000bc    0x00060e63    beqz	a2, 0xa00000d8                                                                                                                                   
 0xa00000d8    0x00008067    ret                           [RET] PRE: _start, DST: _trm_init                                                                                       
-0xa0000078    0x04000597    auipc	a1, 0x4000                                                                                                                                      
-0xa000007c    0xf8858593    addi	a1, a1, -0x78                                                                                                                                    
-0xa0000080    0x04000617    auipc	a2, 0x4000                                                                                                                                      
-0xa0000084    0xf8060613    addi	a2, a2, -0x80                                                                                                                                    
+0xa0000078    0x00000597    auipc	a1, 0                                                                                                                                           
+0xa000007c    0x0e858593    addi	a1, a1, 0xe8                                                                                                                                     
+0xa0000080    0x00000617    auipc	a2, 0                                                                                                                                           
+0xa0000084    0x0e060613    addi	a2, a2, 0xe0                                                                                                                                     
 0xa0000088    0x00c5f863    bgeu	a1, a2, 0xa0000098                                                                                                                               
 0xa0000098    0x04c000ef    jal	0xa00000e4                [CALL] PRE: _start, DST: _trm_init                                                                                      
 0xa00000e4    0xff410113    addi	sp, sp, -0xc                                                                                                                                     

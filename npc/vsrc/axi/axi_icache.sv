@@ -29,6 +29,7 @@ module ysyx_26040135_AXI_ICACHE (
     logic                      valid  [0:CACHE_LINE_AMT-1];
 
     logic [31:0] araddr_save;
+    logic [1:0] rresp_save;
 
 
     logic [TAG_LEN-1:0] current_tag;
@@ -39,7 +40,7 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     typedef enum [2:0]{ 
-        IDLE, DRAM, UPDATE, RETURN
+        IDLE, DRAM_AR, DRAM_R, UPDATE, RETURN
     } state_t;
     state_t state, next;
 
@@ -48,6 +49,7 @@ module ysyx_26040135_AXI_ICACHE (
         if(reset) begin
             state <= IDLE;
             araddr_save <= '0;
+            rresp_save <= '0;
             for (int i = 0; i < CACHE_LINE_AMT; i++) begin
                 icache[i] <= '0;
                 tag[i]    <= '0;
@@ -57,6 +59,15 @@ module ysyx_26040135_AXI_ICACHE (
             state <= next;
             if(state == IDLE && bus.arvalid) begin
                 araddr_save <= bus.araddr;
+                rresp_save <= 2'b00;    // 每周期在这里清理掉rresp
+            end
+            if(state == DRAM_R && mbus.rvalid) begin
+                rresp_save <= mbus.rresp;
+                if(mbus.rresp == 2'b00) begin
+                    icache[current_index] <= mbus.rdata;
+                    valid[current_index] <= valid;
+                    tag[current_index] <= current_tag;
+                end
             end
         end
     end
@@ -78,6 +89,25 @@ module ysyx_26040135_AXI_ICACHE (
         bus.bresp   = 2'b00;
         bus.bid     = 4'b0;
 
+        mbus.arvalid = 1'b0;
+        mbus.araddr = araddr_save;
+        mbus.arid = 4'b0000;
+        mbus.arlen = 8'h00;
+        mbus.arsize = 3'b010;
+        mbus.arburst = 2'b00;
+        mbus.rready = 1'b0;
+
+        mbus.awvalid = 1'b0;
+        mbus.awaddr = '0;
+        mbus.wdata = '0;
+        mbus.wstrb = '0;
+        mbus.awid = 4'b0000;
+        mbus.awsize = 3'b010;
+        mbus.awlen = 8'h00;
+        mbus.awburst = 2'b00;
+        mbus.wvalid = 1'b0;
+        mbus.bready = 1'b0;
+
         case (state)
             IDLE: begin
                 if(bus.arvalid) begin
@@ -85,17 +115,27 @@ module ysyx_26040135_AXI_ICACHE (
                     if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin   // cache hit
                         next = RETURN;
                     end else begin  // cache miss
-                        next = DRAM;
+                        next = DRAM_AR;
                     end
                 end
             end
-            DRAM: begin
-                
+            DRAM_AR: begin
+                mbus.arvalid = 1'b1;
+                if(mbus.arready) begin
+                    next = DRAM_R;
+                end
+            end
+            DRAM_R: begin
+                if(mbus.rvalid) begin
+                    mbus.rready = 1'b1;
+                    next = RETURN;
+                end
             end
 
             RETURN: begin
                 bus.rvalid = 1'b1;
                 bus.rdata = icache[current_index];
+                bus.rresp = rresp_save;
                 if(bus.rready) begin
                     next = IDLE;
                 end

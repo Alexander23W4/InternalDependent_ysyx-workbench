@@ -115,13 +115,13 @@ void final_print() {
     else
     printf("N/A\n");
 
-    printf("%s", ANSI_FMT("[LOAD_CPI] ", ANSI_FG_CYAN));
+    printf("%s", ANSI_FMT("[LSU_LOAD_CPI] ", ANSI_FG_CYAN));
     if (lsu_read_count)
         printf("%.3f\n", (double)lsu_read_cycles / (double)lsu_read_count);
     else
         printf("N/A\n");
 
-    printf("%s", ANSI_FMT("[STORE_CPI] ", ANSI_FG_CYAN));
+    printf("%s", ANSI_FMT("[LSU_STORE_CPI] ", ANSI_FG_CYAN));
     if (lsu_write_count)
         printf("%.3f\n", (double)lsu_write_cycles / (double)lsu_write_count);
     else

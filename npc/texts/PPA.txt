@@ -17,7 +17,7 @@ SPEC(Standard Performance Evaluation Corporation)是一个组织机构, 目标�
 程序具有一定代表性, 不像CoreMark和Dhrystone那样采用合成程序
 
 
-⭐: 评判指标:
+⭐: 评判指标: (编译, 微结构, 频率)
 benchmark 运行时长   (microbench)   (IA, CPI/IPC, F)
 FPS                 (红白机等 游戏)
 
@@ -35,7 +35,7 @@ perf = ------- = ------ * ------- * -------
 微结构设计
 
 3. 减少每个周期的时间 F
-优化数字电路的前端设计, 减小关键路径的逻辑延迟.
+优化数字电路的前端设计, 减小关键路径的逻辑延迟.  ⭐
 优化数字电路的后端设计, 减小关键路径的走线延迟.
 
 
@@ -44,7 +44,8 @@ perf = ------- = ------ * ------- * -------
 有了动态指令数, 再统计周期数, 即可计算出IPC
 电路的频率可查看综合器的报告获取
 
-⭐: 那些方面可以优化?
+
+⭐: 那些方面可以优化(多周期cpu 微结构)?
        /--- frontend ---\    /-------- backend --------\
                                   +-----+ <--- 2. computation efficiency
                              +--> | FU  | --+
@@ -68,33 +69,20 @@ LSU: load指令需要写会GPR制约, store指令不需要写回一定程度上�
 ⭐: 性能事件(performance event)   性能计数器(performance counter)
 
 
-ALU
-├── add/addi/sub/...
-BRANCH
-├── beq/bne/blt/...
-LOAD
-├── lb/lh/lw/lbu/lhu
-STORE
-├── sb/sh/sw
-JUMP
-├── jal/jalr
-CSR
-├── csrrw/csrrs/csrrc
-SYSTEM
-├── ecall/mret/ebreak
+⭐: 性能优化方法论 
+  阿姆达尔定律(Amdahl's law): 先优化时间占比长的部分
 
-event_alu
-event_branch
-event_load
-event_store
-event_jump
-event_csr
-event_system
+  testbench -> 优化 微结构 和 主频 -> 优化 IFU, LSU, ALU -> 通过 性能计数器 定位主要瓶颈
 
-alu_cycles
-branch_cycles
-load_cycles
-store_cycles
-jump_cycles
-csr_cycles
-system_cycles
+
+⭐: 校准访存延迟 (calibration)
+ysyxSoC环境是假设处理器和各种外设运行在同一频率下: verilator仿真的一个周期, 既是处理器中的一个周期, 也是外设中的一个周期. 
+但实际上并非如此: 受电气特性的影响, 外设通常只能运行在低频率, 例如SDRAM颗粒通常只能运行在100MHz左右
+
+使用支持多个时钟域的仿真器, 例如VCS或ICARUS verilog
+
+修改RTL代码, 在ysyxSoC中插入一个延迟模块, 负责将请求延迟若干周期
+c = k * r  (对于SSDRAM, r = cpu主频(MHz) / 100)
+
+延迟模块先加后减
+

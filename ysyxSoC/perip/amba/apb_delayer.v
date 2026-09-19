@@ -1,3 +1,8 @@
+/*
+ 因此我们需要实现一个APB的延迟模块. ysyxSoC中已经包含一个APB延迟模块的框架, 并集成到APB Xbar的上游, 可捕捉所有APB访问请求, 包括SDRAM的访问请求. 
+ 但该框架并未提供延迟模块的具体实现, 因此默认无延迟效果. 为了校准ysyxSoC中SDRAM的访问延迟, 你还需要实现APB延迟模块的功能.
+*/
+
 module apb_delayer(
   input         clock,
   input         reset,

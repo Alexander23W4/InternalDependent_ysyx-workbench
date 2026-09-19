@@ -3,9 +3,21 @@
 NPC_status Status = NPC_NORM;
 uint64_t instr_amt = 0;
 
+uint64_t alu_cycles = 0;
+uint64_t branch_cycles = 0;
+uint64_t load_cycles = 0;
+uint64_t store_cycles = 0;
+uint64_t jump_cycles = 0;
+uint64_t csr_cycles = 0;
+uint64_t system_cycles = 0;
+
+uint64_t mcycle_reserve = 0;
+uint64_t instr_cycles = 0;
+
 void exec_once(){
     
     pc = cpu.pc;   // 存下这个周期的pc;
+    mcycle_reserve = cpu.mcycle;
 
     // 先运行到UDPC, 停下, 这样不会一开始reset之后就被卡住, 然后再运行一个周期停到FETCH, 获得新的pc值 (此时仍未旧的 instr)
     while(!period_end){
@@ -26,6 +38,11 @@ void exec_once(){
     //     uint32_t/uint64_t, C++ 下不能隐式转换, 所以统一转一下指针类型
     top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
                         (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
+
+    instr_cycles = cpu.mcycle - mcycle_reserve;
+    cal_instr_cycles();
+    clear_event_flag();
+    
 
 
 #if TRACE_ENABLE

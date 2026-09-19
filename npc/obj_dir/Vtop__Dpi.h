@@ -28,6 +28,8 @@ extern "C" {
     // DPI IMPORTS
     // DPI import at ../ysyxSoC/perip/flash/flash.v:84:30
     extern void flash_read(int addr, int* data);
+    // DPI import at vsrc/dpi-f.sv:67:30
+    extern void instr_type_event(svBit event_alu, svBit event_branch, svBit event_load, svBit event_store, svBit event_jump, svBit event_csr, svBit event_system);
     // DPI import at ../ysyxSoC/build/ysyxSoCFull.v:5422:30
     extern void mrom_read(int raddr, int* rdata);
     // DPI import at vsrc/dpi-f.sv:61:30

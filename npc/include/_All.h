@@ -105,9 +105,11 @@ extern int lsu_error;
 extern int master_validation_error;
 
 extern int period_end;
-extern uint64_t instr_amt;
 
 // Performance Counters:
+
+extern uint64_t instr_amt;
+
 extern uint64_t ifu_instr_count;
 extern uint64_t lsu_read_count;
 extern uint64_t lsu_write_count;
@@ -120,6 +122,27 @@ extern uint64_t jump_count;
 extern uint64_t csr_count;
 extern uint64_t system_count;
 
+extern uint64_t alu_cycles;
+extern uint64_t branch_cycles;
+extern uint64_t load_cycles;
+extern uint64_t store_cycles;
+extern uint64_t jump_cycles;
+extern uint64_t csr_cycles;
+extern uint64_t system_cycles;
+
+extern int event_alu;
+extern int event_branch;
+extern int event_load;
+extern int event_store;
+extern int event_jump;
+extern int event_csr;
+extern int event_system;
+
+extern uint64_t mcycle_reserve;
+extern uint64_t instr_cycles;
+
+void clear_event_flag();
+void cal_instr_cycles();
 
 void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);

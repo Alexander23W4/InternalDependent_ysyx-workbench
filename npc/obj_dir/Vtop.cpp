@@ -38,6 +38,7 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu}
     , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master}
     , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint}
+    , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context

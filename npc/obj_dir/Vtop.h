@@ -59,6 +59,7 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu;
     Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master;
     Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint;
+    Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache;
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.

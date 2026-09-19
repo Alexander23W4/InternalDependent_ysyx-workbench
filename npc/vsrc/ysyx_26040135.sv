@@ -373,7 +373,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .mbus                           (bus_icache.master),
         .clock                          (clock),
         .reset                          (reset)
-    )
+    );
 
 
 

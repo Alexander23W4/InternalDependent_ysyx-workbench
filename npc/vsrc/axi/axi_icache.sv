@@ -1,6 +1,6 @@
 /*
 根据上述流程, 实现一个简单的icache, 块大小为4B, 共16个cache块. 
-⭐: 本icache 并不判断地址的范围, 如果不再 SDRAM 的范围内, 那么要么漏下去交给下面报错, 要么ub
+⭐: 本icache 只向 FLASH 和 SDRAM 提供缓存, 如果在其他空间, 则不调用缓存, 直接将指令沿着总线向下传递
 
 ⭐: 实现时, 建议将相关参数实现成可配置的, 以便于后续评估不同配置参数的性能表现. 实现后, 尝试评估其性能表现.
 
@@ -168,8 +168,7 @@ module ysyx_26040135_AXI_ICACHE (
             IDLE: begin
                 // 取指优先: icache 的正事就是给 IFU 取指
                 if(bus.arvalid) begin
-                    bus.arready = 1'b1;
-                    next = OPERATE;             // ⭐ 少了这句就永远出不了 IDLE
+                    next = OPERATE;
                 end
                 else if(bus.awvalid) begin
                     // 本模块不支持写, 但按讲义要求也要把事务走完, 最后用 bresp=SLVERR 报错
@@ -185,6 +184,7 @@ module ysyx_26040135_AXI_ICACHE (
             end
 
             OPERATE: begin
+                bus.arready = 1'b1;     // ⭐ master 现在在 AR 态, 这一拍才真正完成 AR 握手
                 if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin   // cache hit
                     next = RETURN;
                 end else begin  // cache miss

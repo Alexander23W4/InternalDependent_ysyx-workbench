@@ -33,6 +33,7 @@ Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* mode
     , TOP{this, namep}
     , TOP____024unit{this, Verilated::catName(namep, "$unit")}
     , TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint{this, Verilated::catName(namep, "ysyxSoCFull.asic.cpu.cpu.bus_clint")}
+    , TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache{this, Verilated::catName(namep, "ysyxSoCFull.asic.cpu.cpu.bus_icache")}
     , TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu{this, Verilated::catName(namep, "ysyxSoCFull.asic.cpu.cpu.bus_ifu")}
     , TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu{this, Verilated::catName(namep, "ysyxSoCFull.asic.cpu.cpu.bus_lsu")}
     , TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master{this, Verilated::catName(namep, "ysyxSoCFull.asic.cpu.cpu.bus_master")}
@@ -43,6 +44,7 @@ Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* mode
     // Setup each module's pointers to their submodules
     TOP.__PVT____024unit = &TOP____024unit;
     TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint = &TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint;
+    TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache = &TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache;
     TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu = &TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu;
     TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu = &TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu;
     TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master = &TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master;
@@ -50,6 +52,7 @@ Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* mode
     TOP.__Vconfigure(true);
     TOP____024unit.__Vconfigure(true);
     TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint.__Vconfigure(true);
+    TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache.__Vconfigure(false);
     TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu.__Vconfigure(false);
     TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu.__Vconfigure(false);
     TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master.__Vconfigure(false);

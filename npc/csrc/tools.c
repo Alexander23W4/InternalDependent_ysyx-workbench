@@ -231,39 +231,39 @@ int event_system = 0;
 
 
 extern "C" void instr_type_event(
-    unsigned char event_alu,
-    unsigned char event_branch,
-    unsigned char event_load,
-    unsigned char event_store,
-    unsigned char event_jump,
-    unsigned char event_csr,
-    unsigned char event_system
+    unsigned char e_alu,
+    unsigned char e_branch,
+    unsigned char e_load,
+    unsigned char e_store,
+    unsigned char e_jump,
+    unsigned char e_csr,
+    unsigned char e_system
 ) {
-    if (event_alu) {
+    if (e_alu) {
         alu_count++;
         event_alu = 1;
     }
-    if (event_branch) {
+    if (e_branch) {
         branch_count++;
         event_branch = 1;
     }
-    if (event_load) {
+    if (e_load) {
         load_count++;
         event_load = 1;
     }
-    if (event_store) {
+    if (e_store) {
         store_count++;
         event_store = 1;
     }
-    if (event_jump) {
+    if (e_jump) {
         jump_count++;
         event_jump = 1;
     }
-    if (event_csr) {
+    if (e_csr) {
         csr_count++;
         event_csr = 1;
     }
-    if (event_system) {
+    if (e_system) {
         system_count++;
         event_system = 1;
     }

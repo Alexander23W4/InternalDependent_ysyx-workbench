@@ -1,6 +1,8 @@
 /*
 根据上述流程, 实现一个简单的icache, 块大小为4B, 共16个cache块. 
 ⭐: 本icache 只向 FLASH 和 SDRAM 提供缓存, 如果在其他空间, 则不调用缓存, 直接将指令沿着总线向下传递
+Flash	              0x3000_0000~0x3fff_ffff    
+SDRAM	              0xa000_0000~0xbfff_ffff
 
 ⭐: 实现时, 建议将相关参数实现成可配置的, 以便于后续评估不同配置参数的性能表现. 实现后, 尝试评估其性能表现.
 
@@ -46,6 +48,9 @@ module ysyx_26040135_AXI_ICACHE (
     localparam LINE_WORDS      = CACHE_LINE_BYTES / 4;         // 一行几个 32 位字 = 突发拍数
     localparam BEAT_LEN        = (LINE_WORDS > 1) ? $clog2(LINE_WORDS) : 1;
     localparam [7:0] ARLEN     = 8'(LINE_WORDS - 1);           // AXI 的 arlen = 拍数 - 1
+
+    parameter FLASH_START = 32'h30000000, FLASH_END = 32'h3fffffff;
+    parameter SDRAM_START = 32'ha0000000, SDRAM_END = 32'hbfffffff;
 
 
     logic [CACHE_LINE_BITS-1:0] icache [0:CACHE_LINE_AMT-1];
@@ -96,13 +101,16 @@ module ysyx_26040135_AXI_ICACHE (
             state <= next;
 
             // ---- 收下取指请求(AR), 把地址锁起来 ----
-            if(state == IDLE && bus.arvalid && bus.arready) begin
+            // ⭐ 这里只能看 arvalid, 不能再 && arready: 拉 arready 的那一拍已经挪到
+            //    OPERATE 态了, 在 IDLE 拿 arready 当条件永远不成立 ->
+            //    araddr_save 一直是复位值 0, icache 会拿着地址 0x0 去访存 -> 挂死。
+            if(state == IDLE && bus.arvalid) begin
                 araddr_save <= bus.araddr;
                 rresp_save  <= 2'b00;       // 清掉上一次留下的错误码
             end
 
             // ---- 收下写地址(AW): 本模块不支持写, 只记 awid 用来回 bresp ----
-            if(state == IDLE && bus.awvalid && bus.awready) begin
+            if(state == IDLE && bus.awvalid) begin
                 bid_save <= bus.awid;
             end
 
@@ -185,7 +193,7 @@ module ysyx_26040135_AXI_ICACHE (
 
             OPERATE: begin
                 bus.arready = 1'b1;     // ⭐ master 现在在 AR 态, 这一拍才真正完成 AR 握手
-                if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin   // cache hit
+                if(valid[current_index] == 1'b1 && current_tag == tag[current_index] && (bus.araddr >= FLASH_START && bus.araddr <= FLASH_END) || (bus.araddr >= SDRAM_START && bus.araddr <= SDRAM_END)) begin   // cache hit
                     next = RETURN;
                 end else begin  // cache miss
                     next = DRAM_AR;

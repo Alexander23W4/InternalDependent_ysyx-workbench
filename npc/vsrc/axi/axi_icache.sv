@@ -60,6 +60,8 @@ module ysyx_26040135_AXI_ICACHE (
     logic [31:0] araddr_save;
     logic [1:0]  rresp_save;
     logic [3:0]  bid_save;                  // 写通道要回同一个 awid
+    logic [31:0] rdata_save;
+
     logic [BEAT_LEN-1:0] beat;              // 突发读收到第几拍了
 
 
@@ -92,6 +94,8 @@ module ysyx_26040135_AXI_ICACHE (
             rresp_save <= '0;
             bid_save   <= '0;
             beat       <= '0;
+            rdata_save <= '0;
+
             for (int i = 0; i < CACHE_LINE_AMT; i++) begin
                 icache[i] <= '0;
                 tag[i]    <= '0;
@@ -121,15 +125,20 @@ module ysyx_26040135_AXI_ICACHE (
 
             // ---- 突发读每一拍: 按拍号把 32 位数据填进这一行的对应字 ----
             if(state == DRAM_R && mbus.rvalid) begin
-                if(mbus.rresp == 2'b00) begin
-                    icache[current_index][beat_bit +: 32] <= mbus.rdata;
-                    if(mbus.rlast) begin
-                        valid[current_index] <= 1'b1;   // 整行收齐了才算有效
-                        tag[current_index]   <= current_tag;
+                if((bus.araddr >= FLASH_START && bus.araddr <= FLASH_END) || (bus.araddr >= SDRAM_START && bus.araddr <= SDRAM_END)) begin
+                    if(mbus.rresp == 2'b00) begin
+                        icache[current_index][beat_bit +: 32] <= mbus.rdata;
+                        if(mbus.rlast) begin
+                            valid[current_index] <= 1'b1;   // 整行收齐了才算有效
+                            tag[current_index]   <= current_tag;
+                        end
+                    end else begin
+                        // 从设备报错: 这一行不填, 把错误码原样透传给 IFU
+                        rresp_save <= mbus.rresp;
                     end
                 end else begin
-                    // 从设备报错: 这一行不填, 把错误码原样透传给 IFU
                     rresp_save <= mbus.rresp;
+                    rdata_save <= mbus.rdata;
                 end
                 beat <= mbus.rlast ? '0 : beat + 1'b1;
             end
@@ -192,10 +201,14 @@ module ysyx_26040135_AXI_ICACHE (
             end
 
             OPERATE: begin
-                bus.arready = 1'b1;     // ⭐ master 现在在 AR 态, 这一拍才真正完成 AR 握手
-                if(valid[current_index] == 1'b1 && current_tag == tag[current_index] && (bus.araddr >= FLASH_START && bus.araddr <= FLASH_END) || (bus.araddr >= SDRAM_START && bus.araddr <= SDRAM_END)) begin   // cache hit
-                    next = RETURN;
-                end else begin  // cache miss
+                bus.arready = 1'b1;     
+                if((bus.araddr >= FLASH_START && bus.araddr <= FLASH_END) || (bus.araddr >= SDRAM_START && bus.araddr <= SDRAM_END)) begin
+                    if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin   // cache hit
+                        next = RETURN;
+                    end else begin  // cache miss
+                        next = DRAM_AR;
+                    end
+                end else begin
                     next = DRAM_AR;
                 end
             end
@@ -219,9 +232,11 @@ module ysyx_26040135_AXI_ICACHE (
 
             RETURN: begin
                 bus.rvalid = 1'b1;
-                // ⭐ 按地址里的 offset 从这一行里选出 IFU 要的那 32 位
-                //    (4B 块时行里只有 1 个字, 选出来就是它本身)
-                bus.rdata = icache[current_index][current_word*32 +: 32];
+                if((bus.araddr >= FLASH_START && bus.araddr <= FLASH_END) || (bus.araddr >= SDRAM_START && bus.araddr <= SDRAM_END)) begin
+                    bus.rdata = icache[current_index][current_word*32 +: 32];
+                end else begin
+                    bus.rdata = rdata_save;
+                end
                 bus.rresp = rresp_save;
                 bus.rlast = 1'b1;               // 单拍返回: 这一拍就是最后一拍
                 if(bus.rready) begin

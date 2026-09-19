@@ -64,6 +64,8 @@ def main():
     cycles = num(d.get('CYCLES'))
     instrs = num(d.get('INSTRS'))
     ipc = (instrs / cycles) if (cycles and instrs is not None) else None
+    # CPI 就是 IPC 的倒数(本来就是同一条信息, 但记录表里习惯两个都留)
+    cpi = (cycles / instrs) if (cycles and instrs) else None
 
     print("=" * 78)
     print("NPC Performance")
@@ -73,6 +75,7 @@ def main():
     print(f"cycles    : {d.get('CYCLES', 'N/A')}")
     print(f"instrs    : {d.get('INSTRS', 'N/A')}")
     print(f"IPC       : {ipc:.6f}" if ipc is not None else "IPC       : N/A")
+    print(f"CPI       : {cpi:.3f}" if cpi is not None else "CPI       : N/A")
     print("freq      : N/A   (RTL 目前还不能综合, 见 npc/Makefile 里 perf 的注释)")
     print("area      : N/A   (同上)")
     if bad_trap:
@@ -92,10 +95,12 @@ def main():
     #   如果这次是 [HIT BAD TRAP], 在"说明"栏里直接写上标记, 免得有人把废数据抄进表
     desc_out = ("[BAD TRAP-不可记录] " + desc) if bad_trap else desc
     row = [commit, desc_out, d.get('CYCLES', 'N/A'), d.get('INSTRS', 'N/A'),
-           f"{ipc:.6f}" if ipc is not None else 'N/A', 'N/A', 'N/A']
+           f"{ipc:.6f}" if ipc is not None else 'N/A',
+           f"{cpi:.3f}" if cpi is not None else 'N/A',
+           'N/A', 'N/A']
     row += [f"{v}" for _, v in vals]
     print()
-    print("TSV (commit / 说明 / 仿真周期数 / 指令数 / IPC / 综合频率 / 综合面积 / 各性能计数器):")
+    print("TSV (commit / 说明 / 仿真周期数 / 指令数 / IPC / CPI / 综合频率 / 综合面积 / 各性能计数器):")
     print("\t".join(row))
     print()
     print("counter 列顺序: " + ", ".join(n for n, _ in vals))

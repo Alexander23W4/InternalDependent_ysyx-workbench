@@ -1,0 +1,183 @@
+[DPI] cpu scope = TOP.ysyxSoCFull.asic.cpu.cpu
+[1;36mARGS: 
+[0mArgument[0]: ./obj_dir/Vtop
+Argument[1]: ../am-kernels/benchmarks/microbench/build/microbench-riscv32e-ysyxsoc.bin
+Argument[2]: -b
+[FLASH] loaded 31152 byte(s) from ../am-kernels/benchmarks/microbench/build/microbench-riscv32e-ysyxsoc.bin
+Reset Released. Starting execution...
+[1;36mELF file mapped successfully: [0m../am-kernels/benchmarks/microbench/build/microbench-riscv32e-ysyxsoc.elf
+  Entry point: 0x30000000
+  Section header table offset: 0xb628
+  Number of section headers: 12
+Find 88 functions overall.
+0: format_time: Start Addr: 0xa00000dc, End Addr: 0xa00001d4
+1: myqsort: Start Addr: 0xa0000d2c, End Addr: 0xa0000e00
+2: _ZNK14Updatable_heapI8N_puzzleILi4EEE7pointerERKS1_.isra.0: Start Addr: 0xa00023a0, End Addr: 0xa000241c
+3: _ZL9radixPassPiS_S_ii: Start Addr: 0xa00037d4, End Addr: 0xa0003900
+4: dfs: Start Addr: 0xa0004a8c, End Addr: 0xa0004b24
+5: bench_memcpy.part.0: Start Addr: 0xa0004d18, End Addr: 0xa0004d40
+6: __am_input_config: Start Addr: 0xa0005878, End Addr: 0xa0005884
+7: __am_uart_config: Start Addr: 0xa0005884, End Addr: 0xa0005890
+8: __am_timer_config: Start Addr: 0xa0005890, End Addr: 0xa00058a0
+9: fail: Start Addr: 0xa00058a0, End Addr: 0xa0005908
+10: number_to_str.part.0: Start Addr: 0xa0005c40, End Addr: 0xa0005d0c
+11: bench_lzip_prepare: Start Addr: 0xa0004bd0, End Addr: 0xa0004c98
+12: _ZN8N_puzzleILi4EEC2EPi: Start Addr: 0xa00025fc, End Addr: 0xa0002794
+13: bench_sieve_prepare: Start Addr: 0xa0005474, End Addr: 0xa00054fc
+14: _ZN14Updatable_heapI8N_puzzleILi4EEE14percolate_downEv: Start Addr: 0xa0002aec, End Addr: 0xa0002c34
+15: printf: Start Addr: 0xa0005d0c, End Addr: 0xa0005ea8
+16: _trm_init: Start Addr: 0xa00056ac, End Addr: 0xa00056e8
+17: _ZNK8N_puzzleILi4EE8solvableEv: Start Addr: 0xa0002794, End Addr: 0xa0002864
+18: bench_ssort_validate: Start Addr: 0xa0003ffc, End Addr: 0xa0004040
+19: __am_gpu_status: Start Addr: 0xa0005b44, End Addr: 0xa0005b50
+20: bench_srand: Start Addr: 0xa0000764, End Addr: 0xa0000778
+21: bench_qsort_validate: Start Addr: 0xa0000ec4, End Addr: 0xa0000f08
+22: bench_alloc: Start Addr: 0xa00006bc, End Addr: 0xa0000764
+23: __hidden___udivsi3: Start Addr: 0xa00056f0, End Addr: 0xa0005738
+24: __udivsi3: Start Addr: 0xa00056f0, End Addr: 0xa0005738
+25: ioe_read: Start Addr: 0xa0005960, End Addr: 0xa000597c
+26: bench_md5_validate: Start Addr: 0xa0000cf4, End Addr: 0xa0000d2c
+27: _ZN8N_puzzleILi4EEC1Ev: Start Addr: 0xa0002440, End Addr: 0xa00025fc
+28: __udivmoddi4: Start Addr: 0xa0006068, End Addr: 0xa0006470
+29: __am_uart_rx: Start Addr: 0xa0005b50, End Addr: 0xa0005b6c
+30: bench_dinic_run: Start Addr: 0xa0001cbc, End Addr: 0xa0002380
+31: __am_gpu_config: Start Addr: 0xa0005a48, End Addr: 0xa0005a6c
+32: bench_15pz_validate: Start Addr: 0xa0002420, End Addr: 0xa0002440
+33: __umoddi3: Start Addr: 0xa0006478, End Addr: 0xa00064ac
+34: __am_input_keybrd: Start Addr: 0xa000597c, End Addr: 0xa0005a44
+35: __udivdi3: Start Addr: 0xa0006470, End Addr: 0xa0006478
+36: putch: Start Addr: 0xa000568c, End Addr: 0xa00056a4
+37: bench_fib_validate: Start Addr: 0xa0004a30, End Addr: 0xa0004a8c
+38: bench_bf_run: Start Addr: 0xa000415c, End Addr: 0xa0004584
+39: bench_dinic_prepare: Start Addr: 0xa00018c0, End Addr: 0xa0001cbc
+40: bench_sieve_run: Start Addr: 0xa00054fc, End Addr: 0xa000566c
+41: bench_qsort_prepare: Start Addr: 0xa0000e00, End Addr: 0xa0000eac
+42: __umodsi3: Start Addr: 0xa0005738, End Addr: 0xa0005748
+43: __am_gpu_fbdraw: Start Addr: 0xa0005a6c, End Addr: 0xa0005b44
+44: _fsbl: Start Addr: 0x30000000, End Addr: 0x30000000
+45: __clzsi2: Start Addr: 0xa00064ac, End Addr: 0xa0006544
+46: bench_15pz_run: Start Addr: 0xa0002c34, End Addr: 0xa00037d4
+47: _start: Start Addr: 0xa0000000, End Addr: 0xa00000dc
+48: qlz_compress: Start Addr: 0xa0004d40, End Addr: 0xa0005474
+49: __am_timer_uptime: Start Addr: 0xa0005b8c, End Addr: 0xa0005c40
+50: _ZN8N_puzzleILi4EEC2Ev: Start Addr: 0xa0002440, End Addr: 0xa00025fc
+51: bench_fib_run: Start Addr: 0xa0004680, End Addr: 0xa0004a30
+52: __mulsi3: Start Addr: 0xa000579c, End Addr: 0xa00057c0
+53: bench_ssort_run: Start Addr: 0xa0003fdc, End Addr: 0xa0003ffc
+54: __am_gpu_init: Start Addr: 0xa0005a44, End Addr: 0xa0005a48
+55: __am_timer_init: Start Addr: 0xa0005b88, End Addr: 0xa0005b8c
+56: bench_fib_prepare: Start Addr: 0xa00045f4, End Addr: 0xa0004680
+57: bench_rand: Start Addr: 0xa0000778, End Addr: 0xa00007c8
+58: bench_sieve_validate: Start Addr: 0xa000566c, End Addr: 0xa000568c
+59: bench_md5_run: Start Addr: 0xa0000920, End Addr: 0xa0000cf4
+60: bench_lzip_run: Start Addr: 0xa0004c98, End Addr: 0xa0004cd8
+61: bench_lzip_validate: Start Addr: 0xa0004cd8, End Addr: 0xa0004d18
+62: bench_bf_prepare: Start Addr: 0xa0004040, End Addr: 0xa000415c
+63: main: Start Addr: 0xa00001d4, End Addr: 0xa00006bc
+64: bench_ssort_prepare: Start Addr: 0xa0003f20, End Addr: 0xa0003fdc
+65: __divsi3: Start Addr: 0xa00056e8, End Addr: 0xa000576c
+66: strcmp: Start Addr: 0xa0006024, End Addr: 0xa0006068
+67: sprintf: Start Addr: 0xa0005ea8, End Addr: 0xa0006024
+68: ioe_init: Start Addr: 0xa0005908, End Addr: 0xa0005960
+69: bench_md5_prepare: Start Addr: 0xa0000888, End Addr: 0xa0000920
+70: _ZN14Updatable_heapI8N_puzzleILi4EEE4pushERKS1_i: Start Addr: 0xa00028e4, End Addr: 0xa0002aec
+71: _ZN5Dinic3DFSEii: Start Addr: 0xa0000f08, End Addr: 0xa00018c0
+72: bench_dinic_validate: Start Addr: 0xa0002380, End Addr: 0xa00023a0
+73: bench_bf_validate: Start Addr: 0xa0004584, End Addr: 0xa00045f4
+74: __ctzsi2: Start Addr: 0xa0006544, End Addr: 0xa00065b8
+75: _ZN14Updatable_heapI8N_puzzleILi4EEE12percolate_upEi: Start Addr: 0xa0002864, End Addr: 0xa00028e4
+76: _Z11suffixArrayPiS_ii: Start Addr: 0xa0003900, End Addr: 0xa0003f20
+77: halt: Start Addr: 0xa00056a4, End Addr: 0xa00056ac
+78: __am_uart_tx: Start Addr: 0xa0005b6c, End Addr: 0xa0005b88
+79: bench_queen_validate: Start Addr: 0xa0004bb0, End Addr: 0xa0004bd0
+80: __modsi3: Start Addr: 0xa000576c, End Addr: 0xa000579c
+81: bench_queen_run: Start Addr: 0xa0004b50, End Addr: 0xa0004bb0
+82: checksum: Start Addr: 0xa00007c8, End Addr: 0xa0000888
+83: __muldi3: Start Addr: 0xa00057c0, End Addr: 0xa0005878
+84: bench_qsort_run: Start Addr: 0xa0000eac, End Addr: 0xa0000ec4
+85: bench_queen_prepare: Start Addr: 0xa0004b24, End Addr: 0xa0004b50
+86: bench_15pz_prepare: Start Addr: 0xa000241c, End Addr: 0xa0002420
+87: _ZN8N_puzzleILi4EEC1EPi: Start Addr: 0xa00025fc, End Addr: 0xa0002794
+======= Running MicroBench [input *test*] =======
+[qsort] Quick sort: * Passed.
+[queen] Queen placement: * Passed.
+[bf] Brainf**k interpreter: * Passed.
+[fib] Fibonacci number: * Passed.
+[sieve] Eratosthenes sieve: * Passed.
+[15pz] A* 15-puzzle search: * Passed.
+[dinic] Dinic's maxflow algorithm: * Passed.
+[lzip] Lzip compression: * Passed.
+[ssort] Suffix sort: * Passed.
+[md5] MD5 digest: * Passed.
+==================================================
+MicroBench PASS
+Scored time: 35224.067 ms
+Total  time: 44723.134 ms
+[1;33mHit ebreak instr, program end.
+[0m[1;32m
+[HIT GOOD TRAP]
+[0m[1;36m[CYCLES] [0m33381693
+[1;36m[INSTRS] [0m597793
+[1;36m[CPI] [0m55.842
+
+Performance Counter: 
+[1;36m[IFU_FETCH_CNT] [0m597793
+[1;36m[LSU_READ_CNT] [0m74025
+[1;36m[LSU_WRITE_CNT] [0m60065
+[1;36m[ALU_CNT] [0m327482
+[1;36m[BRANCH_CNT] [0m113160
+[1;36m[LOAD_CNT] [0m74025
+[1;36m[STORE_CNT] [0m60065
+[1;36m[JUMP_CNT] [0m23060
+[1;36m[CSR_CNT] [0m0
+[1;36m[SYSTEM_CNT] [0m1
+
+[1;36m[ALU_CPI] [0m41.786
+[1;36m[BRANCH_CPI] [0m33.681
+[1;36m[LOAD_CPI] [0m133.741
+[1;36m[STORE_CPI] [0m75.117
+[1;36m[JUMP_CPI] [0m63.927
+[1;36m[CSR_CPI] [0mN/A
+[1;36m[SYSTEM_CPI] [0m111.000
+
+[1;36m[IFU_CPI] [0m39.664
+[1;36m[LSU_CPI] [0m63.655
+[1;36m[LSU_LOAD_CPI] [0m81.280
+[1;36m[LSU_STORE_CPI] [0m34.213
+
+Memory Region Breakdown: 
+[1;36m[IFU_FETCH_FLASH_CNT] [0m1329
+[1;36m[IFU_FETCH_FLASH_CPI] [0m6.897
+[1;36m[IFU_FETCH_SRAM_CNT] [0m0
+[1;36m[IFU_FETCH_SRAM_CPI] [0mN/A
+[1;36m[IFU_FETCH_SDRAM_CNT] [0m596464
+[1;36m[IFU_FETCH_SDRAM_CPI] [0m39.737
+[1;36m[IFU_FETCH_OTHER_CNT] [0m0
+[1;36m[IFU_FETCH_OTHER_CPI] [0mN/A
+
+[1;36m[LSU_READ_FLASH_CNT] [0m7939
+[1;36m[LSU_READ_FLASH_CPI] [0m276.000
+[1;36m[LSU_READ_SRAM_CNT] [0m28122
+[1;36m[LSU_READ_SRAM_CPI] [0m4.000
+[1;36m[LSU_READ_SDRAM_CNT] [0m35599
+[1;36m[LSU_READ_SDRAM_CPI] [0m103.907
+[1;36m[LSU_READ_OTHER_CNT] [0m2365
+[1;36m[LSU_READ_OTHER_CPI] [0m5.963
+
+[1;36m[LSU_WRITE_FLASH_CNT] [0m0
+[1;36m[LSU_WRITE_FLASH_CPI] [0mN/A
+[1;36m[LSU_WRITE_SRAM_CNT] [0m22109
+[1;36m[LSU_WRITE_SRAM_CPI] [0m4.000
+[1;36m[LSU_WRITE_SDRAM_CNT] [0m37431
+[1;36m[LSU_WRITE_SDRAM_CPI] [0m52.454
+[1;36m[LSU_WRITE_OTHER_CNT] [0m525
+[1;36m[LSU_WRITE_OTHER_CPI] [0m6.000
+
+[1;36m[REGION_FLASH_CNT] [0m9268
+[1;36m[REGION_FLASH_CPI] [0m237.412
+[1;36m[REGION_SRAM_CNT] [0m50231
+[1;36m[REGION_SRAM_CPI] [0m4.000
+[1;36m[REGION_SDRAM_CNT] [0m669494
+[1;36m[REGION_SDRAM_CPI] [0m43.860
+[1;36m[REGION_OTHER_CNT] [0m2890
+[1;36m[REGION_OTHER_CPI] [0m5.970

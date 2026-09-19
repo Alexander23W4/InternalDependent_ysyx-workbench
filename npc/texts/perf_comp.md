@@ -1,0 +1,133 @@
+# icache 性能提升
+
+commit    : d3c4836b+dirty
+benchmark : microbench(mainargs=test)
+cycles    : 57302420
+instrs    : 593507
+IPC       : 0.010357
+freq      : N/A   (RTL 目前还不能综合, 见 npc/Makefile 里 perf 的注释)
+area      : N/A   (同上)
+
+counters  :
+    IFU_FETCH_CNT                593507
+    LSU_READ_CNT                 72258
+    LSU_WRITE_CNT                60100
+    ALU_CNT                      326489
+    BRANCH_CNT                   111584
+    LOAD_CNT                     72258
+    STORE_CNT                    60100
+    JUMP_CNT                     23075
+    CSR_CNT                      0
+    SYSTEM_CNT                   1
+    ALU_CPI                      81.517
+    BRANCH_CPI                   80.399
+    LOAD_CPI                     167.215
+    STORE_CPI                    129.084
+    JUMP_CPI                     81.302
+    CSR_CPI                      N/A
+    SYSTEM_CPI                   108.000
+    IFU_CPI                      78.825
+    LSU_CPI                      70.962
+    LSU_LOAD_CPI                 85.699
+    LSU_STORE_CPI                45.570
+    IFU_FETCH_FLASH_CNT          1329
+    IFU_FETCH_FLASH_CPI          276.000
+    IFU_FETCH_SRAM_CNT           0
+    IFU_FETCH_SRAM_CPI           N/A
+    IFU_FETCH_SDRAM_CNT          592178
+    IFU_FETCH_SDRAM_CPI          78.382
+    IFU_FETCH_OTHER_CNT          0
+    IFU_FETCH_OTHER_CPI          N/A
+    LSU_READ_FLASH_CNT           7939
+    LSU_READ_FLASH_CPI           276.000
+    LSU_READ_SRAM_CNT            28155
+    LSU_READ_SRAM_CPI            4.000
+    LSU_READ_SDRAM_CNT           35599
+    LSU_READ_SDRAM_CPI           109.143
+    LSU_READ_OTHER_CNT           565
+    LSU_READ_OTHER_CPI           5.844
+    LSU_WRITE_FLASH_CNT          0
+    LSU_WRITE_FLASH_CPI          N/A
+    LSU_WRITE_SRAM_CNT           22143
+    LSU_WRITE_SRAM_CPI           4.000
+    LSU_WRITE_SDRAM_CNT          37432
+    LSU_WRITE_SDRAM_CPI          70.716
+    LSU_WRITE_OTHER_CNT          525
+    LSU_WRITE_OTHER_CPI          6.000
+    REGION_FLASH_CNT             9268
+    REGION_FLASH_CPI             276.000
+    REGION_SRAM_CNT              50298
+    REGION_SRAM_CPI              4.000
+    REGION_SDRAM_CNT             665209
+    REGION_SDRAM_CPI             79.597
+    REGION_OTHER_CNT             1090
+    REGION_OTHER_CPI             5.919
+
+
+
+[HIT GOOD TRAP]
+[CYCLES] 33381693
+[INSTRS] 597793
+[CPI] 55.842
+
+Performance Counter:
+[IFU_FETCH_CNT] 597793
+[LSU_READ_CNT] 74025
+[LSU_WRITE_CNT] 60065
+[ALU_CNT] 327482
+[BRANCH_CNT] 113160
+[LOAD_CNT] 74025
+[STORE_CNT] 60065
+[JUMP_CNT] 23060
+[CSR_CNT] 0
+[SYSTEM_CNT] 1
+
+[ALU_CPI] 41.786
+[BRANCH_CPI] 33.681
+[LOAD_CPI] 133.741
+[STORE_CPI] 75.117
+[JUMP_CPI] 63.927
+[CSR_CPI] N/A
+[SYSTEM_CPI] 111.000
+
+[IFU_CPI] 39.664 ⭐
+[LSU_CPI] 63.655
+[LSU_LOAD_CPI] 81.280
+[LSU_STORE_CPI] 34.213
+
+Memory Region Breakdown:
+[IFU_FETCH_FLASH_CNT] 1329
+[IFU_FETCH_FLASH_CPI] 6.897  ⭐
+[IFU_FETCH_SRAM_CNT] 0
+[IFU_FETCH_SRAM_CPI] N/A
+[IFU_FETCH_SDRAM_CNT] 596464
+[IFU_FETCH_SDRAM_CPI] 39.737  ⭐
+[IFU_FETCH_OTHER_CNT] 0
+[IFU_FETCH_OTHER_CPI] N/A
+
+[LSU_READ_FLASH_CNT] 7939
+[LSU_READ_FLASH_CPI] 276.000
+[LSU_READ_SRAM_CNT] 28122
+[LSU_READ_SRAM_CPI] 4.000
+[LSU_READ_SDRAM_CNT] 35599
+[LSU_READ_SDRAM_CPI] 103.907
+[LSU_READ_OTHER_CNT] 2365
+[LSU_READ_OTHER_CPI] 5.963
+
+[LSU_WRITE_FLASH_CNT] 0
+[LSU_WRITE_FLASH_CPI] N/A
+[LSU_WRITE_SRAM_CNT] 22109
+[LSU_WRITE_SRAM_CPI] 4.000
+[LSU_WRITE_SDRAM_CNT] 37431
+[LSU_WRITE_SDRAM_CPI] 52.454
+[LSU_WRITE_OTHER_CNT] 525
+[LSU_WRITE_OTHER_CPI] 6.000
+
+[REGION_FLASH_CNT] 9268
+[REGION_FLASH_CPI] 237.412
+[REGION_SRAM_CNT] 50231
+[REGION_SRAM_CPI] 4.000
+[REGION_SDRAM_CNT] 669494
+[REGION_SDRAM_CPI] 43.860
+[REGION_OTHER_CNT] 2890
+[REGION_OTHER_CPI] 5.970

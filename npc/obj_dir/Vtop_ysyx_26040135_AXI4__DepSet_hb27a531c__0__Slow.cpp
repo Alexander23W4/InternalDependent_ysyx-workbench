@@ -18,15 +18,9 @@ VL_ATTR_COLD void Vtop_ysyx_26040135_AXI4___ctor_var_reset(Vtop_ysyx_26040135_AX
     vlSelf->rvalid = VL_RAND_RESET_I(1);
     vlSelf->rready = VL_RAND_RESET_I(1);
     vlSelf->awvalid = VL_RAND_RESET_I(1);
-    vlSelf->awready = VL_RAND_RESET_I(1);
     vlSelf->awsize = VL_RAND_RESET_I(3);
     vlSelf->wdata = VL_RAND_RESET_I(32);
     vlSelf->wstrb = VL_RAND_RESET_I(4);
     vlSelf->wvalid = VL_RAND_RESET_I(1);
-    vlSelf->wready = VL_RAND_RESET_I(1);
-    vlSelf->wlast = VL_RAND_RESET_I(1);
-    vlSelf->bresp = VL_RAND_RESET_I(2);
-    vlSelf->bvalid = VL_RAND_RESET_I(1);
     vlSelf->bready = VL_RAND_RESET_I(1);
-    vlSelf->bid = VL_RAND_RESET_I(4);
 }

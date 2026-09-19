@@ -34,12 +34,12 @@ module ysyx_26040135_AXI_ICACHE (
     logic [TAG_LEN-1:0] current_tag;
     logic [INDEX_LEN-1:0] current_index;
 
-    assign current_tag = bus.araddr[31:INDEX_LEN+OFFSET_LEN];
-    assign current_index = bus.araddr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
+    assign current_tag = araddr_save[31:INDEX_LEN+OFFSET_LEN];
+    assign current_index = araddr_save[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
 
 
     typedef enum [2:0]{ 
-        IDLE, OPERATE, DRAM, UPDATE, RETURN
+        IDLE, DRAM, UPDATE, RETURN
     } state_t;
     state_t state, next;
 
@@ -55,7 +55,9 @@ module ysyx_26040135_AXI_ICACHE (
             end
         end else begin
             state <= next;
-
+            if(state == IDLE && bus.arvalid) begin
+                araddr_save <= bus.araddr;
+            end
         end
     end
 
@@ -79,12 +81,24 @@ module ysyx_26040135_AXI_ICACHE (
         case (state)
             IDLE: begin
                 if(bus.arvalid) begin
-                    next = OPERATE;
                     bus.arready = 1'b1;
+                    if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin   // cache hit
+                        next = RETURN;
+                    end else begin  // cache miss
+                        next = DRAM;
+                    end
                 end
             end
-            OPERATE: begin
+            DRAM: begin
                 
+            end
+
+            RETURN: begin
+                bus.rvalid = 1'b1;
+                bus.rdata = icache[current_index];
+                if(bus.rready) begin
+                    next = IDLE;
+                end
             end
         endcase
     end

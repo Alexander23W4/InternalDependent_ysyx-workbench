@@ -143,3 +143,43 @@ extern "C" void perf_event(
     if (lsu_write_complete)
         lsu_write_count++;
 }
+
+
+uint64_t alu_count = 0;
+uint64_t branch_count = 0;
+uint64_t load_count = 0;
+uint64_t store_count = 0;
+uint64_t jump_count = 0;
+uint64_t csr_count = 0;
+uint64_t system_count = 0;
+
+extern "C" void instr_type_event(
+    unsigned char event_alu,
+    unsigned char event_branch,
+    unsigned char event_load,
+    unsigned char event_store,
+    unsigned char event_jump,
+    unsigned char event_csr,
+    unsigned char event_system
+) {
+    if (event_alu)
+        alu_count++;
+
+    if (event_branch)
+        branch_count++;
+
+    if (event_load)
+        load_count++;
+
+    if (event_store)
+        store_count++;
+
+    if (event_jump)
+        jump_count++;
+
+    if (event_csr)
+        csr_count++;
+
+    if (event_system)
+        system_count++;
+}

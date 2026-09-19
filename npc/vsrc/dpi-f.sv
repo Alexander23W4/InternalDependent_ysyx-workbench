@@ -63,3 +63,13 @@ import "DPI-C" function void perf_event(
     input bit lsu_read_complete,
     input bit lsu_write_complete
 );
+
+import "DPI-C" function void instr_type_event(
+    input bit event_alu,
+    input bit event_branch,
+    input bit event_load,
+    input bit event_store,
+    input bit event_jump,
+    input bit event_csr,
+    input bit event_system
+);

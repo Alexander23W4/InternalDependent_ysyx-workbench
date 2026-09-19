@@ -68,3 +68,33 @@ LSU: load指令需要写会GPR制约, store指令不需要写回一定程度上�
 ⭐: 性能事件(performance event)   性能计数器(performance counter)
 
 
+ALU
+├── add/addi/sub/...
+BRANCH
+├── beq/bne/blt/...
+LOAD
+├── lb/lh/lw/lbu/lhu
+STORE
+├── sb/sh/sw
+JUMP
+├── jal/jalr
+CSR
+├── csrrw/csrrs/csrrc
+SYSTEM
+├── ecall/mret/ebreak
+
+event_alu
+event_branch
+event_load
+event_store
+event_jump
+event_csr
+event_system
+
+alu_cycles
+branch_cycles
+load_cycles
+store_cycles
+jump_cycles
+csr_cycles
+system_cycles

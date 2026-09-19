@@ -240,6 +240,30 @@ module ysyx_26040135(
 
     ysyx_26040135_ALU alu_inst (.*);
 
+    logic event_alu;
+    logic event_branch;
+    logic event_load;
+    logic event_store;
+    logic event_jump;
+    logic event_csr;
+    logic event_system;
+
+    assign event_alu = addi | slti | sltiu | xori | ori | andi | slli | srli | srai |
+            add  | sub  | sll  | slt  | sltu  | xor_inst | srl | sra | or_inst | and_inst |
+            lui  | auipc;
+
+    assign event_branch = beq | bne | blt | bge | bltu | bgeu;
+
+    assign event_load = lb | lh | lw | lbu | lhu;
+
+    assign event_store = sb | sh | sw;
+
+    assign event_jump = jal | jalr;
+
+    assign event_csr = csrrw | csrrs | csrrc | mret;
+
+    assign event_system = ebreak | ecall;
+
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
@@ -474,6 +498,15 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 if(__ifu_instr_valid) begin
                     __addr_ready <= 1'b1;
                     __data_ready <= 1'b1;
+                    instr_type_event(
+                        event_alu,
+                        event_branch,
+                        event_load,
+                        event_store,
+                        event_jump,
+                        event_csr,
+                        event_system
+                    );
                 end
             end
 

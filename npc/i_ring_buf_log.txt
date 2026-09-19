@@ -1,300 +1,300 @@
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
-0x30000020    0x00558023    sb	t0, 0(a1)                                                                                                                                          
-0x30000024    0x00150513    addi	a0, a0, 1                                                                                                                                        
-0x30000028    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0x3000002c    0xfedff06f    j	0x30000018                  [CALL] PRE: format_time, DST: format_time                                                                               
-0x30000018    0x00c5fc63    bgeu	a1, a2, 0x30000030                                                                                                                               
-0x3000001c    0x00054283    lbu	t0, 0(a0)                                                                                                                                         
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058e0    0x00140413    addi	s0, s0, 1                                                                                                                                        
+0xa00058e4    0xda9ff0ef    jal	0xa000568c                [CALL] PRE: fail, DST: putch                                                                                            
+0xa000568c    0x10000737    lui	a4, 0x10000                                                                                                                                       
+0xa0005690    0x00574783    lbu	a5, 5(a4)                                                                                                                                         
+0xa0005694    0x0207f793    andi	a5, a5, 0x20                                                                                                                                     
+0xa0005698    0xfe078ce3    beqz	a5, 0xa0005690                                                                                                                                   
+0xa000569c    0x00a70023    sb	a0, 0(a4)                                                                                                                                          
+0xa00056a0    0x00008067    ret                           [RET] PRE: putch, DST: fail                                                                                             
+0xa00058e8    0x00044503    lbu	a0, 0(s0)                                                                                                                                         
+0xa00058ec    0xfe051ae3    bnez	a0, 0xa00058e0                                                                                                                                   
+0xa00058f0    0x00100513    li	a0, 1                                                                                                                                              
+0xa00058f4    0xdb1ff0ef    jal	0xa00056a4                [CALL] PRE: fail, DST: halt                                                                                             
+0xa00056a4    0x00100073    ebreak                                                                                                                                                

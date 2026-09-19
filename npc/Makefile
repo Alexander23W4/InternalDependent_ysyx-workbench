@@ -85,6 +85,9 @@ TRACE_ENABLE=1
 NPC_EXE=$(NPC_HOME)/obj_dir/Vtop
 ARGS=$(IMAGE).bin
 
+# make perf 要自己去编 AM 那边的 benchmark, 需要一个交叉编译器前缀
+CROSS_COMPILE ?= riscv64-linux-gnu-
+
 # ------------------------------------------------------------------------------------------------------
 # ⭐ 波形(make trace)相关
 #    WAVE_FILE  : 输出文件名(vcd)
@@ -150,6 +153,33 @@ fasts:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) \
 	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
 
+# ======================================================================================================
+# ⭐ make perf : 复现"NPC性能评估结果"表里一行数据
+#
+#   用法就是  git checkout <commit> && make perf
+#   它会做三件事, 保证和 commit 一一对应、可复现:
+#     1) 从源码重新编 benchmark —— 不用仓库里现成的 .bin, 免得那个 .bin 不是这个 commit 编的
+#     2) clean_obj 后全量重编 NPC —— verilator 生成的 .o 不依赖编译选项, 不清会复用旧目标文件
+#     3) 跑一遍仿真, 把 周期数/指令数/IPC 和所有性能计数器 打成一行 TSV
+# ======================================================================================================
+PERF_BENCH    ?= ../am-kernels/benchmarks/microbench
+PERF_MAINARGS ?= test
+PERF_NAME     ?= $(notdir $(PERF_BENCH))
+PERF_IMAGE    ?= $(PERF_BENCH)/build/$(PERF_NAME)-riscv32e-ysyxsoc
+PERF_DESC     ?= $(PERF_NAME)(mainargs=$(if $(PERF_MAINARGS),$(PERF_MAINARGS),空))
+
+ifeq ($(origin AM_SRCS), undefined)
+perf: clean_obj
+	@echo "==================== NPC PERF ===================="
+	$(MAKE) -C $(PERF_BENCH) ARCH=riscv32e-ysyxsoc CROSS_COMPILE=$(CROSS_COMPILE) \
+		mainargs=$(PERF_MAINARGS) insert-arg
+	$(MAKE) fasts -B
+	./obj_dir/Vtop $(PERF_IMAGE).bin -b > $(OBJ_DIR)/perf.log 2>&1 || true
+	@python3 scripts/perf-report.py $(OBJ_DIR)/perf.log \
+		"$$(git -C .. rev-parse --short HEAD)$$(test -n "$$(git -C .. status --porcelain -uno)" && echo '+dirty')" \
+		"$(PERF_DESC)"
+endif
+
 npc-gdb:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) \
 	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
@@ -177,7 +207,7 @@ clean_npc:
 clean_obj:
 	rm -rf $(OBJ_DIR)
 
-.PHONY: all binary trace fast clean run top clean_obj
+.PHONY: all binary trace perf fast clean run top clean_obj
 
 # make fasts for getting Vtop
 # compile guest program & AM, nemu for difftest...  run 

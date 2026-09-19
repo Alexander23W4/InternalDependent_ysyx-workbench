@@ -1,3 +1,6 @@
+/*
+    这里的 AXI Xbar 只分出去 CLINT 一个外设  0x0200_0000~0x0200_ffff
+*/
 module ysyx_26040135_AXI4_Xbar (
     input  logic clock,
     input  logic reset,
@@ -9,7 +12,9 @@ module ysyx_26040135_AXI4_Xbar (
     ysyx_26040135_AXI4.slave  lsu_s,
 
     // 3. 对外主接口 (连接到 ysyxSoC，使用 master modport 发出)
-    ysyx_26040135_AXI4.master m_m
+    ysyx_26040135_AXI4.master m_m,
+
+    ysyx_26040135_AXI4.master clint_m
 );
 
     // ==========================================

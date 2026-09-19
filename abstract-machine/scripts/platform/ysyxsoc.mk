@@ -82,6 +82,9 @@ run: insert-arg update-npc
 	$(NPC_EXE) $(ARGS)
 endif
 
+trace: insert-arg 
+	@echo "================================= RUN GTKWAVE SIMULATION ====================================="
+	$(MAKE) -C $(NPC_HOME) trace
 
 GDB_SRC_DIRS = -ex "directory $(NPC_HOME)/csrc" \
                -ex "directory $(NPC_HOME)/include" \

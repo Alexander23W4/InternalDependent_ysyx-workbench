@@ -75,6 +75,8 @@ void end_process(){
     final_check();
     final_print();
 
+    wave_close();      // ⭐ 关波形文件: 不 close 的话 vcd 没写尾巴, gtkwave 可能读不全
+
     top->final();
     delete top;
 }

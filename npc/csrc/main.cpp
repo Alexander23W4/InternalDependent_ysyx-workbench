@@ -63,6 +63,9 @@ int main(int argc, char** argv) {
     assert(cpu_scope != NULL);
     svSetScope(cpu_scope);
 
+// 在复位之前开启波形
+    wave_init();
+
 //  init
     _init(argc, argv);
 

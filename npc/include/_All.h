@@ -215,6 +215,18 @@ void final_check();
 void final_print();
 uint32_t isa_reg_str2val(const char *s, bool *success);
 
+// ⭐ 波形(VCD): 实现见 csrc/tools.c. make trace 用 -DWAVE_TRACE=1 打开,
+//    不带这个宏时它们是空函数, 不产生任何开销.
+#ifdef WAVE_TRACE
+#include "verilated_vcd_c.h"
+extern VerilatedVcdC *wave_tfp;
+extern uint64_t       wave_cycle;
+#endif
+void wave_init();
+void wave_close();
+void wave_dump();
+
+
 
 
 void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port);

@@ -9,4 +9,8 @@ trace.o: ../csrc/trace/trace.c \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/dbg.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/config.h \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h \
- /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h
+ /home/wang/InternalDependent_ysyx-workbench/npc/include/log.h \
+ /usr/local/share/verilator/include/verilated_vcd_c.h \
+ /usr/local/share/verilator/include/verilated.h \
+ /usr/local/share/verilator/include/verilated_trace.h \
+ /usr/local/share/verilator/include/verilated_trace_defs.h

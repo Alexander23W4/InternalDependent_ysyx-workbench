@@ -34,5 +34,10 @@ ChipLink MEM	      0xc000_0000~0xffff_ffff
 #define YSYXSOC_FLASH_ADDR  0x30000000
 #define YSYXSOC_SPI_ADDR    0x10001000
 
+// CLINT: 只读的 64 位 mtime, 拆成两个地址给 32 位 CPU 读(先低后高)
+// ⭐ 必须和 npc/vsrc/axi/axi_clint.sv 里的 MTIME_ADDR / MTIMEH_ADDR 保持一致
+#define YSYXSOC_CLINT_ADDR        0x02000000    // mtime[31:0]
+#define YSYXSOC_CLINT_MTIMEH_ADDR 0x02000004    // mtime[63:32]
+
 
 #endif

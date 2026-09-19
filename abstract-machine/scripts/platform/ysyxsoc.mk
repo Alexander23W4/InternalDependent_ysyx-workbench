@@ -5,7 +5,8 @@ AM_SRCS := riscv/ysyxsoc/start.S \
            riscv/ysyxsoc/ioe.c \
            riscv/ysyxsoc/input.c \
            riscv/ysyxsoc/gpu.c \
-           riscv/ysyxsoc/uart.c 
+           riscv/ysyxsoc/uart.c \
+		   riscv/ysyxsoc/timer.c
 
 CFLAGS    += -fdata-sections -ffunction-sections
 LDSCRIPTS += $(AM_HOME)/scripts/linker-ysyxsoc.ld   # 使用ysyxsoc专属 linker.ld

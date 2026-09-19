@@ -97,6 +97,13 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     static void check_end(int* period_end);
     static void check_error(int* ifu_error, int* lsu_error, int* master_validation_error);
     static void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr);
+    static void get_ifu_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    static void get_ifu_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    static void get_lsu_read_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    static void get_lsu_read_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    static void get_lsu_write_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    static void get_lsu_write_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    static void get_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
     static void get_unit_cycles(unsigned long long* out_ifu_cycles, unsigned long long* out_lsu_cycles, unsigned long long* out_lsu_read_cycles, unsigned long long* out_lsu_write_cycles);
     static void halt(int* endprog);
 

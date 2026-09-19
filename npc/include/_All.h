@@ -146,6 +146,44 @@ extern unsigned long long lsu_cycles;
 extern unsigned long long lsu_read_cycles;
 extern unsigned long long lsu_write_cycles;
 
+// ⭐ 按访存目标区域(flash/sram/sdram/other)再切一份的计数器, 由 dpi-f.sv 里
+//    get_*_region_* 那组 export "DPI-C" 函数导出
+extern unsigned long long ifu_fetch_flash_cycles;
+extern unsigned long long ifu_fetch_sram_cycles;
+extern unsigned long long ifu_fetch_sdram_cycles;
+extern unsigned long long ifu_fetch_other_cycles;
+extern unsigned long long lsu_read_flash_cycles;
+extern unsigned long long lsu_read_sram_cycles;
+extern unsigned long long lsu_read_sdram_cycles;
+extern unsigned long long lsu_read_other_cycles;
+extern unsigned long long lsu_write_flash_cycles;
+extern unsigned long long lsu_write_sram_cycles;
+extern unsigned long long lsu_write_sdram_cycles;
+extern unsigned long long lsu_write_other_cycles;
+
+extern unsigned long long ifu_fetch_flash_count;
+extern unsigned long long ifu_fetch_sram_count;
+extern unsigned long long ifu_fetch_sdram_count;
+extern unsigned long long ifu_fetch_other_count;
+extern unsigned long long lsu_read_flash_count;
+extern unsigned long long lsu_read_sram_count;
+extern unsigned long long lsu_read_sdram_count;
+extern unsigned long long lsu_read_other_count;
+extern unsigned long long lsu_write_flash_count;
+extern unsigned long long lsu_write_sram_count;
+extern unsigned long long lsu_write_sdram_count;
+extern unsigned long long lsu_write_other_count;
+
+// 区域聚合(IFU + LSU读 + LSU写)
+extern unsigned long long flash_cycles;
+extern unsigned long long sram_cycles;
+extern unsigned long long sdram_cycles;
+extern unsigned long long other_cycles;
+extern unsigned long long flash_count;
+extern unsigned long long sram_count;
+extern unsigned long long sdram_count;
+extern unsigned long long other_count;
+
 void clear_event_flag();
 void cal_instr_cycles();
 

@@ -113,3 +113,164 @@ void Vtop::get_unit_cycles(unsigned long long* out_ifu_cycles, unsigned long lon
     for (size_t out_lsu_read_cycles__Vidx = 0; out_lsu_read_cycles__Vidx < 1; ++out_lsu_read_cycles__Vidx) *out_lsu_read_cycles = out_lsu_read_cycles__Vcvt;
     for (size_t out_lsu_write_cycles__Vidx = 0; out_lsu_write_cycles__Vidx < 1; ++out_lsu_write_cycles__Vidx) *out_lsu_write_cycles = out_lsu_write_cycles__Vcvt;
 }
+
+void Vtop::get_ifu_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_ifu_region_cycles\n"); );
+    // Init
+    QData/*63:0*/ out_flash__Vcvt;
+    out_flash__Vcvt = 0;
+    QData/*63:0*/ out_sram__Vcvt;
+    out_sram__Vcvt = 0;
+    QData/*63:0*/ out_sdram__Vcvt;
+    out_sdram__Vcvt = 0;
+    QData/*63:0*/ out_other__Vcvt;
+    out_other__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_ifu_region_cycles");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_ifu_region_cycles_t __Vcb = (Vtop__Vcb_get_ifu_region_cycles_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_flash__Vcvt, out_sram__Vcvt, out_sdram__Vcvt, out_other__Vcvt);
+    for (size_t out_flash__Vidx = 0; out_flash__Vidx < 1; ++out_flash__Vidx) *out_flash = out_flash__Vcvt;
+    for (size_t out_sram__Vidx = 0; out_sram__Vidx < 1; ++out_sram__Vidx) *out_sram = out_sram__Vcvt;
+    for (size_t out_sdram__Vidx = 0; out_sdram__Vidx < 1; ++out_sdram__Vidx) *out_sdram = out_sdram__Vcvt;
+    for (size_t out_other__Vidx = 0; out_other__Vidx < 1; ++out_other__Vidx) *out_other = out_other__Vcvt;
+}
+
+void Vtop::get_ifu_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_ifu_region_counts\n"); );
+    // Init
+    QData/*63:0*/ out_flash__Vcvt;
+    out_flash__Vcvt = 0;
+    QData/*63:0*/ out_sram__Vcvt;
+    out_sram__Vcvt = 0;
+    QData/*63:0*/ out_sdram__Vcvt;
+    out_sdram__Vcvt = 0;
+    QData/*63:0*/ out_other__Vcvt;
+    out_other__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_ifu_region_counts");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_ifu_region_counts_t __Vcb = (Vtop__Vcb_get_ifu_region_counts_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_flash__Vcvt, out_sram__Vcvt, out_sdram__Vcvt, out_other__Vcvt);
+    for (size_t out_flash__Vidx = 0; out_flash__Vidx < 1; ++out_flash__Vidx) *out_flash = out_flash__Vcvt;
+    for (size_t out_sram__Vidx = 0; out_sram__Vidx < 1; ++out_sram__Vidx) *out_sram = out_sram__Vcvt;
+    for (size_t out_sdram__Vidx = 0; out_sdram__Vidx < 1; ++out_sdram__Vidx) *out_sdram = out_sdram__Vcvt;
+    for (size_t out_other__Vidx = 0; out_other__Vidx < 1; ++out_other__Vidx) *out_other = out_other__Vcvt;
+}
+
+void Vtop::get_lsu_read_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_lsu_read_region_cycles\n"); );
+    // Init
+    QData/*63:0*/ out_flash__Vcvt;
+    out_flash__Vcvt = 0;
+    QData/*63:0*/ out_sram__Vcvt;
+    out_sram__Vcvt = 0;
+    QData/*63:0*/ out_sdram__Vcvt;
+    out_sdram__Vcvt = 0;
+    QData/*63:0*/ out_other__Vcvt;
+    out_other__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_lsu_read_region_cycles");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_lsu_read_region_cycles_t __Vcb = (Vtop__Vcb_get_lsu_read_region_cycles_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_flash__Vcvt, out_sram__Vcvt, out_sdram__Vcvt, out_other__Vcvt);
+    for (size_t out_flash__Vidx = 0; out_flash__Vidx < 1; ++out_flash__Vidx) *out_flash = out_flash__Vcvt;
+    for (size_t out_sram__Vidx = 0; out_sram__Vidx < 1; ++out_sram__Vidx) *out_sram = out_sram__Vcvt;
+    for (size_t out_sdram__Vidx = 0; out_sdram__Vidx < 1; ++out_sdram__Vidx) *out_sdram = out_sdram__Vcvt;
+    for (size_t out_other__Vidx = 0; out_other__Vidx < 1; ++out_other__Vidx) *out_other = out_other__Vcvt;
+}
+
+void Vtop::get_lsu_read_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_lsu_read_region_counts\n"); );
+    // Init
+    QData/*63:0*/ out_flash__Vcvt;
+    out_flash__Vcvt = 0;
+    QData/*63:0*/ out_sram__Vcvt;
+    out_sram__Vcvt = 0;
+    QData/*63:0*/ out_sdram__Vcvt;
+    out_sdram__Vcvt = 0;
+    QData/*63:0*/ out_other__Vcvt;
+    out_other__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_lsu_read_region_counts");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_lsu_read_region_counts_t __Vcb = (Vtop__Vcb_get_lsu_read_region_counts_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_flash__Vcvt, out_sram__Vcvt, out_sdram__Vcvt, out_other__Vcvt);
+    for (size_t out_flash__Vidx = 0; out_flash__Vidx < 1; ++out_flash__Vidx) *out_flash = out_flash__Vcvt;
+    for (size_t out_sram__Vidx = 0; out_sram__Vidx < 1; ++out_sram__Vidx) *out_sram = out_sram__Vcvt;
+    for (size_t out_sdram__Vidx = 0; out_sdram__Vidx < 1; ++out_sdram__Vidx) *out_sdram = out_sdram__Vcvt;
+    for (size_t out_other__Vidx = 0; out_other__Vidx < 1; ++out_other__Vidx) *out_other = out_other__Vcvt;
+}
+
+void Vtop::get_lsu_write_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_lsu_write_region_cycles\n"); );
+    // Init
+    QData/*63:0*/ out_flash__Vcvt;
+    out_flash__Vcvt = 0;
+    QData/*63:0*/ out_sram__Vcvt;
+    out_sram__Vcvt = 0;
+    QData/*63:0*/ out_sdram__Vcvt;
+    out_sdram__Vcvt = 0;
+    QData/*63:0*/ out_other__Vcvt;
+    out_other__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_lsu_write_region_cycles");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_lsu_write_region_cycles_t __Vcb = (Vtop__Vcb_get_lsu_write_region_cycles_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_flash__Vcvt, out_sram__Vcvt, out_sdram__Vcvt, out_other__Vcvt);
+    for (size_t out_flash__Vidx = 0; out_flash__Vidx < 1; ++out_flash__Vidx) *out_flash = out_flash__Vcvt;
+    for (size_t out_sram__Vidx = 0; out_sram__Vidx < 1; ++out_sram__Vidx) *out_sram = out_sram__Vcvt;
+    for (size_t out_sdram__Vidx = 0; out_sdram__Vidx < 1; ++out_sdram__Vidx) *out_sdram = out_sdram__Vcvt;
+    for (size_t out_other__Vidx = 0; out_other__Vidx < 1; ++out_other__Vidx) *out_other = out_other__Vcvt;
+}
+
+void Vtop::get_lsu_write_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_lsu_write_region_counts\n"); );
+    // Init
+    QData/*63:0*/ out_flash__Vcvt;
+    out_flash__Vcvt = 0;
+    QData/*63:0*/ out_sram__Vcvt;
+    out_sram__Vcvt = 0;
+    QData/*63:0*/ out_sdram__Vcvt;
+    out_sdram__Vcvt = 0;
+    QData/*63:0*/ out_other__Vcvt;
+    out_other__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_lsu_write_region_counts");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_lsu_write_region_counts_t __Vcb = (Vtop__Vcb_get_lsu_write_region_counts_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_flash__Vcvt, out_sram__Vcvt, out_sdram__Vcvt, out_other__Vcvt);
+    for (size_t out_flash__Vidx = 0; out_flash__Vidx < 1; ++out_flash__Vidx) *out_flash = out_flash__Vcvt;
+    for (size_t out_sram__Vidx = 0; out_sram__Vidx < 1; ++out_sram__Vidx) *out_sram = out_sram__Vcvt;
+    for (size_t out_sdram__Vidx = 0; out_sdram__Vidx < 1; ++out_sdram__Vidx) *out_sdram = out_sdram__Vcvt;
+    for (size_t out_other__Vidx = 0; out_other__Vidx < 1; ++out_other__Vidx) *out_other = out_other__Vcvt;
+}
+
+void Vtop::get_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_region_cycles\n"); );
+    // Init
+    QData/*63:0*/ out_flash__Vcvt;
+    out_flash__Vcvt = 0;
+    QData/*63:0*/ out_sram__Vcvt;
+    out_sram__Vcvt = 0;
+    QData/*63:0*/ out_sdram__Vcvt;
+    out_sdram__Vcvt = 0;
+    QData/*63:0*/ out_other__Vcvt;
+    out_other__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_region_cycles");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_region_cycles_t __Vcb = (Vtop__Vcb_get_region_cycles_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_flash__Vcvt, out_sram__Vcvt, out_sdram__Vcvt, out_other__Vcvt);
+    for (size_t out_flash__Vidx = 0; out_flash__Vidx < 1; ++out_flash__Vidx) *out_flash = out_flash__Vcvt;
+    for (size_t out_sram__Vidx = 0; out_sram__Vidx < 1; ++out_sram__Vidx) *out_sram = out_sram__Vcvt;
+    for (size_t out_sdram__Vidx = 0; out_sdram__Vidx < 1; ++out_sdram__Vidx) *out_sdram = out_sdram__Vcvt;
+    for (size_t out_other__Vidx = 0; out_other__Vidx < 1; ++out_other__Vidx) *out_other = out_other__Vcvt;
+}

@@ -87,3 +87,99 @@ function void get_unit_cycles(
     out_lsu_write_cycles = lsu_write_cycles;
 endfunction
 
+
+// ⭐ 下面这一组照着 get_unit_cycles 写: 把 IFU/LSU 的 cycles 与 count 再按访存区域
+//    (flash / sram / sdram / other) 各切 4 份出来.
+
+export "DPI-C" function get_ifu_region_cycles;
+function void get_ifu_region_cycles(
+    output longint unsigned out_flash,
+    output longint unsigned out_sram,
+    output longint unsigned out_sdram,
+    output longint unsigned out_other
+);
+    out_flash = ifu_fetch_flash_cycles;
+    out_sram  = ifu_fetch_sram_cycles;
+    out_sdram = ifu_fetch_sdram_cycles;
+    out_other = ifu_fetch_other_cycles;
+endfunction
+
+export "DPI-C" function get_ifu_region_counts;
+function void get_ifu_region_counts(
+    output longint unsigned out_flash,
+    output longint unsigned out_sram,
+    output longint unsigned out_sdram,
+    output longint unsigned out_other
+);
+    out_flash = ifu_fetch_flash_count;
+    out_sram  = ifu_fetch_sram_count;
+    out_sdram = ifu_fetch_sdram_count;
+    out_other = ifu_fetch_other_count;
+endfunction
+
+export "DPI-C" function get_lsu_read_region_cycles;
+function void get_lsu_read_region_cycles(
+    output longint unsigned out_flash,
+    output longint unsigned out_sram,
+    output longint unsigned out_sdram,
+    output longint unsigned out_other
+);
+    out_flash = lsu_read_flash_cycles;
+    out_sram  = lsu_read_sram_cycles;
+    out_sdram = lsu_read_sdram_cycles;
+    out_other = lsu_read_other_cycles;
+endfunction
+
+export "DPI-C" function get_lsu_read_region_counts;
+function void get_lsu_read_region_counts(
+    output longint unsigned out_flash,
+    output longint unsigned out_sram,
+    output longint unsigned out_sdram,
+    output longint unsigned out_other
+);
+    out_flash = lsu_read_flash_count;
+    out_sram  = lsu_read_sram_count;
+    out_sdram = lsu_read_sdram_count;
+    out_other = lsu_read_other_count;
+endfunction
+
+export "DPI-C" function get_lsu_write_region_cycles;
+function void get_lsu_write_region_cycles(
+    output longint unsigned out_flash,
+    output longint unsigned out_sram,
+    output longint unsigned out_sdram,
+    output longint unsigned out_other
+);
+    out_flash = lsu_write_flash_cycles;
+    out_sram  = lsu_write_sram_cycles;
+    out_sdram = lsu_write_sdram_cycles;
+    out_other = lsu_write_other_cycles;
+endfunction
+
+export "DPI-C" function get_lsu_write_region_counts;
+function void get_lsu_write_region_counts(
+    output longint unsigned out_flash,
+    output longint unsigned out_sram,
+    output longint unsigned out_sdram,
+    output longint unsigned out_other
+);
+    out_flash = lsu_write_flash_count;
+    out_sram  = lsu_write_sram_count;
+    out_sdram = lsu_write_sdram_count;
+    out_other = lsu_write_other_count;
+endfunction
+
+// 区域聚合(IFU + LSU读 + LSU写)
+export "DPI-C" function get_region_cycles;
+function void get_region_cycles(
+    output longint unsigned out_flash,
+    output longint unsigned out_sram,
+    output longint unsigned out_sdram,
+    output longint unsigned out_other
+);
+    out_flash = flash_cycles;
+    out_sram  = sram_cycles;
+    out_sdram = sdram_cycles;
+    out_other = other_cycles;
+endfunction
+

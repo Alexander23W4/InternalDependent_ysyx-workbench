@@ -38,6 +38,62 @@ void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause
 }
 #endif
 
+#ifndef VL_DPIDECL_get_ifu_region_counts_
+#define VL_DPIDECL_get_ifu_region_counts_
+void get_ifu_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    // DPI export at vsrc/dpi-f.sv:108:15
+    return Vtop::get_ifu_region_counts(out_flash, out_sram, out_sdram, out_other);
+}
+#endif
+
+#ifndef VL_DPIDECL_get_ifu_region_cycles_
+#define VL_DPIDECL_get_ifu_region_cycles_
+void get_ifu_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    // DPI export at vsrc/dpi-f.sv:95:15
+    return Vtop::get_ifu_region_cycles(out_flash, out_sram, out_sdram, out_other);
+}
+#endif
+
+#ifndef VL_DPIDECL_get_lsu_read_region_counts_
+#define VL_DPIDECL_get_lsu_read_region_counts_
+void get_lsu_read_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    // DPI export at vsrc/dpi-f.sv:134:15
+    return Vtop::get_lsu_read_region_counts(out_flash, out_sram, out_sdram, out_other);
+}
+#endif
+
+#ifndef VL_DPIDECL_get_lsu_read_region_cycles_
+#define VL_DPIDECL_get_lsu_read_region_cycles_
+void get_lsu_read_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    // DPI export at vsrc/dpi-f.sv:121:15
+    return Vtop::get_lsu_read_region_cycles(out_flash, out_sram, out_sdram, out_other);
+}
+#endif
+
+#ifndef VL_DPIDECL_get_lsu_write_region_counts_
+#define VL_DPIDECL_get_lsu_write_region_counts_
+void get_lsu_write_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    // DPI export at vsrc/dpi-f.sv:160:15
+    return Vtop::get_lsu_write_region_counts(out_flash, out_sram, out_sdram, out_other);
+}
+#endif
+
+#ifndef VL_DPIDECL_get_lsu_write_region_cycles_
+#define VL_DPIDECL_get_lsu_write_region_cycles_
+void get_lsu_write_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    // DPI export at vsrc/dpi-f.sv:147:15
+    return Vtop::get_lsu_write_region_cycles(out_flash, out_sram, out_sdram, out_other);
+}
+#endif
+
+#ifndef VL_DPIDECL_get_region_cycles_
+#define VL_DPIDECL_get_region_cycles_
+void get_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {
+    // DPI export at vsrc/dpi-f.sv:174:15
+    return Vtop::get_region_cycles(out_flash, out_sram, out_sdram, out_other);
+}
+#endif
+
 #ifndef VL_DPIDECL_get_unit_cycles_
 #define VL_DPIDECL_get_unit_cycles_
 void get_unit_cycles(unsigned long long* out_ifu_cycles, unsigned long long* out_lsu_cycles, unsigned long long* out_lsu_read_cycles, unsigned long long* out_lsu_write_cycles) {

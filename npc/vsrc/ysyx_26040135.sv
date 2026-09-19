@@ -253,6 +253,35 @@ module ysyx_26040135(
     logic [63:0] lsu_write_cycles;
     logic [63:0] lsu_read_cycles;
 
+
+    logic ifu_hit_flash, ifu_hit_sram, ifu_hit_sdram, ifu_hit_other;
+    logic lsu_hit_flash, lsu_hit_sram, lsu_hit_sdram, lsu_hit_other;
+
+    assign ifu_hit_flash = (pc[31:28] == 4'h3);
+    assign ifu_hit_sram  = (pc[31:24] == 8'h0f);
+    assign ifu_hit_sdram = (pc[31:28] == 4'hA) || (pc[31:28] == 4'hB);
+    assign ifu_hit_other = ~(ifu_hit_flash | ifu_hit_sram | ifu_hit_sdram);
+
+    assign lsu_hit_flash = (add_rst[31:28] == 4'h3);
+    assign lsu_hit_sram  = (add_rst[31:24] == 8'h0f);
+    assign lsu_hit_sdram = (add_rst[31:28] == 4'hA) || (add_rst[31:28] == 4'hB);
+    assign lsu_hit_other = ~(lsu_hit_flash | lsu_hit_sram | lsu_hit_sdram);
+
+    logic [63:0] ifu_fetch_flash_cycles, ifu_fetch_sram_cycles, ifu_fetch_sdram_cycles, ifu_fetch_other_cycles;
+    logic [63:0] lsu_read_flash_cycles,  lsu_read_sram_cycles,  lsu_read_sdram_cycles,  lsu_read_other_cycles;
+    logic [63:0] lsu_write_flash_cycles, lsu_write_sram_cycles, lsu_write_sdram_cycles, lsu_write_other_cycles;
+
+    logic [63:0] ifu_fetch_flash_count, ifu_fetch_sram_count, ifu_fetch_sdram_count, ifu_fetch_other_count;
+    logic [63:0] lsu_read_flash_count,  lsu_read_sram_count,  lsu_read_sdram_count,  lsu_read_other_count;
+    logic [63:0] lsu_write_flash_count, lsu_write_sram_count, lsu_write_sdram_count, lsu_write_other_count;
+
+    logic [63:0] flash_cycles, sram_cycles, sdram_cycles, other_cycles;
+    assign flash_cycles = ifu_fetch_flash_cycles + lsu_read_flash_cycles + lsu_write_flash_cycles;
+    assign sram_cycles  = ifu_fetch_sram_cycles  + lsu_read_sram_cycles  + lsu_write_sram_cycles;
+    assign sdram_cycles = ifu_fetch_sdram_cycles + lsu_read_sdram_cycles + lsu_write_sdram_cycles;
+    assign other_cycles = ifu_fetch_other_cycles + lsu_read_other_cycles + lsu_write_other_cycles;
+
+
     assign event_alu = addi | slti | sltiu | xori | ori | andi | slli | srli | srai |
             add  | sub  | sll  | slt  | sltu  | xor_inst | srl | sra | or_inst | and_inst |
             lui  | auipc;
@@ -491,6 +520,32 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             lsu_write_cycles <= '0;
             lsu_read_cycles <= '0;
 
+            ifu_fetch_flash_cycles <= '0;
+            ifu_fetch_sram_cycles  <= '0;
+            ifu_fetch_sdram_cycles <= '0;
+            ifu_fetch_other_cycles <= '0;
+            lsu_read_flash_cycles  <= '0;
+            lsu_read_sram_cycles   <= '0;
+            lsu_read_sdram_cycles  <= '0;
+            lsu_read_other_cycles  <= '0;
+            lsu_write_flash_cycles <= '0;
+            lsu_write_sram_cycles  <= '0;
+            lsu_write_sdram_cycles <= '0;
+            lsu_write_other_cycles <= '0;
+
+            ifu_fetch_flash_count <= '0;
+            ifu_fetch_sram_count  <= '0;
+            ifu_fetch_sdram_count <= '0;
+            ifu_fetch_other_count <= '0;
+            lsu_read_flash_count  <= '0;
+            lsu_read_sram_count   <= '0;
+            lsu_read_sdram_count  <= '0;
+            lsu_read_other_count  <= '0;
+            lsu_write_flash_count <= '0;
+            lsu_write_sram_count  <= '0;
+            lsu_write_sdram_count <= '0;
+            lsu_write_other_count <= '0;
+
             state <= FETCH;
         end
         else begin
@@ -505,10 +560,18 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             if(state == FETCH) begin
                 ifu_cycles <= ifu_cycles + 64'b1;
+                if(ifu_hit_flash) ifu_fetch_flash_cycles <= ifu_fetch_flash_cycles + 64'b1;
+                if(ifu_hit_sram)  ifu_fetch_sram_cycles  <= ifu_fetch_sram_cycles  + 64'b1;
+                if(ifu_hit_sdram) ifu_fetch_sdram_cycles <= ifu_fetch_sdram_cycles + 64'b1;
+                if(ifu_hit_other) ifu_fetch_other_cycles <= ifu_fetch_other_cycles + 64'b1;
                 __pc_is_updated <= 1'b0;
                 if(__ifu_instr_valid) begin
                     __addr_ready <= 1'b1;
                     __data_ready <= 1'b1;
+                    if(ifu_hit_flash) ifu_fetch_flash_count <= ifu_fetch_flash_count + 64'b1;
+                    if(ifu_hit_sram)  ifu_fetch_sram_count  <= ifu_fetch_sram_count  + 64'b1;
+                    if(ifu_hit_sdram) ifu_fetch_sdram_count <= ifu_fetch_sdram_count + 64'b1;
+                    if(ifu_hit_other) ifu_fetch_other_count <= ifu_fetch_other_count + 64'b1;
                     instr_type_event(
                         event_alu,
                         event_branch,
@@ -525,9 +588,30 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 lsu_cycles <= lsu_cycles + 64'b1;
                 if(__read) begin
                     lsu_read_cycles <= lsu_read_cycles + 64'b1;
+                    if(lsu_hit_flash) lsu_read_flash_cycles <= lsu_read_flash_cycles + 64'b1;
+                    if(lsu_hit_sram)  lsu_read_sram_cycles  <= lsu_read_sram_cycles  + 64'b1;
+                    if(lsu_hit_sdram) lsu_read_sdram_cycles <= lsu_read_sdram_cycles + 64'b1;
+                    if(lsu_hit_other) lsu_read_other_cycles <= lsu_read_other_cycles + 64'b1;
                 end
                 if(__write) begin
                     lsu_write_cycles <= lsu_write_cycles + 64'b1;
+                    if(lsu_hit_flash) lsu_write_flash_cycles <= lsu_write_flash_cycles + 64'b1;
+                    if(lsu_hit_sram)  lsu_write_sram_cycles  <= lsu_write_sram_cycles  + 64'b1;
+                    if(lsu_hit_sdram) lsu_write_sdram_cycles <= lsu_write_sdram_cycles + 64'b1;
+                    if(lsu_hit_other) lsu_write_other_cycles <= lsu_write_other_cycles + 64'b1;
+                end
+                // ⭐ 访问次数按"完成信号"记一次(perf_event 里也是这个时机)
+                if(__lsu_read_complete) begin
+                    if(lsu_hit_flash) lsu_read_flash_count <= lsu_read_flash_count + 64'b1;
+                    if(lsu_hit_sram)  lsu_read_sram_count  <= lsu_read_sram_count  + 64'b1;
+                    if(lsu_hit_sdram) lsu_read_sdram_count <= lsu_read_sdram_count + 64'b1;
+                    if(lsu_hit_other) lsu_read_other_count <= lsu_read_other_count + 64'b1;
+                end
+                if(__lsu_write_complete) begin
+                    if(lsu_hit_flash) lsu_write_flash_count <= lsu_write_flash_count + 64'b1;
+                    if(lsu_hit_sram)  lsu_write_sram_count  <= lsu_write_sram_count  + 64'b1;
+                    if(lsu_hit_sdram) lsu_write_sdram_count <= lsu_write_sdram_count + 64'b1;
+                    if(lsu_hit_other) lsu_write_other_count <= lsu_write_other_count + 64'b1;
                 end
                 __addr_ready <= 1'b0;
                 __data_ready <= 1'b0;

@@ -23,7 +23,7 @@ extern "C" {
     // DPI export at vsrc/dpi-f.sv:14:15
     extern void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr);
     // DPI export at vsrc/dpi-f.sv:78:15
-    extern void get_unit_cycles(unsigned long long* out_ifu_cycles, unsigned long long* out_lsu_cycles);
+    extern void get_unit_cycles(unsigned long long* out_ifu_cycles, unsigned long long* out_lsu_cycles, unsigned long long* out_lsu_read_cycles, unsigned long long* out_lsu_write_cycles);
     // DPI export at vsrc/dpi-f.sv:6:6
     extern void halt(int* endprog);
 

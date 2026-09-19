@@ -250,6 +250,8 @@ module ysyx_26040135(
 
     logic [63:0] ifu_cycles;
     logic [63:0] lsu_cycles;
+    logic [63:0] lsu_write_cycles;
+    logic [63:0] lsu_read_cycles;
 
     assign event_alu = addi | slti | sltiu | xori | ori | andi | slli | srli | srai |
             add  | sub  | sll  | slt  | sltu  | xor_inst | srl | sra | or_inst | and_inst |
@@ -486,6 +488,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             ifu_cycles <= '0;
             lsu_cycles <= '0;
+            lsu_write_cycles <= '0;
+            lsu_read_cycles <= '0;
 
             state <= FETCH;
         end
@@ -519,6 +523,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             if(state == IO) begin
                 lsu_cycles <= lsu_cycles + 64'b1;
+                if(__read) begin
+                    lsu_read_cycles <= lsu_read_cycles + 64'b1;
+                end
+                if(__write) begin
+                    lsu_write_cycles <= lsu_write_cycles + 64'b1;
+                end
                 __addr_ready <= 1'b0;
                 __data_ready <= 1'b0;
                 if(__lsu_read_complete || !io) begin

@@ -22,7 +22,7 @@
 using Vtop__Vcb_check_end_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &period_end);
 using Vtop__Vcb_check_error_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_error, IData/*31:0*/ &lsu_error, IData/*31:0*/ &master_validation_error);
 using Vtop__Vcb_debug_read_all_t = void (*) (Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &dbg_regs, IData/*31:0*/ &pc, IData/*31:0*/ &mstatus, IData/*31:0*/ &mepc, IData/*31:0*/ &mcause, IData/*31:0*/ &mtvec, QData/*63:0*/ &mcycle, IData/*31:0*/ &instr);
-using Vtop__Vcb_get_unit_cycles_t = void (*) (Vtop__Syms* __restrict vlSymsp, QData/*63:0*/ &out_ifu_cycles, QData/*63:0*/ &out_lsu_cycles);
+using Vtop__Vcb_get_unit_cycles_t = void (*) (Vtop__Syms* __restrict vlSymsp, QData/*63:0*/ &out_ifu_cycles, QData/*63:0*/ &out_lsu_cycles, QData/*63:0*/ &out_lsu_read_cycles, QData/*63:0*/ &out_lsu_write_cycles);
 using Vtop__Vcb_halt_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 
 // SYMS CLASS (contains all model state)

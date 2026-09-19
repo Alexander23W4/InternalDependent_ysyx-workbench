@@ -49,6 +49,7 @@ VM_USER_CLASSES = \
 	main \
 	monitor \
 	mrom \
+	perf \
 	expr \
 	hex_to_bin \
 	sdb \
@@ -86,6 +87,8 @@ main.o: ./csrc/main.cpp
 monitor.o: ./csrc/monitor.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 mrom.o: ./csrc/mrom.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+perf.o: ./csrc/perf.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 expr.o: ./csrc/sdb/expr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

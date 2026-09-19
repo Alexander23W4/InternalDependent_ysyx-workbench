@@ -10,7 +10,7 @@
 void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_end_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &period_end);
 void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_error_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_error, IData/*31:0*/ &lsu_error, IData/*31:0*/ &master_validation_error);
 void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__debug_read_all_TOP(Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &dbg_regs, IData/*31:0*/ &pc, IData/*31:0*/ &mstatus, IData/*31:0*/ &mepc, IData/*31:0*/ &mcause, IData/*31:0*/ &mtvec, QData/*63:0*/ &mcycle, IData/*31:0*/ &instr);
-void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__get_unit_cycles_TOP(Vtop__Syms* __restrict vlSymsp, QData/*63:0*/ &out_ifu_cycles, QData/*63:0*/ &out_lsu_cycles);
+void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__get_unit_cycles_TOP(Vtop__Syms* __restrict vlSymsp, QData/*63:0*/ &out_ifu_cycles, QData/*63:0*/ &out_lsu_cycles, QData/*63:0*/ &out_lsu_read_cycles, QData/*63:0*/ &out_lsu_write_cycles);
 void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__halt_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 
 // FUNCTIONS

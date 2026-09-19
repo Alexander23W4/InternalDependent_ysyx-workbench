@@ -143,6 +143,8 @@ extern uint64_t instr_cycles;
 
 extern unsigned long long ifu_cycles;
 extern unsigned long long lsu_cycles;
+extern unsigned long long lsu_read_cycles;
+extern unsigned long long lsu_write_cycles;
 
 void clear_event_flag();
 void cal_instr_cycles();

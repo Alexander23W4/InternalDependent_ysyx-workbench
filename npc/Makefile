@@ -15,7 +15,8 @@ AXI_SOURCES = \
 	./vsrc/axi/axi4.sv \
 	./vsrc/axi/axi_ifu.sv \
 	./vsrc/axi/axi_lsu.sv \
-	./vsrc/axi/axi4_xbar.sv
+	./vsrc/axi/axi4_xbar.sv \
+	./vsrc/axi/axi_clint.sv
 
 RTL_SOURCES = \
 	./vsrc/ysyx_26040135.sv \

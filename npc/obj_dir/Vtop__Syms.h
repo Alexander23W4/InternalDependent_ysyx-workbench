@@ -43,6 +43,7 @@ class Vtop__Syms final : public VerilatedSyms {
     // MODULE INSTANCE STATE
     Vtop___024root                 TOP;
     Vtop___024unit                 TOP____024unit;
+    Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint;
     Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu;
     Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu;
     Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master;

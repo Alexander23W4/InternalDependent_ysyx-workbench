@@ -308,6 +308,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     ysyx_26040135_AXI4 bus_ifu ();
     ysyx_26040135_AXI4 bus_lsu ();
     ysyx_26040135_AXI4 bus_master ();
+    ysyx_26040135_AXI4 bus_clint ();     // Xbar <-> CLINT (0x0200_0000~0x0200_ffff)
 
     assign io_master_awvalid = bus_master.awvalid;
     assign io_master_awid    = bus_master.awid;
@@ -413,11 +414,20 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 ysyx_26040135_AXI4_Xbar u_xbar (
-    .clock  (clock),
-    .reset  (reset),
-    .ifu_s  (bus_ifu.slave),
-    .lsu_s  (bus_lsu.slave),
-    .m_m    (bus_master.master)
+    .clock   (clock),
+    .reset   (reset),
+    .ifu_s   (bus_ifu.slave),
+    .lsu_s   (bus_lsu.slave),
+    .m_m     (bus_master.master),
+    .clint_m (bus_clint.master)
+);
+
+// ⭐ CLINT: mtime 每周期 +1, 只读, 接在 xbar 的 clint_m 上
+//    (0x0200_0000 -> mtime[31:0], 0x0200_0004 -> mtime[63:32], 见 axi_clint.sv)
+ysyx_26040135_AXI_CLINT u_clint (
+    .bus   (bus_clint.slave),
+    .clock (clock),
+    .reset (reset)
 );
 
     assign io_slave_awready = 1'b0;

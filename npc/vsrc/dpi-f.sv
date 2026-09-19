@@ -73,3 +73,13 @@ import "DPI-C" function void instr_type_event(
     input bit event_csr,
     input bit event_system
 );
+
+export "DPI-C" function get_unit_cycles;
+function void get_unit_cycles(
+    output longint unsigned out_ifu_cycles,
+    output longint unsigned out_lsu_cycles
+);
+    out_ifu_cycles = ifu_cycles;
+    out_lsu_cycles = lsu_cycles;
+endfunction
+

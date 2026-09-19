@@ -90,3 +90,20 @@ void Vtop::check_end(int* period_end) {
     (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), period_end__Vcvt);
     for (size_t period_end__Vidx = 0; period_end__Vidx < 1; ++period_end__Vidx) *period_end = period_end__Vcvt;
 }
+
+void Vtop::get_unit_cycles(unsigned long long* out_ifu_cycles, unsigned long long* out_lsu_cycles) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_unit_cycles\n"); );
+    // Init
+    QData/*63:0*/ out_ifu_cycles__Vcvt;
+    out_ifu_cycles__Vcvt = 0;
+    QData/*63:0*/ out_lsu_cycles__Vcvt;
+    out_lsu_cycles__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_unit_cycles");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_unit_cycles_t __Vcb = (Vtop__Vcb_get_unit_cycles_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_ifu_cycles__Vcvt, out_lsu_cycles__Vcvt);
+    for (size_t out_ifu_cycles__Vidx = 0; out_ifu_cycles__Vidx < 1; ++out_ifu_cycles__Vidx) *out_ifu_cycles = out_ifu_cycles__Vcvt;
+    for (size_t out_lsu_cycles__Vidx = 0; out_lsu_cycles__Vidx < 1; ++out_lsu_cycles__Vidx) *out_lsu_cycles = out_lsu_cycles__Vcvt;
+}

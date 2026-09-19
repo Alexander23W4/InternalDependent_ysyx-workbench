@@ -248,6 +248,9 @@ module ysyx_26040135(
     logic event_csr;
     logic event_system;
 
+    logic [63:0] ifu_cycles;
+    logic [63:0] lsu_cycles;
+
     assign event_alu = addi | slti | sltiu | xori | ori | andi | slli | srli | srai |
             add  | sub  | sll  | slt  | sltu  | xor_inst | srl | sra | or_inst | and_inst |
             lui  | auipc;
@@ -481,6 +484,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             __period_end <= 1'b0;
 
+            ifu_cycles <= '0;
+            lsu_cycles <= '0;
+
             state <= FETCH;
         end
         else begin
@@ -494,6 +500,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             );
 
             if(state == FETCH) begin
+                ifu_cycles <= ifu_cycles + 64'b1;
                 __pc_is_updated <= 1'b0;
                 if(__ifu_instr_valid) begin
                     __addr_ready <= 1'b1;
@@ -511,6 +518,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             end
 
             if(state == IO) begin
+                lsu_cycles <= lsu_cycles + 64'b1;
                 __addr_ready <= 1'b0;
                 __data_ready <= 1'b0;
                 if(__lsu_read_complete || !io) begin

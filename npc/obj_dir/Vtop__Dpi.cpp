@@ -38,6 +38,14 @@ void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause
 }
 #endif
 
+#ifndef VL_DPIDECL_get_unit_cycles_
+#define VL_DPIDECL_get_unit_cycles_
+void get_unit_cycles(unsigned long long* out_ifu_cycles, unsigned long long* out_lsu_cycles) {
+    // DPI export at vsrc/dpi-f.sv:78:15
+    return Vtop::get_unit_cycles(out_ifu_cycles, out_lsu_cycles);
+}
+#endif
+
 #ifndef VL_DPIDECL_halt_
 #define VL_DPIDECL_halt_
 void halt(int* endprog) {

@@ -141,6 +141,9 @@ extern int event_system;
 extern uint64_t mcycle_reserve;
 extern uint64_t instr_cycles;
 
+extern unsigned long long ifu_cycles;
+extern unsigned long long lsu_cycles;
+
 void clear_event_flag();
 void cal_instr_cycles();
 

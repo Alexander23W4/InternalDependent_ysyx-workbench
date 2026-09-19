@@ -45,6 +45,9 @@ void final_check(){
     }
 }
 
+unsigned long long ifu_cycles = 0;
+unsigned long long lsu_cycles = 0;
+
 void final_print() {
   printf("%s", ANSI_FMT("[CYCLES] ", ANSI_FG_CYAN));
   printf("%lu\n", cpu.mcycle);
@@ -135,6 +138,22 @@ void final_print() {
     printf("%.3f\n", (double)system_cycles / (double)system_count);
   else
     printf("N/A\n");
+
+  get_unit_cycles(&ifu_cycles, &lsu_cycles);
+  uint64_t lsu_amt = lsu_read_count + lsu_write_count;
+
+  printf("%s", ANSI_FMT("[IFU_CPI] ", ANSI_FG_CYAN));
+  if (ifu_instr_count)
+    printf("%.3f\n", (double)ifu_cycles / (double)ifu_instr_count);
+  else
+    printf("N/A\n");
+
+  printf("%s", ANSI_FMT("[LSU_CPI] ", ANSI_FG_CYAN));
+  if (lsu_amt)
+    printf("%.3f\n", (double)lsu_cycles / (double)lsu_amt);
+  else
+    printf("N/A\n");
+
 }
 
 

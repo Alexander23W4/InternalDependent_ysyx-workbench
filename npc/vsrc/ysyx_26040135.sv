@@ -304,11 +304,11 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 
 // ⭐: BUS 总线相关
-
     ysyx_26040135_AXI4 bus_ifu ();
     ysyx_26040135_AXI4 bus_lsu ();
     ysyx_26040135_AXI4 bus_master ();
     ysyx_26040135_AXI4 bus_clint ();     // Xbar <-> CLINT (0x0200_0000~0x0200_ffff)
+    ysyx_26040135_AXI4 bus_icache();
 
     assign io_master_awvalid = bus_master.awvalid;
     assign io_master_awid    = bus_master.awid;
@@ -368,6 +368,13 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .__master_validation_error      (__ifu_master_validation_error)
     );
 
+    ysyx_26040135_AXI_ICACHE icache (
+        .bus                            (bus_ifu.slave),
+        .mbus                           (bus_icache.master),
+        .clock                          (clock),
+        .reset                          (reset)
+    )
+
 
 
 
@@ -416,7 +423,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ysyx_26040135_AXI4_Xbar u_xbar (
     .clock   (clock),
     .reset   (reset),
-    .ifu_s   (bus_ifu.slave),
+    .ifu_s   (bus_icache.slave),
     .lsu_s   (bus_lsu.slave),
     .m_m     (bus_master.master),
     .clint_m (bus_clint.master)

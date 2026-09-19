@@ -180,16 +180,22 @@ void final_print() {
     PRINT_CNT_CPI("IFU_FETCH_SDRAM", ifu_fetch_sdram_cycles, ifu_fetch_sdram_count);
     PRINT_CNT_CPI("IFU_FETCH_OTHER", ifu_fetch_other_cycles, ifu_fetch_other_count);
 
+    printf("\n");
+
     PRINT_CNT_CPI("LSU_READ_FLASH",  lsu_read_flash_cycles,  lsu_read_flash_count);
     PRINT_CNT_CPI("LSU_READ_SRAM",   lsu_read_sram_cycles,   lsu_read_sram_count);
     PRINT_CNT_CPI("LSU_READ_SDRAM",  lsu_read_sdram_cycles,  lsu_read_sdram_count);
     PRINT_CNT_CPI("LSU_READ_OTHER",  lsu_read_other_cycles,  lsu_read_other_count);
+
+    printf("\n");
 
     PRINT_CNT_CPI("LSU_WRITE_FLASH", lsu_write_flash_cycles, lsu_write_flash_count);
     PRINT_CNT_CPI("LSU_WRITE_SRAM",  lsu_write_sram_cycles,  lsu_write_sram_count);
     PRINT_CNT_CPI("LSU_WRITE_SDRAM", lsu_write_sdram_cycles, lsu_write_sdram_count);
     PRINT_CNT_CPI("LSU_WRITE_OTHER", lsu_write_other_cycles, lsu_write_other_count);
 
+    printf("\n");
+    
     // 区域合计(IFU + LSU读 + LSU写)
     PRINT_CNT_CPI("REGION_FLASH", flash_cycles, flash_count);
     PRINT_CNT_CPI("REGION_SRAM",  sram_cycles,  sram_count);

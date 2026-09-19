@@ -131,7 +131,11 @@ binary:
 #       不清就会拿 fasts 那套"没有 trace 代码"的目标文件去链接 -> 波形永远是空的.
 #    ⭐ 这里直接用 ./obj_dir/Vtop, 不用 $(NPC_EXE): NPC_HOME 是 AM 那边才有的变量,
 #       在 npc/ 目录里单独 make 时它是空的.
+
+ifeq ($(origin AM_SRCS), undefined)
 trace: clean_obj
+	@echo "================================= TRACE (NPC) ====================================="
+	@echo "[TRACE] IMAGE = $(IMAGE)"
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) $(WAVE_GEN_FLAG) \
 	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) \
 	-CFLAGS "-DWAVE_TRACE=1 -I./include -I./include/sub" \
@@ -139,6 +143,7 @@ trace: clean_obj
 	WAVE_FILE=$(WAVE_FILE) WAVE_START=$(WAVE_START) WAVE_END=$(WAVE_END) WAVE_HALF_PERIOD=$(WAVE_HALF_PERIOD) \
 	$(OBJ_DIR)/Vtop $(ARGS)
 	$(WAVE_GEN) $(WAVE_FILE)
+endif
 
 # 3. --cc --exe --build -j 0 -Wall
 fasts:

@@ -29,10 +29,77 @@ icache获得取指请求的地址后, 根据index部分索引出一个cache块, 
 */
 
 module ysyx_26040135_AXI_ICACHE (
-    ysyx_26040135_AXI4.slave bus,
-    ysyx_26040135_AXI4.master mbus,
-    input clock, 
-    input reset
+    // ==================================================================================
+    // ⭐ 这里原来是 `ysyx_26040135_AXI4.slave bus` / `.master mbus` 两个 SystemVerilog
+    //    interface。yousy(以及 yosys)不支持 interface, 所以把 interface 里的信号全部
+    //    摊成普通端口(方向照抄 axi4.sv 的 slave/master modport), 名字加 bus_ / mbus_ 前缀。
+    //    **内部逻辑一个字都没改**, 只是 bus.xxx -> bus_xxx。
+    // ==================================================================================
+    input  logic        clock,
+    input  logic        reset,
+
+    // ---- bus: icache 面向 IFU 的从端口(slave) ----
+    input  logic [31:0] bus_araddr,
+    input  logic        bus_arvalid,
+    output logic        bus_arready,
+
+    output logic [31:0] bus_rdata,
+    output logic [1:0]  bus_rresp,
+    output logic        bus_rvalid,
+    output logic        bus_rlast,
+    output logic [3:0]  bus_rid,
+    input  logic        bus_rready,
+
+    input  logic        bus_awvalid,
+    output logic        bus_awready,
+    input  logic [3:0]  bus_awid,
+    input  logic [31:0] bus_awaddr,
+    input  logic [7:0]  bus_awlen,
+    input  logic [2:0]  bus_awsize,
+    input  logic [1:0]  bus_awburst,
+
+    input  logic [31:0] bus_wdata,
+    input  logic [3:0]  bus_wstrb,
+    input  logic        bus_wvalid,
+    output logic        bus_wready,
+
+    output logic [1:0]  bus_bresp,
+    output logic        bus_bvalid,
+    output logic [3:0]  bus_bid,
+    input  logic        bus_bready,
+
+    // ---- mbus: icache 面向 xbar 的主端口(master) ----
+    output logic [31:0] mbus_araddr,
+    output logic        mbus_arvalid,
+    input  logic        mbus_arready,
+    output logic [3:0]  mbus_arid,
+    output logic [7:0]  mbus_arlen,
+    output logic [2:0]  mbus_arsize,
+    output logic [1:0]  mbus_arburst,
+
+    input  logic [31:0] mbus_rdata,
+    input  logic [1:0]  mbus_rresp,
+    input  logic        mbus_rvalid,
+    input  logic        mbus_rlast,
+    output logic        mbus_rready,
+
+    output logic        mbus_awvalid,
+    input  logic        mbus_awready,
+    output logic [31:0] mbus_awaddr,
+    output logic [3:0]  mbus_awid,
+    output logic [7:0]  mbus_awlen,
+    output logic [2:0]  mbus_awsize,
+    output logic [1:0]  mbus_awburst,
+
+    output logic [31:0] mbus_wdata,
+    output logic [3:0]  mbus_wstrb,
+    output logic        mbus_wvalid,
+    input  logic        mbus_wready,
+
+    input  logic [1:0]  mbus_bresp,
+    input  logic        mbus_bvalid,
+    input  logic [3:0]  mbus_bid,
+    output logic        mbus_bready
 );
     // ------------------------------------------------------------------
     // 参数: 只有这两个需要调, 且都必须是 2 的幂
@@ -95,7 +162,7 @@ module ysyx_26040135_AXI_ICACHE (
                          (req_region == SDRAM_TAG0) || (req_region == SDRAM_TAG1);
 
 
-    typedef enum [2:0]{ 
+    typedef enum logic [2:0]{ 
         IDLE, OPERATE, DRAM_AR, DRAM_R, RETURN, WRITE_W, WRITE_B
     } state_t;
     state_t state, next;

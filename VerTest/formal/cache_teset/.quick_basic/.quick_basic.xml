@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+<testsuite timestamp="2026-09-20T17:15:10" hostname="wang-virtual-machine" package=".quick" id="0" name="basic" tests="3" errors="0" failures="0" time="8" skipped="0">
+<properties>
+<property name="os" value="Linux"/>
+<property name="expect" value="PASS"/>
+<property name="status" value="PASS"/>
+</properties>
+<testcase classname="basic" name="build execution" time="0">
+</testcase>
+<testcase classname="basic" name="Property ASSERT in CacheTest at icache.sv:231.13-231.64" time="0" type="ASSERT" location="icache.sv:231.13-231.64" id="a_data_match">
+</testcase>
+<testcase classname="basic" name="Property ASSERT in CacheTest at icache.sv:246.13-246.64" time="0" type="ASSERT" location="icache.sv:246.13-246.64" id="a_mem_stable">
+</testcase>
+<testcase classname="basic" name="Property ASSERT in CacheTest at icache.sv:230.13-230.55" time="0" type="ASSERT" location="icache.sv:230.13-230.55" id="a_rresp_okay">
+</testcase>
+<system-out>SBY 17:15:01 [.quick_basic] Removing directory '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/.quick_basic'.
+SBY 17:15:01 [.quick_basic] Copy '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/axi_icache.sv' to '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/.quick_basic/src/axi_icache.sv'.
+SBY 17:15:01 [.quick_basic] Copy '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/icache.sv' to '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/.quick_basic/src/icache.sv'.
+SBY 17:15:01 [.quick_basic] engine_0: smtbmc
+SBY 17:15:01 [.quick_basic] base: starting process &quot;cd .quick_basic/src; yosys -ql ../model/design.log ../model/design.ys&quot;
+SBY 17:15:01 [.quick_basic] base: Warning: Replacing memory \valid with list of registers. See axi_icache.sv:183
+SBY 17:15:01 [.quick_basic] base: Warning: Replacing memory \tag with list of registers. See axi_icache.sv:182
+SBY 17:15:01 [.quick_basic] base: Warning: Replacing memory \icache with list of registers. See axi_icache.sv:181
+SBY 17:15:02 [.quick_basic] base: finished (returncode=0)
+SBY 17:15:02 [.quick_basic] prep: starting process &quot;cd .quick_basic/model; yosys -ql design_prep.log design_prep.ys&quot;
+SBY 17:15:02 [.quick_basic] prep: finished (returncode=0)
+SBY 17:15:02 [.quick_basic] smt2: starting process &quot;cd .quick_basic/model; yosys -ql design_smt2.log design_smt2.ys&quot;
+SBY 17:15:02 [.quick_basic] smt2: finished (returncode=0)
+SBY 17:15:02 [.quick_basic] engine_0: starting process &quot;cd .quick_basic; yosys-smtbmc --presat --unroll --noprogress -t 20  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2&quot;
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Solver: yices
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 1..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 1..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 2..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 2..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 3..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 3..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 4..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 4..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 5..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 5..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 6..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 6..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 7..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 7..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 8..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 8..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 9..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 9..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 10..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 10..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 11..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 11..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 12..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 12..
+SBY 17:15:02 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 13..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 13..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 14..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 14..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:00  Checking assumptions in step 15..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:00  Checking assertions in step 15..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:01  Checking assumptions in step 16..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:01  Checking assertions in step 16..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:01  Checking assumptions in step 17..
+SBY 17:15:03 [.quick_basic] engine_0: ##   0:00:01  Checking assertions in step 17..
+SBY 17:15:05 [.quick_basic] engine_0: ##   0:00:02  Checking assumptions in step 18..
+SBY 17:15:05 [.quick_basic] engine_0: ##   0:00:02  Checking assertions in step 18..
+SBY 17:15:05 [.quick_basic] engine_0: ##   0:00:03  Checking assumptions in step 19..
+SBY 17:15:05 [.quick_basic] engine_0: ##   0:00:03  Checking assertions in step 19..
+SBY 17:15:10 [.quick_basic] engine_0: ##   0:00:08  Status: passed
+SBY 17:15:10 [.quick_basic] engine_0: finished (returncode=0)
+SBY 17:15:10 [.quick_basic] engine_0: Status returned by engine: pass
+SBY 17:15:10 [.quick_basic] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:08 (8)
+SBY 17:15:10 [.quick_basic] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:08 (8)
+SBY 17:15:10 [.quick_basic] summary: engine_0 (smtbmc) returned pass
+SBY 17:15:10 [.quick_basic] summary: engine_0 did not produce any traces
+SBY 17:15:10 [.quick_basic] DONE (PASS, rc=0)
+</system-out>
+<system-err>
+</system-err>
+</testsuite>
+</testsuites>

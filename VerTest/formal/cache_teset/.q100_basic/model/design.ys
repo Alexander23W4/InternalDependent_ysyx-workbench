@@ -1,0 +1,9 @@
+# running in .q100_basic/src/
+read -formal -sv axi_icache.sv
+read -formal -sv icache.sv
+prep -top CacheTest
+
+hierarchy -smtcheck
+rename -witness
+write_jny -no-connections ../model/design.json
+write_rtlil ../model/design.il

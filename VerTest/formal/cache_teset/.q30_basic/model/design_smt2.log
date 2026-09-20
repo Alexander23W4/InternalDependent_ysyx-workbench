@@ -1,0 +1,145 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+
+-- Executing script file `design_smt2.ys' --
+
+1. Executing RTLIL frontend.
+Input filename: design_prep.il
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `CacheTest'. Setting top module to CacheTest.
+
+2.1. Analyzing design hierarchy..
+Top module:  \CacheTest
+Used module:     \ysyx_26040135_AXI_ICACHE
+
+2.2. Analyzing design hierarchy..
+Top module:  \CacheTest
+Used module:     \ysyx_26040135_AXI_ICACHE
+Removed 0 unused modules.
+Module CacheTest directly or indirectly contains formal properties -> setting "keep" attribute.
+
+3. Executing FORMALFF pass.
+
+4. Executing DFFUNMAP pass (unmap clock enable and synchronous reset from FFs).
+
+5. Printing statistics.
+
+=== CacheTest ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       97 wires
+      654 wire bits
+       41 public wires
+      265 public wire bits
+        4 ports
+        8 port bits
+       73 cells
+        2   $add
+        2   $and
+        2   $anyinit
+        3   $assert
+        1   $assume
+        4   $eq
+       14   $ff
+        5   $logic_and
+        3   $logic_not
+        1   $lt
+        1   $mem_v2
+       27   $mux
+        1   $ne
+        4   $not
+        3   $pmux
+        1 submodules
+        1   ysyx_26040135_AXI_ICACHE
+
+=== ysyx_26040135_AXI_ICACHE ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      545 wires
+     8856 wire bits
+      190 public wires
+     3102 public wire bits
+       53 ports
+      359 port bits
+      499 cells
+        1   $add
+       16   $and
+       54   $anyinit
+       21   $anyseq
+        1   $assume
+       25   $eq
+        8   $logic_and
+        3   $logic_not
+        3   $logic_or
+      308   $mux
+        1   $neg
+        2   $not
+       16   $or
+       21   $pmux
+        1   $reduce_bool
+       16   $reduce_or
+        2   $shift
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+      572 CacheTest
+      499 ysyx_26040135_AXI_ICACHE
+
+        +----------Count including submodules.
+        | 
+      642 wires
+     9510 wire bits
+      231 public wires
+     3367 public wire bits
+       57 ports
+      367 port bits
+        - memories
+        - memory bits
+        - processes
+      572 cells
+        3   $add
+       18   $and
+       56   $anyinit
+       21   $anyseq
+        3   $assert
+        2   $assume
+       29   $eq
+       14   $ff
+       13   $logic_and
+        6   $logic_not
+        3   $logic_or
+        1   $lt
+        1   $mem_v2
+      335   $mux
+        1   $ne
+        1   $neg
+        6   $not
+       16   $or
+       24   $pmux
+        1   $reduce_bool
+       16   $reduce_or
+        2   $shift
+        1 submodules
+        1   ysyx_26040135_AXI_ICACHE
+
+6. Executing SMT2 backend.
+
+6.1. Executing BMUXMAP pass.
+
+6.2. Executing DEMUXMAP pass.
+Creating SMT-LIBv2 representation of module ysyx_26040135_AXI_ICACHE.
+Creating SMT-LIBv2 representation of module CacheTest.
+
+End of script. Logfile hash: ad192fc4fa, time: 0.03s, user: 0.04s, system: 0.02s, MEM: 19.30 MB peak
+Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+Time spent: 78% 2x write_smt2 (0 sec), 15% 2x read_rtlil (0 sec), ...

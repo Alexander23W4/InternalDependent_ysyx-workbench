@@ -1,0 +1,154 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+
+-- Executing script file `design_prep.ys' --
+
+1. Executing RTLIL frontend.
+Input filename: design.il
+
+2. Executing SCC pass (detecting logic loops).
+Found 0 SCCs in module CacheTest.
+Found 0 SCCs in module ysyx_26040135_AXI_ICACHE.
+Found 0 SCCs.
+
+3. Executing SIMPLEMAP pass (map simple cells to gate primitives).
+
+4. Executing MEMORY_NORDFF pass (extracting $dff cells from memories).
+
+5. Executing ASYNC2SYNC pass.
+Replacing CacheTest.$procdff$2983 ($adff): ARST=\reset, D=$0\tst[1:0], Q=\tst
+Replacing CacheTest.$procdff$2986 ($adff): ARST=\reset, D=$0\req_addr_r[31:0], Q=\req_addr_r
+Replacing CacheTest.$procdff$2989 ($adff): ARST=\reset, D=$0\req_off_q[4:0], Q=\req_off_q
+Replacing CacheTest.$procdff$2992 ($adff): ARST=\reset, D=$0\req_arvalid_r[0:0], Q=\req_arvalid_r
+Replacing CacheTest.$procdff$2995 ($adff): ARST=\reset, D=$0\req_rready_r[0:0], Q=\req_rready_r
+Replacing CacheTest.$procdff$2998 ($adff): ARST=\reset, D=$0\m_pend[0:0], Q=\m_pend
+Replacing CacheTest.$procdff$3001 ($adff): ARST=\reset, D=$0\m_addr_q[31:0], Q=\m_addr_q
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2702 ($adff): ARST=\reset, D=$0\araddr_save[31:0], Q=\araddr_save
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2705 ($adff): ARST=\reset, D=$0\rresp_save[1:0], Q=\rresp_save
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2708 ($adff): ARST=\reset, D=$0\bid_save[3:0], Q=\bid_save
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2711 ($adff): ARST=\reset, D=$0\rdata_save[31:0], Q=\rdata_save
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2714 ($adff): ARST=\reset, D=$0\beat[0:0], Q=\beat
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2717 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2723 ($adff): ARST=\reset, D=$0$lookahead\icache[0]$163[31:0]$203, Q=\icache[0]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2726 ($adff): ARST=\reset, D=$0$lookahead\icache[1]$164[31:0]$204, Q=\icache[1]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2729 ($adff): ARST=\reset, D=$0$lookahead\icache[2]$165[31:0]$205, Q=\icache[2]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2732 ($adff): ARST=\reset, D=$0$lookahead\icache[3]$166[31:0]$206, Q=\icache[3]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2735 ($adff): ARST=\reset, D=$0$lookahead\icache[4]$167[31:0]$207, Q=\icache[4]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2738 ($adff): ARST=\reset, D=$0$lookahead\icache[5]$168[31:0]$208, Q=\icache[5]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2741 ($adff): ARST=\reset, D=$0$lookahead\icache[6]$169[31:0]$209, Q=\icache[6]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2744 ($adff): ARST=\reset, D=$0$lookahead\icache[7]$170[31:0]$210, Q=\icache[7]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2747 ($adff): ARST=\reset, D=$0$lookahead\icache[8]$171[31:0]$211, Q=\icache[8]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2750 ($adff): ARST=\reset, D=$0$lookahead\icache[9]$172[31:0]$212, Q=\icache[9]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2753 ($adff): ARST=\reset, D=$0$lookahead\icache[10]$173[31:0]$213, Q=\icache[10]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2756 ($adff): ARST=\reset, D=$0$lookahead\icache[11]$174[31:0]$214, Q=\icache[11]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2759 ($adff): ARST=\reset, D=$0$lookahead\icache[12]$175[31:0]$215, Q=\icache[12]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2762 ($adff): ARST=\reset, D=$0$lookahead\icache[13]$176[31:0]$216, Q=\icache[13]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2765 ($adff): ARST=\reset, D=$0$lookahead\icache[14]$177[31:0]$217, Q=\icache[14]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2768 ($adff): ARST=\reset, D=$0$lookahead\icache[15]$178[31:0]$218, Q=\icache[15]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2771 ($adff): ARST=\reset, D=$0\tag[0][25:0], Q=\tag[0]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2774 ($adff): ARST=\reset, D=$0\tag[1][25:0], Q=\tag[1]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2777 ($adff): ARST=\reset, D=$0\tag[2][25:0], Q=\tag[2]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2780 ($adff): ARST=\reset, D=$0\tag[3][25:0], Q=\tag[3]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2783 ($adff): ARST=\reset, D=$0\tag[4][25:0], Q=\tag[4]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2786 ($adff): ARST=\reset, D=$0\tag[5][25:0], Q=\tag[5]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2789 ($adff): ARST=\reset, D=$0\tag[6][25:0], Q=\tag[6]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2792 ($adff): ARST=\reset, D=$0\tag[7][25:0], Q=\tag[7]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2795 ($adff): ARST=\reset, D=$0\tag[8][25:0], Q=\tag[8]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2798 ($adff): ARST=\reset, D=$0\tag[9][25:0], Q=\tag[9]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2801 ($adff): ARST=\reset, D=$0\tag[10][25:0], Q=\tag[10]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2804 ($adff): ARST=\reset, D=$0\tag[11][25:0], Q=\tag[11]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2807 ($adff): ARST=\reset, D=$0\tag[12][25:0], Q=\tag[12]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2810 ($adff): ARST=\reset, D=$0\tag[13][25:0], Q=\tag[13]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2813 ($adff): ARST=\reset, D=$0\tag[14][25:0], Q=\tag[14]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2816 ($adff): ARST=\reset, D=$0\tag[15][25:0], Q=\tag[15]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2819 ($adff): ARST=\reset, D=$0\valid[0][0:0], Q=\valid[0]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2822 ($adff): ARST=\reset, D=$0\valid[1][0:0], Q=\valid[1]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2825 ($adff): ARST=\reset, D=$0\valid[2][0:0], Q=\valid[2]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2828 ($adff): ARST=\reset, D=$0\valid[3][0:0], Q=\valid[3]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2831 ($adff): ARST=\reset, D=$0\valid[4][0:0], Q=\valid[4]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2834 ($adff): ARST=\reset, D=$0\valid[5][0:0], Q=\valid[5]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2837 ($adff): ARST=\reset, D=$0\valid[6][0:0], Q=\valid[6]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2840 ($adff): ARST=\reset, D=$0\valid[7][0:0], Q=\valid[7]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2843 ($adff): ARST=\reset, D=$0\valid[8][0:0], Q=\valid[8]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2846 ($adff): ARST=\reset, D=$0\valid[9][0:0], Q=\valid[9]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2849 ($adff): ARST=\reset, D=$0\valid[10][0:0], Q=\valid[10]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2852 ($adff): ARST=\reset, D=$0\valid[11][0:0], Q=\valid[11]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2855 ($adff): ARST=\reset, D=$0\valid[12][0:0], Q=\valid[12]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2858 ($adff): ARST=\reset, D=$0\valid[13][0:0], Q=\valid[13]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2861 ($adff): ARST=\reset, D=$0\valid[14][0:0], Q=\valid[14]
+Replacing ysyx_26040135_AXI_ICACHE.$procdff$2864 ($adff): ARST=\reset, D=$0\valid[15][0:0], Q=\valid[15]
+
+6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \CacheTest..
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Removed 9 unused cells and 9 unused wires.
+<suppressed ~10 debug messages>
+
+7. Executing FORMALFF pass.
+Setting unused undefined initial value of CacheTest.$procdff$3001 ($sdff) from 32'x to 0
+Setting unused undefined initial value of CacheTest.$procdff$2998 ($sdff) from 1'x to 1'0
+Setting unused undefined initial value of CacheTest.$procdff$2995 ($sdff) from 1'x to 1'0
+Setting unused undefined initial value of CacheTest.$procdff$2992 ($sdff) from 1'x to 1'0
+Setting unused undefined initial value of CacheTest.$procdff$2989 ($sdff) from 5'x to 5'00000
+Setting unused undefined initial value of CacheTest.$procdff$2986 ($sdff) from 32'x to 0
+Setting unused undefined initial value of CacheTest.$procdff$2983 ($sdff) from 2'x to 2'00
+
+8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \CacheTest..
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Removed 2 unused cells and 2 unused wires.
+<suppressed ~4 debug messages>
+
+9. Executing CHECK pass (checking for obvious problems).
+Checking module CacheTest...
+Checking module ysyx_26040135_AXI_ICACHE...
+Found and reported 0 problems.
+
+10. Executing SETUNDEF pass (replace undef values with defined constants).
+
+11. Executing OPT pass (performing simple optimizations).
+
+11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module CacheTest.
+Optimizing module ysyx_26040135_AXI_ICACHE.
+<suppressed ~3 debug messages>
+
+11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\CacheTest'.
+Computing hashes of 73 cells of `\CacheTest'.
+Finding duplicate cells in `\CacheTest'.
+Computing hashes of 72 cells of `\CacheTest'.
+Finding duplicate cells in `\CacheTest'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 498 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+Removed a total of 1 cells.
+
+11.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+11.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \CacheTest..
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~3 debug messages>
+
+11.5. Finished fast OPT passes.
+
+12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \CacheTest..
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Removed 0 unused cells and 75 unused wires.
+<suppressed ~1 debug messages>
+
+13. Executing RTLIL backend.
+Output filename: ../model/design_prep.il
+
+End of script. Logfile hash: 5f8ea49263, time: 0.12s, user: 0.12s, system: 0.02s, MEM: 22.73 MB peak
+Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+Time spent: 42% 4x opt_clean (0 sec), 20% 1x check (0 sec), ...

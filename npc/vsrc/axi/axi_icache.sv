@@ -16,6 +16,11 @@ icache获得取指请求的地址后, 根据index部分索引出一个cache块, 
 
 向IFU返回取出的指令
 
+⭐: 增加有关icache的 perf counter:
+icache 的 hit数 和 miss数
+icache 的 hit的CPI 和 miss的CPI
+
+
 ------------------------------------------------------------------------------------------------
 ⭐ 支持任意块大小(2 的幂, >= 4 字节):
     真正要调的参数只有 CACHE_LINE_BYTES(块大小, 字节) 和 CACHE_LINE_AMT(块数),

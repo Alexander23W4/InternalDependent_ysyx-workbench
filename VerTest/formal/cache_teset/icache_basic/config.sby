@@ -1,9 +1,4 @@
-[tasks]
-basic
-basic: default
-
 [options]
-basic:
 mode bmc
 depth 30
 

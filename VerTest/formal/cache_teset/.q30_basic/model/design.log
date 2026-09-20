@@ -1,0 +1,1070 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+
+-- Executing script file `../model/design.ys' --
+
+1. Executing Verilog-2005 frontend: axi_icache.sv
+Parsing formal SystemVerilog input from `axi_icache.sv' to AST representation.
+Storing AST representation for module `$abstract\ysyx_26040135_AXI_ICACHE'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: icache.sv
+Parsing formal SystemVerilog input from `icache.sv' to AST representation.
+Storing AST representation for module `$abstract\CacheTest'.
+Successfully finished Verilog frontend.
+
+3. Executing PREP pass.
+
+3.1. Executing HIERARCHY pass (managing design hierarchy).
+
+3.2. Executing AST frontend in derive mode using pre-parsed AST for module `\CacheTest'.
+Generating RTLIL representation for module `\CacheTest'.
+
+3.2.1. Analyzing design hierarchy..
+Top module:  \CacheTest
+
+3.2.2. Executing AST frontend in derive mode using pre-parsed AST for module `\ysyx_26040135_AXI_ICACHE'.
+Generating RTLIL representation for module `\ysyx_26040135_AXI_ICACHE'.
+Warning: Replacing memory \valid with list of registers. See axi_icache.sv:183
+Warning: Replacing memory \tag with list of registers. See axi_icache.sv:182
+Warning: Replacing memory \icache with list of registers. See axi_icache.sv:181
+
+3.2.3. Analyzing design hierarchy..
+Top module:  \CacheTest
+Used module:     \ysyx_26040135_AXI_ICACHE
+
+3.2.4. Analyzing design hierarchy..
+Top module:  \CacheTest
+Used module:     \ysyx_26040135_AXI_ICACHE
+Removing unused module `$abstract\CacheTest'.
+Removing unused module `$abstract\ysyx_26040135_AXI_ICACHE'.
+Removed 2 unused modules.
+Module CacheTest directly or indirectly contains formal properties -> setting "keep" attribute.
+
+3.3. Executing PROC pass (convert processes to netlists).
+
+3.3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed 3 dead cases from process $proc$axi_icache.sv:226$511 in module ysyx_26040135_AXI_ICACHE.
+Marked 14 switch rules as full_case in process $proc$axi_icache.sv:226$511 in module ysyx_26040135_AXI_ICACHE.
+Removed 1 dead cases from process $proc$axi_icache.sv:171$179 in module ysyx_26040135_AXI_ICACHE.
+Marked 7 switch rules as full_case in process $proc$axi_icache.sv:171$179 in module ysyx_26040135_AXI_ICACHE.
+Marked 2 switch rules as full_case in process $proc$icache.sv:185$50 in module CacheTest.
+Marked 1 switch rules as full_case in process $proc$icache.sv:167$47 in module CacheTest.
+Removed a total of 4 dead cases.
+
+3.3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 128 assignments to connections.
+
+3.3.4. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `\CacheTest.$proc$icache.sv:53$133'.
+  Set init value: \reset = 1'1
+Found init rule in `\CacheTest.$proc$icache.sv:52$132'.
+  Set init value: \boot_cnt = 4'0000
+
+3.3.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \reset in `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+Found async reset \reset in `\CacheTest.$proc$icache.sv:185$50'.
+Found async reset \reset in `\CacheTest.$proc$icache.sv:167$47'.
+
+3.3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~31 debug messages>
+
+3.3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+     1/39: $11\next[2:0]
+     2/39: $10\next[2:0]
+     3/39: $5\bus_wready[0:0]
+     4/39: $9\next[2:0]
+     5/39: $2$mem2reg_rd$\icache$axi_icache.sv:313$139_DATA[31:0]$534
+     6/39: $8\next[2:0]
+     7/39: $7\next[2:0]
+     8/39: $2\mbus_rready[0:0]
+     9/39: $6\next[2:0]
+    10/39: $5\next[2:0]
+    11/39: $2$mem2reg_rd$\tag$axi_icache.sv:286$138_DATA[25:0]$527
+    12/39: $2$mem2reg_rd$\valid$axi_icache.sv:286$137_DATA[0:0]$526
+    13/39: $4\next[2:0]
+    14/39: $4\bus_wready[0:0]
+    15/39: $3\next[2:0]
+    16/39: $3\bus_wready[0:0]
+    17/39: $3\bus_awready[0:0]
+    18/39: $2\next[2:0]
+    19/39: $2\bus_wready[0:0]
+    20/39: $2\bus_awready[0:0]
+    21/39: $1\next[2:0]
+    22/39: $1\bus_wready[0:0]
+    23/39: $1\bus_awready[0:0]
+    24/39: $1$mem2reg_rd$\icache$axi_icache.sv:313$139_DATA[31:0]$525
+    25/39: $1$mem2reg_rd$\icache$axi_icache.sv:313$139_ADDR[3:0]$524
+    26/39: $1$mem2reg_rd$\tag$axi_icache.sv:286$138_DATA[25:0]$523
+    27/39: $1$mem2reg_rd$\tag$axi_icache.sv:286$138_ADDR[3:0]$522
+    28/39: $1$mem2reg_rd$\valid$axi_icache.sv:286$137_DATA[0:0]$521
+    29/39: $1$mem2reg_rd$\valid$axi_icache.sv:286$137_ADDR[3:0]$520
+    30/39: $1\mbus_rready[0:0]
+    31/39: $1\mbus_arvalid[0:0]
+    32/39: $1\bus_bid[3:0]
+    33/39: $1\bus_bresp[1:0]
+    34/39: $1\bus_rresp[1:0]
+    35/39: $1\bus_rdata[31:0]
+    36/39: $1\bus_bvalid[0:0]
+    37/39: $1\bus_rlast[0:0]
+    38/39: $1\bus_rvalid[0:0]
+    39/39: $1\bus_arready[0:0]
+Creating decoders for process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+     1/189: $4$mem2reg_wr$\tag$axi_icache.sv:213$136_ADDR[3:0]$507
+     2/189: $4$mem2reg_wr$\tag$axi_icache.sv:213$136_DATA[25:0]$508
+     3/189: $4$mem2reg_wr$\valid$axi_icache.sv:212$135_ADDR[3:0]$505
+     4/189: $4$mem2reg_wr$\valid$axi_icache.sv:212$135_DATA[0:0]$506
+     5/189: $4$lookahead\icache[0]$163[31:0]$361
+     6/189: $4$bitselwrite$pos$axi_icache.sv:210$140[31:0]$345
+     7/189: $4$lookahead\icache[15]$178[31:0]$376
+     8/189: $4$lookahead\icache[14]$177[31:0]$375
+     9/189: $4$lookahead\icache[13]$176[31:0]$374
+    10/189: $4$lookahead\icache[12]$175[31:0]$373
+    11/189: $4$lookahead\icache[11]$174[31:0]$372
+    12/189: $4$lookahead\icache[10]$173[31:0]$371
+    13/189: $4$lookahead\icache[9]$172[31:0]$370
+    14/189: $4$lookahead\icache[8]$171[31:0]$369
+    15/189: $4$lookahead\icache[7]$170[31:0]$368
+    16/189: $4$lookahead\icache[6]$169[31:0]$367
+    17/189: $4$lookahead\icache[5]$168[31:0]$366
+    18/189: $4$lookahead\icache[4]$167[31:0]$365
+    19/189: $4$lookahead\icache[3]$166[31:0]$364
+    20/189: $4$lookahead\icache[2]$165[31:0]$363
+    21/189: $4$lookahead\icache[1]$164[31:0]$362
+    22/189: $4$bitselwrite$pos$axi_icache.sv:210$155[31:0]$360
+    23/189: $4$bitselwrite$pos$axi_icache.sv:210$154[31:0]$359
+    24/189: $4$bitselwrite$pos$axi_icache.sv:210$153[31:0]$358
+    25/189: $4$bitselwrite$pos$axi_icache.sv:210$152[31:0]$357
+    26/189: $4$bitselwrite$pos$axi_icache.sv:210$151[31:0]$356
+    27/189: $4$bitselwrite$pos$axi_icache.sv:210$150[31:0]$355
+    28/189: $4$bitselwrite$pos$axi_icache.sv:210$149[31:0]$354
+    29/189: $4$bitselwrite$pos$axi_icache.sv:210$148[31:0]$353
+    30/189: $4$bitselwrite$pos$axi_icache.sv:210$147[31:0]$352
+    31/189: $4$bitselwrite$pos$axi_icache.sv:210$146[31:0]$351
+    32/189: $4$bitselwrite$pos$axi_icache.sv:210$145[31:0]$350
+    33/189: $4$bitselwrite$pos$axi_icache.sv:210$144[31:0]$349
+    34/189: $4$bitselwrite$pos$axi_icache.sv:210$143[31:0]$348
+    35/189: $4$bitselwrite$pos$axi_icache.sv:210$142[31:0]$347
+    36/189: $4$bitselwrite$pos$axi_icache.sv:210$141[31:0]$346
+    37/189: $3$mem2reg_wr$\tag$axi_icache.sv:213$136_DATA[25:0]$312
+    38/189: $3$mem2reg_wr$\tag$axi_icache.sv:213$136_ADDR[3:0]$311
+    39/189: $3$mem2reg_wr$\valid$axi_icache.sv:212$135_DATA[0:0]$310
+    40/189: $3$mem2reg_wr$\valid$axi_icache.sv:212$135_ADDR[3:0]$309
+    41/189: $3$lookahead\icache[15]$178[31:0]$344
+    42/189: $3$lookahead\icache[14]$177[31:0]$343
+    43/189: $3$lookahead\icache[13]$176[31:0]$342
+    44/189: $3$lookahead\icache[12]$175[31:0]$341
+    45/189: $3$lookahead\icache[11]$174[31:0]$340
+    46/189: $3$lookahead\icache[10]$173[31:0]$339
+    47/189: $3$lookahead\icache[9]$172[31:0]$338
+    48/189: $3$lookahead\icache[8]$171[31:0]$337
+    49/189: $3$lookahead\icache[7]$170[31:0]$336
+    50/189: $3$lookahead\icache[6]$169[31:0]$335
+    51/189: $3$lookahead\icache[5]$168[31:0]$334
+    52/189: $3$lookahead\icache[4]$167[31:0]$333
+    53/189: $3$lookahead\icache[3]$166[31:0]$332
+    54/189: $3$lookahead\icache[2]$165[31:0]$331
+    55/189: $3$lookahead\icache[1]$164[31:0]$330
+    56/189: $3$lookahead\icache[0]$163[31:0]$329
+    57/189: $3$bitselwrite$pos$axi_icache.sv:210$155[31:0]$328
+    58/189: $3$bitselwrite$pos$axi_icache.sv:210$154[31:0]$327
+    59/189: $3$bitselwrite$pos$axi_icache.sv:210$153[31:0]$326
+    60/189: $3$bitselwrite$pos$axi_icache.sv:210$152[31:0]$325
+    61/189: $3$bitselwrite$pos$axi_icache.sv:210$151[31:0]$324
+    62/189: $3$bitselwrite$pos$axi_icache.sv:210$150[31:0]$323
+    63/189: $3$bitselwrite$pos$axi_icache.sv:210$149[31:0]$322
+    64/189: $3$bitselwrite$pos$axi_icache.sv:210$148[31:0]$321
+    65/189: $3$bitselwrite$pos$axi_icache.sv:210$147[31:0]$320
+    66/189: $3$bitselwrite$pos$axi_icache.sv:210$146[31:0]$319
+    67/189: $3$bitselwrite$pos$axi_icache.sv:210$145[31:0]$318
+    68/189: $3$bitselwrite$pos$axi_icache.sv:210$144[31:0]$317
+    69/189: $3$bitselwrite$pos$axi_icache.sv:210$143[31:0]$316
+    70/189: $3$bitselwrite$pos$axi_icache.sv:210$142[31:0]$315
+    71/189: $3$bitselwrite$pos$axi_icache.sv:210$141[31:0]$314
+    72/189: $3$bitselwrite$pos$axi_icache.sv:210$140[31:0]$313
+    73/189: $3$mem2reg_wr$\icache$axi_icache.sv:210$134_ADDR[3:0]$307
+    74/189: $3$mem2reg_wr$\icache$axi_icache.sv:210$134_DATA[31:0]$308
+    75/189: $2$lookahead\icache[15]$178[31:0]$304
+    76/189: $2$lookahead\icache[14]$177[31:0]$303
+    77/189: $2$lookahead\icache[13]$176[31:0]$302
+    78/189: $2$lookahead\icache[12]$175[31:0]$301
+    79/189: $2$lookahead\icache[11]$174[31:0]$300
+    80/189: $2$lookahead\icache[10]$173[31:0]$299
+    81/189: $2$lookahead\icache[9]$172[31:0]$298
+    82/189: $2$lookahead\icache[8]$171[31:0]$297
+    83/189: $2$lookahead\icache[7]$170[31:0]$296
+    84/189: $2$lookahead\icache[6]$169[31:0]$295
+    85/189: $2$lookahead\icache[5]$168[31:0]$294
+    86/189: $2$lookahead\icache[4]$167[31:0]$293
+    87/189: $2$lookahead\icache[3]$166[31:0]$292
+    88/189: $2$lookahead\icache[2]$165[31:0]$291
+    89/189: $2$lookahead\icache[1]$164[31:0]$290
+    90/189: $2$lookahead\icache[0]$163[31:0]$289
+    91/189: $2$bitselwrite$pos$axi_icache.sv:210$155[31:0]$288
+    92/189: $2$bitselwrite$pos$axi_icache.sv:210$154[31:0]$287
+    93/189: $2$bitselwrite$pos$axi_icache.sv:210$153[31:0]$286
+    94/189: $2$bitselwrite$pos$axi_icache.sv:210$152[31:0]$285
+    95/189: $2$bitselwrite$pos$axi_icache.sv:210$151[31:0]$284
+    96/189: $2$bitselwrite$pos$axi_icache.sv:210$150[31:0]$283
+    97/189: $2$bitselwrite$pos$axi_icache.sv:210$149[31:0]$282
+    98/189: $2$bitselwrite$pos$axi_icache.sv:210$148[31:0]$281
+    99/189: $2$bitselwrite$pos$axi_icache.sv:210$147[31:0]$280
+   100/189: $2$bitselwrite$pos$axi_icache.sv:210$146[31:0]$279
+   101/189: $2$bitselwrite$pos$axi_icache.sv:210$145[31:0]$278
+   102/189: $2$bitselwrite$pos$axi_icache.sv:210$144[31:0]$277
+   103/189: $2$bitselwrite$pos$axi_icache.sv:210$143[31:0]$276
+   104/189: $2$bitselwrite$pos$axi_icache.sv:210$142[31:0]$275
+   105/189: $2$bitselwrite$pos$axi_icache.sv:210$141[31:0]$274
+   106/189: $2$bitselwrite$pos$axi_icache.sv:210$140[31:0]$273
+   107/189: $2$mem2reg_wr$\tag$axi_icache.sv:213$136_DATA[25:0]$272
+   108/189: $2$mem2reg_wr$\tag$axi_icache.sv:213$136_ADDR[3:0]$271
+   109/189: $2$mem2reg_wr$\valid$axi_icache.sv:212$135_DATA[0:0]$270
+   110/189: $2$mem2reg_wr$\valid$axi_icache.sv:212$135_ADDR[3:0]$269
+   111/189: $2$mem2reg_wr$\icache$axi_icache.sv:210$134_DATA[31:0]$268
+   112/189: $2$mem2reg_wr$\icache$axi_icache.sv:210$134_ADDR[3:0]$267
+   113/189: $1$lookahead\icache[15]$178[31:0]$257
+   114/189: $1$lookahead\icache[14]$177[31:0]$256
+   115/189: $1$lookahead\icache[13]$176[31:0]$255
+   116/189: $1$lookahead\icache[12]$175[31:0]$254
+   117/189: $1$lookahead\icache[11]$174[31:0]$253
+   118/189: $1$lookahead\icache[10]$173[31:0]$252
+   119/189: $1$lookahead\icache[9]$172[31:0]$251
+   120/189: $1$lookahead\icache[8]$171[31:0]$250
+   121/189: $1$lookahead\icache[7]$170[31:0]$249
+   122/189: $1$lookahead\icache[6]$169[31:0]$248
+   123/189: $1$lookahead\icache[5]$168[31:0]$247
+   124/189: $1$lookahead\icache[4]$167[31:0]$246
+   125/189: $1$lookahead\icache[3]$166[31:0]$245
+   126/189: $1$lookahead\icache[2]$165[31:0]$244
+   127/189: $1$lookahead\icache[1]$164[31:0]$243
+   128/189: $1$lookahead\icache[0]$163[31:0]$242
+   129/189: $1$bitselwrite$pos$axi_icache.sv:210$155[31:0]$241
+   130/189: $1$bitselwrite$pos$axi_icache.sv:210$154[31:0]$240
+   131/189: $1$bitselwrite$pos$axi_icache.sv:210$153[31:0]$239
+   132/189: $1$bitselwrite$pos$axi_icache.sv:210$152[31:0]$238
+   133/189: $1$bitselwrite$pos$axi_icache.sv:210$151[31:0]$237
+   134/189: $1$bitselwrite$pos$axi_icache.sv:210$150[31:0]$236
+   135/189: $1$bitselwrite$pos$axi_icache.sv:210$149[31:0]$235
+   136/189: $1$bitselwrite$pos$axi_icache.sv:210$148[31:0]$234
+   137/189: $1$bitselwrite$pos$axi_icache.sv:210$147[31:0]$233
+   138/189: $1$bitselwrite$pos$axi_icache.sv:210$146[31:0]$232
+   139/189: $1$bitselwrite$pos$axi_icache.sv:210$145[31:0]$231
+   140/189: $1$bitselwrite$pos$axi_icache.sv:210$144[31:0]$230
+   141/189: $1$bitselwrite$pos$axi_icache.sv:210$143[31:0]$229
+   142/189: $1$bitselwrite$pos$axi_icache.sv:210$142[31:0]$228
+   143/189: $1$bitselwrite$pos$axi_icache.sv:210$141[31:0]$227
+   144/189: $1$bitselwrite$pos$axi_icache.sv:210$140[31:0]$226
+   145/189: $1$mem2reg_wr$\tag$axi_icache.sv:213$136_DATA[25:0]$225
+   146/189: $1$mem2reg_wr$\tag$axi_icache.sv:213$136_ADDR[3:0]$224
+   147/189: $1$mem2reg_wr$\valid$axi_icache.sv:212$135_DATA[0:0]$223
+   148/189: $1$mem2reg_wr$\valid$axi_icache.sv:212$135_ADDR[3:0]$222
+   149/189: $1$mem2reg_wr$\icache$axi_icache.sv:210$134_DATA[31:0]$221
+   150/189: $1$mem2reg_wr$\icache$axi_icache.sv:210$134_ADDR[3:0]$220
+   151/189: $0\state[2:0]
+   152/189: $1$fordecl_block$1.i[31:0]$219
+   153/189: $0\valid[15][0:0]
+   154/189: $0\valid[14][0:0]
+   155/189: $0\valid[13][0:0]
+   156/189: $0\valid[12][0:0]
+   157/189: $0\valid[11][0:0]
+   158/189: $0\valid[10][0:0]
+   159/189: $0\valid[9][0:0]
+   160/189: $0\valid[8][0:0]
+   161/189: $0\valid[7][0:0]
+   162/189: $0\valid[6][0:0]
+   163/189: $0\valid[5][0:0]
+   164/189: $0\valid[4][0:0]
+   165/189: $0\valid[3][0:0]
+   166/189: $0\valid[2][0:0]
+   167/189: $0\valid[1][0:0]
+   168/189: $0\valid[0][0:0]
+   169/189: $0\tag[15][25:0]
+   170/189: $0\tag[14][25:0]
+   171/189: $0\tag[13][25:0]
+   172/189: $0\tag[12][25:0]
+   173/189: $0\tag[11][25:0]
+   174/189: $0\tag[10][25:0]
+   175/189: $0\tag[9][25:0]
+   176/189: $0\tag[8][25:0]
+   177/189: $0\tag[7][25:0]
+   178/189: $0\tag[6][25:0]
+   179/189: $0\tag[5][25:0]
+   180/189: $0\tag[4][25:0]
+   181/189: $0\tag[3][25:0]
+   182/189: $0\tag[2][25:0]
+   183/189: $0\tag[1][25:0]
+   184/189: $0\tag[0][25:0]
+   185/189: $0\beat[0:0]
+   186/189: $0\rdata_save[31:0]
+   187/189: $0\bid_save[3:0]
+   188/189: $0\rresp_save[1:0]
+   189/189: $0\araddr_save[31:0]
+Creating decoders for process `\CacheTest.$proc$icache.sv:53$133'.
+Creating decoders for process `\CacheTest.$proc$icache.sv:52$132'.
+Creating decoders for process `\CacheTest.$proc$icache.sv:44$98'.
+Creating decoders for process `\CacheTest.$proc$icache.sv:242$61'.
+     1/1: \a_mem_stable_EN
+Creating decoders for process `\CacheTest.$proc$icache.sv:228$52'.
+     1/2: \a_data_match_EN
+     2/2: \a_rresp_okay_EN
+Creating decoders for process `\CacheTest.$proc$icache.sv:185$50'.
+     1/5: $0\req_rready_r[0:0]
+     2/5: $0\req_arvalid_r[0:0]
+     3/5: $0\req_off_q[4:0]
+     4/5: $0\req_addr_r[31:0]
+     5/5: $0\tst[1:0]
+Creating decoders for process `\CacheTest.$proc$icache.sv:167$47'.
+     1/2: $0\m_addr_q[31:0]
+     2/2: $0\m_pend[0:0]
+Creating decoders for process `\CacheTest.$proc$icache.sv:55$37'.
+     1/1: $0\boot_cnt[3:0]
+
+3.3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_arready' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_rvalid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_rlast' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_awready' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_wready' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_bvalid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_rdata' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_rresp' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_bresp' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_rid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\bus_bid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_arvalid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_rready' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_araddr' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_arid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_arlen' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_arsize' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_arburst' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_awvalid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_awaddr' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_awid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_awlen' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_awsize' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_awburst' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_wdata' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_wstrb' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_wvalid' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\mbus_bready' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\ysyx_26040135_AXI_ICACHE.\next' from process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+No latch inferred for signal `\CacheTest.$fordecl_block$3.i' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$5_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$6_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$7_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$8_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$9_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$10_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$11_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$12_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$13_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$14_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$15_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$16_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$17_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$18_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$19_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$20_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$21_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$22_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$23_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$24_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$25_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$26_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$27_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$28_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$29_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$30_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$31_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$32_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$33_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$34_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$35_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+No latch inferred for signal `\CacheTest.$memwr$\mem$icache.sv:46$36_EN' from process `\CacheTest.$proc$icache.sv:44$98'.
+
+3.3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\araddr_save' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2702' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\rresp_save' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2705' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\bid_save' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2708' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\rdata_save' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2711' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\beat' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2714' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\state' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2717' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$fordecl_block$1.i' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2720' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[0]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2723' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[1]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2726' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[2]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2729' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[3]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2732' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[4]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2735' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[5]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2738' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[6]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2741' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[7]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2744' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[8]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2747' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[9]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2750' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[10]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2753' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[11]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2756' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[12]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2759' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[13]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2762' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[14]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2765' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\icache[15]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2768' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[0]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2771' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[1]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2774' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[2]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2777' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[3]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2780' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[4]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2783' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[5]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2786' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[6]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2789' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[7]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2792' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[8]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2795' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[9]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2798' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[10]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2801' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[11]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2804' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[12]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2807' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[13]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2810' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[14]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2813' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\tag[15]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2816' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[0]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2819' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[1]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2822' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[2]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2825' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[3]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2828' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[4]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2831' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[5]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2834' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[6]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2837' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[7]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2840' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[8]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2843' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[9]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2846' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[10]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2849' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[11]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2852' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[12]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2855' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[13]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2858' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[14]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2861' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.\valid[15]' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2864' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$mem2reg_wr$\icache$axi_icache.sv:210$134_ADDR' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2867' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$mem2reg_wr$\icache$axi_icache.sv:210$134_DATA' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2870' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$mem2reg_wr$\valid$axi_icache.sv:212$135_ADDR' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2873' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$mem2reg_wr$\valid$axi_icache.sv:212$135_DATA' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2876' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$mem2reg_wr$\tag$axi_icache.sv:213$136_ADDR' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2879' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$mem2reg_wr$\tag$axi_icache.sv:213$136_DATA' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2882' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$140' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2885' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$141' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2888' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$142' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2891' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$143' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2894' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$144' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2897' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$145' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2900' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$146' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2903' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$147' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2906' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$148' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2909' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$149' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2912' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$150' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2915' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$151' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2918' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$152' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2921' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$153' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2924' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$154' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2927' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$bitselwrite$pos$axi_icache.sv:210$155' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2930' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[0]$163' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2933' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[1]$164' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2936' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[2]$165' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2939' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[3]$166' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2942' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[4]$167' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2945' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[5]$168' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2948' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[6]$169' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2951' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[7]$170' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2954' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[8]$171' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2957' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[9]$172' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2960' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[10]$173' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2963' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[11]$174' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2966' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[12]$175' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2969' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[13]$176' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2972' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[14]$177' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2975' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_AXI_ICACHE.$lookahead\icache[15]$178' using process `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+  created $adff cell `$procdff$2978' with positive edge clock and positive level reset.
+Creating register for signal `\CacheTest.\mon_idx_q' using process `\CacheTest.$proc$icache.sv:242$61'.
+  created $dff cell `$procdff$2979' with positive edge clock.
+Creating register for signal `\CacheTest.\mon_val_q' using process `\CacheTest.$proc$icache.sv:242$61'.
+  created $dff cell `$procdff$2980' with positive edge clock.
+Creating register for signal `\CacheTest.\tst' using process `\CacheTest.$proc$icache.sv:185$50'.
+  created $adff cell `$procdff$2983' with positive edge clock and positive level reset.
+Creating register for signal `\CacheTest.\req_addr_r' using process `\CacheTest.$proc$icache.sv:185$50'.
+  created $adff cell `$procdff$2986' with positive edge clock and positive level reset.
+Creating register for signal `\CacheTest.\req_off_q' using process `\CacheTest.$proc$icache.sv:185$50'.
+  created $adff cell `$procdff$2989' with positive edge clock and positive level reset.
+Creating register for signal `\CacheTest.\req_arvalid_r' using process `\CacheTest.$proc$icache.sv:185$50'.
+  created $adff cell `$procdff$2992' with positive edge clock and positive level reset.
+Creating register for signal `\CacheTest.\req_rready_r' using process `\CacheTest.$proc$icache.sv:185$50'.
+  created $adff cell `$procdff$2995' with positive edge clock and positive level reset.
+Creating register for signal `\CacheTest.\m_pend' using process `\CacheTest.$proc$icache.sv:167$47'.
+  created $adff cell `$procdff$2998' with positive edge clock and positive level reset.
+Creating register for signal `\CacheTest.\m_addr_q' using process `\CacheTest.$proc$icache.sv:167$47'.
+  created $adff cell `$procdff$3001' with positive edge clock and positive level reset.
+Creating register for signal `\CacheTest.\reset' using process `\CacheTest.$proc$icache.sv:55$37'.
+  created $dff cell `$procdff$3002' with positive edge clock.
+Creating register for signal `\CacheTest.\boot_cnt' using process `\CacheTest.$proc$icache.sv:55$37'.
+  created $dff cell `$procdff$3003' with positive edge clock.
+
+3.3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 14 empty switches in `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+Removing empty process `ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:226$511'.
+Found and cleaned up 9 empty switches in `\ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+Removing empty process `ysyx_26040135_AXI_ICACHE.$proc$axi_icache.sv:171$179'.
+Removing empty process `CacheTest.$proc$icache.sv:53$133'.
+Removing empty process `CacheTest.$proc$icache.sv:52$132'.
+Removing empty process `CacheTest.$proc$icache.sv:44$98'.
+Found and cleaned up 1 empty switch in `\CacheTest.$proc$icache.sv:242$61'.
+Removing empty process `CacheTest.$proc$icache.sv:242$61'.
+Found and cleaned up 1 empty switch in `\CacheTest.$proc$icache.sv:228$52'.
+Removing empty process `CacheTest.$proc$icache.sv:228$52'.
+Found and cleaned up 3 empty switches in `\CacheTest.$proc$icache.sv:185$50'.
+Removing empty process `CacheTest.$proc$icache.sv:185$50'.
+Found and cleaned up 2 empty switches in `\CacheTest.$proc$icache.sv:167$47'.
+Removing empty process `CacheTest.$proc$icache.sv:167$47'.
+Found and cleaned up 1 empty switch in `\CacheTest.$proc$icache.sv:55$37'.
+Removing empty process `CacheTest.$proc$icache.sv:55$37'.
+Cleaned up 31 empty switches.
+
+3.3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ysyx_26040135_AXI_ICACHE.
+<suppressed ~151 debug messages>
+Optimizing module CacheTest.
+<suppressed ~14 debug messages>
+
+3.4. Executing FUTURE pass.
+
+3.5. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ysyx_26040135_AXI_ICACHE.
+Optimizing module CacheTest.
+
+3.6. Executing CHECK pass (checking for obvious problems).
+Checking module ysyx_26040135_AXI_ICACHE...
+Checking module CacheTest...
+Found and reported 0 problems.
+
+3.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Finding unused cells or wires in module \CacheTest..
+Removed 434 unused cells and 1297 unused wires.
+<suppressed ~436 debug messages>
+
+3.8. Executing OPT pass (performing simple optimizations).
+
+3.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ysyx_26040135_AXI_ICACHE.
+Optimizing module CacheTest.
+
+3.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 878 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 490 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 475 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 445 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 430 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+<suppressed ~1344 debug messages>
+Finding identical cells in module `\CacheTest'.
+Computing hashes of 97 cells of `\CacheTest'.
+Finding duplicate cells in `\CacheTest'.
+Computing hashes of 89 cells of `\CacheTest'.
+Finding duplicate cells in `\CacheTest'.
+<suppressed ~24 debug messages>
+Removed a total of 456 cells.
+
+3.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ysyx_26040135_AXI_ICACHE..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$1071.
+    dead port 2/2 on $mux $procmux$1069.
+    dead port 2/2 on $mux $procmux$1800.
+    dead port 2/2 on $mux $procmux$1758.
+    dead port 2/2 on $mux $procmux$1347.
+    dead port 2/2 on $mux $procmux$1345.
+    dead port 2/2 on $mux $procmux$1048.
+    dead port 2/2 on $mux $procmux$1046.
+    dead port 2/2 on $mux $procmux$1025.
+    dead port 2/2 on $mux $procmux$1023.
+    dead port 2/2 on $mux $procmux$1324.
+    dead port 2/2 on $mux $procmux$1322.
+    dead port 2/2 on $mux $procmux$1806.
+    dead port 2/2 on $mux $procmux$1770.
+    dead port 2/2 on $mux $procmux$1812.
+    dead port 2/2 on $mux $procmux$1794.
+    dead port 2/2 on $mux $procmux$1746.
+    dead port 2/2 on $mux $procmux$979.
+    dead port 2/2 on $mux $procmux$977.
+    dead port 2/2 on $mux $procmux$1301.
+    dead port 2/2 on $mux $procmux$1299.
+    dead port 2/2 on $mux $procmux$1788.
+    dead port 2/2 on $mux $procmux$1764.
+    dead port 2/2 on $mux $procmux$1782.
+    dead port 2/2 on $mux $procmux$1278.
+    dead port 2/2 on $mux $procmux$1276.
+    dead port 2/2 on $mux $procmux$805.
+    dead port 2/2 on $mux $procmux$793.
+    dead port 2/2 on $mux $procmux$781.
+    dead port 2/2 on $mux $procmux$769.
+    dead port 1/2 on $mux $procmux$767.
+    dead port 2/2 on $mux $procmux$754.
+    dead port 1/2 on $mux $procmux$752.
+    dead port 2/2 on $mux $procmux$739.
+    dead port 1/2 on $mux $procmux$737.
+    dead port 2/2 on $mux $procmux$724.
+    dead port 1/2 on $mux $procmux$722.
+    dead port 2/2 on $mux $procmux$719.
+    dead port 2/2 on $mux $procmux$706.
+    dead port 1/2 on $mux $procmux$704.
+    dead port 2/2 on $mux $procmux$701.
+    dead port 2/2 on $mux $procmux$1255.
+    dead port 2/2 on $mux $procmux$1253.
+    dead port 2/2 on $mux $procmux$1740.
+    dead port 2/2 on $mux $procmux$1232.
+    dead port 2/2 on $mux $procmux$1230.
+    dead port 2/2 on $mux $procmux$638.
+    dead port 2/2 on $mux $procmux$1734.
+    dead port 2/2 on $mux $procmux$627.
+    dead port 2/2 on $mux $procmux$617.
+    dead port 2/2 on $mux $procmux$608.
+    dead port 2/2 on $mux $procmux$599.
+    dead port 2/2 on $mux $procmux$597.
+    dead port 2/2 on $mux $procmux$587.
+    dead port 2/2 on $mux $procmux$1209.
+    dead port 2/2 on $mux $procmux$1207.
+    dead port 2/2 on $mux $procmux$1728.
+    dead port 2/2 on $mux $procmux$565.
+    dead port 2/2 on $mux $procmux$557.
+    dead port 2/2 on $mux $procmux$1722.
+    dead port 2/2 on $mux $procmux$550.
+    dead port 2/2 on $mux $procmux$543.
+    dead port 2/2 on $mux $procmux$1186.
+    dead port 2/2 on $mux $procmux$1184.
+    dead port 2/2 on $mux $procmux$1776.
+    dead port 2/2 on $mux $procmux$1117.
+    dead port 2/2 on $mux $procmux$1115.
+    dead port 2/2 on $mux $procmux$1140.
+    dead port 2/2 on $mux $procmux$1138.
+    dead port 2/2 on $mux $procmux$1163.
+    dead port 2/2 on $mux $procmux$1161.
+    dead port 2/2 on $mux $procmux$1752.
+    dead port 2/2 on $mux $procmux$1094.
+    dead port 2/2 on $mux $procmux$1092.
+Running muxtree optimizer on module \CacheTest..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 74 multiplexer ports.
+<suppressed ~397 debug messages>
+
+3.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ysyx_26040135_AXI_ICACHE.
+    New ctrl vector for $pmux cell $procmux$1305: { $auto$opt_reduce.cc:137:opt_pmux$3005 $procmux$2274_CMP }
+    New ctrl vector for $pmux cell $procmux$1052: { $auto$opt_reduce.cc:137:opt_pmux$3007 $procmux$2065_CMP }
+    New ctrl vector for $pmux cell $procmux$960: { $auto$opt_reduce.cc:137:opt_pmux$3009 $procmux$2325_CMP }
+    New ctrl vector for $pmux cell $procmux$1282: { $auto$opt_reduce.cc:137:opt_pmux$3011 $procmux$2250_CMP }
+    New ctrl vector for $pmux cell $procmux$1029: { $auto$opt_reduce.cc:137:opt_pmux$3013 $procmux$2052_CMP }
+    New ctrl vector for $pmux cell $procmux$1328: { $auto$opt_reduce.cc:137:opt_pmux$3015 $procmux$2299_CMP }
+    New ctrl vector for $pmux cell $procmux$1259: { $auto$opt_reduce.cc:137:opt_pmux$3017 $procmux$2227_CMP }
+    New ctrl vector for $pmux cell $procmux$1075: { $auto$opt_reduce.cc:137:opt_pmux$3019 $procmux$2079_CMP }
+    New ctrl vector for $pmux cell $procmux$1236: { $auto$opt_reduce.cc:137:opt_pmux$3021 $procmux$2205_CMP }
+    New ctrl vector for $pmux cell $procmux$1213: { $auto$opt_reduce.cc:137:opt_pmux$3023 $procmux$2184_CMP }
+    New ctrl vector for $pmux cell $procmux$1006: { $procmux$2040_CMP $auto$opt_reduce.cc:137:opt_pmux$3025 }
+    New ctrl vector for $pmux cell $procmux$1190: { $auto$opt_reduce.cc:137:opt_pmux$3027 $procmux$2164_CMP }
+    New ctrl vector for $pmux cell $procmux$1144: { $auto$opt_reduce.cc:137:opt_pmux$3029 $procmux$2127_CMP }
+    New ctrl vector for $pmux cell $procmux$1121: { $auto$opt_reduce.cc:137:opt_pmux$3031 $procmux$2110_CMP }
+    New ctrl vector for $pmux cell $procmux$1167: { $auto$opt_reduce.cc:137:opt_pmux$3033 $procmux$2145_CMP }
+    New ctrl vector for $pmux cell $procmux$1098: { $auto$opt_reduce.cc:137:opt_pmux$3035 $procmux$2094_CMP }
+  Optimizing cells in module \ysyx_26040135_AXI_ICACHE.
+  Optimizing cells in module \CacheTest.
+Performed a total of 16 changes.
+
+3.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 372 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 370 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+<suppressed ~6 debug messages>
+Finding identical cells in module `\CacheTest'.
+Computing hashes of 89 cells of `\CacheTest'.
+Finding duplicate cells in `\CacheTest'.
+Computing hashes of 88 cells of `\CacheTest'.
+Finding duplicate cells in `\CacheTest'.
+<suppressed ~3 debug messages>
+Removed a total of 3 cells.
+
+3.8.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Finding unused cells or wires in module \CacheTest..
+Removed 0 unused cells and 531 unused wires.
+<suppressed ~2 debug messages>
+
+3.8.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ysyx_26040135_AXI_ICACHE.
+Optimizing module CacheTest.
+
+3.8.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+3.8.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ysyx_26040135_AXI_ICACHE..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \CacheTest..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~321 debug messages>
+
+3.8.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ysyx_26040135_AXI_ICACHE.
+  Optimizing cells in module \CacheTest.
+Performed a total of 0 changes.
+
+3.8.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 370 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+Finding identical cells in module `\CacheTest'.
+Computing hashes of 88 cells of `\CacheTest'.
+Finding duplicate cells in `\CacheTest'.
+Removed a total of 0 cells.
+
+3.8.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Finding unused cells or wires in module \CacheTest..
+
+3.8.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ysyx_26040135_AXI_ICACHE.
+Optimizing module CacheTest.
+
+3.8.14. Finished fast OPT passes. (There is nothing left to do.)
+
+3.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 26 bits (of 32) from port B of cell ysyx_26040135_AXI_ICACHE.$mul$axi_icache.sv:150$157 ($mul).
+Removed top 25 bits (of 32) from port Y of cell ysyx_26040135_AXI_ICACHE.$mul$axi_icache.sv:150$157 ($mul).
+Removed top 2 bits (of 4) from port B of cell ysyx_26040135_AXI_ICACHE.$eq$axi_icache.sv:161$158 ($eq).
+Removed top 25 bits (of 32) from port A of cell ysyx_26040135_AXI_ICACHE.$add$axi_icache.sv:210$497 ($add).
+Removed top 31 bits (of 32) from port B of cell ysyx_26040135_AXI_ICACHE.$add$axi_icache.sv:210$497 ($add).
+Removed top 24 bits (of 32) from port Y of cell ysyx_26040135_AXI_ICACHE.$add$axi_icache.sv:210$497 ($add).
+Removed top 24 bits (of 33) from port A of cell ysyx_26040135_AXI_ICACHE.$neg$axi_icache.sv:210$502 ($neg).
+Converting cell ysyx_26040135_AXI_ICACHE.$neg$axi_icache.sv:210$502 ($neg) from signed to unsigned.
+Removed top 1 bits (of 9) from port A of cell ysyx_26040135_AXI_ICACHE.$neg$axi_icache.sv:210$502 ($neg).
+Removed top 30 bits (of 32) from mux cell ysyx_26040135_AXI_ICACHE.$ternary$axi_icache.sv:246$518 ($mux).
+Removed top 1 bits (of 3) from mux cell ysyx_26040135_AXI_ICACHE.$procmux$699 ($mux).
+Removed top 1 bits (of 3) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$877_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$884_CMP0 ($eq).
+Removed top 2 bits (of 3) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$921_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$2164_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$2184_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$2205_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$2227_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$2250_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$2274_CMP0 ($eq).
+Removed top 3 bits (of 4) from port B of cell ysyx_26040135_AXI_ICACHE.$procmux$2299_CMP0 ($eq).
+Removed top 1 bits (of 3) from wire ysyx_26040135_AXI_ICACHE.$4\next[2:0].
+Removed top 24 bits (of 32) from wire ysyx_26040135_AXI_ICACHE.$add$axi_icache.sv:210$377_Y.
+Removed top 25 bits (of 32) from wire ysyx_26040135_AXI_ICACHE.beat_bit.
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$97 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$96 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$95 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$94 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$93 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$92 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$91 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$90 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$89 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$88 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$87 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$86 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$85 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$84 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$83 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$82 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$81 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$80 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$79 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$78 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$77 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$76 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$75 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$74 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$73 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$72 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$71 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$70 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$69 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$68 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$67 (mem).
+Removed top 27 address bits (of 32) from memory init port CacheTest.$meminit$\mem$icache.sv:46$66 (mem).
+Removed top 3 bits (of 4) from port B of cell CacheTest.$add$icache.sv:56$39 ($add).
+Removed top 29 bits (of 32) from port B of cell CacheTest.$lt$icache.sv:57$40 ($lt).
+Removed top 25 bits (of 32) from port B of cell CacheTest.$add$icache.sv:196$51 ($add).
+Removed top 1 bits (of 2) from port B of cell CacheTest.$procmux$2690_CMP0 ($eq).
+
+3.10. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Finding unused cells or wires in module \CacheTest..
+Removed 0 unused cells and 3 unused wires.
+<suppressed ~1 debug messages>
+
+3.11. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+3.12. Executing OPT pass (performing simple optimizations).
+
+3.12.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ysyx_26040135_AXI_ICACHE.
+Optimizing module CacheTest.
+
+3.12.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ysyx_26040135_AXI_ICACHE'.
+Computing hashes of 370 cells of `\ysyx_26040135_AXI_ICACHE'.
+Finding duplicate cells in `\ysyx_26040135_AXI_ICACHE'.
+Finding identical cells in module `\CacheTest'.
+Computing hashes of 53 cells of `\CacheTest'.
+Finding duplicate cells in `\CacheTest'.
+Removed a total of 0 cells.
+
+3.12.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ysyx_26040135_AXI_ICACHE..
+Finding unused cells or wires in module \CacheTest..
+
+3.12.4. Finished fast OPT passes.
+
+3.13. Executing SORT pass.
+
+3.14. Printing statistics.
+
+=== CacheTest ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       77 wires
+      500 wire bits
+       41 public wires
+      265 public wire bits
+        4 ports
+        8 port bits
+       52 cells
+        2   $add
+        7   $adff
+        2   $and
+        3   $check
+        4   $dff
+        4   $eq
+        5   $logic_and
+        3   $logic_not
+        1   $lt
+        1   $mem_v2
+       13   $mux
+        1   $ne
+        3   $not
+        3   $pmux
+        1 submodules
+        1   ysyx_26040135_AXI_ICACHE
+
+=== ysyx_26040135_AXI_ICACHE ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      416 wires
+     6229 wire bits
+      115 public wires
+     1486 public wire bits
+       53 ports
+      359 port bits
+      370 cells
+        2   $add
+       54   $adff
+       16   $and
+       25   $eq
+        8   $logic_and
+        3   $logic_not
+        3   $logic_or
+        1   $mul
+      200   $mux
+        1   $neg
+        1   $not
+       16   $or
+       21   $pmux
+        1   $reduce_bool
+       16   $reduce_or
+        2   $shift
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+      422 CacheTest
+      370 ysyx_26040135_AXI_ICACHE
+
+        +----------Count including submodules.
+        | 
+      493 wires
+     6729 wire bits
+      156 public wires
+     1751 public wire bits
+       57 ports
+      367 port bits
+        - memories
+        - memory bits
+        - processes
+      422 cells
+        4   $add
+       61   $adff
+       18   $and
+        3   $check
+        4   $dff
+       29   $eq
+       13   $logic_and
+        6   $logic_not
+        3   $logic_or
+        1   $lt
+        1   $mem_v2
+        1   $mul
+      213   $mux
+        1   $ne
+        1   $neg
+        4   $not
+       16   $or
+       24   $pmux
+        1   $reduce_bool
+       16   $reduce_or
+        2   $shift
+        1 submodules
+        1   ysyx_26040135_AXI_ICACHE
+
+3.15. Executing CHECK pass (checking for obvious problems).
+Checking module CacheTest...
+Checking module ysyx_26040135_AXI_ICACHE...
+Found and reported 0 problems.
+
+4. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `CacheTest'. Setting top module to CacheTest.
+
+4.1. Analyzing design hierarchy..
+Top module:  \CacheTest
+Used module:     \ysyx_26040135_AXI_ICACHE
+
+4.2. Analyzing design hierarchy..
+Top module:  \CacheTest
+Used module:     \ysyx_26040135_AXI_ICACHE
+Removed 0 unused modules.
+Module CacheTest directly or indirectly contains formal properties -> setting "keep" attribute.
+
+5. Executing jny backend.
+
+6. Executing RTLIL backend.
+Output filename: ../model/design.il
+
+Warnings: 3 unique messages, 3 total
+End of script. Logfile hash: d3761b3dd6, time: 0.51s, user: 0.49s, system: 0.03s, MEM: 34.09 MB peak
+Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+Time spent: 19% 1x proc_mux (0 sec), 18% 5x opt_clean (0 sec), ...

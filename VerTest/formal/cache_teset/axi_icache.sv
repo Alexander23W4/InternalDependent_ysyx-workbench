@@ -29,10 +29,77 @@ icache获得取指请求的地址后, 根据index部分索引出一个cache块, 
 */
 
 module ysyx_26040135_AXI_ICACHE (
-    ysyx_26040135_AXI4.slave bus,
-    ysyx_26040135_AXI4.master mbus,
-    input clock, 
-    input reset
+    // ==================================================================================
+    // ⭐ 这里原来是 `ysyx_26040135_AXI4.slave bus` / `.master mbus` 两个 SystemVerilog
+    //    interface。yousy(以及 yosys)不支持 interface, 所以把 interface 里的信号全部
+    //    摊成普通端口(方向照抄 axi4.sv 的 slave/master modport), 名字加 bus_ / mbus_ 前缀。
+    //    **内部逻辑一个字都没改**, 只是 bus.xxx -> bus_xxx。
+    // ==================================================================================
+    input  logic        clock,
+    input  logic        reset,
+
+    // ---- bus: icache 面向 IFU 的从端口(slave) ----
+    input  logic [31:0] bus_araddr,
+    input  logic        bus_arvalid,
+    output logic        bus_arready,
+
+    output logic [31:0] bus_rdata,
+    output logic [1:0]  bus_rresp,
+    output logic        bus_rvalid,
+    output logic        bus_rlast,
+    output logic [3:0]  bus_rid,
+    input  logic        bus_rready,
+
+    input  logic        bus_awvalid,
+    output logic        bus_awready,
+    input  logic [3:0]  bus_awid,
+    input  logic [31:0] bus_awaddr,
+    input  logic [7:0]  bus_awlen,
+    input  logic [2:0]  bus_awsize,
+    input  logic [1:0]  bus_awburst,
+
+    input  logic [31:0] bus_wdata,
+    input  logic [3:0]  bus_wstrb,
+    input  logic        bus_wvalid,
+    output logic        bus_wready,
+
+    output logic [1:0]  bus_bresp,
+    output logic        bus_bvalid,
+    output logic [3:0]  bus_bid,
+    input  logic        bus_bready,
+
+    // ---- mbus: icache 面向 xbar 的主端口(master) ----
+    output logic [31:0] mbus_araddr,
+    output logic        mbus_arvalid,
+    input  logic        mbus_arready,
+    output logic [3:0]  mbus_arid,
+    output logic [7:0]  mbus_arlen,
+    output logic [2:0]  mbus_arsize,
+    output logic [1:0]  mbus_arburst,
+
+    input  logic [31:0] mbus_rdata,
+    input  logic [1:0]  mbus_rresp,
+    input  logic        mbus_rvalid,
+    input  logic        mbus_rlast,
+    output logic        mbus_rready,
+
+    output logic        mbus_awvalid,
+    input  logic        mbus_awready,
+    output logic [31:0] mbus_awaddr,
+    output logic [3:0]  mbus_awid,
+    output logic [7:0]  mbus_awlen,
+    output logic [2:0]  mbus_awsize,
+    output logic [1:0]  mbus_awburst,
+
+    output logic [31:0] mbus_wdata,
+    output logic [3:0]  mbus_wstrb,
+    output logic        mbus_wvalid,
+    input  logic        mbus_wready,
+
+    input  logic [1:0]  mbus_bresp,
+    input  logic        mbus_bvalid,
+    input  logic [3:0]  mbus_bid,
+    output logic        mbus_bready
 );
     // ------------------------------------------------------------------
     // 参数: 只有这两个需要调, 且都必须是 2 的幂
@@ -85,7 +152,7 @@ module ysyx_26040135_AXI_ICACHE (
     // ⭐ 哪些取指允许写进 icache: 只有 flash 和 SDRAM。
     //    其他区域(SRAM / CLINT / MMIO ...)只是"借道访存": 照样发请求、照样把数据返回给
     //    IFU, 但不填行、不置 valid, 下次还要重新访存。
-    //    ⭐ 判据必须用锁存下来的 araddr_save, 不能用 bus.araddr: 后者是 master 当前
+    //    ⭐ 判据必须用锁存下来的 araddr_save, 不能用 bus_araddr: 后者是 master 当前
     //      驱动的地址, 只在请求那一拍保证等于本笔事务的地址(现在 IFU 恰好一直举着 pc,
     //      所以碰巧也对), 事务后半段不保证还指着同一笔。
     //    ⭐ 只看高 4 位: 一行 4 位比较器, 比两个 32 位比较器省很多面积/延迟,
@@ -122,89 +189,89 @@ module ysyx_26040135_AXI_ICACHE (
             // ⭐ 这里只能看 arvalid, 不能再 && arready: 拉 arready 的那一拍已经挪到
             //    OPERATE 态了, 在 IDLE 拿 arready 当条件永远不成立 ->
             //    araddr_save 一直是复位值 0, icache 会拿着地址 0x0 去访存 -> 挂死。
-            if(state == IDLE && bus.arvalid) begin
-                araddr_save <= bus.araddr;
+            if(state == IDLE && bus_arvalid) begin
+                araddr_save <= bus_araddr;
                 rresp_save  <= 2'b00;       // 清掉上一次留下的错误码
             end
 
             // ---- 收下写地址(AW): 本模块不支持写, 只记 awid 用来回 bresp ----
-            if(state == IDLE && bus.awvalid) begin
-                bid_save <= bus.awid;
+            if(state == IDLE && bus_awvalid) begin
+                bid_save <= bus_awid;
             end
 
             // ---- 突发读刚发出去, 拍号清零 ----
-            if(state == DRAM_AR && mbus.arvalid && mbus.arready) begin
+            if(state == DRAM_AR && mbus_arvalid && mbus_arready) begin
                 beat <= '0;
             end
 
             // ---- 突发读每一拍: 可缓存区域才按拍号填进这一行; 其他区域只把数据带回去 ----
-            if(state == DRAM_R && mbus.rvalid) begin
-                if(req_cacheable && mbus.rresp == 2'b00) begin
-                    icache[current_index][beat_bit +: 32] <= mbus.rdata;
-                    if(mbus.rlast) begin
+            if(state == DRAM_R && mbus_rvalid) begin
+                if(req_cacheable && mbus_rresp == 2'b00) begin
+                    icache[current_index][beat_bit +: 32] <= mbus_rdata;
+                    if(mbus_rlast) begin
                         valid[current_index] <= 1'b1;   // 整行收齐了才算有效
                         tag[current_index]   <= current_tag;
                     end
                 end else begin
                     // 不属于可缓存区域, 或者从设备报错: 不填行,
                     // 数据/响应码直接存下来, RETURN 那拍原样交给 IFU
-                    rresp_save <= mbus.rresp;
-                    rdata_save <= mbus.rdata;
+                    rresp_save <= mbus_rresp;
+                    rdata_save <= mbus_rdata;
                 end
-                beat <= mbus.rlast ? '0 : beat + 1'b1;
+                beat <= mbus_rlast ? '0 : beat + 1'b1;
             end
         end
     end
 
     always_comb begin
         next = state;
-        bus.arready = 1'b0;
+        bus_arready = 1'b0;
 
-        bus.rvalid  = 1'b0;
-        bus.rdata   = 32'b0;
-        bus.rresp   = 2'b00;
-        bus.rid     = 4'b0;
-        bus.rlast   = 1'b0;
+        bus_rvalid  = 1'b0;
+        bus_rdata   = 32'b0;
+        bus_rresp   = 2'b00;
+        bus_rid     = 4'b0;
+        bus_rlast   = 1'b0;
 
-        bus.awready = 1'b0;
-        bus.wready  = 1'b0;
+        bus_awready = 1'b0;
+        bus_wready  = 1'b0;
 
-        bus.bvalid  = 1'b0;
-        bus.bresp   = 2'b00;
-        bus.bid     = 4'b0;
+        bus_bvalid  = 1'b0;
+        bus_bresp   = 2'b00;
+        bus_bid     = 4'b0;
 
-        mbus.arvalid = 1'b0;
+        mbus_arvalid = 1'b0;
         // 可缓存区域: 按行对齐发突发读, 一次把整行取回来;
         // 不可缓存区域: 只取需要的那一个字(单拍), 没必要多读
-        mbus.araddr = req_cacheable ? line_addr : araddr_save;
-        mbus.arid = 4'b0000;
-        mbus.arlen = req_cacheable ? ARLEN : 8'h00;   // 一行几个字就发几拍; 4B 块时 = 0
-        mbus.arsize = 3'b010;           // 每拍 4 字节
-        mbus.arburst = 2'b01;           // INCR: 多拍时地址要递增
-        mbus.rready = 1'b0;
+        mbus_araddr = req_cacheable ? line_addr : araddr_save;
+        mbus_arid = 4'b0000;
+        mbus_arlen = req_cacheable ? ARLEN : 8'h00;   // 一行几个字就发几拍; 4B 块时 = 0
+        mbus_arsize = 3'b010;           // 每拍 4 字节
+        mbus_arburst = 2'b01;           // INCR: 多拍时地址要递增
+        mbus_rready = 1'b0;
 
-        mbus.awvalid = 1'b0;
-        mbus.awaddr = '0;
-        mbus.wdata = '0;
-        mbus.wstrb = '0;
-        mbus.awid = 4'b0000;
-        mbus.awsize = 3'b010;
-        mbus.awlen = 8'h00;
-        mbus.awburst = 2'b00;
-        mbus.wvalid = 1'b0;
-        mbus.bready = 1'b0;
+        mbus_awvalid = 1'b0;
+        mbus_awaddr = '0;
+        mbus_wdata = '0;
+        mbus_wstrb = '0;
+        mbus_awid = 4'b0000;
+        mbus_awsize = 3'b010;
+        mbus_awlen = 8'h00;
+        mbus_awburst = 2'b00;
+        mbus_wvalid = 1'b0;
+        mbus_bready = 1'b0;
 
         case (state)
             IDLE: begin
                 // 取指优先: icache 的正事就是给 IFU 取指
-                if(bus.arvalid) begin
+                if(bus_arvalid) begin
                     next = OPERATE;
                 end
-                else if(bus.awvalid) begin
+                else if(bus_awvalid) begin
                     // 本模块不支持写, 但按讲义要求也要把事务走完, 最后用 bresp=SLVERR 报错
-                    bus.awready = 1'b1;
-                    if(bus.wvalid) begin
-                        bus.wready = 1'b1;      // AW/W 同一拍来了就一起收下
+                    bus_awready = 1'b1;
+                    if(bus_wvalid) begin
+                        bus_wready = 1'b1;      // AW/W 同一拍来了就一起收下
                         next = WRITE_B;
                     end
                     else begin
@@ -214,7 +281,7 @@ module ysyx_26040135_AXI_ICACHE (
             end
 
             OPERATE: begin
-                bus.arready = 1'b1;     
+                bus_arready = 1'b1;     
                 // 只有可缓存区域才去查 tag/valid; 其他区域一律当 miss(而且也不会填行)
                 if(req_cacheable && valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin
                     next = RETURN;      // cache hit
@@ -224,47 +291,47 @@ module ysyx_26040135_AXI_ICACHE (
             end
 
             DRAM_AR: begin
-                mbus.arvalid = 1'b1;
-                if(mbus.arready) begin
+                mbus_arvalid = 1'b1;
+                if(mbus_arready) begin
                     next = DRAM_R;
                 end
             end
 
             DRAM_R: begin
                 // 一行可能不止一拍: 收到 rlast(或者从设备报错)才结束
-                if(mbus.rvalid) begin
-                    mbus.rready = 1'b1;
-                    if(mbus.rresp != 2'b00 || mbus.rlast) begin
+                if(mbus_rvalid) begin
+                    mbus_rready = 1'b1;
+                    if(mbus_rresp != 2'b00 || mbus_rlast) begin
                         next = RETURN;
                     end
                 end
             end
 
             RETURN: begin
-                bus.rvalid = 1'b1;
+                bus_rvalid = 1'b1;
                 // 可缓存的从 cache 行里按 offset 选字; 不可缓存的用访存直接带回来的数据
-                bus.rdata = req_cacheable ? icache[current_index][current_word*32 +: 32]
+                bus_rdata = req_cacheable ? icache[current_index][current_word*32 +: 32]
                                           : rdata_save;
-                bus.rresp = rresp_save;
-                bus.rlast = 1'b1;               // 单拍返回: 这一拍就是最后一拍
-                if(bus.rready) begin
+                bus_rresp = rresp_save;
+                bus_rlast = 1'b1;               // 单拍返回: 这一拍就是最后一拍
+                if(bus_rready) begin
                     next = IDLE;
                 end
             end
 
             WRITE_W: begin
                 // AW 已经收下了, 这里只等写数据(收下就丢)
-                if(bus.wvalid) begin
-                    bus.wready = 1'b1;
+                if(bus_wvalid) begin
+                    bus_wready = 1'b1;
                     next = WRITE_B;
                 end
             end
 
             WRITE_B: begin
-                bus.bvalid = 1'b1;
-                bus.bresp  = 2'b10;             // SLVERR: icache 只读, 不支持写
-                bus.bid    = bid_save;
-                if(bus.bready) begin
+                bus_bvalid = 1'b1;
+                bus_bresp  = 2'b10;             // SLVERR: icache 只读, 不支持写
+                bus_bid    = bid_save;
+                if(bus_bready) begin
                     next = IDLE;
                 end
             end

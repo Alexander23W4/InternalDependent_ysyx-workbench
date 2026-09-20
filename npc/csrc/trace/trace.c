@@ -36,7 +36,67 @@ int32_t content;
 int mtrace_flag = 0;
 
 
+/* ==========================================================================================
+   ⭐ pc_itrace: 只记录"指令流的 PC 序列"(简化版 itrace), 给 cachesim 用
+      - trace() 每执行一条指令就调一次 pc_itrace_record(pc)
+      - 攒够 PC_ITRACE_BATCH 个才 fopen 一次追加写: 既不用开超大数组,
+        也不用每条指令都开关一次文件
+      - 一行 10 个, 形如:   0x80000000 0x80000004 0x80000008 ...
+      - 第一次落盘用 "w" 把上一次跑的结果清掉, 之后都用 "a" 追加
+      - 程序结束由 end_process() 调 pc_itrace_finish() 把不足一批的尾巴也写出去
+      - 文件写在进程的工作目录下(从 AM 目录 make run 就在那个目录里)
+   ========================================================================================== */
+#define PC_ITRACE_FILE  "pc_itrace.txt"
+#define PC_ITRACE_BATCH 1000
+
+static uint32_t pc_buf[PC_ITRACE_BATCH];
+static int      pc_buf_cnt      = 0;
+static uint64_t pc_total_cnt    = 0;
+static int      pc_itrace_opened = 0;
+
+static void pc_itrace_flush(void) {
+    if (pc_buf_cnt == 0) return;
+
+    FILE *fp = fopen(PC_ITRACE_FILE, pc_itrace_opened ? "a" : "w");
+    if (fp == NULL) return;
+    pc_itrace_opened = 1;
+
+    for (int i = 0; i < pc_buf_cnt; i++) {
+        fprintf(fp, "0x%08x", pc_buf[i]);
+        pc_total_cnt++;
+        // 一行 10 个; 用总数判断, 这样跨批次也不会把行切错
+        if ((pc_total_cnt % 10) == 0) fprintf(fp, "\n");
+        else                          fprintf(fp, " ");
+    }
+    fclose(fp);
+    pc_buf_cnt = 0;
+}
+
+void pc_itrace_record(uint32_t pc_val) {
+    pc_buf[pc_buf_cnt++] = pc_val;
+    if (pc_buf_cnt == PC_ITRACE_BATCH) pc_itrace_flush();
+}
+
+void pc_itrace_finish(void) {
+    pc_itrace_flush();          // 不足一批的尾巴
+
+    if (!pc_itrace_opened) {    // 一条都没记(比如 TRACE_ENABLE=0): 至少建个空文件
+        FILE *fp = fopen(PC_ITRACE_FILE, "w");
+        if (fp != NULL) fclose(fp);
+    } else if ((pc_total_cnt % 10) != 0) {
+        FILE *fp = fopen(PC_ITRACE_FILE, "a");   // 最后一行没满 10 个, 补个换行
+        if (fp != NULL) { fprintf(fp, "\n"); fclose(fp); }
+    }
+
+    printf("[PC_ITRACE] %lu 条 PC -> %s\n",
+           (unsigned long)pc_total_cnt, PC_ITRACE_FILE);
+}
+
+
 void trace(){
+    // ⭐ 顺便把这条指令的 PC 记进 pc_itrace(cachesim 的输入)
+    pc_itrace_record(pc);
+
     // 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
 
     // 定位:

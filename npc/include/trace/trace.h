@@ -36,6 +36,10 @@ extern int mtrace_flag;
 
 void trace();
 
+// ⭐ pc_itrace: 只记录 PC 序列(简化版 itrace), 输出到 pc_itrace.txt, 给 cachesim 用
+void pc_itrace_record(uint32_t pc_val);
+void pc_itrace_finish(void);
+
 void i_ring_buf_logout(I_ring_buf* i_ring_buf);
 
 

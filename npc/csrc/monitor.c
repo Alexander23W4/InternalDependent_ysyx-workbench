@@ -66,6 +66,9 @@ void reset(){
         tick();
     }
     top->reset = 0;
+    top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
+                        (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
+
     printf("Reset Released. Starting execution...\n");
 }
 
@@ -74,6 +77,8 @@ void reset(){
 void end_process(){
     final_check();
     final_print();
+
+    pc_itrace_finish();   // ⭐ 把 pc_itrace 里不足 1000 条的尾巴也刷到 pc_itrace.txt
 
     wave_close();      // ⭐ 关波形文件: 不 close 的话 vcd 没写尾巴, gtkwave 可能读不全
 

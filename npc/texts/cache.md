@@ -118,3 +118,19 @@ INDEX_LEN = n = log2(cache块总数/w)
 ### cache块 的 大小
 >> 增强 空间局部性
 >> 增加 cache-miss cost
+
+
+## icache 的具体优化方法 (cachesim)
+>>>> 对于缺失次数 / hit rate 的统计:
+>> 获得程序运行的itrace, 将其输入到icache中, 就可以模拟icache工作的过程
+>> itrace已经包含了完整的指令流, 因此在统计TMT时, 我们只需要指令流的PC值, 而不需要指令本身.
+>> icache的数据部分也不需要, 只需要保留元数据部分即可.
+
+cachesim接收指令流的PC序列(简化版的itrace), 通过维护元数据来统计这一PC序列的缺失次数. 
+至于指令流的PC序列, 我们可以通过NEMU来快速生成.
+
+>>>> 缺失代价 miss-cache cost
+这个姑且就直接跑ysyxsoc整体来记录了
+
+
+

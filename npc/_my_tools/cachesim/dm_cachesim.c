@@ -74,11 +74,11 @@ static int req_cacheable(uint32_t addr) {
 
 static void cachesim_init(void) {
     if (CACHE_LINE_BYTES < 4 || (CACHE_LINE_BYTES & (CACHE_LINE_BYTES - 1)) != 0) {
-        fprintf(stderr, "[CACHESIM] CACHE_LINE_BYTES=%d 必须是 >=4 的 2 的幂\n", CACHE_LINE_BYTES);
+        fprintf(stderr, "[CACHESIM] CACHE_LINE_BYTES=%d must be a power of two and >= 4\n", CACHE_LINE_BYTES);
         exit(1);
     }
     if (CACHE_LINE_AMT < 1 || (CACHE_LINE_AMT & (CACHE_LINE_AMT - 1)) != 0) {
-        fprintf(stderr, "[CACHESIM] CACHE_LINE_AMT=%d 必须是 2 的幂\n", CACHE_LINE_AMT);
+        fprintf(stderr, "[CACHESIM] CACHE_LINE_AMT=%d must be a power of two\n", CACHE_LINE_AMT);
         exit(1);
     }
 
@@ -86,19 +86,19 @@ static void cachesim_init(void) {
     INDEX_LEN  = log2_u32(CACHE_LINE_AMT);
     TAG_LEN    = 32 - INDEX_LEN - OFFSET_LEN;
     if (TAG_LEN < 1) {
-        fprintf(stderr, "[CACHESIM] 块数 × 块大小 太大, 地址位不够切: index %d bit + offset %d bit\n",
+        fprintf(stderr, "[CACHESIM] cache too large: index %d bit + offset %d bit leaves no tag bits\n",
                 INDEX_LEN, OFFSET_LEN);
         exit(1);
     }
     INDEX_MASK = (1u << INDEX_LEN) - 1;
 
-    printf("[CACHESIM] 配置    : 块大小 %d B, 块数 %d, 直接映射, 总容量 %d B\n",
+    printf("[CACHESIM] config  : block size %d B, blocks %d, direct-mapped, total %d B\n",
            CACHE_LINE_BYTES, CACHE_LINE_AMT, CACHE_LINE_BYTES * CACHE_LINE_AMT);
-    printf("[CACHESIM] 地址切分: index = addr[%d:%d], tag = addr[31:%d]"
+    printf("[CACHESIM] address : index = addr[%d:%d], tag = addr[31:%d]"
            " (offset %d bit / index %d bit / tag %d bit)\n",
            INDEX_LEN + OFFSET_LEN - 1, OFFSET_LEN, INDEX_LEN + OFFSET_LEN,
            OFFSET_LEN, INDEX_LEN, TAG_LEN);
-    printf("[CACHESIM] 输入    : %s\n", PC_ITRACE_FILE);
+    printf("[CACHESIM] input   : %s\n", PC_ITRACE_FILE);
 }
 
 
@@ -131,7 +131,7 @@ int main(void) {
 
     FILE *fp = fopen(PC_ITRACE_FILE, "r");
     if (fp == NULL) {
-        fprintf(stderr, "[CACHESIM] 打不开 %s —— 先跑一次 NPC 生成它\n", PC_ITRACE_FILE);
+        fprintf(stderr, "[CACHESIM] cannot open %s -- run NPC once to generate it\n", PC_ITRACE_FILE);
         return 1;
     }
 
@@ -143,7 +143,7 @@ int main(void) {
     fclose(fp);
 
     if (total_amt == 0) {
-        printf("[CACHESIM] 一条 PC 都没读到: %s 是空的?\n", PC_ITRACE_FILE);
+        printf("[CACHESIM] no PC read from %s (empty file?)\n", PC_ITRACE_FILE);
         return 1;
     }
 
@@ -153,11 +153,11 @@ int main(void) {
     printf("[CACHESIM_HIT_RATE] %.3f%%\n", 100.0 * (double)hit_amt / (double)total_amt);
 
     /* 下面两行只是补充信息, 不影响上面三个结果 */
-    printf("[CACHESIM] 总取指数 %" PRIu64 " (命中 %" PRIu64 " + 失效 %" PRIu64 ")\n",
+    printf("[CACHESIM] total fetch %" PRIu64 " (hit %" PRIu64 " + miss %" PRIu64 ")\n",
            total_amt, hit_amt, miss_amt);
     if (uncacheable_amt)
-        printf("[CACHESIM] 其中不可缓存区(非 flash/SDRAM)取指 %" PRIu64
-               " 条, 全部算失效且不填行\n", uncacheable_amt);
+        printf("[CACHESIM] uncacheable (non flash/SDRAM) fetch %" PRIu64
+               ", counted as miss without filling\n", uncacheable_amt);
 
     return 0;
 }

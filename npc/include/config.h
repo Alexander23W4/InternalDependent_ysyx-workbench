@@ -5,6 +5,7 @@
 #define WATCHPOINT_ENABLE 1
 #define IMAGETXT /home/wang/InternalDependent_ysyx-workbench/npc/build_rsrc/yield-os-riscv32e-npc.txt
 #define IMAGEELF /home/wang/InternalDependent_ysyx-workbench/npc/build_rsrc/yield-os-riscv32e-npc.elf
+#define PC_ITRACE_FILE  "/home/wang/InternalDependent_ysyx-workbench/npc/pc_itrace.txt"
 #endif
 
 

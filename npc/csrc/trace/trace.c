@@ -46,7 +46,6 @@ int mtrace_flag = 0;
       - 程序结束由 end_process() 调 pc_itrace_finish() 把不足一批的尾巴也写出去
       - 文件写在进程的工作目录下(从 AM 目录 make run 就在那个目录里)
    ========================================================================================== */
-#define PC_ITRACE_FILE  "/home/wang/InternalDependent_ysyx-workbench/npc/pc_itrace.txt"
 #define PC_ITRACE_BATCH 1000
 
 static uint32_t pc_buf[PC_ITRACE_BATCH];

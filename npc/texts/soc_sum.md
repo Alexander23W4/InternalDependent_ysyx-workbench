@@ -35,7 +35,7 @@
  differential check
 
 Simulation: 给我很多输入，我跑跑看有没有 bug             (大厂使用UVM)
-Formal    : 在给定约束下，数学上证明某个性质始终成立
+Formal    : 在给定约束下，数学上证明某个性质始终成立       (形式化验证, BMC)
 Emulation : 跑真实workload                           (大厂使用FPGA)
 
 

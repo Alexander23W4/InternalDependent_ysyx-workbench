@@ -31,6 +31,11 @@ icache 的 hit的CPI 和 miss的CPI
        按拍号填进行里, 收到 rlast 才把 valid 置起来;
      - 返回给 IFU 时, 用地址里的 offset 从行里**选出**它要的那 32 位。
    块 = 4B 时这两件事都退化成原来的行为: arlen=0(单拍), 行里只有 1 个字, 选出来就是它本身。
+
+⭐: 支持burst传输
+2'b00 → FIXED
+2'b01 → INCR
+2'b10 → WRAP
 */
 
 module ysyx_26040135_AXI_ICACHE (
@@ -49,7 +54,7 @@ module ysyx_26040135_AXI_ICACHE (
     // 参数: 只有这两个需要调, 且都必须是 2 的幂
     //   (原来 TAG_LEN 是手写的 26, 一改 INDEX_LEN/OFFSET_LEN 就不对了)
     // ------------------------------------------------------------------
-    parameter CACHE_LINE_BYTES = 8;                            // 块大小, 单位字节
+    parameter CACHE_LINE_BYTES = 16;                            // 块大小, 单位字节
     parameter CACHE_LINE_AMT   = 32;                           // cache 块数
 
     localparam OFFSET_LEN      = $clog2(CACHE_LINE_BYTES);     // 块内偏移位数
@@ -59,6 +64,7 @@ module ysyx_26040135_AXI_ICACHE (
     localparam LINE_WORDS      = CACHE_LINE_BYTES / 4;         // 一行几个 32 位字 = 突发拍数
     localparam BEAT_LEN        = (LINE_WORDS > 1) ? $clog2(LINE_WORDS) : 1;
     localparam [7:0] ARLEN     = 8'(LINE_WORDS - 1);           // AXI 的 arlen = 拍数 - 1
+
 
     // 可缓存区域的地址高位(见 ysyxsoc.h 的地址表)。两个区间都正好是从 0x?000_0000
     // 开始的 256MB 对齐块, 所以直接看 addr[31:28] 就够了, 不用 32 位比较器。
@@ -114,6 +120,8 @@ module ysyx_26040135_AXI_ICACHE (
         IDLE, OPERATE, DRAM_AR, DRAM_R, RETURN, WRITE_W, WRITE_B
     } state_t;
     state_t state, next;
+
+
 
 
     always_ff @( posedge clock or posedge reset ) begin
@@ -274,10 +282,9 @@ module ysyx_26040135_AXI_ICACHE (
             end
 
             DRAM_R: begin
-                // 一行可能不止一拍: 收到 rlast(或者从设备报错)才结束
                 if(mbus.rvalid) begin
                     mbus.rready = 1'b1;
-                    if(mbus.rresp != 2'b00 || mbus.rlast) begin
+                    if(mbus.rlast) begin
                         next = RETURN;
                     end
                 end

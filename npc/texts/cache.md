@@ -88,3 +88,11 @@ solver就是用来给我们的 DUT 设计找反例, 先翻译DUT -> 等价一阶
 形式化验证一般在单元测试中使用
 
 
+## 优化icache
+>> 优化 hit rate  **
+>> 优化 miss_penalty  **
+>> 优化 access_time
+
+Compulsory miss, 强制缺失, 定义为在一个容量无限大的cache中所发生的缺失, 表现为在第一次访问一个数据块时所发生的缺失
+Capacity miss, 容量缺失, 定义为不扩大cache容量就无法消除的缺失, 表现为因cache无法容纳所有所需访问的数据而发生的缺失
+Conflict miss, 冲突缺失, 定义为除上述两种原因外引起的缺失, 表现为因多个cache块之间相互替换而发生的缺失

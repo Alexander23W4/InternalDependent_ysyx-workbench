@@ -68,3 +68,5 @@
 ##   0:20:16  Checking assertions in step 29..
 ##   0:21:16  waiting for solver (1 minute)
 ##   0:25:16  waiting for solver (5 minutes)
+##   0:30:16  waiting for solver (10 minutes)
+##   0:32:29  Status: passed

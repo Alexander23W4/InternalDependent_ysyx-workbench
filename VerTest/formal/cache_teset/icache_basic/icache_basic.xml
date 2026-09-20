@@ -1,17 +1,33 @@
-SBY 17:16:09 [icache_basic] Removing directory '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/icache_basic'.
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+<testsuite timestamp="2026-09-20T17:48:39" hostname="wang-virtual-machine" package="icache" id="0" name="basic" tests="3" errors="0" failures="0" time="1949" skipped="0">
+<properties>
+<property name="os" value="Linux"/>
+<property name="expect" value="PASS"/>
+<property name="status" value="PASS"/>
+</properties>
+<testcase classname="basic" name="build execution" time="0">
+</testcase>
+<testcase classname="basic" name="Property ASSERT in CacheTest at icache.sv:231.13-231.64" time="0" type="ASSERT" location="icache.sv:231.13-231.64" id="a_data_match">
+</testcase>
+<testcase classname="basic" name="Property ASSERT in CacheTest at icache.sv:246.13-246.64" time="0" type="ASSERT" location="icache.sv:246.13-246.64" id="a_mem_stable">
+</testcase>
+<testcase classname="basic" name="Property ASSERT in CacheTest at icache.sv:230.13-230.55" time="0" type="ASSERT" location="icache.sv:230.13-230.55" id="a_rresp_okay">
+</testcase>
+<system-out>SBY 17:16:09 [icache_basic] Removing directory '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/icache_basic'.
 SBY 17:16:09 [icache_basic] Copy '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/axi_icache.sv' to '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/icache_basic/src/axi_icache.sv'.
 SBY 17:16:09 [icache_basic] Copy '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/icache.sv' to '/home/wang/InternalDependent_ysyx-workbench/VerTest/formal/cache_teset/icache_basic/src/icache.sv'.
 SBY 17:16:09 [icache_basic] engine_0: smtbmc
-SBY 17:16:09 [icache_basic] base: starting process "cd icache_basic/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 17:16:09 [icache_basic] base: starting process &quot;cd icache_basic/src; yosys -ql ../model/design.log ../model/design.ys&quot;
 SBY 17:16:09 [icache_basic] base: Warning: Replacing memory \valid with list of registers. See axi_icache.sv:183
 SBY 17:16:09 [icache_basic] base: Warning: Replacing memory \tag with list of registers. See axi_icache.sv:182
 SBY 17:16:09 [icache_basic] base: Warning: Replacing memory \icache with list of registers. See axi_icache.sv:181
 SBY 17:16:09 [icache_basic] base: finished (returncode=0)
-SBY 17:16:09 [icache_basic] prep: starting process "cd icache_basic/model; yosys -ql design_prep.log design_prep.ys"
+SBY 17:16:09 [icache_basic] prep: starting process &quot;cd icache_basic/model; yosys -ql design_prep.log design_prep.ys&quot;
 SBY 17:16:09 [icache_basic] prep: finished (returncode=0)
-SBY 17:16:09 [icache_basic] smt2: starting process "cd icache_basic/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 17:16:09 [icache_basic] smt2: starting process &quot;cd icache_basic/model; yosys -ql design_smt2.log design_smt2.ys&quot;
 SBY 17:16:09 [icache_basic] smt2: finished (returncode=0)
-SBY 17:16:09 [icache_basic] engine_0: starting process "cd icache_basic; yosys-smtbmc --presat --unroll --noprogress -t 30  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 17:16:09 [icache_basic] engine_0: starting process &quot;cd icache_basic; yosys-smtbmc --presat --unroll --noprogress -t 30  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2&quot;
 SBY 17:16:09 [icache_basic] engine_0: ##   0:00:00  Solver: yices
 SBY 17:16:09 [icache_basic] engine_0: ##   0:00:00  Checking assumptions in step 0..
 SBY 17:16:09 [icache_basic] engine_0: ##   0:00:00  Checking assertions in step 0..
@@ -91,3 +107,8 @@ SBY 17:48:39 [icache_basic] summary: Elapsed process time [H:MM:SS (secs)]: 0:32
 SBY 17:48:39 [icache_basic] summary: engine_0 (smtbmc) returned pass
 SBY 17:48:39 [icache_basic] summary: engine_0 did not produce any traces
 SBY 17:48:39 [icache_basic] DONE (PASS, rc=0)
+</system-out>
+<system-err>
+</system-err>
+</testsuite>
+</testsuites>

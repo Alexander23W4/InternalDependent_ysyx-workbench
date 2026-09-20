@@ -167,6 +167,8 @@ localparam STATE_WRITE1      = 4'd7;
 
 localparam STATE_PRECHARGE   = 4'd8;  // 关闭 row
 localparam STATE_REFRESH     = 4'd9;  
+localparam STATE_READ_GAP    = 4'd10;  // ⭐ 背靠背读之间插的一拍(见 STATE_READ_WAIT)
+localparam STATE_WRITE_GAP   = 4'd11;  // ⭐ 背靠背写之间插的一拍(见 STATE_WRITE1)
 
 
 
@@ -364,6 +366,26 @@ begin
         begin
             // Open row hit ⭐
             if (row_open_q[addr_bank_w] && {sdram_sel, addr_row_w} == active_row_q[addr_bank_w])
+                next_state_r = STATE_READ_GAP;
+        end
+    end
+    //-----------------------------------------
+    // STATE_READ_GAP
+    //-----------------------------------------
+    // ⭐ 背靠背读之间插一拍: 颗粒模型 sdram_chip 只在它自己的 IDLE 状态解析命令
+    //    (sdram.v 里 `if (state == IDLE) ...` 才处理 READ), 所以 core 连着两拍发
+    //    READ 时, 第二个会被颗粒丢掉 -> 那笔读采到的是空总线 = 0(burst 只有一半数据对)。
+    //    这里多停一拍, 等颗粒回到 IDLE 再发下一个 READ。
+    //    代价: READ 节奏从"每 2 拍一个"变成"每 3 拍一个"; burst 的收益(AR 只握手一次、
+    //    row 只激活一次、READ 连续发)都还在。
+    STATE_READ_GAP :
+    begin
+        next_state_r = STATE_IDLE;
+
+        // 还是同一笔 pending 读(前端在被 accept 前一直举着 ram_rd_o/addr), 条件满足才继续
+        if (!refresh_q && ram_req_w && ram_rd_w)
+        begin
+            if (row_open_q[addr_bank_w] && {sdram_sel, addr_row_w} == active_row_q[addr_bank_w])
                 next_state_r = STATE_READ;
         end
     end
@@ -386,11 +408,30 @@ begin
         begin
             // Open row hit ⭐
             if (row_open_q[addr_bank_w] && {sdram_sel, addr_row_w} == active_row_q[addr_bank_w])
-                next_state_r = STATE_WRITE0;
+                next_state_r = STATE_WRITE_GAP;
         end
     end
     //-----------------------------------------
-    // STATE_PRECHARGE
+    // STATE_WRITE_GAP
+    //-----------------------------------------
+    // ⭐ 和 STATE_READ_GAP 同理: 颗粒模型 sdram_chip 只在它自己的 IDLE 状态解析命令
+    //    (sdram.v 里 `if (state == IDLE) ...` 才处理 WRITE), 连着两拍发 WRITE 时
+    //    第二个会被颗粒丢掉 -> burst 写的数据会静默丢掉一半。
+    //    这里多停一拍, 等颗粒回到 IDLE 再发下一个 WRITE。
+    //    (目前 LSU 的写还是单拍, 走不到这条回跳; 这是给以后 LSU 加 burst 写预留的。)
+STATE_WRITE_GAP :
+begin
+    next_state_r = STATE_IDLE;
+
+    // 还是同一笔 pending 写(前端没被 accept 前一直举着 ram_wr_o/addr/wdata), 条件满足才继续
+    if (!refresh_q && ram_req_w && (ram_wr_w != 4'b0))
+    begin
+        if (row_open_q[addr_bank_w] && {sdram_sel, addr_row_w} == active_row_q[addr_bank_w])
+            next_state_r = STATE_WRITE0;
+    end
+end
+//-----------------------------------------
+// STATE_PRECHARGE
     //-----------------------------------------
     STATE_PRECHARGE :
     begin
@@ -827,6 +868,8 @@ begin
     STATE_ACTIVATE    : dbg_state = "ACTIVATE";
     STATE_READ        : dbg_state = "READ";
     STATE_READ_WAIT   : dbg_state = "READ_WAIT";
+    STATE_READ_GAP    : dbg_state = "READ_GAP";
+    STATE_WRITE_GAP   : dbg_state = "WRITE_GAP";
     STATE_WRITE0      : dbg_state = "WRITE0";
     STATE_WRITE1      : dbg_state = "WRITE1";
     STATE_PRECHARGE   : dbg_state = "PRECHARGE";

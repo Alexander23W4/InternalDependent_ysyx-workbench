@@ -54,8 +54,8 @@ module ysyx_26040135_AXI_ICACHE (
     // 参数: 只有这两个需要调, 且都必须是 2 的幂
     //   (原来 TAG_LEN 是手写的 26, 一改 INDEX_LEN/OFFSET_LEN 就不对了)
     // ------------------------------------------------------------------
-    parameter CACHE_LINE_BYTES = 16;                            // 块大小, 单位字节
-    parameter CACHE_LINE_AMT   = 32;                           // cache 块数
+    parameter CACHE_LINE_BYTES = 8;                            // 块大小, 单位字节
+    parameter CACHE_LINE_AMT   = 16;                           // cache 块数
 
     localparam OFFSET_LEN      = $clog2(CACHE_LINE_BYTES);     // 块内偏移位数
     localparam INDEX_LEN       = $clog2(CACHE_LINE_AMT);       // 块索引位数

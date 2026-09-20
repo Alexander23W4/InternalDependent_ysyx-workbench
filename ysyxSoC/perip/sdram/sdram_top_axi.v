@@ -39,17 +39,18 @@ module sdram_top_axi(
   output        sdram_we,
   output [12:0] sdram_a,
   output [ 1:0] sdram_ba,
-  output [ 1:0] sdram_dqm,
-  inout  [15:0] sdram_dq
+  output [ 3:0] sdram_dqm,     // 位扩展: 数据 32 位 -> 4 个 DQM
+  inout  [31:0] sdram_dq,      // 位扩展: 32 位数据总线
+  output        sdram_sel      // 字扩展: 选哪一对颗粒(地址第 26 位)
 );
 
   wire sdram_dout_en;
-  wire [15:0] sdram_dout;
-  assign sdram_dq = sdram_dout_en ? sdram_dout : 16'bz;
+  wire [31:0] sdram_dout;
+  assign sdram_dq = sdram_dout_en ? sdram_dout : 32'bz;
   
   sdram_axi #(
     .SDRAM_MHZ(100),
-    .SDRAM_ADDR_W(24),
+    .SDRAM_ADDR_W(25),
     .SDRAM_COL_W(9),
     .SDRAM_READ_LATENCY(2)
   ) u_sdram_axi(
@@ -94,7 +95,8 @@ module sdram_top_axi(
     .sdram_ba_o(sdram_ba),
     .sdram_data_input_i(sdram_dq),
     .sdram_data_output_o(sdram_dout),
-    .sdram_data_out_en_o(sdram_dout_en)
+    .sdram_data_out_en_o(sdram_dout_en),
+    .sdram_sel_o(sdram_sel)
   );
 
 endmodule

@@ -46,15 +46,15 @@ VM_USER_CLASSES = \
 	cpu \
 	dut \
 	flash \
-	main \
-	monitor \
 	mrom \
 	perf \
+	tools \
+	main \
+	monitor \
 	expr \
 	hex_to_bin \
 	sdb \
 	watchpoint \
-	tools \
 	trace \
 	disasm \
 
@@ -62,6 +62,7 @@ VM_USER_CLASSES = \
 VM_USER_DIR = \
 	./csrc \
 	./csrc/difftest \
+	./csrc/items \
 	./csrc/sdb \
 	./csrc/trace \
 	./csrc/utils \
@@ -80,15 +81,17 @@ cpu.o: ./csrc/cpu.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 dut.o: ./csrc/difftest/dut.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-flash.o: ./csrc/flash.c
+flash.o: ./csrc/items/flash.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+mrom.o: ./csrc/items/mrom.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+perf.o: ./csrc/items/perf.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+tools.o: ./csrc/items/tools.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 main.o: ./csrc/main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 monitor.o: ./csrc/monitor.c
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-mrom.o: ./csrc/mrom.c
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-perf.o: ./csrc/perf.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 expr.o: ./csrc/sdb/expr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
@@ -97,8 +100,6 @@ hex_to_bin.o: ./csrc/sdb/hex_to_bin.c
 sdb.o: ./csrc/sdb/sdb.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 watchpoint.o: ./csrc/sdb/watchpoint.c
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-tools.o: ./csrc/tools.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 trace.o: ./csrc/trace/trace.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

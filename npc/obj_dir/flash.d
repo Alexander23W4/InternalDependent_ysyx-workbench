@@ -1,4 +1,4 @@
-flash.o: ../csrc/flash.c \
+flash.o: ../csrc/items/flash.c \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h \
  /usr/local/share/verilator/include/verilated.h \
  /usr/local/share/verilator/include/verilatedos.h \

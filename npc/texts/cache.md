@@ -62,7 +62,7 @@ icache获得取指请求的地址后, 根据index部分索引出一个cache块, 
 ## ⭐$$: 加一个工具, final_print 的输出输出到一个文件里面, 对比前后的性能差异
 
 
-## 形式化验证
+## 形式化验证 (在单元测试中使用)
 >> 等价类归一:
 软件测试理论中的等价类测试方法可以把本质行为相似的测试进行归类, 从等价类中选择一个测试来代表整个等价类的测试, 从而降低测试集的大小.
 
@@ -85,31 +85,6 @@ solver就是用来给我们的 DUT 设计找反例, 先翻译DUT -> 等价一阶
 
 >>> 基于Yosys的形式化验证流程, SymbiYosys
 
-SymbiYosys的配置文件*.sby, 这个文件一般由以下几个部分组成:
-
-task: 可选项, 用于指定所需执行的任务
-options: 必须项, 用于将代码中的assert, cover等语句和模型相对应
-engines: 必须项, 用于指定求解的模型
-script: 必须项, 包含测试需要的Yosys脚本
-files: 必须项, 用于指定测试的文件
+形式化验证一般在单元测试中使用
 
 
-以下是配置文件Sub.sby的示例:
-[tasks]
-basic bmc
-basic: default
-
-[options]
-bmc:
-mode bmc
-depth 1
-
-[engines]
-smtbmc
-
-[script]
-read -formal Sub.sv
-prep -top Sub
-
-[files]
-Sub.sv

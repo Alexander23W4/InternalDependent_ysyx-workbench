@@ -12,20 +12,18 @@
 ; yosys-smt2-wire b 4
 ; yosys-smt2-witness {"offset": 0, "path": ["\\b"], "smtname": "b", "smtoffset": 0, "type": "input", "width": 4}
 (define-fun |Sub_n b| ((state |Sub_s|)) (_ BitVec 4) (|Sub#1| state))
-(define-fun |Sub#2| ((state |Sub_s|)) (_ BitVec 4) (bvnot (|Sub#1| state))) ; $not$Sub.sv:10$1_Y
-(define-fun |Sub#3| ((state |Sub_s|)) (_ BitVec 4) (bvadd (|Sub#0| state) (|Sub#2| state))) ; $add$Sub.sv:10$2_Y
-(define-fun |Sub#4| ((state |Sub_s|)) Bool (= (|Sub#0| state) #b0010)) ; $eq$Sub.sv:10$3_Y
-(define-fun |Sub#5| ((state |Sub_s|)) (_ BitVec 1) (ite (|Sub#4| state) #b0 #b1)) ; $ternary$Sub.sv:10$4_Y
-(define-fun |Sub#6| ((state |Sub_s|)) (_ BitVec 4) (bvadd (|Sub#3| state) (concat #b000 (|Sub#5| state)))) ; \c
+(define-fun |Sub#2| ((state |Sub_s|)) (_ BitVec 4) (bvnot (|Sub#1| state))) ; $not$Sub.sv:11$1_Y
+(define-fun |Sub#3| ((state |Sub_s|)) (_ BitVec 4) (bvadd (|Sub#0| state) (|Sub#2| state))) ; $add$Sub.sv:11$2_Y
+(define-fun |Sub#4| ((state |Sub_s|)) (_ BitVec 4) (bvadd (|Sub#3| state) #b0001)) ; \c
 ; yosys-smt2-output c 4
 ; yosys-smt2-wire c 4
-(define-fun |Sub_n c| ((state |Sub_s|)) (_ BitVec 4) (|Sub#6| state))
+(define-fun |Sub_n c| ((state |Sub_s|)) (_ BitVec 4) (|Sub#4| state))
 ; yosys-smt2-wire c_assert_EN 1
 (define-fun |Sub_n c_assert_EN| ((state |Sub_s|)) Bool true)
-(define-fun |Sub#7| ((state |Sub_s|)) (_ BitVec 4) (bvsub (|Sub#0| state) (|Sub#1| state))) ; $sub$Sub.sv:14$7_Y
-(define-fun |Sub#8| ((state |Sub_s|)) Bool (= (|Sub#6| state) (|Sub#7| state))) ; $eq$Sub.sv:14$8_Y
+(define-fun |Sub#5| ((state |Sub_s|)) (_ BitVec 4) (bvsub (|Sub#0| state) (|Sub#1| state))) ; $sub$Sub.sv:15$5_Y
+(define-fun |Sub#6| ((state |Sub_s|)) Bool (= (|Sub#4| state) (|Sub#5| state))) ; $eq$Sub.sv:15$6_Y
 ; yosys-smt2-assert 0 c_assert
-(define-fun |Sub_a 0| ((state |Sub_s|)) Bool (or (|Sub#8| state) (not true))) ; c_assert
+(define-fun |Sub_a 0| ((state |Sub_s|)) Bool (or (|Sub#6| state) (not true))) ; c_assert
 (define-fun |Sub_a| ((state |Sub_s|)) Bool 
   (|Sub_a 0| state)
 )

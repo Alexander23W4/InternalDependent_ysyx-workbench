@@ -7,7 +7,8 @@ module Sub(
   output [3:0] c
 );
 
-  assign c = a + ~b + (a == 4'd2 ? 1'b0 : 1'b1);
+//   assign c = a + ~b + (a == 4'd2 ? 1'b0 : 1'b1);
+assign c = a + ~b + 1'b1;
 
 `ifdef FORMAL
   always @(*) begin

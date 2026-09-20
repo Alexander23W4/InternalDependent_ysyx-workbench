@@ -49,7 +49,7 @@ Promoted 1 assignment to connection.
 Converted 0 switches.
 
 2.3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\Sub.$proc$Sub.sv:13$6'.
+Creating decoders for process `\Sub.$proc$Sub.sv:14$4'.
 
 2.3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
 
@@ -58,7 +58,7 @@ Creating decoders for process `\Sub.$proc$Sub.sv:13$6'.
 2.3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
 
 2.3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Removing empty process `Sub.$proc$Sub.sv:13$6'.
+Removing empty process `Sub.$proc$Sub.sv:14$4'.
 Cleaned up 0 empty switches.
 
 2.3.12. Executing OPT_EXPR pass (perform const folding).
@@ -85,17 +85,15 @@ Optimizing module Sub.
 
 2.8.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\Sub'.
-Computing hashes of 8 cells of `\Sub'.
+Computing hashes of 6 cells of `\Sub'.
 Finding duplicate cells in `\Sub'.
 Removed a total of 0 cells.
 
 2.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
 Running muxtree optimizer on module \Sub..
   Creating internal representation of mux trees.
-  Evaluating internal representation of mux trees.
-  Analyzing evaluation results.
+  No muxes found in this module.
 Removed 0 multiplexer ports.
-<suppressed ~2 debug messages>
 
 2.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
   Optimizing cells in module \Sub.
@@ -103,7 +101,7 @@ Performed a total of 0 changes.
 
 2.8.5. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\Sub'.
-Computing hashes of 8 cells of `\Sub'.
+Computing hashes of 6 cells of `\Sub'.
 Finding duplicate cells in `\Sub'.
 Removed a total of 0 cells.
 
@@ -116,8 +114,6 @@ Optimizing module Sub.
 2.8.8. Finished fast OPT passes. (There is nothing left to do.)
 
 2.9. Executing WREDUCE pass (reducing word size of cells).
-Removed top 2 bits (of 4) from port B of cell Sub.$eq$Sub.sv:10$3 ($eq).
-Removed top 3 bits (of 4) from port B of cell Sub.$add$Sub.sv:10$5 ($add).
 
 2.10. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \Sub..
@@ -131,7 +127,7 @@ Optimizing module Sub.
 
 2.12.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\Sub'.
-Computing hashes of 8 cells of `\Sub'.
+Computing hashes of 6 cells of `\Sub'.
 Finding duplicate cells in `\Sub'.
 Removed a total of 0 cells.
 
@@ -148,17 +144,16 @@ Finding unused cells or wires in module \Sub..
 
         +----------Local Count, excluding submodules.
         | 
-       10 wires
-       28 wire bits
+        8 wires
+       26 wire bits
         4 public wires
        13 public wire bits
         3 ports
        12 port bits
-        8 cells
+        6 cells
         2   $add
         1   $check
-        2   $eq
-        1   $mux
+        1   $eq
         1   $not
         1   $sub
 
@@ -182,6 +177,6 @@ Module Sub directly or indirectly contains formal properties -> setting "keep" a
 5. Executing RTLIL backend.
 Output filename: ../model/design.il
 
-End of script. Logfile hash: 575b9a6d38, time: 0.01s, user: 0.00s, system: 0.01s, MEM: 18.38 MB peak
+End of script. Logfile hash: 610ce2ab40, time: 0.00s, user: 0.01s, system: 0.01s, MEM: 18.25 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 13% 4x opt_clean (0 sec), 12% 3x opt_merge (0 sec), ...
+Time spent: 14% 3x opt_merge (0 sec), 14% 4x opt_clean (0 sec), ...

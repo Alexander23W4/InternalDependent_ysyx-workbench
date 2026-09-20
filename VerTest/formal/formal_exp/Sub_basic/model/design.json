@@ -37,7 +37,7 @@
                   "name": "c_assert",
                   "attributes": {
                     "keep": "00000000000000000000000000000001",
-                    "src": "Sub.sv:14.5-14.33"
+                    "src": "Sub.sv:15.5-15.33"
                   },
                   "parameters": {
                     "ARGS_WIDTH": "00000000000000000000000000000000",
@@ -47,42 +47,6 @@
                     "TRG_ENABLE": "00000000000000000000000000000000",
                     "TRG_POLARITY": true,
                     "TRG_WIDTH": "00000000000000000000000000000000"
-                  }
-                }
-            ]
-          },
-          {
-            "type": "$mux",
-            "ports": [
-                {
-                  "name": "A",
-                  "direction": "io",
-                  "range": [0, 0]
-                },
-                {
-                  "name": "B",
-                  "direction": "io",
-                  "range": [0, 0]
-                },
-                {
-                  "name": "S",
-                  "direction": "io",
-                  "range": [0, 0]
-                },
-                {
-                  "name": "Y",
-                  "direction": "",
-                  "range": [0, 0]
-                }
-            ],
-            "cells": [
-                {
-                  "name": "$ternary$Sub.sv:10$4",
-                  "attributes": {
-                    "src": "Sub.sv:10.24-10.47"
-                  },
-                  "parameters": {
-                    "WIDTH": "00000000000000000000000000000001"
                   }
                 }
             ]
@@ -108,9 +72,9 @@
             ],
             "cells": [
                 {
-                  "name": "$sub$Sub.sv:14$7",
+                  "name": "$sub$Sub.sv:15$5",
                   "attributes": {
-                    "src": "Sub.sv:14.27-14.32"
+                    "src": "Sub.sv:15.27-15.32"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -138,9 +102,9 @@
             ],
             "cells": [
                 {
-                  "name": "$not$Sub.sv:10$1",
+                  "name": "$not$Sub.sv:11$1",
                   "attributes": {
-                    "src": "Sub.sv:10.18-10.20"
+                    "src": "Sub.sv:11.16-11.18"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -161,7 +125,7 @@
                 {
                   "name": "B",
                   "direction": "io",
-                  "range": [2, 0]
+                  "range": [4, 0]
                 },
                 {
                   "name": "Y",
@@ -171,22 +135,9 @@
             ],
             "cells": [
                 {
-                  "name": "$eq$Sub.sv:10$3",
+                  "name": "$eq$Sub.sv:15$6",
                   "attributes": {
-                    "src": "Sub.sv:10.24-10.33"
-                  },
-                  "parameters": {
-                    "A_SIGNED": "00000000000000000000000000000000",
-                    "A_WIDTH": "00000000000000000000000000000100",
-                    "B_SIGNED": "00000000000000000000000000000000",
-                    "B_WIDTH": "00000000000000000000000000000010",
-                    "Y_WIDTH": "00000000000000000000000000000001"
-                  }
-                },
-                {
-                  "name": "$eq$Sub.sv:14$8",
-                  "attributes": {
-                    "src": "Sub.sv:14.22-14.32"
+                    "src": "Sub.sv:15.22-15.32"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -219,9 +170,9 @@
             ],
             "cells": [
                 {
-                  "name": "$add$Sub.sv:10$2",
+                  "name": "$add$Sub.sv:11$2",
                   "attributes": {
-                    "src": "Sub.sv:10.14-10.20"
+                    "src": "Sub.sv:11.12-11.18"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -232,9 +183,9 @@
                   }
                 },
                 {
-                  "name": "$add$Sub.sv:10$5",
+                  "name": "$add$Sub.sv:11$3",
                   "attributes": {
-                    "src": "Sub.sv:10.14-10.48"
+                    "src": "Sub.sv:11.12-11.25"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -251,7 +202,7 @@
             "keep": "00000000000000000000000000000001",
             "hdlname": "Sub",
             "top": "00000000000000000000000000000001",
-            "src": "Sub.sv:4.1-18.10"
+            "src": "Sub.sv:4.1-19.10"
         }
       }
   ]

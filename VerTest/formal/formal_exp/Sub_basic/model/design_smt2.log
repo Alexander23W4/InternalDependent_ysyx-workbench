@@ -32,17 +32,16 @@ Module Sub directly or indirectly contains formal properties -> setting "keep" a
 
         +----------Local Count, excluding submodules.
         | 
-       10 wires
-       28 wire bits
+        8 wires
+       26 wire bits
         4 public wires
        13 public wire bits
         3 ports
        12 port bits
-        8 cells
+        6 cells
         2   $add
         1   $assert
-        2   $eq
-        1   $mux
+        1   $eq
         1   $not
         1   $sub
 
@@ -53,6 +52,6 @@ Module Sub directly or indirectly contains formal properties -> setting "keep" a
 6.2. Executing DEMUXMAP pass.
 Creating SMT-LIBv2 representation of module Sub.
 
-End of script. Logfile hash: 59ada8caca, time: 0.00s, user: 0.01s, system: 0.00s, MEM: 16.35 MB peak
+End of script. Logfile hash: bbe2ad5bc9, time: 0.00s, user: 0.00s, system: 0.01s, MEM: 15.75 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 42% 2x write_smt2 (0 sec), 28% 2x read_rtlil (0 sec), ...
+Time spent: 34% 2x write_smt2 (0 sec), 30% 2x read_rtlil (0 sec), ...

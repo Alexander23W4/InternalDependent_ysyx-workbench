@@ -94,5 +94,27 @@ solver就是用来给我们的 DUT 设计找反例, 先翻译DUT -> 等价一阶
 >> 优化 access_time
 
 Compulsory miss, 强制缺失, 定义为在一个容量无限大的cache中所发生的缺失, 表现为在第一次访问一个数据块时所发生的缺失
-Capacity miss, 容量缺失, 定义为不扩大cache容量就无法消除的缺失, 表现为因cache无法容纳所有所需访问的数据而发生的缺失
-Conflict miss, 冲突缺失, 定义为除上述两种原因外引起的缺失, 表现为因多个cache块之间相互替换而发生的缺失
+Capacity miss, 容量缺失, 定义为不扩大cache容量就无法消除的缺失, 表现为因cache无法容纳所有所需访问的数据而发生的缺失  (权衡面积(cache的访问时间) 和 hit_rate)
+Conflict miss, 冲突缺失, 定义为除上述两种原因外引起的缺失, 表现为因多个cache块之间相互替换而发生的缺失   (采用 全相联,组相联 等cache-DRAM 映射方式)
+
+### 全相联(fully-associative)
+需要根据过去每个cache块的访问情况, 预测出一个将来最不可能被访问的cache块. 常见的替换算法有如下几种:
+FIFO, 先进先出, 替换最旧读入的cache块
+LRU, 最近最少用, 替换在最近一段时间内访问次数最少的cache块
+random, 随机替换
+
+⭐: 全相联的代价 cost
+>> 需要在存储阵列中花费更多的存储开销来存储cache块的tag部分 [原来只是前TAG位不一样,现在是前TAG+INDEX位都不一样,icache都需要记录]
+>> 判断命中时, 需要与所有cache块检查其tag是否匹配, 这需要使用很多比较器, 从而增加面积开销. 由于这些代价, 全相联组织方式一般只在cache块数量较少的场景下使用.  (减少cache块)
+
+### 组相联(set-associative)
+给所有cache块分组, 在组间通过直接映射方式选出一个组, 然后在组内通过全相联方式选出一个cache块 [组间映射,组内随机]
+
+tag % 组数
+每个组中有w个cache块, 则称为w路组相联(w-way set-associative).   [现代CPU通常采用8或16路组相联]
+INDEX_LEN = n = log2(cache块总数/w)
+
+
+### cache块 的 大小
+>> 增强 空间局部性
+>> 增加 cache-miss cost

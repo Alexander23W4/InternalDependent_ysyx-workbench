@@ -83,7 +83,33 @@ solver就是用来给我们的 DUT 设计找反例, 先翻译DUT -> 等价一阶
 >> UVM 测试的覆盖率, 覆盖率 (覆盖率是不充分的验证指标)
 执行到某行代码(行覆盖率), 某信号发生翻转(翻转覆盖率), 某状态机的状态发生转移(状态机覆盖率), 自定义条件被满足(功能覆盖率)
 
+>>> 基于Yosys的形式化验证流程, SymbiYosys
+
+SymbiYosys的配置文件*.sby, 这个文件一般由以下几个部分组成:
+
+task: 可选项, 用于指定所需执行的任务
+options: 必须项, 用于将代码中的assert, cover等语句和模型相对应
+engines: 必须项, 用于指定求解的模型
+script: 必须项, 包含测试需要的Yosys脚本
+files: 必须项, 用于指定测试的文件
 
 
+以下是配置文件Sub.sby的示例:
+[tasks]
+basic bmc
+basic: default
 
+[options]
+bmc:
+mode bmc
+depth 1
 
+[engines]
+smtbmc
+
+[script]
+read -formal Sub.sv
+prep -top Sub
+
+[files]
+Sub.sv

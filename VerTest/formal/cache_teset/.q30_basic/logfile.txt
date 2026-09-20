@@ -74,3 +74,7 @@ SBY 17:24:23 [.q30_basic] engine_0: ##   0:07:13  waiting for solver (1 minute)
 SBY 17:25:44 [.q30_basic] engine_0: ##   0:08:34  Checking assumptions in step 27..
 SBY 17:25:44 [.q30_basic] engine_0: ##   0:08:35  Checking assertions in step 27..
 SBY 17:26:44 [.q30_basic] engine_0: ##   0:09:35  waiting for solver (1 minute)
+SBY 17:29:38 [.q30_basic] engine_0: ##   0:12:28  Checking assumptions in step 28..
+SBY 17:29:38 [.q30_basic] engine_0: ##   0:12:28  Checking assertions in step 28..
+SBY 17:30:38 [.q30_basic] engine_0: ##   0:13:28  waiting for solver (1 minute)
+SBY 17:32:08 [.q30_basic] engine_0: terminating process

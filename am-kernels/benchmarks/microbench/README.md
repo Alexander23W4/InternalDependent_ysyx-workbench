@@ -23,6 +23,8 @@ CPU正确性 和 性能测试 用基准程序。对AbstractMachine的要求：
 make ARCH=native run mainargs=huge
 make ARCH=native run mainargs=test
 make ARCH=riscv32-nemu run mainargs=train
+make ARCH=riscv32e-ysyxsoc run mainargs=test
+
 ```
 
 ## 评分根据

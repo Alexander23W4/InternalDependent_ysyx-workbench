@@ -38,6 +38,14 @@ void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause
 }
 #endif
 
+#ifndef VL_DPIDECL_get_icache_counters_
+#define VL_DPIDECL_get_icache_counters_
+void get_icache_counters(unsigned long long* out_hit_cnt, unsigned long long* out_miss_cnt, unsigned long long* out_hit_cycles, unsigned long long* out_miss_cycles) {
+    // DPI export at vsrc/dpi-f.sv:188:15
+    return Vtop::get_icache_counters(out_hit_cnt, out_miss_cnt, out_hit_cycles, out_miss_cycles);
+}
+#endif
+
 #ifndef VL_DPIDECL_get_ifu_region_counts_
 #define VL_DPIDECL_get_ifu_region_counts_
 void get_ifu_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other) {

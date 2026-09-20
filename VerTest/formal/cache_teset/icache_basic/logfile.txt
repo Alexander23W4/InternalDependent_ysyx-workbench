@@ -74,3 +74,11 @@ SBY 17:23:03 [icache_basic] engine_0: ##   0:06:53  waiting for solver (1 minute
 SBY 17:24:34 [icache_basic] engine_0: ##   0:08:24  Checking assumptions in step 27..
 SBY 17:24:34 [icache_basic] engine_0: ##   0:08:24  Checking assertions in step 27..
 SBY 17:25:34 [icache_basic] engine_0: ##   0:09:24  waiting for solver (1 minute)
+SBY 17:28:28 [icache_basic] engine_0: ##   0:12:19  Checking assumptions in step 28..
+SBY 17:28:28 [icache_basic] engine_0: ##   0:12:19  Checking assertions in step 28..
+SBY 17:29:28 [icache_basic] engine_0: ##   0:13:19  waiting for solver (1 minute)
+SBY 17:33:28 [icache_basic] engine_0: ##   0:17:19  waiting for solver (5 minutes)
+SBY 17:36:25 [icache_basic] engine_0: ##   0:20:16  Checking assumptions in step 29..
+SBY 17:36:26 [icache_basic] engine_0: ##   0:20:16  Checking assertions in step 29..
+SBY 17:37:26 [icache_basic] engine_0: ##   0:21:16  waiting for solver (1 minute)
+SBY 17:41:26 [icache_basic] engine_0: ##   0:25:16  waiting for solver (5 minutes)

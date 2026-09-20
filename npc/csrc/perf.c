@@ -19,6 +19,10 @@ unsigned long long lsu_write_flash_count = 0, lsu_write_sram_count = 0, lsu_writ
 unsigned long long flash_cycles = 0, sram_cycles = 0, sdram_cycles = 0, other_cycles = 0;
 unsigned long long flash_count = 0, sram_count = 0, sdram_count = 0, other_count = 0;
 
+// ⭐ icache 的计数器(值由 dpi-f.sv 里 get_icache_counters 填进来)
+unsigned long long icache_hit_cnt = 0, icache_miss_cnt = 0;
+unsigned long long icache_hit_cycles = 0, icache_miss_cycles = 0;
+
 void final_print() {
     printf("%s", ANSI_FMT("[CYCLES] ", ANSI_FG_CYAN));
     printf("%lu\n", cpu.mcycle);
@@ -201,6 +205,27 @@ void final_print() {
     PRINT_CNT_CPI("REGION_SRAM",  sram_cycles,  sram_count);
     PRINT_CNT_CPI("REGION_SDRAM", sdram_cycles, sdram_count);
     PRINT_CNT_CPI("REGION_OTHER", other_cycles, other_count);
+
+    // ---- icache ----
+    printf("\n");
+    printf("ICache: \n");
+
+    get_icache_counters(&icache_hit_cnt, &icache_miss_cnt,
+                        &icache_hit_cycles, &icache_miss_cycles);
+
+    PRINT_CNT_CPI("ICACHE_HIT",  icache_hit_cycles,  icache_hit_cnt);
+    PRINT_CNT_CPI("ICACHE_MISS", icache_miss_cycles, icache_miss_cnt);
+
+    // 命中率 = hit / (hit + miss)。总请求数就是 IFU_FETCH_CNT, 所以也可以拿它当分母,
+    // 但这里自己算, 免得两边口径不一致(比如 icache 还收到过非取指的请求)。
+    {
+        uint64_t icache_total = icache_hit_cnt + icache_miss_cnt;
+        printf("%s", ANSI_FMT("[ICACHE_HIT_RATE] ", ANSI_FG_CYAN));
+        if (icache_total)
+            printf("%.3f%%\n", 100.0 * (double)icache_hit_cnt / (double)icache_total);
+        else
+            printf("N/A\n");
+    }
 
 #undef PRINT_CNT_CPI
 }

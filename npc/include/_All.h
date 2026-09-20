@@ -184,6 +184,12 @@ extern unsigned long long sram_count;
 extern unsigned long long sdram_count;
 extern unsigned long long other_count;
 
+// ⭐ icache 的性能计数器, 由 dpi-f.sv 的 get_icache_counters 导出
+extern unsigned long long icache_hit_cnt;
+extern unsigned long long icache_miss_cnt;
+extern unsigned long long icache_hit_cycles;
+extern unsigned long long icache_miss_cycles;
+
 void clear_event_flag();
 void cal_instr_cycles();
 

@@ -368,11 +368,20 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .__master_validation_error      (__ifu_master_validation_error)
     );
 
+    logic [63:0] icache_hit_cnt;
+    logic [63:0] icache_miss_cnt;
+    logic [63:0] icache_hit_cycles;
+    logic [63:0] icache_miss_cycles;
+
     ysyx_26040135_AXI_ICACHE icache (
         .bus                            (bus_ifu.slave),
         .mbus                           (bus_icache.master),
         .clock                          (clock),
-        .reset                          (reset)
+        .reset                          (reset),
+        .icache_hit_cnt                 (icache_hit_cnt),
+        .icache_miss_cnt                (icache_miss_cnt),
+        .icache_hit_cycles              (icache_hit_cycles),
+        .icache_miss_cycles             (icache_miss_cycles)
     );
 
 

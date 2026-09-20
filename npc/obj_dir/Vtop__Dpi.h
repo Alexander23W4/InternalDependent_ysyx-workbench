@@ -22,6 +22,8 @@ extern "C" {
     extern void check_error(int* ifu_error, int* lsu_error, int* master_validation_error);
     // DPI export at vsrc/dpi-f.sv:14:15
     extern void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr);
+    // DPI export at vsrc/dpi-f.sv:188:15
+    extern void get_icache_counters(unsigned long long* out_hit_cnt, unsigned long long* out_miss_cnt, unsigned long long* out_hit_cycles, unsigned long long* out_miss_cycles);
     // DPI export at vsrc/dpi-f.sv:108:15
     extern void get_ifu_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
     // DPI export at vsrc/dpi-f.sv:95:15

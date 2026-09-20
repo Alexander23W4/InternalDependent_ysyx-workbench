@@ -1,11 +1,6 @@
-[tasks]
-basic
-basic: default
-
 [options]
-basic:
 mode bmc
-depth 20
+depth 30
 
 [engines]
 smtbmc

@@ -183,3 +183,17 @@ function void get_region_cycles(
     out_other = other_cycles;
 endfunction
 
+
+export "DPI-C" function get_icache_counters;
+function void get_icache_counters(
+    output longint unsigned out_hit_cnt,
+    output longint unsigned out_miss_cnt,
+    output longint unsigned out_hit_cycles,
+    output longint unsigned out_miss_cycles
+);
+    out_hit_cnt     = icache_hit_cnt;
+    out_miss_cnt    = icache_miss_cnt;
+    out_hit_cycles  = icache_hit_cycles;
+    out_miss_cycles = icache_miss_cycles;
+endfunction
+

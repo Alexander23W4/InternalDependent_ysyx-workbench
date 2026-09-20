@@ -274,3 +274,26 @@ void Vtop::get_region_cycles(unsigned long long* out_flash, unsigned long long* 
     for (size_t out_sdram__Vidx = 0; out_sdram__Vidx < 1; ++out_sdram__Vidx) *out_sdram = out_sdram__Vcvt;
     for (size_t out_other__Vidx = 0; out_other__Vidx < 1; ++out_other__Vidx) *out_other = out_other__Vcvt;
 }
+
+void Vtop::get_icache_counters(unsigned long long* out_hit_cnt, unsigned long long* out_miss_cnt, unsigned long long* out_hit_cycles, unsigned long long* out_miss_cycles) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::get_icache_counters\n"); );
+    // Init
+    QData/*63:0*/ out_hit_cnt__Vcvt;
+    out_hit_cnt__Vcvt = 0;
+    QData/*63:0*/ out_miss_cnt__Vcvt;
+    out_miss_cnt__Vcvt = 0;
+    QData/*63:0*/ out_hit_cycles__Vcvt;
+    out_hit_cycles__Vcvt = 0;
+    QData/*63:0*/ out_miss_cycles__Vcvt;
+    out_miss_cycles__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("get_icache_counters");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_get_icache_counters_t __Vcb = (Vtop__Vcb_get_icache_counters_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), out_hit_cnt__Vcvt, out_miss_cnt__Vcvt, out_hit_cycles__Vcvt, out_miss_cycles__Vcvt);
+    for (size_t out_hit_cnt__Vidx = 0; out_hit_cnt__Vidx < 1; ++out_hit_cnt__Vidx) *out_hit_cnt = out_hit_cnt__Vcvt;
+    for (size_t out_miss_cnt__Vidx = 0; out_miss_cnt__Vidx < 1; ++out_miss_cnt__Vidx) *out_miss_cnt = out_miss_cnt__Vcvt;
+    for (size_t out_hit_cycles__Vidx = 0; out_hit_cycles__Vidx < 1; ++out_hit_cycles__Vidx) *out_hit_cycles = out_hit_cycles__Vcvt;
+    for (size_t out_miss_cycles__Vidx = 0; out_miss_cycles__Vidx < 1; ++out_miss_cycles__Vidx) *out_miss_cycles = out_miss_cycles__Vcvt;
+}

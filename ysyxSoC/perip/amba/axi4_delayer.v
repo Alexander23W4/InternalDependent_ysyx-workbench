@@ -11,8 +11,8 @@
 
 
 现在最多支持 4 拍, 只支持 2'b01 突发
-        mbus.arlen <= 4
-        mbus.arburst = 2'b01;           // INCR: 多拍时地址要递增
+        mbus.arlen <= 4                                          (加 assert )
+        mbus.arburst = 2'b01;           // INCR: 多拍时地址要递增   (加 assert )
 
 依然只支持 SDRAM 的延迟, 其他的透传
 */
@@ -95,6 +95,10 @@ module axi4_delayer(
   reg [32:0] read_counters [0: MAX_ALLOWED_BURST_LEN - 1];   // 最多支持 4 拍
   reg [32:0] write_coutner;
 
+  reg [2:0] beat;
+  reg [1:0] arburst_save;
+  reg [7:0] arlen_save;
+
   localparam IDLE = 2'b00, READ = 2'b01, WRITE = 2'b10;
   reg [1:0] state, next;
 
@@ -105,9 +109,30 @@ module axi4_delayer(
         read_counters[i] <= '0;
       end
       write_coutner <= '0;
+      beat <= '0;
+      arburst_save <= '0;
+      arlen_save <= '0;
 
     end else begin
       state <= next;
+      if(state == IDLE) begin
+        for (int i = 0; i < MAX_ALLOWED_BURST_LEN ; i++) begin
+          read_counters[i] <= '0;
+        end
+        write_coutner <= '0;
+        
+        if(in_arvalid && in_araddr >= SDRAM_LOW && in_araddr <= SDRAM_HIGH) begin
+          for (int i = 0; i < MAX_ALLOWED_BURST_LEN ; i++) begin
+            read_counters[i] <= read_counters[i] + R;
+          end
+          beat <= '0;
+          arburst_save <= in_arburst;
+          arlen_save <= in_arlen;
+        end
+        else if(in_awvalid && in_awaddr >= SDRAM_LOW && in_awaddr <= SDRAM_HIGH) begin
+          write_coutner <= write_coutner + R;
+        end
+      end
 
     end
   end
@@ -152,14 +177,22 @@ module axi4_delayer(
 
     case (state)
       IDLE: begin
-        if(in_arready && in_araddr >= SDRAM_LOW && in_araddr <= SDRAM_HIGH) begin
-
-          next = READ;
+        if(in_arvalid && in_araddr >= SDRAM_LOW && in_araddr <= SDRAM_HIGH) begin
+          if(out_arready) begin
+            next = READ;
+          end
         end
-        else if(in_awaddr && in_awaddr >= SDRAM_LOW && in_awaddr <= SDRAM_HIGH) begin
-          next = WRITE;
+        else if(in_awvalid && in_awaddr >= SDRAM_LOW && in_awaddr <= SDRAM_HIGH) begin
+          if(out_awready) begin
+            next = WRITE;
+          end
         end
       end
+      READ: begin
+        
+      end
+
+
     endcase
   end
 

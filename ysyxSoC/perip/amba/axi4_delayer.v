@@ -1,3 +1,23 @@
+
+/*
+读写用两套不同的计数器
+
+将valid信号有效的时刻视为事务的开始.
+
+假设一个AXI突发读事务从t0时刻开始, 设备端分别在t1, t2时刻返回数据, AXI延迟模块在t1', t2'时刻向上游返回数据, 
+则应有等式(t1 - t0) * r = t1' - t0和(t2 - t0) * r = t2' - t0.
+
+目前可暂不实现突发写事务的校准, 但对于单个写事务, 则仍需校准  (写现在不支持突发)
+
+
+现在最多支持 4 拍, 只支持每拍 4 字节, 只支持 2'b01 突发
+        mbus.arlen <= 4
+        mbus.arsize = 3'b010;           // 每拍 4 字节
+        mbus.arburst = 2'b01;           // INCR: 多拍时地址要递增
+
+依然只支持 SDRAM 的延迟, 其他的透传
+*/
+
 module axi4_delayer(
   input         clock,
   input         reset,
@@ -92,5 +112,19 @@ module axi4_delayer(
   assign in_bvalid = out_bvalid;
   assign in_bid = out_bid;
   assign in_bresp = out_bresp;
+
+
+  parameter SDRAM_PERIOD = 100;
+  parameter CPU_PERIOD   = 1000;
+  parameter R = CPU_PERIOD / SDRAM_PERIOD;
+  parameter SDRAM_LOW = 32'ha0000000, SDRAM_HIGH = 32'hbfffffff;   
+
+
+  reg [32:0] read_counters [0:3];   // 最多支持 4 拍
+  reg [32:0] write_coutner;
+
+
+
+
 
 endmodule

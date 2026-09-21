@@ -119,11 +119,28 @@ module axi4_delayer(
   parameter R = CPU_PERIOD / SDRAM_PERIOD;
   parameter SDRAM_LOW = 32'ha0000000, SDRAM_HIGH = 32'hbfffffff;   
 
+  parameter MAX_ALLOWED_BURST_LEN = 4;
 
-  reg [32:0] read_counters [0:3];   // 最多支持 4 拍
+
+  reg [32:0] read_counters [0: MAX_ALLOWED_BURST_LEN - 1];   // 最多支持 4 拍
   reg [32:0] write_coutner;
 
+  localparam IDLE = 2'b00, READ = 2'b01, WRITE = 2'b10;
+  reg [1:0] state, next;
 
+  always @(posedge clock or posedge reset) begin
+    if(reset) begin
+      state <= IDLE;
+      for (int i = 0; i < MAX_ALLOWED_BURST_LEN ; i++) begin
+        read_counters[i] <= '0;
+      end
+      write_coutner <= '0;
+
+    end else begin
+      state <= next;
+      
+    end
+  end
 
 
 

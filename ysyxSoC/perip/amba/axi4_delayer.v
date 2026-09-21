@@ -95,9 +95,11 @@ module axi4_delayer(
   reg [32:0] read_counters [0: MAX_ALLOWED_BURST_LEN - 1];   // 最多支持 4 拍
   reg [32:0] write_coutner;
 
-  reg [2:0] beat;
+  reg [2:0] get_beat, return_beat;    // 从 slave 读到的 beat 个数 和 返回给 master 的 beat 个数
   reg [1:0] arburst_save;
   reg [7:0] arlen_save;
+
+  reg [32:0] rdata_save [0: MAX_ALLOWED_BURST_LEN - 1];
 
   localparam IDLE = 2'b00, READ = 2'b01, WRITE = 2'b10;
   reg [1:0] state, next;
@@ -107,9 +109,11 @@ module axi4_delayer(
       state <= IDLE;
       for (int i = 0; i < MAX_ALLOWED_BURST_LEN ; i++) begin
         read_counters[i] <= '0;
+        rdata_save[i] <= '0;
       end
       write_coutner <= '0;
-      beat <= '0;
+      first_beat <= '0;
+      last_beat <= '0;
       arburst_save <= '0;
       arlen_save <= '0;
 
@@ -118,14 +122,16 @@ module axi4_delayer(
       if(state == IDLE) begin
         for (int i = 0; i < MAX_ALLOWED_BURST_LEN ; i++) begin
           read_counters[i] <= '0;
+          rdata_save[i] <= '0;
         end
         write_coutner <= '0;
-        
+
         if(in_arvalid && in_araddr >= SDRAM_LOW && in_araddr <= SDRAM_HIGH) begin
           for (int i = 0; i < MAX_ALLOWED_BURST_LEN ; i++) begin
             read_counters[i] <= read_counters[i] + R;
           end
-          beat <= '0;
+          first_beat <= '0;
+          last_beat <= '0;
           arburst_save <= in_arburst;
           arlen_save <= in_arlen;
         end
@@ -149,11 +155,11 @@ module axi4_delayer(
     out_arburst = in_arburst;
 
     out_rready = in_rready;
-    in_rvalid = out_rvalid;
+    in_rvalid = out_rvalid;  //
     in_rid = out_rid;
-    in_rdata = out_rdata;
-    in_rresp = out_rresp;
-    in_rlast = out_rlast;
+    in_rdata = out_rdata;  // 
+    in_rresp = out_rresp;  //
+    in_rlast = out_rlast;  //
 
 
     in_awready = out_awready;
@@ -188,8 +194,21 @@ module axi4_delayer(
           end
         end
       end
+
       READ: begin
-        
+        // 阻隔返回值透传
+        out_rready = '0;
+        in_rvalid = '0;
+        in_rid = '0;
+        in_rdata = '0;
+        in_rresp = '0;
+        in_rlast = '0;
+
+        // 从机已经开始 burst 工作, 读好一个beat, 发一个 out_arvalid
+        if(out_arvalid) begin
+          rdata_save[]
+        end
+
       end
 
 

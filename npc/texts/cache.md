@@ -133,4 +133,16 @@ cachesim接收指令流的PC序列(简化版的itrace), 通过维护元数据来
 这个姑且就直接跑ysyxsoc整体来记录了
 
 
+## 完整的 cachesim (包含 hit-rate & miss-cost)
+
+>> 统计 miss-cost: 统计/建模
+
+cache_line_amt = 16, cache_line_len = n (4-128)
+4: 81.1
+8: 117.3
+16: 186.8
+32: 312.4
+64: 569.4
+128: 1064.6
+
 

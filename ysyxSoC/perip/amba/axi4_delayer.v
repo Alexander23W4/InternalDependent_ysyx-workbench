@@ -8,8 +8,8 @@
 则应有等式(t1 - t0) * r = t1' - t0和(t2 - t0) * r = t2' - t0.
 
 实现(每个 beat 一个计数器, 读写各一套):
-    t0 = 上游 valid 有效那一拍(AR/AW 一举起来就算开始, 后面等 ready 的时间也要算进去)
-    从 t0 到某一拍数据到手的上一拍, 这个 beat 的计数器每拍 += (r-1)
+    t0 = 上游 valid 有效那一拍(AR/AW 一举起来就算开始, 后面等 ready 的几拍也要算进去)
+    从 t0 到"某一拍数据到手"的上一拍, 这个 beat 的计数器每拍 += (r-1)
     从这一拍数据到手的那一拍开始, 计数器每拍 -= 1
     计数器减到 0 的那一拍, 就把这一拍交给上游
   ==> 等待 n 拍攒 n*(r-1), 再泄 n*(r-1) 拍, 合计 n + n*(r-1) = n*r 拍, 正好是上面的等式
@@ -21,9 +21,10 @@
 写事务: 目前 LSU 不发突发写, 因此只校准单个写事务(awlen==0), 而且只校准 B 回包的返回时刻;
         AW/W 立即透传(设备端收下一次数据本身至少要花 r 拍, 突发写的数据发送时刻校准等有了 dcache 再说)。
 
-现在最多支持 4 拍, 只支持 2'b01 突发 (FIXED 只用于单拍访问, 单拍时 arbust 无所谓, 所以只在 arlen!=0 时才要求 INCR)
-        mbus.arlen <= 4                                          (加 assert )
-        mbus.arburst = 2'b01;           // INCR: 多拍时地址要递增   (加 assert )
+支持 arlen 到 31(32 拍); 只支持 2'b01 突发
+(FIXED 只用于单拍访问, 单拍时 arbust 无所谓, 所以只在 arlen!=0 时才要求 INCR)
+        mbus.arlen   <= 31                                       (加 assert )
+        mbus.arburst =  2'b01;          // INCR: 多拍时地址要递增   (加 assert )
 
 依然只支持 SDRAM 的延迟, 其他的透传
 */
@@ -100,7 +101,12 @@ module axi4_delayer(
   parameter R = CPU_PERIOD / SDRAM_PERIOD;
   parameter SDRAM_LOW = 32'ha0000000, SDRAM_HIGH = 32'hbfffffff;   
 
-  parameter MAX_ALLOWED_BURST_LEN = 4;
+  parameter MAX_ALLOWED_BURST_LEN = 32;      // 最多 32 拍(arlen <= 31); 想收紧要自己改小
+
+  // 下面这些位宽全部从 MAX_ALLOWED_BURST_LEN 推出来, 以后只改上面那一个参数就行
+  localparam CNT_W  = $clog2(MAX_ALLOWED_BURST_LEN + 1);   // beat 计数要能表示 MAX 这个值本身 (4 拍 -> 3 位)
+  localparam IDX_W  = $clog2(MAX_ALLOWED_BURST_LEN);       // 数组下标 (4 深->2 位, 8 深->3 位, 32 深->5 位)
+  localparam ALEN_W = $clog2(MAX_ALLOWED_BURST_LEN);       // arlen 保存: 最大就是 MAX-1
 
   // 每拍累加量: 等待 n 拍攒 n*(R-1), 再泄 n*(R-1) 拍, 合计 n*R 拍
   localparam STEP = (R > 1) ? (R - 1) : 0;
@@ -111,11 +117,11 @@ module axi4_delayer(
   // ---------------- 读事务 ----------------
   reg [32:0] read_counters [0:MAX_ALLOWED_BURST_LEN-1];
   reg [31:0] rdata_save    [0:MAX_ALLOWED_BURST_LEN-1];
-  reg [2:0]  get_beat;        // 已经从设备拿到几拍 (0 ~ 4)
-  reg [2:0]  return_beat;     // 已经还给上游几拍 (0 ~ 4)
-  reg [2:0]  arlen_save;      // AXI 的 arlen 就是"拍数-1", 所以最后一拍的下标 == arlen_save
+  reg [CNT_W-1:0]  get_beat;        // 已经从设备拿到几拍 (0 ~ MAX)
+  reg [CNT_W-1:0]  return_beat;     // 已经还给上游几拍 (0 ~ MAX)
+  reg [ALEN_W-1:0] arlen_save;      // AXI 的 arlen 就是"拍数-1", 所以最后一拍的下标 == arlen_save
   reg [3:0]  rid_save;
-  reg [1:0]  rresp_save;      // 任意一拍出错就报错
+  reg [1:0]  rresp_save;            // 任意一拍出错就报错
 
   // ---------------- 写事务(单个, 只校准 B) ----------------
   reg [32:0] write_counter;
@@ -165,14 +171,14 @@ module axi4_delayer(
           for (i = 0; i < MAX_ALLOWED_BURST_LEN ; i = i + 1) begin
             read_counters[i] <= read_counters[i] + STEP;
           end
-          arlen_save <= in_arlen[2:0];      // 只可能 < 4 (上面有 assert)
+          arlen_save <= in_arlen[ALEN_W-1:0];
           rid_save   <= in_arid;
         end
       end
 
       if(state == READ) begin
         /* verilator lint_off WIDTHEXPAND */
-        // ⭐ for 的下标和边界都必须是常数, verilator 才能把循环展开; 变量边界的 for 里不允许对数组做非阻塞赋值
+        // for 的下标和边界都必须是常数, verilator 才能把循环展开; 变量边界的 for 里不允许对数组做非阻塞赋值
         //    (BLKLOOPINIT)。两个 if 覆盖的区间不重叠, 同一个 counter 这拍最多被赋一次值。
         for (i = 0; i < MAX_ALLOWED_BURST_LEN; i = i + 1) begin
           // 还没到手的 beat 继续攒(正在这一拍到手的那个不再累加)
@@ -188,14 +194,14 @@ module axi4_delayer(
 
         // 收 beat: 必须和 ready 握手, 否则设备会一直举着同一拍, 被重复收下
         if(r_beat_arriving) begin
-          rdata_save[get_beat[1:0]] <= out_rdata;
-          rresp_save           <= rresp_save | out_rresp;
-          get_beat             <= get_beat + 1'b1;
+          rdata_save[get_beat[IDX_W-1:0]] <= out_rdata;
+          rresp_save                      <= rresp_save | out_rresp;
+          get_beat                        <= get_beat + 1'b1;
         end
 
         // 还给上游: 等上游收走(rvalid && rready)才前进, 否则上游一反压就丢 beat
         if(in_rvalid && in_rready) begin
-          if(return_beat == arlen_save) begin
+          if(return_beat[ALEN_W-1:0] == arlen_save) begin
             return_beat <= '0;              // 最后一拍, 状态在组合逻辑里回 IDLE
           end else begin
             return_beat <= return_beat + 1'b1;
@@ -288,7 +294,7 @@ module axi4_delayer(
       end
 
       READ: begin
-        // 接管 R 通道: 设备端来的 beat 全部先收下(缓冲区正好 4 拍), 什么时候还给上游由计数器定
+        // 接管 R 通道: 设备端来的 beat 全部先收下(缓冲区正好 MAX 拍), 什么时候还给上游由计数器定
         out_rready = 1'b1;
         in_rvalid  = 1'b0;
         in_rid     = '0;
@@ -297,13 +303,16 @@ module axi4_delayer(
         in_rlast   = '0;
 
         // 计数器减到 0, 且这一拍已经到手(或正好这一拍到), 才交给上游
-        if(read_counters[return_beat[1:0]] == 0 &&
+        if(read_counters[return_beat[IDX_W-1:0]] == 0 &&
            (return_beat < get_beat || (r_beat_arriving && return_beat == get_beat))) begin
           in_rvalid = 1'b1;
           in_rid    = rid_save;
-          in_rdata  = rdata_save[return_beat[1:0]];
-          in_rresp  = rresp_save;
-          if(return_beat == arlen_save) begin
+          // 正好这一拍到手的, 数据还没进 rdata_save, 直接用设备端的
+          in_rdata  = (r_beat_arriving && (return_beat == get_beat)) ? out_rdata
+                                                                    : rdata_save[return_beat[IDX_W-1:0]];
+          in_rresp  = (r_beat_arriving && (return_beat == get_beat)) ? (rresp_save | out_rresp)
+                                                                    : rresp_save;
+          if(return_beat[ALEN_W-1:0] == arlen_save) begin
             in_rlast = 1'b1;
             if(in_rready) begin
               next = IDLE;
@@ -335,12 +344,14 @@ module axi4_delayer(
 
 
 `ifndef SYNTHESIS
-  // 目前只支持 4 拍以内; 真正的突发(arlen!=0)只支持 INCR(2'b01)。
+  // 最多 32 拍; 真正的突发(arlen!=0)只支持 INCR(2'b01)。
   // 单拍访问的长度是 0、突发类型无所谓, 我们的 LSU/IFU 单拍时给的是 FIXED(2'b00), 所以不查它。
   always @(posedge clock) begin
     if(!reset) begin
       if(in_arvalid && in_araddr >= SDRAM_LOW && in_araddr <= SDRAM_HIGH) begin
+        /* verilator lint_off WIDTHEXPAND */
         assert (in_arlen < MAX_ALLOWED_BURST_LEN);
+        /* verilator lint_on WIDTHEXPAND */
         if(in_arlen != 8'd0) begin
           assert (in_arburst == 2'b01);
         end

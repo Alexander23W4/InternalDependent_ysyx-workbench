@@ -98,6 +98,7 @@ module axi4_delayer(
   reg [2:0] get_beat, return_beat;    // 从 slave 读到的 beat 个数 和 返回给 master 的 beat 个数
   reg [1:0] arburst_save;
   reg [7:0] arlen_save;
+  reg [1:0] rresp_save;
 
   reg [32:0] rdata_save [0: MAX_ALLOWED_BURST_LEN - 1];
 
@@ -112,10 +113,11 @@ module axi4_delayer(
         rdata_save[i] <= '0;
       end
       write_coutner <= '0;
-      first_beat <= '0;
-      last_beat <= '0;
+      get_beat <= '0;
+      return_beat <= '0;
       arburst_save <= '0;
       arlen_save <= '0;
+      rresp_save <= '0;
 
     end else begin
       state <= next;
@@ -124,20 +126,36 @@ module axi4_delayer(
           read_counters[i] <= '0;
           rdata_save[i] <= '0;
         end
+
         write_coutner <= '0;
+        get_beat <= '0;
+        return_beat <= '0;
+        rresp_save <= '0;
 
         if(in_arvalid && in_araddr >= SDRAM_LOW && in_araddr <= SDRAM_HIGH) begin
           for (int i = 0; i < MAX_ALLOWED_BURST_LEN ; i++) begin
             read_counters[i] <= read_counters[i] + R;
           end
-          first_beat <= '0;
-          last_beat <= '0;
           arburst_save <= in_arburst;
           arlen_save <= in_arlen;
         end
         else if(in_awvalid && in_awaddr >= SDRAM_LOW && in_awaddr <= SDRAM_HIGH) begin
           write_coutner <= write_coutner + R;
         end
+      end
+
+      if(state == READ) begin
+        for (int i = get_beat; i < MAX_ALLOWED_BURST_LEN; i++) begin
+          read_counters[i] <= read_counters[i] + R;
+        end
+        for (int i = return_beat; i < get_beat; i++) begin
+          read_counters[i] <= read_counters[i] - 1;
+        end
+      end
+
+      if(state == READ && out_rvalid) begin
+        rdata_save[get_beat] <= out_rdata;
+        get_beat <= get_beat + 1;
       end
 
     end
@@ -205,8 +223,18 @@ module axi4_delayer(
         in_rlast = '0;
 
         // 从机已经开始 burst 工作, 读好一个beat, 发一个 out_arvalid
-        if(out_arvalid) begin
-          rdata_save[]
+        if(out_rvalid) begin
+          out_arready = 1'b1;
+          if(out_rlast) begin
+            
+          end
+        end
+        if(read_counters[return_beat] == 0) begin
+          in_rvalid = 1'b1;
+          in_rdata = rdata_save[return_beat];
+          if(in_rready) begin
+            // return beat++
+          end
         end
 
       end

@@ -10,9 +10,8 @@
 目前可暂不实现突发写事务的校准, 但对于单个写事务, 则仍需校准  (写现在不支持突发)
 
 
-现在最多支持 4 拍, 只支持每拍 4 字节, 只支持 2'b01 突发
+现在最多支持 4 拍, 只支持 2'b01 突发
         mbus.arlen <= 4
-        mbus.arsize = 3'b010;           // 每拍 4 字节
         mbus.arburst = 2'b01;           // INCR: 多拍时地址要递增
 
 依然只支持 SDRAM 的延迟, 其他的透传
@@ -83,35 +82,6 @@ module axi4_delayer(
   input  [1:0]  out_bresp
 );
 
-  assign in_arready = out_arready;
-  assign out_arvalid = in_arvalid;
-  assign out_arid = in_arid;
-  assign out_araddr = in_araddr;
-  assign out_arlen = in_arlen;
-  assign out_arsize = in_arsize;
-  assign out_arburst = in_arburst;
-  assign out_rready = in_rready;
-  assign in_rvalid = out_rvalid;
-  assign in_rid = out_rid;
-  assign in_rdata = out_rdata;
-  assign in_rresp = out_rresp;
-  assign in_rlast = out_rlast;
-  assign in_awready = out_awready;
-  assign out_awvalid = in_awvalid;
-  assign out_awid = in_awid;
-  assign out_awaddr = in_awaddr;
-  assign out_awlen = in_awlen;
-  assign out_awsize = in_awsize;
-  assign out_awburst = in_awburst;
-  assign in_wready = out_wready;
-  assign out_wvalid = in_wvalid;
-  assign out_wdata = in_wdata;
-  assign out_wstrb = in_wstrb;
-  assign out_wlast = in_wlast;
-  assign out_bready = in_bready;
-  assign in_bvalid = out_bvalid;
-  assign in_bid = out_bid;
-  assign in_bresp = out_bresp;
 
 
   parameter SDRAM_PERIOD = 100;
@@ -138,10 +108,60 @@ module axi4_delayer(
 
     end else begin
       state <= next;
-      
+
     end
   end
 
+  always @(*) begin
+    next = state;
+
+    in_arready = out_arready;
+    out_arvalid = in_arvalid;
+    out_arid = in_arid;
+    out_araddr = in_araddr;
+    out_arlen = in_arlen;
+    out_arsize = in_arsize;
+    out_arburst = in_arburst;
+
+    out_rready = in_rready;
+    in_rvalid = out_rvalid;
+    in_rid = out_rid;
+    in_rdata = out_rdata;
+    in_rresp = out_rresp;
+    in_rlast = out_rlast;
+
+
+    in_awready = out_awready;
+    out_awvalid = in_awvalid;
+    out_awid = in_awid;
+    out_awaddr = in_awaddr;
+    out_awlen = in_awlen;
+    out_awsize = in_awsize;
+    out_awburst = in_awburst;
+
+    in_wready = out_wready;
+    out_wvalid = in_wvalid;
+    out_wdata = in_wdata;
+    out_wstrb = in_wstrb;
+    out_wlast = in_wlast;
+
+    out_bready = in_bready;
+    in_bvalid = out_bvalid;
+    in_bid = out_bid;
+    in_bresp = out_bresp;
+
+    case (state)
+      IDLE: begin
+        if(in_arready && in_araddr >= SDRAM_LOW && in_araddr <= SDRAM_HIGH) begin
+
+          next = READ;
+        end
+        else if(in_awaddr && in_awaddr >= SDRAM_LOW && in_awaddr <= SDRAM_HIGH) begin
+          next = WRITE;
+        end
+      end
+    endcase
+  end
 
 
 endmodule

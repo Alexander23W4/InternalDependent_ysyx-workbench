@@ -156,6 +156,13 @@ module axi4_delayer(
       if(state == READ && out_rvalid) begin
         rdata_save[get_beat] <= out_rdata;
         get_beat <= get_beat + 1;
+        if(out_rlast) begin
+          rresp_save <= out_rresp;
+        end
+      end
+
+      if(state == READ && read_counters[return_beat] == 0 && return_beat != arlen_save - 1) begin
+        return_beat <= return_beat + 1;
       end
 
     end
@@ -225,18 +232,20 @@ module axi4_delayer(
         // 从机已经开始 burst 工作, 读好一个beat, 发一个 out_arvalid
         if(out_rvalid) begin
           out_arready = 1'b1;
-          if(out_rlast) begin
-            
-          end
         end
         if(read_counters[return_beat] == 0) begin
+          if(return_beat == arlen_save - 1) begin
+            in_rlast = 1'b1;
+            in_rresp = rresp_save;
+            next = IDLE;
+          end
           in_rvalid = 1'b1;
           in_rdata = rdata_save[return_beat];
-          if(in_rready) begin
-            // return beat++
-          end
         end
+      end
 
+      WRITE: begin
+        
       end
 
 

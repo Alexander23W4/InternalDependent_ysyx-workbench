@@ -1,0 +1,117 @@
+
+/home/wang/InternalDependent_ysyx-workbench/am-kernels/tests/my_test/build/smc-riscv32e-ysyxsoc.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .fsbl:
+
+30000000 <_fsbl>:
+30000000:	00000517          	auipc	a0,0x0
+30000004:	03850513          	addi	a0,a0,56 # 30000038 <_boot_end>
+30000008:	70000597          	auipc	a1,0x70000
+3000000c:	ff858593          	addi	a1,a1,-8 # a0000000 <_start>
+30000010:	70000617          	auipc	a2,0x70000
+30000014:	0cc60613          	addi	a2,a2,204 # a00000dc <main>
+30000018:	00c5fc63          	bgeu	a1,a2,30000030 <_fsbl+0x30>
+3000001c:	00054283          	lbu	t0,0(a0)
+30000020:	00558023          	sb	t0,0(a1)
+30000024:	00150513          	addi	a0,a0,1
+30000028:	00158593          	addi	a1,a1,1
+3000002c:	fedff06f          	j	30000018 <_fsbl+0x18>
+30000030:	70000097          	auipc	ra,0x70000
+30000034:	fd0080e7          	jalr	-48(ra) # a0000000 <_start>
+
+Disassembly of section .ssbl:
+
+a0000000 <_start>:
+a0000000:	6f002117          	auipc	sp,0x6f002
+a0000004:	00010113          	mv	sp,sp
+a0000008:	00000413          	li	s0,0
+a000000c:	90000517          	auipc	a0,0x90000
+a0000010:	10850513          	addi	a0,a0,264 # 30000114 <_text_lma>
+a0000014:	00000597          	auipc	a1,0x0
+a0000018:	0c858593          	addi	a1,a1,200 # a00000dc <_ssbl_end>
+a000001c:	00000617          	auipc	a2,0x0
+a0000020:	12c60613          	addi	a2,a2,300 # a0000148 <mainargs>
+a0000024:	40b60633          	sub	a2,a2,a1
+a0000028:	00000097          	auipc	ra,0x0
+a000002c:	074080e7          	jalr	116(ra) # a000009c <_boot_copy>
+a0000030:	90000517          	auipc	a0,0x90000
+a0000034:	15050513          	addi	a0,a0,336 # 30000180 <_rodata_lma>
+a0000038:	00000597          	auipc	a1,0x0
+a000003c:	11058593          	addi	a1,a1,272 # a0000148 <mainargs>
+a0000040:	00000617          	auipc	a2,0x0
+a0000044:	14860613          	addi	a2,a2,328 # a0000188 <__am_apps_bss_end>
+a0000048:	40b60633          	sub	a2,a2,a1
+a000004c:	00000097          	auipc	ra,0x0
+a0000050:	050080e7          	jalr	80(ra) # a000009c <_boot_copy>
+a0000054:	90000517          	auipc	a0,0x90000
+a0000058:	16c50513          	addi	a0,a0,364 # 300001c0 <_data_lma>
+a000005c:	00000597          	auipc	a1,0x0
+a0000060:	12c58593          	addi	a1,a1,300 # a0000188 <__am_apps_bss_end>
+a0000064:	00000617          	auipc	a2,0x0
+a0000068:	12460613          	addi	a2,a2,292 # a0000188 <__am_apps_bss_end>
+a000006c:	40b60633          	sub	a2,a2,a1
+a0000070:	00000097          	auipc	ra,0x0
+a0000074:	02c080e7          	jalr	44(ra) # a000009c <_boot_copy>
+a0000078:	00000597          	auipc	a1,0x0
+a000007c:	11058593          	addi	a1,a1,272 # a0000188 <__am_apps_bss_end>
+a0000080:	00000617          	auipc	a2,0x0
+a0000084:	10860613          	addi	a2,a2,264 # a0000188 <__am_apps_bss_end>
+a0000088:	00c5f863          	bgeu	a1,a2,a0000098 <_start+0x98>
+a000008c:	00058023          	sb	zero,0(a1)
+a0000090:	00158593          	addi	a1,a1,1
+a0000094:	ff5ff06f          	j	a0000088 <_start+0x88>
+a0000098:	074000ef          	jal	ra,a000010c <_trm_init>
+
+a000009c <_boot_copy>:
+a000009c:	00400313          	li	t1,4
+a00000a0:	00664e63          	blt	a2,t1,a00000bc <_boot_copy+0x20>
+a00000a4:	00052283          	lw	t0,0(a0)
+a00000a8:	0055a023          	sw	t0,0(a1)
+a00000ac:	00450513          	addi	a0,a0,4
+a00000b0:	00458593          	addi	a1,a1,4
+a00000b4:	ffc60613          	addi	a2,a2,-4
+a00000b8:	fe6656e3          	bge	a2,t1,a00000a4 <_boot_copy+0x8>
+a00000bc:	00060e63          	beqz	a2,a00000d8 <_boot_copy+0x3c>
+a00000c0:	00054283          	lbu	t0,0(a0)
+a00000c4:	00558023          	sb	t0,0(a1)
+a00000c8:	00150513          	addi	a0,a0,1
+a00000cc:	00158593          	addi	a1,a1,1
+a00000d0:	fff60613          	addi	a2,a2,-1
+a00000d4:	fe0616e3          	bnez	a2,a00000c0 <_boot_copy+0x24>
+a00000d8:	00008067          	ret
+
+Disassembly of section .text:
+
+a00000dc <main>:
+a00000dc:	00000513          	li	a0,0
+a00000e0:	100005b7          	lui	a1,0x10000
+a00000e4:	04100313          	li	t1,65
+a00000e8:	00000617          	auipc	a2,0x0
+a00000ec:	01060613          	addi	a2,a2,16 # a00000f8 <again>
+a00000f0:	000083b7          	lui	t2,0x8
+a00000f4:	06738393          	addi	t2,t2,103 # 8067 <_entry_offset+0x8067>
+
+a00000f8 <again>:
+a00000f8:	00658023          	sb	t1,0(a1) # 10000000 <_end+0xffe000>
+a00000fc:	00762023          	sw	t2,0(a2)
+a0000100:	ff9ff06f          	j	a00000f8 <again>
+a0000104:	00000513          	li	a0,0
+a0000108:	00008067          	ret
+
+a000010c <_trm_init>:
+a000010c:	ff410113          	addi	sp,sp,-12 # f001ff4 <_heap_end+0x67001ff4>
+a0000110:	00112423          	sw	ra,8(sp)
+a0000114:	100007b7          	lui	a5,0x10000
+a0000118:	f8000713          	li	a4,-128
+a000011c:	00e781a3          	sb	a4,3(a5) # 10000003 <_end+0xffe003>
+a0000120:	00100713          	li	a4,1
+a0000124:	00e78023          	sb	a4,0(a5)
+a0000128:	000780a3          	sb	zero,1(a5)
+a000012c:	00300713          	li	a4,3
+a0000130:	00e781a3          	sb	a4,3(a5)
+a0000134:	00000517          	auipc	a0,0x0
+a0000138:	01450513          	addi	a0,a0,20 # a0000148 <_text_end>
+a000013c:	fa1ff0ef          	jal	ra,a00000dc <main>
+a0000140:	00100073          	ebreak
+a0000144:	0000006f          	j	a0000144 <_trm_init+0x38>

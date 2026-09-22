@@ -1,5 +1,5 @@
-NAME = mycycle
-SRCS = ./src/mycycle.c
+NAME = smc
+SRCS = ./src/smc.c
 include $(AM_HOME)/Makefile
 
 # make ARCH=riscv32e-ysyxsoc -B run 

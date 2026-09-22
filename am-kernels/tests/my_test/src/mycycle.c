@@ -8,9 +8,13 @@ __attribute__((noinline))
 void _test(int n){
     int temp = n;
     volatile int a = 0;
+    volatile int b = 0;
+    volatile int c = 0;
 
     while(temp--){
-        a += temp;
+        b = temp ^ 2;
+        c = temp % 4;
+        a += temp + b + c;
     }
 }
 

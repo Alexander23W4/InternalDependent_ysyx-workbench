@@ -9,6 +9,9 @@
 
 # ⭐: 这里的引用文件名都要改
 
+
+### CFLAGS += -falign-loops=16  // ⭐⭐⭐
+
 V_SRC=../ysyxSoC/build/ysyxSoCFull.v
 
 AXI_SOURCES = \

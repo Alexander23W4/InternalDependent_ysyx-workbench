@@ -23,7 +23,7 @@ icache 的 hit的CPI 和 miss的CPI
 
 ------------------------------------------------------------------------------------------------
 ⭐ 支持任意块大小(2 的幂, >= 4 字节):
-    真正要调的参数只有 CACHE_LINE_BYTES(块大小, 字节) 和 CACHE_LINE_AMT(块数),
+    真正要调的参数只有 ICACHE_LINE_BYTES(块大小, 字节) 和 ICACHE_LINE_AMT(块数),
     offset/index/tag 的位宽和"一行几个 32 位字"全部推出来 -> 换块大小只改一个参数。
 
    块 > 4B 时:
@@ -54,14 +54,14 @@ module ysyx_26040135_AXI_ICACHE (
     // 参数: 只有这两个需要调, 且都必须是 2 的幂
     //   (原来 TAG_LEN 是手写的 26, 一改 INDEX_LEN/OFFSET_LEN 就不对了)
     // ------------------------------------------------------------------
-    parameter CACHE_LINE_BYTES = 4;                            // 块大小, 单位字节
-    parameter CACHE_LINE_AMT   = 16;                           // cache 块数
+    parameter ICACHE_LINE_BYTES = 4;                            // 块大小, 单位字节
+    parameter ICACHE_LINE_AMT   = 16;                           // cache 块数
 
-    localparam OFFSET_LEN      = $clog2(CACHE_LINE_BYTES);     // 块内偏移位数
-    localparam INDEX_LEN       = $clog2(CACHE_LINE_AMT);       // 块索引位数
+    localparam OFFSET_LEN      = $clog2(ICACHE_LINE_BYTES);     // 块内偏移位数
+    localparam INDEX_LEN       = $clog2(ICACHE_LINE_AMT);       // 块索引位数
     localparam TAG_LEN         = 32 - INDEX_LEN - OFFSET_LEN;  // 标签位数
-    localparam CACHE_LINE_BITS = CACHE_LINE_BYTES * 8;         // 一行多少位
-    localparam LINE_WORDS      = CACHE_LINE_BYTES / 4;         // 一行几个 32 位字 = 突发拍数
+    localparam CACHE_LINE_BITS = ICACHE_LINE_BYTES * 8;         // 一行多少位
+    localparam LINE_WORDS      = ICACHE_LINE_BYTES / 4;         // 一行几个 32 位字 = 突发拍数
     localparam BEAT_LEN        = (LINE_WORDS > 1) ? $clog2(LINE_WORDS) : 1;
     localparam [7:0] ARLEN     = 8'(LINE_WORDS - 1);           // AXI 的 arlen = 拍数 - 1
 
@@ -72,9 +72,9 @@ module ysyx_26040135_AXI_ICACHE (
     localparam [3:0] SDRAM_TAG0 = 4'hA, SDRAM_TAG1 = 4'hB;     // sdram 0xa000_0000~0xbfff_ffff
 
 
-    logic [CACHE_LINE_BITS-1:0] icache [0:CACHE_LINE_AMT-1];
-    logic [TAG_LEN-1:0]         tag    [0:CACHE_LINE_AMT-1];
-    logic                       valid  [0:CACHE_LINE_AMT-1];
+    logic [CACHE_LINE_BITS-1:0] icache [0:ICACHE_LINE_AMT-1];
+    logic [TAG_LEN-1:0]         tag    [0:ICACHE_LINE_AMT-1];
+    logic                       valid  [0:ICACHE_LINE_AMT-1];
 
     logic [31:0] araddr_save;
     logic [1:0]  rresp_save;
@@ -140,7 +140,7 @@ module ysyx_26040135_AXI_ICACHE (
             icache_cyc         <= '0;
             cur_hit            <= 1'b0;
 
-            for (int i = 0; i < CACHE_LINE_AMT; i++) begin
+            for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
                 icache[i] <= '0;
                 tag[i]    <= '0;
                 valid[i]  <= 1'b0;

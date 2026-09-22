@@ -684,11 +684,11 @@ VL_INLINE_OPT void Vtop___024root___act_sequent__TOP__0(Vtop___024root* vlSelf) 
             = ((((IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__req_cacheable) 
                  & vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid
                  [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                           >> 7U))]) & ((vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                                         >> 0xbU) == 
+                           >> 2U))]) & ((vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
+                                         >> 6U) == 
                                         vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag
                                         [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                                                  >> 7U))]))
+                                                  >> 2U))]))
                 ? 4U : 2U);
     } else if (vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu.arvalid) {
         vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__next = 1U;
@@ -5532,14 +5532,12 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     if (vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__deq_q__DOT__do_enq) {
         vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__deq_q__DOT__ram 
             = (((QData)((IData)(vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master.araddr)) 
-                << 0xdU) | (QData)((IData)((((IData)(vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master.arlen) 
-                                             << 5U) 
-                                            | (((IData)(vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master.arsize) 
-                                                << 2U) 
-                                               | ((2U 
-                                                   == (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_xbar__DOT__r_current_state))
-                                                   ? 0U
-                                                   : 1U))))));
+                << 0xdU) | (QData)((IData)((((IData)(vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master.arsize) 
+                                             << 2U) 
+                                            | ((2U 
+                                                == (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_xbar__DOT__r_current_state))
+                                                ? 0U
+                                                : 1U)))));
     }
     if (vlSelf->ysyxSoCFull__DOT__asic__DOT___axi42apb_auto_in_arready) {
         vlSelf->ysyxSoCFull__DOT__asic__DOT__axi42apb__DOT__araddr_reg_r 
@@ -5953,10 +5951,17 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT___deq_q_1_io_deq_bits_len = 0U;
         vlSelf->ysyxSoCFull__DOT__asic__DOT___axi4frag_auto_out_awid = 0U;
     }
-    vlSelf->ysyxSoCFull__DOT__asic__DOT___axi4frag_auto_out_arid 
-        = ((IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__deq_q__DOT__full)
-            ? (0xfU & (IData)((vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__deq_q__DOT__ram 
-                               >> 0x2dU))) : 0U);
+    if (vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__deq_q__DOT__full) {
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT___deq_q_io_deq_bits_len 
+            = (0xffU & (IData)((vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__deq_q__DOT__ram 
+                                >> 5U)));
+        vlSelf->ysyxSoCFull__DOT__asic__DOT___axi4frag_auto_out_arid 
+            = (0xfU & (IData)((vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__deq_q__DOT__ram 
+                               >> 0x2dU)));
+    } else {
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT___deq_q_io_deq_bits_len = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT___axi4frag_auto_out_arid = 0U;
+    }
     vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4buf__DOT__nodeOut_wdeq_q__DOT___ram_ext_R0_data 
         = vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4buf__DOT__nodeOut_wdeq_q__DOT__ram_ext__DOT__Memory
         [vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4buf__DOT__nodeOut_wdeq_q__DOT__wrap_1];
@@ -6055,6 +6060,10 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                                                                 | (1U 
                                                                                 & (~ (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_16__DOT__full)))))))))))))))))) 
                  >> (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT___axi4frag_auto_out_awid)));
+    vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__len 
+        = ((IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__busy)
+            ? (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT__r_len)
+            : (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4frag__DOT___deq_q_io_deq_bits_len));
     vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4yank__DOT____VdfgTmp_h73aa1639__0 
         = (1U & (((0x8000U & ((~ (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_15__DOT__full)) 
                               << 0xfU)) | ((0x4000U 
@@ -6427,7 +6436,6 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) 
     }
 }
 
-extern const VlWide<32>/*1023:0*/ Vtop__ConstPool__CONST_hd6b7ba52_0;
 extern const VlUnpacked<CData/*1:0*/, 64> Vtop__ConstPool__TABLE_hc6b5b8c5_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) {
@@ -6513,7 +6521,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
     __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__jump_target = 0;
     CData/*1:0*/ __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__state;
     __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__state = 0;
-    CData/*4:0*/ __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat;
+    CData/*0:0*/ __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat;
     __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat = 0;
     QData/*63:0*/ __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache_hit_cnt;
     __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache_hit_cnt = 0;
@@ -6531,7 +6539,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
     __Vdlyvset__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v0 = 0;
     CData/*3:0*/ __Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16;
     __Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16 = 0;
-    SData/*9:0*/ __Vdlyvlsb__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16;
+    CData/*4:0*/ __Vdlyvlsb__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16;
     __Vdlyvlsb__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16 = 0;
     IData/*31:0*/ __Vdlyvval__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16;
     __Vdlyvval__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16 = 0;
@@ -6543,11 +6551,10 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
     __Vdlyvset__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid__v16 = 0;
     CData/*3:0*/ __Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag__v16;
     __Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag__v16 = 0;
-    IData/*20:0*/ __Vdlyvval__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag__v16;
+    IData/*25:0*/ __Vdlyvval__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag__v16;
     __Vdlyvval__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag__v16 = 0;
     CData/*0:0*/ __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_xbar__DOT__w_busy;
     __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_xbar__DOT__w_busy = 0;
-    VlWide<32>/*1023:0*/ __Vtemp_hccc1f18d__0;
     // Body
     __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__cur_hit 
         = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__cur_hit;
@@ -6836,15 +6843,15 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
         if (((3U == (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__state)) 
              & (IData)(vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache.rvalid))) {
             __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat 
-                = ((IData)(vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache.rlast)
-                    ? 0U : (0x1fU & ((IData)(1U) + (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat))));
+                = (1U & ((~ (IData)(vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache.rlast)) 
+                         & ((IData)(1U) + (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat))));
             if (((IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__req_cacheable) 
                  & (0U == (IData)(vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu.rresp)))) {
                 __Vdlyvval__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16 
                     = vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache.rdata;
                 __Vdlyvset__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16 = 1U;
                 __Vdlyvlsb__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16 
-                    = (0x3ffU & vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat_bit);
+                    = (0x1fU & vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat_bit);
                 __Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16 
                     = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__current_index;
                 if (vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache.rlast) {
@@ -7399,1030 +7406,22 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
     vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat 
         = __Vdly__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat;
     if (__Vdlyvset__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v0) {
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][1U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[1U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][2U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[2U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][3U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[3U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][4U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[4U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][5U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[5U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][6U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[6U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][7U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[7U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][8U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[8U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][9U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[9U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0xaU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xaU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0xbU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xbU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0xcU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xcU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0xdU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xdU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0xeU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xeU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0xfU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0xfU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x10U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x10U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x11U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x11U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x12U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x12U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x13U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x13U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x14U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x14U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x15U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x15U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x16U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x16U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x17U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x17U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x18U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x18U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x19U] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x19U];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x1aU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1aU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x1bU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1bU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x1cU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1cU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x1dU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1dU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x1eU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1eU];
-        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU][0x1fU] 
-            = Vtop__ConstPool__CONST_hd6b7ba52_0[0x1fU];
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[1U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[2U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[3U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[4U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[5U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[6U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[7U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[8U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[9U] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xaU] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xbU] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xcU] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xdU] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xeU] = 0U;
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[0xfU] = 0U;
         vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid[0U] = 0U;
         vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid[1U] = 0U;
         vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid[2U] = 0U;
@@ -8457,9 +7456,12 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
         vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag[0xfU] = 0U;
     }
     if (__Vdlyvset__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16) {
-        VL_ASSIGNSEL_WI(1024,32,(IData)(__Vdlyvlsb__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16), 
-                        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                        [__Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16], __Vdlyvval__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16);
+        vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache[__Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16] 
+            = (((~ ((IData)(0xffffffffU) << (IData)(__Vdlyvlsb__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16))) 
+                & vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
+                [__Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16]) 
+               | (0xffffffffULL & (__Vdlyvval__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16 
+                                   << (IData)(__Vdlyvlsb__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache__v16))));
     }
     if (__Vdlyvset__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid__v16) {
         vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid[__Vdlyvdim0__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid__v16] = 1U;
@@ -8539,10 +7541,10 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
            << 5U);
     vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__current_index 
         = (0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                   >> 7U));
+                   >> 2U));
     vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__current_tag 
         = (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-           >> 0xbU);
+           >> 6U);
     vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__req_cacheable 
         = ((3U == (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
                    >> 0x1cU)) | ((0xaU == (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
@@ -8588,108 +7590,11 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
             if ((1U & (~ (IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__state)))) {
                 vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu.rresp 
                     = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__rresp_save;
-                __Vtemp_hccc1f18d__0[0U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0U];
-                __Vtemp_hccc1f18d__0[1U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][1U];
-                __Vtemp_hccc1f18d__0[2U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][2U];
-                __Vtemp_hccc1f18d__0[3U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][3U];
-                __Vtemp_hccc1f18d__0[4U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][4U];
-                __Vtemp_hccc1f18d__0[5U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][5U];
-                __Vtemp_hccc1f18d__0[6U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][6U];
-                __Vtemp_hccc1f18d__0[7U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][7U];
-                __Vtemp_hccc1f18d__0[8U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][8U];
-                __Vtemp_hccc1f18d__0[9U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][9U];
-                __Vtemp_hccc1f18d__0[0xaU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0xaU];
-                __Vtemp_hccc1f18d__0[0xbU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0xbU];
-                __Vtemp_hccc1f18d__0[0xcU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0xcU];
-                __Vtemp_hccc1f18d__0[0xdU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0xdU];
-                __Vtemp_hccc1f18d__0[0xeU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0xeU];
-                __Vtemp_hccc1f18d__0[0xfU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0xfU];
-                __Vtemp_hccc1f18d__0[0x10U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x10U];
-                __Vtemp_hccc1f18d__0[0x11U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x11U];
-                __Vtemp_hccc1f18d__0[0x12U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x12U];
-                __Vtemp_hccc1f18d__0[0x13U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x13U];
-                __Vtemp_hccc1f18d__0[0x14U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x14U];
-                __Vtemp_hccc1f18d__0[0x15U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x15U];
-                __Vtemp_hccc1f18d__0[0x16U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x16U];
-                __Vtemp_hccc1f18d__0[0x17U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x17U];
-                __Vtemp_hccc1f18d__0[0x18U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x18U];
-                __Vtemp_hccc1f18d__0[0x19U] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x19U];
-                __Vtemp_hccc1f18d__0[0x1aU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x1aU];
-                __Vtemp_hccc1f18d__0[0x1bU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x1bU];
-                __Vtemp_hccc1f18d__0[0x1cU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x1cU];
-                __Vtemp_hccc1f18d__0[0x1dU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x1dU];
-                __Vtemp_hccc1f18d__0[0x1eU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x1eU];
-                __Vtemp_hccc1f18d__0[0x1fU] = vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
-                    [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                              >> 7U))][0x1fU];
                 vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu.rdata 
                     = ((IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__req_cacheable)
-                        ? __Vtemp_hccc1f18d__0[(0x1fU 
-                                                & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
-                                                   >> 2U))]
-                        : vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__rdata_save);
+                        ? vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache
+                       [(0xfU & (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save 
+                                 >> 2U))] : vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__rdata_save);
                 vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu.rvalid = 1U;
             }
         }
@@ -9253,7 +8158,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
     }
     vlSymsp->TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache.araddr 
         = ((IData)(vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__req_cacheable)
-            ? (0xffffff80U & vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save)
+            ? (0xfffffffcU & vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save)
             : vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__araddr_save);
     vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu_hit_other 
         = (1U & (~ ((3U == (vlSelf->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__pc 

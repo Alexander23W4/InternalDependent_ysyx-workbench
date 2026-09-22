@@ -98,11 +98,11 @@ static void cachesim_init(void) {
 
     printf("[CACHESIM] config  : block size %d B, blocks %d, direct-mapped, total %d B\n",
            CACHE_LINE_BYTES, CACHE_LINE_AMT, CACHE_LINE_BYTES * CACHE_LINE_AMT);
-    printf("[CACHESIM] address : index = addr[%d:%d], tag = addr[31:%d]"
-           " (offset %d bit / index %d bit / tag %d bit)\n",
-           INDEX_LEN + OFFSET_LEN - 1, OFFSET_LEN, INDEX_LEN + OFFSET_LEN,
-           OFFSET_LEN, INDEX_LEN, TAG_LEN);
-    printf("[CACHESIM] input   : %s\n", PC_ITRACE_FILE);
+    // printf("[CACHESIM] address : index = addr[%d:%d], tag = addr[31:%d]"
+    //        " (offset %d bit / index %d bit / tag %d bit)\n",
+    //        INDEX_LEN + OFFSET_LEN - 1, OFFSET_LEN, INDEX_LEN + OFFSET_LEN,
+    //        OFFSET_LEN, INDEX_LEN, TAG_LEN);
+    // printf("[CACHESIM] input   : %s\n", PC_ITRACE_FILE);
 }
 
 
@@ -154,8 +154,8 @@ int main(void) {
     double hate_rate = (double)hit_amt / (double)total_amt;
 
     printf("\n");
-    printf("[CACHESIM_HIT_CNT]  %" PRIu64 "\n", hit_amt);
-    printf("[CACHESIM_MISS_CNT] %" PRIu64 "\n", miss_amt);
+    // printf("[CACHESIM_HIT_CNT]  %" PRIu64 "\n", hit_amt);
+    // printf("[CACHESIM_MISS_CNT] %" PRIu64 "\n", miss_amt);
     printf("[CACHESIM_HIT_RATE] %.3f%%\n", 100.0 * hate_rate);
 
     /* 下面两行只是补充信息, 不影响上面三个结果 */
@@ -165,8 +165,13 @@ int main(void) {
         printf("[CACHESIM] uncacheable (non flash/SDRAM) fetch %" PRIu64
                ", counted as miss without filling\n", uncacheable_amt);
 
-    double ifu_cpi = hate_rate * CACHE_HIT_COST + (1 - hate_rate) * _miss_cost[OFFSET_LEN];
+    double cache_hit_cost = CACHE_HIT_COST;
+    double miss_cost = _miss_cost[OFFSET_LEN];
+    double ifu_cpi = hate_rate * cache_hit_cost + (1 - hate_rate) * miss_cost;
 
+    //// ⭐
+    printf("[CACHE_HIT_COST] %.3f\n", cache_hit_cost);
+    printf("[MISS_COST] %.3f\n", miss_cost);
     printf("[IFU_CPI] %.3f\n", ifu_cpi);
 
     return 0;

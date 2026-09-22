@@ -15,7 +15,6 @@ VL_ATTR_COLD void Vtop_ysyx_26040135_AXI4___ctor_var_reset(Vtop_ysyx_26040135_AX
     vlSelf->araddr = VL_RAND_RESET_I(32);
     vlSelf->arvalid = VL_RAND_RESET_I(1);
     vlSelf->arready = VL_RAND_RESET_I(1);
-    vlSelf->arlen = VL_RAND_RESET_I(8);
     vlSelf->arsize = VL_RAND_RESET_I(3);
     vlSelf->rdata = VL_RAND_RESET_I(32);
     vlSelf->rresp = VL_RAND_RESET_I(2);

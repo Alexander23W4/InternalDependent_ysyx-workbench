@@ -376,79 +376,90 @@ ICache:
 
 
 
-cache_line_amt: 4  cache_line_bytes: 4  hit_rate: 15.9%  ifu_cpi: 68.677
-cache_line_amt: 4  cache_line_bytes: 8  hit_rate: 66.9%  ifu_cpi: 40.841
-cache_line_amt: 4  cache_line_bytes: 16  hit_rate: 82.6%  ifu_cpi: 35.013
-cache_line_amt: 4  cache_line_bytes: 32  hit_rate: 92.2%  ifu_cpi: 27.206
-cache_line_amt: 4  cache_line_bytes: 64  hit_rate: 95.8%  ifu_cpi: 26.525
-cache_line_amt: 4  cache_line_bytes: 128  hit_rate: 96.9%  ifu_cpi: 35.557
-cache_line_amt: 8  cache_line_bytes: 4  hit_rate: 43.7%  ifu_cpi: 46.981
-cache_line_amt: 8  cache_line_bytes: 8  hit_rate: 73.5%  ifu_cpi: 33.314
-cache_line_amt: 8  cache_line_bytes: 16  hit_rate: 91.1%  ifu_cpi: 19.294
-cache_line_amt: 8  cache_line_bytes: 32  hit_rate: 95.4%  ifu_cpi: 17.155
-cache_line_amt: 8  cache_line_bytes: 64  hit_rate: 97.5%  ifu_cpi: 17.316
-cache_line_amt: 8  cache_line_bytes: 128  hit_rate: 99.4%  ifu_cpi: 8.978
-cache_line_amt: 16  cache_line_bytes: 4  hit_rate: 54.2%  ifu_cpi: 38.793
-cache_line_amt: 16  cache_line_bytes: 8  hit_rate: 86.8%  ifu_cpi: 18.049
-cache_line_amt: 16  cache_line_bytes: 16  hit_rate: 95.6%  ifu_cpi: 11.123
-cache_line_amt: 16  cache_line_bytes: 32  hit_rate: 97.3%  ifu_cpi: 11.437
-cache_line_amt: 16  cache_line_bytes: 64  hit_rate: 99.4%  ifu_cpi: 6.552
-cache_line_amt: 16  cache_line_bytes: 128  hit_rate: 99.6%  ifu_cpi: 7.019
-cache_line_amt: 32  cache_line_bytes: 4  hit_rate: 77.8%  ifu_cpi: 20.362
-cache_line_amt: 32  cache_line_bytes: 8  hit_rate: 93.3%  ifu_cpi: 10.714
-cache_line_amt: 32  cache_line_bytes: 16  hit_rate: 98.0%  ifu_cpi: 6.617
-cache_line_amt: 32  cache_line_bytes: 32  hit_rate: 99.3%  ifu_cpi: 5.221
-cache_line_amt: 32  cache_line_bytes: 64  hit_rate: 99.6%  ifu_cpi: 5.248
-cache_line_amt: 32  cache_line_bytes: 128  hit_rate: 99.7%  ifu_cpi: 6.160
-cache_line_amt: 64  cache_line_bytes: 4  hit_rate: 88.3%  ifu_cpi: 12.107
-cache_line_amt: 64  cache_line_bytes: 8  hit_rate: 96.9%  ifu_cpi: 6.594
-cache_line_amt: 64  cache_line_bytes: 16  hit_rate: 98.9%  ifu_cpi: 4.977
-cache_line_amt: 64  cache_line_bytes: 32  hit_rate: 99.6%  ifu_cpi: 4.270
-cache_line_amt: 64  cache_line_bytes: 64  hit_rate: 99.7%  ifu_cpi: 4.571
-cache_line_amt: 64  cache_line_bytes: 128  hit_rate: 99.9%  ifu_cpi: 3.695
-cache_line_amt: 128  cache_line_bytes: 4  hit_rate: 94.4%  ifu_cpi: 7.366
-cache_line_amt: 128  cache_line_bytes: 8  hit_rate: 98.2%  ifu_cpi: 5.113
-cache_line_amt: 128  cache_line_bytes: 16  hit_rate: 99.3%  ifu_cpi: 4.224
-cache_line_amt: 128  cache_line_bytes: 32  hit_rate: 99.8%  ifu_cpi: 3.723
-cache_line_amt: 128  cache_line_bytes: 64  hit_rate: 99.9%  ifu_cpi: 3.563
-cache_line_amt: 128  cache_line_bytes: 128  hit_rate: 100.0%  ifu_cpi: 3.375
+cache_line_amt: 4  cache_line_bytes: 4  hit_rate: 15.133%  ifu_cpi: 69.281
+cache_line_amt: 4  cache_line_bytes: 8  hit_rate: 66.593%  ifu_cpi: 41.184
+cache_line_amt: 4  cache_line_bytes: 16  hit_rate: 82.423%  ifu_cpi: 35.307
+cache_line_amt: 4  cache_line_bytes: 32  hit_rate: 92.097%  ifu_cpi: 27.451
+cache_line_amt: 4  cache_line_bytes: 64  hit_rate: 95.801%  ifu_cpi: 26.785
+cache_line_amt: 4  cache_line_bytes: 128  hit_rate: 96.897%  ifu_cpi: 35.937
+
+cache_line_amt: 8  cache_line_bytes: 4  hit_rate: 43.180%  ifu_cpi: 47.376
+cache_line_amt: 8  cache_line_bytes: 8  hit_rate: 73.240%  ifu_cpi: 33.587
+cache_line_amt: 8  cache_line_bytes: 16  hit_rate: 91.036%  ifu_cpi: 19.476
+cache_line_amt: 8  cache_line_bytes: 32  hit_rate: 95.375%  ifu_cpi: 17.311
+cache_line_amt: 8  cache_line_bytes: 64  hit_rate: 97.443%  ifu_cpi: 17.482
+cache_line_amt: 8  cache_line_bytes: 128  hit_rate: 99.429%  ifu_cpi: 9.065
+
+cache_line_amt: 16  cache_line_bytes: 4  hit_rate: 53.759%  ifu_cpi: 39.114
+cache_line_amt: 16  cache_line_bytes: 8  hit_rate: 86.686%  ifu_cpi: 18.218
+cache_line_amt: 16  cache_line_bytes: 16  hit_rate: 95.530%  ifu_cpi: 11.215
+cache_line_amt: 16  cache_line_bytes: 32  hit_rate: 97.243%  ifu_cpi: 11.531
+cache_line_amt: 16  cache_line_bytes: 64  hit_rate: 99.364%  ifu_cpi: 6.601
+cache_line_amt: 16  cache_line_bytes: 128  hit_rate: 99.618%  ifu_cpi: 7.057
+
+cache_line_amt: 32  cache_line_bytes: 4  hit_rate: 77.514%  ifu_cpi: 20.561
+cache_line_amt: 32  cache_line_bytes: 8  hit_rate: 93.174%  ifu_cpi: 10.802
+cache_line_amt: 32  cache_line_bytes: 16  hit_rate: 98.009%  ifu_cpi: 6.659
+cache_line_amt: 32  cache_line_bytes: 32  hit_rate: 99.272%  ifu_cpi: 5.253
+cache_line_amt: 32  cache_line_bytes: 64  hit_rate: 99.599%  ifu_cpi: 5.270
+cache_line_amt: 32  cache_line_bytes: 128  hit_rate: 99.699%  ifu_cpi: 6.191
+
+cache_line_amt: 64  cache_line_bytes: 4  hit_rate: 88.206%  ifu_cpi: 12.211
+cache_line_amt: 64  cache_line_bytes: 8  hit_rate: 96.819%  ifu_cpi: 6.636
+cache_line_amt: 64  cache_line_bytes: 16  hit_rate: 98.910%  ifu_cpi: 5.004
+cache_line_amt: 64  cache_line_bytes: 32  hit_rate: 99.586%  ifu_cpi: 4.282
+cache_line_amt: 64  cache_line_bytes: 64  hit_rate: 99.720%  ifu_cpi: 4.586
+cache_line_amt: 64  cache_line_bytes: 128  hit_rate: 99.934%  ifu_cpi: 3.701
+
+cache_line_amt: 128  cache_line_bytes: 4  hit_rate: 94.346%  ifu_cpi: 7.416
+cache_line_amt: 128  cache_line_bytes: 8  hit_rate: 98.127%  ifu_cpi: 5.141
+cache_line_amt: 128  cache_line_bytes: 16  hit_rate: 99.327%  ifu_cpi: 4.236
+cache_line_amt: 128  cache_line_bytes: 32  hit_rate: 99.764%  ifu_cpi: 3.730
+cache_line_amt: 128  cache_line_bytes: 64  hit_rate: 99.900%  ifu_cpi: 3.568
+cache_line_amt: 128  cache_line_bytes: 128  hit_rate: 99.964%  ifu_cpi: 3.378
 
 
 
-cache_line_amt: 4  cache_line_bytes: 4  hit_rate: 15.7%  ifu_cpi: 68.844
-cache_line_amt: 4  cache_line_bytes: 8  hit_rate: 68.6%  ifu_cpi: 38.899
-cache_line_amt: 4  cache_line_bytes: 16  hit_rate: 84.7%  ifu_cpi: 31.169
-cache_line_amt: 4  cache_line_bytes: 32  hit_rate: 94.2%  ifu_cpi: 21.083
-cache_line_amt: 4  cache_line_bytes: 64  hit_rate: 95.5%  ifu_cpi: 28.567
-cache_line_amt: 4  cache_line_bytes: 128  hit_rate: 96.7%  ifu_cpi: 37.967
-cache_line_amt: 8  cache_line_bytes: 4  hit_rate: 43.9%  ifu_cpi: 46.808
-cache_line_amt: 8  cache_line_bytes: 8  hit_rate: 74.0%  ifu_cpi: 32.670
-cache_line_amt: 8  cache_line_bytes: 16  hit_rate: 92.5%  ifu_cpi: 16.782
-cache_line_amt: 8  cache_line_bytes: 32  hit_rate: 96.9%  ifu_cpi: 12.526
-cache_line_amt: 8  cache_line_bytes: 64  hit_rate: 96.8%  ifu_cpi: 21.287
-cache_line_amt: 8  cache_line_bytes: 128  hit_rate: 99.5%  ifu_cpi: 8.461
-cache_line_amt: 16  cache_line_bytes: 4  hit_rate: 52.9%  ifu_cpi: 39.806
-cache_line_amt: 16  cache_line_bytes: 8  hit_rate: 87.6%  ifu_cpi: 17.160
-cache_line_amt: 16  cache_line_bytes: 16  hit_rate: 96.0%  ifu_cpi: 10.376
-cache_line_amt: 16  cache_line_bytes: 32  hit_rate: 98.4%  ifu_cpi: 7.915
-cache_line_amt: 16  cache_line_bytes: 64  hit_rate: 99.6%  ifu_cpi: 5.109
-cache_line_amt: 16  cache_line_bytes: 128  hit_rate: 99.6%  ifu_cpi: 6.998
-cache_line_amt: 32  cache_line_bytes: 4  hit_rate: 78.6%  ifu_cpi: 19.718
-cache_line_amt: 32  cache_line_bytes: 8  hit_rate: 93.1%  ifu_cpi: 10.837
-cache_line_amt: 32  cache_line_bytes: 16  hit_rate: 98.2%  ifu_cpi: 6.304
-cache_line_amt: 32  cache_line_bytes: 32  hit_rate: 99.5%  ifu_cpi: 4.522
-cache_line_amt: 32  cache_line_bytes: 64  hit_rate: 99.8%  ifu_cpi: 4.381
-cache_line_amt: 32  cache_line_bytes: 128  hit_rate: 99.9%  ifu_cpi: 4.276
-cache_line_amt: 64  cache_line_bytes: 4  hit_rate: 88.3%  ifu_cpi: 12.146
-cache_line_amt: 64  cache_line_bytes: 8  hit_rate: 97.0%  ifu_cpi: 6.418
-cache_line_amt: 64  cache_line_bytes: 16  hit_rate: 99.2%  ifu_cpi: 4.490
-cache_line_amt: 64  cache_line_bytes: 32  hit_rate: 99.6%  ifu_cpi: 4.101
-cache_line_amt: 64  cache_line_bytes: 64  hit_rate: 99.8%  ifu_cpi: 3.926
-cache_line_amt: 64  cache_line_bytes: 128  hit_rate: 99.9%  ifu_cpi: 3.678
-cache_line_amt: 128  cache_line_bytes: 4  hit_rate: 94.6%  ifu_cpi: 7.183
-cache_line_amt: 128  cache_line_bytes: 8  hit_rate: 98.6%  ifu_cpi: 4.654
-cache_line_amt: 128  cache_line_bytes: 16  hit_rate: 99.4%  ifu_cpi: 4.110
-cache_line_amt: 128  cache_line_bytes: 32  hit_rate: 99.7%  ifu_cpi: 3.791
-cache_line_amt: 128  cache_line_bytes: 64  hit_rate: 99.9%  ifu_cpi: 3.589
-cache_line_amt: 128  cache_line_bytes: 128  hit_rate: 100.0%  ifu_cpi: 3.393
+
+cache_line_amt: 4  cache_line_bytes: 4  hit_rate: 15.693%  ifu_cpi: 68.844
+cache_line_amt: 4  cache_line_bytes: 8  hit_rate: 68.593%  ifu_cpi: 38.899
+cache_line_amt: 4  cache_line_bytes: 16  hit_rate: 84.674%  ifu_cpi: 31.169
+cache_line_amt: 4  cache_line_bytes: 32  hit_rate: 94.156%  ifu_cpi: 21.083
+cache_line_amt: 4  cache_line_bytes: 64  hit_rate: 95.486%  ifu_cpi: 28.567
+cache_line_amt: 4  cache_line_bytes: 128  hit_rate: 96.706%  ifu_cpi: 37.967
+
+cache_line_amt: 8  cache_line_bytes: 4  hit_rate: 43.908%  ifu_cpi: 46.808
+cache_line_amt: 8  cache_line_bytes: 8  hit_rate: 74.042%  ifu_cpi: 32.670
+cache_line_amt: 8  cache_line_bytes: 16  hit_rate: 92.502%  ifu_cpi: 16.782
+cache_line_amt: 8  cache_line_bytes: 32  hit_rate: 96.921%  ifu_cpi: 12.526
+cache_line_amt: 8  cache_line_bytes: 64  hit_rate: 96.771%  ifu_cpi: 21.287
+cache_line_amt: 8  cache_line_bytes: 128  hit_rate: 99.486%  ifu_cpi: 8.461
+
+cache_line_amt: 16  cache_line_bytes: 4  hit_rate: 52.873%  ifu_cpi: 39.806
+cache_line_amt: 16  cache_line_bytes: 8  hit_rate: 87.612%  ifu_cpi: 17.160
+cache_line_amt: 16  cache_line_bytes: 16  hit_rate: 95.987%  ifu_cpi: 10.376
+cache_line_amt: 16  cache_line_bytes: 32  hit_rate: 98.412%  ifu_cpi: 7.915
+cache_line_amt: 16  cache_line_bytes: 64  hit_rate: 99.628%  ifu_cpi: 5.109
+cache_line_amt: 16  cache_line_bytes: 128  hit_rate: 99.623%  ifu_cpi: 6.998
+
+cache_line_amt: 32  cache_line_bytes: 4  hit_rate: 78.594%  ifu_cpi: 19.718
+cache_line_amt: 32  cache_line_bytes: 8  hit_rate: 93.144%  ifu_cpi: 10.837
+cache_line_amt: 32  cache_line_bytes: 16  hit_rate: 98.203%  ifu_cpi: 6.304
+cache_line_amt: 32  cache_line_bytes: 32  hit_rate: 99.508%  ifu_cpi: 4.522
+cache_line_amt: 32  cache_line_bytes: 64  hit_rate: 99.756%  ifu_cpi: 4.381
+cache_line_amt: 32  cache_line_bytes: 128  hit_rate: 99.880%  ifu_cpi: 4.276
+
+cache_line_amt: 64  cache_line_bytes: 4  hit_rate: 88.290%  ifu_cpi: 12.146
+cache_line_amt: 64  cache_line_bytes: 8  hit_rate: 97.009%  ifu_cpi: 6.418
+cache_line_amt: 64  cache_line_bytes: 16  hit_rate: 99.189%  ifu_cpi: 4.490
+cache_line_amt: 64  cache_line_bytes: 32  hit_rate: 99.644%  ifu_cpi: 4.101
+cache_line_amt: 64  cache_line_bytes: 64  hit_rate: 99.836%  ifu_cpi: 3.926
+cache_line_amt: 64  cache_line_bytes: 128  hit_rate: 99.936%  ifu_cpi: 3.678
+
+cache_line_amt: 128  cache_line_bytes: 4  hit_rate: 94.645%  ifu_cpi: 7.183
+cache_line_amt: 128  cache_line_bytes: 8  hit_rate: 98.553%  ifu_cpi: 4.654
+cache_line_amt: 128  cache_line_bytes: 16  hit_rate: 99.396%  ifu_cpi: 4.110
+cache_line_amt: 128  cache_line_bytes: 32  hit_rate: 99.744%  ifu_cpi: 3.791
+cache_line_amt: 128  cache_line_bytes: 64  hit_rate: 99.896%  ifu_cpi: 3.589
+cache_line_amt: 128  cache_line_bytes: 128  hit_rate: 99.963%  ifu_cpi: 3.393
 

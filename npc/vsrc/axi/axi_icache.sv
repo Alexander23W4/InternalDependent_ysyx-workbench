@@ -50,12 +50,17 @@ module ysyx_26040135_AXI_ICACHE (
     output logic [63:0] icache_miss_cycles
 );
 
-    // ------------------------------------------------------------------
-    // 参数: 只有这两个需要调, 且都必须是 2 的幂
-    //   (原来 TAG_LEN 是手写的 26, 一改 INDEX_LEN/OFFSET_LEN 就不对了)
-    // ------------------------------------------------------------------
-    parameter ICACHE_LINE_BYTES = 4;                            // 块大小, 单位字节
-    parameter ICACHE_LINE_AMT   = 16;                           // cache 块数
+
+    `ifndef ICACHE_LINE_BYTES
+        `define ICACHE_LINE_BYTES 4
+    `endif
+
+    `ifndef ICACHE_LINE_AMT
+        `define ICACHE_LINE_AMT 16
+    `endif
+
+    parameter ICACHE_LINE_BYTES = `ICACHE_LINE_BYTES;
+    parameter ICACHE_LINE_AMT   = `ICACHE_LINE_AMT;
 
     localparam OFFSET_LEN      = $clog2(ICACHE_LINE_BYTES);     // 块内偏移位数
     localparam INDEX_LEN       = $clog2(ICACHE_LINE_AMT);       // 块索引位数

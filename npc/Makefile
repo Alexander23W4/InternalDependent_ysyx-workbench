@@ -10,7 +10,6 @@
 # ⭐: 这里的引用文件名都要改
 
 
-### CFLAGS += -falign-loops=16  // ⭐⭐⭐
 
 V_SRC=../ysyxSoC/build/ysyxSoCFull.v
 
@@ -78,6 +77,15 @@ TOP_SEL=$(TOP_FLAG) $(TOP_MODULE)
 
 # Include search paths for verilator (vsrc and perip RTL includes)
 INCLUDE_PATHS=-I./vsrc -I../ysyxSoC/perip/uart16550/rtl -I../ysyxSoC/perip/spi/rtl
+
+# ------------------------------------------------------------------------------------------------------
+
+ICACHE_LINE_BYTES ?= 16
+ICACHE_LINE_AMT   ?= 16
+
+# 传进verilator
+-DICACHE_LINE_BYTES=$(ICACHE_LINE_BYTES)
+-DICACHE_LINE_AMT=$(ICACHE_LINE_AMT)
 
 # ------------------------------------------------------------------------------------------------------
 

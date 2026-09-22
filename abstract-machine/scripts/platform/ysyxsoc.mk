@@ -32,7 +32,6 @@ CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINAR
 
 
 
-
 NVBOARD_ENABLE ?= 0
 
 # 把 ysyxSoC 接进 NVBoard 的那个仿真工程(顶层 ysyxSoCFull)
@@ -43,6 +42,7 @@ NVBOARD_EXE       = $(NVBOARD_SIM_HOME)/build/$(NVBOARD_TOP)
 -include $(NPC_HOME)/Makefile
 -include $(NVBOARD_HOME)/Makefile
 
+CFLAGS += -falign-loops = $(ICACHE_LINE_BYTES)
 
 update-nvboard:
 	@echo "===================================== Update NVBoard ====================================="

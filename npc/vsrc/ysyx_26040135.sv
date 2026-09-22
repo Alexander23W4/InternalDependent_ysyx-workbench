@@ -513,7 +513,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             UDGPR: begin    // 固定一周期
                 next = UDPC;
             end
-            UDPC: begin   // 固定一周期
+            UDPC: begin     // 固定一周期
                 next = FETCH;
             end
         endcase 

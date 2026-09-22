@@ -146,4 +146,14 @@ cache_line_amt = 16, cache_line_len = n (4-128)
 128: 1064.6
 
 
+## 优化内存布局  (提升cache的整块空间利用率)
+
+将循环的第一个指令的地址对齐4的倍数, 最好是cache_line_bytes的倍数
+
+>> __attribute__((aligned(n)))    __attribute__((noinline))[避免被内联]
+>> -falign-loops=N
+>> -falign-functions=N
+>> linker script + section
+
+
 

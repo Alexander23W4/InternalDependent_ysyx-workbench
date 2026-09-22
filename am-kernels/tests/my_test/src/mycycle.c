@@ -4,6 +4,17 @@
 uint32_t mcycle = 0;
 uint32_t mcycleh = 0;
 
+__attribute__((noinline))
+void _test(int n){
+    int temp = n;
+    volatile int a = 0;
+
+    while(temp--){
+        a += temp;
+    }
+}
+
+__attribute__((aligned(16)))
 void circular(uint8_t n){
     uint8_t  temp = n;
     while(temp--){
@@ -12,8 +23,10 @@ void circular(uint8_t n){
         asm volatile("csrr %0, mcycleh" : "=r"(mcycleh));
         uint64_t cycle = ((uint64_t)mcycleh << 32 | mcycle);
         printf("Cycle: %d\n", cycle);
+        _test(100);
     }
 }
+
 
 int main(){
     circular(100);

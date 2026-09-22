@@ -194,15 +194,14 @@ int main(void) {
     printf("[MISS_COST] %.3f\n", miss_cost);
     printf("[IFU_CPI] %.3f\n", ifu_cpi);
 
-    /* ⭐ 每个组合往 DM_RESULT_FILE 追加一行(一次扫描就是一张表):
-           cache_line_bytes: 16 cache_line_amt: 32  ifu_cpi: 6.617
-       想重新开始一张表, 把这个文件删掉再跑就行。 */
+
     ensure_parent_dir(DM_RESULT_FILE);
+    
     {
         FILE *rf = fopen(DM_RESULT_FILE, "a");
         if (rf != NULL) {
-            fprintf(rf, "cache_line_bytes: %d cache_line_amt: %d  ifu_cpi: %.3f\n",
-                    CACHE_LINE_BYTES, CACHE_LINE_AMT, ifu_cpi);
+            fprintf(rf, "cache_line_amt: %d  cache_line_bytes: %d  ifu_cpi: %.3f\n",
+                    CACHE_LINE_AMT, CACHE_LINE_BYTES, ifu_cpi);
             fclose(rf);
         } else {
             fprintf(stderr, "[CACHESIM] cannot append to %s\n", DM_RESULT_FILE);

@@ -20,13 +20,13 @@ SRC    = dm_cachesim.c
 
 
 run:
-	@echo "扫 CACHE_LINE_BYTES=[$(CACHE_LINE_BYTES_SEQ)]  x  CACHE_LINE_AMT=[$(CACHE_LINE_AMT_SEQ)]"
-	@for b in $(CACHE_LINE_BYTES_SEQ); do \
-	  for n in $(CACHE_LINE_AMT_SEQ); do \
-	    echo "======== CACHE_LINE_BYTES=$$b  CACHE_LINE_AMT=$$n ========"; \
+	@echo "扫 CACHE_LINE_AMT=[$(CACHE_LINE_AMT_SEQ)]  x  CACHE_LINE_BYTES=[$(CACHE_LINE_BYTES_SEQ)]"
+	@for n in $(CACHE_LINE_AMT_SEQ); do \
+	  for b in $(CACHE_LINE_BYTES_SEQ); do \
+	    echo "======== CACHE_LINE_AMT=$$n  CACHE_LINE_BYTES=$$b ========"; \
 	    $(CC) $(CFLAGS) -DCACHE_LINE_BYTES=$$b -DCACHE_LINE_AMT=$$n $(SRC) -o $(TARGET) \
 	      && ./$(TARGET) \
-	      || echo "!! 组合 CACHE_LINE_BYTES=$$b CACHE_LINE_AMT=$$n 失败(已跳过)"; \
+	      || echo "!! 组合 CACHE_LINE_AMT=$$n CACHE_LINE_BYTES=$$b 失败(已跳过)"; \
 	  done; \
 	done
 

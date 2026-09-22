@@ -24,11 +24,14 @@
  */
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/config.h"   /* PC_ITRACE_FILE */
+#define DM_RESULT_FILE "/home/wang/InternalDependent_ysyx-workbench/npc/_my_tools/cachesim/result/dm_cachesim.txt"
 
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <inttypes.h>
+#include <string.h>
+#include <sys/stat.h>       /* mkdir: 结果文件的目录可能还不存在 */
 
 #ifndef CACHE_LINE_BYTES
 #define CACHE_LINE_BYTES 4      
@@ -68,6 +71,23 @@ uint64_t uncacheable_amt = 0;   /* 其中落在不可缓存区、压根没资格
 #define FLASH_TAG   0x3u        /* flash 0x3000_0000~0x3fff_ffff */
 #define SDRAM_TAG0  0xAu        /* sdram 0xa000_0000~0xbfff_ffff */
 #define SDRAM_TAG1  0xBu
+
+/* 往结果文件里追加一行前, 先把它的目录建出来(比如 npc/result/ 可能还没有) */
+static void ensure_parent_dir(const char *path) {
+    const char *slash = strrchr(path, '/');
+    char dir[1024];
+    size_t n;
+
+    if (slash == NULL) return;                  /* 没有目录部分, 就写在当前目录 */
+    n = (size_t)(slash - path);
+    if (n == 0 || n >= sizeof(dir)) return;
+
+    memcpy(dir, path, n);
+    dir[n] = '\0';
+    if (mkdir(dir, 0777) != 0) {
+        /* 已经存在(或建不了): 无所谓, 后面 fopen 成不成功会自己说话 */
+    }
+}
 
 static int req_cacheable(uint32_t addr) {
     uint32_t region = addr >> 28;               /* ↔ araddr_save[31:28] */
@@ -173,6 +193,21 @@ int main(void) {
     printf("[CACHE_HIT_COST] %.3f\n", cache_hit_cost);
     printf("[MISS_COST] %.3f\n", miss_cost);
     printf("[IFU_CPI] %.3f\n", ifu_cpi);
+
+    /* ⭐ 每个组合往 DM_RESULT_FILE 追加一行(一次扫描就是一张表):
+           cache_line_bytes: 16 cache_line_amt: 32  ifu_cpi: 6.617
+       想重新开始一张表, 把这个文件删掉再跑就行。 */
+    ensure_parent_dir(DM_RESULT_FILE);
+    {
+        FILE *rf = fopen(DM_RESULT_FILE, "a");
+        if (rf != NULL) {
+            fprintf(rf, "cache_line_bytes: %d cache_line_amt: %d  ifu_cpi: %.3f\n",
+                    CACHE_LINE_BYTES, CACHE_LINE_AMT, ifu_cpi);
+            fclose(rf);
+        } else {
+            fprintf(stderr, "[CACHESIM] cannot append to %s\n", DM_RESULT_FILE);
+        }
+    }
 
     return 0;
 }

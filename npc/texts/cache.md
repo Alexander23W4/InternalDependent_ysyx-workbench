@@ -155,5 +155,6 @@ cache_line_amt = 16, cache_line_len = n (4-128)
 >> -falign-functions=N
 >> linker script + section
 
+编译器链接器对齐是填充了 NOP: addi x0, x0, 0   (a00000fc:    00000013    nop)
 
 

@@ -47,7 +47,10 @@ module ysyx_26040135_AXI_ICACHE (
     output logic [63:0] icache_hit_cnt,
     output logic [63:0] icache_miss_cnt,
     output logic [63:0] icache_hit_cycles,
-    output logic [63:0] icache_miss_cycles
+    output logic [63:0] icache_miss_cycles,
+
+    input [31:0] sw_addr,
+    input sw_avail
 );
 
 
@@ -207,6 +210,12 @@ module ysyx_26040135_AXI_ICACHE (
                 end else begin
                     icache_miss_cnt    <= icache_miss_cnt    + 64'd1;
                     icache_miss_cycles <= icache_miss_cycles + icache_cyc + 64'd1;
+                end
+            end
+
+            if(sw_avail) begin
+                if(tag[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] == sw_addr[31:INDEX_LEN+OFFSET_LEN] && valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]]) begin
+                    valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] <= 1'b0;
                 end
             end
         end

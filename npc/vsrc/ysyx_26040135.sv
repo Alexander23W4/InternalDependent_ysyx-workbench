@@ -374,6 +374,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     logic [63:0] icache_hit_cycles;
     logic [63:0] icache_miss_cycles;
 
+    logic __sw_avail;
+
     ysyx_26040135_AXI_ICACHE icache (
         .bus                            (bus_ifu.slave),
         .mbus                           (bus_icache.master),
@@ -382,7 +384,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .icache_hit_cnt                 (icache_hit_cnt),
         .icache_miss_cnt                (icache_miss_cnt),
         .icache_hit_cycles              (icache_hit_cycles),
-        .icache_miss_cycles             (icache_miss_cycles)
+        .icache_miss_cycles             (icache_miss_cycles),
+        .sw_addr                        (add_rst),
+        .sw_avail                       (__sw_avail)
     );
 
 
@@ -574,6 +578,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             lsu_write_sdram_count <= '0;
             lsu_write_other_count <= '0;
 
+            __sw_avail <= 1'b0;
+
             state <= FETCH;
         end
         else begin
@@ -648,6 +654,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 end
                 if(io && __lsu_write_complete) begin
                     __period_end <= 1'b1;
+                    __sw_avail <= 1'b1;
                 end
             end
 
@@ -661,6 +668,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             if(state == UDPC) begin
                 __pc_is_updated <= 1'b1;
                 __period_end <= 1'b0;
+                __sw_avail <= 1'b0;
                 // pc update
                 if(jalr) begin
                     pc <= jump_target & ~32'h1;

@@ -178,7 +178,7 @@ int main(void) {
 
     FILE *rf = fopen(DM_RESULT_FILE, "a");
     if (rf != NULL) {
-        fprintf(rf, "cache_line_amt: %d  cache_line_bytes: %d  hit_rate: %.1f%%  ifu_cpi: %.3f\n",
+        fprintf(rf, "cache_line_amt: %d  cache_line_bytes: %d  hit_rate: %.3f%%  ifu_cpi: %.3f\n",
                 CACHE_LINE_AMT, CACHE_LINE_BYTES, 100 * hate_rate, ifu_cpi);
         fclose(rf);
     } else {

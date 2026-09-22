@@ -42,7 +42,7 @@ NVBOARD_EXE       = $(NVBOARD_SIM_HOME)/build/$(NVBOARD_TOP)
 -include $(NPC_HOME)/Makefile
 -include $(NVBOARD_HOME)/Makefile
 
-# CFLAGS += -falign-loops=$(ICACHE_LINE_BYTES)
+CFLAGS += -falign-loops=$(ICACHE_LINE_BYTES)
 
 update-nvboard:
 	@echo "===================================== Update NVBoard ====================================="

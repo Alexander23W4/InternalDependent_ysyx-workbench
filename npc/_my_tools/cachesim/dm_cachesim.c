@@ -37,6 +37,10 @@
 #define CACHE_LINE_AMT   16    
 #endif
 
+#define CACHE_HIT_COST  3
+
+// sampled under cache_line_amt = 16, but use universally 
+double _miss_cost[8] = {0, 0, 81.1, 117.3, 186.8, 312.4, 569.4, 1064.6};
 
 static int log2_u32(uint32_t x) {
     int r = 0;
@@ -147,10 +151,12 @@ int main(void) {
         return 1;
     }
 
+    double hate_rate = (double)hit_amt / (double)total_amt;
+
     printf("\n");
     printf("[CACHESIM_HIT_CNT]  %" PRIu64 "\n", hit_amt);
     printf("[CACHESIM_MISS_CNT] %" PRIu64 "\n", miss_amt);
-    printf("[CACHESIM_HIT_RATE] %.3f%%\n", 100.0 * (double)hit_amt / (double)total_amt);
+    printf("[CACHESIM_HIT_RATE] %.3f%%\n", 100.0 * hate_rate);
 
     /* 下面两行只是补充信息, 不影响上面三个结果 */
     printf("[CACHESIM] total fetch %" PRIu64 " (hit %" PRIu64 " + miss %" PRIu64 ")\n",
@@ -158,6 +164,10 @@ int main(void) {
     if (uncacheable_amt)
         printf("[CACHESIM] uncacheable (non flash/SDRAM) fetch %" PRIu64
                ", counted as miss without filling\n", uncacheable_amt);
+
+    double ifu_cpi = hate_rate * CACHE_HIT_COST + (1 - hate_rate) * _miss_cost[OFFSET_LEN];
+
+    printf("[IFU_CPI] %.3f\n", ifu_cpi);
 
     return 0;
 }

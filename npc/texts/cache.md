@@ -126,7 +126,7 @@ INDEX_LEN = n = log2(cache块总数/w)
 >> itrace已经包含了完整的指令流, 因此在统计TMT时, 我们只需要指令流的PC值, 而不需要指令本身.
 >> icache的数据部分也不需要, 只需要保留元数据部分即可.
 
-cachesim接收指令流的PC序列(简化版的itrace), 通过维护元数据来统计这一PC序列的缺失次数. 
+cachesim 接收指令流的PC序列(简化版的itrace), 通过维护元数据来统计这一PC序列的缺失次数. 
 至于指令流的PC序列, 我们可以通过NEMU来快速生成.
 
 >>>> 缺失代价 miss-cache cost
@@ -144,5 +144,6 @@ cache_line_amt = 16, cache_line_len = n (4-128)
 32: 312.4
 64: 569.4
 128: 1064.6
+
 
 

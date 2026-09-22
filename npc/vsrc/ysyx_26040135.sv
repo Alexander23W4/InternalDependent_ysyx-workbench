@@ -202,6 +202,7 @@ module ysyx_26040135(
     logic beq, bne, blt, bge, bltu, bgeu;
     logic jal, jalr, lui, auipc;
     logic ebreak, ecall, mret, csrrw, csrrs, csrrc;
+    logic fence_i;
 
     logic [4:0] rd, rs1, rs2;
     logic [31:0] immI, immU, immS, immB, immJ, immCSR;

@@ -155,6 +155,7 @@ module ysyx_26040135_decode(
     output reg csrrc,
     output reg mret,
 
+    output reg fence_i,
 /*
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
   INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) | src1, rs1));
@@ -245,8 +246,11 @@ module ysyx_26040135_decode(
         csrrc    = 1'b0;
         mret     = 1'b0;
 
-    // opcode recognizition:
+        fence_i  = 1'b0;
+
+
         case(opcode)
+            7'b0001111: fence_i = 1'b1;   //     // imm[11:0] rs1 001 rd 0001111 FENCE.I
             // === Upper Immediate ===
             7'b0010111: auipc  = 1'b1;
             7'b0110111: lui    = 1'b1;

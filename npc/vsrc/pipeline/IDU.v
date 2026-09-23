@@ -4,6 +4,7 @@ module ysyx_26040135_IDU(
     input clock,
     input reset,
 
+    input [31:0] in_pc,
     input [31:0] instr,
     input in_valid,
     output in_ready,
@@ -11,6 +12,7 @@ module ysyx_26040135_IDU(
     output reg out_valid,
     input out_ready,
 
+    output reg [31:0] out_pc,
 // opcodes  
 // === Arithmetic & Logical (Integer Register-Immediate Instructions) ===
     output reg addi,
@@ -86,6 +88,7 @@ module ysyx_26040135_IDU(
     output reg[31:0] immCSR
 );
     reg [31:0] instr_save;
+    reg [31:0] in_pc_save;
     reg in_valid_r;
 
     wire can_decode = in_valid_r && (!out_valid || out_ready);
@@ -105,6 +108,7 @@ module ysyx_26040135_IDU(
             if(in_valid && in_ready) begin
                 in_valid_r <= 1'b1;   // 与上一级握手完毕, 有instr了
                 instr_save <= instr;
+                in_pc_save <= in_pc;
             end
 
             if(out_ready && out_valid) begin
@@ -114,6 +118,8 @@ module ysyx_26040135_IDU(
             if(can_decode) begin
                 in_valid_r <= 1'b0;
                 out_valid <= 1'b1;
+
+                out_pc <= in_pc_save;
 
                 rd <= instr_save[11:7];
                 rs1 <= instr_save[19:15];

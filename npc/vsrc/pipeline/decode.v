@@ -6,7 +6,7 @@ module ysyx_26040135_decode(
 
     input [31:0] instr,
     input in_valid,
-    output reg in_ready,
+    output in_ready,
 
     output reg out_valid,
     input out_ready,
@@ -100,7 +100,6 @@ module ysyx_26040135_decode(
         if(reset) begin
             in_valid_r <= 1'b0;
             out_valid <= 1'b0;
-            
 
         end else begin
             if(in_valid && in_ready) begin

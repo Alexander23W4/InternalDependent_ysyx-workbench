@@ -26,8 +26,8 @@ module ysyx_26040135_AXI_IFU (
     input in_valid,
     output in_ready,
 
-    output [31:0] out_instr,
-    output out_valid,
+    output logic [31:0] out_instr,
+    output logic out_valid,
     input out_ready
 );
 // 外部控制信号与返回外部的信号:
@@ -63,13 +63,15 @@ module ysyx_26040135_AXI_IFU (
         return 1'b0;  // 默认不可执行
     endfunction
 
+    // 内部控制信号
+    logic idu_get_instr;
 
     // 返回值 以及 反馈信号
-    logic [31:0] rdata_save;
+    logic [31:0] out_instr_save;
     logic [1:0] error_save;
     logic master_validation_error_save;
 
-    assign rdata = rdata_save;
+
     assign __error = error_save;
     assign __master_validation_error = master_validation_error_save;
 
@@ -85,23 +87,40 @@ module ysyx_26040135_AXI_IFU (
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            rdata_save <= '0;
+            out_instr_save <= '0;
             error_save <= 2'b00;
             master_validation_error_save <= 1'b0;
 
+            out_valid <= 1'b0;
+
+            idu_get_instr <= 1'b1;
+
         end else begin
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
-                if(bus.rresp == 2'b00) begin
-                    rdata_save <= bus.rdata;                   
-                end
-                else begin
-                    error_save <= bus.rresp;
-                end
+                out_instr_save <= bus.rdata;                   
+            end else begin
+                error_save <= bus.rresp;
             end
 
             if(state == IDLE || in_valid) begin
                 if(!is_executable(in_pc)) begin
                     master_validation_error_save <= 1'b1;
+                end
+            end
+
+            if(state == R && bus.rvalid) begin   
+                idu_get_instr <= 1'b0;
+            end
+
+            if(out_ready) begin
+                out_valid <= 1'b0;
+            end
+
+            if(state == IDLE) begin
+                if(!out_valid) begin
+                    out_valid <= 1'b1;
+                    out_instr <= out_instr_save;
+                    idu_get_instr <= 1'b1;
                 end
             end
 
@@ -137,7 +156,8 @@ module ysyx_26040135_AXI_IFU (
         
         case(state)
             IDLE: begin
-                if(in_valid) begin
+                // 如果idu没有把上一个instr读走, 就阻塞到这里
+                if(in_valid && idu_get_instr) begin
                     bus.arvalid = 1'b1;
                     next = AR;
                 end
@@ -152,7 +172,8 @@ module ysyx_26040135_AXI_IFU (
 
             R: begin
                 if(bus.rvalid == 1'b1) begin
-                    bus.rready = 1'b1;
+                    bus.rready = 1'b1;  // 不管IDU有没有处理完, 都先把AXI总线的握手完成, 如果IDU没有处理完, 阻塞IFU的状态机, 不要阻塞总线
+
                     in_ready = 1'b1;
                     next = IDLE;
                 end

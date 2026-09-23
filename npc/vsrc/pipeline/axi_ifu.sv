@@ -174,7 +174,7 @@ module ysyx_26040135_AXI_IFU (
                 if(bus.rvalid == 1'b1) begin
                     bus.rready = 1'b1;  // 不管IDU有没有处理完, 都先把AXI总线的握手完成, 如果IDU没有处理完, 阻塞IFU的状态机, 不要阻塞总线
 
-                    in_ready = 1'b1;
+                    in_ready = 1'b1;  // 给in_ready, 不管IDU有没有准备好, 不要阻塞 WB, 让他处理下一个指令周期
                     next = IDLE;
                 end
             end

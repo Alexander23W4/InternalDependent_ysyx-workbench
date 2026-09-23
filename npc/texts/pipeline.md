@@ -6,13 +6,16 @@ superpipeline-cost: 寄存器cost   分支预测失败cost   控制复杂性
 
 
 
-## 各级的连接
-out.bits, 由当前阶段生成
-out.valid, 由当前阶段生成, 通常还与in.valid有关
-in.ready, 由当前阶段生成, 忙碌时置为无效, 处理完当前指令时置为有效
-out.ready, 与下一阶段的in.ready相同
-in.bits, 当前阶段的in.ready和上一阶段的out.valid同时有效时, 更新成上一阶段的out.bits
-in.valid, 作为作业留给大家
+## 流水线级间总线
+
+信号	                 含义	                   由谁/何时
+out.bits	        本阶段产出的消息	    本阶段生成(IFU 就是抓到的指令)
+out.valid	        我的输出缓冲区里有货	 抓到指令那一拍置 1;下游取走(out.valid && out.ready)那一拍清 0
+out.ready	        =下游的 in.ready	   直连 ✓
+
+in.ready	        我现在能收上游的消息	 输入缓冲空(输出被取走或本来就空)就置 1
+in.bits	            上游的消息	           握手成功(in.ready && 上游 out.valid)时据上游 bits 更新 ← 这就是那个 RegEnable
+in.valid(作业)	     我的输入缓冲区里有货	  握手成功置 1;消息被我送走(out.valid && out.ready)清 0
 
 
 ## 冒险

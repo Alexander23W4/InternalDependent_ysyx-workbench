@@ -34,7 +34,7 @@ module ysyx_26040135_EXU (
 
 
     input in_valid,
-    output in_ready,
+    output reg in_ready,
 
     output reg out_valid,
     input out_ready,
@@ -78,10 +78,7 @@ module ysyx_26040135_EXU (
 
     reg in_valid_r;
 
-    // ⭐ 讲义: "in.ready 忙碌时置为无效, 处理完当前指令时置为有效"
-    //    所以这一拍正好把消息送进输出寄存器时(in_valid_r && ...), in.ready 就要是 1,
-    //    不能写成 !in_valid_r (那样每条指令都要多等一拍).
-    assign in_ready = !in_valid_r || (!out_valid || out_ready);
+
 
     wire can_execute = in_valid_r && (!out_valid || out_ready);
 
@@ -131,9 +128,12 @@ module ysyx_26040135_EXU (
         if(reset) begin
             in_valid_r <= 1'b0;
             out_valid  <= 1'b0;
+            in_ready <= 1'b0;
         end else begin
             // 输入寄存器: 收到新消息(优先级高, 因为这一拍它就要顶替旧消息) / 旧消息被送进输出寄存器
             if(in_valid && in_ready) begin
+                in_ready <= 1'b0;
+
                 in_valid_r <= 1'b1;
                 pc_save    <= pc;
 
@@ -193,7 +193,8 @@ module ysyx_26040135_EXU (
             end
             
             if(can_execute) begin
-                out_valid <= 1'b1;
+                out_valid <= 1'b1; // 意思是处理完了, 可以向下级提供数据
+                in_ready <= 1'b1;  // 意思是处理完了, 可以向上级要下一个数据
 
                 case(1'b1)
                     lw_save | sw_save: io_type <= 2'b10;
@@ -279,3 +280,5 @@ endmodule
                    ({32{sltiu}} & sltiu_rst) |
                    ({32{csrrw | csrrs | csrrc}} & csrw_rst);
 */
+
+

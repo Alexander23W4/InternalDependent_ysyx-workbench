@@ -88,10 +88,29 @@ module ysyx_26040135_EXU (
         endcase
     end
 
+    reg pc_save;
+    reg ..save  
+// ... ..save 补充
+
+
+    reg in_valid_r;
+    wire can_decode = in_valid_r && (!out_valid || out_ready);
+    assign in_ready = !in_valid_r; 
+
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            
+            in_valid_r <= 1'b0;
+            out_valid <= 1'b0;
         end else begin
+            if(in_valid && in_ready) begin
+                in_valid_r <= 1'b1;   
+                instr_save <= instr;
+                // ..save <= ..
+            end
+
+            if(out_ready && out_valid) begin
+                out_valid <= 1'b0;
+            end
             
             if(can_execute) begin
                 case(1'b1)

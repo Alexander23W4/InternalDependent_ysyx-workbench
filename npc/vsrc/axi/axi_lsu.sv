@@ -14,8 +14,7 @@ module ysyx_26040135_AXI_LSU (
     input reset,
 
     input __read, __write,
-    input __sw, __sh, __sb,
-    input __lb, __lh, __lw, __lbu, __lhu,
+    input [1:0] __io_type,   
 
     // 这两个信号只持续一个周期
     input __addr_ready,  
@@ -97,26 +96,26 @@ module ysyx_26040135_AXI_LSU (
         bus.arsize = 3'b010;
         bus.awsize = 3'b010;
         if (__write) begin
-            case (1'b1)
-                __sw: begin
+            case (__io_type)
+                2'b10: begin
                     bus.wstrb  = 4'b1111;
                     bus.awsize = 3'b010;
                 end
-                __sh: begin
+                2'b01: begin
                     bus.wstrb  = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
                     bus.awsize = 3'b001;
                 end
-                __sb: begin
+                2'b00: begin
                     bus.wstrb  = 4'b0001 << addr[1:0];
                     bus.awsize = 3'b000;
                 end
             endcase
         end
         if(__read) begin
-            case(1'b1)
-                __lw: bus.arsize = 3'b010;
-                __lh | __lhu: bus.arsize = 3'b001;
-                __lb | __lbu: bus.arsize = 3'b000;
+            case(__io_type)
+                2'b10: bus.arsize = 3'b010;
+                2'b01: bus.arsize = 3'b001;
+                2'b00: bus.arsize = 3'b000;
             endcase
         end 
     end

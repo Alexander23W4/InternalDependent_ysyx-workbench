@@ -2,10 +2,10 @@ module ysyx_26040135_EXU (
 
     input  [31:0] pc,   //
 
-    input  [31:0] rdata1,  ///
+    input  [31:0] rdata1, 
     input  [31:0] rdata2,  ///
 
-    input  [31:0] immI,  ///
+    input  [31:0] immI,  
     input  [31:0] immU,
     input  [31:0] immS,
     input  [31:0] immB,
@@ -30,18 +30,17 @@ module ysyx_26040135_EXU (
     input [4:0] rd;
 
 
-    // input [31:0] lw_rst,
-    // input [31:0] lb_rst,
-    // input [31:0] lh_rst,
-    // input [31:0] lbu_rst,
-    // input [31:0] lhu_rst,
-
-
-    // output [31:0] wdata,
-
     output        wen,  ///
 
-    output reg [31:0] add_rst,  ///
+    output reg [31:0] add_rst,  
+
+    output reg read,
+    output reg write,
+    output reg [1:0] io_type,  ///
+    output reg read_is_u, ///
+    output reg rd,  ///
+    output reg [31:0] lsu_wdata,
+    output reg [31:0] ic_wb_wdata  // incomplete WB data
 
 );
     
@@ -115,11 +114,11 @@ endmodule
     assign wdata = ({32{lui}} & immU) |
                    ({32{add | addi | auipc}} & add_rst) |
                    ({32{jalr | jal}} & pc_next_dft) |
-                   ({32{lw}} & lw_rst) |
-                   ({32{lbu}} & lbu_rst) |
-                   ({32{lhu}} & lhu_rst) |
-                   ({32{lb}} & lb_rst) |
-                   ({32{lh}} & lh_rst) |
+                //    ({32{lw}} & lw_rst) |
+                //    ({32{lbu}} & lbu_rst) |
+                //    ({32{lhu}} & lhu_rst) |
+                //    ({32{lb}} & lb_rst) |
+                //    ({32{lh}} & lh_rst) |
                    ({32{sub}} & sub_rst) |
                    ({32{xor_inst}} & xor_rst) |
                    ({32{xori}} & xori_rst) |

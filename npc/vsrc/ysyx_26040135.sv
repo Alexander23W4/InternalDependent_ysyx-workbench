@@ -436,21 +436,18 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .bus                 (bus_lsu.master),              
         .clock               (clock),
         .reset               (reset),
+        
         .__read              (__read),
         .__write             (__write),
-        .__sw                (sw),
-        .__sh                (sh),
-        .__sb                (sb),
-        .__lw                (lw),
-        .__lb                (lb),
-        .__lbu               (lbu),
-        .__lhu               (lhu),
-        .__lh                (lh),
+        .__io_type           (__io_type),
+
         .__addr_ready        (__addr_ready),   
 
-        .__data_ready        (__data_ready),   
+        .__data_ready        (__data_ready),  
+
         .addr                (add_rst),
         .wdata               (rdata2),
+        
         .rdata               (lsu_rdata),
         .__error             (__lsu_error),
         .__read_complete     (__lsu_read_complete),   // @@-->

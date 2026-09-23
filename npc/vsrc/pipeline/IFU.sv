@@ -30,7 +30,9 @@ module ysyx_26040135_AXI_IFU (
 
     output logic [31:0] out_instr,    // 产生了新instr就更新, 缓冲寄存工作交给下一级
     output logic out_valid,   // 产生新instr置1, 收到out_ready 清0
-    input out_ready
+    input out_ready,
+
+    output logic [31:0] out_pc
 );
 // 外部控制信号与返回外部的信号:
 
@@ -101,9 +103,11 @@ module ysyx_26040135_AXI_IFU (
 
             out_instr <= '0;
             out_valid <= 1'b0;
+            out_pc <= '0;
 
             error_save <= 2'b00;
             master_validation_error_save <= 1'b0;
+
 
         end else begin
             state <= next;
@@ -126,6 +130,7 @@ module ysyx_26040135_AXI_IFU (
             if(state == R && bus.rvalid) begin
                 if(bus.rresp == 2'b00) begin
                     out_instr  <= bus.rdata;
+                    out_pc <= pc_save;
                     out_valid  <= 1'b1;
                     error_save <= 2'b00;
                 end else begin

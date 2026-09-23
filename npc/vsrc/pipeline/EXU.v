@@ -27,6 +27,8 @@ module ysyx_26040135_EXU (
     input [31:0] mstatus, mtvec, mepc, mcause,
     input [31:0] mcycle, mcycleh, mvendorid, marchid,
 
+    input [4:0] rd;
+
 
     // input [31:0] lw_rst,
     // input [31:0] lb_rst,

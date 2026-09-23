@@ -253,12 +253,13 @@ module ysyx_26040135(
     ysyx_26040135_dbg_register #(5, 32) GPR (
         .clock(clock),
         .reset(reset),
-        .wen(wen), // 
-        .raddr1(rs1),  // EX
-        .raddr2(rs2),
-        .waddr(rd),
-        .wdata(wdata),
-        .rdata1(rdata1),
+        .wen(wen), // WB
+        .raddr1(rs1),  // ID
+        .raddr2(rs2), // ID
+        .waddr(rd), // WB
+        .wdata(wdata), // WB
+
+        .rdata1(rdata1),  
         .rdata2(rdata2),
         .dbg_regs(dbg_reg),
         .__GPR_wvalid(__GPR_wvalid)

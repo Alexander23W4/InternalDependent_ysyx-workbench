@@ -1,6 +1,6 @@
 
 /* verilator lint_on UNUSEDSIGNAL */
-module ysyx_26040135_decode(
+module ysyx_26040135_IDU(
     input clock,
     input reset,
 

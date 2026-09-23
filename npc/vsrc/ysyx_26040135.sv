@@ -105,13 +105,13 @@ Hint: 为了完成这个任务, 你需要一些链接的知识. 如果你不熟�
 
 ⭐: 实现流水线处理器
 
-先把npc拆成5级流水, 中间加握手信号     IF | ID | EX | LS | WB+UDPC
+先把npc拆成5级流水, 中间加握手信号     IF | ID | EX | LS | (EX2)WB
 
 结构冒险: 寄存器读只有 EX 用, 寄存器写只有 WB 用, 不会冲突
         存储器, IF 和 LS 的同时访问读通道会有结构冒险, Xbar采用LSU优先 (至于更复杂的调度策略先留着)
 
 数据冒险: RAW 
-    寄存器RAW[EX]: 存下还没写的寄存器, 每次读寄存器都遍历, 如果有还没写完(发生RAW)就阻塞  (只要把 in.ready 和 ut.valid 置为无效即可)
+    寄存器RAW[EX]: 存下还没写的寄存器, 每次读寄存器都遍历, 如果有还没写完(发生RAW)就阻塞  (只要把 in.ready 和 out.valid 置为无效即可)
 
     存储器RAW: 现在只有EX会写, 而且暂时不考虑自修改代码, 先默认 IF 不会 fetch 的指令是不会被修改的, 不存在存储器 RAW
 
@@ -252,8 +252,9 @@ module ysyx_26040135(
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
         .clock(clock),
-        .wen(wen),
-        .raddr1(rs1),
+        .reset(reset),
+        .wen(wen), // 
+        .raddr1(rs1),  // EX
         .raddr2(rs2),
         .waddr(rd),
         .wdata(wdata),

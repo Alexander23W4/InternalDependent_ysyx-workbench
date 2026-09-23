@@ -4,7 +4,7 @@
 
 superpipeline-cost: 寄存器cost   分支预测失败cost   控制复杂性
 
-
+IF | ID | EX | LS | WB
 
 ## 流水线级间总线
 

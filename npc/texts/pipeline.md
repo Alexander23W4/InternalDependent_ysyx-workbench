@@ -9,13 +9,13 @@ superpipeline-cost: 寄存器cost   分支预测失败cost   控制复杂性
 ## 流水线级间总线
 
 信号	                 含义	                   由谁/何时
-out.bits	        本阶段产出的消息	    本阶段生成(IFU 就是抓到的指令)
-out.valid	        我的输出缓冲区里有货	 抓到指令那一拍置 1;下游取走(out.valid && out.ready)那一拍清 0
+out.bits	        本阶段产出的消息	    本阶段生成(IFU 就是抓到的指令)                                  output
+out.valid	        我的输出缓冲区里有货	 抓到指令那一拍置 1;下游取走(out.valid && out.ready)那一拍清 0    output
 out.ready	        =下游的 in.ready	   直连 ✓
 
-in.ready	        我现在能收上游的消息	 输入缓冲空(输出被取走或本来就空)就置 1
 in.bits	            上游的消息	           握手成功(in.ready && 上游 out.valid)时据上游 bits 更新 ← 这就是那个 RegEnable
-in.valid(作业)	     我的输入缓冲区里有货	  握手成功置 1;消息被我送走(out.valid && out.ready)清 0
+in.valid    	    我的输入缓冲区里有货	 握手成功置 1;消息被我送走(out.valid && out.ready)清 0
+in.ready	        我现在能收上游的消息	 输入缓冲空(输出被取走或本来就空)就置 1                            output
 
 
 ## 冒险

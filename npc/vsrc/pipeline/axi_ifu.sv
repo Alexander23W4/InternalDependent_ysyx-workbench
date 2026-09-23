@@ -9,8 +9,10 @@
 
 // ⭐: 不要让状态机卡在 除了IDLE的其他状态, 卡在IDLE是可以的
 
+// Pipeline IFU:
 
-
+// ⭐: 级间总线信号 + 流水线阻塞信号
+// ⭐(对于流水线阻塞信号): 不阻塞上一级, 不阻塞系统总线
 
 module ysyx_26040135_AXI_IFU (
     ysyx_26040135_AXI4.master bus,
@@ -19,15 +21,15 @@ module ysyx_26040135_AXI_IFU (
     input reset,
 
     output [1:0] __error,   //  普通错误号
-    output __master_validation_error    // 该 master 非法访问
+    output __master_validation_error,   // 该 master 非法访问
 
     // pipeline 
-    input [31:0] in_pc,
-    input in_valid,
-    output in_ready,
+    input [31:0] in_pc,    // 完成握手后, 要缓冲寄存
+    input in_valid,        // valid 和 ready 同时为1, 达成握手 (我能收, 前一级能发)
+    output logic in_ready,   // 只要输入寄存器空, 就是上一条消息我已经接收了, 就置1 (我能收)
 
-    output logic [31:0] out_instr,
-    output logic out_valid,
+    output logic [31:0] out_instr,    // 产生了新instr就更新, 缓冲寄存工作交给下一级
+    output logic out_valid,   // 产生新instr置1, 收到out_ready 清0
     input out_ready
 );
 // 外部控制信号与返回外部的信号:
@@ -63,11 +65,13 @@ module ysyx_26040135_AXI_IFU (
         return 1'b0;  // 默认不可执行
     endfunction
 
-    // 内部控制信号
-    logic idu_get_instr;
+
+
+    // 内部寄存器
+    logic [31:0] pc_save;       // 握手成功后锁存下来的 PC(上游此时可以换下一条 PC 了)
+    logic        in_valid_r;    // 输入寄存器里是否有一条待取指的 PC
 
     // 返回值 以及 反馈信号
-    logic [31:0] out_instr_save;
     logic [1:0] error_save;
     logic master_validation_error_save;
 
@@ -77,54 +81,62 @@ module ysyx_26040135_AXI_IFU (
 
 
     // 状态
-    typedef enum [1:0]{ 
+    typedef enum logic [1:0]{ 
         IDLE, AR, R
     } state_t;
     state_t state, next;
+
+    wire out_take   = out_valid && out_ready;          // 本拍输出寄存器被下游取走
+
+    // ⭐[流水线阻塞信号]: 把几个级间总线信号都实现之后, 再考虑阻塞信号是什么逻辑
+    wire can_fetch  = in_valid_r && (!out_valid || out_ready);   // 上一个instr被IDU取走, 才能下一次fetch
 
 
 // 状态 及 反馈信号 更新
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            out_instr_save <= '0;
+            pc_save    <= '0;
+            in_valid_r <= 1'b0;
+
+            out_instr <= '0;
+            out_valid <= 1'b0;
+
             error_save <= 2'b00;
             master_validation_error_save <= 1'b0;
 
-            out_valid <= 1'b0;
-
-            idu_get_instr <= 1'b1;
-
         end else begin
-            if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
-                out_instr_save <= bus.rdata;                   
-            end else begin
-                error_save <= bus.rresp;
-            end
+            state <= next;
 
-            if(state == IDLE || in_valid) begin
+            // ---------- 输入侧: 上游握手成功, 锁存 PC(讲义第 5 条) ----------
+            if(in_ready && in_valid) begin
+                pc_save    <= in_pc;
+                in_valid_r <= 1'b1;
                 if(!is_executable(in_pc)) begin
                     master_validation_error_save <= 1'b1;
                 end
             end
 
-            if(state == R && bus.rvalid) begin   
-                idu_get_instr <= 1'b0;
+            // ---------- PC 被交给 AR 的那一拍, 输入寄存器就空了 ----------
+            if(state == IDLE && can_fetch) begin
+                in_valid_r <= 1'b0;
             end
 
-            if(out_ready) begin
-                out_valid <= 1'b0;
-            end
-
-            if(state == IDLE) begin
-                if(!out_valid) begin
-                    out_valid <= 1'b1;
-                    out_instr <= out_instr_save;
-                    idu_get_instr <= 1'b1;
+            // ---------- 取指完成: 产出指令(讲义第 1/2 条) ----------
+            if(state == R && bus.rvalid) begin
+                if(bus.rresp == 2'b00) begin
+                    out_instr  <= bus.rdata;
+                    out_valid  <= 1'b1;
+                    error_save <= 2'b00;
+                end else begin
+                    error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
                 end
             end
 
-            state <= next;
+            // ---------- 输出侧: 被下游取走就清掉 valid(讲义第 2 条) ----------
+            if(out_take) begin
+                out_valid <= 1'b0;
+            end
         end
     end
 
@@ -132,7 +144,7 @@ module ysyx_26040135_AXI_IFU (
 // 状态 及 总线信号 赋值
     always_comb begin
         bus.arvalid = 1'b0;
-        bus.araddr = in_pc;
+        bus.araddr = pc_save;       
         bus.arid = 4'b0000;
         bus.arlen = 8'h00;
         bus.arsize = 3'b010;
@@ -150,14 +162,15 @@ module ysyx_26040135_AXI_IFU (
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
 
-        in_ready = 1'b0;
+        // 讲义第 3 条: 本阶段不忙(输入寄存器空)就能收上游的消息
+        in_ready = !in_valid_r;
 
         next = state;
         
         case(state)
             IDLE: begin
-                // 如果idu没有把上一个instr读走, 就阻塞到这里
-                if(in_valid && idu_get_instr) begin
+
+                if(can_fetch) begin  // 不管怎么样, 进入下一个ifu周期的一个clk内, out_invalid必定被清0
                     bus.arvalid = 1'b1;
                     next = AR;
                 end
@@ -173,8 +186,6 @@ module ysyx_26040135_AXI_IFU (
             R: begin
                 if(bus.rvalid == 1'b1) begin
                     bus.rready = 1'b1;  // 不管IDU有没有处理完, 都先把AXI总线的握手完成, 如果IDU没有处理完, 阻塞IFU的状态机, 不要阻塞总线
-
-                    in_ready = 1'b1;  // 给in_ready, 不管IDU有没有准备好, 不要阻塞 WB, 让他处理下一个指令周期
                     next = IDLE;
                 end
             end
@@ -185,6 +196,7 @@ module ysyx_26040135_AXI_IFU (
 
 
 // assert
+`ifndef SYNTHESIS
     property p_write_channels_zero;
         @(posedge clock) 
         (bus.awaddr == 32'b0) &&
@@ -195,5 +207,6 @@ module ysyx_26040135_AXI_IFU (
         (bus.bready == 1'b0);
     endproperty
     assert property (p_write_channels_zero) else $error("IFU: Write channel signals must be 0");
+`endif
 
 endmodule

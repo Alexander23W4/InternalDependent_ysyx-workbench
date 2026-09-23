@@ -15,7 +15,7 @@ out.ready	        =下游的 in.ready	   直连 ✓
 
 in.bits	            上游的消息	           握手成功(in.ready && 上游 out.valid)时据上游 bits 更新 ← 这就是那个 RegEnable
 in.valid    	    我的输入缓冲区里有货	 握手成功置 1;消息被我送走(out.valid && out.ready)清 0
-in.ready	        我现在能收上游的消息	 输入缓冲空(输出被取走或本来就空)就置 1                            output
+in.ready	        我现在能收上游的消息	 忙碌时置为无效, 处理完当前指令时置为有效                            output
 
 
 ## 冒险

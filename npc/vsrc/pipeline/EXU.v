@@ -8,12 +8,12 @@ module ysyx_26040135_EXU (
     input  [31:0] rdata1, 
     input  [31:0] rdata2,  ///
 
-    input  [31:0] immI,  
-    input  [31:0] immU,
-    input  [31:0] immS,
-    input  [31:0] immB,
-    input  [31:0] immJ,
-    input  [31:0] immCSR,
+// ⭐ 立即数已经在IDU里按指令类型选好了, 这里只收一份
+    input  [31:0] imm,
+
+// ⭐ 来自IDU的读地址: 会被存进ID/EX流水段寄存器, 再引出去给GPR读数据
+    input  [4:0] rs1,
+    input  [4:0] rs2,
 
 
     input add, addi, sub, lui, auipc,
@@ -40,6 +40,11 @@ module ysyx_26040135_EXU (
     input out_ready,
 
 
+// ⭐ ID/EX 流水段寄存器里的读地址, 引出去给寄存器堆(rdata1/rdata2 由它组合读出)
+    output reg [4:0] rs1_save,
+    output reg [4:0] rs2_save,
+
+
     output reg wen,  ///
 
     output reg [31:0] add_rst,  
@@ -53,12 +58,10 @@ module ysyx_26040135_EXU (
     output reg [31:0] ic_wb_wdata  // incomplete WB data, lack of l.._rst
 
 );
-    // ==== 输入缓存 ====
+    // ==== ID/EX 流水段寄存器(本级的输入缓存) ====
+    //      讲义: in.bits 由下游的 RegEnable 保存, 所以寄存器在本级
     reg [31:0] pc_save;
-
-    reg [31:0] rdata1_save, rdata2_save;
-
-    reg [31:0] immI_save, immU_save, immS_save, immB_save, immJ_save, immCSR_save;
+    reg [31:0] imm_save;
 
     reg add_save, addi_save, sub_save, lui_save, auipc_save;
     reg and_inst_save, or_inst_save, xor_inst_save, andi_save, ori_save, xori_save;
@@ -70,57 +73,56 @@ module ysyx_26040135_EXU (
     reg beq_save, bne_save, blt_save, bge_save, bltu_save, bgeu_save;
     reg csrrw_save, csrrs_save, csrrc_save;
 
-    reg [31:0] mstatus_save, mtvec_save, mepc_save, mcause_save;
-    reg [31:0] mcycle_save, mcycleh_save, mvendorid_save, marchid_save;
     reg [4:0] rd_save;
 
 
-
     reg in_valid_r;
+
+    // ⭐ 讲义: "in.ready 忙碌时置为无效, 处理完当前指令时置为有效"
+    //    所以这一拍正好把消息送进输出寄存器时(in_valid_r && ...), in.ready 就要是 1,
+    //    不能写成 !in_valid_r (那样每条指令都要多等一拍).
+    assign in_ready = !in_valid_r || (!out_valid || out_ready);
+
     wire can_execute = in_valid_r && (!out_valid || out_ready);
-    assign in_ready = !in_valid_r; 
 
-    wire [4:0] shamt_r = rdata2_save[4:0];
-    wire [4:0] shamt_i = immI_save[4:0];
-    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_save;
-    wire [31:0] add2 = ({32{add_save}} & rdata2_save) |
-                       ({32{sw_save | sb_save | sh_save}} & immS_save) |
-                       ({32{auipc_save}} & immU_save) |
-                       ({32{jal_save}} & immJ_save) |
-                       ({32{jalr_save | lbu_save | lw_save | lhu_save | lh_save | lb_save | addi_save}} & immI_save) |
-                       ({32{blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save}} & immB_save);
-    wire [31:0] sub_rst  = rdata1_save - rdata2_save;
-    wire [31:0] xor_rst  = rdata1_save ^ rdata2_save;
-    wire [31:0] xori_rst = rdata1_save ^ immI_save;
-    wire [31:0] or_rst   = rdata1_save | rdata2_save;
-    wire [31:0] ori_rst  = rdata1_save | immI_save;
-    wire [31:0] and_rst  = rdata1_save & rdata2_save;
-    wire [31:0] andi_rst = rdata1_save & immI_save;
+    wire [4:0] shamt_r = rdata2[4:0];
+    wire [4:0] shamt_i = imm_save[4:0];
+    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1;
+    wire [31:0] add2 = add_save ? rdata2 : imm_save;   // 立即数已按指令类型选好, 非R型一律用imm
+    wire [31:0] add_rst_w = add1 + add2;
+    wire [31:0] sub_rst  = rdata1 - rdata2;
+    wire [31:0] xor_rst  = rdata1 ^ rdata2;
+    wire [31:0] xori_rst = rdata1 ^ imm_save;
+    wire [31:0] or_rst   = rdata1 | rdata2;
+    wire [31:0] ori_rst  = rdata1 | imm_save;
+    wire [31:0] and_rst  = rdata1 & rdata2;
+    wire [31:0] andi_rst = rdata1 & imm_save;
 
-    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1_save) < $signed(rdata2_save))};
-    wire [31:0] sltu_rst  = {31'b0, (rdata1_save < rdata2_save)};
-    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1_save) < $signed(immI_save))};
-    wire [31:0] sltiu_rst = {31'b0, (rdata1_save < immI_save)};
+    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1) < $signed(rdata2))};
+    wire [31:0] sltu_rst  = {31'b0, (rdata1 < rdata2)};
+    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1) < $signed(imm_save))};
+    wire [31:0] sltiu_rst = {31'b0, (rdata1 < imm_save)};
 
 
-    wire [31:0] sll_rst   = rdata1_save << shamt_r;
-    wire [31:0] slli_rst  = rdata1_save << shamt_i;
-    wire [31:0] srl_rst   = rdata1_save >> shamt_r;
-    wire [31:0] srli_rst  = rdata1_save >> shamt_i;
-    wire [31:0] sra_rst   = $signed(rdata1_save) >>> shamt_r;
-    wire [31:0] srai_rst  = $signed(rdata1_save) >>> shamt_i;
+    wire [31:0] sll_rst   = rdata1 << shamt_r;
+    wire [31:0] slli_rst  = rdata1 << shamt_i;
+    wire [31:0] srl_rst   = rdata1 >> shamt_r;
+    wire [31:0] srli_rst  = rdata1 >> shamt_i;
+    wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
+    wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
 
+// ⭐ CSR 直接从CSR模块的组合输出里选, 不再往流水线里搬 8 个影子寄存器
     reg [31:0] csrw_rst;
     always @(*) begin
-        case(immCSR_save)
-            32'h00000300: csrw_rst = mstatus_save;
-            32'h00000305: csrw_rst = mtvec_save;
-            32'h00000341: csrw_rst = mepc_save;
-            32'h00000342: csrw_rst = mcause_save;
-            32'h00000b00: csrw_rst = mcycle_save;
-            32'h00000b80: csrw_rst = mcycleh_save;
-            32'h00000f11: csrw_rst = mvendorid_save;
-            32'h00000f12: csrw_rst = marchid_save;
+        case(imm_save)
+            32'h00000300: csrw_rst = mstatus;
+            32'h00000305: csrw_rst = mtvec;
+            32'h00000341: csrw_rst = mepc;
+            32'h00000342: csrw_rst = mcause;
+            32'h00000b00: csrw_rst = mcycle;
+            32'h00000b80: csrw_rst = mcycleh;
+            32'h00000f11: csrw_rst = mvendorid;
+            32'h00000f12: csrw_rst = marchid;
             default: csrw_rst = 32'b0;
         endcase
     end
@@ -130,19 +132,17 @@ module ysyx_26040135_EXU (
             in_valid_r <= 1'b0;
             out_valid  <= 1'b0;
         end else begin
+            // 输入寄存器: 收到新消息(优先级高, 因为这一拍它就要顶替旧消息) / 旧消息被送进输出寄存器
             if(in_valid && in_ready) begin
-                in_valid_r <= 1'b1;   // 与上一级握手完毕, 输入缓存有效
+                in_valid_r <= 1'b1;
                 pc_save    <= pc;
 
-                rdata1_save <= rdata1;
-                rdata2_save <= rdata2;
+                imm_save   <= imm;
 
-                immI_save  <= immI;
-                immU_save  <= immU;
-                immS_save  <= immS;
-                immB_save  <= immB;
-                immJ_save  <= immJ;
-                immCSR_save <= immCSR;
+                rs1_save   <= rs1;
+                rs2_save   <= rs2;
+
+                rd_save    <= rd;
 
                 add_save      <= add;
                 addi_save     <= addi;
@@ -184,17 +184,8 @@ module ysyx_26040135_EXU (
                 csrrw_save    <= csrrw;
                 csrrs_save    <= csrrs;
                 csrrc_save    <= csrrc;
-
-                mstatus_save  <= mstatus;
-                mtvec_save    <= mtvec;
-                mepc_save     <= mepc;
-                mcause_save   <= mcause;
-                mcycle_save   <= mcycle;
-                mcycleh_save  <= mcycleh;
-                mvendorid_save <= mvendorid;
-                marchid_save  <= marchid;
-
-                rd_save <= rd;
+            end else if(can_execute) begin
+                in_valid_r <= 1'b0;
             end
 
             if(out_ready && out_valid) begin
@@ -202,8 +193,7 @@ module ysyx_26040135_EXU (
             end
             
             if(can_execute) begin
-                in_valid_r <= 1'b0;
-                out_valid  <= 1'b1;
+                out_valid <= 1'b1;
 
                 case(1'b1)
                     lw_save | sw_save: io_type <= 2'b10;
@@ -217,7 +207,7 @@ module ysyx_26040135_EXU (
                 read_is_u <= (lhu_save | lbu_save) ? 1'b1 : 1'b0;
                 rd_out <= rd_save;
 
-                lsu_wdata <= rdata2_save;
+                lsu_wdata <= rdata2;
 
                 wen <= add_save | addi_save | sub_save | lui_save | auipc_save |
                             and_inst_save | or_inst_save | xor_inst_save | andi_save | ori_save | xori_save |
@@ -227,10 +217,10 @@ module ysyx_26040135_EXU (
                             lb_save | lh_save | lw_save | lbu_save | lhu_save |
                             csrrw_save | csrrs_save | csrrc_save;
 
-                add_rst <= add1 + add2;
+                add_rst <= add_rst_w;
 
-                ic_wb_wdata <= ({32{lui_save}} & immU_save) |
-                        ({32{add_save | addi_save | auipc_save}} & (add1 + add2)) |
+                ic_wb_wdata <= ({32{lui_save}} & imm_save) |
+                        ({32{add_save | addi_save | auipc_save}} & add_rst_w) |
                         ({32{jalr_save | jal_save}} & (pc_save + 32'd4)) |
                         ({32{sub_save}} & sub_rst) |
                         ({32{xor_inst_save}} & xor_rst) |

@@ -29,8 +29,6 @@ module ysyx_26040135_AXI_LSU (
     input [31:0] lsu_addr,
     input [31:0] ic_wb_wdata,
 
-    input wen,
-
     input in_valid,
     output reg in_ready,
 
@@ -38,6 +36,9 @@ module ysyx_26040135_AXI_LSU (
     input out_ready,
     
     output [1:0] __error,
+
+    output [31:0] wdata,
+    output [4:0] rd_out_lsu
 );
 
 // 反馈信号
@@ -51,12 +52,8 @@ module ysyx_26040135_AXI_LSU (
     reg [31:0] lsu_addr_save;
     reg [31:0] ic_wb_wdata_save;
 
-    assign rdata = rdata_save;
     assign __error = error_save;
 
-
-    reg aw_done, w_done;
-    reg aw_done_next, w_done_next;
 
 // 状态
     typedef enum [2:0]{ 
@@ -71,16 +68,36 @@ module ysyx_26040135_AXI_LSU (
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            rdata_save <= '0;
+            rdata_save <= 32'b0;
             error_save <= 2'b00;
+            io_save <= 1'b0;
+            io_type_save <= 2'b00;
+            read_is_u_save <= 1'b0;
+            rd_save <= 5'b00000;
+            lsu_data_save <= 32'b0;
+            lsu_addr_save <= 32'b0;
+            ic_wb_wdata_save <= 32'b0;
             read_complete_save <= 1'b0;
             write_complete_save <= 1'b0;
             aw_done <= 1'b0;
             w_done  <= 1'b0;
+            in_ready <= 1'b1;
+            out_valid <= 1'b0;
         end else begin
+            if(out_ready && out_valid) begin
+                in_ready <= 1'b1;
+            end
 
-            aw_done <= aw_done_next;
-            w_done  <= w_done_next;
+            if(state == IDLE && in_valid && in_ready) begin
+                in_ready <= 1'b0;
+                io_save <= io;
+                io_type_save <= io_type;
+                read_is_u_save <= read_is_u;
+                rd_save <= rd;
+                lsu_data_save <= lsu_data;
+                lsu_addr_save <= lsu_addr;
+                ic_wb_wdata_save <= ic_wb_wdata;
+            end
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_save <= bus.rdata;
@@ -158,8 +175,7 @@ module ysyx_26040135_AXI_LSU (
 
 
         next = state;
-        aw_done_next = 1'b0;
-        w_done_next  = 1'b0;
+
         
         /*
             先保证所有output信号默认都是0    
@@ -167,17 +183,10 @@ module ysyx_26040135_AXI_LSU (
         */
         case(state)
             IDLE: begin
-                if(__addr_ready && (__read || __write)) begin   // 只有读写指令的时候才允许触发总线交互
-                    if(__read) begin
-                        bus.arvalid = 1'b1;
+                if(in_valid && in_ready) begin   // 只有读写指令的时候才允许触发总线交互
+                    if(!io) begin
                         next = AR;
-                    end
-                    else if(__write) begin
-                        // ⭐ 这里只跳状态, 不发 AW.
-                        //    原因: 如果这一拍就把 awvalid 拉高而 awready 恰好也是 1, AW 当场
-                        //    被收走; 下一拍进了 AW 态又拉一次 awvalid(同一地址), 同一个 store
-                        //    就发了两次 AW. 多出来的那笔 AW 会一直挂在总线里, 等下一个 store
-                        //    的 wdata 一到就和它配对 -> 数据被写到了上一个 store 的地址上.
+                    end else begin
                         next = AW;
                     end
                 end
@@ -192,36 +201,15 @@ module ysyx_26040135_AXI_LSU (
 
             R: begin
                 if(bus.rvalid == 1'b1) begin
-                    bus.rready = 1'b1;              // 无论成功还是错误，都拉高rready完成传输
-                    if(bus.rresp == 2'b00) begin
-                        if(__addr_ready && __read) begin
-                            next = AR;
-                        end
-                        else if(__addr_ready && __write) begin
-                            next = AW;
-                        end
-                        else begin
-                            next = IDLE;
-                        end
-                    end 
-                    else begin
-                        next = IDLE;    // 错误也要完成状态机循环
-                    end
+                    bus.rready = 1'b1;              
+                    next = IDLE;
                 end
             end
 
             AW: begin
-                // ⭐ AW 和 W 一起发, 各自收下之前都不撤; 两个都收下了才去等 B.
-                //    不能等 awready 再发 wvalid: SoC 里 SRAM 的 awready 本身就依赖 wvalid,
-                //    那样会双向死锁.
-                if(!aw_done) bus.awvalid = 1'b1;
-                if(!w_done)  bus.wvalid  = 1'b1;
-
-                aw_done_next = aw_done | bus.awready;
-                w_done_next  = w_done  | bus.wready;
-
-                if(aw_done_next && w_done_next) begin
-                    next = B;
+                bus.awvalid = 1'b1;
+                if(bus.awready == 1'b1) begin
+                    next = W;
                 end
             end
 
@@ -235,26 +223,10 @@ module ysyx_26040135_AXI_LSU (
             B: begin
                 if(bus.bvalid == 1'b1) begin
                     bus.bready = 1'b1;
-                    if(bus.bresp == 2'b00) begin
-                        if(__addr_ready && __read) begin
-                            next = AR;
-                        end
-                        else if(__addr_ready && __write) begin
-                            next = AW;
-                        end
-                        else begin
-                            next = IDLE;
-                        end
-                    end
-                    else begin
-                        next = IDLE;
-                    end
+                    next = IDLE;
                 end
             end
 
-            default: begin
-                next = IDLE;
-            end
         endcase
     end
 

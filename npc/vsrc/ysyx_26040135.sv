@@ -179,7 +179,9 @@ module ysyx_26040135(
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            inaccessible_gprs
+            inaccessible_gprs <= 31'd0;
+        end else begin
+            inaccessible_gprs[rd] <= 1'b1;
         end
     end
 

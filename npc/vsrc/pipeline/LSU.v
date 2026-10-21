@@ -37,23 +37,24 @@ module ysyx_26040135_AXI_LSU (
     
     output [1:0] __error,
 
-    output [31:0] wdata,
+    output reg [31:0] wdata_out,
     output [4:0] rd_out_lsu
 );
 
 // 反馈信号
-    reg [31:0] rdata_save;
     reg [1:0] error_save;
+
     reg io_save;
     reg [1:0] io_type_save;
     reg read_is_u_save;
+
     reg [4:0] rd_save;
     reg [31:0] lsu_data_save;
     reg [31:0] lsu_addr_save;
     reg [31:0] ic_wb_wdata_save;
 
     assign __error = error_save;
-
+    assign rd_out_lsu = rd_save;
 
 // 状态
     typedef enum [2:0]{ 
@@ -68,7 +69,7 @@ module ysyx_26040135_AXI_LSU (
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            rdata_save <= 32'b0;
+            wdata_out <= 32'b0;
             error_save <= 2'b00;
             io_save <= 1'b0;
             io_type_save <= 2'b00;
@@ -83,9 +84,12 @@ module ysyx_26040135_AXI_LSU (
             w_done  <= 1'b0;
             in_ready <= 1'b1;
             out_valid <= 1'b0;
+
         end else begin
+
             if(out_ready && out_valid) begin
                 in_ready <= 1'b1;
+                out_valid <= 1'b0;
             end
 
             if(state == IDLE && in_valid && in_ready) begin
@@ -100,16 +104,14 @@ module ysyx_26040135_AXI_LSU (
             end
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
-                rdata_save <= bus.rdata;
-                read_complete_save <= 1'b1;
+                wdata_out <= wdata;
+                out_valid <= 1'b1;
             end
             if(state == B && bus.bvalid && bus.bresp == 2'b00) begin
-                write_complete_save <= 1'b1;
+                wdata_out <= wdata;
+                out_valid <= 1'b1;
             end
-            if(state != R && state != B) begin
-                read_complete_save <= 1'b0;
-                write_complete_save <= 1'b0;
-            end
+
             if(state == R && bus.rvalid && bus.rresp != 2'b00) begin
                 error_save <= bus.rresp; 
             end
@@ -125,24 +127,23 @@ module ysyx_26040135_AXI_LSU (
         bus.wstrb = 4'b0000;  
         bus.arsize = 3'b010;
         bus.awsize = 3'b010;
-        if (__write) begin
-            case (__io_type)
+        if (io_save) begin
+            case (io_type_save)
                 2'b10: begin
                     bus.wstrb  = 4'b1111;
                     bus.awsize = 3'b010;
                 end
                 2'b01: begin
-                    bus.wstrb  = (addr[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
+                    bus.wstrb  = (lsu_addr_save[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
                     bus.awsize = 3'b001;
                 end
                 2'b00: begin
-                    bus.wstrb  = 4'b0001 << addr[1:0];
+                    bus.wstrb  = 4'b0001 << lsu_addr_save[1:0];
                     bus.awsize = 3'b000;
                 end
             endcase
-        end
-        if(__read) begin
-            case(__io_type)
+        end else begin
+            case(io_type_save)
                 2'b10: bus.arsize = 3'b010;
                 2'b01: bus.arsize = 3'b001;
                 2'b00: bus.arsize = 3'b000;
@@ -153,34 +154,24 @@ module ysyx_26040135_AXI_LSU (
     always_comb begin
 
         bus.arvalid = 1'b0;
-        bus.araddr = addr;
+        bus.araddr = lsu_addr_save;
         bus.arid = 4'b0000;
         bus.arlen = 8'h00;
         bus.arburst = 2'b00;
         bus.rready = 1'b0;
 
         bus.awvalid = 1'b0;
-        bus.awaddr = addr;
-        // ⭐ AXI 要求窄写的 wdata 落在 wstrb 指定的那几条字节通道上(和 araddr/awaddr 的
-        //    addr[1:0] 对应), 所以 sb/sh 必须把数据左移. 之前直接透传 wdata, 结果是
-        //    sb 到 offset 1/2/3 时写进去的是 0.
-        bus.wdata = wdata << {addr[1:0], 3'b000};
+        bus.awaddr = lsu_addr_save;
+        bus.wdata = lsu_data_save << {lsu_addr_save[1:0], 3'b000};  // AXI 要求 wdata 里面的结构要是offset移位过后的
         bus.awid = 4'b0000;
         bus.awlen = 8'h00;
         bus.awburst = 2'b00;
         bus.wvalid = 1'b0;
         bus.bready = 1'b0;
-        // ⭐ awlen=0 -> 单拍写, 每一拍都是最后一拍. 这个信号之前完全没被赋值过.
         bus.wlast = 1'b1;
-
 
         next = state;
 
-        
-        /*
-            先保证所有output信号默认都是0    
-            在slave_status为0的时候, 先发LSU_request, 下个周期接收 valid_master_ID, 如果是自己的, 再跳到AR/AW, 将arvalid置为1
-        */
         case(state)
             IDLE: begin
                 if(in_valid && in_ready) begin   // 只有读写指令的时候才允许触发总线交互
@@ -231,3 +222,27 @@ module ysyx_26040135_AXI_LSU (
     end
 
 endmodule
+
+    wire [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
+
+    wire [31:0] lsu_rdata_shifted;
+    assign lsu_rdata_shifted = bus.rdata >> {add_rst[1:0], 3'b000};
+
+    assign lw_rst  = bus.rdata;
+    assign lbu_rst = {24'b0, lsu_rdata_shifted[7:0]};
+    assign lhu_rst = {16'b0, lsu_rdata_shifted[15:0]};
+    assign lb_rst  = {{24{lsu_rdata_shifted[7]}}, lsu_rdata_shifted[7:0]};
+    assign lh_rst  = {{16{lsu_rdata_shifted[15]}}, lsu_rdata_shifted[15:0]};
+
+    assign lw = (io_type_save == 2'b10);
+    assign lh = (io_type_save == 2'b01 && !read_is_u_save);
+    assign lhu = (io_type_save == 2'b01 && read_is_u_save);
+    assign lbu = (io_type_save == 2'b00 && read_is_u_save);
+    assign lb = (io_type_save == 2'b00 && !read_is_u_save);
+
+    wire [31:0] wdata = ic_wb_wdata_save |             
+               ({32{lw}} & lw_rst) |
+               ({32{lbu}} & lbu_rst) |
+               ({32{lhu}} & lhu_rst) |
+               ({32{lb}} & lb_rst) |
+               ({32{lh}} & lh_rst);

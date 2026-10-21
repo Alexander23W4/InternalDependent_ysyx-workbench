@@ -1,8 +1,12 @@
+/*
+设计:
+提前做imm位扩展 & 提前做rs1和rs2的读取
 
+*/
 /* verilator lint_on UNUSEDSIGNAL */
 module ysyx_26040135_IDU(
     input [31:0] in_pc,
-    input [31:0] instr,
+    input [31:0] in_instr,
     input in_valid,
     output in_ready,
 
@@ -83,6 +87,7 @@ module ysyx_26040135_IDU(
 
     assign in_ready  = out_ready;
     assign out_valid = in_valid;
+
 
     wire [6:0] opcode = instr[6:0];
     wire [2:0] funct3 = instr[14:12];
@@ -272,3 +277,4 @@ module ysyx_26040135_IDU(
 
 endmodule
 /* verilator lint_on UNUSEDSIGNAL */
+

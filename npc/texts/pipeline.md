@@ -19,6 +19,14 @@ in.valid    	    我的输入缓冲区里有货	 握手成功置 1;消息被我�
 in.ready	        我现在能收上游的消息	 忙碌时置为无效, 处理完当前指令时置为有效                            output
 
 
+input [31:0] in_pc,    // 完成握手后, 要缓冲寄存
+input in_valid,        // [前一级数据准备好了] valid 和 ready 同时为1, 达成握手 (我能收, 前一级能发)
+output logic in_ready,   // [我能收(在没有级间queue缓存的时候就是"我空了")] 只要输入寄存器空, 就是上一条消息我已经接收了, 就置1 
+
+output logic [31:0] out_instr,    // 产生了新instr就更新, 缓冲寄存工作交给下一级
+output logic out_valid,   // 产生新instr置1, 收到out_ready 清0
+input out_ready, 
+
 ## 冒险
 结构冒险  数据冒险  控制冒险
 

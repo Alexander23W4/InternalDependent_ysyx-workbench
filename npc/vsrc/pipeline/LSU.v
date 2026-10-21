@@ -107,9 +107,8 @@ module ysyx_26040135_AXI_LSU (
                 wdata_out <= wdata;
                 out_valid <= 1'b1;
             end
-            if(state == B && bus.bvalid && bus.bresp == 2'b00) begin
-                wdata_out <= wdata;
-                out_valid <= 1'b1;
+            if(state == B && bus.bvalid && bus.bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
+                in_ready <= 1'b1;
             end
 
             if(state == R && bus.rvalid && bus.rresp != 2'b00) begin

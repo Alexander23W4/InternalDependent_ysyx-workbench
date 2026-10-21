@@ -76,8 +76,9 @@ module ysyx_26040135_IDU(
 
     output reg fence_i,
 
-// oprands
+// oprands  
     output reg[4:0] rd,
+    // 这两个只给GPR传
     output reg[4:0] rs1,
     output reg[4:0] rs2,
 

@@ -5,15 +5,13 @@ module ysyx_26040135_EXU (
 
     input  [31:0] pc,   //
 
+// 这里直接从GPR取数据, 要把这个存下来再给in_ready, 给in_ready之前IDU输出给GPR的rs1和rs2是不会变化的
     input  [31:0] rdata1, 
     input  [31:0] rdata2,  ///
 
 // ⭐ 立即数已经在IDU里按指令类型选好了, 这里只收一份
     input  [31:0] imm,
 
-// ⭐ 来自IDU的读地址: 会被存进ID/EX流水段寄存器, 再引出去给GPR读数据
-    input  [4:0] rs1,
-    input  [4:0] rs2,
 
 
     input add, addi, sub, lui, auipc,
@@ -39,10 +37,6 @@ module ysyx_26040135_EXU (
     output reg out_valid,
     input out_ready,
 
-
-// ⭐ ID/EX 流水段寄存器里的读地址, 引出去给寄存器堆(rdata1/rdata2 由它组合读出)
-    output reg [4:0] rs1_save,
-    output reg [4:0] rs2_save,
 
 
     output reg wen,  ///
@@ -76,16 +70,10 @@ module ysyx_26040135_EXU (
     reg [4:0] rd_save;
 
 
-    reg in_valid_r;
-
-
-
-    wire can_execute = in_valid_r && (!out_valid || out_ready);
-
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
     wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1;
-    wire [31:0] add2 = add_save ? rdata2 : imm_save;   // 立即数已按指令类型选好, 非R型一律用imm
+    wire [31:0] add2 = add_save ? rdata2 : imm_save;  
     wire [31:0] add_rst_w = add1 + add2;
     wire [31:0] sub_rst  = rdata1 - rdata2;
     wire [31:0] xor_rst  = rdata1 ^ rdata2;
@@ -126,21 +114,16 @@ module ysyx_26040135_EXU (
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            in_valid_r <= 1'b0;
             out_valid  <= 1'b0;
-            in_ready <= 1'b0;
+            in_ready <= 1'b1;
         end else begin
-            // 输入寄存器: 收到新消息(优先级高, 因为这一拍它就要顶替旧消息) / 旧消息被送进输出寄存器
             if(in_valid && in_ready) begin
                 in_ready <= 1'b0;
+                out_valid <= 1'b1;
 
-                in_valid_r <= 1'b1;
                 pc_save    <= pc;
 
                 imm_save   <= imm;
-
-                rs1_save   <= rs1;
-                rs2_save   <= rs2;
 
                 rd_save    <= rd;
 
@@ -184,69 +167,69 @@ module ysyx_26040135_EXU (
                 csrrw_save    <= csrrw;
                 csrrs_save    <= csrrs;
                 csrrc_save    <= csrrc;
-            end else if(can_execute) begin
-                in_valid_r <= 1'b0;
             end
 
             if(out_ready && out_valid) begin
                 out_valid <= 1'b0;
+                in_ready <= 1'b1;
             end
             
-            if(can_execute) begin
-                out_valid <= 1'b1; // 意思是处理完了, 可以向下级提供数据
-                in_ready <= 1'b1;  // 意思是处理完了, 可以向上级要下一个数据
-
-                case(1'b1)
-                    lw_save | sw_save: io_type <= 2'b10;
-                    lhu_save | lh_save | sh_save: io_type <= 2'b01;
-                    lbu_save | lb_save | sb_save: io_type <= 2'b00;
-                    default: io_type <= 2'b11;
-                endcase
-                read <= lw_save | lhu_save | lh_save | lb_save | lbu_save;
-                write <= sw_save | sb_save | sh_save;
-
-                read_is_u <= (lhu_save | lbu_save) ? 1'b1 : 1'b0;
-                rd_out <= rd_save;
-
-                lsu_wdata <= rdata2;
-
-                wen <= add_save | addi_save | sub_save | lui_save | auipc_save |
-                            and_inst_save | or_inst_save | xor_inst_save | andi_save | ori_save | xori_save |
-                            sll_save | srl_save | sra_save | slli_save | srli_save | srai_save |
-                            slt_save | sltu_save | slti_save | sltiu_save |
-                            jal_save | jalr_save |
-                            lb_save | lh_save | lw_save | lbu_save | lhu_save |
-                            csrrw_save | csrrs_save | csrrc_save;
-
-                add_rst <= add_rst_w;
-
-                ic_wb_wdata <= ({32{lui_save}} & imm_save) |
-                        ({32{add_save | addi_save | auipc_save}} & add_rst_w) |
-                        ({32{jalr_save | jal_save}} & (pc_save + 32'd4)) |
-                        ({32{sub_save}} & sub_rst) |
-                        ({32{xor_inst_save}} & xor_rst) |
-                        ({32{xori_save}} & xori_rst) |
-                        ({32{or_inst_save}} & or_rst) |
-                        ({32{ori_save}} & ori_rst) |
-                        ({32{and_inst_save}} & and_rst) |
-                        ({32{andi_save}} & andi_rst) |
-                        ({32{sll_save}} & sll_rst) |
-                        ({32{slli_save}} & slli_rst) |
-                        ({32{srl_save}} & srl_rst) |
-                        ({32{srli_save}} & srli_rst) |
-                        ({32{sra_save}} & sra_rst) |
-                        ({32{srai_save}} & srai_rst) |
-                        ({32{slt_save}} & slt_rst) |
-                        ({32{slti_save}} & slti_rst) |
-                        ({32{sltu_save}} & sltu_rst) |
-                        ({32{sltiu_save}} & sltiu_rst) |
-                        ({32{csrrw_save | csrrs_save | csrrc_save}} & csrw_rst);
-            end
         end
+    end
+
+    always @(*) begin
+        
+        case(1'b1)
+            lw_save | sw_save: io_type = 2'b10;
+            lhu_save | lh_save | sh_save: io_type = 2'b01;
+            lbu_save | lb_save | sb_save: io_type = 2'b00;
+            default: io_type = 2'b11;
+        endcase
+
+        read = lw_save | lhu_save | lh_save | lb_save | lbu_save;
+        write = sw_save | sb_save | sh_save;
+
+        read_is_u = (lhu_save | lbu_save) ? 1'b1 : 1'b0;
+        rd_out = rd_save;
+
+        lsu_wdata = rdata2;
+
+        wen = add_save | addi_save | sub_save | lui_save | auipc_save |
+                    and_inst_save | or_inst_save | xor_inst_save | andi_save | ori_save | xori_save |
+                    sll_save | srl_save | sra_save | slli_save | srli_save | srai_save |
+                    slt_save | sltu_save | slti_save | sltiu_save |
+                    jal_save | jalr_save |
+                    lb_save | lh_save | lw_save | lbu_save | lhu_save |
+                    csrrw_save | csrrs_save | csrrc_save;
+
+        add_rst = add_rst_w;
+
+        ic_wb_wdata = ({32{lui_save}} & imm_save) |
+                ({32{add_save | addi_save | auipc_save}} & add_rst_w) |
+                ({32{jalr_save | jal_save}} & (pc_save + 32'd4)) |
+                ({32{sub_save}} & sub_rst) |
+                ({32{xor_inst_save}} & xor_rst) |
+                ({32{xori_save}} & xori_rst) |
+                ({32{or_inst_save}} & or_rst) |
+                ({32{ori_save}} & ori_rst) |
+                ({32{and_inst_save}} & and_rst) |
+                ({32{andi_save}} & andi_rst) |
+                ({32{sll_save}} & sll_rst) |
+                ({32{slli_save}} & slli_rst) |
+                ({32{srl_save}} & srl_rst) |
+                ({32{srli_save}} & srli_rst) |
+                ({32{sra_save}} & sra_rst) |
+                ({32{srai_save}} & srai_rst) |
+                ({32{slt_save}} & slt_rst) |
+                ({32{slti_save}} & slti_rst) |
+                ({32{sltu_save}} & sltu_rst) |
+                ({32{sltiu_save}} & sltiu_rst) |
+                ({32{csrrw_save | csrrs_save | csrrc_save}} & csrw_rst);
     end
 
 
 endmodule
+
 
 
 

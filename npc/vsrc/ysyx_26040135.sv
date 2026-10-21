@@ -1,53 +1,6 @@
 /* verilator lint_off UNUSEDSIGNAL */
 
 /*
-The CSR register address space in RISC-V is 12 bits, i.e., 4096 registers, but RISC-V has only defined over 300 CSRs; 
-if we exclude performance counters and PMP (Physical Memory Protection) related CSRs, there are only 78 left; 
-if we further only count M-mode CSRs, there are only 28; 
-if we only consider the few CSRs necessary for running RT-Thread that were implemented in NEMU, there are less than 5 left. 
-Therefore, there is no need for us to instantiate hundreds or even 4096 CSRs. 
-Although this would only take up some memory for NEMU, it would result in significant area overhead for NPC. 
-Specifically, we only need to instantiate the CSRs we need, then read and write them according to their addresses.
-
-
-The CSRs that need to be implemented currently do not have any special side effects. Although the RISC-V manual describes various functions for mstatus, we don't need to use them at present. We just need to initialize them correctly to pass DiffTest.
-Only a few CSR instructions will be used currently, but unlike general instructions, CSR instructions atomically read and write the same CSR register. Additionally, we can ignore the read and write attributes of each field in the CSRs for now (if you haven't heard of them, you need to carefully RTFM), including WPRI, WLRL, and WARL, which define the behavior when illegal values are written to CSR fields. The programs we are running currently do not depend on these behaviors, so we can temporarily skip implementing these read and write attributes.
-Both ecall and mret will cause NPC to jump, which can be easily implemented by reusing the data path of the next address logic.
-Currently, we only need to implement the ecall exception, which is a trap exception that NPC must respond to unconditionally. We just need to set mcause and mepc simultaneously, then jump to the exception entry stored in mtvec.
-*/
-
-/*
-implement 5 CSRs     mstatus  mepc  mtvec  mcause mcycle
-
-*/
-
-/*
-  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, R(rd) = (rd == 0) ? R(rd) : isa_csr_read(imm), isa_csr_write(imm, src1));
-  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) | src1, rs1));
-  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, R(rd) = isa_csr_read(imm), isa_csr_write_rs(imm, isa_csr_read(imm) & ~(src1), rs1));
-
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.mepc);   // mstatus to go 
-
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0xb, s->pc)); 
-*/
-
-
-/*
-
-实现后, 尝试通过内联汇编多次读出mcycle寄存器, 检查其值是否自动递增. 在内联汇编中可以使用伪指令csrr, 其对应的真实指令即为csrrs.
-
-为了标识不同同学的NPC, 我们可以利用CSR中的标识寄存器. 具体地, RISC-V中定义了mvendorid和marchid这两个CSR, 我们可以利用它们存放一些标识信息. 
-之后, 程序在运行时刻可以通过CSR指令将这些标识信息读到通用寄存器中, 并进一步打印这些信息.
-
-
-
-mvendorid - 从中读出ysyx的ASCII码, 即0x79737978
-marchid - 从中读出学号数字部分的十进制表示, 假设你的学号为ysyx_22068888, 若将读出的信息解释为整数, 则应为22068888, 即0x150be98
-
-实现后, 可在TRM进入main()函数前, 通过内联汇编读出上述两个CSR的值, 然后通过printf()输出它们.
-*/
-
-/*
 写verilog / SV之前, 要画好硬件框图: 组合逻辑块  寄存器  IP核  连线
 
 硬件描述部分: 变量定义(wire reg logic)   连线   时序逻辑块  组合逻辑和组合逻辑块
@@ -73,34 +26,12 @@ GPIO	              0x1000_2000~0x1000_200f
 
 CLINT	              0x0200_0000~0x0200_ffff
 
-⭐
 PS2	                  0x1001_1000~0x1001_1007
 VGA	                  0x2100_0000~0x211f_ffff
 ChipLink MMIO	      0x4000_0000~0x7fff_ffff
 ChipLink MEM	      0xc000_0000~0xffff_ffff
 
 
-⭐: 
-可以用来自由计算的内存区间 - 堆区
-堆区需要分配在可写的内存区间, 因此可以分配在SRAM中
-
-程序 "入口" - main(const char *args)
-main()函数由AM上的程序提供, 但我们需要考虑整个运行时环境的入口, 即需要将程序链接到MROM的地址空间, 并保证TRM的第一条指令与NPC复位后的PC值一致
-
-"退出"程序的方式 - halt()
-ysyxSoC不支持"关机"等功能, 为方便起见, 可借助ebreak指令让仿真环境结束仿真
-
-打印字符 - putch()
-可通过ysyxSoC中的UART16550进行输出
-
-由于NPC复位后从MROM开始执行, 而MROM不支持写入操作, 因此我们需要额外注意:
-程序中不能包含对全局变量的写入操作
-栈区需要分配在可写的SRAM中为ysyxSoC添加AM运行时环境
-
-添加一个riscv32e-ysyxsoc的新AM, 并按照上述方式提供TRM的API. 
-添加后, 将cpu-tests中的dummy测试编译到riscv32e-ysyxsoc, 并尝试在ysyxSoC的仿真环境中运行它.
-
-Hint: 为了完成这个任务, 你需要一些链接的知识. 如果你不熟悉, 可以参考"一生一芯"相关的视频和课件.
 
 
 ⭐: 实现流水线处理器
@@ -111,7 +42,7 @@ Hint: 为了完成这个任务, 你需要一些链接的知识. 如果你不熟�
         存储器, IF 和 LS 的同时访问读通道会有结构冒险, Xbar采用LSU优先 (至于更复杂的调度策略先留着)
 
 数据冒险: RAW 
-    寄存器RAW[EX]: 存下还没写的寄存器, 每次读寄存器都遍历, 如果有还没写完(发生RAW)就阻塞  (只要把 in.ready 和 out.valid 置为无效即可)
+    寄存器RAW[WB]: 存下还没写的寄存器, 每次读寄存器都遍历, 如果有还没写完(发生RAW)就阻塞  (只要把 in.ready 和 out.valid 置为无效即可)
 
     存储器RAW: 现在只有EX会写, 而且暂时不考虑自修改代码, 先默认 IF 不会 fetch 的指令是不会被修改的, 不存在存储器 RAW
 
@@ -266,6 +197,9 @@ module ysyx_26040135(
     );
 
     ysyx_26040135_ALU alu_inst (.*);
+
+// ------------------------------------------------------------------------------------------------------------
+// ⭐: 性能计数器
 
     logic event_alu;
     logic event_branch;
@@ -508,6 +442,11 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
+
+
+
+// ---------------------------------------------------------------------------------------------------------------
+
     typedef enum [1:0]{ 
         FETCH, IO, UDGPR, UDPC
     } state_t;
@@ -688,7 +627,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
             if(state == UDPC) begin
-                __pc_is_updated <= 1'b1;
+                __pc_is_updated <= 1'b1;   // 这个信号作为了时钟边界, FETCH的组合逻辑不会触发
                 __period_end <= 1'b0;
                 __sw_avail <= 1'b0;
                 // pc update

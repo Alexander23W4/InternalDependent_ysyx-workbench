@@ -1,7 +1,13 @@
+/*
+    新pc的判断要加在这里, 如果有跳转则要推翻分支预测, 洗刷流水线
+*/
+
 module ysyx_26040135_EXU (
 
     input clock,
     input reset,
+
+    input  [31:0] inaccessible_gprs,
 
     input  [31:0] pc,   //
 
@@ -29,28 +35,30 @@ module ysyx_26040135_EXU (
     input [31:0] mcycle, mcycleh, mvendorid, marchid,
 
     input [4:0] rd,
+    input [4:0] rs1,
+    input [4:0] rs2,
 
 
     input in_valid,
     output reg in_ready,
 
-    output reg out_valid,
-    input out_ready,
-
+    output reg out_valid_lsu, out_valid_wbu,
+    input out_ready_lsu, out_ready_wbu,
 
 
     output reg wen,  ///
 
     output reg [31:0] add_rst,  
 
-    output reg read,
-    output reg write,
-    output reg [1:0] io_type,  ///
-    output reg read_is_u, ///
+    output reg io;
+    output reg [1:0] io_type,  //
+    output reg read_is_u, //
     output reg [4:0] rd_out,  ///
     output reg [31:0] lsu_wdata,
     output reg [31:0] ic_wb_wdata  // incomplete WB data, lack of l.._rst
 
+    output [4:0] rs1_out,
+    output [4:0] rs2_out,
 );
     // ==== ID/EX 流水段寄存器(本级的输入缓存) ====
     //      讲义: in.bits 由下游的 RegEnable 保存, 所以寄存器在本级
@@ -68,6 +76,8 @@ module ysyx_26040135_EXU (
     reg csrrw_save, csrrs_save, csrrc_save;
 
     reg [4:0] rd_save;
+    reg [31:0] rs1_save;
+    reg [31:0] rs2_save;
 
 
     wire [4:0] shamt_r = rdata2[4:0];
@@ -96,6 +106,16 @@ module ysyx_26040135_EXU (
     wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
 
+    wire read = lw | lh | lb | lbu | lhu;
+    wire write = sw | sh | sb;
+    wire is_ls = read | write;
+    wire is_branch = beq | bne | blt | bge | bltu | bgeu;
+
+    wire gpr_read_invalid = inaccessible_gprs[rs1_save] | inaccessible_gprs[rs2_save];
+
+    assign rs1_out = rs1_save;
+    assign rs2_out = rs2_save;
+
 // ⭐ CSR 直接从CSR模块的组合输出里选, 不再往流水线里搬 8 个影子寄存器
     reg [31:0] csrw_rst;
     always @(*) begin
@@ -114,18 +134,27 @@ module ysyx_26040135_EXU (
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            out_valid  <= 1'b0;
+            out_valid_lsu <= 1'b0;
+            out_valid_wbu <= 1'b0;
             in_ready <= 1'b1;
         end else begin
             if(in_valid && in_ready) begin
                 in_ready <= 1'b0;
-                out_valid <= 1'b1;
+
+                if(is_ls && !gpr_read_invalid) begin
+                    out_valid_lsu <= 1'b1; 
+                end
+                else if (!is_branch && !gpr_read_invalid) begin
+                    out_valid_wbu <= 1'b1;
+                end
 
                 pc_save    <= pc;
 
                 imm_save   <= imm;
 
                 rd_save    <= rd;
+                rs1_save   <= rs1;
+                rs2_save   <= rs2;
 
                 add_save      <= add;
                 addi_save     <= addi;
@@ -169,8 +198,12 @@ module ysyx_26040135_EXU (
                 csrrc_save    <= csrrc;
             end
 
-            if(out_ready && out_valid) begin
-                out_valid <= 1'b0;
+            if(out_ready_lsu && out_valid_lsu) begin
+                out_valid_lsu <= 1'b0;
+                in_ready <= 1'b1;
+            end
+            if(out_ready_wbu && out_valid_wbu) begin
+                out_valid_wbu <= 1'b0;
                 in_ready <= 1'b1;
             end
             
@@ -186,21 +219,14 @@ module ysyx_26040135_EXU (
             default: io_type = 2'b11;
         endcase
 
-        read = lw_save | lhu_save | lh_save | lb_save | lbu_save;
-        write = sw_save | sb_save | sh_save;
+        io = (lw_save | lhu_save | lh_save | lb_save | lbu_save) ? 1'b0 : 1'b1;
 
         read_is_u = (lhu_save | lbu_save) ? 1'b1 : 1'b0;
         rd_out = rd_save;
 
         lsu_wdata = rdata2;
 
-        wen = add_save | addi_save | sub_save | lui_save | auipc_save |
-                    and_inst_save | or_inst_save | xor_inst_save | andi_save | ori_save | xori_save |
-                    sll_save | srl_save | sra_save | slli_save | srli_save | srai_save |
-                    slt_save | sltu_save | slti_save | sltiu_save |
-                    jal_save | jalr_save |
-                    lb_save | lh_save | lw_save | lbu_save | lhu_save |
-                    csrrw_save | csrrs_save | csrrc_save;
+        wen = ~(sw_save | sh_save | sb_save | beq_save | blt_save | bltu_save | bne_save | bge_save | bgeu_save);
 
         add_rst = add_rst_w;
 

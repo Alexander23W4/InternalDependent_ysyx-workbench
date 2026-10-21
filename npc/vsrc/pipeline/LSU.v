@@ -1,3 +1,4 @@
+
 // 注意现阶段的npc只是一个多周期cpu, 不是一个多指令并行cpu, 不能够一次性执行多条指令. 
 // cpu必须判断所有反馈信号, 等到都完成了, 才可以更新pc
 
@@ -7,40 +8,55 @@
 
 // ⭐: lsu先不加PMA
 
+/*
+仅ls指令进入本级
+
+实现:
+如果是个读指令, 读完后就打包wdata传给wbu
+如果是个写指令, 写完后恢复in_ready就行了
+*/
 module ysyx_26040135_AXI_LSU (
     ysyx_26040135_AXI4.master bus,
     
     input clock,
     input reset,
 
-    input __read, __write,
-    input [1:0] __io_type,   
+    input io,
+    input [1:0] io_type,
+    input read_is_u,
+    input [4:0] rd,
+    input [31:0] lsu_data,
+    input [31:0] lsu_addr,
+    input [31:0] ic_wb_wdata,
 
-    // 这两个信号只持续一个周期
-    input __addr_ready,  
-    input __data_ready,
+    input wen,
 
-    input [31:0] addr,
-    input [31:0] wdata,
-    
-    output [31:0] rdata,
+    input in_valid,
+    output reg in_ready,
+
+    output reg out_valid,
+    input out_ready,
     
     output [1:0] __error,
-    output __read_complete,   // cpu读到这个, 需要立刻拿走数据启动GPR操作
-    output __write_complete   // cpu读到这个, 需要立刻启动更新pc操作
 );
-// 对于master来说, 如果slave_status为0, 就可以发送请求. 如果 slave_status 为1 且 valid_master_ID 为自己的ID, 就可以继续向下进行, 并将自己的request拉低
 
 // 反馈信号
-    logic [31:0] rdata_save;
-    logic [1:0] error_save;
-    logic read_complete_save;
-    logic write_complete_save;
+    reg [31:0] rdata_save;
+    reg [1:0] error_save;
+    reg io_save;
+    reg [1:0] io_type_save;
+    reg read_is_u_save;
+    reg [4:0] rd_save;
+    reg [31:0] lsu_data_save;
+    reg [31:0] lsu_addr_save;
+    reg [31:0] ic_wb_wdata_save;
 
     assign rdata = rdata_save;
     assign __error = error_save;
-    assign __read_complete = read_complete_save;
-    assign __write_complete = write_complete_save;
+
+
+    reg aw_done, w_done;
+    reg aw_done_next, w_done_next;
 
 // 状态
     typedef enum [2:0]{ 
@@ -48,10 +64,7 @@ module ysyx_26040135_AXI_LSU (
     } state_t;
     state_t state, next;
 
-    // ⭐ AW/W 两个通道是独立的: 谁先被 slave 收下, 谁就置自己的 done 标志.
-    //    必须等两个都收下了才能去等 B, 而且各自的 valid 在 done 之前不能撤.
-    logic aw_done, w_done;
-    logic aw_done_next, w_done_next;
+
 
 
 

@@ -147,7 +147,6 @@ module ysyx_26040135(
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;
     assign {_mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid} = {mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid};
-
     
     // from decode
     logic addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
@@ -176,6 +175,13 @@ module ysyx_26040135(
     //    等到 UDPC 再算 add_rst, rdata1 已经是写回后的新值 -> 跳转目标整体偏掉。
     logic [31:0] jump_target;
 
+    reg [31:0] inaccessible_gprs;
+
+    always @(posedge clock or posedge reset) begin
+        if(reset) begin
+            inaccessible_gprs
+        end
+    end
 
     ysyx_26040135_decode Decode(.*);
 

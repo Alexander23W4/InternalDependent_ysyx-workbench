@@ -34,14 +34,23 @@ module ysyx_26040135_EXU (
     input [4:0] rs1,
     input [4:0] rs2,
 
+    input [31:0] iag;
+
+    output reg addi, slti, sltiu, xori, ori, andi, slli, srli, srai,
+    output reg add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst,
+    output reg lb, lh, lw, lbu, lhu, sb, sh, sw,
+    output reg beq, bne, blt, bge, bltu, bgeu,
+    output reg jal, jalr,
+    output reg lui, auipc,
+    output reg ebreak, ecall,
+    output reg csrrw, csrrs, csrrc, mret,
+    output reg fence_i,
 
     input in_valid,
     output reg in_ready,
 
     output reg out_valid_lsu, out_valid_wbu,
     input out_ready_lsu, out_ready_wbu,
-
-    output reg [31:0] add_rst,  
 
     output reg io;
     output reg [1:0] io_type,  //
@@ -72,6 +81,7 @@ module ysyx_26040135_EXU (
     reg lb_save, lh_save, lw_save, lbu_save, lhu_save;
     reg sb_save, sh_save, sw_save;
     reg beq_save, bne_save, blt_save, bge_save, bltu_save, bgeu_save;
+    reg ebreak_save, ecall_save, mret_save, fence_i_save;
     reg csrrw_save, csrrs_save, csrrc_save;
 
     reg [4:0] rd_save;
@@ -111,9 +121,12 @@ module ysyx_26040135_EXU (
     wire read = lw | lh | lb | lbu | lhu;
     wire write = sw | sh | sb;
     wire is_ls = read | write;
-    wire is_branch = beq | bne | blt | bge | bltu | bgeu;
+    wire is_other_nwb = beq | bne | blt | bge | bltu | bgeu | ecall | ebreak | fence_i | mret;
 
-    wire gpr_read_invalid = inaccessible_gprs[rs1] | inaccessible_gprs[rs2];
+    wire gpr_read_invalid = iag[rs1] | iag[rs2];
+
+    wire [31:0] new_pc;
+    wire [31:0] pc_next_dft
 
     reg [31:0] csrw_rst;
     always @(*) begin
@@ -148,7 +161,7 @@ module ysyx_26040135_EXU (
             mcycleh <= 0;
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
-            
+
         end else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
             if(in_valid && in_ready) begin
@@ -157,7 +170,7 @@ module ysyx_26040135_EXU (
                 if(is_ls && !gpr_read_invalid) begin
                     out_valid_lsu <= 1'b1; 
                 end
-                else if (!is_branch && !gpr_read_invalid) begin
+                else if (!is_other_nwb && !gpr_read_invalid) begin
                     out_valid_wbu <= 1'b1;
                 end
 
@@ -206,6 +219,10 @@ module ysyx_26040135_EXU (
                 bge_save      <= bge;
                 bltu_save     <= bltu;
                 bgeu_save     <= bgeu;
+                ebreak_save    <= ebreak;
+                ecall_save     <= ecall;
+                mret_save      <= mret;
+                fence_i_save   <= fence_i;
                 csrrw_save    <= csrrw;
                 csrrs_save    <= csrrs;
                 csrrc_save    <= csrrc;
@@ -252,6 +269,18 @@ module ysyx_26040135_EXU (
                     32'h00000342: mcause <= csr_rst_save & (~rdata1);
                 endcase
             end
+
+            if(ecall_save) begin
+                mepc <= pc_save;
+                mcause <= 32'h0000000b;
+            end
+
+    // flush, 冲刷流水线, 并且更新pc.  注意这个只生效一个周期, 只冲刷一次
+    // 这个指令不需要冲刷, 只冲刷IDU和IFU, 并且更新ifu的pc
+            if(new_pc != pc_next_dft) begin  
+                
+            end
+            
         end
     end
 
@@ -270,7 +299,8 @@ module ysyx_26040135_EXU (
 
         is_lsu_rd = lw_save | lh_save | lb_save | lbu_save | lhu_save;
         is_exu_rd = ~(lw_save | lh_save | lb_save | lbu_save | lhu_save | sw_save | sb_save | sh_save) & 
-                    ~(beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save);
+                    ~(beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save) &
+                    ~(ecall_save | mret_save | ebreak_save | fence_i_save);
 
         io = read ? 1'b0 : 1'b1;
 
@@ -300,10 +330,49 @@ module ysyx_26040135_EXU (
                 ({32{sltu_save}} & sltu_rst) |
                 ({32{sltiu_save}} & sltiu_rst) |
                 ({32{csrrw_save | csrrs_save | csrrc_save}} & csr_rst_save);
+
+
+        pc_next_dft = pc_save + 32'b4;
+
+        if(jalr_save) begin
+            new_pc = add_rst_w & ~32'h1;
+        end
+        else if(jal_save) begin
+            new_pc = add_rst_w;
+        end
+        else if(blt_save) begin
+            new_pc = ($signed(rdata1) < $signed(rdata2)) ? add_rst_w : pc_next_dft;
+        end
+        else if(beq_save) begin
+            new_pc = (rdata1 == rdata2) ? add_rst_w : pc_next_dft;
+        end
+        else if(bne_save) begin
+            new_pc = (rdata1 != rdata2) ? add_rst_w : pc_next_dft;
+        end
+        else if(bge_save) begin
+            new_pc = ($signed(rdata1) >= $signed(rdata2)) ? add_rst_w : pc_next_dft;
+        end
+        else if(bltu_save) begin
+            new_pc = (rdata1 < rdata2) ? add_rst_w : pc_next_dft;
+        end
+        else if(bgeu_save) begin
+            new_pc = (rdata1 >= rdata2) ? add_rst_w : pc_next_dft;
+        end
+
+        // system
+        else if(ecall_save) begin    
+            new_pc = mtvec;
+        end
+        else if(mret_save) begin     
+            new_pc = mepc;
+        end
+        else begin
+            new_pc = pc_next_dft;
+        end
     end
 
 
-endmodule
 
+endmodule
 
 

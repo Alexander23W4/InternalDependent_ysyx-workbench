@@ -150,46 +150,6 @@ module ysyx_26040135(
     reg [1:0] iag_amt [31:0]; 
 
 
-    always @(posedge clock or posedge reset) begin
-        if(reset) begin
-            iag <= 0;
-            iag_amt <= 0;
-        end else begin
-            if(rd_release != 0) begin   // 0是无效清理, 不为0说明是有效清零周期
-                if(!(rd_release == rd_exu && (is_exu_rd | is_lsu_rd))) begin  // 如果这一拍rd_exu也有效, 那么什么都不操作
-
-                    if(iag_amt[rd_release] == 2'b01) begin  // 1, 1
-                        iag[0][rd_release] <= 1'b0;  
-                        iag_amt[rd_release] <= 2'b00;
-
-                    end else begin  // 1, 2
-
-                        if(iag[1][rd_release] == 1'b0) begin   // 代表exu
-                            iag[0][rd_release] <= 1'b0; 
-                            iag_amt[rd_release] <= 2'b00;
-                        end else begin
-                            iag_amt[rd_release] <= 2'b01;
-                        end
-                    end
-                    
-                end
-            end
-
-            // 这里记录要写但是还没有写的rd, 如果是x0, 则不计入.  
-            // 首先要判断是不是有效rd
-            // 如果rd_release也有效, 那么写1, 1, 其余正常
-            if((is_exu_rd | is_lsu_rd) && rd_exu != 0) begin
-                iag[0][rd_exu] <= 1'b1;  
-                if(rd_release != 0) begin   
-                    iag_amt[rd_exu] <= 2'b01;
-                end else begin
-                    iag_amt[rd_exu] <= iag_amt[rd_exu] + 2'b01;
-                end
-                iag[1][rd_exu] <= is_exu_rd ? 1'b0 : 1'b1;
-            end
-        end
-    end
-
     ysyx_26040135_decode Decode(.*);
 
     logic __GPR_wvalid;  // ⭐
@@ -262,7 +222,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
-    logic        __ifu_instr_valid;   // IFU 性能计数器
     logic [1:0]  __ifu_error;      // ⭐⭐ 引出C
     logic        __ifu_master_validation_error;    // ⭐⭐ 引出C
     logic        __pc_is_updated;    // ⭐⭐ 引出C, 代表一个周期结束  // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
@@ -303,19 +262,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
     logic [1:0]  __lsu_error;   // ⭐⭐ 引出C
-    logic        __lsu_read_complete;   // cpu读到这个, 需要立刻拿走数据启动GPR操作   // LSU 性能计数器
-    logic        __lsu_write_complete;   // cpu读到这个, 需要立刻启动更新pc操作     // LSU 性能计数器
-    logic [31:0] lsu_rdata;
 
-    logic __addr_ready;  // ⭐  // 这两个信号只持续一个周期 (在__ifu_instr_valid出来的瞬时拉高一个周期)
-    logic __data_ready;  // ⭐
-
-    // ⭐ 注意: 这里必须用 assign 连续赋值. 写成 "logic __read = lb | ...;" 只是变量初值,
-    //    只会在 t=0 求值一次(那时 lb..lhu 全为 0), 之后永远是 0 -> LSU 永远不会发起访存,
-    //    所有 load/store 都会静默地拿到 0 / 什么也不做.
-    logic __read, __write;
-    assign __read  = lb | lh | lw | lbu | lhu;
-    assign __write = sb | sh | sw;
 
     ysyx_26040135_AXI_LSU lsu (
         .bus                 (bus_lsu.master),              
@@ -350,8 +297,7 @@ ysyx_26040135_AXI4_Xbar u_xbar (
     .clint_m (bus_clint.master)
 );
 
-// ⭐ CLINT: mtime 每周期 +1, 只读, 接在 xbar 的 clint_m 上
-//    (0x0200_0000 -> mtime[31:0], 0x0200_0004 -> mtime[63:32], 见 axi_clint.sv)
+
 ysyx_26040135_AXI_CLINT u_clint (
     .bus   (bus_clint.slave),
     .clock (clock),
@@ -376,6 +322,46 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 
 
+    always @(posedge clock or posedge reset) begin
+        if(reset) begin
+            iag <= 0;
+            iag_amt <= 0;
+        end else begin
+            if(rd_release != 0) begin   // 0是无效清理, 不为0说明是有效清零周期
+                if(!(rd_release == rd_exu && (is_exu_rd | is_lsu_rd))) begin  // 如果这一拍rd_exu也有效, 那么什么都不操作
+
+                    if(iag_amt[rd_release] == 2'b01) begin  // 1, 1
+                        iag[0][rd_release] <= 1'b0;  
+                        iag_amt[rd_release] <= 2'b00;
+
+                    end else begin  // 1, 2
+
+                        if(iag[1][rd_release] == 1'b0) begin   // 代表exu
+                            iag[0][rd_release] <= 1'b0; 
+                            iag_amt[rd_release] <= 2'b00;
+                        end else begin
+                            iag_amt[rd_release] <= 2'b01;
+                        end
+                    end
+                    
+                end
+            end
+
+            // 这里记录要写但是还没有写的rd, 如果是x0, 则不计入.  
+            // 首先要判断是不是有效rd
+            // 如果rd_release也有效, 那么写1, 1, 其余正常
+            if((is_exu_rd | is_lsu_rd) && rd_exu != 0) begin
+                iag[0][rd_exu] <= 1'b1;  
+                if(rd_release != 0) begin   
+                    iag_amt[rd_exu] <= 2'b01;
+                end else begin
+                    iag_amt[rd_exu] <= iag_amt[rd_exu] + 2'b01;
+                end
+                iag[1][rd_exu] <= is_exu_rd ? 1'b0 : 1'b1;
+            end
+        end
+    end
+
 
     always_ff @(posedge clock or posedge reset) begin
 
@@ -396,43 +382,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 __period_end <= 1'b0;
                 __sw_avail <= 1'b0;
                 // pc update
-                if(jalr) begin
-                    pc <= jump_target & ~32'h1;
-                end
-                else if(jal) begin
-                    pc <= jump_target;
-                end
-                else if(blt) begin
-                    pc <= ($signed(rdata1) < $signed(rdata2)) ? jump_target : pc_next_dft;
-                end
-                else if(beq) begin
-                    pc <= (rdata1 == rdata2) ? jump_target : pc_next_dft;
-                end
-                else if(bne) begin
-                    pc <= (rdata1 != rdata2) ? jump_target : pc_next_dft;
-                end
-                else if(bge) begin
-                    pc <= ($signed(rdata1) >= $signed(rdata2)) ? jump_target : pc_next_dft;
-                end
-                else if(bltu) begin
-                    pc <= (rdata1 < rdata2) ? jump_target : pc_next_dft;
-                end
-                else if(bgeu) begin
-                    pc <= (rdata1 >= rdata2) ? jump_target : pc_next_dft;
-                end
-
-                // system
-                else if(ecall) begin    //
-                    mepc <= pc;
-                    mcause <= 32'h0000000b;
-                    pc <= mtvec;
-                end
-                else if(mret) begin     //
-                    pc <= mepc;
-                end
-                else begin
-                    pc <= pc_next_dft;
-                end
+ 
             end
         end
     end

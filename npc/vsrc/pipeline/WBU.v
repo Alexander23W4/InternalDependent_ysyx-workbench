@@ -37,30 +37,90 @@ module ysyx_26040135_WBU(
     input reset, 
 
     input in_valid_exu,
-    output reg in_ready_exu,
+    output in_ready_exu,
 
     input [4:0] rd_exu,
     input [31:0] wdata_exu,
 
     input in_valid_lsu,
-    output reg in_ready_lsu,
+    output in_ready_lsu,
 
     input [4:0] rd_lsu,
     input [31:0] wdata_lsu,
 
     output [4:0] rd_release   // 清除记录在inaccessible_gprs的未写入rd, 只给一个周期, 要么就清0
+
+    input [31:0] iag0;
+    input [31:0] iag1;
+    input [31:0] iag2;
+
+    output wen;
 );
-// 这里处理两路写入的时候, 读到任何一路valid, 读取rd, 如果inaccessible_gprs[1][rd]里面对应的
-// 握手前后顺序的问题
-// 需要兼容多次同rd写入, 保证最后一次写入的覆盖
+// 两个同时来, 先处理l
+
+    reg in_ready;
+    assign in_ready_exu = in_ready;
+    assign in_ready_lsu = in_ready;
+
+    reg [4:0] rd;
+    reg [31:0] wdata;
+
+    reg wb_type;  // 0 -> exu  1 -> lsu
+
+// state: IDLE  WB
+    localparam IDLE = 1'b0, WB = 1'b1;
+    reg state, next;
+    
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            in_ready_exu <= 1'b1;
-            in_ready_lsu <= 1'b1;
+            in_ready <= 1'b1;
+            state <= IDLE;
+            rd <= 5'b0;
+            wdata <= 31'b0;
+            wb_type <= 1'b0;
         end else begin
+            if(state == IDLE && in_ready && in_valid_lsu) begin
+                in_ready <= 1'b0;
+                rd <= rd_lsu;
+                wdata <= wdata_lsu;
+                wb_type <= 1'b1;
+            end
+            else if(state == IDLE && in_ready && in_valid_exu) begin
+                in_ready <= 1'b0;
+                rd <= rd_exu;
+                wdata <= wdata_exu;
+                wb_type <= 1'b0;
+            end
             
+            if(state == WB) begin
+                in_ready <= 1'b1;
+            end
         end
+    end
+
+/*
+总结: 1, 1: 清掉iag0, wb
+     1, 2: l-> iag1 - 1, 不wb
+     1, 2: e-> 清掉iag0, wb
+*/
+    always @(*) begin
+        
+        next = state;
+        wen = 1'b0;
+        rd_release = 5'b0;
+        case(state);
+            IDLE: begin
+                if((in_ready && in_valid_lsu) || (in_ready && in_valid_exu)) begin
+                    next = WB;
+                end
+            end
+            WB: begin
+                rd_release = rd;
+                wen = 1'b1;
+                next = IDLE;
+            end
+        endcase
     end
 
 endmodule

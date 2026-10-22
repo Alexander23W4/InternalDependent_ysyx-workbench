@@ -139,7 +139,18 @@ module ysyx_26040135_EXU (
             out_valid_wbu <= 1'b0;
             in_ready <= 1'b1;
             rd_exu <= 0;
+
+            mstatus <= 32'h00001800;   
+            mcause <= 0;
+            mepc <= 0;
+            mtvec <= 0;
+            mcycle <= 0;
+            mcycleh <= 0;
+            mvendorid <= 32'h79737978;
+            marchid <= 32'h18d6687;   // id: ysyx_26040135
+            
         end else begin
+            {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
             if(in_valid && in_ready) begin
                 in_ready <= 1'b0;
 

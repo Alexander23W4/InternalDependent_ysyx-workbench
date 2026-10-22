@@ -138,53 +138,17 @@ module ysyx_26040135(
     logic [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
     logic [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid, _pc; // ⭐⭐ 引出C
 
-    // logic [1:0] __ifu_error, __lsu_error,
-    // logic __ifu_master_validation_error,
-
-    reg [31:0] pc;   // reg
     assign _pc = pc;   // ⭐⭐ 引出C
-
-    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;
     assign {_mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid} = {mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid};
     
-    // from decode
-    logic addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
-    logic add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
-    logic lb, lh, lw, lbu, lhu, sb, sh, sw;
-    logic beq, bne, blt, bge, bltu, bgeu;
-    logic jal, jalr, lui, auipc;
-    logic ebreak, ecall, mret, csrrw, csrrs, csrrc;
-    logic fence_i;
+    logic [31:0] __instr;
+    assign instr = __instr;
 
-    logic [4:0] rd, rs1, rs2;
-    logic [31:0] immI, immU, immS, immB, immJ, immCSR;
 
-    // from alu
-    logic [31:0] add_rst;     
-    logic [31:0] csrw_rst;    
-    logic [31:0] wdata, rdata1, rdata2;
-    logic wen;
-
-    logic [31:0] pc_next_dft;
-    assign pc_next_dft = pc + 32'd4;
-
-    // ⭐ 跳转/分支目标必须在 GPR 写回**生效之前**锁存下来.
-    //    原因: jalr 的 add_rst = rs1 + imm, 而 rs1 可能就是 rd(典型的是 `jalr ra, off(ra)`,
-    //    也就是距离太远、链接器没法松弛成 jal 的 `call`)。GPR 的写回在 UDGPR 那拍就生效了,
-    //    等到 UDPC 再算 add_rst, rdata1 已经是写回后的新值 -> 跳转目标整体偏掉。
-    logic [31:0] jump_target;
 
     reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
     reg [1:0] iag_amt [31:0]; 
 
-/*
-
-总结: 1, 1: 清掉iag0, wb
-     1, 2: l-> iag1 - 1, 不wb
-     1, 2: e-> 清掉iag0, wb
-
-*/
-    wire rd_exu_done;
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
@@ -247,66 +211,7 @@ module ysyx_26040135(
 
     ysyx_26040135_ALU alu_inst (.*);
 
-// ------------------------------------------------------------------------------------------------------------
-// ⭐: 性能计数器
 
-    logic event_alu;
-    logic event_branch;
-    logic event_load;
-    logic event_store;
-    logic event_jump;
-    logic event_csr;
-    logic event_system;
-
-    logic [63:0] ifu_cycles;
-    logic [63:0] lsu_cycles;
-    logic [63:0] lsu_write_cycles;
-    logic [63:0] lsu_read_cycles;
-
-
-    logic ifu_hit_flash, ifu_hit_sram, ifu_hit_sdram, ifu_hit_other;
-    logic lsu_hit_flash, lsu_hit_sram, lsu_hit_sdram, lsu_hit_other;
-
-    assign ifu_hit_flash = (pc[31:28] == 4'h3);
-    assign ifu_hit_sram  = (pc[31:24] == 8'h0f);
-    assign ifu_hit_sdram = (pc[31:28] == 4'hA) || (pc[31:28] == 4'hB);
-    assign ifu_hit_other = ~(ifu_hit_flash | ifu_hit_sram | ifu_hit_sdram);
-
-    assign lsu_hit_flash = (add_rst[31:28] == 4'h3);
-    assign lsu_hit_sram  = (add_rst[31:24] == 8'h0f);
-    assign lsu_hit_sdram = (add_rst[31:28] == 4'hA) || (add_rst[31:28] == 4'hB);
-    assign lsu_hit_other = ~(lsu_hit_flash | lsu_hit_sram | lsu_hit_sdram);
-
-    logic [63:0] ifu_fetch_flash_cycles, ifu_fetch_sram_cycles, ifu_fetch_sdram_cycles, ifu_fetch_other_cycles;
-    logic [63:0] lsu_read_flash_cycles,  lsu_read_sram_cycles,  lsu_read_sdram_cycles,  lsu_read_other_cycles;
-    logic [63:0] lsu_write_flash_cycles, lsu_write_sram_cycles, lsu_write_sdram_cycles, lsu_write_other_cycles;
-
-    logic [63:0] ifu_fetch_flash_count, ifu_fetch_sram_count, ifu_fetch_sdram_count, ifu_fetch_other_count;
-    logic [63:0] lsu_read_flash_count,  lsu_read_sram_count,  lsu_read_sdram_count,  lsu_read_other_count;
-    logic [63:0] lsu_write_flash_count, lsu_write_sram_count, lsu_write_sdram_count, lsu_write_other_count;
-
-    logic [63:0] flash_cycles, sram_cycles, sdram_cycles, other_cycles;
-    assign flash_cycles = ifu_fetch_flash_cycles + lsu_read_flash_cycles + lsu_write_flash_cycles;
-    assign sram_cycles  = ifu_fetch_sram_cycles  + lsu_read_sram_cycles  + lsu_write_sram_cycles;
-    assign sdram_cycles = ifu_fetch_sdram_cycles + lsu_read_sdram_cycles + lsu_write_sdram_cycles;
-    assign other_cycles = ifu_fetch_other_cycles + lsu_read_other_cycles + lsu_write_other_cycles;
-
-
-    assign event_alu = addi | slti | sltiu | xori | ori | andi | slli | srli | srai |
-            add  | sub  | sll  | slt  | sltu  | xor_inst | srl | sra | or_inst | and_inst |
-            lui  | auipc;
-
-    assign event_branch = beq | bne | blt | bge | bltu | bgeu;
-
-    assign event_load = lb | lh | lw | lbu | lhu;
-
-    assign event_store = sb | sh | sw;
-
-    assign event_jump = jal | jalr;
-
-    assign event_csr = csrrw | csrrs | csrrc | mret;
-
-    assign event_system = ebreak | ecall;
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -356,9 +261,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     assign io_master_rready = bus_master.rready;
 
 
-    logic [31:0] __instr;
-    logic [31:0] instr;
-    assign instr = __instr;
 
     logic        __ifu_instr_valid;   // IFU 性能计数器
     logic [1:0]  __ifu_error;      // ⭐⭐ 引出C
@@ -474,199 +376,13 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 
 
-    logic [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
-    // ⭐ 两个 slave 都是按"对齐字"返回数据的(MROM 的 DPI helper 读的是对齐字, SoC 里的
-    //    SRAM/AXI4RAM 也是直接返回 Memory[addr[12:2]]), 不会按 addr[1:0] 把字节挪到对应
-    //    通道上. 所以窄读的字节抽取必须由 CPU 自己做: 先按 addr[1:0] 右移再取低位.
-    logic [31:0] lsu_rdata_shifted;
-    assign lsu_rdata_shifted = lsu_rdata >> {add_rst[1:0], 3'b000};
-
-    assign lw_rst  = lsu_rdata;
-    assign lbu_rst = {24'b0, lsu_rdata_shifted[7:0]};
-    assign lhu_rst = {16'b0, lsu_rdata_shifted[15:0]};
-    assign lb_rst  = {{24{lsu_rdata_shifted[7]}}, lsu_rdata_shifted[7:0]};
-    assign lh_rst  = {{16{lsu_rdata_shifted[15]}}, lsu_rdata_shifted[15:0]};
-
-
-
-
-
-
-
-// ---------------------------------------------------------------------------------------------------------------
-
-    typedef enum [1:0]{ 
-        FETCH, IO, UDGPR, UDPC
-    } state_t;
-    state_t state, next;
-
-    logic io;
-    assign io = __read | __write;
-
-    always_comb begin : State_Machine
-        next = state;
-        case(state)
-            FETCH: begin
-                if(__ifu_instr_valid) begin
-                    next = IO;
-                end
-            end
-            IO: begin
-                if(io) begin
-                    if(__lsu_read_complete) begin
-                        next = UDGPR;
-                    end
-                    else if(__lsu_write_complete) begin
-                        next = UDPC;
-                    end
-                end
-                else begin
-                    next = UDGPR;
-                end
-            end
-            UDGPR: begin    // 固定一周期
-                next = UDPC;
-            end
-            UDPC: begin     // 固定一周期
-                next = FETCH;
-            end
-        endcase 
-    end
-
-
-    logic __period_end;
-
-    // 主状态机时序逻辑
     always_ff @(posedge clock or posedge reset) begin
-        if(reset) begin
-            pc <= 32'h30000000;   // FLASH 
-            mstatus <= 32'h00001800;   
-            mcause <= 0;
-            mepc <= 0;
-            mtvec <= 0;
-            mcycle <= 0;
-            mcycleh <= 0;
-            mvendorid <= 32'h79737978;
-            marchid <= 32'h18d6687;   // id: ysyx_26040135
 
-            __pc_is_updated <= 1'b1;
-            __GPR_wvalid <= 1'b0;
-            __addr_ready <= 1'b0;
-            __data_ready <= 1'b0;
-
-            __period_end <= 1'b0;
-
-            ifu_cycles <= '0;
-            lsu_cycles <= '0;
-            lsu_write_cycles <= '0;
-            lsu_read_cycles <= '0;
-
-            ifu_fetch_flash_cycles <= '0;
-            ifu_fetch_sram_cycles  <= '0;
-            ifu_fetch_sdram_cycles <= '0;
-            ifu_fetch_other_cycles <= '0;
-            lsu_read_flash_cycles  <= '0;
-            lsu_read_sram_cycles   <= '0;
-            lsu_read_sdram_cycles  <= '0;
-            lsu_read_other_cycles  <= '0;
-            lsu_write_flash_cycles <= '0;
-            lsu_write_sram_cycles  <= '0;
-            lsu_write_sdram_cycles <= '0;
-            lsu_write_other_cycles <= '0;
-
-            ifu_fetch_flash_count <= '0;
-            ifu_fetch_sram_count  <= '0;
-            ifu_fetch_sdram_count <= '0;
-            ifu_fetch_other_count <= '0;
-            lsu_read_flash_count  <= '0;
-            lsu_read_sram_count   <= '0;
-            lsu_read_sdram_count  <= '0;
-            lsu_read_other_count  <= '0;
-            lsu_write_flash_count <= '0;
-            lsu_write_sram_count  <= '0;
-            lsu_write_sdram_count <= '0;
-            lsu_write_other_count <= '0;
-
-            __sw_avail <= 1'b0;
-
-            state <= FETCH;
-        end
         else begin
-            {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
-            state <= next;
-            
-            perf_event(
-                __ifu_instr_valid,
-                __lsu_read_complete,
-                __lsu_write_complete
-            );
 
-            if(state == FETCH) begin
-                ifu_cycles <= ifu_cycles + 64'b1;
-                if(ifu_hit_flash) ifu_fetch_flash_cycles <= ifu_fetch_flash_cycles + 64'b1;
-                if(ifu_hit_sram)  ifu_fetch_sram_cycles  <= ifu_fetch_sram_cycles  + 64'b1;
-                if(ifu_hit_sdram) ifu_fetch_sdram_cycles <= ifu_fetch_sdram_cycles + 64'b1;
-                if(ifu_hit_other) ifu_fetch_other_cycles <= ifu_fetch_other_cycles + 64'b1;
-                __pc_is_updated <= 1'b0;
-                if(__ifu_instr_valid) begin
-                    __addr_ready <= 1'b1;
-                    __data_ready <= 1'b1;
-                    if(ifu_hit_flash) ifu_fetch_flash_count <= ifu_fetch_flash_count + 64'b1;
-                    if(ifu_hit_sram)  ifu_fetch_sram_count  <= ifu_fetch_sram_count  + 64'b1;
-                    if(ifu_hit_sdram) ifu_fetch_sdram_count <= ifu_fetch_sdram_count + 64'b1;
-                    if(ifu_hit_other) ifu_fetch_other_count <= ifu_fetch_other_count + 64'b1;
-                    instr_type_event(
-                        event_alu,
-                        event_branch,
-                        event_load,
-                        event_store,
-                        event_jump,
-                        event_csr,
-                        event_system
-                    );
-                end
-            end
 
-            if(state == IO) begin
-                lsu_cycles <= lsu_cycles + 64'b1;
-                if(__read) begin
-                    lsu_read_cycles <= lsu_read_cycles + 64'b1;
-                    if(lsu_hit_flash) lsu_read_flash_cycles <= lsu_read_flash_cycles + 64'b1;
-                    if(lsu_hit_sram)  lsu_read_sram_cycles  <= lsu_read_sram_cycles  + 64'b1;
-                    if(lsu_hit_sdram) lsu_read_sdram_cycles <= lsu_read_sdram_cycles + 64'b1;
-                    if(lsu_hit_other) lsu_read_other_cycles <= lsu_read_other_cycles + 64'b1;
-                end
-                if(__write) begin
-                    lsu_write_cycles <= lsu_write_cycles + 64'b1;
-                    if(lsu_hit_flash) lsu_write_flash_cycles <= lsu_write_flash_cycles + 64'b1;
-                    if(lsu_hit_sram)  lsu_write_sram_cycles  <= lsu_write_sram_cycles  + 64'b1;
-                    if(lsu_hit_sdram) lsu_write_sdram_cycles <= lsu_write_sdram_cycles + 64'b1;
-                    if(lsu_hit_other) lsu_write_other_cycles <= lsu_write_other_cycles + 64'b1;
-                end
-                // ⭐ 访问次数按"完成信号"记一次(perf_event 里也是这个时机)
-                if(__lsu_read_complete) begin
-                    if(lsu_hit_flash) lsu_read_flash_count <= lsu_read_flash_count + 64'b1;
-                    if(lsu_hit_sram)  lsu_read_sram_count  <= lsu_read_sram_count  + 64'b1;
-                    if(lsu_hit_sdram) lsu_read_sdram_count <= lsu_read_sdram_count + 64'b1;
-                    if(lsu_hit_other) lsu_read_other_count <= lsu_read_other_count + 64'b1;
-                end
-                if(__lsu_write_complete) begin
-                    if(lsu_hit_flash) lsu_write_flash_count <= lsu_write_flash_count + 64'b1;
-                    if(lsu_hit_sram)  lsu_write_sram_count  <= lsu_write_sram_count  + 64'b1;
-                    if(lsu_hit_sdram) lsu_write_sdram_count <= lsu_write_sdram_count + 64'b1;
-                    if(lsu_hit_other) lsu_write_other_count <= lsu_write_other_count + 64'b1;
-                end
-                __addr_ready <= 1'b0;
-                __data_ready <= 1'b0;
-                if(__lsu_read_complete || !io) begin
-                    __GPR_wvalid <= 1'b1;
-                end
-                if(io && __lsu_write_complete) begin
-                    __period_end <= 1'b1;
-                    __sw_avail <= 1'b1;
-                end
-            end
+
 
             if(state == UDGPR) begin
                 __GPR_wvalid <= 1'b0;
@@ -721,36 +437,16 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         end
     end
     
-    // 仅用来更新 CSR
-    always_ff @(posedge clock or posedge reset) begin
-        if((!reset) && state == UDPC) begin
-            // privilege
-            if(csrrw) begin
-                case(immCSR)  // case CSR addr
-                    32'h00000300: mstatus <= rdata1;
-                    32'h00000305: mtvec <= rdata1;
-                    32'h00000341: mepc <= rdata1;
-                    32'h00000342: mcause <= rdata1;
-                endcase
-            end
-            else if (|{{5{csrrs}} & rs1}) begin
-                case(immCSR) 
-                    32'h00000300: mstatus <= rdata1 | csrw_rst;
-                    32'h00000305: mtvec <= rdata1 | csrw_rst;
-                    32'h00000341: mepc <= rdata1 | csrw_rst;
-                    32'h00000342: mcause <= rdata1 | csrw_rst;
-                endcase
-            end
-            else if (|{{5{csrrc}} & rs1}) begin
-                case(immCSR) 
-                    32'h00000300: mstatus <= csrw_rst & (~rdata1);
-                    32'h00000305: mtvec <= csrw_rst & (~rdata1);
-                    32'h00000341: mepc <= csrw_rst & (~rdata1);
-                    32'h00000342: mcause <= csrw_rst & (~rdata1);
-                endcase
-            end
-        end
-    end
+
+
+
+
+
+
+
+
+
+
 
 
 

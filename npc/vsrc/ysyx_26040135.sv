@@ -175,7 +175,7 @@ module ysyx_26040135(
     //    等到 UDPC 再算 add_rst, rdata1 已经是写回后的新值 -> 跳转目标整体偏掉。
     logic [31:0] jump_target;
 
-    reg [1:0][31:0] inaccessible_gprs;   // inaccessible_gprs[0/1]
+    reg [2:0][31:0] inaccessible_gprs;   // inaccessible_gprs[0/1/2]
 
 
     always @(posedge clock or posedge reset) begin

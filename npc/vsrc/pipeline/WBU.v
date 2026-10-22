@@ -18,14 +18,23 @@ iag0为1, iag1为1, 则将iag0清0
 iag0为1, iag1为2, iag2不对应, 则将iag1减1, 不进行wb
 iag0为1, iag1为2, iag1对应(来早了), 则将iag
 
-单个情况: (清掉iag0即可
-ll两个不同rd: 清掉iag0即可
-ll两个相同rd: 
+单个情况: (iag0 = 1, iag1 = 1) 清掉iag0, wb
+ll两个不同rd: (iag0 = 1, iag1 = 1) 清掉iag0, wb
+ll两个相同rd: (iag0 = 1, iag1 = 2) iag1 - 1, 不wb
+le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = e) iag1 - 1, 不wb
+le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = e) 清掉iag0, wb
+le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb
+le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb
+
+总结: 1, 1: 清掉iag0, wb
+     1, 2: l-> iag1 - 1, 不wb
+     1, 2: e-> 清掉iag0, wb
+
 */
 
 module ysyx_26040135_WBU(
     input clock,
-    input reset,
+    input reset, 
 
     input in_valid_exu,
     output reg in_ready_exu,

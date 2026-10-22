@@ -99,11 +99,6 @@ module ysyx_26040135_WBU(
         end
     end
 
-/*
-总结: 1, 1: 清掉iag0, wb
-     1, 2: l-> iag1 - 1, 不wb
-     1, 2: e-> 清掉iag0, wb
-*/
     always @(*) begin
         
         next = state;

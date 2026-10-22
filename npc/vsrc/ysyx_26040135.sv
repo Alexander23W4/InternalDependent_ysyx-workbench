@@ -175,26 +175,54 @@ module ysyx_26040135(
     //    等到 UDPC 再算 add_rst, rdata1 已经是写回后的新值 -> 跳转目标整体偏掉。
     logic [31:0] jump_target;
 
-    reg [2:0][31:0] inaccessible_gprs;   // inaccessible_gprs[0/1/2]
+    reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
+    reg [1:0] iag_amt [31:0]; 
 
+/*
+
+总结: 1, 1: 清掉iag0, wb
+     1, 2: l-> iag1 - 1, 不wb
+     1, 2: e-> 清掉iag0, wb
+
+*/
+    wire rd_exu_done;
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            inaccessible_gprs <= 31'd0;
+            iag <= 0;
+            iag_amt <= 0;
         end else begin
             if(rd_release != 0) begin   // 0是无效清理, 不为0说明是有效清零周期
-                if(rd_release != rd_exu) begin  // 两者一样, 写入新值(这里不操作). 不一样才清理
-                    inaccessible_gprs[rd_release] <= 1'b0;  // 因为不一样, 所以不会产生写入冲突
+                if(!(rd_release == rd_exu && (is_exu_rd | is_lsu_rd))) begin  // 如果这一拍rd_exu也有效, 那么什么都不操作
+
+                    if(iag_amt[rd_release] == 2'b01) begin  // 1, 1
+                        iag[0][rd_release] <= 1'b0;  
+                        iag_amt[rd_release] <= 2'b00;
+
+                    end else begin  // 1, 2
+
+                        if(iag[1][rd_release] == 1'b0) begin   // 代表exu
+                            iag[0][rd_release] <= 1'b0; 
+                            iag_amt[rd_release] <= 2'b00;
+                        end else begin
+                            iag_amt[rd_release] <= 2'b01;
+                        end
+                    end
+                    
                 end
             end
 
             // 这里记录要写但是还没有写的rd, 如果是x0, 则不计入.  
             // 首先要判断是不是有效rd
+            // 如果rd_release也有效, 那么写1, 1, 其余正常
             if((is_exu_rd | is_lsu_rd) && rd_exu != 0) begin
-                inaccessible_gprs[0][rd_exu] <= 1'b1; 
-                if(is_exu_rd) begin
-                    inaccessible_gprs[1][rd_exu] <= 1'b0 : 1'b1;
+                iag[0][rd_exu] <= 1'b1;  
+                if(rd_release != 0) begin   
+                    iag_amt[rd_exu] <= 2'b01;
+                end else begin
+                    iag_amt[rd_exu] <= iag_amt[rd_exu] + 2'b01;
                 end
+                iag[1][rd_exu] <= is_exu_rd ? 1'b0 : 1'b1;
             end
         end
     end

@@ -58,7 +58,9 @@ module ysyx_26040135_EXU (
     output reg [4:0] rs2_out,
 
     output reg is_exu_rd,
-    output reg is_lsu_rd
+    output reg is_lsu_rd,
+
+    output reg [4:0] rd_exu
 );
     // ==== ID/EX 流水段寄存器(本级的输入缓存) ====
     //      讲义: in.bits 由下游的 RegEnable 保存, 所以寄存器在本级
@@ -138,6 +140,7 @@ module ysyx_26040135_EXU (
             out_valid_lsu <= 1'b0;
             out_valid_wbu <= 1'b0;
             in_ready <= 1'b1;
+            rd_exu <= 0;
         end else begin
             if(in_valid && in_ready) begin
                 in_ready <= 1'b0;
@@ -197,17 +200,21 @@ module ysyx_26040135_EXU (
                 csrrw_save    <= csrrw;
                 csrrs_save    <= csrrs;
                 csrrc_save    <= csrrc;
+
+                rd_exu <= rd;
+            end
+
+            if(!in_ready && rd_exu != 0) begin
+                rd_exu <= 0;
             end
 
             if(out_ready_lsu && out_valid_lsu) begin
                 out_valid_lsu <= 1'b0;
                 in_ready <= 1'b1;
-                rd_out <= 0;
             end
             if(out_ready_wbu && out_valid_wbu) begin
                 out_valid_wbu <= 1'b0;
                 in_ready <= 1'b1;
-                rd_out <= 0;
             end
             
         end

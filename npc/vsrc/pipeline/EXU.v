@@ -45,9 +45,6 @@ module ysyx_26040135_EXU (
     output reg out_valid_lsu, out_valid_wbu,
     input out_ready_lsu, out_ready_wbu,
 
-
-    output reg wen,  ///
-
     output reg [31:0] add_rst,  
 
     output reg io;
@@ -59,6 +56,9 @@ module ysyx_26040135_EXU (
 
     output [4:0] rs1_out,
     output [4:0] rs2_out,
+
+    output exu_rd,
+    output lsu_rd
 );
     // ==== ID/EX 流水段寄存器(本级的输入缓存) ====
     //      讲义: in.bits 由下游的 RegEnable 保存, 所以寄存器在本级
@@ -106,6 +106,7 @@ module ysyx_26040135_EXU (
     wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
 
+    // 这些是存输入之前(输入握手之前)的判断信号, 用原始信号, 不用save信号, 而后续的所有信号和输出信号都要用save信号
     wire read = lw | lh | lb | lbu | lhu;
     wire write = sw | sh | sb;
     wire is_ls = read | write;
@@ -115,6 +116,9 @@ module ysyx_26040135_EXU (
 
     assign rs1_out = rs1_save;
     assign rs2_out = rs2_save;
+
+    assign lsu_rd = read;
+    assign exu_rd = ~is_ls & ~is_branch;
 
 // ⭐ CSR 直接从CSR模块的组合输出里选, 不再往流水线里搬 8 个影子寄存器
     reg [31:0] csrw_rst;
@@ -219,16 +223,12 @@ module ysyx_26040135_EXU (
             default: io_type = 2'b11;
         endcase
 
-        io = (lw_save | lhu_save | lh_save | lb_save | lbu_save) ? 1'b0 : 1'b1;
+        io = read ? 1'b0 : 1'b1;
 
         read_is_u = (lhu_save | lbu_save) ? 1'b1 : 1'b0;
         rd_out = rd_save;
 
         lsu_wdata = rdata2;
-
-        wen = ~(sw_save | sh_save | sb_save | beq_save | blt_save | bltu_save | bne_save | bge_save | bgeu_save);
-
-        add_rst = add_rst_w;
 
         ic_wb_wdata = ({32{lui_save}} & imm_save) |
                 ({32{add_save | addi_save | auipc_save}} & add_rst_w) |
@@ -256,38 +256,5 @@ module ysyx_26040135_EXU (
 
 endmodule
 
-
-
-
-/*
-
-
-    assign wdata = ({32{lui}} & immU) |
-                   ({32{add | addi | auipc}} & add_rst) |
-                   ({32{jalr | jal}} & pc_next_dft) |
-                //    ({32{lw}} & lw_rst) |
-                //    ({32{lbu}} & lbu_rst) |
-                //    ({32{lhu}} & lhu_rst) |
-                //    ({32{lb}} & lb_rst) |
-                //    ({32{lh}} & lh_rst) |
-                   ({32{sub}} & sub_rst) |
-                   ({32{xor_inst}} & xor_rst) |
-                   ({32{xori}} & xori_rst) |
-                   ({32{or_inst}} & or_rst) |
-                   ({32{ori}} & ori_rst) |
-                   ({32{and_inst}} & and_rst) |
-                   ({32{andi}} & andi_rst) |
-                   ({32{sll}} & sll_rst) |
-                   ({32{slli}} & slli_rst) |
-                   ({32{srl}} & srl_rst) |
-                   ({32{srli}} & srli_rst) |
-                   ({32{sra}} & sra_rst) |
-                   ({32{srai}} & srai_rst) |
-                   ({32{slt}} & slt_rst) |
-                   ({32{slti}} & slti_rst) |
-                   ({32{sltu}} & sltu_rst) |
-                   ({32{sltiu}} & sltiu_rst) |
-                   ({32{csrrw | csrrs | csrrc}} & csrw_rst);
-*/
 
 

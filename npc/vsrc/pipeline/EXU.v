@@ -7,15 +7,11 @@ module ysyx_26040135_EXU (
     input clock,
     input reset,
 
-    input  [31:0] inaccessible_gprs,
-
     input  [31:0] pc,   //
 
-// 这里直接从GPR取数据, 要把这个存下来再给in_ready, 给in_ready之前IDU输出给GPR的rs1和rs2是不会变化的
     input  [31:0] rdata1, 
     input  [31:0] rdata2,  ///
 
-// ⭐ 立即数已经在IDU里按指令类型选好了, 这里只收一份
     input  [31:0] imm,
 
 
@@ -62,8 +58,9 @@ module ysyx_26040135_EXU (
 
     output reg [4:0] rd_exu
 );
-    // ==== ID/EX 流水段寄存器(本级的输入缓存) ====
-    //      讲义: in.bits 由下游的 RegEnable 保存, 所以寄存器在本级
+
+    reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
+
     reg [31:0] pc_save;
     reg [31:0] imm_save;
 
@@ -80,6 +77,7 @@ module ysyx_26040135_EXU (
     reg [4:0] rd_save;
     reg [31:0] rs1_save;
     reg [31:0] rs2_save;
+    reg [31:0] csr_rst_save;
 
 
     wire [4:0] shamt_r = rdata2[4:0];
@@ -117,12 +115,9 @@ module ysyx_26040135_EXU (
 
     wire gpr_read_invalid = inaccessible_gprs[rs1] | inaccessible_gprs[rs2];
 
-
-
-// ⭐ CSR 直接从CSR模块的组合输出里选, 不再往流水线里搬 8 个影子寄存器
     reg [31:0] csrw_rst;
     always @(*) begin
-        case(imm_save)
+        case(imm)
             32'h00000300: csrw_rst = mstatus;
             32'h00000305: csrw_rst = mtvec;
             32'h00000341: csrw_rst = mepc;
@@ -134,6 +129,9 @@ module ysyx_26040135_EXU (
             default: csrw_rst = 32'b0;
         endcase
     end
+
+
+
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
@@ -202,6 +200,8 @@ module ysyx_26040135_EXU (
                 csrrc_save    <= csrrc;
 
                 rd_exu <= rd;
+                csr_rst_save  <= csrw_rst;
+                
             end
 
             if(!in_ready && rd_exu != 0) begin
@@ -216,9 +216,34 @@ module ysyx_26040135_EXU (
                 out_valid_wbu <= 1'b0;
                 in_ready <= 1'b1;
             end
-            
+
+            if(csrrw_save) begin
+                case(imm_save)  // case CSR addr
+                    32'h00000300: mstatus <= rdata1;
+                    32'h00000305: mtvec <= rdata1;
+                    32'h00000341: mepc <= rdata1;
+                    32'h00000342: mcause <= rdata1;
+                endcase
+            end
+            else if (|{{5{csrrs_save}} & rs1_save}) begin
+                case(imm_save) 
+                    32'h00000300: mstatus <= rdata1 | csr_rst_save;
+                    32'h00000305: mtvec <= rdata1 | csr_rst_save;
+                    32'h00000341: mepc <= rdata1 | csr_rst_save;
+                    32'h00000342: mcause <= rdata1 | csr_rst_save;
+                endcase
+            end
+            else if (|{{5{csrrc_save}} & rs1_save}) begin
+                case(imm_save) 
+                    32'h00000300: mstatus <= csr_rst_save & (~rdata1);
+                    32'h00000305: mtvec <= csr_rst_save & (~rdata1);
+                    32'h00000341: mepc <= csr_rst_save & (~rdata1);
+                    32'h00000342: mcause <= csr_rst_save & (~rdata1);
+                endcase
+            end
         end
     end
+
 
     always @(*) begin
         
@@ -263,7 +288,7 @@ module ysyx_26040135_EXU (
                 ({32{slti_save}} & slti_rst) |
                 ({32{sltu_save}} & sltu_rst) |
                 ({32{sltiu_save}} & sltiu_rst) |
-                ({32{csrrw_save | csrrs_save | csrrc_save}} & csrw_rst);
+                ({32{csrrw_save | csrrs_save | csrrc_save}} & csr_rst_save);
     end
 
 

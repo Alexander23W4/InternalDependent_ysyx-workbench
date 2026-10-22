@@ -57,8 +57,8 @@ module ysyx_26040135_EXU (
     output [4:0] rs1_out,
     output [4:0] rs2_out,
 
-    output exu_rd,
-    output lsu_rd
+    output is_exu_rd,
+    output is_lsu_rd
 );
     // ==== ID/EX 流水段寄存器(本级的输入缓存) ====
     //      讲义: in.bits 由下游的 RegEnable 保存, 所以寄存器在本级
@@ -106,19 +106,21 @@ module ysyx_26040135_EXU (
     wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
 
+    assign rs1_out = rs1_save;
+    assign rs2_out = rs2_save;
+
+    assign is_exu_rd = read;
+    assign is_exu_rd = ~is_ls & ~is_branch;
+
     // 这些是存输入之前(输入握手之前)的判断信号, 用原始信号, 不用save信号, 而后续的所有信号和输出信号都要用save信号
     wire read = lw | lh | lb | lbu | lhu;
     wire write = sw | sh | sb;
     wire is_ls = read | write;
     wire is_branch = beq | bne | blt | bge | bltu | bgeu;
 
-    wire gpr_read_invalid = inaccessible_gprs[rs1_save] | inaccessible_gprs[rs2_save];
+    wire gpr_read_invalid = inaccessible_gprs[rs1] | inaccessible_gprs[rs2];
 
-    assign rs1_out = rs1_save;
-    assign rs2_out = rs2_save;
 
-    assign lsu_rd = read;
-    assign exu_rd = ~is_ls & ~is_branch;
 
 // ⭐ CSR 直接从CSR模块的组合输出里选, 不再往流水线里搬 8 个影子寄存器
     reg [31:0] csrw_rst;

@@ -177,11 +177,16 @@ module ysyx_26040135(
 
     reg [1:0][31:0] inaccessible_gprs;   // inaccessible_gprs[0/1]
 
+
     always @(posedge clock or posedge reset) begin
         if(reset) begin
             inaccessible_gprs <= 31'd0;
         end else begin
-            inaccessible_gprs[rd] <= 1'b1;
+
+            // 这里记录要写但是还没有写的rd, 如果是x0, 则不计入
+            if(rd_exu != 0) begin
+                inaccessible_gprs[0][rd_exu] <= 1'b1; 
+            end
         end
     end
 

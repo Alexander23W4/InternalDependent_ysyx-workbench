@@ -182,10 +182,19 @@ module ysyx_26040135(
         if(reset) begin
             inaccessible_gprs <= 31'd0;
         end else begin
+            if(rd_release != 0) begin   // 0是无效清理, 不为0说明是有效清零周期
+                if(rd_release != rd_exu) begin  // 两者一样, 写入新值(这里不操作). 不一样才清理
+                    inaccessible_gprs[rd_release] <= 1'b0;  // 因为不一样, 所以不会产生写入冲突
+                end
+            end
 
-            // 这里记录要写但是还没有写的rd, 如果是x0, 则不计入
-            if(rd_exu != 0) begin
+            // 这里记录要写但是还没有写的rd, 如果是x0, 则不计入.  
+            // 首先要判断是不是有效rd
+            if((is_exu_rd | is_lsu_rd) && rd_exu != 0) begin
                 inaccessible_gprs[0][rd_exu] <= 1'b1; 
+                if(is_exu_rd) begin
+                    inaccessible_gprs[1][rd_exu] <= 1'b0 : 1'b1;
+                end
             end
         end
     end

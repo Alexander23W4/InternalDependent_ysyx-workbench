@@ -54,11 +54,11 @@ module ysyx_26040135_EXU (
     output reg [31:0] lsu_wdata,
     output reg [31:0] ic_wb_wdata  // incomplete WB data, lack of l.._rst
 
-    output [4:0] rs1_out,
-    output [4:0] rs2_out,
+    output reg [4:0] rs1_out,
+    output reg [4:0] rs2_out,
 
-    output is_exu_rd,
-    output is_lsu_rd
+    output reg is_exu_rd,
+    output reg is_lsu_rd
 );
     // ==== ID/EX 流水段寄存器(本级的输入缓存) ====
     //      讲义: in.bits 由下游的 RegEnable 保存, 所以寄存器在本级
@@ -106,11 +106,6 @@ module ysyx_26040135_EXU (
     wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
 
-    assign rs1_out = rs1_save;
-    assign rs2_out = rs2_save;
-
-    assign is_exu_rd = read;
-    assign is_exu_rd = ~is_ls & ~is_branch;
 
     // 这些是存输入之前(输入握手之前)的判断信号, 用原始信号, 不用save信号, 而后续的所有信号和输出信号都要用save信号
     wire read = lw | lh | lb | lbu | lhu;
@@ -224,6 +219,13 @@ module ysyx_26040135_EXU (
             lbu_save | lb_save | sb_save: io_type = 2'b00;
             default: io_type = 2'b11;
         endcase
+
+        rs1_out = rs1_save;
+        rs2_out = rs2_save;    
+
+        is_lsu_rd = lw_save | lh_save | lb_save | lbu_save | lhu_save;
+        is_exu_rd = ~(lw_save | lh_save | lb_save | lbu_save | lhu_save | sw_save | sb_save | sh_save) & 
+                    ~(beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save);
 
         io = read ? 1'b0 : 1'b1;
 

@@ -20,7 +20,7 @@ module ysyx_26040135_WBU(
     input [4:0] rd_lsu,
     input [31:0] wdata_lsu,
 
-    output [4:0] rd_release   // 清除记录在inaccessible_gprs的未写入rd
+    output [4:0] rd_release   // 清除记录在inaccessible_gprs的未写入rd, 只给一个周期, 要么就清0
 );
 
 

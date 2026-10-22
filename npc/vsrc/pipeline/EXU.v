@@ -202,10 +202,12 @@ module ysyx_26040135_EXU (
             if(out_ready_lsu && out_valid_lsu) begin
                 out_valid_lsu <= 1'b0;
                 in_ready <= 1'b1;
+                rd_out <= 0;
             end
             if(out_ready_wbu && out_valid_wbu) begin
                 out_valid_wbu <= 1'b0;
                 in_ready <= 1'b1;
+                rd_out <= 0;
             end
             
         end

@@ -41,8 +41,10 @@ module ysyx_26040135_AXI_IFU (
     output logic out_valid,           // 产生新instr置1, 收到out_ready 清0
     input out_ready, 
 
-    // 额外信号, 后级应该同out_instr一起锁存 (如果后级需要, 再加)
-    output logic [31:0] out_pc   // 后级没有ready, 但是不能阻塞系统总线, 所以这个要锁存等out_ready.  后级给ready握手之后也要锁存以备后用
+    output logic [31:0] out_pc,   
+
+    input flush,
+    input [31:0] pc_flush
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -114,25 +116,41 @@ module ysyx_26040135_AXI_IFU (
 
 
         end else begin
-            state <= next;
+            if(flush) begin  // 分支预测失败, 冲刷
+                state <= IDLE;
+                pc <= pc_flush;
 
-            if(state == IDLE && out_ready && out_valid) begin   // 这里其实out_valid的时候, state必定是IDLE   next是AR
+                out_instr <= '0;
                 out_valid <= 1'b0;
-                if(!is_executable(pc)) begin
-                    master_validation_error_save <= 1'b1;
+                out_pc <= '0;
+
+                error_save <= 2'b00;
+                master_validation_error_save <= 1'b0;     
+
+            end else begin
+                state <= next;
+
+                if(state == IDLE && out_ready && out_valid) begin   // 这里其实out_valid的时候, state必定是IDLE   next是AR
+                    out_valid <= 1'b0;
                 end
-            end
+
+                if(state == IDLE && out_ready) begin
+                    if(!is_executable(pc)) begin
+                        master_validation_error_save <= 1'b1;
+                    end
+                end
 
 
-            if(state == R && bus.rvalid) begin
-                if(bus.rresp == 2'b00) begin
-                    out_instr  <= bus.rdata;
-                    out_pc <= pc;
-                    out_valid  <= 1'b1;
-                    error_save <= 2'b00;
-                    pc <= pc + 32'd4;   // 默认分支预测
-                end else begin
-                    error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
+                if(state == R && bus.rvalid) begin
+                    if(bus.rresp == 2'b00) begin
+                        out_instr  <= bus.rdata;
+                        out_pc <= pc;
+                        out_valid  <= 1'b1;
+                        error_save <= 2'b00;
+                        pc <= pc + 32'd4;   // 默认分支预测
+                    end else begin
+                        error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
+                    end
                 end
             end
         end
@@ -161,7 +179,7 @@ module ysyx_26040135_AXI_IFU (
         bus.bready = 1'b0;
 
         next = state;
-        
+            
         case(state)
             IDLE: begin
                 if(out_ready) begin   // 可以阻塞到IDLE, 但是不能阻塞系统总线, 所以必须在这里等out_ready

@@ -65,7 +65,10 @@ module ysyx_26040135_EXU (
     output reg is_exu_rd,
     output reg is_lsu_rd,
 
-    output reg [4:0] rd_exu
+    output reg [4:0] rd_exu,
+
+    output reg flush;
+    output reg [31:0] pc_flush;
 );
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
@@ -126,7 +129,9 @@ module ysyx_26040135_EXU (
     wire gpr_read_invalid = iag[rs1] | iag[rs2];
 
     wire [31:0] new_pc;
-    wire [31:0] pc_next_dft
+    wire [31:0] pc_next_dft;
+
+    reg flush_done;
 
     reg [31:0] csrw_rst;
     always @(*) begin
@@ -162,10 +167,13 @@ module ysyx_26040135_EXU (
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
 
+            flush_done <= 1'b0;
+
         end else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
             if(in_valid && in_ready) begin
                 in_ready <= 1'b0;
+                flush_done <= 1'b0;
 
                 if(is_ls && !gpr_read_invalid) begin
                     out_valid_lsu <= 1'b1; 
@@ -278,7 +286,7 @@ module ysyx_26040135_EXU (
     // flush, 冲刷流水线, 并且更新pc.  注意这个只生效一个周期, 只冲刷一次
     // 这个指令不需要冲刷, 只冲刷IDU和IFU, 并且更新ifu的pc
             if(new_pc != pc_next_dft) begin  
-                
+                flush_done <= 1'b1;
             end
             
         end
@@ -286,6 +294,11 @@ module ysyx_26040135_EXU (
 
 
     always @(*) begin
+        flush_done = 1'b0;
+
+        if(new_pc != pc_next_dft && !flush_done) begin
+            flush = 1'b1;
+        end
         
         case(1'b1)
             lw_save | sw_save: io_type = 2'b10;
@@ -369,6 +382,8 @@ module ysyx_26040135_EXU (
         else begin
             new_pc = pc_next_dft;
         end
+
+        pc_flush = new_pc;
     end
 
 

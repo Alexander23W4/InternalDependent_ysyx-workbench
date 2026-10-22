@@ -25,11 +25,12 @@ le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = e) iag1 - 1, 不wb
 le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = e) 清掉iag0, wb
 le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb
 le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb
+l来了之后: (iag0 = 0) 不wb
 
 总结: 1, 1: 清掉iag0, wb
      1, 2: l-> iag1 - 1, 不wb
      1, 2: e-> 清掉iag0, wb
-
+     0 -> 不wb
 */
 
 module ysyx_26040135_WBU(
@@ -50,9 +51,10 @@ module ysyx_26040135_WBU(
 
     output [4:0] rd_release   // 清除记录在inaccessible_gprs的未写入rd, 只给一个周期, 要么就清0
 
-    input [31:0] iag0;
-    input [31:0] iag1;
-    input [31:0] iag2;
+    input [31:0] iag;
+    input [31:0] iag_type;
+
+    input [1:0] iag_amt [31:0];
 
     output wen;
 );
@@ -84,13 +86,13 @@ module ysyx_26040135_WBU(
                 in_ready <= 1'b0;
                 rd <= rd_lsu;
                 wdata <= wdata_lsu;
-                wb_type <= 1'b1;
+                wb_type <= 1'b1;  // ls
             end
             else if(state == IDLE && in_ready && in_valid_exu) begin
                 in_ready <= 1'b0;
                 rd <= rd_exu;
                 wdata <= wdata_exu;
-                wb_type <= 1'b0;
+                wb_type <= 1'b0;  // ex
             end
             
             if(state == WB) begin
@@ -112,7 +114,9 @@ module ysyx_26040135_WBU(
             end
             WB: begin
                 rd_release = rd;
-                wen = 1'b1;
+                if(!(!iag[rd] || (iag_amt[rd] == 2'b01 && iag_type[rd] == 1'b1))) begin
+                    wen = 1'b1;
+                end 
                 next = IDLE;
             end
         endcase

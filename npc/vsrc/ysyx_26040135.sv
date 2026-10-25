@@ -229,7 +229,7 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
 
     ysyx_26040135_EXU exu (
         .clock(clock), .reset(reset),
-        .pc(pc_d), .rdata1(rdata1), .rdata2(rdata2), .imm(imm),
+        .pc(pc_d), .imm(imm),
         .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
         .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst), .andi(andi), .ori(ori), .xori(xori),
         .sll(sll), .srl(srl), .sra(sra), .slli(slli), .srli(srli), .srai(srai),
@@ -242,23 +242,26 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .mstatus(_mstatus), .mtvec(_mtvec), .mepc(_mepc), .mcause(_mcause),
         .mcycle(_mcycle), .mcycleh(_mcycleh), .mvendorid(_mvendorid), .marchid(_marchid),
         .rd(rd), .rs1(rs1), .rs2(rs2),
-        .iag(iag),
+        .iag(iag[0]),
         .in_valid(valid_de), .in_ready(ready_de),
         .out_valid_lsu(out_valid_lsu), .out_valid_wbu(out_valid_wbu),
         .out_ready_lsu(1'b1), .out_ready_wbu(1'b1),
         .io(io), .io_type(io_type), .read_is_u(read_is_u),
         .rd_out(rd_out), .lsu_wdata(lsu_wdata), .ic_wb_wdata(ic_wb_wdata),
         .rs1_out(rs1_out), .rs2_out(rs2_out),
+        .rdata1(rdata1), .rdata2(rdata2),
         .is_exu_rd(is_exu_rd), .is_lsu_rd(is_lsu_rd),
         .rd_exu(rd_exu),
         .flush(flush), .pc_flush(pc_flush)
     );
 
-    wire out_valid_lsu, out_valid_wbu, io;
+    wire valid_el, valid_ew, io;
     wire [1:0] io_type;
     wire read_is_u;
     wire [4:0] rd_out, rs1_out, rs2_out, rd_exu;
     wire [31:0] lsu_wdata, ic_wb_wdata;
+    wire [31:0] add_rst, wdata;
+    wire ready_lsu;
     wire is_exu_rd, is_lsu_rd;
 
 
@@ -276,6 +279,25 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .dbg_regs(dbg_reg),
     );
 
+    ysyx_26040135_AXI_LSU lsu (
+        .bus(bus_lsu.master),
+        .clock(clock),
+        .reset(reset),
+        .io(io),
+        .io_type(io_type),
+        .read_is_u(read_is_u),
+        .rd(rd_out),
+        .lsu_data(lsu_wdata),
+        .lsu_addr(add_rst),
+        .ic_wb_wdata(ic_wb_wdata),
+        .in_valid(out_valid_lsu),
+        .in_ready(ready_lsu),
+        .out_valid(out_valid_wbu),
+        .out_ready(1'b1),
+        .__error(__lsu_error),
+        .wdata_out(wdata),
+        .rd_out_lsu(rd_exu)
+    );
 
     ysyx_26040135_ALU alu_inst (.*);
 
@@ -304,27 +326,6 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
     reg [1:0]  __lsu_error;   // ⭐⭐ 引出C
 
 
-    ysyx_26040135_AXI_LSU lsu (
-        .bus                 (bus_lsu.master),              
-        .clock               (clock),
-        .reset               (reset),
-        
-        .__read              (__read),
-        .__write             (__write),
-        .__io_type           (__io_type),
-
-        .__addr_ready        (__addr_ready),   
-
-        .__data_ready        (__data_ready),  
-
-        .addr                (add_rst),
-        .wdata               (rdata2),
-        
-        .rdata               (lsu_rdata),
-        .__error             (__lsu_error),
-        .__read_complete     (__lsu_read_complete),   // @@-->
-        .__write_complete    (__lsu_write_complete)   // @@-->
-    );
 
 
 /*------------------------------------------------------------------------------------------------------------
@@ -408,8 +409,11 @@ ysyx_26040135_AXI_CLINT u_clint (
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
+/*
+需要顶层维护的流水线控制逻辑
+*/
 
-
+// 应对数字冒险的寄存器io前后依赖记录
     always @(posedge clock or posedge reset) begin
         if(reset) begin
             iag <= 0;
@@ -431,7 +435,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                             iag_amt[rd_release] <= 2'b01;
                         end
                     end
-                    
                 end
             end
 
@@ -443,7 +446,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 if(rd_release != 0) begin   
                     iag_amt[rd_exu] <= 2'b01;
                 end else begin
-                    iag_amt[rd_exu] <= iag_amt[rd_exu] + 2'b01;
+                    iag_amt[rd_exu] <= iag_amt[rd_exu] + 2';b01;
                 end
                 iag[1][rd_exu] <= is_exu_rd ? 1'b0 : 1'b1;
             end

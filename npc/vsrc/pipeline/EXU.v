@@ -14,8 +14,6 @@ module ysyx_26040135_EXU (
 
     input  [31:0] imm,
 
-
-
     input add, addi, sub, lui, auipc,
     input and_inst, or_inst, xor_inst, andi, ori, xori,
     input sll, srl, sra, slli, srli, srai,
@@ -26,22 +24,13 @@ module ysyx_26040135_EXU (
     input beq, bne, blt, bge, bltu, bgeu,
     input csrrw, csrrs, csrrc,
 
-
     input [4:0] rd,
     input [4:0] rs1,
     input [4:0] rs2,
 
     input [31:0] iag;
 
-    output reg addi, slti, sltiu, xori, ori, andi, slli, srli, srai,
-    output reg add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst,
-    output reg lb, lh, lw, lbu, lhu, sb, sh, sw,
-    output reg beq, bne, blt, bge, bltu, bgeu,
-    output reg jal, jalr,
-    output reg lui, auipc,
-    output reg ebreak, ecall,
-    output reg csrrw, csrrs, csrrc, mret,
-    output reg fence_i,
+
 
     output [31:0] mstatus, mtvec, mepc, mcause,
     output [31:0] mcycle, mcycleh, mvendorid, marchid,
@@ -57,7 +46,8 @@ module ysyx_26040135_EXU (
     output reg read_is_u, //
     output reg [4:0] rd_out,  ///
     output reg [31:0] lsu_wdata,
-    output reg [31:0] ic_wb_wdata  // incomplete WB data, lack of l.._rst
+    output reg [31:0] lsu_addr,
+    output reg [31:0] ic_wb_wdata,  // incomplete WB data, lack of l.._rst
 
     output reg [4:0] rs1_out,
     output reg [4:0] rs2_out,

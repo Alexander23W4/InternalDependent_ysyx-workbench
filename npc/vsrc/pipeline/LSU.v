@@ -25,8 +25,8 @@ module ysyx_26040135_AXI_LSU (
     input [1:0] io_type,
     input read_is_u,
     input [4:0] rd,
-    input [31:0] lsu_data,
-    input [31:0] lsu_addr,
+    input [31:0] lsu_wdata,   // rdata2
+    input [31:0] lsu_addr,    // add_rst
     input [31:0] ic_wb_wdata,
 
     input in_valid,
@@ -37,7 +37,7 @@ module ysyx_26040135_AXI_LSU (
     
     output [1:0] __error,
 
-    output reg [31:0] wdata_out,
+    output reg [31:0] rdata_out,
     output [4:0] rd_out_lsu
 );
 
@@ -69,7 +69,7 @@ module ysyx_26040135_AXI_LSU (
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            wdata_out <= 32'b0;
+            rdata_out <= 32'b0;
             error_save <= 2'b00;
             io_save <= 1'b0;
             io_type_save <= 2'b00;
@@ -104,7 +104,7 @@ module ysyx_26040135_AXI_LSU (
             end
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
-                wdata_out <= wdata;
+                rdata_out <= rdata;
                 out_valid <= 1'b1;
             end
             if(state == B && bus.bvalid && bus.bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可

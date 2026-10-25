@@ -243,11 +243,12 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .mcycle(_mcycle), .mcycleh(_mcycleh), .mvendorid(_mvendorid), .marchid(_marchid),
         .rd(rd), .rs1(rs1), .rs2(rs2),
         .iag(iag[0]),
+        
         .in_valid(valid_de), .in_ready(ready_de),
         .out_valid_lsu(out_valid_lsu), .out_valid_wbu(out_valid_wbu),
         .out_ready_lsu(1'b1), .out_ready_wbu(1'b1),
         .io(io), .io_type(io_type), .read_is_u(read_is_u),
-        .rd_out(rd_out), .lsu_wdata(lsu_wdata), .ic_wb_wdata(ic_wb_wdata),
+        .rd_out(rd_out), .lsu_wdata(lsu_wdata), .ic_wb_wdata(ic_wb_wdata), .lsu_addr(lsu_addr),
         .rs1_out(rs1_out), .rs2_out(rs2_out),
         .rdata1(rdata1), .rdata2(rdata2),
         .is_exu_rd(is_exu_rd), .is_lsu_rd(is_lsu_rd),
@@ -255,14 +256,16 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .flush(flush), .pc_flush(pc_flush)
     );
 
-    wire valid_el, valid_ew, io;
+    wire valid_el, valid_ew;
+    wire ready_el, ready_ew;
+    wire io;
     wire [1:0] io_type;
     wire read_is_u;
-    wire [4:0] rd_out, rs1_out, rs2_out, rd_exu;
-    wire [31:0] lsu_wdata, ic_wb_wdata;
-    wire [31:0] add_rst, wdata;
-    wire ready_lsu;
+    wire [4:0] rd_out, rs1_out, rs2_out;
+    wire [31:0] lsu_wdata, lsu_addr, ic_wb_wdata;
     wire is_exu_rd, is_lsu_rd;
+    wire [4:0] rd_exu;
+    wire [31:0] rdata1, rdata2;
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
@@ -283,13 +286,15 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .bus(bus_lsu.master),
         .clock(clock),
         .reset(reset),
+
         .io(io),
         .io_type(io_type),
         .read_is_u(read_is_u),
         .rd(rd_out),
         .lsu_data(lsu_wdata),
-        .lsu_addr(add_rst),
+        .lsu_addr(lsu_addr),
         .ic_wb_wdata(ic_wb_wdata),
+
         .in_valid(out_valid_lsu),
         .in_ready(ready_lsu),
         .out_valid(out_valid_wbu),

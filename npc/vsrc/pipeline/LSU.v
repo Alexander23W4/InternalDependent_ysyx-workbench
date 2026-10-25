@@ -225,7 +225,7 @@ endmodule
     wire [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
     wire [31:0] lsu_rdata_shifted;
-    assign lsu_rdata_shifted = bus.rdata >> {add_rst[1:0], 3'b000};
+    assign lsu_rdata_shifted = bus.rdata >> {lsu_addr[1:0], 3'b000};
 
     assign lw_rst  = bus.rdata;
     assign lbu_rst = {24'b0, lsu_rdata_shifted[7:0]};

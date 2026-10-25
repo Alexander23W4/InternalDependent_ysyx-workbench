@@ -311,6 +311,7 @@ module ysyx_26040135_EXU (
         rd_out = rd_save;
 
         lsu_wdata = rdata2;
+        lsu_addr = add_rst_w
 
         ic_wb_wdata = ({32{lui_save}} & imm_save) |
                 ({32{add_save | addi_save | auipc_save}} & add_rst_w) |

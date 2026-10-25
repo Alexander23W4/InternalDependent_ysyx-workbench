@@ -90,16 +90,16 @@ module ysyx_26040135_IDU(
     assign out_valid = in_valid;
 
 
-    wire [6:0] opcode = instr[6:0];
-    wire [2:0] funct3 = instr[14:12];
-    wire [6:0] funct7 = instr[31:25];
+    wire [6:0] opcode = in_instr[6:0];
+    wire [2:0] funct3 = in_instr[14:12];
+    wire [6:0] funct7 = in_instr[31:25];
 
-    wire [31:0] immI_w   = {{20{instr[31]}}, instr[31:20]};
-    wire [31:0] immU_w   = {instr[31:12], 12'b0};
-    wire [31:0] immS_w   = {{20{instr[31]}}, instr[31:25], instr[11:7]};
-    wire [31:0] immB_w   = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
-    wire [31:0] immJ_w   = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
-    wire [31:0] immCSR_w = {20'b0, instr[31:20]};
+    wire [31:0] immI_w   = {{20{in_instr[31]}}, in_instr[31:20]};
+    wire [31:0] immU_w   = {in_instr[31:12], 12'b0};
+    wire [31:0] immS_w   = {{20{in_instr[31]}}, in_instr[31:25], in_instr[11:7]};
+    wire [31:0] immB_w   = {{20{in_instr[31]}}, in_instr[7], in_instr[30:25], in_instr[11:8], 1'b0};
+    wire [31:0] immJ_w   = {{12{in_instr[31]}}, in_instr[19:12], in_instr[20], in_instr[30:21], 1'b0};
+    wire [31:0] immCSR_w = {20'b0, in_instr[31:20]};
 
     reg [31:0] imm_w;
     always @(*) begin
@@ -117,9 +117,9 @@ module ysyx_26040135_IDU(
     always @(*) begin
         out_pc = in_pc;
 
-        rd  = instr[11:7];
-        rs1 = instr[19:15];
-        rs2 = instr[24:20];
+        rd  = in_instr[11:7];
+        rs1 = in_instr[19:15];
+        rs2 = in_instr[24:20];
 
         imm = imm_w;
 
@@ -263,9 +263,9 @@ module ysyx_26040135_IDU(
 
             // === System ===
             7'b1110011: begin
-                if (funct3 == 3'b000 && instr[20]) ebreak = 1'b1;
-                else if (instr[31:7] == 25'b0011000000100000000000000) mret = 1'b1;
-                else if (instr[31:7] == 0) ecall = 1'b1;
+                if (funct3 == 3'b000 && in_instr[20]) ebreak = 1'b1;
+                else if (in_instr[31:7] == 25'b0011000000100000000000000) mret = 1'b1;
+                else if (in_instr[31:7] == 0) ecall = 1'b1;
                 else if (funct3 == 3'b001) csrrw = 1'b1;
                 else if (funct3 == 3'b010) csrrs = 1'b1;
                 else if (funct3 == 3'b011) csrrc = 1'b1; 

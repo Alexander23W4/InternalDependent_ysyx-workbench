@@ -159,27 +159,24 @@ module ysyx_26040135(
 /*
 pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc, 两者是完全一一对应的
 */
-    reg [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
-    reg [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid, _pc; // ⭐⭐ 引出C
+    wire [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
+    wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; // ⭐⭐ 引出C
+    wire [31:0] _pc;
 
     assign _pc = pc;   // ⭐⭐ 引出C
-    assign {_mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid} = {mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid};
 
     wire _instr;
     assign _instr = instr;
 
 
+    wire [1:0]  __ifu_error;      // ⭐⭐ 引出C
+    wire        __ifu_master_validation_error;    // ⭐⭐ 引出C
 
-    reg [1:0]  __ifu_error;      // ⭐⭐ 引出C
-    reg        __ifu_master_validation_error;    // ⭐⭐ 引出C
-
-    wire        flush;  
-    wire [31:0] pc_flush;
-    wire [31:0] pc;
-    wire [31:0] instr;
-    wire valid_fd;
-    wire ready_rd;
-
+/*
+流水线控制功能型寄存器
+*/
+    reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
+    reg [1:0] iag_amt [31:0]; 
 
     ysyx_26040135_AXI_IFU ifu (
         .bus(bus_ifu.master),
@@ -195,86 +192,82 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .pc_flush(pc_flush)
     ); 
 
+    wire        flush;  
+    wire [31:0] pc_flush;
+    wire [31:0] pc;
+    wire [31:0] instr;
+    wire valid_fd;
+    wire ready_rd;
 
-    wire valid_de;
-    wire ready_de;
-    
     ysyx_26040135_IDU idu (
-        .in_pc                (pc),
-        .in_instr             (instr),
-        .in_valid             (valid_fd),
-        .in_ready             (ready_rd),
-
-        .out_valid            (valid_fd),
-        .out_ready            (1'b1),
-        .out_pc               (pc),
-
-        .addi                 (addi),
-        .slti                 (slti),
-        .sltiu                (sltiu),
-        .xori                 (xori),
-        .ori                  (ori),
-        .andi                 (andi),
-        .slli                 (slli),
-        .srli                 (srli),
-        .srai                 (srai),
-
-        .add                  (add),
-        .sub                  (sub),
-        .sll                  (sll),
-        .slt                  (slt),
-        .sltu                 (sltu),
-        .xor_inst             (xor_inst),
-        .srl                  (srl),
-        .sra                  (sra),
-        .or_inst              (or_inst),
-        .and_inst             (and_inst),
-
-        .lb                   (lb),
-        .lh                   (lh),
-        .lw                   (lw),
-        .lbu                  (lbu),
-        .lhu                  (lhu),
-        .sb                   (sb),
-        .sh                   (sh),
-        .sw                   (sw),
-
-        .beq                  (beq),
-        .bne                  (bne),
-        .blt                  (blt),
-        .bge                  (bge),
-        .bltu                 (bltu),
-        .bgeu                 (bgeu),
-
-        .jal                  (jal),
-        .jalr                 (jalr),
-
-        .lui                  (lui),
-        .auipc                (auipc),
-
-        .ebreak               (ebreak),
-        .ecall                (ecall),
-
-        .csrrw                (csrrw),
-        .csrrs                (csrrs),
-        .csrrc                (csrrc),
-        .mret                 (mret),
-
-        .fence_i              (fence_i),
-
-        .rd                   (rd),
-        .rs1                  (rs1),
-        .rs2                  (rs2),
-        .imm                  (imm)
+        .in_pc(pc), .in_instr(instr), .in_valid(valid_fd), .in_ready(ready_rd),
+        .out_valid(valid_de), .out_ready(ready_de), .out_pc(pc_d),
+        .addi(addi), .slti(slti), .sltiu(sltiu), .xori(xori), .ori(ori), .andi(andi), .slli(slli), .srli(srli), .srai(srai),
+        .add(add), .sub(sub), .sll(sll), .slt(slt), .sltu(sltu), .xor_inst(xor_inst), .srl(srl), .sra(sra), .or_inst(or_inst), .and_inst(and_inst),
+        .lb(lb), .lh(lh), .lw(lw), .lbu(lbu), .lhu(lhu), .sb(sb), .sh(sh), .sw(sw),
+        .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
+        .jal(jal), .jalr(jalr),
+        .lui(lui), .auipc(auipc),
+        .ebreak(ebreak), .ecall(ecall),
+        .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc), .mret(mret),
+        .fence_i(fence_i),
+        .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm)
     );
+
+    wire valid_de, ready_de;
+    wire [31:0] pc_d;
+    wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
+    wire add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
+    wire lb, lh, lw, lbu, lhu, sb, sh, sw;
+    wire beq, bne, blt, bge, bltu, bgeu;
+    wire jal, jalr;
+    wire lui, auipc;
+    wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
+    wire [4:0] rd, rs1, rs2;
+    wire [31:0] imm;
+
+
+    ysyx_26040135_EXU exu (
+        .clock(clock), .reset(reset),
+        .pc(pc_d), .rdata1(rdata1), .rdata2(rdata2), .imm(imm),
+        .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
+        .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst), .andi(andi), .ori(ori), .xori(xori),
+        .sll(sll), .srl(srl), .sra(sra), .slli(slli), .srli(srli), .srai(srai),
+        .slt(slt), .sltu(sltu), .slti(slti), .sltiu(sltiu),
+        .jal(jal), .jalr(jalr),
+        .lb(lb), .lh(lh), .lw(lw), .lbu(lbu), .lhu(lhu),
+        .sb(sb), .sh(sh), .sw(sw),
+        .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
+        .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
+        .mstatus(_mstatus), .mtvec(_mtvec), .mepc(_mepc), .mcause(_mcause),
+        .mcycle(_mcycle), .mcycleh(_mcycleh), .mvendorid(_mvendorid), .marchid(_marchid),
+        .rd(rd), .rs1(rs1), .rs2(rs2),
+        .iag(iag),
+        .in_valid(valid_de), .in_ready(ready_de),
+        .out_valid_lsu(out_valid_lsu), .out_valid_wbu(out_valid_wbu),
+        .out_ready_lsu(1'b1), .out_ready_wbu(1'b1),
+        .io(io), .io_type(io_type), .read_is_u(read_is_u),
+        .rd_out(rd_out), .lsu_wdata(lsu_wdata), .ic_wb_wdata(ic_wb_wdata),
+        .rs1_out(rs1_out), .rs2_out(rs2_out),
+        .is_exu_rd(is_exu_rd), .is_lsu_rd(is_lsu_rd),
+        .rd_exu(rd_exu),
+        .flush(flush), .pc_flush(pc_flush)
+    );
+
+    wire out_valid_lsu, out_valid_wbu, io;
+    wire [1:0] io_type;
+    wire read_is_u;
+    wire [4:0] rd_out, rs1_out, rs2_out, rd_exu;
+    wire [31:0] lsu_wdata, ic_wb_wdata;
+    wire is_exu_rd, is_lsu_rd;
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
         .clock(clock),
         .reset(reset),
         .wen(wen), // WB
-        .raddr1(rs1),  // ID
-        .raddr2(rs2), // ID
+        .raddr1(rs1_out),  // ID
+        .raddr2(rs1_out), // ID
         .waddr(rd), // WB
         .wdata(wdata), // WB
 
@@ -283,8 +276,6 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .dbg_regs(dbg_reg),
     );
 
-    reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
-    reg [1:0] iag_amt [31:0]; 
 
     ysyx_26040135_ALU alu_inst (.*);
 

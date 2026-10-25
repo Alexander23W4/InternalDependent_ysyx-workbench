@@ -27,9 +27,6 @@ module ysyx_26040135_EXU (
     input csrrw, csrrs, csrrc,
 
 
-    input [31:0] mstatus, mtvec, mepc, mcause,
-    input [31:0] mcycle, mcycleh, mvendorid, marchid,
-
     input [4:0] rd,
     input [4:0] rs1,
     input [4:0] rs2,
@@ -45,6 +42,9 @@ module ysyx_26040135_EXU (
     output reg ebreak, ecall,
     output reg csrrw, csrrs, csrrc, mret,
     output reg fence_i,
+
+    output [31:0] mstatus, mtvec, mepc, mcause,
+    output [31:0] mcycle, mcycleh, mvendorid, marchid,
 
     input in_valid,
     output reg in_ready,

@@ -348,6 +348,7 @@ INC_PATH += $(WORK_DIR)/include $(addsuffix /include/, $(addprefix $(AM_HOME)/, 
 INCFLAGS += $(addprefix -I, $(INC_PATH))
 
 ARCH_H := arch/$(ARCH).h
+# -D 的作用是在 C 预处理阶段定义宏。它相当于在源文件开头写 #define，但不需要修改源文件本身
 CFLAGS   += -O2 -MMD -Wall -Werror $(INCFLAGS) \
             -D__ISA__=\"$(ISA)\" -D__ISA_$(shell echo $(ISA) | tr a-z A-Z)__ \
             -D__ARCH__=$(ARCH) -D__ARCH_$(shell echo $(ARCH) | tr a-z A-Z | tr - _) \
@@ -357,6 +358,7 @@ CFLAGS   += -O2 -MMD -Wall -Werror $(INCFLAGS) \
             -Wno-main -U_FORTIFY_SOURCE -fvisibility=hidden
 CXXFLAGS +=  $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
 ASFLAGS  += -MMD $(INCFLAGS)
+# 禁止栈执行
 LDFLAGS  += -z noexecstack $(addprefix -T, $(LDSCRIPTS))
 
 ## 4. Arch-Specific Configurations  这里就把run的 platform specific定义拉过来了   

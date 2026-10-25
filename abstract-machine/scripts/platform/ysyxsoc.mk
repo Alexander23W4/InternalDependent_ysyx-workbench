@@ -8,6 +8,7 @@ AM_SRCS := riscv/ysyxsoc/start.S \
            riscv/ysyxsoc/uart.c \
 		   riscv/ysyxsoc/timer.c
 
+# 让编译器把 不同的数据对象 和 每个函数 放进独立的 section
 CFLAGS    += -fdata-sections -ffunction-sections
 LDSCRIPTS += $(AM_HOME)/scripts/linker-ysyxsoc.ld   # 使用ysyxsoc专属 linker.ld
 

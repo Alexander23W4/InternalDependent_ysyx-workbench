@@ -166,15 +166,8 @@ fasts:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) \
 	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
 
-# ======================================================================================================
-# ⭐ make perf : 复现"NPC性能评估结果"表里一行数据
-#
-#   用法就是  git checkout <commit> && make perf
-#   它会做三件事, 保证和 commit 一一对应、可复现:
-#     1) 从源码重新编 benchmark —— 不用仓库里现成的 .bin, 免得那个 .bin 不是这个 commit 编的
-#     2) clean_obj 后全量重编 NPC —— verilator 生成的 .o 不依赖编译选项, 不清会复用旧目标文件
-#     3) 跑一遍仿真, 把 周期数/指令数/IPC 和所有性能计数器 打成一行 TSV
-# ======================================================================================================
+
+# git checkout <commit> && make perf   复现"NPC性能评估结果"   重编benchmark和npc并跑一遍仿真
 PERF_BENCH    ?= ../am-kernels/benchmarks/microbench
 PERF_MAINARGS ?= test
 PERF_NAME     ?= $(notdir $(PERF_BENCH))
@@ -222,7 +215,5 @@ clean_obj:
 
 .PHONY: all binary trace perf fast clean run top clean_obj
 
-# make fasts for getting Vtop
-# compile guest program & AM, nemu for difftest...  run 
 
 # ⭐: find ./vsrc -type f \( -name "*.v" -o -name "*.sv" \) -print

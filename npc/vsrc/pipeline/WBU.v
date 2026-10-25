@@ -56,16 +56,15 @@ module ysyx_26040135_WBU(
 
     input [1:0] iag_amt [31:0],
 
-    output wen
+    output wen,
+    output reg [31:0] wdata,
+    output reg [4:0] rd
 );
 // 两个同时来, 先处理l
 
     reg in_ready;
     assign in_ready_exu = in_ready;
     assign in_ready_lsu = in_ready;
-
-    reg [4:0] rd;
-    reg [31:0] wdata;
 
     reg wb_type;  // 0 -> exu  1 -> lsu
 
@@ -81,7 +80,7 @@ module ysyx_26040135_WBU(
             rd <= 5'b0;
             wdata <= 31'b0;
             wb_type <= 1'b0;
-        end else begin
+        end else begin   // 优先级 lsu > exu
             if(state == IDLE && in_ready && in_valid_lsu) begin
                 in_ready <= 1'b0;
                 rd <= rd_lsu;
@@ -114,7 +113,7 @@ module ysyx_26040135_WBU(
             end
             WB: begin
                 rd_release = rd;
-                if(!(!iag[rd] || (iag_amt[rd] == 2'b01 && iag_type[rd] == 1'b1))) begin
+                if(!(!iag[rd] || (iag_amt[rd] == 2'b01 && wb_type == 1'b1))) begin
                     wen = 1'b1;
                 end 
                 next = IDLE;

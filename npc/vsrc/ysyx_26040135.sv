@@ -286,6 +286,7 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
     wire [4:0] rd_exu;
     wire [31:0] rdata1, rdata2;
 
+
     ysyx_26040135_AXI_LSU lsu (
         .bus(bus_lsu.master),
         .clock(clock),
@@ -303,13 +304,43 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .in_ready(ready_el),
         .out_valid(valid_lw),
         .out_ready(ready_lw),
-        
+
         .__error(__lsu_error),
-        .wdata_out(wdata),
-        .rd_out_lsu(rd_exu)
+        .wdata_out(wdata_lw),
+        .rd_out_lsu(rd_lsu)
     );
 
     wire valid_lw, ready_lw;
+    wire [31:0] wdata_lw;
+    wire [4:0] rd_lsu;
+
+
+    ysyx_26040135_WBU wbu (
+        .clock(clock),
+        .reset(reset),
+
+        .in_valid_exu(valid_ew),
+        .in_ready_exu(ready_ew),
+        .rd_exu(rd_out),
+        .wdata_exu(ic_wb_wdata),
+
+        .in_valid_lsu(valid_lw),
+        .in_ready_lsu(ready_lw),
+        .rd_lsu(rd_lsu),
+        .wdata_lsu(wdata_lw),
+
+        .rd_release(rd_release),
+        .iag(iag[0]),
+        .iag_type(iag[1]),
+        .iag_amt(iag_amt),
+        
+        .wen(wen)
+    );
+
+    wire [4:0] rd_release;
+    wire wen;
+
+
 
 
 

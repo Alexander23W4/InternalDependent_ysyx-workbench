@@ -267,8 +267,8 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .wen(wen), // WB
         .raddr1(rs1_out),  // ID
         .raddr2(rs1_out), // ID
-        .waddr(rd), // WB
-        .wdata(wdata), // WB
+        .waddr(rd_wbu), // WB
+        .wdata(wdata_wbu), // WB
 
         .rdata1(rdata1),  
         .rdata2(rdata2),
@@ -333,12 +333,17 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .iag(iag[0]),
         .iag_type(iag[1]),
         .iag_amt(iag_amt),
-        
-        .wen(wen)
+
+        .wen(wen),
+        .rd(rd_wbu),
+        .wdata(wdata_wbu)
     );
 
     wire [4:0] rd_release;
     wire wen;
+    wire [4:0] rd_wbu;
+    wire [31:0] wdata_wbu;
+
 
 
 

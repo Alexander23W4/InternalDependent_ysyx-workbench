@@ -180,6 +180,19 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
 
 // 流水线级间连接
 
+    wire sw_avail;
+    wire sw_addr;
+
+    ysyx_26040135_AXI_ICACHE icache (
+        .bus                            (bus_ifu.slave),
+        .mbus                           (bus_icache.master),
+        .clock                          (clock),
+        .reset                          (reset),
+
+        .sw_addr                        (sw_addr),
+        .sw_avail                       (sw_avail)
+    );
+
     ysyx_26040135_AXI_IFU ifu (
         .bus(bus_ifu.master),
         .clock(clock),
@@ -307,7 +320,10 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
 
         .__error(__lsu_error),
         .wdata_out(wdata_lw),
-        .rd_out_lsu(rd_lsu)
+        .rd_out_lsu(rd_lsu),
+
+        .sw_addr(sw_addr),
+        .sw_avail(sw_avail)
     );
 
     wire valid_lw, ready_lw;
@@ -343,37 +359,6 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
     wire wen;
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;
-
-
-
-
-
-
-
-    reg [63:0] icache_hit_cnt;
-    reg [63:0] icache_miss_cnt;
-    reg [63:0] icache_hit_cycles;
-    reg [63:0] icache_miss_cycles;
-
-    reg __sw_avail;
-
-    ysyx_26040135_AXI_ICACHE icache (
-        .bus                            (bus_ifu.slave),
-        .mbus                           (bus_icache.master),
-        .clock                          (clock),
-        .reset                          (reset),
-        .icache_hit_cnt                 (icache_hit_cnt),
-        .icache_miss_cnt                (icache_miss_cnt),
-        .icache_hit_cycles              (icache_hit_cycles),
-        .icache_miss_cycles             (icache_miss_cycles),
-        .sw_addr                        (add_rst),
-        .sw_avail                       (__sw_avail)
-    );
-
-
-
-
-
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

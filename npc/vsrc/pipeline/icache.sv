@@ -36,6 +36,7 @@ icache 的 hit的CPI 和 miss的CPI
 2'b00 → FIXED
 2'b01 → INCR
 2'b10 → WRAP
+
 */
 
 module ysyx_26040135_AXI_ICACHE (
@@ -43,11 +44,6 @@ module ysyx_26040135_AXI_ICACHE (
     ysyx_26040135_AXI4.master mbus,
     input clock, 
     input reset,
-
-    output logic [63:0] icache_hit_cnt,
-    output logic [63:0] icache_miss_cnt,
-    output logic [63:0] icache_hit_cycles,
-    output logic [63:0] icache_miss_cycles,
 
     input [31:0] sw_addr,
     input sw_avail
@@ -91,9 +87,6 @@ module ysyx_26040135_AXI_ICACHE (
 
     logic [BEAT_LEN-1:0] beat;              // 突发读收到第几拍了
 
-    // 性能计数用: 当前这笔请求已经走了多少拍, 以及它最终是命中还是失效
-    logic [63:0] icache_cyc;
-    logic        cur_hit;
 
 
     // 从锁存下来的地址算出的三段(给"发起访存/填入/返回"这些晚于请求拍的动作用)
@@ -141,13 +134,6 @@ module ysyx_26040135_AXI_ICACHE (
             beat       <= '0;
             rdata_save <= '0;
 
-            icache_hit_cnt     <= '0;
-            icache_miss_cnt    <= '0;
-            icache_hit_cycles  <= '0;
-            icache_miss_cycles <= '0;
-            icache_cyc         <= '0;
-            cur_hit            <= 1'b0;
-
             for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
                 icache[i] <= '0;
                 tag[i]    <= '0;
@@ -192,26 +178,6 @@ module ysyx_26040135_AXI_ICACHE (
                 beat <= mbus.rlast ? '0 : beat + 1'b1;
             end
 
-            if(state == IDLE && !bus.arvalid) icache_cyc <= '0;
-            else                               icache_cyc <= icache_cyc + 64'd1;
-
-            // OPERATE 那一拍定下来这笔是命中还是失效(不可缓存区域也算 miss)
-            if(state == OPERATE) begin
-                cur_hit <= req_cacheable && (valid[current_index] == 1'b1) &&
-                           (current_tag == tag[current_index]);
-            end
-
-            // 请求结束那一拍结算: cur_hit 是 OPERATE 定下来的,
-            // icache_cyc 是"已经走过的拍数", 再加上当前这一拍才是总数
-            if(state == RETURN && bus.rvalid && bus.rready) begin
-                if(cur_hit) begin
-                    icache_hit_cnt    <= icache_hit_cnt    + 64'd1;
-                    icache_hit_cycles <= icache_hit_cycles + icache_cyc + 64'd1;
-                end else begin
-                    icache_miss_cnt    <= icache_miss_cnt    + 64'd1;
-                    icache_miss_cycles <= icache_miss_cycles + icache_cyc + 64'd1;
-                end
-            end
 
             if(sw_avail) begin
                 if(tag[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] == sw_addr[31:INDEX_LEN+OFFSET_LEN] && valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]]) begin

@@ -38,7 +38,10 @@ module ysyx_26040135_AXI_LSU (
     output [1:0] __error,
 
     output [31:0] wdata,
-    output [4:0] rd_out_lsu
+    output [4:0] rd_out_lsu,
+
+    output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
+    output sw_avail
 );
 
 
@@ -55,6 +58,7 @@ module ysyx_26040135_AXI_LSU (
 
     assign __error = error_save;
     assign rd_out_lsu = rd_save;
+    assign sw_addr = lsu_addr_save;
 
     reg rdata_out;
 
@@ -170,6 +174,8 @@ module ysyx_26040135_AXI_LSU (
         bus.bready = 1'b0;
         bus.wlast = 1'b1;
 
+        sw_avail = 1'b0;
+
         next = state;
 
         case(state)
@@ -215,6 +221,7 @@ module ysyx_26040135_AXI_LSU (
                 if(bus.bvalid == 1'b1) begin
                     bus.bready = 1'b1;
                     next = IDLE;
+                    sw_avail = 1'b1;
                 end
             end
 

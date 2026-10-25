@@ -83,6 +83,8 @@ module ysyx_26040135_AXI_IFU (
     // 外部控制信号与返回外部的信号:
     reg [1:0] error_save;
     reg master_validation_error_save;
+    reg flush_save;
+    reg [31:0] pc_flush_save;
 
 
     assign __error = error_save;
@@ -108,29 +110,23 @@ module ysyx_26040135_AXI_IFU (
             pc <= 32'h30000000;
 
             out_instr <= '0;
-            out_valid <= 1'b0;
+            out_valid <= 1'b0;  
             out_pc <= '0;
 
             error_save <= 2'b00;
             master_validation_error_save <= 1'b0;
-
+            flush_save <= 1'b0;
+            pc_flush_save <= 32'b0;
 
         end else begin
             if(flush) begin  // 分支预测失败, 冲刷
-                state <= IDLE;
-                pc <= pc_flush;
-
-                out_instr <= '0;
-                out_valid <= 1'b0;
-                out_pc <= '0;
-
-                error_save <= 2'b00;
-                master_validation_error_save <= 1'b0;     
+                flush_save <= 1'b1;
+                pc_flush_save <= pc_flush;
 
             end else begin
                 state <= next;
 
-                if(state == IDLE && out_ready && out_valid) begin   // 这里其实out_valid的时候, state必定是IDLE   next是AR
+                if(state == IDLE && out_ready && out_valid) begin   //
                     out_valid <= 1'b0;
                 end
 
@@ -142,15 +138,20 @@ module ysyx_26040135_AXI_IFU (
 
 
                 if(state == R && bus.rvalid) begin
-                    if(bus.rresp == 2'b00) begin
-                        out_instr  <= bus.rdata;
-                        out_pc <= pc;
-                        out_valid  <= 1'b1;
-                        error_save <= 2'b00;
-                        pc <= pc + 32'd4;   // 默认分支预测
+                    if(flush_save) begin  // 如果在访存期间收到flush, 必须完成这次fetch才能够正式冲刷
+                        pc <= pc_flush_save;  // 不给out_valid, 不读rdata, 废掉这次读取
                     end else begin
-                        error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
+                        if(bus.rresp == 2'b00) begin
+                            out_instr  <= bus.rdata;
+                            out_pc <= pc;
+                            out_valid  <= 1'b1;
+                            error_save <= 2'b00;
+                            pc <= pc + 32'd4;   // 默认分支预测
+                        end else begin
+                            error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
+                        end 
                     end
+
                 end
             end
         end
@@ -181,7 +182,7 @@ module ysyx_26040135_AXI_IFU (
         next = state;
             
         case(state)
-            IDLE: begin
+            IDLE: begin  // IFU的 IDLE的作用就是等ready握手
                 if(out_ready) begin   // 可以阻塞到IDLE, 但是不能阻塞系统总线, 所以必须在这里等out_ready
                     next = AR;
                 end
@@ -196,7 +197,7 @@ module ysyx_26040135_AXI_IFU (
 
             R: begin
                 if(bus.rvalid == 1'b1) begin
-                    bus.rready = 1'b1;  // 不管IDU有没有处理完, 都先把AXI总线的握手完成, 如果IDU没有处理完, 阻塞IFU的状态机, 不要阻塞总线
+                    bus.rready = 1'b1;  
                     next = IDLE;
                 end
             end

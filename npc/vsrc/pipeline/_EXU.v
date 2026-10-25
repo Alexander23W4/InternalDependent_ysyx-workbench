@@ -274,7 +274,7 @@ module ysyx_26040135_EXU (
             end
 
     // flush, 冲刷流水线, 并且更新pc.  注意这个只生效一个周期, 只冲刷一次
-    // 这个指令不需要冲刷, 只冲刷IDU和IFU, 并且更新ifu的pc
+    // 当前指令不需要冲刷, 只冲刷IDU和IFU, 并且更新ifu的pc
             if(new_pc != pc_next_dft) begin  
                 flush_done <= 1'b1;
             end
@@ -284,7 +284,7 @@ module ysyx_26040135_EXU (
 
 
     always @(*) begin
-        flush_done = 1'b0;
+        flush = 1'b0;
 
         if(new_pc != pc_next_dft && !flush_done) begin
             flush = 1'b1;

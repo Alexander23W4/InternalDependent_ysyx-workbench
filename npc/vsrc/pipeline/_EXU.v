@@ -22,6 +22,7 @@ module ysyx_26040135_EXU (
     input lb, lh, lw, lbu, lhu,
     input sb, sh, sw,
     input beq, bne, blt, bge, bltu, bgeu,
+    input ebreak, ecall, mret, fence_i,
     input csrrw, csrrs, csrrc,
 
     input [4:0] rd,
@@ -322,9 +323,9 @@ module ysyx_26040135_EXU (
         _mvendorid = mvendorid;
         _marchid = marchid;
 
-        ic_wb_wdata = ({32{lui_save}} & imm_save) |
+        ic_wb_wdata = ({32{lui_save}} & imm_save) |   //
                 ({32{add_save | addi_save | auipc_save}} & add_rst_w) |
-                ({32{jalr_save | jal_save}} & (pc_save + 32'd4)) |
+                ({32{jalr_save | jal_save}} & (pc_save + 32'd4)) |   //
                 ({32{sub_save}} & sub_rst) |
                 ({32{xor_inst_save}} & xor_rst) |
                 ({32{xori_save}} & xori_rst) |

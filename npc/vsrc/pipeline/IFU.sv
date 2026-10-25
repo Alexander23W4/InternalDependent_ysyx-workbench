@@ -37,11 +37,11 @@ module ysyx_26040135_AXI_IFU (
     output __master_validation_error,   // 该 master 非法访问
 
 
-    output logic [31:0] out_instr,    // 产生了新instr就更新, 缓冲寄存工作交给下一级
-    output logic out_valid,           // 产生新instr置1, 收到out_ready 清0
+    output reg [31:0] out_instr,    // 产生了新instr就更新, 缓冲寄存工作交给下一级
+    output reg out_valid,           // 产生新instr置1, 收到out_ready 清0
     input out_ready, 
 
-    output logic [31:0] out_pc,   
+    output reg [31:0] out_pc,   
 
     input flush,
     input [31:0] pc_flush
@@ -68,7 +68,7 @@ module ysyx_26040135_AXI_IFU (
         '{base: 32'h10000000, size: 32'h00001000, executable: 1'b0, readable: 1'b1, writable: 1'b1}   // UART16550
     };
 
-    function automatic logic is_executable(input [31:0] addr);
+    function automatic reg is_executable(input [31:0] addr);
         for (int i = 0; i < PMA_ENTRIES; i++) begin
             if (addr >= pma_table[i].base && 
                 addr < pma_table[i].base + pma_table[i].size) begin
@@ -81,8 +81,8 @@ module ysyx_26040135_AXI_IFU (
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
     // 外部控制信号与返回外部的信号:
-    logic [1:0] error_save;
-    logic master_validation_error_save;
+    reg [1:0] error_save;
+    reg master_validation_error_save;
 
 
     assign __error = error_save;
@@ -90,7 +90,7 @@ module ysyx_26040135_AXI_IFU (
 
 
     // 内部寄存器
-    logic [31:0] pc;       // pc完全由IFU控制
+    reg [31:0] pc;       // pc完全由IFU控制
 
 
     // 状态

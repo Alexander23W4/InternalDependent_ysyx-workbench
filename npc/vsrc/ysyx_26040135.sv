@@ -135,24 +135,60 @@ module ysyx_26040135(
 
 );
 
-    logic [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
-    logic [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid, _pc; // ⭐⭐ 引出C
+/*
+引出到verilator顶层的信号
+
+每一级需要连接的wire信号
+
+跑通所有tb, 并且弄好verilator仿真环境所有debug-infra + 波形debug醇熟
+
+把rtl弄成可综合的, 然后看关键组合路径, 消减时钟频率
+
+研究节省PAP的rtl写法
+
+研究rocketchip的设计框图和rtl
+
+阅读计算的本质, 重新精度ysyx代码和riscv开放架构设计之道, 重点注意gcc-flag, 每个flag对IPC的作用
+
+形式化验证
+
+读CAAQ
+*/
+
+// 引出到verilator顶层的信号写在这里
+    reg [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
+    reg [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid, _pc; // ⭐⭐ 引出C
 
     assign _pc = pc;   // ⭐⭐ 引出C
     assign {_mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid} = {mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid};
-    
-    logic [31:0] __instr;
-    assign instr = __instr;
+
+    wire _instr;
 
 
 
-    reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
-    reg [1:0] iag_amt [31:0]; 
+    reg [1:0]  __ifu_error;      // ⭐⭐ 引出C
+    reg        __ifu_master_validation_error;    // ⭐⭐ 引出C
+
+    wire        flush;  
+    wire [31:0] pc_flush;
+
+    ysyx_26040135_AXI_IFU ifu (
+        .bus(bus_ifu.master),
+        .clock(clock),
+        .reset(reset),
+        .__error(__ifu_error),
+        .__master_validation_error(__ifu_master_validation_error),
+        .out_instr(__instr),
+        .out_valid(__ifu_instr_valid),
+        .out_ready(1'b1),
+        .out_pc(pc),
+        .flush(flush),
+        .pc_flush(pc_flush)
+    ); 
 
 
     ysyx_26040135_decode Decode(.*);
 
-    logic __GPR_wvalid;  // ⭐
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
         .clock(clock),
@@ -166,11 +202,59 @@ module ysyx_26040135(
         .rdata1(rdata1),  
         .rdata2(rdata2),
         .dbg_regs(dbg_reg),
-        .__GPR_wvalid(__GPR_wvalid)
     );
+
+    reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
+    reg [1:0] iag_amt [31:0]; 
 
     ysyx_26040135_ALU alu_inst (.*);
 
+
+    reg [63:0] icache_hit_cnt;
+    reg [63:0] icache_miss_cnt;
+    reg [63:0] icache_hit_cycles;
+    reg [63:0] icache_miss_cycles;
+
+    reg __sw_avail;
+
+    ysyx_26040135_AXI_ICACHE icache (
+        .bus                            (bus_ifu.slave),
+        .mbus                           (bus_icache.master),
+        .clock                          (clock),
+        .reset                          (reset),
+        .icache_hit_cnt                 (icache_hit_cnt),
+        .icache_miss_cnt                (icache_miss_cnt),
+        .icache_hit_cycles              (icache_hit_cycles),
+        .icache_miss_cycles             (icache_miss_cycles),
+        .sw_addr                        (add_rst),
+        .sw_avail                       (__sw_avail)
+    );
+
+
+    reg [1:0]  __lsu_error;   // ⭐⭐ 引出C
+
+
+    ysyx_26040135_AXI_LSU lsu (
+        .bus                 (bus_lsu.master),              
+        .clock               (clock),
+        .reset               (reset),
+        
+        .__read              (__read),
+        .__write             (__write),
+        .__io_type           (__io_type),
+
+        .__addr_ready        (__addr_ready),   
+
+        .__data_ready        (__data_ready),  
+
+        .addr                (add_rst),
+        .wdata               (rdata2),
+        
+        .rdata               (lsu_rdata),
+        .__error             (__lsu_error),
+        .__read_complete     (__lsu_read_complete),   // @@-->
+        .__write_complete    (__lsu_write_complete)   // @@-->
+    );
 
 
 /*------------------------------------------------------------------------------------------------------------
@@ -219,72 +303,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     assign bus_master.rresp  = io_master_rresp;
     assign bus_master.rlast  = io_master_rlast;
     assign io_master_rready = bus_master.rready;
-
-
-
-    logic [1:0]  __ifu_error;      // ⭐⭐ 引出C
-    logic        __ifu_master_validation_error;    // ⭐⭐ 引出C
-    logic        __pc_is_updated;    // ⭐⭐ 引出C, 代表一个周期结束  // 和pc被update的上升沿的下一个周期同一个周期, 将此拉高一个周期
-
-    ysyx_26040135_AXI_IFU ifu (
-        .bus                            (bus_ifu.master),              // AXI4_Lite.master 接口
-        .clock                          (clock),
-        .reset                          (reset),
-        .__pc_is_updated                (__pc_is_updated),   
-        .pc                             (pc),
-        .rdata                          (__instr),
-        .__instr_valid                  (__ifu_instr_valid),   // @@-->
-        .__error                        (__ifu_error),
-        .__master_validation_error      (__ifu_master_validation_error)
-    );
-
-    logic [63:0] icache_hit_cnt;
-    logic [63:0] icache_miss_cnt;
-    logic [63:0] icache_hit_cycles;
-    logic [63:0] icache_miss_cycles;
-
-    logic __sw_avail;
-
-    ysyx_26040135_AXI_ICACHE icache (
-        .bus                            (bus_ifu.slave),
-        .mbus                           (bus_icache.master),
-        .clock                          (clock),
-        .reset                          (reset),
-        .icache_hit_cnt                 (icache_hit_cnt),
-        .icache_miss_cnt                (icache_miss_cnt),
-        .icache_hit_cycles              (icache_hit_cycles),
-        .icache_miss_cycles             (icache_miss_cycles),
-        .sw_addr                        (add_rst),
-        .sw_avail                       (__sw_avail)
-    );
-
-
-
-
-    logic [1:0]  __lsu_error;   // ⭐⭐ 引出C
-
-
-    ysyx_26040135_AXI_LSU lsu (
-        .bus                 (bus_lsu.master),              
-        .clock               (clock),
-        .reset               (reset),
-        
-        .__read              (__read),
-        .__write             (__write),
-        .__io_type           (__io_type),
-
-        .__addr_ready        (__addr_ready),   
-
-        .__data_ready        (__data_ready),  
-
-        .addr                (add_rst),
-        .wdata               (rdata2),
-        
-        .rdata               (lsu_rdata),
-        .__error             (__lsu_error),
-        .__read_complete     (__lsu_read_complete),   // @@-->
-        .__write_complete    (__lsu_write_complete)   // @@-->
-    );
 
 
 
@@ -361,44 +379,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             end
         end
     end
-
-
-    always_ff @(posedge clock or posedge reset) begin
-
-        else begin
-
-
-
-
-            if(state == UDGPR) begin
-                __GPR_wvalid <= 1'b0;
-                __period_end <= 1'b1;
-                jump_target  <= add_rst;   // ⭐ 赶在 GPR 写回生效之前锁存
-            end
-
-
-            if(state == UDPC) begin
-                __pc_is_updated <= 1'b1;   // 这个信号作为了时钟边界, FETCH的组合逻辑不会触发
-                __period_end <= 1'b0;
-                __sw_avail <= 1'b0;
-                // pc update
- 
-            end
-        end
-    end
-    
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     `include "vsrc/dpi-f.sv"

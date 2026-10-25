@@ -32,8 +32,8 @@ module ysyx_26040135_EXU (
 
 
 
-    output [31:0] mstatus, mtvec, mepc, mcause,
-    output [31:0] mcycle, mcycleh, mvendorid, marchid,
+    output [31:0] _mstatus, _mtvec, _mepc, _mcause,
+    output [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
 
     input in_valid,
     output reg in_ready,
@@ -311,7 +311,16 @@ module ysyx_26040135_EXU (
         rd_out = rd_save;
 
         lsu_wdata = rdata2;
-        lsu_addr = add_rst_w
+        lsu_addr = add_rst_w;
+
+        _mstatus = mstatus;
+        _mtvec = mtvec;
+        _mepc = mepc;
+        _mcause = mcause;
+        _mcycle = mcycle;
+        _mcycleh = mcycleh;
+        _mvendorid = mvendorid;
+        _marchid = marchid;
 
         ic_wb_wdata = ({32{lui_save}} & imm_save) |
                 ({32{add_save | addi_save | auipc_save}} & add_rst_w) |

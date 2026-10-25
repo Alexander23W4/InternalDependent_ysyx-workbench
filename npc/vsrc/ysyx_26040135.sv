@@ -171,12 +171,14 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
 
     wire [1:0]  __ifu_error;      // ⭐⭐ 引出C
     wire        __ifu_master_validation_error;    // ⭐⭐ 引出C
+    wire [1:0]  __lsu_error;   // ⭐⭐ 引出C
 
-/*
-流水线控制功能型寄存器
-*/
+
+// 流水线控制功能型寄存器
     reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
     reg [1:0] iag_amt [31:0]; 
+
+// 流水线级间连接
 
     ysyx_26040135_AXI_IFU ifu (
         .bus(bus_ifu.master),
@@ -239,33 +241,24 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .sb(sb), .sh(sh), .sw(sw),
         .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
-        .mstatus(_mstatus), .mtvec(_mtvec), .mepc(_mepc), .mcause(_mcause),
-        .mcycle(_mcycle), .mcycleh(_mcycleh), .mvendorid(_mvendorid), .marchid(_marchid),
+        ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
+        ._mcycle(_mcycle), ._mcycleh(_mcycleh), ._mvendorid(_mvendorid), ._marchid(_marchid),
         .rd(rd), .rs1(rs1), .rs2(rs2),
         .iag(iag[0]),
         
         .in_valid(valid_de), .in_ready(ready_de),
-        .out_valid_lsu(out_valid_lsu), .out_valid_wbu(out_valid_wbu),
-        .out_ready_lsu(1'b1), .out_ready_wbu(1'b1),
+        .out_valid_lsu(valid_el), .out_valid_wbu(valid_ew),
+        .out_ready_lsu(ready_el), .out_ready_wbu(ready_ew),
+
         .io(io), .io_type(io_type), .read_is_u(read_is_u),
         .rd_out(rd_out), .lsu_wdata(lsu_wdata), .ic_wb_wdata(ic_wb_wdata), .lsu_addr(lsu_addr),
+
         .rs1_out(rs1_out), .rs2_out(rs2_out),
         .rdata1(rdata1), .rdata2(rdata2),
         .is_exu_rd(is_exu_rd), .is_lsu_rd(is_lsu_rd),
         .rd_exu(rd_exu),
         .flush(flush), .pc_flush(pc_flush)
     );
-
-    wire valid_el, valid_ew;
-    wire ready_el, ready_ew;
-    wire io;
-    wire [1:0] io_type;
-    wire read_is_u;
-    wire [4:0] rd_out, rs1_out, rs2_out;
-    wire [31:0] lsu_wdata, lsu_addr, ic_wb_wdata;
-    wire is_exu_rd, is_lsu_rd;
-    wire [4:0] rd_exu;
-    wire [31:0] rdata1, rdata2;
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
@@ -282,6 +275,17 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .dbg_regs(dbg_reg),
     );
 
+    wire valid_el, valid_ew;
+    wire ready_el, ready_ew;
+    wire io;
+    wire [1:0] io_type;
+    wire read_is_u;
+    wire [4:0] rd_out, rs1_out, rs2_out;
+    wire [31:0] lsu_wdata, lsu_addr, ic_wb_wdata;
+    wire is_exu_rd, is_lsu_rd;
+    wire [4:0] rd_exu;
+    wire [31:0] rdata1, rdata2;
+
     ysyx_26040135_AXI_LSU lsu (
         .bus(bus_lsu.master),
         .clock(clock),
@@ -295,16 +299,19 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
         .lsu_addr(lsu_addr),
         .ic_wb_wdata(ic_wb_wdata),
 
-        .in_valid(out_valid_lsu),
-        .in_ready(ready_lsu),
-        .out_valid(out_valid_wbu),
-        .out_ready(1'b1),
+        .in_valid(valid_el),
+        .in_ready(ready_el),
+        .out_valid(valid_lw),
+        .out_ready(ready_lw),
+        
         .__error(__lsu_error),
         .wdata_out(wdata),
         .rd_out_lsu(rd_exu)
     );
 
-    ysyx_26040135_ALU alu_inst (.*);
+    wire valid_lw, ready_lw;
+
+
 
 
     reg [63:0] icache_hit_cnt;
@@ -328,7 +335,6 @@ pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc,
     );
 
 
-    reg [1:0]  __lsu_error;   // ⭐⭐ 引出C
 
 
 

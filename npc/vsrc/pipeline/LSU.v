@@ -37,11 +37,11 @@ module ysyx_26040135_AXI_LSU (
     
     output [1:0] __error,
 
-    output reg [31:0] rdata_out,
+    output [31:0] wdata,
     output [4:0] rd_out_lsu
 );
 
-// 反馈信号
+
     reg [1:0] error_save;
 
     reg io_save;
@@ -55,6 +55,8 @@ module ysyx_26040135_AXI_LSU (
 
     assign __error = error_save;
     assign rd_out_lsu = rd_save;
+
+    reg rdata_out;
 
 // 状态
     typedef enum [2:0]{ 
@@ -71,6 +73,7 @@ module ysyx_26040135_AXI_LSU (
             state <= IDLE;
             rdata_out <= 32'b0;
             error_save <= 2'b00;
+
             io_save <= 1'b0;
             io_type_save <= 2'b00;
             read_is_u_save <= 1'b0;
@@ -78,22 +81,20 @@ module ysyx_26040135_AXI_LSU (
             lsu_data_save <= 32'b0;
             lsu_addr_save <= 32'b0;
             ic_wb_wdata_save <= 32'b0;
-            read_complete_save <= 1'b0;
-            write_complete_save <= 1'b0;
-            aw_done <= 1'b0;
-            w_done  <= 1'b0;
+
             in_ready <= 1'b1;
             out_valid <= 1'b0;
 
         end else begin
 
-            if(out_ready && out_valid) begin
+            if(state == IDLE && out_ready && out_valid) begin
                 in_ready <= 1'b1;
                 out_valid <= 1'b0;
             end
 
             if(state == IDLE && in_valid && in_ready) begin
                 in_ready <= 1'b0;
+
                 io_save <= io;
                 io_type_save <= io_type;
                 read_is_u_save <= read_is_u;
@@ -104,7 +105,7 @@ module ysyx_26040135_AXI_LSU (
             end
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
-                rdata_out <= rdata;
+                rdata_out <= bus.rdata;
                 out_valid <= 1'b1;
             end
             if(state == B && bus.bvalid && bus.bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
@@ -225,9 +226,9 @@ endmodule
     wire [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
     wire [31:0] lsu_rdata_shifted;
-    assign lsu_rdata_shifted = bus.rdata >> {lsu_addr[1:0], 3'b000};
+    assign lsu_rdata_shifted = rdata_out >> {lsu_addr[1:0], 3'b000};
 
-    assign lw_rst  = bus.rdata;
+    assign lw_rst  = rdata_out;
     assign lbu_rst = {24'b0, lsu_rdata_shifted[7:0]};
     assign lhu_rst = {16'b0, lsu_rdata_shifted[15:0]};
     assign lb_rst  = {{24{lsu_rdata_shifted[7]}}, lsu_rdata_shifted[7:0]};
@@ -239,9 +240,9 @@ endmodule
     assign lbu = (io_type_save == 2'b00 && read_is_u_save);
     assign lb = (io_type_save == 2'b00 && !read_is_u_save);
 
-    wire [31:0] wdata = ic_wb_wdata_save |             
-               ({32{lw}} & lw_rst) |
-               ({32{lbu}} & lbu_rst) |
-               ({32{lhu}} & lhu_rst) |
-               ({32{lb}} & lb_rst) |
-               ({32{lh}} & lh_rst);
+    assign wdata = ic_wb_wdata_save |             
+            ({32{lw}} & lw_rst) |
+            ({32{lbu}} & lbu_rst) |
+            ({32{lhu}} & lhu_rst) |
+            ({32{lb}} & lb_rst) |
+            ({32{lh}} & lh_rst);

@@ -156,6 +156,9 @@ module ysyx_26040135(
 */
 
 // 引出到verilator顶层的信号写在这里
+/*
+pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc, 两者是完全一一对应的
+*/
     reg [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
     reg [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid, _pc; // ⭐⭐ 引出C
 
@@ -163,6 +166,7 @@ module ysyx_26040135(
     assign {_mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid} = {mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid};
 
     wire _instr;
+    assign _instr = instr;
 
 
 
@@ -171,6 +175,11 @@ module ysyx_26040135(
 
     wire        flush;  
     wire [31:0] pc_flush;
+    wire [31:0] pc;
+    wire [31:0] instr;
+    wire valid_fd;
+    wire ready_rd;
+
 
     ysyx_26040135_AXI_IFU ifu (
         .bus(bus_ifu.master),
@@ -178,16 +187,86 @@ module ysyx_26040135(
         .reset(reset),
         .__error(__ifu_error),
         .__master_validation_error(__ifu_master_validation_error),
-        .out_instr(__instr),
-        .out_valid(__ifu_instr_valid),
-        .out_ready(1'b1),
+        .out_instr(instr),
+        .out_valid(valid_fd),
+        .out_ready(ready_rd),
         .out_pc(pc),
         .flush(flush),
         .pc_flush(pc_flush)
     ); 
 
 
-    ysyx_26040135_decode Decode(.*);
+    wire valid_de;
+    wire ready_de;
+    
+    ysyx_26040135_IDU idu (
+        .in_pc                (pc),
+        .in_instr             (instr),
+        .in_valid             (valid_fd),
+        .in_ready             (ready_rd),
+
+        .out_valid            (valid_fd),
+        .out_ready            (1'b1),
+        .out_pc               (pc),
+
+        .addi                 (addi),
+        .slti                 (slti),
+        .sltiu                (sltiu),
+        .xori                 (xori),
+        .ori                  (ori),
+        .andi                 (andi),
+        .slli                 (slli),
+        .srli                 (srli),
+        .srai                 (srai),
+
+        .add                  (add),
+        .sub                  (sub),
+        .sll                  (sll),
+        .slt                  (slt),
+        .sltu                 (sltu),
+        .xor_inst             (xor_inst),
+        .srl                  (srl),
+        .sra                  (sra),
+        .or_inst              (or_inst),
+        .and_inst             (and_inst),
+
+        .lb                   (lb),
+        .lh                   (lh),
+        .lw                   (lw),
+        .lbu                  (lbu),
+        .lhu                  (lhu),
+        .sb                   (sb),
+        .sh                   (sh),
+        .sw                   (sw),
+
+        .beq                  (beq),
+        .bne                  (bne),
+        .blt                  (blt),
+        .bge                  (bge),
+        .bltu                 (bltu),
+        .bgeu                 (bgeu),
+
+        .jal                  (jal),
+        .jalr                 (jalr),
+
+        .lui                  (lui),
+        .auipc                (auipc),
+
+        .ebreak               (ebreak),
+        .ecall                (ecall),
+
+        .csrrw                (csrrw),
+        .csrrs                (csrrs),
+        .csrrc                (csrrc),
+        .mret                 (mret),
+
+        .fence_i              (fence_i),
+
+        .rd                   (rd),
+        .rs1                  (rs1),
+        .rs2                  (rs2),
+        .imm                  (imm)
+    );
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (

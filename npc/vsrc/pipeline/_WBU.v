@@ -124,7 +124,7 @@ module ysyx_26040135_WBU(
         next = state;
         wen = 1'b0;
         rd_release = 5'b0;
-        case(state);
+        case (state)
             IDLE: begin
                 if((in_ready && in_valid_lsu) || (in_ready && in_valid_exu)) begin
                     next = WB;

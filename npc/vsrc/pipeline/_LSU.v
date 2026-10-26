@@ -51,7 +51,7 @@ module ysyx_26040135_AXI_LSU (
     output reg [63:0] lsu_blcokb_cyc,
     output reg [63:0] lsu_work_cyc,
 
-    output reg lsu_blockf,
+    output reg lsu_blockf
 );
 
 
@@ -259,8 +259,6 @@ module ysyx_26040135_AXI_LSU (
         endcase
     end
 
-endmodule
-
     wire [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
     wire [31:0] lsu_rdata_shifted;
@@ -278,9 +276,11 @@ endmodule
     assign lbu = (io_type_save == 2'b00 && read_is_u_save);
     assign lb = (io_type_save == 2'b00 && !read_is_u_save);
 
-    assign wdata = ic_wb_wdata_save |             
+    assign wdata = ic_wb_wdata_save |
             ({32{lw}} & lw_rst) |
             ({32{lbu}} & lbu_rst) |
             ({32{lhu}} & lhu_rst) |
             ({32{lb}} & lb_rst) |
             ({32{lh}} & lh_rst);
+
+endmodule

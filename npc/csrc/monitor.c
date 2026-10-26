@@ -67,9 +67,6 @@ void reset(){
 }
 
 void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出去
-    // while(!(Status == NPC_END || Status == NPC_CRASH)){   
-    //     exec_once();
-    // }
     do{
         tick();
         top->check_halt(&endprog);

@@ -13,22 +13,18 @@
 
 V_SRC=../ysyxSoC/build/ysyxSoCFull.v
 
-AXI_SOURCES = \
-	./vsrc/axi/axi4.sv \
-	./vsrc/axi/axi_ifu.sv \
-	./vsrc/axi/axi_lsu.sv \
-	./vsrc/axi/axi4_xbar.sv \
-	./vsrc/axi/axi_clint.sv \
-	./vsrc/axi/axi_icache.sv
+PIPELINE_SOURCES = \
+	$(shell find ./vsrc/pipeline -type f \( -name "*.v" -o -name "*.sv" \))
 
 RTL_SOURCES = \
 	./vsrc/ysyx_26040135.sv \
-	$(shell find ./vsrc/compo -type f -name "*.v")
+	./vsrc/dbg_register.v \
+	$(shell find ./vsrc/compo -type f -name "*.v") 
 
 # ⭐ dpi-f.sv 是被 vsrc/ysyx_26040135.sv 用 `include "vsrc/dpi-f.sv" 包含进 CPU 模块内部的
 #    (它要访问 ebreak/dbg_reg/_pc 等 CPU 内部信号), 所以不能再单独作为顶层源文件列出来,
 #    否则 verilator 会在文件作用域再解析一遍 -> Can't find definition of variable: 'ebreak'
-SOURCES = $(AXI_SOURCES) $(RTL_SOURCES)
+SOURCES = $(PIPELINE_SOURCES) $(RTL_SOURCES)
 SOURCES += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 
 # SOURCES += ../ysyxSoC/build/ysyxSoCFull.v
 
@@ -90,7 +86,7 @@ DEFAULT_FLAGS += -DICACHE_LINE_BYTES=$(ICACHE_LINE_BYTES) -DICACHE_LINE_AMT=$(IC
 # ------------------------------------------------------------------------------------------------------
 
 DIFF_TEST_ENABLE=0
-TRACE_ENABLE=1
+TRACE_ENABLE=0
 
 # ------------------------------------------------------------------------------------------------------
 
@@ -217,3 +213,4 @@ clean_obj:
 
 
 # ⭐: find ./vsrc -type f \( -name "*.v" -o -name "*.sv" \) -print
+

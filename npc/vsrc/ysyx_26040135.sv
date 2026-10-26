@@ -278,7 +278,7 @@ module ysyx_26040135(
 
     ysyx_26040135_EXU exu (
         .clock(clock), .reset(reset),
-        .pc(pc_d), .imm(imm), .instr(instr_de)
+        .pc(pc_d), .imm(imm), .instr(instr_de),
         .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
         .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst), .andi(andi), .ori(ori), .xori(xori),
         .sll(sll), .srl(srl), .sra(sra), .slli(slli), .srli(srli), .srai(srai),

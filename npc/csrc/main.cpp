@@ -1,26 +1,15 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 /*
-修改流程:
-先主要, 后feature (trace, difftest先不急)
-把仿真的主干流程弄清楚
-
---> 启动:
-读args  
-直接reset初始化进入状态机, 无需load程序, 无需ram 
-启动features(暂时不管)
-
---> main_loop, sdb的具体feature先不管, 只剩下exec_once
-
---> exec_once(只有这个跟cpu真正的运行相关联, 调用tick, 其他函数均没有可以操作rtl的接口, 其他函数只是为了其feature要读取cpu的状态, exec_once有义务正确读取这些状态): 
-
---> feature: 包含 trace  difftest  sdb
-首先移除device和ram
-
 现在trace 和 sdb(除了x和expr的访存) 应该都能正常使用
 ram的访问除了 difftest 里面有一个 mem copy, 初始化的时候, 比较难搞, 现在difftest无法正常使用
 
-现在再外接上SRAM, 然后bootloader, 就能运行SRAM了, 可以开始debug
+功能验证, debug方面, 现在就剩一个dut-rtl本身出现问题, 如何debug
+
+一种问题是指令的实现/dut的逻辑问题导致difftest错误     用difftest+波形 解决
+另一种问题是流水线的时序问题导致卡死                   需要能够输出trace+波形看到底为什么卡死了
+
+⭐: 如果dut卡住, ctrl-C退出时, 需要能够输出trace
 */
 
 using namespace std;

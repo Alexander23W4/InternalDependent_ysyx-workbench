@@ -134,6 +134,7 @@ void trace(){
     int pre_index = 0;
     int dst_index = 0;
 
+    // $$$ 这里是通过pc(current)而cpu.pc(next)来判断, 对于流水线处理器, 需要pc和next_pc
     if(current_inst == 0x00008067){
         // ret 
         for (int i = 0; i < function_amt; i++)

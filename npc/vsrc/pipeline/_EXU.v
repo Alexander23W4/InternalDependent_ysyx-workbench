@@ -95,8 +95,6 @@ module ysyx_26040135_EXU (
 
     reg [31:0] csrw_rst;
 
-    reg flush_done;
-
 
     always @(*) begin
         case(imm)
@@ -209,13 +207,14 @@ module ysyx_26040135_EXU (
             if(in_ready && !in_valid) begin
                 exu_blcokb_cyc <= exu_blcokb_cyc + 64'b1;    
             end
-
             if(out_valid_lsu && !out_ready_lsu) begin
                 exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
             end
-
             if(out_valid_wbu && !out_ready_wbu) begin
                 exu_blcokbw_cyc <= exu_blcokbw_cyc + 64'b1;
+            end
+            if(state != IDLE) begin
+                exu_work_cyc <= exu_work_cyc + 64'b1;
             end
 
 
@@ -225,6 +224,9 @@ module ysyx_26040135_EXU (
             end
             if(out_ready_wbu && out_valid_wbu) begin
                 out_valid_wbu <= 1'b0;
+                in_ready <= 1'b1;
+            end
+            if(state == EX && is_nlwb) begin
                 in_ready <= 1'b1;
             end
 
@@ -303,6 +305,7 @@ module ysyx_26040135_EXU (
                     flush = 1'b1;
                     rd_exu = rd_save;
                 end
+                next = IDLE;
             end
         endcase
     end 
@@ -310,7 +313,8 @@ module ysyx_26040135_EXU (
     wire read = lw_save | lh_save | lb_save | lbu_save | lhu_save;
     wire write = sw_save | sh_save | sb_save;
     wire is_ls = read | write;
-    wire is_ls_nwb = read | write | beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
+    wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
+    wire is_ls_nwb = is_ls | is_nlwb;
     wire nrs = jal_save | jalr_save | lui_save;  // 这几个不需要读取, 没有gpr依赖问题
 
     wire r_type = add_save | sub_save | sll_save | slt_save | sltu_save | xor_inst_save | srl_save | sra_save | or_inst_save | and_inst_save;

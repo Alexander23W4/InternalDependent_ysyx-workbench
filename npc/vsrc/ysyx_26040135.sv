@@ -276,46 +276,38 @@ module ysyx_26040135(
     wire instr_de;
 
 
-    ysyx_26040135_EXU exu (
-        .clock(clock), .reset(reset),
-        .pc(pc_d), .imm(imm), .instr(instr_de),
-        .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
-        .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst), .andi(andi), .ori(ori), .xori(xori),
-        .sll(sll), .srl(srl), .sra(sra), .slli(slli), .srli(srli), .srai(srai),
-        .slt(slt), .sltu(sltu), .slti(slti), .sltiu(sltiu),
-        .jal(jal), .jalr(jalr),
-        .lb(lb), .lh(lh), .lw(lw), .lbu(lbu), .lhu(lhu),
-        .sb(sb), .sh(sh), .sw(sw),
-        .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
-        .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
-        ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
-        ._mcycle(_mcycle), ._mcycleh(_mcycleh), ._mvendorid(_mvendorid), ._marchid(_marchid),
-        ._pc(_pc), _instr(_instr),
-        ._new_instr(_new_instr),
-        .rd(rd), .rs1(rs1), .rs2(rs2),
-        .iag(iag[0]),
-        
-        .in_valid(valid_de), .in_ready(ready_de),
-        .out_valid_lsu(valid_el), .out_valid_wbu(valid_ew),
-        .out_ready_lsu(ready_el), .out_ready_wbu(ready_ew),
-
-        .io(io), .io_type(io_type), .read_is_u(read_is_u),
-        .rd_out(rd_out), .lsu_wdata(lsu_wdata), .ic_wb_wdata(ic_wb_wdata), .lsu_addr(lsu_addr),
-
-        .rs1_out(rs1_out), .rs2_out(rs2_out),
-        .rdata1(rdata1), .rdata2(rdata2),
-        .is_exu_rd(is_exu_rd), .is_lsu_rd(is_lsu_rd),
-        .rd_exu(rd_exu),
-        .flush(flush), .pc_flush(pc_flush),
-        .lsu_blockf(lsu_blockf),
-        .wbu_blockf(wbu_blockf),
-        .exu_blockf_cyc(exu_blockf_cyc),
-        .exu_blcokbl_cyc(exu_blcokbl_cyc),
-        .exu_blcokbw_cyc(exu_blcokbw_cyc),
-        .exu_work_cyc(exu_work_cyc),
-        .ebreak_end(__ebreak_end)
-    );
-
+ysyx_26040135_EXU exu (
+    .clock(clock), .reset(reset), .pc(pc_d), .instr(instr_de),
+    .rdata1(rdata1), .rdata2(rdata2), .imm(imm),
+    .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
+    .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst),
+    .andi(andi), .ori(ori), .xori(xori),
+    .sll(sll), .srl(srl), .sra(sra), .slli(slli), .srli(srli), .srai(srai),
+    .slt(slt), .sltu(sltu), .slti(slti), .sltiu(sltiu),
+    .jal(jal), .jalr(jalr),
+    .lb(lb), .lh(lh), .lw(lw), .lbu(lbu), .lhu(lhu),
+    .sb(sb), .sh(sh), .sw(sw),
+    .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
+    .ebreak(ebreak), .ecall(ecall), .mret(mret), .fence_i(fence_i),
+    .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
+    .rd(rd), .rs1(rs1), .rs2(rs2), .iag(iag[0]),
+    .lsu_blockf(lsu_blockf), .wbu_blockf(wbu_blockf),
+    ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
+    ._mcycle(_mcycle), ._mcycleh(_mcycleh),
+    ._mvendorid(_mvendorid), ._marchid(_marchid),
+    ._pc(_pc), ._instr(_instr), ._new_instr(_new_instr),
+    .in_valid(valid_de), .in_ready(ready_de),
+    .out_valid_lsu(valid_el), .out_valid_wbu(valid_ew),
+    .out_ready_lsu(ready_el), .out_ready_wbu(ready_ew),
+    .io(io), .io_type(io_type), .read_is_u(read_is_u),
+    .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr),
+    .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
+    .is_exu_rd(is_exu_rd), .is_lsu_rd(is_lsu_rd), .rd_exu(rd_exu),
+    .flush(flush), .pc_flush(pc_flush),
+    .exu_blockf_cyc(exu_blockf_cyc),
+    .exu_blcokbl_cyc(exu_blcokbl_cyc), .exu_blcokbw_cyc(exu_blcokbw_cyc),
+    .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end)
+);
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_blcokbw_cyc, exu_work_cyc;
 
 
@@ -356,7 +348,7 @@ module ysyx_26040135(
         .io_type(io_type),
         .read_is_u(read_is_u),
         .rd(rd_out),
-        .lsu_data(lsu_wdata),
+        .lsu_wdata(lsu_wdata),
         .lsu_addr(lsu_addr),
         .ic_wb_wdata(ic_wb_wdata),
 
@@ -366,7 +358,7 @@ module ysyx_26040135(
         .out_ready(ready_lw),
 
         .__error(__lsu_error),
-        .wdata_out(wdata_lw),
+        .wdata(wdata_lw),
         .rd_out_lsu(rd_lsu),
         .lsu_blockf_cyc(lsu_blockf_cyc),
         .lsu_blcokb_cyc(lsu_blcokb_cyc),

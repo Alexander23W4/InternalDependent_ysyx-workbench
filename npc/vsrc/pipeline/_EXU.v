@@ -49,13 +49,13 @@ module ysyx_26040135_EXU (
     output reg out_valid_lsu, out_valid_wbu,
     input out_ready_lsu, out_ready_wbu,
 
-    output reg io;
-    output reg [1:0] io_type,  //
-    output reg read_is_u, //
-    output reg [4:0] rd_out,  ///
+    output reg io,
+    output reg [1:0] io_type,
+    output reg read_is_u,
+    output reg [4:0] rd_out,
     output reg [31:0] lsu_wdata,
     output reg [31:0] lsu_addr,
-    output reg [31:0] ic_wb_wdata,  // incomplete WB data, lack of l.._rst
+    output reg [31:0] ic_wb_wdata,
 
     output reg [4:0] rs1_out,
     output reg [4:0] rs2_out,
@@ -135,11 +135,9 @@ module ysyx_26040135_EXU (
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
 
-            flush_done <= 1'b0;
-
-            exu_blcokb_cyc <= 0;
-            exu_blockfw_cyc <= 0;
-            exu_blockfl_cyc <= 0;
+            exu_blockf_cyc <= 0;
+            exu_blcokbl_cyc <= 0;
+            exu_blcokbw_cyc <= 0;
             exu_work_cyc <= 0;
 
             state <= IDLE;
@@ -150,7 +148,6 @@ module ysyx_26040135_EXU (
 
             if(state == IDLE && in_valid && in_ready) begin
                 in_ready <= 1'b0;
-                flush_done <= 1'b0;
 
                 pc_save    <= pc;
                 instr_save <= instr;
@@ -210,7 +207,7 @@ module ysyx_26040135_EXU (
             end
 
             if(in_ready && !in_valid) begin
-                exu_blcokb_cyc <= exu_blcokb_cyc + 64'b1;    
+                exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
             end
             if(out_valid_lsu && !out_ready_lsu) begin
                 exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
@@ -285,7 +282,7 @@ module ysyx_26040135_EXU (
         flush = 1'b0;
         rd_exu = 0;
         _new_instr = 1'b0;
-        case(state);
+        case (state)
             IDLE: begin
                 if(in_valid && in_ready) begin
                     _new_instr = 1'b1;
@@ -363,13 +360,15 @@ module ysyx_26040135_EXU (
     wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
     
     always @(*) begin
-        
-        case(1'b1)
-            lw_save | sw_save: io_type = 2'b10;
-            lhu_save | lh_save | sh_save: io_type = 2'b01;
-            lbu_save | lb_save | sb_save: io_type = 2'b00;
-            default: io_type = 2'b11;
-        endcase
+        if (lw_save || sw_save) begin
+            io_type = 2'b10;
+        end else if (lhu_save || lh_save || sh_save) begin
+            io_type = 2'b01;
+        end else if (lbu_save || lb_save || sb_save) begin
+            io_type = 2'b00;
+        end else begin
+            io_type = 2'b11;
+        end
 
         rs1_out = rs1_save;
         rs2_out = rs2_save;    
@@ -419,7 +418,7 @@ module ysyx_26040135_EXU (
                 ({32{csrrw_save | csrrs_save | csrrc_save}} & csr_rst_save);
 
 
-        pc_next_dft = pc_save + 32'b4;
+        pc_next_dft = pc_save + 32'd4;
 
         if(jalr_save) begin
             new_pc = add_rst_w & ~32'h1;

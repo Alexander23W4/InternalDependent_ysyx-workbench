@@ -6,7 +6,6 @@
 #include <iostream>
 #include <assert.h>
 #include <stdlib.h>
-#include "dbg.h"
 #include <getopt.h>
 #include <string.h>
 #include <inttypes.h>
@@ -17,7 +16,6 @@
 
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/config.h"
 
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h"
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/log.h"
 
 /*
@@ -29,7 +27,6 @@
 // #define MEMORY_LOAD_EFFECTIVENESS 20000
 // #define RAM_BASE 0x80000000
 #define TIMER_HZ 60
-
 
 #define MROM_BASE 0x20000000
 #define MROM_SIZE (4 * 1024)
@@ -123,10 +120,6 @@ void difftest_state_print(CPU_state* ref);
 void difftest_skip_ref();
 void difftest_skip_dut(int nr_ref, int nr_dut);
 
-
-
-extern uint8_t mrom[MROM_SIZE];
-void load_mrom(const char *path);
 
 extern uint8_t flash[FLASH_SIZE];
 void load_flash(const char *path);

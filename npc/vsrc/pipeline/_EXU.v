@@ -60,6 +60,8 @@ module ysyx_26040135_EXU (
 
     output reg flush;
     output reg [31:0] pc_flush;
+
+    output reg 
 );
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里

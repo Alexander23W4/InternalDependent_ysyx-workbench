@@ -152,7 +152,7 @@ void difftest_step() {
       panic("can not catch up with ref.pc = 0x%x at pc = 0x%x", ref_r.pc, pc);
     return;
   }
-
+       
   if (is_skip_ref) {
     // to skip the checking of an instruction, just copy the reg state to reference design
     ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF);

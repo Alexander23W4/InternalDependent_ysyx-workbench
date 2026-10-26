@@ -65,7 +65,7 @@ image: image-dep
 
 
 # ⭐⭐ run: 按 NVBOARD_ENABLE 走两条路
-#     两条路都是"先把仿真器更新好, 再把 AM 生成的 $(IMAGE).bin 喂给它"。
+#     两条路都是"先把仿真器更新好, 再把 AM 生成的 $(IMAGE).bin 喂给它"
 ifeq ($(NVBOARD_ENABLE),1)
 run: insert-arg update-nvboard
 	@echo "================================= RUN NVBOARD SIMULATION ====================================="

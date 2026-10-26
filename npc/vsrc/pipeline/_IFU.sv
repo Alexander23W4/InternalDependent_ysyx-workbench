@@ -44,7 +44,10 @@ module ysyx_26040135_AXI_IFU (
     output reg [31:0] out_pc,   
 
     input flush,
-    input [31:0] pc_flush
+    input [31:0] pc_flush,
+
+    output reg [63:0] ifu_work_cyc,
+    output reg [63:0] ifu_block_cyc
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -79,6 +82,8 @@ module ysyx_26040135_AXI_IFU (
     endfunction
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+
+
 
     // 外部控制信号与返回外部的信号:
     reg [1:0] error_save;
@@ -118,6 +123,9 @@ module ysyx_26040135_AXI_IFU (
             flush_save <= 1'b0;
             pc_flush_save <= 32'b0;
 
+            ifu_work_cyc <= 64'b0;
+            ifu_block_cyc <= 64'b0;
+
         end else begin
             if(flush) begin  // 分支预测失败, 冲刷
                 flush_save <= 1'b1;
@@ -130,10 +138,18 @@ module ysyx_26040135_AXI_IFU (
                     out_valid <= 1'b0;
                 end
 
-                if(state == IDLE && out_ready) begin
-                    if(!is_executable(pc)) begin
-                        master_validation_error_save <= 1'b1;
+                if(state == IDLE) begin
+                    if(out_ready) begin
+                        if(!is_executable(pc)) begin
+                            master_validation_error_save <= 1'b1;
+                        end    
+                    end else begin
+                        ifu_block_cyc <= ifu_block_cyc + 64'b1; // 握手的周期是不算在里面的, 只算等待后级的周期
                     end
+                end
+
+                if(state != IDLE) begin
+                    ifu_work_cyc <= ifu_work_cyc + 64'b1;
                 end
 
 

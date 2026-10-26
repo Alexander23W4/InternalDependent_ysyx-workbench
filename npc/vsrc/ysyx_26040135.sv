@@ -186,22 +186,18 @@ module ysyx_26040135(
 */
 
 // 引出到verilator顶层的信号写在这里
-/*
-pc, instr都是当下正在IDU正在或者将要执行的instr和其对应的pc, 两者是完全一一对应的
-*/
-    wire [32*32-1:0] dbg_reg;   // ⭐⭐ 引出C
-    wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; // ⭐⭐ 引出C
+    wire [32*32-1:0] dbg_reg;   
+    wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
     wire [31:0] _pc;
+    wire [31:0] _instr;
 
-    assign _pc = pc;   // ⭐⭐ 引出C
-
-    wire _instr;
+    wire [1:0]  __ifu_error;     
+    wire        __ifu_master_validation_error;    
+    wire [1:0]  __lsu_error;   
+   
+    assign _pc = pc;   
     assign _instr = instr;
 
-
-    wire [1:0]  __ifu_error;      // ⭐⭐ 引出C
-    wire        __ifu_master_validation_error;    // ⭐⭐ 引出C
-    wire [1:0]  __lsu_error;   // ⭐⭐ 引出C
 
 
 // 流水线控制功能型寄存器

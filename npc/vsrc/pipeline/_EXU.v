@@ -93,28 +93,11 @@ module ysyx_26040135_EXU (
     reg [31:0] rs2_save;
     reg [31:0] csr_rst_save;
 
-
-    // 这些是存输入之前(输入握手之前)的判断信号, 用原始信号, 不用save信号, 而后续的所有信号和输出信号都要用save信号
-    wire read = lw | lh | lb | lbu | lhu;
-    wire write = sw | sh | sb;
-    wire is_ls = read | write;
-    wire is_ls_nwb_nrs = read | write | beq | bne | blt | bge | bltu | bgeu | ecall | ebreak | fence_i | mret | nrs;
-    wire nrs = jal | jalr | lui;  // 这几个不需要读取, 没有gpr依赖问题
-
-    wire r_type = add | sub | sll | slt | sltu | xor_inst | srl | sra | or_inst | and_inst;
-    wire s_type = sb | sh | sw;
-    wire b_type = beq | bne | blt | bge | bltu | bgeu;
-    wire rsb_type = r_type | s_type | b_type;
-    wire i_type = ~rsb_type & ~nrs;
-
-    wire gpr_read_invalid = (rsb_type & (iag[rs1] | iag[rs2])) | (i_type & iag[rs1]);   // 会读gpr且gpr存在io前后依赖问题
-
-    wire [31:0] new_pc;
-    wire [31:0] pc_next_dft;
+    reg [31:0] csrw_rst;
 
     reg flush_done;
 
-    reg [31:0] csrw_rst;
+
     always @(*) begin
         case(imm)
             32'h00000300: csrw_rst = mstatus;
@@ -219,30 +202,12 @@ module ysyx_26040135_EXU (
                 csrrs_save    <= csrrs;
                 csrrc_save    <= csrrc;
 
-                rd_exu <= rd;
                 csr_rst_save  <= csrw_rst;
-                
-            end
-
-            if(state == BLOCK) begin
                 
             end
 
             if(in_ready && !in_valid) begin
                 exu_blcokb_cyc <= exu_blcokb_cyc + 64'b1;    
-            end
-
-            if(!in_ready && rd_exu != 0) begin
-                rd_exu <= 0;
-            end
-
-            if(out_ready_lsu && out_valid_lsu) begin
-                out_valid_lsu <= 1'b0;
-                in_ready <= 1'b1;
-            end
-            if(out_ready_wbu && out_valid_wbu) begin
-                out_valid_wbu <= 1'b0;
-                in_ready <= 1'b1;
             end
 
             if(out_valid_lsu && !out_ready_lsu) begin
@@ -253,7 +218,18 @@ module ysyx_26040135_EXU (
                 exu_blcokbw_cyc <= exu_blcokbw_cyc + 64'b1;
             end
 
-            if(csrrw_save) begin
+
+            if(out_ready_lsu && out_valid_lsu) begin
+                out_valid_lsu <= 1'b0;
+                in_ready <= 1'b1;
+            end
+            if(out_ready_wbu && out_valid_wbu) begin
+                out_valid_wbu <= 1'b0;
+                in_ready <= 1'b1;
+            end
+
+
+            if(csrrw_save && state == EX) begin
                 case(imm_save)  // case CSR addr
                     32'h00000300: mstatus <= rdata1;
                     32'h00000305: mtvec <= rdata1;
@@ -261,7 +237,7 @@ module ysyx_26040135_EXU (
                     32'h00000342: mcause <= rdata1;
                 endcase
             end
-            else if (|{{5{csrrs_save}} & rs1_save}) begin
+            else if (|{{5{csrrs_save}} & rs1_save} && state == EX) begin
                 case(imm_save) 
                     32'h00000300: mstatus <= rdata1 | csr_rst_save;
                     32'h00000305: mtvec <= rdata1 | csr_rst_save;
@@ -269,7 +245,7 @@ module ysyx_26040135_EXU (
                     32'h00000342: mcause <= rdata1 | csr_rst_save;
                 endcase
             end
-            else if (|{{5{csrrc_save}} & rs1_save}) begin
+            else if (|{{5{csrrc_save}} & rs1_save} && state == EX) begin
                 case(imm_save) 
                     32'h00000300: mstatus <= csr_rst_save & (~rdata1);
                     32'h00000305: mtvec <= csr_rst_save & (~rdata1);
@@ -278,16 +254,20 @@ module ysyx_26040135_EXU (
                 endcase
             end
 
-            if(ecall_save) begin
+            if(ecall_save && state == EX) begin
                 mepc <= pc_save;
                 mcause <= 32'h0000000b;
             end
 
-    // flush, 冲刷流水线, 并且更新pc.  注意这个只生效一个周期, 只冲刷一次
-    // 当前指令不需要冲刷, 只冲刷IDU和IFU, 并且更新ifu的pc
-            if(new_pc != pc_next_dft) begin  
-                flush_done <= 1'b1;
+            if(state == BLOCK) begin
+                if(is_ls && !gpr_read_invalid) begin   // ls的
+                    out_valid_lsu <= 1'b1;  
+                end
+                else if (!is_ls_nwb && !gpr_read_invalid) begin  // 除ls之外需要写回的
+                    out_valid_wbu <= 1'b1;
+                end
             end
+
             
         end
     end
@@ -295,6 +275,8 @@ module ysyx_26040135_EXU (
     always @(*) begin
         next = state;
         ebreak_end = 1'b0;
+        flush = 1'b0;
+        rd_exu = 0;
         case(state);
             IDLE: begin
                 if(in_valid && in_ready) begin
@@ -311,17 +293,37 @@ module ysyx_26040135_EXU (
                     ebreak_end = 1'b1;
                 end
             end
-            BLOCK: begin   // 信息已经读进来了, 用save信号
-                // 判断出现gpr前后依赖问题, 如果没有, 直接进EX, 并给out_valid 
-                if(is_ls && !gpr_read_invalid) begin
-                    out_valid_lsu <= 1'b1; 
+            BLOCK: begin   
+                if(!gpr_read_invalid) begin
+                    next = EX;
                 end
-                if (!is_ls_nwb_nrs && !gpr_read_invalid) begin
-                    out_valid_wbu <= 1'b1;
+            end
+            EX: begin   // 这时候取到的读取值才是正确的
+                if(new_pc != pc_next_dft) begin
+                    flush = 1'b1;
+                    rd_exu = rd_save;
                 end
             end
         endcase
     end 
+
+    wire read = lw_save | lh_save | lb_save | lbu_save | lhu_save;
+    wire write = sw_save | sh_save | sb_save;
+    wire is_ls = read | write;
+    wire is_ls_nwb = read | write | beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
+    wire nrs = jal_save | jalr_save | lui_save;  // 这几个不需要读取, 没有gpr依赖问题
+
+    wire r_type = add_save | sub_save | sll_save | slt_save | sltu_save | xor_inst_save | srl_save | sra_save | or_inst_save | and_inst_save;
+    wire s_type = sb_save | sh_save | sw_save;
+    wire b_type = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save;
+    wire rsb_type = r_type | s_type | b_type;
+    wire i_type = ~rsb_type & ~nrs;
+
+    wire gpr_read_invalid = (rsb_type & (iag[rs1] | iag[rs2])) | (i_type & iag[rs1]);   // 会读gpr且gpr存在io前后依赖问题
+
+
+    wire [31:0] new_pc;
+    wire [31:0] pc_next_dft;
 
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
@@ -350,11 +352,6 @@ module ysyx_26040135_EXU (
     wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
     
     always @(*) begin
-        flush = 1'b0;
-
-        if(new_pc != pc_next_dft && !flush_done) begin
-            flush = 1'b1;
-        end
         
         case(1'b1)
             lw_save | sw_save: io_type = 2'b10;

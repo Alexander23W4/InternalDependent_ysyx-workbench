@@ -194,6 +194,8 @@ module ysyx_26040135(
     wire [1:0]  __ifu_error;     
     wire        __ifu_master_validation_error;    
     wire [1:0]  __lsu_error;   
+
+    wire __ebreak_end;
    
     assign _pc = pc;   
     assign _instr = instr;
@@ -306,7 +308,8 @@ module ysyx_26040135(
         .exu_blockf_cyc(exu_blockf_cyc),
         .exu_blcokbl_cyc(exu_blcokbl_cyc),
         .exu_blcokbw_cyc(exu_blcokbw_cyc),
-        .exu_work_cyc(exu_work_cyc)
+        .exu_work_cyc(exu_work_cyc),
+        .ebreak_end(__ebreak_end)
     );
 
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_blcokbw_cyc, exu_work_cyc;
@@ -316,13 +319,13 @@ module ysyx_26040135(
         .clock(clock),
         .reset(reset),
         .wen(wen), // WB
-        .raddr1(rs1_out),  // ID
-        .raddr2(rs1_out), // ID
+        .raddr1(rs1_out),  // EX
+        .raddr2(rs1_out), // EX
         .waddr(rd_wbu), // WB
         .wdata(wdata_wbu), // WB
 
-        .rdata1(rdata1),  
-        .rdata2(rdata2),
+        .rdata1(rdata1),  // EX
+        .rdata2(rdata2),  // EX
         .dbg_regs(dbg_reg),
     );
 

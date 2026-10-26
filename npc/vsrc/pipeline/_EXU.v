@@ -37,11 +37,11 @@ module ysyx_26040135_EXU (
 
 
 
-    output [31:0] _mstatus, _mtvec, _mepc, _mcause,
-    output [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
+    output reg [31:0] _mstatus, _mtvec, _mepc, _mcause,
+    output reg [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
     output [31:0] _pc,
     output [31:0] _instr,
-    output _new_instr,
+    output reg _new_instr,
 
     input in_valid,
     output reg in_ready,
@@ -124,7 +124,6 @@ module ysyx_26040135_EXU (
             out_valid_lsu <= 1'b0;
             out_valid_wbu <= 1'b0;
             in_ready <= 1'b1;
-            rd_exu <= 0;
 
             mstatus <= 32'h00001800;   
             mcause <= 0;
@@ -330,8 +329,8 @@ module ysyx_26040135_EXU (
     wire gpr_read_invalid = (rsb_type & (iag[rs1] | iag[rs2])) | (i_type & iag[rs1]);   // 会读gpr且gpr存在io前后依赖问题
 
 
-    wire [31:0] new_pc;
-    wire [31:0] pc_next_dft;
+    reg [31:0] new_pc;
+    reg [31:0] pc_next_dft;
 
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];

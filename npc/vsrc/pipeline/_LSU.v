@@ -124,7 +124,7 @@ module ysyx_26040135_AXI_LSU (
                 io_type_save <= io_type;
                 read_is_u_save <= read_is_u;
                 rd_save <= rd;
-                lsu_data_save <= lsu_data;
+                lsu_data_save <= lsu_wdata;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
             end

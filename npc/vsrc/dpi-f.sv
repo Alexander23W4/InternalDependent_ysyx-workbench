@@ -22,7 +22,7 @@ function void debug_read_all(
     output longint mcycle,
     output int instr
 );
-    instr = __instr;
+    instr = _instr;
     for (int i = 0; i < 32; i++) begin
         dbg_regs[i] = dbg_reg[i*32 +: 32];  // 提取第 i 个 GPR
     end
@@ -48,6 +48,15 @@ function void check_error(
     master_validation_error = {31'b0, __ifu_master_validation_error};
 
 endfunction
+
+
+// ⭐: 引出EXU"新收一条指令"的脉冲, 给C++侧统计执行的指令数
+export "DPI-C" task check_new_instr;
+task check_new_instr(output int new_instr);
+    begin
+        new_instr = {{31{1'b0}}, _new_instr};
+    end
+endtask
 
 
 

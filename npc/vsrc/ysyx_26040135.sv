@@ -497,7 +497,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     always @(posedge clock or posedge reset) begin
         if(reset) begin
             iag <= 0;
-            iag_amt <= 0;
+            iag_amt <= '{default: 2'b00};
         end else begin
             if(rd_release != 0) begin   // 0是无效清理, 不为0说明是有效清零周期
                 if(!(rd_release == rd_exu && (is_exu_rd | is_lsu_rd))) begin  // 如果这一拍rd_exu也有效, 那么什么都不操作

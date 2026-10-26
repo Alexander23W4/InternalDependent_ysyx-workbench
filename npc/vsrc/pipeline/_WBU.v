@@ -49,14 +49,14 @@ module ysyx_26040135_WBU(
     input [4:0] rd_lsu,
     input [31:0] wdata_lsu,
 
-    output [4:0] rd_release,   // 清除记录在inaccessible_gprs的未写入rd, 只给一个周期, 要么就清0
+    output reg [4:0] rd_release,   // 清除记录在inaccessible_gprs的未写入rd, 只给一个周期, 要么就清0
 
     input [31:0] iag,
     input [31:0] iag_type,
 
     input [1:0] iag_amt [31:0],
 
-    output wen,
+    output reg wen,
     output reg [31:0] wdata,
     output reg [4:0] rd,
 

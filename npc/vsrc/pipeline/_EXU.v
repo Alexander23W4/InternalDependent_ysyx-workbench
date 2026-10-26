@@ -29,7 +29,10 @@ module ysyx_26040135_EXU (
     input [4:0] rs1,
     input [4:0] rs2,
 
-    input [31:0] iag;
+    input [31:0] iag,
+
+    input lsu_blockf,
+    input wbu_blockf,
 
 
 
@@ -177,7 +180,10 @@ module ysyx_26040135_EXU (
                 in_ready <= 1'b0;
                 flush_done <= 1'b0;
 
-                if(is_ls && !gpr_read_invalid) begin
+                if(ebreak) begin   // 等两个信号: 
+                    
+                end
+                else if(is_ls && !gpr_read_invalid) begin
                     out_valid_lsu <= 1'b1; 
                 end
                 else if (!is_other_nwb && !gpr_read_invalid) begin

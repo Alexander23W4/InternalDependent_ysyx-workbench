@@ -49,7 +49,9 @@ module ysyx_26040135_AXI_LSU (
 
     output reg [63:0] lsu_blockf_cyc,
     output reg [63:0] lsu_blcokb_cyc,
-    output reg [63:0] lsu_work_cyc
+    output reg [63:0] lsu_work_cyc,
+
+    output reg lsu_blockf,
 );
 
 
@@ -101,6 +103,8 @@ module ysyx_26040135_AXI_LSU (
             lsu_blcokb_cyc <= 0;
             lsu_work_cyc <= 0;
 
+            lsu_blockf <= 1'b0;
+
         end else begin
             state <= next;
 
@@ -127,6 +131,9 @@ module ysyx_26040135_AXI_LSU (
 
             if(in_ready && !in_valid) begin
                 lsu_blockf_cyc <= lsu_blockf_cyc + 64'b1;
+                lsu_blockf <= 1'b1;
+            end else begin
+                lsu_blockf <= 1'b0;
             end
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin

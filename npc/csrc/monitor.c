@@ -28,7 +28,6 @@ void parse_args(int argc, char *argv[]) {
 
     static struct option last_options[] = {
         {"diff",     required_argument, NULL, 'd'},
-        {"batch",    no_argument,       NULL, 'b'},
         {0,          0,                 NULL,  0 }
     };
 
@@ -39,9 +38,6 @@ void parse_args(int argc, char *argv[]) {
                 diff_so_file = optarg;
                 printf("%s", ANSI_FMT("[NPC] Using Difftest REF: ", ANSI_FG_CYAN));
                 printf("%s\n", diff_so_file);
-                break;
-            case 'b':
-                batch_mode = true;
                 break;
             case 1:                          // ⭐ 非选项参数: AM 生成的 .bin 路径
                 image_path = optarg;         // (getopt 用了前导 '-', 非选项会以 o==1 返回)
@@ -57,13 +53,13 @@ void reset(){
         tick();
     }
     top->reset = 0;
-    top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
-                        (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
+    // top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
+    //                     (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
 
     printf("Reset Released. Starting execution...\n");
 }
 
-main_loop(){
+void main_loop(){
     while(!(Status == NPC_END)){
         exec_once();
     }
@@ -72,9 +68,7 @@ main_loop(){
 
 void end_process(){
     final_check();
-    final_print();
-
-    pc_itrace_finish();   // ⭐ 把 pc_itrace 里不足 1000 条的尾巴也刷到 pc_itrace.txt
+    statistical_print();   // 性能统计输出
 
     wave_close();      
 

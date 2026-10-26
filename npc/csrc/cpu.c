@@ -3,16 +3,6 @@
 NPC_status Status = NPC_NORM;
 uint64_t instr_amt = 0;
 
-uint64_t alu_cycles = 0;
-uint64_t branch_cycles = 0;
-uint64_t load_cycles = 0;
-uint64_t store_cycles = 0;
-uint64_t jump_cycles = 0;
-uint64_t csr_cycles = 0;
-uint64_t system_cycles = 0;
-
-uint64_t mcycle_reserve = 0;
-uint64_t instr_cycles = 0;
 
 /*
 ⭐: 对于复杂架构的cpu, 做 [仿真: 功能验证 & 性能统计] 要专注于架构本身, 验证架构本身的实现有没有问题, 性能怎么样. 
@@ -70,14 +60,9 @@ void exec_once(){
                         (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
 
     instr_cycles = cpu.mcycle - mcycle_reserve;
-    cal_instr_cycles();
-    clear_event_flag();
     
 
 
-#if TRACE_ENABLE
-    trace();
-#endif
 
 #if DIFF_TEST_ENABLE
 
@@ -88,10 +73,6 @@ void exec_once(){
     else{
         difftest_step();
     }
-#endif
-
-#if WATCHPOINT_ENABLE
-    check_wp(pc);
 #endif
 
 

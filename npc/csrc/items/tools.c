@@ -124,15 +124,11 @@ void error_handler(){
 
 
 void final_check(){
-    #if TRACE_ENABLE
-        i_ring_buf_logout(&ring);
-    #endif
     if(Status == NPC_QUIT){
         printf("%s", ANSI_FMT("\n[QUIT]\n", ANSI_FG_YELLOW));
     }
     else if(cpu.gpr[10] != 0 || Status == NPC_CRASH){   
         printf("%s", ANSI_FMT("\n[HIT BAD TRAP]\n", ANSI_FG_RED));
-
         prt_gprs();
     }
     else{

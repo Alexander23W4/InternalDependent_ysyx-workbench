@@ -322,7 +322,7 @@ ysyx_26040135_EXU exu (
 
         .rdata1(rdata1),  // EX
         .rdata2(rdata2),  // EX
-        .dbg_regs(dbg_reg),
+        .dbg_regs(dbg_reg)
     );
 
     wire valid_el, valid_ew;

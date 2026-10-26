@@ -19,7 +19,7 @@ PIPELINE_SOURCES = \
 RTL_SOURCES = \
 	./vsrc/ysyx_26040135.sv \
 	./vsrc/dbg_register.v \
-	$(shell find ./vsrc/compo -type f -name "*.v") 
+	$(shell find ./vsrc/compo -type f \( -name "*.v" -o -name "*.sv" \)) 
 
 # ⭐ dpi-f.sv 是被 vsrc/ysyx_26040135.sv 用 `include "vsrc/dpi-f.sv" 包含进 CPU 模块内部的
 #    (它要访问 ebreak/dbg_reg/_pc 等 CPU 内部信号), 所以不能再单独作为顶层源文件列出来,

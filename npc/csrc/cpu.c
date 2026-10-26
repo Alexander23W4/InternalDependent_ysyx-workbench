@@ -34,22 +34,7 @@
 
 void exec_once(){
 
-    // 先运行到UDPC, 停下, 这样不会一开始reset之后就被卡住, 然后再运行一个周期停到FETCH, 获得新的pc值 (此时仍未旧的 instr)
-
-    tick();
     
-
-    // 读取cpu的状态
-    // 注: DPI 导出函数 debug_read_all 的形参是 int*/long long*, 而 CPU_state 里存的是
-    //     uint32_t/uint64_t, C++ 下不能隐式转换, 所以统一转一下指针类型
-
-    instr_cycles = cpu.mcycle - mcycle_reserve;
-    
-
-
-
-
-
 #if DIFF_TEST_ENABLE
 
     if(diff_flag == 0){

@@ -157,6 +157,8 @@ void prt_gprs() {
 
 
 
-
+void statistical_print(){
+    printf("[CPI] %.2f\n", cpu.mcycle / instr_amt);
+}
 
 

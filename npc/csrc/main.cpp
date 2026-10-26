@@ -16,23 +16,10 @@ ram的访问除了 difftest 里面有一个 mem copy, 初始化的时候, 比较
 
 using namespace std;
 
-uint32_t pc = 0;
-
-// verilator仿真环境整体流程控制
-int endprog = 0; 
 size_t img_size;
 int diff_flag = 0;
 
 Vtop* top;               // 只有clock 和 reset
-
-// verilator仿真环境所需的cpu状态
-CPU_state cpu = {};
-int instr = 0;
-
-int ifu_error = 0;
-int lsu_error = 0;
-int master_validation_error = 0;
-
 
 
 // diliver .bin -> argv[1] 

@@ -51,39 +51,4 @@ endfunction
 
 
 
-export "DPI-C" function check_end;
-function void check_end(
-    output int period_end
-);
-    period_end = {31'b0, __period_end};
-endfunction
-
-
-export "DPI-C" function get_cycs;
-function void get_cycs(
-    output longint ifu_work_cyc_val,
-    output longint ifu_block_cyc_val,
-    output longint exu_blockf_cyc_val,
-    output longint exu_blcokbl_cyc_val,
-    output longint exu_blcokbw_cyc_val,
-    output longint exu_work_cyc_val,
-    output longint lsu_blockf_cyc_val,
-    output longint lsu_blcokb_cyc_val,
-    output longint lsu_work_cyc_val,
-    output longint wbu_blockf_cyc_val,
-    output longint wbu_work_cyc_val
-);
-    ifu_work_cyc_val       = ifu_work_cyc;
-    ifu_block_cyc_val      = ifu_block_cyc;
-    exu_blockf_cyc_val     = exu_blockf_cyc;
-    exu_blcokbl_cyc_val   = exu_blcokbl_cyc;
-    exu_blcokbw_cyc_val   = exu_blcokbw_cyc;
-    exu_work_cyc_val       = exu_work_cyc;
-    lsu_blockf_cyc_val     = lsu_blockf_cyc;
-    lsu_blcokb_cyc_val    = lsu_blcokb_cyc;
-    lsu_work_cyc_val       = lsu_work_cyc;
-    wbu_blockf_cyc_val    = wbu_blockf_cyc;
-    wbu_work_cyc_val      = wbu_work_cyc;
-endfunction
-
 

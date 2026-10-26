@@ -6,15 +6,19 @@ NPC_status Status = NPC_NORM;
 uint64_t instr_amt = 0;    
 int new_instr = 0;
 
-void _init(int argc, char** argv){
+CPU_state cpu = {};
+int ifu_error = 0;
+int lsu_error = 0;
+int master_validation_error = 0;
+int endprog = 0; 
+int instr = 0;
 
-    // 仿真环境启动:
+void _init(int argc, char** argv){
     parse_args(argc, argv);  
 
-    // load_mrom(image_path);   
     load_flash(image_path); 
 
-    reset();    // 按理来说这里reset pc到 FLASH, 启动 bootloader, 后续跟随状态机运行就可以了 
+    reset();   
 
 }
 
@@ -56,8 +60,8 @@ void reset(){
         tick();
     }
     top->reset = 0;
-    // top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
-    //                     (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
+    top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
+                        (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
 
     printf("Reset Released. Starting execution...\n");
 }

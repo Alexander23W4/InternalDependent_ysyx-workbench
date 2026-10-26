@@ -81,6 +81,7 @@ module ysyx_26040135_WBU(
             wdata <= 31'b0;
             wb_type <= 1'b0;
         end else begin   // 优先级 lsu > exu
+            state <= next;
             if(state == IDLE && in_ready && in_valid_lsu) begin
                 in_ready <= 1'b0;
                 rd <= rd_lsu;

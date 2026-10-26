@@ -58,10 +58,13 @@ module ysyx_26040135_EXU (
 
     output reg [4:0] rd_exu,
 
-    output reg flush;
-    output reg [31:0] pc_flush;
+    output reg flush,
+    output reg [31:0] pc_flush,
 
-    output reg 
+    output reg [63:0] exu_blockf_cyc,
+    output reg [63:0] exu_blcokbl_cyc,
+    output reg [63:0] exu_blcokbw_cyc,
+    output reg [63:0] exu_work_cyc
 );
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
@@ -162,8 +165,14 @@ module ysyx_26040135_EXU (
 
             flush_done <= 1'b0;
 
+            exu_blcokb_cyc <= 0;
+            exu_blockfw_cyc <= 0;
+            exu_blockfl_cyc <= 0;
+            exu_work_cyc <= 0;
+
         end else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
+
             if(in_valid && in_ready) begin
                 in_ready <= 1'b0;
                 flush_done <= 1'b0;
@@ -233,6 +242,10 @@ module ysyx_26040135_EXU (
                 
             end
 
+            if(in_ready && !in_valid) begin
+                exu_blcokb_cyc <= exu_blcokb_cyc + 63'b1;    
+            end
+
             if(!in_ready && rd_exu != 0) begin
                 rd_exu <= 0;
             end
@@ -244,6 +257,14 @@ module ysyx_26040135_EXU (
             if(out_ready_wbu && out_valid_wbu) begin
                 out_valid_wbu <= 1'b0;
                 in_ready <= 1'b1;
+            end
+
+            if(out_valid_lsu && !out_ready_lsu) begin
+                exu_blcokbl_cyc <= exu_blcokbl_cyc + 63'b1;
+            end
+
+            if(out_valid_wbu && !out_ready_wbu) begin
+                exu_blcokbw_cyc <= exu_blcokbw_cyc + 63'b1;
             end
 
             if(csrrw_save) begin

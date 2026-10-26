@@ -45,7 +45,11 @@ module ysyx_26040135_AXI_LSU (
     output [4:0] rd_out_lsu,
 
     output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
-    output sw_avail
+    output sw_avail,
+
+    output reg [63:0] lsu_blockf_cyc,
+    output reg [63:0] lsu_blcokb_cyc,
+    output reg [63:0] lsu_work_cyc
 );
 
 
@@ -93,11 +97,20 @@ module ysyx_26040135_AXI_LSU (
             in_ready <= 1'b1;
             out_valid <= 1'b0;
 
-        end else begin
+            lsu_blockf_cyc <= 0;
+            lsu_blcokb_cyc <= 0;
+            lsu_work_cyc <= 0;
 
+        end else begin
+            state <= next;
+            
             if(state == IDLE && out_ready && out_valid) begin
                 in_ready <= 1'b1;
                 out_valid <= 1'b0;
+            end
+
+            if(out_valid && !out_ready) begin
+                lsu_blcokb_cyc <= lsu_blcokb_cyc + 63'b1;
             end
 
             if(state == IDLE && in_valid && in_ready) begin
@@ -110,6 +123,10 @@ module ysyx_26040135_AXI_LSU (
                 lsu_data_save <= lsu_data;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
+            end
+
+            if(in_ready && !in_valid) begin
+                lsu_blockf_cyc <= lsu_blockf_cyc + 63'b1;
             end
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
@@ -127,7 +144,6 @@ module ysyx_26040135_AXI_LSU (
                 error_save <= bus.bresp;
             end
 
-            state <= next;
         end
     end
 

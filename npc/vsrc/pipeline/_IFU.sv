@@ -131,44 +131,44 @@ module ysyx_26040135_AXI_IFU (
                 flush_save <= 1'b1;
                 pc_flush_save <= pc_flush;
 
-            end else begin
-                state <= next;
+            end 
 
-                if(state == IDLE && out_ready && out_valid) begin   //
-                    out_valid <= 1'b0;
+            state <= next;
+            
+            if(state == IDLE && out_ready && out_valid) begin   //
+                out_valid <= 1'b0;
+            end
+
+            if(state == IDLE) begin
+                if(out_ready) begin
+                    if(!is_executable(pc)) begin
+                        master_validation_error_save <= 1'b1;
+                    end    
+                end else begin
+                    ifu_block_cyc <= ifu_block_cyc + 64'b1; // 握手的周期是不算在里面的, 只算等待后级的周期
                 end
+            end
 
-                if(state == IDLE) begin
-                    if(out_ready) begin
-                        if(!is_executable(pc)) begin
-                            master_validation_error_save <= 1'b1;
-                        end    
+            if(state != IDLE) begin
+                ifu_work_cyc <= ifu_work_cyc + 64'b1;
+            end
+
+
+            if(state == R && bus.rvalid) begin
+                if(flush_save) begin  // 如果在访存期间收到flush, 必须完成这次fetch才能够正式冲刷
+                    pc <= pc_flush_save;  // 不给out_valid, 不读rdata, 废掉这次读取
+                end else begin
+                    if(bus.rresp == 2'b00) begin
+                        out_instr  <= bus.rdata;
+                        out_pc <= pc;
+                        out_valid  <= 1'b1;
+                        error_save <= 2'b00;
+                        pc <= pc + 32'd4;   // 默认分支预测
                     end else begin
-                        ifu_block_cyc <= ifu_block_cyc + 64'b1; // 握手的周期是不算在里面的, 只算等待后级的周期
-                    end
+                        error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
+                    end 
                 end
 
-                if(state != IDLE) begin
-                    ifu_work_cyc <= ifu_work_cyc + 64'b1;
-                end
-
-
-                if(state == R && bus.rvalid) begin
-                    if(flush_save) begin  // 如果在访存期间收到flush, 必须完成这次fetch才能够正式冲刷
-                        pc <= pc_flush_save;  // 不给out_valid, 不读rdata, 废掉这次读取
-                    end else begin
-                        if(bus.rresp == 2'b00) begin
-                            out_instr  <= bus.rdata;
-                            out_pc <= pc;
-                            out_valid  <= 1'b1;
-                            error_save <= 2'b00;
-                            pc <= pc + 32'd4;   // 默认分支预测
-                        end else begin
-                            error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
-                        end 
-                    end
-
-                end
             end
         end
     end

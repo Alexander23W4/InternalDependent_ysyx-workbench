@@ -112,6 +112,7 @@ SECTIONS {
     _data_end = .;
   } > sdram AT> flash
 
+/*⭐: 定义这些链接器符号, 明确指定LMA和VMA就是为了能够让bootloader*/
   edata = .;
   _data = .;
 

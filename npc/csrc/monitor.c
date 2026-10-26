@@ -1,6 +1,6 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
-// 命令行里的 .bin 路径(见 parse_args 的 case 1), 装载 MROM 时要用
+// 命令行里的 .bin 路径
 static char *image_path = NULL;
 
 void _init(int argc, char** argv){
@@ -12,7 +12,6 @@ void _init(int argc, char** argv){
     load_flash(image_path); 
 
     reset();    // 按理来说这里reset pc到 FLASH, 启动 bootloader, 后续跟随状态机运行就可以了 
-
 
     // features启动:
     init_sdb();
@@ -80,7 +79,7 @@ void end_process(){
 
     pc_itrace_finish();   // ⭐ 把 pc_itrace 里不足 1000 条的尾巴也刷到 pc_itrace.txt
 
-    wave_close();      // ⭐ 关波形文件: 不 close 的话 vcd 没写尾巴, gtkwave 可能读不全
+    wave_close();      
 
     top->final();
     delete top;

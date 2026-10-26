@@ -14,6 +14,10 @@ uint64_t system_cycles = 0;
 uint64_t mcycle_reserve = 0;
 uint64_t instr_cycles = 0;
 
+/*
+多周期exec_once的逻辑:
+就是exec一个指令, 从fetch开始
+*/
 void exec_once(){
     
     pc = cpu.pc;   // 存下这个周期的pc;

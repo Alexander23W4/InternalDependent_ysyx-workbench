@@ -230,8 +230,12 @@ module ysyx_26040135(
         .out_ready(ready_rd),
         .out_pc(pc),
         .flush(flush),
-        .pc_flush(pc_flush)
+        .pc_flush(pc_flush),
+        .ifu_work_cyc(ifu_work_cyc),
+        .ifu_block_cyc(ifu_block_cyc)
     ); 
+
+    wire [63:0] ifu_work_cyc, ifu_block_cyc;
 
     wire        flush;  
     wire [31:0] pc_flush;
@@ -296,8 +300,16 @@ module ysyx_26040135(
         .rdata1(rdata1), .rdata2(rdata2),
         .is_exu_rd(is_exu_rd), .is_lsu_rd(is_lsu_rd),
         .rd_exu(rd_exu),
-        .flush(flush), .pc_flush(pc_flush)
+        .flush(flush), .pc_flush(pc_flush),
+        .lsu_blockf(lsu_blockf),
+        .wbu_blockf(wbu_blockf),
+        .exu_blockf_cyc(exu_blockf_cyc),
+        .exu_blcokbl_cyc(exu_blcokbl_cyc),
+        .exu_blcokbw_cyc(exu_blcokbw_cyc),
+        .exu_work_cyc(exu_work_cyc)
     );
+
+    wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_blcokbw_cyc, exu_work_cyc;
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
@@ -324,6 +336,8 @@ module ysyx_26040135(
     wire is_exu_rd, is_lsu_rd;
     wire [4:0] rd_exu;
     wire [31:0] rdata1, rdata2;
+    wire [63:0] lsu_blockf_cyc, lsu_blcokb_cyc, lsu_work_cyc;
+    wire lsu_blockf;
 
 
     ysyx_26040135_AXI_LSU lsu (
@@ -347,6 +361,10 @@ module ysyx_26040135(
         .__error(__lsu_error),
         .wdata_out(wdata_lw),
         .rd_out_lsu(rd_lsu),
+        .lsu_blockf_cyc(lsu_blockf_cyc),
+        .lsu_blcokb_cyc(lsu_blcokb_cyc),
+        .lsu_work_cyc(lsu_work_cyc),
+        .lsu_blockf(lsu_blockf),
 
         .sw_addr(sw_addr),
         .sw_avail(sw_avail)
@@ -355,6 +373,8 @@ module ysyx_26040135(
     wire valid_lw, ready_lw;
     wire [31:0] wdata_lw;
     wire [4:0] rd_lsu;
+    wire [63:0] wbu_blockf_cyc, wbu_work_cyc;
+    wire wbu_blockf;
 
 
     ysyx_26040135_WBU wbu (
@@ -375,6 +395,9 @@ module ysyx_26040135(
         .iag(iag[0]),
         .iag_type(iag[1]),
         .iag_amt(iag_amt),
+        .wbu_blockf_cyc(wbu_blockf_cyc),
+        .wbu_work_cyc(wbu_work_cyc),
+        .wbu_blockf(wbu_blockf),
 
         .wen(wen),
         .rd(rd_wbu),
@@ -504,7 +527,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 if(rd_release != 0) begin   
                     iag_amt[rd_exu] <= 2'b01;
                 end else begin
-                    iag_amt[rd_exu] <= iag_amt[rd_exu] + 2';b01;
+                    iag_amt[rd_exu] <= iag_amt[rd_exu] + 2'b01;
                 end
                 iag[1][rd_exu] <= is_exu_rd ? 1'b0 : 1'b1;
             end

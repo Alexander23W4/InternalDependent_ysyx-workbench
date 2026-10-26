@@ -59,4 +59,5 @@ function void check_end(
 endfunction
 
 
+export "DPI-C" function get_cycs;
 

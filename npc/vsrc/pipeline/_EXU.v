@@ -243,7 +243,7 @@ module ysyx_26040135_EXU (
             end
 
             if(in_ready && !in_valid) begin
-                exu_blcokb_cyc <= exu_blcokb_cyc + 63'b1;    
+                exu_blcokb_cyc <= exu_blcokb_cyc + 64'b1;    
             end
 
             if(!in_ready && rd_exu != 0) begin
@@ -260,11 +260,11 @@ module ysyx_26040135_EXU (
             end
 
             if(out_valid_lsu && !out_ready_lsu) begin
-                exu_blcokbl_cyc <= exu_blcokbl_cyc + 63'b1;
+                exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
             end
 
             if(out_valid_wbu && !out_ready_wbu) begin
-                exu_blcokbw_cyc <= exu_blcokbw_cyc + 63'b1;
+                exu_blcokbw_cyc <= exu_blcokbw_cyc + 64'b1;
             end
 
             if(csrrw_save) begin

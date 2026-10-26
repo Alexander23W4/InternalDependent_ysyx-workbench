@@ -58,7 +58,10 @@ module ysyx_26040135_WBU(
 
     output wen,
     output reg [31:0] wdata,
-    output reg [4:0] rd
+    output reg [4:0] rd,
+
+    output [63:0] wbu_blockf_cyc,
+    output [63:0] wbu_work_cyc
 );
 // 两个同时来, 先处理l
 
@@ -80,6 +83,10 @@ module ysyx_26040135_WBU(
             rd <= 5'b0;
             wdata <= 31'b0;
             wb_type <= 1'b0;
+
+            wbu_blockf_cyc <= 0;
+            wbu_work_cyc <= 0;
+
         end else begin   // 优先级 lsu > exu
             state <= next;
             if(state == IDLE && in_ready && in_valid_lsu) begin
@@ -94,8 +101,13 @@ module ysyx_26040135_WBU(
                 wdata <= wdata_exu;
                 wb_type <= 1'b0;  // ex
             end
+
+            if(in_ready && !in_valid_exu && !in_valid_lsu) begin
+                wbu_blockf_cyc <= wbu_blockf_cyc + 64'b1;
+            end
             
             if(state == WB) begin
+                wbu_work_cyc <= wbu_work_cyc + 64'b1;
                 in_ready <= 1'b1;
             end
         end

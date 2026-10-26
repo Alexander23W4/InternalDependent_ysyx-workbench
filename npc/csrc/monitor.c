@@ -13,14 +13,6 @@ void _init(int argc, char** argv){
 
     reset();    // 按理来说这里reset pc到 FLASH, 启动 bootloader, 后续跟随状态机运行就可以了 
 
-    // features启动:
-    init_sdb();
-
-    #if TRACE_ENABLE
-    init_disasm();
-    ftrace_init(image_path);
-    #endif
-
 }
 
 
@@ -71,6 +63,11 @@ void reset(){
     printf("Reset Released. Starting execution...\n");
 }
 
+main_loop(){
+    while(!(Status == NPC_END)){
+        exec_once();
+    }
+}
 
 
 void end_process(){

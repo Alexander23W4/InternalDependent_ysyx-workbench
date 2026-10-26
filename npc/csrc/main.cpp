@@ -51,13 +51,10 @@ I_ring_buf ring = {.amt = 0};
 // diliver .bin -> argv[1] 
 int main(int argc, char** argv) {
 
-    Verilated::commandArgs(argc, argv);   // 用于解决运行时plusargs功能报错的问题
+    Verilated::commandArgs(argc, argv);   
 
     top = new Vtop;
-    // ⭐ dpi-f.sv 是被 include 进 CPU 模块里的, 它导出的 halt/debug_read_all/check_* 都注册在
-    //    CPU 实例的作用域上。现在 verilator 的顶层是 ysyxSoCFull, CPU 的层次路径是
-    //    ysyxSoCFull -> asic -> cpu(CPU.scala 里的实例) -> cpu(ysyx_26040135 实例),
-    //    所以作用域名不再是老的 "TOP.top"。
+
     svScope cpu_scope = svGetScopeFromName("TOP.ysyxSoCFull.asic.cpu.cpu");
     printf("[DPI] cpu scope = %s\n", cpu_scope ? svGetNameFromScope(cpu_scope) : "(NOT FOUND)");
     assert(cpu_scope != NULL);

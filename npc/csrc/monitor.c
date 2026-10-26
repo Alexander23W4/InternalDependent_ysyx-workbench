@@ -6,12 +6,12 @@ static char *image_path = NULL;
 void _init(int argc, char** argv){
 
     // 仿真环境启动:
-    parse_args(argc, argv);  // @brief
+    parse_args(argc, argv);  
 
     // load_mrom(image_path);   
     load_flash(image_path); 
 
-    reset();    // 按理来说这里reset pc到 MROM, 启动 bootloader, 后续跟随状态机运行就可以了 
+    reset();    // 按理来说这里reset pc到 FLASH, 启动 bootloader, 后续跟随状态机运行就可以了 
 
 
     // features启动:

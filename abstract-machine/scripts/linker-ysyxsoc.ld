@@ -5,14 +5,11 @@ ysyxSoC 专用链接脚本。
 
 ⭐ 内存分工(按讲义"通过 bootloader 将程序加载到 PSRAM 中执行"):
       flash 0x3000_0000  16MB   LMA: 整个镜像"烧"在这里, 复位后也从这里取第一条指令
-      psram 0x8000_0000   4MB   VMA: 程序本体(text/rodata/data/bss) + 堆
+      psram 0x8000_0000   4MB   
       sram  0x0f00_0000   8KB   栈
-      sdram 0xa000_0000~0xbfff_ffff    仿真扩展后暂时有128MB
+      sdram 0xa000_0000~0xbfff_ffff    仿真扩展后暂时有128MB  VMA: 程序本体(text/rodata/data/bss) + 堆
 
-   为什么这么分: flash 只能 XIP 取指, 每取一条指令都要走一次 QSPI 事务, 很慢;
-   搬到 PSRAM 之后指令从 PSRAM 取, 快很多(讲义里 microbench 的性能提升就来自这里)。
-   所以复位后先在 flash 里跑一小段 bootloader, 把程序搬到 PSRAM, 再跳过去执行。
-   栈单独放 SRAM: SRAM 是真正的片上存储器, 函数调用/局部变量都走它, 比 PSRAM 快。
+
 
 ⭐ _pmem_start / _sram_start / _entry_offset 由 LDFLAGS 的 --defsym 传入,
    见 scripts/platform/ysyxsoc.mk。
@@ -77,6 +74,7 @@ SECTIONS {
 
         另外 _data_start.._data_end 必须与 _data_lma 起的一段 flash 严格逐字节对应,
         且起始地址 4 字节对齐, 否则 start.S 里的 lw 搬运会非对齐陷入。 */
+
   .data : {
     _data_start = .;     
     *(.data*)

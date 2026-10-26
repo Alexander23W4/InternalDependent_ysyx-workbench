@@ -164,31 +164,4 @@ const char *regs[] = {
 };
 
 
-uint32_t isa_reg_str2val(const char *s, bool *success) {
-  if(s[0] != '$'){
-    printf("NOT VALID REGISTER NAME, MUST START WITH $.\n");
-    *success = false;
-    return 0;
-  }
-  if(strcmp(s+1, "0") == 0){
-    *success = true;
-    return cpu.gpr[0];
-  }
-  if (strcmp(s+1, "pc") == 0) {
-    *success = true;
-    return cpu.pc;
-  }
-  for (int i = 0; i < sizeof(regs) / sizeof(const char*); i++)
-  {
-    if(strcmp(s+1, regs[i]) == 0){
-      *success = true;
-    //   printf("%s, register content: %d\n", s, cpu.gpr[i]);
-      return cpu.gpr[i];
-    }
-  }
-  printf("NO REGISTER MATCH.\n");
-  *success = false;
-  return 0;
-}
-
 

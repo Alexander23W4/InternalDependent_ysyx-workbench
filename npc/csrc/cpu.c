@@ -1,7 +1,7 @@
 #include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
 
 NPC_status Status = NPC_NORM;
-uint64_t instr_amt = 0;
+uint64_t instr_amt = 0;    // ⭐ 这个要有
 
 
 /*

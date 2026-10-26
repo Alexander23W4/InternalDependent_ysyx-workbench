@@ -22,7 +22,6 @@ uint32_t pc = 0;
 int endprog = 0; 
 size_t img_size;
 int diff_flag = 0;
-bool batch_mode = false;
 
 Vtop* top;               // 只有clock 和 reset
 
@@ -34,9 +33,6 @@ int ifu_error = 0;
 int lsu_error = 0;
 int master_validation_error = 0;
 
-int period_end = 0;
-
-I_ring_buf ring = {.amt = 0};
 
 
 // diliver .bin -> argv[1] 

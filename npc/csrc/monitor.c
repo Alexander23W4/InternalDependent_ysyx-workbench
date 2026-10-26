@@ -60,7 +60,7 @@ void reset(){
 }
 
 void main_loop(){
-    while(!(Status == NPC_END)){
+    while(!(Status == NPC_END || Status == NPC_CRASH)){
         exec_once();
     }
 }

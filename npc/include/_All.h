@@ -64,9 +64,9 @@ extern int endprog;
 extern Vtop* top;
 extern char* diff_so_file;  // ref 的 so文件
 extern const char *regs_name[];
-extern I_ring_buf ring;
+
 extern uint32_t pc;
-extern bool batch_mode;
+
 extern size_t img_size;
 extern int diff_flag;
 
@@ -80,7 +80,6 @@ extern int ifu_error;
 extern int lsu_error;
 extern int master_validation_error;
 
-extern int period_end;
 
 // Performance Counters:
 
@@ -101,8 +100,7 @@ void tick();
 void error_handler();
 void prt_gprs();
 void final_check();
-void final_print();
-uint32_t isa_reg_str2val(const char *s, bool *success);
+void statistical_print();
 
 // ⭐ 波形(VCD): 实现见 csrc/tools.c. make trace 用 -DWAVE_TRACE=1 打开,
 //    不带这个宏时它们是空函数, 不产生任何开销.

@@ -10,6 +10,8 @@ ram的访问除了 difftest 里面有一个 mem copy, 初始化的时候, 比较
 另一种问题是流水线的时序问题导致卡死                   需要能够输出trace+波形看到底为什么卡死了
 
 ⭐: 如果dut卡住, ctrl-C退出时, 需要能够输出trace
+
+⭐: 我需要把多周期的ysyxsoc移植过来, 包括verilator-C和RTL, 让makefile能够启动两种架构环境来 功能验证 & 性能统计
 */
 
 using namespace std;

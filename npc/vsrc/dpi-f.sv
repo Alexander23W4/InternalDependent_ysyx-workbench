@@ -3,10 +3,10 @@
 // 在cpp中, 仿真的时候 会自动生成 Vtop_Dpi.h, 声明 extern int halt(int *endprog);
 
 // ⭐: 引出ebreak到顶层
-export "DPI-C" task halt;
-task halt(output int endprog); 
+export "DPI-C" task check_halt;
+task check_halt(output int endprog); 
     begin
-        endprog = {{31{1'b0}}, ebreak};
+        endprog = {{31{1'b0}}, ebreak_end};
     end
 endtask
 
@@ -60,4 +60,30 @@ endfunction
 
 
 export "DPI-C" function get_cycs;
+function void get_cycs(
+    output longint ifu_work_cyc_val,
+    output longint ifu_block_cyc_val,
+    output longint exu_blockf_cyc_val,
+    output longint exu_blcokbl_cyc_val,
+    output longint exu_blcokbw_cyc_val,
+    output longint exu_work_cyc_val,
+    output longint lsu_blockf_cyc_val,
+    output longint lsu_blcokb_cyc_val,
+    output longint lsu_work_cyc_val,
+    output longint wbu_blockf_cyc_val,
+    output longint wbu_work_cyc_val
+);
+    ifu_work_cyc_val       = ifu_work_cyc;
+    ifu_block_cyc_val      = ifu_block_cyc;
+    exu_blockf_cyc_val     = exu_blockf_cyc;
+    exu_blcokbl_cyc_val   = exu_blcokbl_cyc;
+    exu_blcokbw_cyc_val   = exu_blcokbw_cyc;
+    exu_work_cyc_val       = exu_work_cyc;
+    lsu_blockf_cyc_val     = lsu_blockf_cyc;
+    lsu_blcokb_cyc_val    = lsu_blcokb_cyc;
+    lsu_work_cyc_val       = lsu_work_cyc;
+    wbu_blockf_cyc_val    = wbu_blockf_cyc;
+    wbu_work_cyc_val      = wbu_work_cyc;
+endfunction
+
 

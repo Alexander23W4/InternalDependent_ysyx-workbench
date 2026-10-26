@@ -67,7 +67,9 @@ module ysyx_26040135_EXU (
     output reg [63:0] exu_blockf_cyc,
     output reg [63:0] exu_blcokbl_cyc,
     output reg [63:0] exu_blcokbw_cyc,
-    output reg [63:0] exu_work_cyc
+    output reg [63:0] exu_work_cyc,
+
+    output ebreak_end
 );
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
@@ -92,40 +94,20 @@ module ysyx_26040135_EXU (
     reg [31:0] csr_rst_save;
 
 
-    wire [4:0] shamt_r = rdata2[4:0];
-    wire [4:0] shamt_i = imm_save[4:0];
-    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1;
-    wire [31:0] add2 = add_save ? rdata2 : imm_save;  
-    wire [31:0] add_rst_w = add1 + add2;
-    wire [31:0] sub_rst  = rdata1 - rdata2;
-    wire [31:0] xor_rst  = rdata1 ^ rdata2;
-    wire [31:0] xori_rst = rdata1 ^ imm_save;
-    wire [31:0] or_rst   = rdata1 | rdata2;
-    wire [31:0] ori_rst  = rdata1 | imm_save;
-    wire [31:0] and_rst  = rdata1 & rdata2;
-    wire [31:0] andi_rst = rdata1 & imm_save;
-
-    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1) < $signed(rdata2))};
-    wire [31:0] sltu_rst  = {31'b0, (rdata1 < rdata2)};
-    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1) < $signed(imm_save))};
-    wire [31:0] sltiu_rst = {31'b0, (rdata1 < imm_save)};
-
-
-    wire [31:0] sll_rst   = rdata1 << shamt_r;
-    wire [31:0] slli_rst  = rdata1 << shamt_i;
-    wire [31:0] srl_rst   = rdata1 >> shamt_r;
-    wire [31:0] srli_rst  = rdata1 >> shamt_i;
-    wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
-    wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
-
-
     // 这些是存输入之前(输入握手之前)的判断信号, 用原始信号, 不用save信号, 而后续的所有信号和输出信号都要用save信号
     wire read = lw | lh | lb | lbu | lhu;
     wire write = sw | sh | sb;
     wire is_ls = read | write;
-    wire is_other_nwb = beq | bne | blt | bge | bltu | bgeu | ecall | ebreak | fence_i | mret;
+    wire is_ls_nwb_nrs = read | write | beq | bne | blt | bge | bltu | bgeu | ecall | ebreak | fence_i | mret | nrs;
+    wire nrs = jal | jalr | lui;  // 这几个不需要读取, 没有gpr依赖问题
 
-    wire gpr_read_invalid = iag[rs1] | iag[rs2];
+    wire r_type = add | sub | sll | slt | sltu | xor_inst | srl | sra | or_inst | and_inst;
+    wire s_type = sb | sh | sw;
+    wire b_type = beq | bne | blt | bge | bltu | bgeu;
+    wire rsb_type = r_type | s_type | b_type;
+    wire i_type = ~rsb_type & ~nrs;
+
+    wire gpr_read_invalid = (rsb_type & (iag[rs1] | iag[rs2])) | (i_type & iag[rs1]);   // 会读gpr且gpr存在io前后依赖问题
 
     wire [31:0] new_pc;
     wire [31:0] pc_next_dft;
@@ -148,7 +130,8 @@ module ysyx_26040135_EXU (
     end
 
 
-
+    localparam IDLE = 0, BLOCK = 1, WAIT_END = 2, EX = 3;
+    reg [1:0] state, next;
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
@@ -173,22 +156,15 @@ module ysyx_26040135_EXU (
             exu_blockfl_cyc <= 0;
             exu_work_cyc <= 0;
 
+            state <= IDLE;
+
         end else begin
+            state <= next;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
-            if(in_valid && in_ready) begin
+            if(state == IDLE && in_valid && in_ready) begin
                 in_ready <= 1'b0;
                 flush_done <= 1'b0;
-
-                if(ebreak) begin   // 等两个信号: 
-                    
-                end
-                else if(is_ls && !gpr_read_invalid) begin
-                    out_valid_lsu <= 1'b1; 
-                end
-                else if (!is_other_nwb && !gpr_read_invalid) begin
-                    out_valid_wbu <= 1'b1;
-                end
 
                 pc_save    <= pc;
 
@@ -245,6 +221,10 @@ module ysyx_26040135_EXU (
 
                 rd_exu <= rd;
                 csr_rst_save  <= csrw_rst;
+                
+            end
+
+            if(state == BLOCK) begin
                 
             end
 
@@ -312,7 +292,63 @@ module ysyx_26040135_EXU (
         end
     end
 
+    always @(*) begin
+        next = state;
+        ebreak_end = 1'b0;
+        case(state);
+            IDLE: begin
+                if(in_valid && in_ready) begin
+                    if(ebreak) begin
+                        next = WAIT_END;
+                    end
+                    else begin
+                        next = BLOCK;
+                    end
+                end
+            end
+            WAIT_END: begin
+                if(lsu_blockf && wbu_blockf) begin   // 直到LSU和WBU的工作都完成, 才拉高一周期ebreak_end, 让仿真环境结束
+                    ebreak_end = 1'b1;
+                end
+            end
+            BLOCK: begin   // 信息已经读进来了, 用save信号
+                // 判断出现gpr前后依赖问题, 如果没有, 直接进EX, 并给out_valid 
+                if(is_ls && !gpr_read_invalid) begin
+                    out_valid_lsu <= 1'b1; 
+                end
+                if (!is_ls_nwb_nrs && !gpr_read_invalid) begin
+                    out_valid_wbu <= 1'b1;
+                end
+            end
+        endcase
+    end 
 
+    wire [4:0] shamt_r = rdata2[4:0];
+    wire [4:0] shamt_i = imm_save[4:0];
+    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1;
+    wire [31:0] add2 = add_save ? rdata2 : imm_save;  
+    wire [31:0] add_rst_w = add1 + add2;
+    wire [31:0] sub_rst  = rdata1 - rdata2;
+    wire [31:0] xor_rst  = rdata1 ^ rdata2;
+    wire [31:0] xori_rst = rdata1 ^ imm_save;
+    wire [31:0] or_rst   = rdata1 | rdata2;
+    wire [31:0] ori_rst  = rdata1 | imm_save;
+    wire [31:0] and_rst  = rdata1 & rdata2;
+    wire [31:0] andi_rst = rdata1 & imm_save;
+
+    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1) < $signed(rdata2))};
+    wire [31:0] sltu_rst  = {31'b0, (rdata1 < rdata2)};
+    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1) < $signed(imm_save))};
+    wire [31:0] sltiu_rst = {31'b0, (rdata1 < imm_save)};
+
+
+    wire [31:0] sll_rst   = rdata1 << shamt_r;
+    wire [31:0] slli_rst  = rdata1 << shamt_i;
+    wire [31:0] srl_rst   = rdata1 >> shamt_r;
+    wire [31:0] srli_rst  = rdata1 >> shamt_i;
+    wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
+    wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
+    
     always @(*) begin
         flush = 1'b0;
 

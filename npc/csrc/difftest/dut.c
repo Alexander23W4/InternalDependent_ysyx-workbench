@@ -149,7 +149,7 @@ void difftest_step() {
     }
     skip_dut_nr_inst --;
     if (skip_dut_nr_inst == 0)
-      panic("can not catch up with ref.pc = 0x%x at pc = 0x%x", ref_r.pc, pc);
+      panic("can not catch up with ref.pc = 0x%x at pc = 0x%x", ref_r.pc, cpu.pc);
     return;
   }
        

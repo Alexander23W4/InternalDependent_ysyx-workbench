@@ -46,6 +46,7 @@ VM_USER_CLASSES = \
 	cpu \
 	dut \
 	flash \
+	mrom \
 	tools \
 	main \
 	monitor \
@@ -71,6 +72,8 @@ cpu.o: ./csrc/cpu.c
 dut.o: ./csrc/difftest/dut.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 flash.o: ./csrc/items/flash.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+mrom.o: ./csrc/items/mrom.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 tools.o: ./csrc/items/tools.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

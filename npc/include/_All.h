@@ -122,6 +122,10 @@ void difftest_skip_ref();
 void difftest_skip_dut(int nr_ref, int nr_dut);
 
 
+
+extern uint8_t mrom[MROM_SIZE];
+void load_mrom(const char *path);
+
 extern uint8_t flash[FLASH_SIZE];
 void load_flash(const char *path);
 

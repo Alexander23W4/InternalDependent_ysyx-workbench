@@ -8,6 +8,7 @@ module ysyx_26040135_EXU (
     input reset,
 
     input  [31:0] pc,   //
+    input  [31:0] instr,
 
     input  [31:0] rdata1, 
     input  [31:0] rdata2,  ///
@@ -38,6 +39,9 @@ module ysyx_26040135_EXU (
 
     output [31:0] _mstatus, _mtvec, _mepc, _mcause,
     output [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
+    output [31:0] _pc,
+    output [31:0] _instr,
+    output _new_instr,
 
     input in_valid,
     output reg in_ready,
@@ -76,6 +80,7 @@ module ysyx_26040135_EXU (
 
     reg [31:0] pc_save;
     reg [31:0] imm_save;
+    reg [31:0] instr_save;
 
     reg add_save, addi_save, sub_save, lui_save, auipc_save;
     reg and_inst_save, or_inst_save, xor_inst_save, andi_save, ori_save, xori_save;
@@ -148,7 +153,7 @@ module ysyx_26040135_EXU (
                 flush_done <= 1'b0;
 
                 pc_save    <= pc;
-
+                instr_save <= instr;
                 imm_save   <= imm;
 
                 rd_save    <= rd;
@@ -279,9 +284,11 @@ module ysyx_26040135_EXU (
         ebreak_end = 1'b0;
         flush = 1'b0;
         rd_exu = 0;
+        _new_instr = 1'b0;
         case(state);
             IDLE: begin
                 if(in_valid && in_ready) begin
+                    _new_instr = 1'b1;
                     if(ebreak) begin
                         next = WAIT_END;
                     end

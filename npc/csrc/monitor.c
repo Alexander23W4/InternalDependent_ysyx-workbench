@@ -2,6 +2,9 @@
 
 // 命令行里的 .bin 路径
 static char *image_path = NULL;
+NPC_status Status = NPC_NORM;
+uint64_t instr_amt = 0;    
+int new_instr = 0;
 
 void _init(int argc, char** argv){
 
@@ -59,10 +62,31 @@ void reset(){
     printf("Reset Released. Starting execution...\n");
 }
 
-void main_loop(){
-    while(!(Status == NPC_END || Status == NPC_CRASH)){
-        exec_once();
-    }
+void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出去
+    // while(!(Status == NPC_END || Status == NPC_CRASH)){   
+    //     exec_once();
+    // }
+    do{
+        tick();
+        top->check_halt(&endprog);
+        // 取EXU的
+        top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
+                        (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
+        top->check_error(&ifu_error, &lsu_error, &master_validation_error);
+        // EXU新收一个instr, 算作一个新instr
+        top->check_new_instr(&new_instr);
+        if(new_instr){
+            instr_amt++;
+        }
+        if(ifu_error || lsu_error || master_validation_error){
+            error_handler();
+            return;  // 这里直接return出去
+        }
+        if(endprog){
+            Status = NPC_END;
+            printf("%s", ANSI_FMT("Hit ebreak instr, program end.\n", ANSI_FG_YELLOW));
+        }
+    } while(!endprog);
 }
 
 

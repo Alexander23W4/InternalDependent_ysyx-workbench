@@ -83,11 +83,15 @@ module ysyx_26040135_IDU(
     output reg[4:0] rs2,
 
 // ⭐ 一条指令只用一个立即数, 在这里就按指令类型选好
-    output reg[31:0] imm
+    output reg[31:0] imm,
+
+    output [31:0] out_instr
 );
 
     assign in_ready  = out_ready;
     assign out_valid = in_valid;
+
+    assign out_isntr = in_instr;
 
 
     wire [6:0] opcode = in_instr[6:0];

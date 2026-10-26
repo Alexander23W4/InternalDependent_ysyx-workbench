@@ -77,6 +77,7 @@ extern int ifu_error;
 extern int lsu_error;
 extern int master_validation_error;
 
+extern int new_instr;
 
 // Performance Counters:
 

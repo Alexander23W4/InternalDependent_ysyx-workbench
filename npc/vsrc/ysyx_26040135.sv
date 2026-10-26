@@ -190,15 +190,15 @@ module ysyx_26040135(
     wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
     wire [31:0] _pc;
     wire [31:0] _instr;
+    
+    wire _new_instr;
 
     wire [1:0]  __ifu_error;     
     wire        __ifu_master_validation_error;    
     wire [1:0]  __lsu_error;   
 
     wire __ebreak_end;
-   
-    assign _pc = pc;   
-    assign _instr = instr;
+
 
 
 
@@ -258,7 +258,8 @@ module ysyx_26040135(
         .ebreak(ebreak), .ecall(ecall),
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc), .mret(mret),
         .fence_i(fence_i),
-        .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm)
+        .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm),
+        .out_instr(instr_de)
     );
 
     wire valid_de, ready_de;
@@ -272,11 +273,12 @@ module ysyx_26040135(
     wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
+    wire instr_de;
 
 
     ysyx_26040135_EXU exu (
         .clock(clock), .reset(reset),
-        .pc(pc_d), .imm(imm),
+        .pc(pc_d), .imm(imm), .instr(instr_de)
         .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
         .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst), .andi(andi), .ori(ori), .xori(xori),
         .sll(sll), .srl(srl), .sra(sra), .slli(slli), .srli(srli), .srai(srai),
@@ -288,6 +290,8 @@ module ysyx_26040135(
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
         ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
         ._mcycle(_mcycle), ._mcycleh(_mcycleh), ._mvendorid(_mvendorid), ._marchid(_marchid),
+        ._pc(_pc), _instr(_instr),
+        ._new_instr(_new_instr),
         .rd(rd), .rs1(rs1), .rs2(rs2),
         .iag(iag[0]),
         

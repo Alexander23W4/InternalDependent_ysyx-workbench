@@ -6,7 +6,7 @@
 export "DPI-C" task check_halt;
 task check_halt(output int endprog); 
     begin
-        endprog = {{31{1'b0}}, ebreak_end};
+        endprog = {{31{1'b0}}, __ebreak_end};
     end
 endtask
 

@@ -91,7 +91,7 @@ module ysyx_26040135_IDU(
     assign in_ready  = out_ready;
     assign out_valid = in_valid;
 
-    assign out_isntr = in_instr;
+    assign out_instr = in_instr;
 
 
     wire [6:0] opcode = in_instr[6:0];

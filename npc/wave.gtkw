@@ -1,0 +1,18 @@
+[*]
+[*] GTKWave save file: make trace 打开波形时默认显示这些信号
+[*] 想改: 在 gtkwave 里选好信号 -> File -> Write Save File -> 覆盖 npc/wave.gtkw
+[*]
+[dumpfile] "wave.vcd"
+[dumpfile_size] 0
+[timestart] 0
+[size] 1600 1000
+[pos] -1 -1
+[sst_width] 300
+[signals_width] 240
+[sst_expanded] 1
+[sst_vpaned_height] 500
+@22
+TOP.clock
+@22
+TOP.reset
+

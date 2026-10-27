@@ -273,7 +273,7 @@ module ysyx_26040135(
     wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
-    wire instr_de;
+    wire [31:0] instr_de;
 
 
 ysyx_26040135_EXU exu (

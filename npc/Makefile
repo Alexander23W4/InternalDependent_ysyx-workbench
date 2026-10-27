@@ -112,6 +112,8 @@ WAVE_START ?= 0
 WAVE_END   ?= 3000
 WAVE_HALF_PERIOD ?= 1
 
+GTKW_FILE  ?= wave.gtkw
+
 # ⭐ 从 npc/ 目录里直接敲 make trace 时, 没有 AM 那边传过来的 IMAGE,
 #    给一个默认的、会自己 ebreak 结束的程序(rt-thread 那种 shell 不会退出).
 #    用 ?= 所以 AM 那边定义了 IMAGE 时不受影响.
@@ -154,7 +156,7 @@ trace: clean_obj
 	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 	WAVE_FILE=$(WAVE_FILE) WAVE_START=$(WAVE_START) WAVE_END=$(WAVE_END) WAVE_HALF_PERIOD=$(WAVE_HALF_PERIOD) \
 	$(OBJ_DIR)/Vtop $(ARGS)
-	$(WAVE_GEN) $(WAVE_FILE)
+	$(WAVE_GEN) $(WAVE_FILE) $(if $(wildcard $(GTKW_FILE)),$(GTKW_FILE),)
 endif
 
 # 3. --cc --exe --build -j 0 -Wall

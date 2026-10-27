@@ -745,7 +745,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
-    `include "vsrc/dpi-f.sv"
+    `include "vsrc_m/dpi-f.sv"
 
 endmodule
 /* verilator lint_off UNUSEDSIGNAL */

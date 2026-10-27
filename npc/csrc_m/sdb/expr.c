@@ -13,7 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include_m/_All.h"
 #include <regex.h>
 
 #define MAX_TOKEN_LENGTH 512

@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include_m/_All.h"
 
 
 unsigned long long ifu_cycles = 0;

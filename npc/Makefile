@@ -38,7 +38,7 @@ EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 # 需要的头文件路径写在这里
 INC_SOURCES=-CFLAGS "-I./include -I./include/sub"
 GDB_INC_SOURCES=-CFLAGS "-g -I./include -I./include/sub"
-INC_SOURCES_M=CFLAGS "-I./include_m -I./include_m/sub"
+INC_SOURCES_M=-CFLAGS "-I./include_m -I./include_m/sub"
 GDB_INC_SOURCES=-CFLAGS "-g -I./include_m -I./include_m/sub"
 
 PERIP_SRC = -I../ysyxSoC/perip/uart16550/rtl -I../ysyxSoC/perip/spi/rtl

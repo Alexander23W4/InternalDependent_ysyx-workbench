@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include_m/_All.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 /*

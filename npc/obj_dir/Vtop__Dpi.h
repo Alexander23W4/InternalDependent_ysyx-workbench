@@ -16,20 +16,42 @@ extern "C" {
 
 
     // DPI EXPORTS
-    // DPI export at vsrc/dpi-f.sv:41:15
+    // DPI export at vsrc_m/dpi-f.sv:54:15
+    extern void check_end(int* period_end);
+    // DPI export at vsrc_m/dpi-f.sv:40:15
     extern void check_error(int* ifu_error, int* lsu_error, int* master_validation_error);
-    // DPI export at vsrc/dpi-f.sv:7:6
-    extern void check_halt(int* endprog);
-    // DPI export at vsrc/dpi-f.sv:55:6
-    extern void check_new_instr(int* new_instr);
-    // DPI export at vsrc/dpi-f.sv:15:15
+    // DPI export at vsrc_m/dpi-f.sv:14:15
     extern void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr);
+    // DPI export at vsrc_m/dpi-f.sv:188:15
+    extern void get_icache_counters(unsigned long long* out_hit_cnt, unsigned long long* out_miss_cnt, unsigned long long* out_hit_cycles, unsigned long long* out_miss_cycles);
+    // DPI export at vsrc_m/dpi-f.sv:108:15
+    extern void get_ifu_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    // DPI export at vsrc_m/dpi-f.sv:95:15
+    extern void get_ifu_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    // DPI export at vsrc_m/dpi-f.sv:134:15
+    extern void get_lsu_read_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    // DPI export at vsrc_m/dpi-f.sv:121:15
+    extern void get_lsu_read_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    // DPI export at vsrc_m/dpi-f.sv:160:15
+    extern void get_lsu_write_region_counts(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    // DPI export at vsrc_m/dpi-f.sv:147:15
+    extern void get_lsu_write_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    // DPI export at vsrc_m/dpi-f.sv:174:15
+    extern void get_region_cycles(unsigned long long* out_flash, unsigned long long* out_sram, unsigned long long* out_sdram, unsigned long long* out_other);
+    // DPI export at vsrc_m/dpi-f.sv:78:15
+    extern void get_unit_cycles(unsigned long long* out_ifu_cycles, unsigned long long* out_lsu_cycles, unsigned long long* out_lsu_read_cycles, unsigned long long* out_lsu_write_cycles);
+    // DPI export at vsrc_m/dpi-f.sv:6:6
+    extern void halt(int* endprog);
 
     // DPI IMPORTS
     // DPI import at ../ysyxSoC/perip/flash/flash.v:84:30
     extern void flash_read(int addr, int* data);
+    // DPI import at vsrc_m/dpi-f.sv:67:30
+    extern void instr_type_event(svBit event_alu, svBit event_branch, svBit event_load, svBit event_store, svBit event_jump, svBit event_csr, svBit event_system);
     // DPI import at ../ysyxSoC/build/ysyxSoCFull.v:6730:30
     extern void mrom_read(int raddr, int* rdata);
+    // DPI import at vsrc_m/dpi-f.sv:61:30
+    extern void perf_event(svBit ifu_instr_valid, svBit lsu_read_complete, svBit lsu_write_complete);
 
 #ifdef __cplusplus
 }

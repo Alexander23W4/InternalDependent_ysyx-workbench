@@ -15,10 +15,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/config.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include_m/config.h"
 
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h"
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/log.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include_m/trace/trace.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include_m/log.h"
 // 注: 原来这里还 include 了 npc/include/time.h 和 npc/include/device.h,
 //     但这两个文件并不存在(git 里也从来没有), 而且 csrc 里已经不再使用
 //     NPC 自己的设备和定时器(NPC 外设已改由 ysyxSoC 提供), 所以直接去掉。

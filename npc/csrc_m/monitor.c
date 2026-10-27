@@ -1,4 +1,4 @@
-#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include_m/_All.h"
 
 // 命令行里的 .bin 路径(见 parse_args 的 case 1), 装载 MROM 时要用
 static char *image_path = NULL;

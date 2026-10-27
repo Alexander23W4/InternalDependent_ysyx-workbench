@@ -15,4 +15,10 @@
 TOP.clock
 @22
 TOP.reset
+@28
+TOP.ysyxSoCFull.asic.cpu.cpu.pc[31:0]
+@28
+TOP.ysyxSoCFull.asic.cpu.cpu.exu.instr_save[31:0]
+@28
+TOP.ysyxSoCFull.asic.cpu.cpu.exu.mcycle[31:0]
 

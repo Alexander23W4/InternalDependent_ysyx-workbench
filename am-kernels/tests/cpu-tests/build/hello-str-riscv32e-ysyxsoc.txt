@@ -56,7 +56,7 @@ a0000074:	02c080e7          	jalr	44(ra) # a000009c <_boot_copy>
 a0000078:	00000597          	auipc	a1,0x0
 a000007c:	55058593          	addi	a1,a1,1360 # a00005c8 <buf>
 a0000080:	00000617          	auipc	a2,0x0
-a0000084:	5c860613          	addi	a2,a2,1480 # a0000648 <_bss_end>
+a0000084:	5c860613          	addi	a2,a2,1480 # a0000648 <__am_apps_bss_end>
 a0000088:	00c5f863          	bgeu	a1,a2,a0000098 <_start+0x98>
 a000008c:	00058023          	sb	zero,0(a1)
 a0000090:	00158593          	addi	a1,a1,1

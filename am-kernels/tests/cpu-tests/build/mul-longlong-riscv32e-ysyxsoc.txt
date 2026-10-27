@@ -49,14 +49,14 @@ a0000058:	35c50513          	addi	a0,a0,860 # 300003b0 <_data_lma>
 a000005c:	00000597          	auipc	a1,0x0
 a0000060:	31c58593          	addi	a1,a1,796 # a0000378 <ans>
 a0000064:	00000617          	auipc	a2,0x0
-a0000068:	37460613          	addi	a2,a2,884 # a00003d8 <_bss_end>
+a0000068:	37460613          	addi	a2,a2,884 # a00003d8 <__am_apps_bss_end>
 a000006c:	40b60633          	sub	a2,a2,a1
 a0000070:	00000097          	auipc	ra,0x0
 a0000074:	02c080e7          	jalr	44(ra) # a000009c <_boot_copy>
 a0000078:	00000597          	auipc	a1,0x0
-a000007c:	36058593          	addi	a1,a1,864 # a00003d8 <_bss_end>
+a000007c:	36058593          	addi	a1,a1,864 # a00003d8 <__am_apps_bss_end>
 a0000080:	00000617          	auipc	a2,0x0
-a0000084:	35860613          	addi	a2,a2,856 # a00003d8 <_bss_end>
+a0000084:	35860613          	addi	a2,a2,856 # a00003d8 <__am_apps_bss_end>
 a0000088:	00c5f863          	bgeu	a1,a2,a0000098 <_start+0x98>
 a000008c:	00058023          	sb	zero,0(a1)
 a0000090:	00158593          	addi	a1,a1,1
@@ -130,7 +130,7 @@ a000017c:	00d7e7b3          	or	a5,a5,a3
 a0000180:	0017b513          	seqz	a0,a5
 a0000184:	f59ff0ef          	jal	ra,a00000dc <check>
 a0000188:	00000797          	auipc	a5,0x0
-a000018c:	25078793          	addi	a5,a5,592 # a00003d8 <_bss_end>
+a000018c:	25078793          	addi	a5,a5,592 # a00003d8 <__am_apps_bss_end>
 a0000190:	00878a63          	beq	a5,s0,a00001a4 <main+0xb0>
 a0000194:	00042503          	lw	a0,0(s0)
 a0000198:	00012603          	lw	a2,0(sp)

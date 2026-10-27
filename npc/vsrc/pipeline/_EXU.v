@@ -393,6 +393,8 @@ module ysyx_26040135_EXU (
         _mcycleh = mcycleh;
         _mvendorid = mvendorid;
         _marchid = marchid;
+        _pc = pc_save;
+        _instr = instr_save;
 
         ic_wb_wdata = ({32{lui_save}} & imm_save) |   //
                 ({32{add_save | addi_save | auipc_save}} & add_rst_w) |

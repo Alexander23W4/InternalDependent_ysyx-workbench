@@ -77,6 +77,8 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
         // EXU新收一个instr, 算作一个新instr
         top->check_new_instr(&new_instr);
         if(new_instr){
+            // printf("PC: [0x%08x]\n", cpu.pc); 
+            prt_gprs();
             instr_amt++;
         }
         if(ifu_error || lsu_error || master_validation_error){

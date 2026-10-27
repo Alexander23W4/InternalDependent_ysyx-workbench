@@ -138,7 +138,9 @@ void final_check(){
 
 
 void prt_gprs() {
+    printf("Instr AMT: %d\n", instr_amt);
     printf("PC: [0x%08x]\n", cpu.pc); 
+    printf("Instr: 0x%08x\n", instr);
     
     int count = 0;
     for (int i = 0; i < 32; i++) {

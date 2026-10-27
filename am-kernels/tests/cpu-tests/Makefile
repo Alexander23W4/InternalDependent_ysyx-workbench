@@ -73,7 +73,8 @@ run: all
 	@cat $(RESULT)
 	@rm $(RESULT)
 
-	
+trace: all
+
 gdb: all
 
 clean:

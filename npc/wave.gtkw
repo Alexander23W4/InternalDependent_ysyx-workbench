@@ -1,24 +1,25 @@
 [*]
-[*] GTKWave save file: make trace 打开波形时默认显示这些信号
-[*] 想改: 在 gtkwave 里选好信号 -> File -> Write Save File -> 覆盖 npc/wave.gtkw
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Oct 27 08:45:18 2026
 [*]
-[dumpfile] "wave.vcd"
-[dumpfile_size] 0
+[dumpfile] "/home/wang/InternalDependent_ysyx-workbench/npc/wave.vcd"
+[dumpfile_mtime] "Tue Oct 27 08:42:45 2026"
+[dumpfile_size] 1938819
+[savefile] "/home/wang/InternalDependent_ysyx-workbench/npc/wave.gtkw"
 [timestart] 0
 [size] 1600 1000
 [pos] -1 -1
+*0.000000 5 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [sst_width] 300
 [signals_width] 240
 [sst_expanded] 1
 [sst_vpaned_height] 500
-@22
+@28
 TOP.clock
-@22
 TOP.reset
-@28
+@22
 TOP.ysyxSoCFull.asic.cpu.cpu.pc[31:0]
-@28
 TOP.ysyxSoCFull.asic.cpu.cpu.exu.instr_save[31:0]
-@28
 TOP.ysyxSoCFull.asic.cpu.cpu.exu.mcycle[31:0]
-
+[pattern_trace] 1
+[pattern_trace] 0

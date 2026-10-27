@@ -26,6 +26,8 @@ ALL_SOURCES := $(shell find ./vsrc -type f \( -name "*.sv" -o -name "*.v" \) -pr
 
 # 这里是用find递归搜索 ./csrc 下面所有的.c和.cpp文件
 CPP_SRC = $(shell find ./csrc -type f \( -name "*.c" -o -name "*.cpp" \) -print)
+CPP_SRC_M = $(shell find ./csrc_m -type f \( -name "*.c" -o -name "*.cpp" \) -print)
+
 
 TOP_MODULE=$(basename $(notdir $(V_SRC)))
 OBJ_DIR=./obj_dir
@@ -36,6 +38,9 @@ EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 # 需要的头文件路径写在这里
 INC_SOURCES=-CFLAGS "-I./include -I./include/sub"
 GDB_INC_SOURCES=-CFLAGS "-g -I./include -I./include/sub"
+INC_SOURCES_M=CFLAGS "-I./include_m -I./include_m/sub"
+GDB_INC_SOURCES=-CFLAGS "-g -I./include_m -I./include_m/sub"
+
 PERIP_SRC = -I../ysyxSoC/perip/uart16550/rtl -I../ysyxSoC/perip/spi/rtl
 
 
@@ -109,16 +114,29 @@ endif
 # other args dilivery
 ARGS+=-b
 
-# ------------------------------------------------------------------------------------------------------
+ifeq ($(USE_M),1)
+MODE_SOURCES  = $(SOURCES_M)
+MODE_CPP_SRC  = $(CPP_SRC_M)
+MODE_INC      = $(INC_SOURCES_M)
+MODE_GDB_INC  = $(GDB_INC_SOURCES_M)
+MODE_VSRC_DIR = ./vsrc_m
+else
+MODE_SOURCES  = $(SOURCES)
+MODE_CPP_SRC  = $(CPP_SRC)
+MODE_INC      = $(INC_SOURCES)
+MODE_GDB_INC  = $(GDB_INC_SOURCES)
+MODE_VSRC_DIR = ./vsrc
+endif
 
+# ------------------------------------------------------------------------------------------------------
 
 ifeq ($(origin AM_SRCS), undefined)
 trace: clean_obj
 	@echo "================================= TRACE (NPC) ====================================="
 	@echo "[TRACE] IMAGE = $(IMAGE)"
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) $(WAVE_GEN_FLAG) \
-	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) \
-	-CFLAGS "-DWAVE_TRACE=1 -I./include -I./include/sub" \
+	$(PERIP_SRC) $(V_SRC) $(MODE_SOURCES) $(MODE_CPP_SRC) \
+	-CFLAGS "-DWAVE_TRACE=1 $(MODE_INC)" \
 	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 	WAVE_FILE=$(WAVE_FILE) WAVE_START=$(WAVE_START) WAVE_END=$(WAVE_END) WAVE_HALF_PERIOD=$(WAVE_HALF_PERIOD) \
 	$(OBJ_DIR)/Vtop $(ARGS)
@@ -128,19 +146,18 @@ endif
 
 fasts:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) \
-	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) $(INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
-
-
+	$(PERIP_SRC) $(V_SRC) $(MODE_SOURCES) $(MODE_CPP_SRC) $(MODE_INC) \
+	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 
 npc-gdb:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) \
-	$(PERIP_SRC) $(V_SRC) $(SOURCES) $(CPP_SRC) $(GDB_INC_SOURCES) --LDFLAGS "-lcapstone -lreadline -lSDL2"
-
+	$(PERIP_SRC) $(V_SRC) $(MODE_SOURCES) $(MODE_CPP_SRC) $(MODE_GDB_INC) \
+	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 
 static:
 	$(VERILATOR) $(STATIC_CHECK_FLAG) $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) \
 		$(INCLUDE_PATHS) \
-		$(filter-out ./vsrc/dpi-f.sv,$(SOURCES)) \
+		$(filter-out $(MODE_VSRC_DIR)/dpi-f.sv,$(MODE_SOURCES)) \
 		$(V_SRC)
 
 lintall:
@@ -154,6 +171,8 @@ clean_npc:
 clean_obj:
 	rm -rf $(OBJ_DIR)
 
+
+# perf, 仅用于多周期cpu
 PERF_BENCH    ?= ../am-kernels/benchmarks/microbench
 PERF_MAINARGS ?= test
 PERF_NAME     ?= $(notdir $(PERF_BENCH))

@@ -109,8 +109,8 @@ CROSS_COMPILE ?= riscv64-linux-gnu-
 #    正好和 apb_delayer.v 里的 CPU_PERIOD 对上.
 WAVE_FILE  ?= wave.vcd
 WAVE_START ?= 0
-WAVE_END   ?= 20000
-WAVE_HALF_PERIOD ?= 500
+WAVE_END   ?= 3000
+WAVE_HALF_PERIOD ?= 1
 
 # ⭐ 从 npc/ 目录里直接敲 make trace 时, 没有 AM 那边传过来的 IMAGE,
 #    给一个默认的、会自己 ebreak 结束的程序(rt-thread 那种 shell 不会退出).

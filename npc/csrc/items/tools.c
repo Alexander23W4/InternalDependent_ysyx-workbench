@@ -2,19 +2,6 @@
 
 char* diff_so_file = NULL; 
 
-/* ==========================================================================================
-   ⭐ 波形(VCD)支持
-      `make trace` 会用 -DWAVE_TRACE=1 把下面这段编进来, 并给 verilator 加 --trace;
-      普通的 `make fasts` / `make run` 不带这个宏, 下面全是空函数, 一点开销都没有.
-
-     为什么要在这里 advance 时间: verilator 是 --no-timing 编译的, 时间轴不会自己走,
-     不调 timeInc 的话所有跳变都会挤在 t=0, 波形上根本看不出周期.
-
-     ⭐ verilator 5.008 写出来的 vcd 头是 `$timescale 1ps`(不管命令行给了什么),
-        所以这里每个半周期走 WAVE_HALF_PERIOD 个单位, 默认 500 -> 波形上
-        CPU 时钟周期 = 1000ps, 正好等于 apb_delayer.v 里的 CPU_PERIOD.
-        要改就在 make trace 时给 WAVE_HALF_PERIOD=... 
-   ========================================================================================== */
 #ifdef WAVE_TRACE
 
 VerilatedVcdC *wave_tfp = NULL;
@@ -22,7 +9,7 @@ uint64_t       wave_cycle = 0;        // 已经跑了多少个完整 CPU 周期
 
 static uint64_t wave_start = 0;
 static uint64_t wave_end   = 0;       // 0 = 不限制
-static uint64_t wave_half  = 500;     // 半个 CPU 周期占几个时间单位(vcd 里 1 单位 = 1ps)
+static uint64_t wave_half  = 1;       // 半个 CPU 周期占几个时间单位(vcd 里 1 单位 = 1ps)
 static int      wave_stop_reported = 0;
 
 void wave_init() {

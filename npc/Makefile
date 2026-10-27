@@ -13,21 +13,25 @@
 
 V_SRC=../ysyxSoC/build/ysyxSoCFull.v
 
-PIPELINE_SOURCES = \
-	$(shell find ./vsrc/pipeline -type f \( -name "*.v" -o -name "*.sv" \))
 
-RTL_SOURCES = \
-	./vsrc/ysyx_26040135.sv \
-	./vsrc/dbg_register.v \
-	$(shell find ./vsrc/compo -type f \( -name "*.v" -o -name "*.sv" \)) 
+SOURCES = \
+		$(shell find ./vsrc/pipeline -type f \( -name "*.v" -o -name "*.sv" \)) \
+		./vsrc/ysyx_26040135.sv \
+		./vsrc/dbg_register.v \
+		$(shell find ./vsrc/compo -type f \( -name "*.v" -o -name "*.sv" \)) 
 
-# ⭐ dpi-f.sv 是被 vsrc/ysyx_26040135.sv 用 `include "vsrc/dpi-f.sv" 包含进 CPU 模块内部的
-#    (它要访问 ebreak/dbg_reg/_pc 等 CPU 内部信号), 所以不能再单独作为顶层源文件列出来,
-#    否则 verilator 会在文件作用域再解析一遍 -> Can't find definition of variable: 'ebreak'
-SOURCES = $(PIPELINE_SOURCES) $(RTL_SOURCES)
+SOURCES_M = \
+	./vsrc_m/axi/axi4.sv \
+	./vsrc_m/axi/axi_ifu.sv \
+	./vsrc_m/axi/axi_lsu.sv \
+	./vsrc_m/axi/axi4_xbar.sv \
+	./vsrc_m/axi/axi_clint.sv \
+	./vsrc_m/axi/axi_icache.sv \
+	./vsrc_m/ysyx_26040135.sv \
+	$(shell find ./vsrc_m/compo -type f -name "*.v")
+
 SOURCES += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 
-# SOURCES += ../ysyxSoC/build/ysyxSoCFull.v
-
+SOURCES_M += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 
 
 ALL_SOURCES := $(shell find ./vsrc -type f \( -name "*.sv" -o -name "*.v" \) -print)
 
@@ -122,6 +126,9 @@ IMAGE ?= ../am-kernels/kernels/hello/build/hello-riscv32e-ysyxsoc
 # ------------------------------------------------------------------------------------------------------
 
 # Features
+# 选择用多周期cpu还是架构cpu
+USE_M=1
+
 # config macro generation
 -include $(NPC_HOME)/scripts/config.mk 
 

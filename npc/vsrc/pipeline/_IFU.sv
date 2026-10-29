@@ -27,6 +27,7 @@
 
 所需时钟数
 */
+
 module ysyx_26040135_AXI_IFU (
     ysyx_26040135_AXI4.master bus,
     
@@ -179,9 +180,9 @@ module ysyx_26040135_AXI_IFU (
         bus.arvalid = 1'b0;
         bus.araddr = pc;       
         bus.arid = 4'b0000;
-        bus.arlen = 8'h00;
+        bus.arlen = 8'h00;    // 每次传输一个beat
         bus.arsize = 3'b010;
-        bus.arburst = 2'b00;
+        bus.arburst = 2'b00;   // 每个beat使用相同地址   01递增 10回绕
         bus.rready = 1'b0;
 
         bus.awvalid = 1'b0;

@@ -234,7 +234,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     ysyx_26040135_AXI4 bus_ifu ();
     ysyx_26040135_AXI4 bus_lsu ();
     ysyx_26040135_AXI4 bus_master ();
-    ysyx_26040135_AXI4 bus_clint ();     // Xbar <-> CLINT (0x0200_0000~0x0200_ffff)
 
 
 
@@ -247,10 +246,10 @@ ysyx_26040135_AXI4_Xbar u_xbar (
 );
 
 
-ysyx_26040135_AXI_CLINT u_clint (
-    .bus   (bus_clint.slave),
-    .clock (clock),
-    .reset (reset)
+ysyx_26040135_AXI_RAM u_ram (
+    .bus   (bus_master.slave),
+    .clock(clock),
+    .reset(reset)
 );
 
 // ⭐: 补一个代表ram的slave, 连到bus_master

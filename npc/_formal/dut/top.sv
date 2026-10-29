@@ -10,7 +10,7 @@ module top(
     localparam BASE_ADDR = 32'h80000000;
     logic [7:0] ram [0:63];
 
-    wire fetch_addr;
+    wire [31:0] fetch_addr;
     assign fetch_addr = pc - BASE_ADDR;
 
     wire [31:0] instr;
@@ -314,12 +314,7 @@ module top(
             else begin
                 pc <= pc_next_dft;
             end
-        end
-    end
-    
-    // 这个时序always块用来更新 ram 和 privileged_reg
-    always @(posedge clk or posedge rst) begin
-        if(!rst) begin
+
             // write ram
             if (sw) begin
                 for (int i = 0; i < 4; i++) begin
@@ -334,8 +329,6 @@ module top(
                     ram[add_rst - BASE_ADDR + i] <= rdata2[i*8 +: 8];
                 end
             end
-
-            // privilege
             else if(csrrw) begin
                 case(immCSR)  // case CSR addr
                     32'h00000300: mstatus <= rdata1;
@@ -362,12 +355,13 @@ module top(
                     32'h00000305: mtvec <= csrw_rst & (~rdata1);
                     32'h00000341: mepc <= csrw_rst & (~rdata1);
                     32'h00000342: mcause <= csrw_rst & (~rdata1);
-                    32'h00000b00: mcycle <= rdata1 & (~csrw_rst);
-                    32'h00000b80: mcycleh <= rdata1 & (~csrw_rst);
+                    32'h00000b00: mcycle <= csrw_rst & (~rdata1);
+                    32'h00000b80: mcycleh <= csrw_rst & (~rdata1);
                 endcase
             end
         end
     end
+    
 
 
 

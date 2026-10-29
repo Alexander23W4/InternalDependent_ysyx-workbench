@@ -5,14 +5,13 @@ module top(
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,  // 
-    input logic [7:0] ram [0:31]
+    input logic [7:0] ram_instr [0:31]
 );
-    localparam DATA_BASE_ADDR = 32'h80000020;
-
-    logic [7:0] ram_data [0:31];
+    localparam BASE_ADDR = 32'h80000000;
+    logic [7:0] ram [0:63];
 
     wire fetch_addr;
-    assign fetch_addr = pc - 32'h80000000;
+    assign fetch_addr = pc - BASE_ADDR;
 
     wire [31:0] instr;
     assign instr = {ram[fetch_addr+3], ram[fetch_addr+2], ram[fetch_addr+1], ram[fetch_addr]};
@@ -231,6 +230,8 @@ module top(
     reg [31:0] read_ram_rst;
     reg [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
+    wire [31:0] addr = add_rst - BASE_ADDR;
+
     always @(*) begin
         // 默认值
         read_ram_rst = 0;
@@ -242,7 +243,7 @@ module top(
 
         // 只有在加载指令时才调用 ram_read
         if (lw | lb | lbu | lh | lhu) begin
-            read_ram_rst = ram_read(add_rst, 4);
+            read_ram_rst  = {ram[addr+3], ram[addr+2], ram[addr+1], ram[addr]};
             case (1'b1)
                 lw:  lw_rst  = read_ram_rst;
                 lbu: lbu_rst = {24'b0, read_ram_rst[7:0]};
@@ -265,8 +266,12 @@ module top(
             mcycleh <= 0;
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
-            for (int i = 0; i < 32; i++) begin
-                ram_data[i] <= i;
+
+            for (int i = 0; i < 32; i++) begin   // instr
+                ram[i] <= ram_instr[i];
+            end
+            for (int i = 32; i < 64; i++) begin   // data
+                ram[i] <= i - 32;
             end
         end
         else begin
@@ -316,14 +321,18 @@ module top(
     always @(posedge clk or posedge rst) begin
         if(!rst) begin
             // write ram
-            if(sw) begin
-                ram_write(add_rst, rdata2, 4);
+            if (sw) begin
+                for (int i = 0; i < 4; i++) begin
+                    ram[add_rst - BASE_ADDR + i] <= rdata2[i*8 +: 8];
+                end
             end
-            else if(sb) begin
-                ram_write(add_rst, rdata2, 1);
+            else if (sb) begin
+                ram[add_rst - BASE_ADDR] <= rdata2[7:0];
             end
-            else if(sh) begin
-                ram_write(add_rst, rdata2, 2);
+            else if (sh) begin
+                for (int i = 0; i < 2; i++) begin
+                    ram[add_rst - BASE_ADDR + i] <= rdata2[i*8 +: 8];
+                end
             end
 
             // privilege

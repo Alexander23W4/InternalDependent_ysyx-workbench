@@ -11,17 +11,20 @@ module ysyx_26040135_AXI_RAM (
     ysyx_26040135_AXI4.slave bus,
 
     input clock, 
-    input reset
+    input reset,
+    input logic [7:0] ram_instr [0:31]
 );
-    logic [7:0] ram [0:31];   // 这个是纯数值
+
+    logic [7:0] ram [0:63];
 
     logic [31:0] rdata_save;
     logic [31:0] awaddr_save;
     logic [31:0] r_paddr;
     logic [31:0] w_paddr;
-    assign r_paddr = bus.araddr - 32'h80000020;
-    assign w_paddr = bus.awaddr - 32'h80000020;
-    assign w_paddr_save = awaddr_save - 32'h80000020;
+    logic [31:0] w_paddr_save;
+    assign r_paddr = bus.araddr - 32'h80000000;
+    assign w_paddr = bus.awaddr - 32'h80000000;
+    assign w_paddr_save = awaddr_save - 32'h80000000;
 
     typedef enum [2:0]{ 
         IDLE, R, W, B
@@ -36,8 +39,12 @@ module ysyx_26040135_AXI_RAM (
             rdata_save <= '0;
             awaddr_save <= '0;
 
-            for (int i = 0; i < 32; i++) begin
-                ram[i] <= i;
+            // 初始化ram
+            for (int i = 0; i < 32; i++) begin   // instr
+                ram[i] <= ram_instr[i];
+            end
+            for (int i = 32; i < 64; i++) begin   // data
+                ram[i] <= i - 32;
             end
 
         end else begin

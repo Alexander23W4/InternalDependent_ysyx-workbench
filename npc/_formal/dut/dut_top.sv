@@ -3,7 +3,7 @@
 /*
 assume 和 difftest的DUT
 */
-module ysyx_26040135(
+module dut_top(
     
     // ⭐: 现在cpu的引脚已经完全符合要求
     input clock,

@@ -1,5 +1,5 @@
 
-module top(
+module ref_top(
     input clk,
     input rst,
     output [32*32-1:0] dbg_reg,

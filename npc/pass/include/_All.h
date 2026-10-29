@@ -1,0 +1,151 @@
+#include <verilated.h>
+#include "svdpi.h"
+#include "Vtop.h"
+#include "Vtop__Dpi.h"
+
+#include <iostream>
+#include <assert.h>
+#include <stdlib.h>
+#include "dbg.h"
+#include <getopt.h>
+#include <string.h>
+#include <inttypes.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
+
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/config.h"
+
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/trace/trace.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/log.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/time.h"
+#include "/home/wang/InternalDependent_ysyx-workbench/npc/include/device.h"
+
+
+/*
+头文件包含tip: 一个大头文件, 包含所有小头文件, 然后所有小头文件只做声明
+    所有的.c文件, 全部只包含大头文件
+*/
+
+#define RAM_SIZE 50000000    // unit: Word (4Byte)
+#define MEMORY_LOAD_EFFECTIVENESS 20000
+#define RAM_BASE 0x80000000
+#define NR_WP 32
+#define TIMER_HZ 60
+
+typedef enum {
+    NPC_NORM = 0,
+    NPC_STOP,
+    NPC_CRASH,
+    NPC_END,
+    NPC_QUIT,
+} NPC_status;
+
+typedef struct{
+    uint32_t gpr[32];
+    uint32_t pc;
+    uint32_t mepc;
+    uint32_t mstatus;
+    uint32_t mcause;
+    uint32_t mtvec;
+    uint64_t mcycle;
+} CPU_state;
+
+typedef struct watchpoint {
+  int NO;
+  struct watchpoint *next;
+  char expression[64];
+  uint32_t result;
+
+} WP;
+
+#define MMIO_SERIAL 0xa00003f8
+
+extern NPC_status Status;
+extern int endprog;
+extern Vtop* top;
+extern char* diff_so_file;  // ref 的 so文件
+extern const char *regs_name[];
+extern int ram_op;
+extern I_ring_buf ring;
+extern uint32_t pc;
+extern bool batch_mode;
+extern size_t img_size;
+extern uint32_t* ram;
+extern int diff_flag;
+
+
+
+extern CPU_state cpu;
+
+extern uint32_t ram_read_last_pc;
+extern uint32_t ram_read_last_data;
+
+void _init(int argc, char** argv);
+void parse_args(int argc, char *argv[]);
+void init_ram();
+void reset();
+void load_memory(char* filename, uint32_t* M, size_t *img_size);
+void end_process();
+
+void main_loop();
+void init_sdb();
+
+void exec_once();
+
+void init_regex();
+uint32_t expr(char *e, bool *success);
+
+WP* new_wp();
+void free_wp(WP *wp);
+WP* get_head();
+void check_wp(uint32_t pre_pc);
+
+char* hex_to_bin(const char *hex);
+
+void tick();
+uint32_t ram_read_sdb(uint32_t addr, int amount);
+uint32_t ram_read(uint32_t addr, int amount);
+void ram_write(uint32_t addr, uint32_t data, int amount);
+void prt_gprs();
+void final_check();
+uint32_t isa_reg_str2val(const char *s, bool *success);
+void rep_cpu();
+
+
+void init_difftest(char *diff_so_file, uint32_t* ram, long img_size, int port);
+void difftest_step();
+bool difftest_checkregs(CPU_state* ref_r);
+void difftest_state_print(CPU_state* ref);
+void difftest_skip_ref();
+void difftest_skip_dut(int nr_ref, int nr_dut);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

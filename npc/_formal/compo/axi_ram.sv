@@ -21,7 +21,7 @@ module ysyx_26040135_AXI_RAM (
     logic [31:0] w_paddr;
     assign r_paddr = bus.araddr - 32'h80000020;
     assign w_paddr = bus.awaddr - 32'h80000020;
-    assign w_paddr_save = bus.awaddr_save - 32'h80000020;
+    assign w_paddr_save = awaddr_save - 32'h80000020;
 
     typedef enum [2:0]{ 
         IDLE, R, W, B
@@ -35,6 +35,10 @@ module ysyx_26040135_AXI_RAM (
 
             rdata_save <= '0;
             awaddr_save <= '0;
+
+            for (int i = 0; i < 32; i++) begin
+                ram[i] <= i;
+            end
 
         end else begin
             state <= next;

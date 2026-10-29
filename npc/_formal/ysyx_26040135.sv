@@ -6,13 +6,15 @@ module ysyx_26040135(
     // ⭐: 现在cpu的引脚已经完全符合要求
     input clock,
     input reset,
-    input logic [31:0] ram [0:15]
+    input logic [7:0] ram [0:31]   // 0-31   32-63
 
 );
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 /*
+    ram的内容应当保持不变
+    只有前8个地址作为形式化验证方程的输入
     前8个地址是指令, 指令可以是任何RV32I指令, 除了ecall和fencei和ebreak和mret, 但是访存地址必须是0x80000020-0x8000003f, pc跳转目的地只能是0x80000000-0x8000001f
     后8个地址是数据, 里面填入任何值
 */

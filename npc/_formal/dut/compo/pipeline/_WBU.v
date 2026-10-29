@@ -18,14 +18,20 @@ iag0为1, iag1为1, 则将iag0清0
 iag0为1, iag1为2, iag2不对应, 则将iag1减1, 不进行wb
 iag0为1, iag1为2, iag1对应(来早了), 则将iag
 
-单个情况: (iag0 = 1, iag1 = 1) 清掉iag0, wb
-ll两个不同rd: (iag0 = 1, iag1 = 1) 清掉iag0, wb
-ll两个相同rd: (iag0 = 1, iag1 = 2) iag1 - 1, 不wb
-le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = e) iag1 - 1, 不wb
-le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = e) 清掉iag0, wb
-le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb
-le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb
-l来了之后: (iag0 = 0) 不wb
+
+单个情况: (iag0 = 1, iag1 = 1) 清掉iag0, wb                         跳比
+ll两个不同rd: (iag0 = 1, iag1 = 1) 清掉iag0, wb                     跳比
+ll两个相同rd: (iag0 = 1, iag1 = 2) iag1 - 1, 不wb                   跳比
+le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = e) iag1 - 1, 不wb    跳比
+le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = e) 清掉iag0, wb      跳2次, 比
+le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = l) 清掉iag0, wb      跳2次, 比
+le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = l) iag1 - 1, 不wb    跳比
+le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb                iag2 = e 跳比    
+le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb                iag2 = l 跳比    
+le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb                iag2 = l 跳一次 这次不比
+le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb                iag2 = e 跳一次 这次不比
+l/e来了之后: (iag0 = 0) 不wb                                        不跳, 不比
+
 
 总结: 1, 1: 清掉iag0, wb
      1, 2: l-> iag1 - 1, 不wb
@@ -132,7 +138,7 @@ module ysyx_26040135_WBU(
             end
             WB: begin
                 rd_release = rd;
-                if(!(!iag[rd] || (iag_amt[rd] == 2'b01 && wb_type == 1'b1))) begin
+                if(!(!iag[rd] || (iag_amt[rd] == 2'b10 && wb_type == 1'b1))) begin
                     wen = 1'b1;
                 end 
                 next = IDLE;

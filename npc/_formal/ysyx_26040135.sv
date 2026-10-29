@@ -6,10 +6,26 @@ module ysyx_26040135(
     // ⭐: 现在cpu的引脚已经完全符合要求
     input clock,
     input reset,
-    input logic [31:0] ram [0:15];
+    input logic [31:0] ram [0:15]
 
 );
+/*------------------------------------------------------------------------------------------------------------
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+-------------------------------------------------------------------------------------------------------------*/
+/*
+    前8个地址是指令, 指令可以是任何RV32I指令, 除了ecall和fencei和ebreak和mret, 但是访存地址必须是0x80000020-0x8000003f, pc跳转目的地只能是0x80000000-0x8000001f
+    后8个地址是数据, 里面填入任何值
+*/
+    always_comb begin
+        assume (ram[0][6:0] == 7'b0100011);
+        assume (ram[0][14:12] == 3'b010);
 
+        
+    end
+
+/*------------------------------------------------------------------------------------------------------------
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+-------------------------------------------------------------------------------------------------------------*/
 
 // 流水线控制功能型寄存器
     reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
@@ -225,8 +241,7 @@ ysyx_26040135_AXI4_Xbar u_xbar (
     .reset   (reset),
     .ifu_s   (bus_ifu.slave),
     .lsu_s   (bus_lsu.slave),
-    .m_m     (bus_master.master),
-    .clint_m (bus_clint.master)
+    .m_m     (bus_master.master)
 );
 
 

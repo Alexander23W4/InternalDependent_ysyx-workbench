@@ -1,6 +1,5 @@
-module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
-    input clock,
-    input reset,
+module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
+    input clk,
     input wen,
     
     input [ADDR_WIDTH-1:0] raddr1,   // rs1
@@ -11,24 +10,16 @@ module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     output [DATA_WIDTH-1:0] rdata1,  
     output [DATA_WIDTH-1:0] rdata2,
 
-    output [(DATA_WIDTH * (2**ADDR_WIDTH)) - 1 : 0] dbg_regs,
+    output [(DATA_WIDTH * (2**ADDR_WIDTH)) - 1 : 0] dbg_regs
 );
-
     reg [DATA_WIDTH-1:0] gpr [2**ADDR_WIDTH-1:0];
 
     assign rdata1 = gpr[raddr1];
     assign rdata2 = gpr[raddr2];
 
-    always @(posedge clock) begin
-        if(reset) begin
-            for (int i = 0; i < 2**ADDR_WIDTH; i = i + 1) begin 
-                gpr[i] <= '0;
-            end
-        end else begin
-            if (wen && waddr != 0) gpr[waddr] <= wdata;
-        end
+    always @(posedge clk) begin
+        if (wen && waddr != 0) gpr[waddr] <= wdata;
     end
-
 
     genvar i;
     generate
@@ -38,5 +29,4 @@ module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     endgenerate
 
 endmodule
-
 

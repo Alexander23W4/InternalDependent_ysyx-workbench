@@ -54,7 +54,7 @@ module ysyx_26040135_AXI_LSU (
 
     output reg lsu_blockf,
 
-    input [1:0] flush_type
+    input flush
 );
 
 
@@ -74,6 +74,8 @@ module ysyx_26040135_AXI_LSU (
     assign sw_addr = lsu_addr_save;
 
     reg rdata_out;
+
+    reg flush_save;
 
 // 状态
     typedef enum [2:0]{ 
@@ -104,6 +106,7 @@ module ysyx_26040135_AXI_LSU (
             lsu_work_cyc <= 0;
 
             lsu_blockf <= 1'b0;
+            flush_save <= 1'b0;
 
         end else begin
             state <= next;
@@ -127,6 +130,7 @@ module ysyx_26040135_AXI_LSU (
                 lsu_data_save <= lsu_wdata;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
+                flush_save <= 1'b0;
             end
 
             if(in_ready && !in_valid) begin
@@ -138,7 +142,11 @@ module ysyx_26040135_AXI_LSU (
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_out <= bus.rdata;
-                out_valid <= 1'b1;
+                if(flush_save || flush) begin
+                    in_ready <= 1'b1;
+                end else begin
+                    out_valid <= 1'b1;
+                end
             end
             if(state == B && bus.bvalid && bus.bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
                 in_ready <= 1'b1;
@@ -153,6 +161,15 @@ module ysyx_26040135_AXI_LSU (
 
             if(state != IDLE) begin
                 lsu_work_cyc <= lsu_work_cyc + 64'b1;
+            end
+
+            if(flush) begin
+                if(out_valid) begin
+                    out_valid <= 1'b0;
+                    in_ready <= 1'b1;
+                end else begin
+                    flush_save <= 1'b1;
+                end
             end
 
         end

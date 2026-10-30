@@ -6,17 +6,7 @@ lsu->l    exu->...
 本级可以接收 exu & lsu 的信号
 
 首先就现在这个设计, 最多会有2个在途 rd 
-只有两种可能 ll 和 le(先l后e) 
-总共 l/e/ll/le 4种可能, 接收时有 l/e/ll(两个同rd/两个不同rd)/le(两个同rd但e先来/两个同rd但l先来/两个不同rd但e先来/两个不同rd但l先来)
 
-iag0 -> 这个是否有在途
-iag1 -> 这个有几个在途
-iag2 -> 最后一个在途的是哪个模式 e/l
-
-收到valid信号之后, 读rd, 读iag, 出现下述情况:
-iag0为1, iag1为1, 则将iag0清0
-iag0为1, iag1为2, iag2不对应, 则将iag1减1, 不进行wb
-iag0为1, iag1为2, iag1对应(来早了), 则将iag
 
 
 单个情况: (iag0 = 1, iag1 = 1) 清掉iag0, wb                         跳比
@@ -31,6 +21,26 @@ le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb                iag
 le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb                iag2 = l 跳一次 这次不比
 le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb                iag2 = e 跳一次 这次不比
 l/e来了之后: (iag0 = 0) 不wb                                        不跳, 不比
+
+
+
+单个情况: (iag0 = 1, iag1 = 1) 清掉iag0, wb                       
+ll两个不同rd: (iag0 = 1, iag1 = 1) 清掉iag0, wb                   
+ll两个相同rd: (iag0 = 1, iag1 = 2) iag1 - 1, wb           
+
+le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = e) iag1 - 1, wb
+
+⭐: 下面两个是相同rd, 后方数据先来的情况
+le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = e) 清掉iag0, wb   冲刷
+le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = l) 清掉iag0, wb   冲刷
+
+le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = l) iag1 - 1, wb
+
+le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb             
+le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb             
+le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb             
+le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb             
+
 
 
 总结: 1, 1: 清掉iag0, wb

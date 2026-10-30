@@ -55,10 +55,11 @@ module dut_top(
         end
     end
 
-    // ④ 取指地址 pc 必须在指令窗口内, 且 4 字节对齐
+    // ④ 取指地址(IFU 内部的 pc 寄存器, 不是 out_pc!)必须在指令窗口内, 且 4 字节对齐
+    //    注意: dut_top 的 pc 是 IFU 的 out_pc, 复位后是 0, 不能拿它做 assume
     always @(*) begin
-        assume(pc >= 32'h8000_0000 && pc < 32'h8000_0020);
-        assume(pc[1:0] == 2'b00);
+        assume(ifu.pc >= 32'h8000_0000 && ifu.pc < 32'h8000_0020);
+        assume(ifu.pc[1:0] == 2'b00);
     end
 
     // ⑤ 下一条 pc(跳转目标 / 顺序 pc+4)也不能跳出指令窗口
@@ -85,7 +86,7 @@ module dut_top(
 // 流水线级间连接
 
     wire sw_avail;
-    wire sw_addr;
+    wire [31:0] sw_addr;
 
 
     ysyx_26040135_AXI_IFU ifu (

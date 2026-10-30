@@ -256,7 +256,7 @@ module ref_top(
     end
 
     // 这个时序always块用来更新pc
-    always @(posedge clk or posedge rst) begin
+    always @(posedge clk) begin
         if(rst) begin
             pc <= 32'h80000000;
             mstatus <= 32'h00001800;   //

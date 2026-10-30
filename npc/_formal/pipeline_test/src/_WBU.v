@@ -106,8 +106,6 @@ function automatic [`WB_Q_LEN*6 + 1:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1
         result = 0;
         flush = 1'b0;
         the_first = 1'b0;
-        compare = 1'b0;
-        jump = 2'b00;
 
         for (int i = 0; i < `WB_Q_LEN; i++) begin
 
@@ -201,6 +199,8 @@ endfunction
         flush = 1'b0;
         wb_q_update = 0;
         the_first = 0;
+        compare = 1'b0;
+        jump = 2'b00;
 
         case (state)
             IDLE: begin

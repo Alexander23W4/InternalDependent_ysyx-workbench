@@ -111,20 +111,20 @@ Module formal_top directly or indirectly contains formal properties -> setting "
         +----------Local Count, excluding submodules.
         | 
       254 wires
-     3609 wire bits
-      213 public wires
-     3472 public wire bits
+     3610 wire bits
+      215 public wires
+     3505 public wire bits
         8 ports
      1318 port bits
-       54 cells
+       55 cells
         1   $anyinit
-        4   $anyseq
+        6   $anyseq
         8   $assume
         2   $eq
         3   $ge
         1   $le
         5   $logic_and
-        5   $logic_not
+        4   $logic_not
         2   $lt
        19   $mux
         4   $not
@@ -172,13 +172,13 @@ Module formal_top directly or indirectly contains formal properties -> setting "
 
         +----------Local Count, excluding submodules.
         | 
-      424 wires
-    26003 wire bits
-      122 public wires
-     4324 public wire bits
+      414 wires
+    25203 wire bits
+      112 public wires
+     3524 public wire bits
        14 ports
      1571 port bits
-      358 cells
+      411 cells
         9   $add
        42   $and
        10   $anyinit
@@ -186,7 +186,7 @@ Module formal_top directly or indirectly contains formal properties -> setting "
         9   $eq
         2   $ge
         4   $lt
-      140   $mux
+      193   $mux
         1   $ne
         5   $neg
         7   $not
@@ -282,22 +282,22 @@ Module formal_top directly or indirectly contains formal properties -> setting "
 
         +----------Local Count, excluding submodules.
         | 
-      160 wires
-    38321 wire bits
-       53 public wires
-     6313 public wire bits
+      170 wires
+    44910 wire bits
+       56 public wires
+     9318 public wire bits
        32 ports
       448 port bits
-      134 cells
+      207 cells
         9   $add
         8   $and
         4   $anyinit
-        9   $anyseq
+       16   $anyseq
         1   $assume
         3   $eq
         3   $logic_and
         1   $logic_not
-       46   $mux
+      112   $mux
         8   $neg
         9   $not
         8   $or
@@ -364,60 +364,60 @@ Module formal_top directly or indirectly contains formal properties -> setting "
 
         +----------Local Count, excluding submodules.
         | 
-      206 wires
-     1300 wire bits
-       65 public wires
-      515 public wire bits
+      215 wires
+     1309 wire bits
+       69 public wires
+      519 public wire bits
        23 ports
       294 port bits
-      194 cells
+      203 cells
         2   $add
-       10   $anyinit
-       28   $anyseq
+        8   $anyinit
+       34   $anyseq
         1   $assume
         3   $eq
        18   $logic_and
        14   $logic_not
         1   $logic_or
-      102   $mux
+      105   $mux
         3   $ne
         8   $not
-        4   $pmux
+        6   $pmux
 
 === design hierarchy ===
 
         +----------Count including submodules.
         | 
-     2221 formal_top
-       54 dut_top
+     2357 formal_top
+       55 dut_top
        14   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        40   ysyx_26040135_AXI4_Xbar
        98   ysyx_26040135_AXI_IFU
       155   ysyx_26040135_AXI_LSU
-      134   ysyx_26040135_AXI_RAM
+      207   ysyx_26040135_AXI_RAM
       480   ysyx_26040135_EXU
       126   ysyx_26040135_IDU
-      194   ysyx_26040135_WBU
-      358 ref_top
+      203   ysyx_26040135_WBU
+      411 ref_top
         8   $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
       122   decode
 
         +----------Count including submodules.
         | 
-     2798 wires
-    87588 wire bits
-     1118 public wires
-    25541 public wire bits
+     2807 wires
+    93387 wire bits
+     1117 public wires
+    27783 public wire bits
       482 ports
      9210 port bits
         - memories
         - memory bits
         - processes
-     2221 cells
+     2357 cells
        34   $add
        84   $and
-      122   $anyinit
-      103   $anyseq
+      120   $anyinit
+      118   $anyseq
        25   $assume
         1   $cover
       279   $eq
@@ -425,16 +425,16 @@ Module formal_top directly or indirectly contains formal properties -> setting "
        11   $ge
         1   $le
        87   $logic_and
-       61   $logic_not
+       60   $logic_not
       136   $logic_or
        14   $lt
         2   $mem_v2
-      831   $mux
+      953   $mux
         7   $ne
        13   $neg
        36   $not
       177   $or
-       66   $pmux
+       68   $pmux
         7   $reduce_bool
        57   $reduce_or
        26   $shift
@@ -467,6 +467,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: 1e74ec2d9d, time: 0.10s, user: 0.10s, system: 0.01s, MEM: 27.61 MB peak
+End of script. Logfile hash: 38d11d3fde, time: 0.12s, user: 0.11s, system: 0.01s, MEM: 28.39 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 89% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...
+Time spent: 90% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...

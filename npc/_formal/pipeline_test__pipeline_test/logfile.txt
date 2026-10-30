@@ -1,0 +1,25 @@
+SBY 22:54:47 [pipeline_test__pipeline_test] Removing directory '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/axi4.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/axi4.sv'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/xbar.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/xbar.sv'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/axi_ram.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/axi_ram.sv'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IFU.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/_IFU.sv'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IDU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/_IDU.v'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_EXU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/_EXU.v'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_LSU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/_LSU.v'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_WBU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/_WBU.v'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/dbg_register.v'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/dut_top.sv'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/ref_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/ref_top.sv'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/decode.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/decode.v'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/register.v'.
+SBY 22:54:47 [pipeline_test__pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/formal_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test__pipeline_test/src/formal_top.sv'.
+SBY 22:54:47 [pipeline_test__pipeline_test] engine_0: smtbmc boolector
+SBY 22:54:47 [pipeline_test__pipeline_test] base: starting process "cd pipeline_test__pipeline_test/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 22:54:47 [pipeline_test__pipeline_test] base: ERROR: File `dut/compo/axi4.sv' not found or is a directory
+SBY 22:54:47 [pipeline_test__pipeline_test] base: finished (returncode=1)
+SBY 22:54:47 [pipeline_test__pipeline_test] base: task failed. ERROR.
+SBY 22:54:47 [pipeline_test__pipeline_test] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 22:54:47 [pipeline_test__pipeline_test] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 22:54:47 [pipeline_test__pipeline_test] summary: engine_0 (smtbmc boolector) did not return a status
+SBY 22:54:47 [pipeline_test__pipeline_test] summary: engine_0 did not produce any traces
+SBY 22:54:47 [pipeline_test__pipeline_test] DONE (ERROR, rc=16)

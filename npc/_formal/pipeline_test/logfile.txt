@@ -1,67 +1,66 @@
-SBY 22:34:54 [pipeline_test] Removing directory '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/xbar.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/xbar.sv'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/axi_ram.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/axi_ram.sv'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IFU.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IFU.sv'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IDU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IDU.v'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_EXU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_EXU.v'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_LSU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_LSU.v'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_WBU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_WBU.v'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_dbg_register.v'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_top.sv'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/ref_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/ref_top.sv'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/decode.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/decode.v'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/register.v'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dbg_register.v'.
-SBY 22:34:54 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/formal_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/formal_top.sv'.
-SBY 22:34:54 [pipeline_test] engine_0: smtbmc boolector
-SBY 22:34:54 [pipeline_test] base: starting process "cd pipeline_test/src; yosys -ql ../model/design.log ../model/design.ys"
-SBY 22:34:54 [pipeline_test] base: Warning: wire '\flush' is assigned in a block at _WBU.v:201.9-201.21.
-SBY 22:34:54 [pipeline_test] base: Warning: wire '\sw_avail' is assigned in a block at _LSU.v:253.9-253.24.
-SBY 22:34:54 [pipeline_test] base: Warning: wire '\sw_avail' is assigned in a block at _LSU.v:300.21-300.36.
-SBY 22:34:54 [pipeline_test] base: _LSU.v:318: Warning: Identifier `\lw' is implicitly declared.
-SBY 22:34:54 [pipeline_test] base: _LSU.v:319: Warning: Identifier `\lh' is implicitly declared.
-SBY 22:34:54 [pipeline_test] base: _LSU.v:320: Warning: Identifier `\lhu' is implicitly declared.
-SBY 22:34:54 [pipeline_test] base: _LSU.v:321: Warning: Identifier `\lbu' is implicitly declared.
-SBY 22:34:54 [pipeline_test] base: _LSU.v:322: Warning: Identifier `\lb' is implicitly declared.
-SBY 22:34:54 [pipeline_test] base: Warning: wire '\ebreak_end' is assigned in a block at _EXU.v:311.9-311.26.
-SBY 22:34:54 [pipeline_test] base: Warning: wire '\ebreak_end' is assigned in a block at _EXU.v:331.21-331.38.
-SBY 22:34:54 [pipeline_test] base: Warning: wire '\_pc' is assigned in a block at _EXU.v:428.9-428.22.
-SBY 22:34:54 [pipeline_test] base: Warning: wire '\_instr' is assigned in a block at _EXU.v:429.9-429.28.
-SBY 22:34:54 [pipeline_test] base: Warning: Resizing cell port dut_top.lsu.sw_addr from 1 bits to 32 bits.
-SBY 22:34:54 [pipeline_test] base: Warning: Latch inferred for signal `\ysyx_26040135_WBU.\compare' from process `\ysyx_26040135_WBU.$proc$_WBU.v:197$1155': $auto$proc_dlatch.cc:547:proc_dlatch$7855
-SBY 22:34:54 [pipeline_test] base: Warning: Latch inferred for signal `\ysyx_26040135_WBU.\jump' from process `\ysyx_26040135_WBU.$proc$_WBU.v:197$1155': $auto$proc_dlatch.cc:547:proc_dlatch$7864
-SBY 22:34:54 [pipeline_test] base: Warning: Latch inferred for signal `\ysyx_26040135_WBU.\new_wb_q$func$_WBU.v:214$1133.$fordecl_block$11.i [1:0]' from process `\ysyx_26040135_WBU.$proc$_WBU.v:197$1155': $auto$proc_dlatch.cc:545:proc_dlatch$7869
-SBY 22:34:54 [pipeline_test] base: Warning: Latch inferred for signal `\ysyx_26040135_WBU.\new_wb_q$func$_WBU.v:214$1133.$fordecl_block$11.i [31:2]' from process `\ysyx_26040135_WBU.$proc$_WBU.v:197$1155': $auto$proc_dlatch.cc:543:proc_dlatch$7878
-SBY 22:34:54 [pipeline_test] base: Warning: Async reset value `{ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }' is not constant!
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI_IFU.\bus_wlast is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_awready is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_wready is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [3] is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [2] is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [1] is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [0] is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [1] is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [0] is used but has no driver.
-SBY 22:34:54 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bvalid is used but has no driver.
-SBY 22:34:55 [pipeline_test] base: finished (returncode=0)
-SBY 22:34:55 [pipeline_test] prep: starting process "cd pipeline_test/model; yosys -ql design_prep.log design_prep.ys"
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_wready is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bvalid is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [1] is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [0] is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [3] is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [2] is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [1] is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [0] is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_awready is used but has no driver.
-SBY 22:34:55 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI_IFU.\bus_wlast is used but has no driver.
-SBY 22:34:56 [pipeline_test] prep: finished (returncode=0)
-SBY 22:34:56 [pipeline_test] smt2: starting process "cd pipeline_test/model; yosys -ql design_smt2.log design_smt2.ys"
-SBY 22:34:56 [pipeline_test] smt2: finished (returncode=0)
-SBY 22:34:56 [pipeline_test] engine_0: starting process "cd pipeline_test; yosys-smtbmc -s boolector --presat --unroll -c --noprogress -t 40  --append 0 --dump-vcd engine_0/trace%.vcd --dump-yw engine_0/trace%.yw --dump-vlogtb engine_0/trace%_tb.v --dump-smtc engine_0/trace%.smtc model/design_smt2.smt2"
-SBY 22:34:56 [pipeline_test] engine_0: ##   0:00:00  Solver: boolector
-SBY 22:34:56 [pipeline_test] engine_0: ##   0:00:00  Checking cover reachability in step 0..
-SBY 22:34:57 [pipeline_test] engine_0: ##   0:00:01  Checking cover reachability in step 1..
-SBY 22:34:58 [pipeline_test] engine_0: ##   0:00:02  Checking cover reachability in step 2..
-SBY 22:34:59 [pipeline_test] engine_0: ##   0:00:03  Checking cover reachability in step 3..
-SBY 22:35:00 [pipeline_test] engine_0: terminating process
+SBY 23:02:36 [pipeline_test] Removing directory '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/xbar.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/xbar.sv'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/axi_ram.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/axi_ram.sv'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IFU.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IFU.sv'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IDU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IDU.v'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_EXU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_EXU.v'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_LSU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_LSU.v'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_WBU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_WBU.v'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_dbg_register.v'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_top.sv'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/ref_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/ref_top.sv'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/decode.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/decode.v'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/register.v'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dbg_register.v'.
+SBY 23:02:36 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/formal_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/formal_top.sv'.
+SBY 23:02:37 [pipeline_test] engine_0: smtbmc boolector
+SBY 23:02:37 [pipeline_test] base: starting process "cd pipeline_test/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 23:02:37 [pipeline_test] base: dut_top.sv:61: Warning: Identifier `\ifu.pc' is implicitly declared.
+SBY 23:02:37 [pipeline_test] base: dut_top.sv:62: Warning: Range select [1:0] out of bounds on signal `\ifu.pc': Setting all 2 result bits to undef.
+SBY 23:02:37 [pipeline_test] base: Warning: wire '\flush' is assigned in a block at _WBU.v:199.9-199.21.
+SBY 23:02:37 [pipeline_test] base: Warning: wire '\sw_avail' is assigned in a block at _LSU.v:253.9-253.24.
+SBY 23:02:37 [pipeline_test] base: Warning: wire '\sw_avail' is assigned in a block at _LSU.v:300.21-300.36.
+SBY 23:02:37 [pipeline_test] base: _LSU.v:318: Warning: Identifier `\lw' is implicitly declared.
+SBY 23:02:37 [pipeline_test] base: _LSU.v:319: Warning: Identifier `\lh' is implicitly declared.
+SBY 23:02:37 [pipeline_test] base: _LSU.v:320: Warning: Identifier `\lhu' is implicitly declared.
+SBY 23:02:37 [pipeline_test] base: _LSU.v:321: Warning: Identifier `\lbu' is implicitly declared.
+SBY 23:02:37 [pipeline_test] base: _LSU.v:322: Warning: Identifier `\lb' is implicitly declared.
+SBY 23:02:37 [pipeline_test] base: Warning: wire '\ebreak_end' is assigned in a block at _EXU.v:311.9-311.26.
+SBY 23:02:37 [pipeline_test] base: Warning: wire '\ebreak_end' is assigned in a block at _EXU.v:331.21-331.38.
+SBY 23:02:37 [pipeline_test] base: Warning: wire '\_pc' is assigned in a block at _EXU.v:428.9-428.22.
+SBY 23:02:37 [pipeline_test] base: Warning: wire '\_instr' is assigned in a block at _EXU.v:429.9-429.28.
+SBY 23:02:37 [pipeline_test] base: Warning: Latch inferred for signal `\ysyx_26040135_WBU.\new_wb_q$func$_WBU.v:214$1133.$fordecl_block$11.i [1:0]' from process `\ysyx_26040135_WBU.$proc$_WBU.v:195$1155': $auto$proc_dlatch.cc:545:proc_dlatch$8528
+SBY 23:02:37 [pipeline_test] base: Warning: Latch inferred for signal `\ysyx_26040135_WBU.\new_wb_q$func$_WBU.v:214$1133.$fordecl_block$11.i [31:2]' from process `\ysyx_26040135_WBU.$proc$_WBU.v:195$1155': $auto$proc_dlatch.cc:543:proc_dlatch$8537
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI_IFU.\bus_wlast is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_awready is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_wready is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [3] is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [2] is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [1] is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [0] is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [1] is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [0] is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bvalid is used but has no driver.
+SBY 23:02:37 [pipeline_test] base: Warning: Wire dut_top.\ifu.pc is used but has no driver.
+SBY 23:02:38 [pipeline_test] base: finished (returncode=0)
+SBY 23:02:38 [pipeline_test] prep: starting process "cd pipeline_test/model; yosys -ql design_prep.log design_prep.ys"
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire dut_top.\ifu.pc is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_wready is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bvalid is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [1] is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [0] is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [3] is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [2] is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [1] is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [0] is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_awready is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: Warning: Wire ysyx_26040135_AXI_IFU.\bus_wlast is used but has no driver.
+SBY 23:02:38 [pipeline_test] prep: finished (returncode=0)
+SBY 23:02:38 [pipeline_test] smt2: starting process "cd pipeline_test/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 23:02:39 [pipeline_test] smt2: finished (returncode=0)
+SBY 23:02:39 [pipeline_test] engine_0: starting process "cd pipeline_test; yosys-smtbmc -s boolector --presat --unroll -c --noprogress -t 40  --append 0 --dump-vcd engine_0/trace%.vcd --dump-yw engine_0/trace%.yw --dump-vlogtb engine_0/trace%_tb.v --dump-smtc engine_0/trace%.smtc model/design_smt2.smt2"
+SBY 23:02:39 [pipeline_test] engine_0: ##   0:00:00  Solver: boolector
+SBY 23:02:39 [pipeline_test] engine_0: ##   0:00:00  Checking cover reachability in step 0..
+SBY 23:02:40 [pipeline_test] engine_0: ##   0:00:01  Checking cover reachability in step 1..
+SBY 23:02:41 [pipeline_test] engine_0: ##   0:00:02  Checking cover reachability in step 2..
+SBY 23:02:42 [pipeline_test] engine_0: terminating process

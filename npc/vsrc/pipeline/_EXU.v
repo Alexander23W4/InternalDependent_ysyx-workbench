@@ -73,8 +73,10 @@ module ysyx_26040135_EXU (
     
 
 // -> top, wbu 的 wb_q更新信号
+
+    input [3:0][5:0] wb_q,
     output reg exu_new_wbt,
-    output reg exu_new_wbd [5:0],
+    output reg exu_new_wbd [5:0]
 
 );
 
@@ -333,8 +335,8 @@ module ysyx_26040135_EXU (
     wire rsb_type = r_type | s_type | b_type;
     wire i_type = ~rsb_type & ~nrs;
 
-    wire gpr_read_invalid = (rsb_type & (iag[rs1] | iag[rs2])) | (i_type & iag[rs1]);   // 会读gpr且gpr存在io前后依赖问题
-
+    wire [1:0] rs_exist = valid_check(wb_q, rs1, rs2);
+    wire gpr_read_invalid = (rsb_type & (|rs_exist)) | (i_type & rs_exist[0]);   // 会读gpr且gpr存在io前后依赖问题
 
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;
@@ -472,3 +474,26 @@ module ysyx_26040135_EXU (
 endmodule
 
 
+function automatic [1:0] valid_check;
+    input [3:0][5:0] wb_q;
+    input [4:0] rs1;
+    input [4:0] rs2;
+
+    reg [1:0] found;
+    integer i;
+
+    begin
+        found = 2'b00;
+
+        for (i = 0; i < 4; i = i + 1) begin
+            if (wb_q[i][4:0] == rs1) begin
+                found[0] = 1'b1;
+            end 
+            else if (wb_q[i][4:0] == rs2) begin
+                found[1] = 1'b1;
+            end
+        end
+
+        valid_check = found;
+    end
+endfunction

@@ -425,7 +425,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     ysyx_26040135_AXI4 bus_lsu ();
     ysyx_26040135_AXI4 bus_master ();
     ysyx_26040135_AXI4 bus_clint ();     // Xbar <-> CLINT (0x0200_0000~0x0200_ffff)
-    ysyx_26040135_AXI4 bus_icache();
+    ysyx_26040135_AXI4 bus_icache();  
 
     assign io_master_awvalid = bus_master.awvalid;
     assign io_master_awid    = bus_master.awid;

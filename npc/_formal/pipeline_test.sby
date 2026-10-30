@@ -1,0 +1,51 @@
+[tasks]
+cover
+bmc
+
+[options]
+cover:
+mode cover
+depth 20
+
+bmc:
+mode bmc
+depth 40
+
+[engines]
+smtbmc boolector
+
+[script]
+verilog_defines -DFORMAL
+read -formal -sv dut/compo/axi4.sv
+read -formal -sv dut/compo/xbar.sv
+read -formal -sv dut/compo/axi_ram.sv
+read -formal -sv dut/pipeline/_IFU.sv
+read -formal -sv dut/pipeline/_IDU.v
+read -formal -sv dut/pipeline/_EXU.v
+read -formal -sv dut/pipeline/_LSU.v
+read -formal -sv dut/pipeline/_WBU.v
+read -formal -sv dut/dbg_register.v
+read -formal -sv dut/dut_top.sv
+read -formal -sv ref/ref_top.sv
+read -formal -sv ref/decode.v
+read -formal -sv ref/register.v
+read -formal -sv ref/dbg_register.v
+read -formal -sv formal_top.sv
+prep -top formal_top
+
+[files]
+dut/compo/axi4.sv
+dut/compo/xbar.sv
+dut/compo/axi_ram.sv
+dut/pipeline/_IFU.sv
+dut/pipeline/_IDU.v
+dut/pipeline/_EXU.v
+dut/pipeline/_LSU.v
+dut/pipeline/_WBU.v
+dut/dbg_register.v
+dut/dut_top.sv
+ref/ref_top.sv
+ref/decode.v
+ref/register.v
+ref/dbg_register.v
+formal_top.sv

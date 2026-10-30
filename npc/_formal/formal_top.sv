@@ -1,3 +1,6 @@
+
+// $(OSS_HOME)/bin/sby -f pipeline_test.sby
+
 module formal_top(
     input clock, 
     input reset,
@@ -122,5 +125,10 @@ module formal_top(
     // 顺手: x0 恒 0 (dbg_reg 的第 0 个 32bit 就是 x0)
     always @(posedge clock) if (!reset)
         assert(d_dbg_reg[31:0] == 32'b0);
+
+`ifdef FORMAL
+    // cover: 确认程序真的跑起来了 (REF 每退休一条指令就动一拍)
+    always @(posedge clock) cover(d_new_instr_d);
+`endif
 
 endmodule

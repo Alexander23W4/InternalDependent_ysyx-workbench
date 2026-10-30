@@ -309,7 +309,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     end
 
 
+`ifndef FORMAL
     `include "vsrc/dpi-f.sv"
+`endif
 
     function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
         input [5:0] new_data;

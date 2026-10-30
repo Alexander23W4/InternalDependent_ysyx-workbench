@@ -2,6 +2,10 @@
     新pc的判断要加在这里, 如果有跳转则要推翻分支预测, 洗刷流水线
 */
 
+`ifndef WB_Q_LEN
+`define WB_Q_LEN 3
+`endif
+
 module ysyx_26040135_EXU (
 
     input clock,
@@ -74,7 +78,7 @@ module ysyx_26040135_EXU (
 
 // -> top, wbu 的 wb_q更新信号
 
-    input [3:0][5:0] wb_q,
+    input [`WB_Q_LEN-1:0][5:0] wb_q,
     output reg exu_new_wbt,
     output reg [5:0] exu_new_wbd
 
@@ -470,7 +474,7 @@ endmodule
 
 
 function automatic [1:0] valid_check;
-    input [3:0][5:0] wb_q;
+    input [`WB_Q_LEN-1:0][5:0] wb_q;
     input [4:0] rs1;
     input [4:0] rs2;
 
@@ -480,7 +484,7 @@ function automatic [1:0] valid_check;
     begin
         found = 2'b00;
 
-        for (i = 0; i < 4; i = i + 1) begin
+        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
             if (wb_q[i][4:0] == rs1) begin
                 found[0] = 1'b1;
             end 

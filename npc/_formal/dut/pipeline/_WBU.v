@@ -26,6 +26,10 @@ l/e来了之后: (iag0 = 0) 不wb                                        不跳,
 */
 
 
+`ifndef WB_Q_LEN
+`define WB_Q_LEN 3
+`endif
+
 module ysyx_26040135_WBU(
     input clock,
     input reset, 
@@ -42,7 +46,7 @@ module ysyx_26040135_WBU(
     input [4:0] rd_lsu,
     input [31:0] wdata_lsu,
 
-    input [3:0][5:0] wb_q,   // top
+    input [`WB_Q_LEN-1:0][5:0] wb_q,   // top
     input exu_new_wbt,    // exu has new wb task
     input [5:0] exu_new_wbd,   // exu new wb data
 
@@ -57,8 +61,11 @@ module ysyx_26040135_WBU(
 
     // 冲刷 (⭐值得优化, 很少出现的情况, 但是要跨级控制)
 
-    output reg [3:0][5:0] wb_q_update,  // -> top
-    output flush  // 
+    output reg [`WB_Q_LEN-1:0][5:0] wb_q_update,  // -> top
+    output flush,  // 
+
+    output compare,
+    output [1:0] jump
 );
 // 两个同时来, 先处理l
 
@@ -139,11 +146,11 @@ module ysyx_26040135_WBU(
 
 
 
-function automatic [23:0] wb_q_enqueue;
+function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
     input [5:0] new_data;
-    input [23:0] queue;
+    input [`WB_Q_LEN*6-1:0] queue;
 
-    reg [23:0] result;
+    reg [`WB_Q_LEN*6-1:0] result;
     reg found;
     integer i;
 
@@ -151,7 +158,7 @@ function automatic [23:0] wb_q_enqueue;
         result = queue;
         found = 1'b0;
 
-        for (i = 0; i < 4; i = i + 1) begin
+        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
             if (!found && (queue[i] == 6'b0)) begin
                 result[i*6 +: 6] = new_data;
                 found = 1'b1;
@@ -164,14 +171,14 @@ endfunction
 
 
 // 遍历wb_q, 将这个rd之前的所有相同rd的待wb记录都删掉
-function automatic [24:0] new_wb_q;   // [24] flush  [23:0] new_wq
-    input [3:0][5:0] wb_q;
+function automatic [`WB_Q_LEN*6:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] new_wq
+    input [`WB_Q_LEN-1:0][5:0] wb_q;
     input wb_type;
     input exu_new_wbt;
     input [5:0] exu_new_wbd;
 
     reg found_target;
-    reg [23:0] result;
+    reg [`WB_Q_LEN*6-1:0] result;
     reg flush;
 
     begin
@@ -179,7 +186,7 @@ function automatic [24:0] new_wb_q;   // [24] flush  [23:0] new_wq
         result = 0;
         flush = 1'b0;
 
-        for (int i = 0; i < 4; i++) begin
+        for (int i = 0; i < `WB_Q_LEN; i++) begin
 
             if(wb_q[i][4:0] != rd) begin    // 不同rd, 无论如何照常写入
                 result = wb_q_enqueue(result, wb_q[i]);

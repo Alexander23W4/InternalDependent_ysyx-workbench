@@ -13,7 +13,7 @@ class Vtop___024unit final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
-    CData/*5:0*/ __Vlvbound_hf2cbdb46__0;
+    CData/*5:0*/ __Vlvbound_h23c6c6d0__0;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

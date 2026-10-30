@@ -95,6 +95,10 @@ cache的替换算法优化
 exu双路流水线握手, e.g.不必因为lsu没有接收数据而阻塞, 如果in_valid, 我可以先收下来, 如果下一条是不用走lsu的, 那可以直接操作掉, wbu的走wbu的流水线握手, 不用等lsu的ready信号
 */
 
+`ifndef WB_Q_LEN
+`define WB_Q_LEN 3
+`endif
+
 module ysyx_26040135(
     
     // ⭐: 现在cpu的引脚已经完全符合要求
@@ -213,7 +217,7 @@ module ysyx_26040135(
 
 // 流水线控制功能型寄存器
 
-    reg [3:0][5:0] wb_q;    // write back queue   编码 xxxxx(写入的寄存器) x(rd的来源l/s)   这里留4个空, 认为最多不会超过4个在途rd
+    reg [`WB_Q_LEN-1:0][5:0] wb_q;    // write back queue   编码 xxxxx(写入的寄存器) x(rd的来源l/s)   这里留4个空, 认为最多不会超过4个在途rd
 
 // 流水线级间连接
 
@@ -424,7 +428,7 @@ ysyx_26040135_EXU exu (
     wire wen;
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;
-    wire [3:0][5:0] wb_q_update;
+    wire [`WB_Q_LEN-1:0][5:0] wb_q_update;
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -532,11 +536,11 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 endmodule
 
 
-function automatic [23:0] wb_q_enqueue;
+function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
     input [5:0] new_data;
-    input [23:0] queue;
+    input [`WB_Q_LEN*6-1:0] queue;
 
-    reg [23:0] result;
+    reg [`WB_Q_LEN*6-1:0] result;
     reg found;
     integer i;
 
@@ -544,7 +548,7 @@ function automatic [23:0] wb_q_enqueue;
         result = queue;
         found = 1'b0;
 
-        for (i = 0; i < 4; i = i + 1) begin
+        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
             if (!found && (queue[i] == 6'b0)) begin
                 result[i*6 +: 6] = new_data;
                 found = 1'b1;

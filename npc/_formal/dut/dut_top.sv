@@ -3,6 +3,10 @@
 /*
 assume 和 difftest的DUT
 */
+`ifndef WB_Q_LEN
+`define WB_Q_LEN 3
+`endif
+
 module dut_top(
     
     input clock,
@@ -25,7 +29,7 @@ module dut_top(
     wire __ebreak_end;
 
 // 流水线控制功能型寄存器
-    reg [3:0][5:0] wb_q;    // write back queue   编码 xxxxx(写入的寄存器) x(rd的来源l/s), 留4个空
+    reg [`WB_Q_LEN-1:0][5:0] wb_q;    // write back queue   编码 xxxxx(写入的寄存器) x(rd的来源l/s), 留4个空
 
 // 流水线级间连接
 
@@ -222,7 +226,7 @@ ysyx_26040135_EXU exu (
     wire wen;
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;
-    wire [3:0][5:0] wb_q_update;
+    wire [`WB_Q_LEN-1:0][5:0] wb_q_update;
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -277,11 +281,11 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     `include "vsrc/dpi-f.sv"
 
-    function automatic [23:0] wb_q_enqueue;
+    function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
         input [5:0] new_data;
-        input [23:0] queue;
+        input [`WB_Q_LEN*6-1:0] queue;
 
-        reg [23:0] result;
+        reg [`WB_Q_LEN*6-1:0] result;
         reg found;
         integer i;
 
@@ -289,7 +293,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             result = queue;
             found = 1'b0;
 
-            for (i = 0; i < 4; i = i + 1) begin
+            for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
                 if (!found && (queue[i] == 6'b0)) begin
                     result[i*6 +: 6] = new_data;
                     found = 1'b1;

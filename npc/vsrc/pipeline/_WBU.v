@@ -5,8 +5,7 @@
 lsu->l    exu->...
 本级可以接收 exu & lsu 的信号
 
-WBU: 写回, 冲刷 
-TOP: 清理
+WBU: 写回, 冲刷, 清理
 
 单个情况:                      
 ll两个不同rd:          
@@ -45,11 +44,11 @@ module ysyx_26040135_WBU(
     input [4:0] rd_lsu,
     input [31:0] wdata_lsu,
 
-    input [3:0][5:0] wb_q,
+    input [3:0][5:0] wb_q,   // top
     input exu_new_wbt,    // exu has new wb task
     input [5:0] exu_new_wbd,   // exu new wb data
 
-    output reg wen,
+    output reg wen,   // -> top 
     output reg [31:0] wdata,
     output reg [4:0] rd,
 
@@ -59,11 +58,9 @@ module ysyx_26040135_WBU(
     output reg wbu_blockf,
 
     // 冲刷 (⭐值得优化, 很少出现的情况, 但是要跨级控制)
-    output reg lsu_flush,
-    output reg exu_flush,
 
-    output reg [3:0][5:0] wb_q_update,
-    output [1:0] flush_type
+    output reg [3:0][5:0] wb_q_update,  // -> top
+    output [1:0] flush_type  // 
 );
 // 两个同时来, 先处理l
 

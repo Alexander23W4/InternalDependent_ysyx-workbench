@@ -51,7 +51,9 @@ module ysyx_26040135_AXI_LSU (
     output reg [63:0] lsu_blcokb_cyc,
     output reg [63:0] lsu_work_cyc,
 
-    output reg lsu_blockf
+    output reg lsu_blockf,
+
+    
 );
 
 

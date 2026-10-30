@@ -30,7 +30,6 @@ module ysyx_26040135_EXU (
     input [4:0] rs1,
     input [4:0] rs2,
 
-    input [31:0] iag,
 
     input lsu_blockf,
     input wbu_blockf,
@@ -60,11 +59,6 @@ module ysyx_26040135_EXU (
     output reg [4:0] rs1_out,
     output reg [4:0] rs2_out,
 
-    output reg is_exu_rd,
-    output reg is_lsu_rd,
-
-    output reg [4:0] rd_exu,
-
     output reg flush,
     output reg [31:0] pc_flush,
 
@@ -73,7 +67,16 @@ module ysyx_26040135_EXU (
     output reg [63:0] exu_blcokbw_cyc,
     output reg [63:0] exu_work_cyc,
 
-    output ebreak_end
+    output ebreak_end,
+
+// wbu flush 接收    
+    
+
+// -> top, wbu 的 wb_q更新信号
+    output reg exu_new_wbt,
+    output reg exu_new_wbd [5:0],
+
+    input [1:0] flush_type
 );
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
@@ -271,6 +274,10 @@ module ysyx_26040135_EXU (
                 end
             end
 
+            if(state == IDLE && out_valid_wbu && flush_type == 2'b10) begin   // 回到IDLE之后, 这个rd才算录入, 才算生效, 才可能会被冲刷
+                out_valid_wbu <= 1'b0;
+                in_ready <= 1'b1; 
+            end 
             
         end
     end
@@ -279,8 +286,10 @@ module ysyx_26040135_EXU (
         next = state;
         ebreak_end = 1'b0;
         flush = 1'b0;
-        rd_exu = 0;
         _new_instr = 1'b0;
+        exu_new_wbt = 1'b0;
+        exu_new_wbd = 6'd0;
+        
         case (state)
             IDLE: begin
                 if(in_valid && in_ready) begin
@@ -303,10 +312,14 @@ module ysyx_26040135_EXU (
                     next = EX;
                 end
             end
-            EX: begin   // 这时候取到的读取值才是正确的
+            EX: begin   // 这时候取到的读取值才是正确的, 在这个周期进行正常的EX操作
                 if(new_pc != pc_next_dft) begin
                     flush = 1'b1;
-                    rd_exu = rd_save;
+                end
+                // 需要wb的instr
+                if(!is_nlwb && !write) begin
+                    exu_new_wbt = 1'b1;
+                    exu_new_wbd = {{read}, rd_save};
                 end
                 next = IDLE;
             end

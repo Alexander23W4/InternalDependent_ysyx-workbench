@@ -87,6 +87,10 @@ ChipLink MEM	      0xc000_0000~0xffff_ffff
 CPI(P)
 */
 
+/*
+lsu支持 sw 并行
+cache的替换算法优化
+*/
 module ysyx_26040135(
     
     // ⭐: 现在cpu的引脚已经完全符合要求
@@ -190,8 +194,7 @@ module ysyx_26040135(
 */
 
 // 引出到verilator顶层的信号写在这里
-    wire [32*32-1:0] dbg_reg;   
-    wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
+    wire [32*32-1:0] dbg_reg;          cycleh, _mvendorid, _marchid; 
     wire [31:0] _pc;
     wire [31:0] _instr;
     

@@ -1,0 +1,40 @@
+[options]
+mode cover
+depth 40
+
+[engines]
+smtbmc boolector
+
+[script]
+verilog_defines -DFORMAL
+read -formal -sv xbar.sv
+read -formal -sv axi_ram.sv
+read -formal -sv _IFU.sv
+read -formal -sv _IDU.v
+read -formal -sv _EXU.v
+read -formal -sv _LSU.v
+read -formal -sv _WBU.v
+read -formal -sv dut_dbg_register.v
+read -formal -sv dut_top.sv
+read -formal -sv ref_top.sv
+read -formal -sv decode.v
+read -formal -sv register.v
+read -formal -sv dbg_register.v
+read -formal -sv formal_top.sv
+prep -top formal_top
+
+[files]
+dut/compo/xbar.sv
+dut/compo/axi_ram.sv
+dut/pipeline/_IFU.sv
+dut/pipeline/_IDU.v
+dut/pipeline/_EXU.v
+dut/pipeline/_LSU.v
+dut/pipeline/_WBU.v
+dut/dut_dbg_register.v
+dut/dut_top.sv
+ref/ref_top.sv
+ref/decode.v
+ref/register.v
+ref/dbg_register.v
+formal_top.sv

@@ -1,0 +1,275 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+
+-- Executing script file `design_prep.ys' --
+
+1. Executing RTLIL frontend.
+Input filename: design.il
+
+2. Executing SCC pass (detecting logic loops).
+Found 0 SCCs in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.
+Found 0 SCCs in module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.
+Found 0 SCCs in module decode.
+Found 0 SCCs in module dut_top.
+Found 0 SCCs in module formal_top.
+Found 0 SCCs in module ref_top.
+Found 0 SCCs in module ysyx_26040135_AXI4_Xbar.
+Found 0 SCCs in module ysyx_26040135_AXI_IFU.
+Found 0 SCCs in module ysyx_26040135_AXI_LSU.
+Found 0 SCCs in module ysyx_26040135_AXI_RAM.
+Found 0 SCCs in module ysyx_26040135_EXU.
+Found 0 SCCs in module ysyx_26040135_IDU.
+Found 0 SCCs in module ysyx_26040135_WBU.
+Found 0 SCCs.
+
+3. Executing SIMPLEMAP pass (map simple cells to gate primitives).
+
+4. Executing MEMORY_NORDFF pass (extracting $dff cells from memories).
+
+5. Executing ASYNC2SYNC pass.
+Replacing dut_top.$procdff$8395 ($adff): ARST=\reset, D=$0\wb_q[17:0], Q=\wb_q
+Replacing ref_top.$procdff$8416 ($aldff): ALOAD=\rst, AD={ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }, D=$0$lookahead\ram$724[511:0]$737, Q=\ram
+Replacing ref_top.$procdff$8419 ($adff): ARST=\rst, D=$0\pc[31:0], Q=\pc
+Replacing ref_top.$procdff$8422 ($adff): ARST=\rst, D=$0\mstatus[31:0], Q=\mstatus
+Replacing ref_top.$procdff$8425 ($adff): ARST=\rst, D=$0\mepc[31:0], Q=\mepc
+Replacing ref_top.$procdff$8428 ($adff): ARST=\rst, D=$0\mcause[31:0], Q=\mcause
+Replacing ref_top.$procdff$8431 ($adff): ARST=\rst, D=$0\mtvec[31:0], Q=\mtvec
+Replacing ref_top.$procdff$8434 ($adff): ARST=\rst, D=$0\mcycle[31:0], Q=\mcycle
+Replacing ref_top.$procdff$8437 ($adff): ARST=\rst, D=$0\mcycleh[31:0], Q=\mcycleh
+Replacing ref_top.$procdff$8440 ($adff): ARST=\rst, D=\mvendorid, Q=\mvendorid
+Replacing ref_top.$procdff$8443 ($adff): ARST=\rst, D=\marchid, Q=\marchid
+Replacing ysyx_26040135_AXI4_Xbar.$procdff$8337 ($adff): ARST=\reset, D=\r_next_state, Q=\r_current_state
+Replacing ysyx_26040135_AXI_IFU.$procdff$7884 ($adff): ARST=\reset, D=$0\pc[31:0], Q=\pc
+Replacing ysyx_26040135_AXI_IFU.$procdff$7887 ($adff): ARST=\reset, D=$0\ifu_work_cyc[63:0], Q=\ifu_work_cyc
+Replacing ysyx_26040135_AXI_IFU.$procdff$7890 ($adff): ARST=\reset, D=$0\ifu_block_cyc[63:0], Q=\ifu_block_cyc
+Replacing ysyx_26040135_AXI_IFU.$procdff$7893 ($adff): ARST=\reset, D=$0\out_instr[31:0], Q=\out_instr
+Replacing ysyx_26040135_AXI_IFU.$procdff$7896 ($adff): ARST=\reset, D=$0\out_valid[0:0], Q=\out_valid
+Replacing ysyx_26040135_AXI_IFU.$procdff$7899 ($adff): ARST=\reset, D=$0\out_pc[31:0], Q=\out_pc
+Replacing ysyx_26040135_AXI_IFU.$procdff$7902 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_AXI_IFU.$procdff$7905 ($adff): ARST=\reset, D=$0\error_save[1:0], Q=\error_save
+Replacing ysyx_26040135_AXI_IFU.$procdff$7908 ($adff): ARST=\reset, D=$0\flush_save[0:0], Q=\flush_save
+Replacing ysyx_26040135_AXI_IFU.$procdff$7911 ($adff): ARST=\reset, D=$0\master_validation_error_save[0:0], Q=\master_validation_error_save
+Replacing ysyx_26040135_AXI_IFU.$procdff$7914 ($adff): ARST=\reset, D=$0\pc_flush_save[31:0], Q=\pc_flush_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8262 ($adff): ARST=\reset, D=$0\lsu_blockf_cyc[63:0], Q=\lsu_blockf_cyc
+Replacing ysyx_26040135_AXI_LSU.$procdff$8265 ($adff): ARST=\reset, D=$0\lsu_blcokb_cyc[63:0], Q=\lsu_blcokb_cyc
+Replacing ysyx_26040135_AXI_LSU.$procdff$8268 ($adff): ARST=\reset, D=$0\lsu_work_cyc[63:0], Q=\lsu_work_cyc
+Replacing ysyx_26040135_AXI_LSU.$procdff$8271 ($adff): ARST=\reset, D=$0\lsu_blockf[0:0], Q=\lsu_blockf
+Replacing ysyx_26040135_AXI_LSU.$procdff$8274 ($adff): ARST=\reset, D=$0\out_valid[0:0], Q=\out_valid
+Replacing ysyx_26040135_AXI_LSU.$procdff$8277 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
+Replacing ysyx_26040135_AXI_LSU.$procdff$8280 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_AXI_LSU.$procdff$8283 ($adff): ARST=\reset, D=$0\error_save[1:0], Q=\error_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8286 ($adff): ARST=\reset, D=$0\io_save[0:0], Q=\io_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8289 ($adff): ARST=\reset, D=$0\io_type_save[1:0], Q=\io_type_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8292 ($adff): ARST=\reset, D=$0\read_is_u_save[0:0], Q=\read_is_u_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8295 ($adff): ARST=\reset, D=$0\rd_save[4:0], Q=\rd_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8298 ($adff): ARST=\reset, D=$0\lsu_data_save[31:0], Q=\lsu_data_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8301 ($adff): ARST=\reset, D=$0\lsu_addr_save[31:0], Q=\lsu_addr_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8304 ($adff): ARST=\reset, D=$0\ic_wb_wdata_save[31:0], Q=\ic_wb_wdata_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8307 ($adff): ARST=\reset, D=$0\rdata_out[0:0], Q=\rdata_out
+Replacing ysyx_26040135_AXI_LSU.$procdff$8310 ($adff): ARST=\reset, D=$0\flush_save[0:0], Q=\flush_save
+Replacing ysyx_26040135_AXI_RAM.$procdff$8340 ($aldff): ALOAD=\reset, AD={ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }, D=$0$lookahead\ram$959[511:0]$973, Q=\ram
+Replacing ysyx_26040135_AXI_RAM.$procdff$8343 ($adff): ARST=\reset, D=$0\rdata_save[31:0], Q=\rdata_save
+Replacing ysyx_26040135_AXI_RAM.$procdff$8346 ($adff): ARST=\reset, D=$0\awaddr_save[31:0], Q=\awaddr_save
+Replacing ysyx_26040135_AXI_RAM.$procdff$8349 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_EXU.$procdff$7923 ($adff): ARST=\reset, D=$0\mstatus[31:0], Q=\mstatus
+Replacing ysyx_26040135_EXU.$procdff$7926 ($adff): ARST=\reset, D=$0\mepc[31:0], Q=\mepc
+Replacing ysyx_26040135_EXU.$procdff$7929 ($adff): ARST=\reset, D=$0\mcause[31:0], Q=\mcause
+Replacing ysyx_26040135_EXU.$procdff$7932 ($adff): ARST=\reset, D=$0\mtvec[31:0], Q=\mtvec
+Replacing ysyx_26040135_EXU.$procdff$7935 ($adff): ARST=\reset, D=$0\mcycle[31:0], Q=\mcycle
+Replacing ysyx_26040135_EXU.$procdff$7938 ($adff): ARST=\reset, D=$0\mcycleh[31:0], Q=\mcycleh
+Replacing ysyx_26040135_EXU.$procdff$7941 ($adff): ARST=\reset, D=\mvendorid, Q=\mvendorid
+Replacing ysyx_26040135_EXU.$procdff$7944 ($adff): ARST=\reset, D=\marchid, Q=\marchid
+Replacing ysyx_26040135_EXU.$procdff$7947 ($adff): ARST=\reset, D=$0\exu_blockf_cyc[63:0], Q=\exu_blockf_cyc
+Replacing ysyx_26040135_EXU.$procdff$7950 ($adff): ARST=\reset, D=$0\exu_blcokbl_cyc[63:0], Q=\exu_blcokbl_cyc
+Replacing ysyx_26040135_EXU.$procdff$7953 ($adff): ARST=\reset, D=$0\exu_blcokbw_cyc[63:0], Q=\exu_blcokbw_cyc
+Replacing ysyx_26040135_EXU.$procdff$7956 ($adff): ARST=\reset, D=$0\exu_work_cyc[63:0], Q=\exu_work_cyc
+Replacing ysyx_26040135_EXU.$procdff$7959 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
+Replacing ysyx_26040135_EXU.$procdff$7962 ($adff): ARST=\reset, D=$0\out_valid_lsu[0:0], Q=\out_valid_lsu
+Replacing ysyx_26040135_EXU.$procdff$7965 ($adff): ARST=\reset, D=$0\out_valid_wbu[0:0], Q=\out_valid_wbu
+Replacing ysyx_26040135_EXU.$procdff$7968 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_WBU.$auto$proc_dlatch.cc:547:proc_dlatch$7855 ($dlatch): EN=\state, D=$0\compare[0:0], Q=\compare
+Replacing ysyx_26040135_WBU.$auto$proc_dlatch.cc:547:proc_dlatch$7864 ($dlatch): EN=\state, D=$0\jump[1:0], Q=\jump
+Replacing ysyx_26040135_WBU.$procdff$8313 ($adff): ARST=\reset, D=$0\rd[4:0], Q=\rd
+Replacing ysyx_26040135_WBU.$procdff$8316 ($adff): ARST=\reset, D=$0\wdata[31:0], Q=\wdata
+Replacing ysyx_26040135_WBU.$procdff$8319 ($adff): ARST=\reset, D=$0\wbu_blockf_cyc[63:0], Q=\wbu_blockf_cyc
+Replacing ysyx_26040135_WBU.$procdff$8322 ($adff): ARST=\reset, D=$0\wbu_work_cyc[63:0], Q=\wbu_work_cyc
+Replacing ysyx_26040135_WBU.$procdff$8325 ($adff): ARST=\reset, D=$0\wbu_blockf[0:0], Q=\wbu_blockf
+Replacing ysyx_26040135_WBU.$procdff$8328 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
+Replacing ysyx_26040135_WBU.$procdff$8331 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_WBU.$procdff$8334 ($adff): ARST=\reset, D=$0\wb_type[0:0], Q=\wb_type
+
+6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register..
+Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register..
+Finding unused cells or wires in module \decode..
+Finding unused cells or wires in module \dut_top..
+Finding unused cells or wires in module \formal_top..
+Finding unused cells or wires in module \ref_top..
+Finding unused cells or wires in module \ysyx_26040135_AXI4_Xbar..
+Finding unused cells or wires in module \ysyx_26040135_AXI_IFU..
+Finding unused cells or wires in module \ysyx_26040135_AXI_LSU..
+Finding unused cells or wires in module \ysyx_26040135_AXI_RAM..
+Finding unused cells or wires in module \ysyx_26040135_EXU..
+Finding unused cells or wires in module \ysyx_26040135_IDU..
+Finding unused cells or wires in module \ysyx_26040135_WBU..
+Removed 43 unused cells and 45 unused wires.
+<suppressed ~47 debug messages>
+
+7. Executing FORMALFF pass.
+
+8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register..
+Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register..
+Finding unused cells or wires in module \decode..
+Finding unused cells or wires in module \dut_top..
+Finding unused cells or wires in module \formal_top..
+Finding unused cells or wires in module \ref_top..
+Finding unused cells or wires in module \ysyx_26040135_AXI4_Xbar..
+Finding unused cells or wires in module \ysyx_26040135_AXI_IFU..
+Finding unused cells or wires in module \ysyx_26040135_AXI_LSU..
+Finding unused cells or wires in module \ysyx_26040135_AXI_RAM..
+Finding unused cells or wires in module \ysyx_26040135_EXU..
+Finding unused cells or wires in module \ysyx_26040135_IDU..
+Finding unused cells or wires in module \ysyx_26040135_WBU..
+Removed 20 unused cells and 20 unused wires.
+<suppressed ~29 debug messages>
+
+9. Executing CHECK pass (checking for obvious problems).
+Checking module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register...
+Checking module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register...
+Checking module decode...
+Checking module dut_top...
+Checking module formal_top...
+Checking module ref_top...
+Checking module ysyx_26040135_AXI4_Xbar...
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_wready is used but has no driver.
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bvalid is used but has no driver.
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [1] is used but has no driver.
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bresp [0] is used but has no driver.
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [3] is used but has no driver.
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [2] is used but has no driver.
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [1] is used but has no driver.
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_bid [0] is used but has no driver.
+Warning: Wire ysyx_26040135_AXI4_Xbar.\ifu_s_awready is used but has no driver.
+Checking module ysyx_26040135_AXI_IFU...
+Warning: Wire ysyx_26040135_AXI_IFU.\bus_wlast is used but has no driver.
+Checking module ysyx_26040135_AXI_LSU...
+Checking module ysyx_26040135_AXI_RAM...
+Checking module ysyx_26040135_EXU...
+Checking module ysyx_26040135_IDU...
+Checking module ysyx_26040135_WBU...
+Found and reported 10 problems.
+
+10. Executing SETUNDEF pass (replace undef values with defined constants).
+
+11. Executing OPT pass (performing simple optimizations).
+
+11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.
+Optimizing module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.
+Optimizing module decode.
+Optimizing module dut_top.
+Optimizing module formal_top.
+Optimizing module ref_top.
+<suppressed ~19 debug messages>
+Optimizing module ysyx_26040135_AXI4_Xbar.
+Optimizing module ysyx_26040135_AXI_IFU.
+Optimizing module ysyx_26040135_AXI_LSU.
+Optimizing module ysyx_26040135_AXI_RAM.
+<suppressed ~26 debug messages>
+Optimizing module ysyx_26040135_EXU.
+Optimizing module ysyx_26040135_IDU.
+Optimizing module ysyx_26040135_WBU.
+
+11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
+Computing hashes of 8 cells of `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
+Finding duplicate cells in `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
+Finding identical cells in module `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register'.
+Computing hashes of 14 cells of `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register'.
+Finding duplicate cells in `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register'.
+Finding identical cells in module `\decode'.
+Computing hashes of 122 cells of `\decode'.
+Finding duplicate cells in `\decode'.
+Finding identical cells in module `\dut_top'.
+Computing hashes of 60 cells of `\dut_top'.
+Finding duplicate cells in `\dut_top'.
+Finding identical cells in module `\formal_top'.
+Computing hashes of 478 cells of `\formal_top'.
+Finding duplicate cells in `\formal_top'.
+Finding identical cells in module `\ref_top'.
+Computing hashes of 359 cells of `\ref_top'.
+Finding duplicate cells in `\ref_top'.
+Finding identical cells in module `\ysyx_26040135_AXI4_Xbar'.
+Computing hashes of 38 cells of `\ysyx_26040135_AXI4_Xbar'.
+Finding duplicate cells in `\ysyx_26040135_AXI4_Xbar'.
+Finding identical cells in module `\ysyx_26040135_AXI_IFU'.
+Computing hashes of 96 cells of `\ysyx_26040135_AXI_IFU'.
+Finding duplicate cells in `\ysyx_26040135_AXI_IFU'.
+Finding identical cells in module `\ysyx_26040135_AXI_LSU'.
+Computing hashes of 153 cells of `\ysyx_26040135_AXI_LSU'.
+Finding duplicate cells in `\ysyx_26040135_AXI_LSU'.
+Finding identical cells in module `\ysyx_26040135_AXI_RAM'.
+Computing hashes of 134 cells of `\ysyx_26040135_AXI_RAM'.
+Finding duplicate cells in `\ysyx_26040135_AXI_RAM'.
+Finding identical cells in module `\ysyx_26040135_EXU'.
+Computing hashes of 483 cells of `\ysyx_26040135_EXU'.
+Finding duplicate cells in `\ysyx_26040135_EXU'.
+Finding identical cells in module `\ysyx_26040135_IDU'.
+Computing hashes of 126 cells of `\ysyx_26040135_IDU'.
+Finding duplicate cells in `\ysyx_26040135_IDU'.
+Finding identical cells in module `\ysyx_26040135_WBU'.
+Computing hashes of 235 cells of `\ysyx_26040135_WBU'.
+Finding duplicate cells in `\ysyx_26040135_WBU'.
+Removed a total of 0 cells.
+
+11.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+11.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register..
+Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register..
+Finding unused cells or wires in module \decode..
+Finding unused cells or wires in module \dut_top..
+Finding unused cells or wires in module \formal_top..
+Finding unused cells or wires in module \ref_top..
+Finding unused cells or wires in module \ysyx_26040135_AXI4_Xbar..
+Finding unused cells or wires in module \ysyx_26040135_AXI_IFU..
+Finding unused cells or wires in module \ysyx_26040135_AXI_LSU..
+Finding unused cells or wires in module \ysyx_26040135_AXI_RAM..
+Finding unused cells or wires in module \ysyx_26040135_EXU..
+Finding unused cells or wires in module \ysyx_26040135_IDU..
+Finding unused cells or wires in module \ysyx_26040135_WBU..
+Removed 88 unused cells and 210 unused wires.
+<suppressed ~186 debug messages>
+
+11.5. Finished fast OPT passes.
+
+12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register..
+Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register..
+Finding unused cells or wires in module \decode..
+Finding unused cells or wires in module \dut_top..
+Finding unused cells or wires in module \formal_top..
+Finding unused cells or wires in module \ref_top..
+Finding unused cells or wires in module \ysyx_26040135_AXI4_Xbar..
+Finding unused cells or wires in module \ysyx_26040135_AXI_IFU..
+Finding unused cells or wires in module \ysyx_26040135_AXI_LSU..
+Finding unused cells or wires in module \ysyx_26040135_AXI_RAM..
+Finding unused cells or wires in module \ysyx_26040135_EXU..
+Finding unused cells or wires in module \ysyx_26040135_IDU..
+Finding unused cells or wires in module \ysyx_26040135_WBU..
+Removed 0 unused cells and 163 unused wires.
+<suppressed ~13 debug messages>
+
+13. Executing RTLIL backend.
+Output filename: ../model/design_prep.il
+
+Warnings: 10 unique messages, 10 total
+End of script. Logfile hash: 33eb444649, time: 0.48s, user: 0.46s, system: 0.03s, MEM: 43.44 MB peak
+Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+Time spent: 39% 1x check (0 sec), 34% 4x opt_clean (0 sec), ...

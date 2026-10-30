@@ -100,7 +100,7 @@ IMAGE ?= ../am-kernels/kernels/hello/build/hello-riscv32e-ysyxsoc
 
 # Features
 # 选择用多周期cpu还是架构cpu
-USE_M=1
+USE_M=0
 
 # config macro generation
 -include $(NPC_HOME)/scripts/config.mk 

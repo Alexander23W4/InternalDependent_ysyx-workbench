@@ -38,6 +38,8 @@ ChipLink MEM	      0xc000_0000~0xffff_ffff
 
 先把npc拆成5级流水, 中间加握手信号     IF | ID | EX | LS | (EX2)WB
 
+流水线存在以下三种冒险, 为了避免冒险, 就会造成阻塞, 降低流水线的效率
+
 结构冒险: 寄存器读只有 EX 用, 寄存器写只有 WB 用, 不会冲突
         存储器, IF 和 LS 的同时访问读通道会有结构冒险, Xbar采用LSU优先 (至于更复杂的调度策略先留着)
 
@@ -193,7 +195,8 @@ module ysyx_26040135(
 
 
 // 引出到verilator顶层的信号写在这里
-    wire [32*32-1:0] dbg_reg;          cycleh, _mvendorid, _marchid; 
+    wire [32*32-1:0] dbg_reg;   
+    wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
     wire [31:0] _pc;
     wire [31:0] _instr;
     
@@ -311,7 +314,7 @@ ysyx_26040135_EXU exu (
     .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr),
     .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
     .flush(flush), .pc_flush(pc_flush),
-    
+
     .exu_blockf_cyc(exu_blockf_cyc),
     .exu_blcokbl_cyc(exu_blcokbl_cyc), .exu_blcokbw_cyc(exu_blcokbw_cyc),
     .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),

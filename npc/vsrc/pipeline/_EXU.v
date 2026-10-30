@@ -497,3 +497,4 @@ function automatic [1:0] valid_check;
         valid_check = found;
     end
 endfunction
+

@@ -184,7 +184,7 @@ function automatic [24:0] new_wb_q;   // [24] flush  [23:0] new_wq
     begin
         found_target = 1'b0;
         result = 0;
-        flush == 1'b0;
+        flush = 1'b0;
 
         for (int i = 0; i < 4; i++) begin
 

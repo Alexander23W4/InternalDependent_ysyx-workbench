@@ -90,7 +90,9 @@ CPI(P)
 /*
 lsu支持 sw 并行
 cache的替换算法优化
+exu双路流水线握手, e.g.不必因为lsu没有接收数据而阻塞, 如果in_valid, 我可以先收下来, 如果下一条是不用走lsu的, 那可以直接操作掉, wbu的走wbu的流水线握手, 不用等lsu的ready信号
 */
+
 module ysyx_26040135(
     
     // ⭐: 现在cpu的引脚已经完全符合要求
@@ -189,9 +191,6 @@ module ysyx_26040135(
 读CAAQ
 */
 
-/*
-让lsu能够同时处理ls
-*/
 
 // 引出到verilator顶层的信号写在这里
     wire [32*32-1:0] dbg_reg;          cycleh, _mvendorid, _marchid; 

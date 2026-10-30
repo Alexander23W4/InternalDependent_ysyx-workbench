@@ -76,7 +76,6 @@ module ysyx_26040135_EXU (
     output reg exu_new_wbt,
     output reg exu_new_wbd [5:0],
 
-    input [1:0] flush_type
 );
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
@@ -273,11 +272,6 @@ module ysyx_26040135_EXU (
                     out_valid_wbu <= 1'b1;
                 end
             end
-
-            if(state == IDLE && out_valid_wbu && flush_type == 2'b10) begin   // 回到IDLE之后, 这个rd才算录入, 才算生效, 才可能会被冲刷
-                out_valid_wbu <= 1'b0;
-                in_ready <= 1'b1; 
-            end 
             
         end
     end

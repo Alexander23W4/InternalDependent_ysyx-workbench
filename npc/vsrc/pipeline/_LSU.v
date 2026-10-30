@@ -19,6 +19,7 @@
 -> 现在暂没有支持自改代码的指令, 如果IFU读了LSU还没有写完的, 或者还没到LSU的, 就会出错
 -> AXI的读写是分离的, 所以如果运行一个写命令, 可以不阻塞读命令, 如果检测到是read请求, 且读的不是现在正在写的addr, 则可以给valid
 */
+
 module ysyx_26040135_AXI_LSU (
     ysyx_26040135_AXI4.master bus,
     
@@ -53,7 +54,7 @@ module ysyx_26040135_AXI_LSU (
 
     output reg lsu_blockf,
 
-    
+    input [1:0] flush_type
 );
 
 
@@ -79,9 +80,6 @@ module ysyx_26040135_AXI_LSU (
         IDLE, AR, R, AW, W, B
     } state_t;
     state_t state, next;
-
-
-
 
 
     always_ff @( posedge clock or posedge reset ) begin

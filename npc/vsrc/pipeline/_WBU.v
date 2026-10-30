@@ -60,7 +60,7 @@ module ysyx_26040135_WBU(
     // 冲刷 (⭐值得优化, 很少出现的情况, 但是要跨级控制)
 
     output reg [3:0][5:0] wb_q_update,  // -> top
-    output [1:0] flush_type  // 
+    output flush  // 
 );
 // 两个同时来, 先处理l
 
@@ -125,7 +125,7 @@ module ysyx_26040135_WBU(
         
         next = state;
         wen = 1'b0;
-        flush_type = 2'b00;
+        flush = 1'b0;
 
         case (state)
             IDLE: begin
@@ -136,7 +136,7 @@ module ysyx_26040135_WBU(
             WB: begin    // 这里操作 wb_q_update的时候, 直接接受来自exu的信号
                          // exu有rd要写入时, 判断信号wen, 如果wen就交给wbu来操作, !wen就交给TOP来处理, 总之依然是TOP控制wb_q
                 wen = 1'b1;
-                {flush_type, wb_q_update} = new_wb_q(wb_q, wb_type, exu_new_wbt, exu_new_wbd);    // TOP根据wen信号来更新wb
+                {flush, wb_q_update} = new_wb_q(wb_q, wb_type, exu_new_wbt, exu_new_wbd);    // TOP根据wen信号来更新wb
                 next = IDLE;
             end
         endcase
@@ -171,7 +171,7 @@ endfunction
 
 
 // 遍历wb_q, 将这个rd之前的所有相同rd的待wb记录都删掉
-function automatic [25:0] new_wb_q;   // [25] flush_type -- 11(ls) 10(ex) 00(无) [23:0] new_wq
+function automatic [24:0] new_wb_q;   // [24] flush  [23:0] new_wq
     input [3:0][5:0] wb_q;
     input wb_type;
     input exu_new_wbt;
@@ -179,12 +179,12 @@ function automatic [25:0] new_wb_q;   // [25] flush_type -- 11(ls) 10(ex) 00(无
 
     reg found_target;
     reg [23:0] result;
-    reg [1:0] flush_type;
+    reg flush;
 
     begin
         found_target = 1'b0;
         result = 0;
-        flush_type = 2'b00;
+        flush == 1'b0;
 
         for (int i = 0; i < 4; i++) begin
 
@@ -197,7 +197,7 @@ function automatic [25:0] new_wb_q;   // [25] flush_type -- 11(ls) 10(ex) 00(无
                         found_target = 1'b1;        
 
                     end else begin        // 不是目标, 但是是同一个rd
-                        flush_type = wb_type ? 2'b10 : 2'b11;    // 和 wb_type是反过来的, wb_type写回的是ls, flush的就是ex
+                        flush = 1'b1;
                     end
                 end else begin
                     result = wb_q_enqueue(result, wb_q[i]);
@@ -209,7 +209,7 @@ function automatic [25:0] new_wb_q;   // [25] flush_type -- 11(ls) 10(ex) 00(无
             result = wb_q_enqueue(result, exu_new_wbd);
         end
 
-        new_wb_q = {flush_type, result};
+        new_wb_q = {flush, result};
     end
 
 endfunction

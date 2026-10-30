@@ -210,6 +210,8 @@ module ysyx_26040135(
     reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
     reg [1:0] iag_amt [31:0]; 
 
+    reg [5:0][3:0] wb_q;    // write back queue   编码 xxxxx(写入的寄存器) x(rd的来源l/s)   这里留4个空, 认为最多不会超过4个在途rd
+
 // 流水线级间连接
 
     wire sw_avail;

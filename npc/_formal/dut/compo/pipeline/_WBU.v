@@ -28,11 +28,11 @@ l/e来了之后: (iag0 = 0) 不wb                                        不跳,
 ll两个不同rd: (iag0 = 1, iag1 = 1) 清掉iag0, wb                   
 ll两个相同rd: (iag0 = 1, iag1 = 2) iag1 - 1, wb           
 
-le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = e) iag1 - 1, wb
+le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = e(0)) iag1 - 1, wb
 
 ⭐: 下面两个是相同rd, 后方数据先来的情况
 le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = e) 清掉iag0, wb   冲刷
-le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = l) 清掉iag0, wb   冲刷
+le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = l(1)) 清掉iag0, wb   冲刷
 
 le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = l) iag1 - 1, wb
 

@@ -5,10 +5,10 @@ module ref_top(
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,  // 
-    input logic [7:0] ram_instr [0:31]
+    input logic [31:0][7:0] ram_instr
 );
     localparam BASE_ADDR = 32'h80000000;
-    logic [7:0] ram [0:63];
+    logic [63:0][7:0] ram;
 
     wire [31:0] fetch_addr;
     assign fetch_addr = pc - BASE_ADDR;

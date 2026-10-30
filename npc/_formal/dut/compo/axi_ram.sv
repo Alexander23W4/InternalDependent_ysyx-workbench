@@ -12,10 +12,10 @@ module ysyx_26040135_AXI_RAM (
 
     input clock, 
     input reset,
-    input logic [7:0] ram_instr [0:31]
+    input logic [31:0][7:0] ram_instr
 );
 
-    logic [7:0] ram [0:63];
+    logic [63:0][7:0] ram;
 
     logic [31:0] rdata_save;
     logic [31:0] awaddr_save;

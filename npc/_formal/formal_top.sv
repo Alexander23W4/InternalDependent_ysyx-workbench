@@ -6,7 +6,7 @@ module formal_top(
 /*
 由于pc和gpr不方便同时比较, 所以分开比较
 */
-    reg [7:0] imem [0:31];
+    reg [31:0][7:0] imem;
 
 
 

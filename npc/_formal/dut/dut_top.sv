@@ -12,7 +12,7 @@ module dut_top(
     input clock,
     input reset,
     
-    input logic [7:0] ram [0:31]   // 0-31   32-63
+    input logic [31:0][7:0] ram,  // 0-31   32-63
     output compare,
     output [1:0] jump,   
 

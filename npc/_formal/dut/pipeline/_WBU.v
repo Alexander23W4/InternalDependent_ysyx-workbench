@@ -64,8 +64,8 @@ module ysyx_26040135_WBU(
     output reg [`WB_Q_LEN-1:0][5:0] wb_q_update,  // -> top
     output flush,  // 
 
-    output compare,
-    output [1:0] jump
+    output reg compare,
+    output reg [1:0] jump
 );
 // 两个同时来, 先处理l
 
@@ -91,6 +91,7 @@ module ysyx_26040135_WBU(
             wbu_blockf_cyc <= 0;
             wbu_work_cyc <= 0;
             wbu_blockf <= 0;
+
 
         end else begin   // 优先级 lsu > exu
             state <= next;
@@ -122,12 +123,15 @@ module ysyx_26040135_WBU(
         end
     end
 
+    reg the_first;
+
     always @(*) begin
         
         next = state;
         wen = 1'b0;
         flush = 1'b0;
         wb_q_update = 0;
+        the_first = 0;
 
         case (state)
             IDLE: begin
@@ -138,7 +142,9 @@ module ysyx_26040135_WBU(
             WB: begin    // 这里操作 wb_q_update的时候, 直接接受来自exu的信号
                          // exu有rd要写入时, 判断信号wen, 如果wen就交给wbu来操作, !wen就交给TOP来处理, 总之依然是TOP控制wb_q
                 wen = 1'b1;
-                {flush, wb_q_update} = new_wb_q(wb_q, wb_type, exu_new_wbt, exu_new_wbd);    // TOP根据wen信号来更新wb
+                {the_first, flush, wb_q_update} = new_wb_q(wb_q, wb_type, exu_new_wbt, exu_new_wbd);    // TOP根据wen信号来更新wb
+                jump = flush ? 2'b10 : 2'b01;
+                compare = (!the_first && !flush);
                 next = IDLE;
             end
         endcase
@@ -171,7 +177,7 @@ endfunction
 
 
 // 遍历wb_q, 将这个rd之前的所有相同rd的待wb记录都删掉
-function automatic [`WB_Q_LEN*6:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] new_wq
+function automatic [`WB_Q_LEN*6 + 1:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] new_wq
     input [`WB_Q_LEN-1:0][5:0] wb_q;
     input wb_type;
     input exu_new_wbt;
@@ -180,11 +186,15 @@ function automatic [`WB_Q_LEN*6:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] 
     reg found_target;
     reg [`WB_Q_LEN*6-1:0] result;
     reg flush;
+    reg the_first;
 
     begin
         found_target = 1'b0;
         result = 0;
         flush = 1'b0;
+        the_first = 1'b0;
+        compare = 1'b0;
+        jump = 2'b00;
 
         for (int i = 0; i < `WB_Q_LEN; i++) begin
 
@@ -195,7 +205,7 @@ function automatic [`WB_Q_LEN*6:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] 
                 if(!found_target) begin
                     if(wb_q[i][5] == wb_type) begin  // 找到第一个对应的作为目标
                         found_target = 1'b1;        
-
+                        the_first = (i == 0);
                     end else begin        // 不是目标, 但是是同一个rd
                         flush = 1'b1;
                     end
@@ -209,7 +219,7 @@ function automatic [`WB_Q_LEN*6:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] 
             result = wb_q_enqueue(result, exu_new_wbd);
         end
 
-        new_wb_q = {flush, result};
+        new_wb_q = {the_first, flush, result};
     end
 
 endfunction

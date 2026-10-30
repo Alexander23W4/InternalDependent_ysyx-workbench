@@ -12,6 +12,8 @@ module dut_top(
     input clock,
     input reset,
     input logic [7:0] ram [0:31]   // 0-31   32-63
+    output compare,
+    output [1:0] jump   
 
 );
 
@@ -220,7 +222,10 @@ ysyx_26040135_EXU exu (
         .exu_new_wbd(exu_new_wbd),
         .exu_new_wbt(exu_new_wbt),
         .flush(lsu_flush),
-        .wb_q_update(wb_q_update)
+        .wb_q_update(wb_q_update),
+
+        .compare(compare),
+        .jump(jump)
     );
 
     wire wen;

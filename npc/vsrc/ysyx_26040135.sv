@@ -209,8 +209,6 @@ module ysyx_26040135(
 
 
 // 流水线控制功能型寄存器
-    reg [1:0][31:0] iag;   // inaccessible_gprs[0/1]
-    reg [1:0] iag_amt [31:0]; 
 
     reg [3:0][5:0] wb_q;    // write back queue   编码 xxxxx(写入的寄存器) x(rd的来源l/s)   这里留4个空, 认为最多不会超过4个在途rd
 
@@ -282,6 +280,8 @@ module ysyx_26040135(
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
     wire [31:0] instr_de;
+    wire exu_new_wbt;
+    wire [5:0] exu_new_wbd;
 
 
 ysyx_26040135_EXU exu (
@@ -298,7 +298,7 @@ ysyx_26040135_EXU exu (
     .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
     .ebreak(ebreak), .ecall(ecall), .mret(mret), .fence_i(fence_i),
     .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
-    .rd(rd), .rs1(rs1), .rs2(rs2), .iag(iag[0]),
+    .rd(rd), .rs1(rs1), .rs2(rs2),
     .lsu_blockf(lsu_blockf), .wbu_blockf(wbu_blockf),
     ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
     ._mcycle(_mcycle), ._mcycleh(_mcycleh),
@@ -310,11 +310,13 @@ ysyx_26040135_EXU exu (
     .io(io), .io_type(io_type), .read_is_u(read_is_u),
     .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr),
     .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
-    .is_exu_rd(is_exu_rd), .is_lsu_rd(is_lsu_rd), .rd_exu(rd_exu),
     .flush(flush), .pc_flush(pc_flush),
+    
     .exu_blockf_cyc(exu_blockf_cyc),
     .exu_blcokbl_cyc(exu_blcokbl_cyc), .exu_blcokbw_cyc(exu_blcokbw_cyc),
-    .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end)
+    .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),
+    .wb_q(wb_q), .exu_new_wbd(exu_new_wbd), .exu_new_wbt(exu_new_wbt)
+
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_blcokbw_cyc, exu_work_cyc;
 
@@ -374,7 +376,8 @@ ysyx_26040135_EXU exu (
         .lsu_blockf(lsu_blockf),
 
         .sw_addr(sw_addr),
-        .sw_avail(sw_avail)
+        .sw_avail(sw_avail),
+        .flush(lsu_flush)
     );
 
     wire valid_lw, ready_lw;
@@ -382,6 +385,7 @@ ysyx_26040135_EXU exu (
     wire [4:0] rd_lsu;
     wire [63:0] wbu_blockf_cyc, wbu_work_cyc;
     wire wbu_blockf;
+    wire lsu_flush;
 
 
     ysyx_26040135_WBU wbu (
@@ -398,23 +402,26 @@ ysyx_26040135_EXU exu (
         .rd_lsu(rd_lsu),
         .wdata_lsu(wdata_lw),
 
-        .rd_release(rd_release),
-        .iag(iag[0]),
-        .iag_type(iag[1]),
-        .iag_amt(iag_amt),
         .wbu_blockf_cyc(wbu_blockf_cyc),
         .wbu_work_cyc(wbu_work_cyc),
         .wbu_blockf(wbu_blockf),
 
         .wen(wen),
         .rd(rd_wbu),
-        .wdata(wdata_wbu)
+        .wdata(wdata_wbu),
+
+        .wb_q(wb_q),
+        .exu_new_wbd(exu_new_wbd),
+        .exu_new_wbt(exu_new_wbt),
+        .flush(lsu_flush),
+        .wb_q_update(wb_q_update)
     );
 
     wire [4:0] rd_release;
     wire wen;
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;
+    wire [3:0][5:0] wb_q_update;
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -504,39 +511,14 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // 应对数字冒险的寄存器io前后依赖记录
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            iag <= 0;
-            iag_amt <= '{default: 2'b00};
+            wb_q <= 0;
         end else begin
-            if(rd_release != 0) begin   // 0是无效清理, 不为0说明是有效清零周期
-                if(!(rd_release == rd_exu && (is_exu_rd | is_lsu_rd))) begin  // 如果这一拍rd_exu也有效, 那么什么都不操作
-
-                    if(iag_amt[rd_release] == 2'b01) begin  // 1, 1
-                        iag[0][rd_release] <= 1'b0;  
-                        iag_amt[rd_release] <= 2'b00;
-
-                    end else begin  // 1, 2
-
-                        if(iag[1][rd_release] == 1'b0) begin   // 代表exu
-                            iag[0][rd_release] <= 1'b0; 
-                            iag_amt[rd_release] <= 2'b00;
-                        end else begin
-                            iag_amt[rd_release] <= 2'b01;
-                        end
-                    end
+            if(wen) begin
+                wb_q <= wb_q_update;
+            end else begin
+                if(exu_new_wbt) begin
+                    wb_q <= wb_q_enqueue(exu_new_wbd, wb_q);
                 end
-            end
-
-            // 这里记录要写但是还没有写的rd, 如果是x0, 则不计入.  
-            // 首先要判断是不是有效rd
-            // 如果rd_release也有效, 那么写1, 1, 其余正常
-            if((is_exu_rd | is_lsu_rd) && rd_exu != 0) begin
-                iag[0][rd_exu] <= 1'b1;  
-                if(rd_release != 0) begin   
-                    iag_amt[rd_exu] <= 2'b01;
-                end else begin
-                    iag_amt[rd_exu] <= iag_amt[rd_exu] + 2'b01;
-                end
-                iag[1][rd_exu] <= is_exu_rd ? 1'b0 : 1'b1;
             end
         end
     end
@@ -545,6 +527,31 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     `include "vsrc/dpi-f.sv"
 
 endmodule
+
+
+function automatic [23:0] wb_q_enqueue;
+    input [5:0] new_data;
+    input [23:0] queue;
+
+    reg [23:0] result;
+    reg found;
+    integer i;
+
+    begin
+        result = queue;
+        found = 1'b0;
+
+        for (i = 0; i < 4; i = i + 1) begin
+            if (!found && (queue[i] == 6'b0)) begin
+                result[i*6 +: 6] = new_data;
+                found = 1'b1;
+            end
+        end
+
+        wb_q_enqueue = result;
+    end
+endfunction
+
 /* verilator lint_off UNUSEDSIGNAL */
 
 

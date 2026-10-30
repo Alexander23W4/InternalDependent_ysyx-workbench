@@ -30,7 +30,6 @@ module ysyx_26040135_EXU (
     input [4:0] rs1,
     input [4:0] rs2,
 
-    input [31:0] iag,
 
     input lsu_blockf,
     input wbu_blockf,
@@ -60,11 +59,6 @@ module ysyx_26040135_EXU (
     output reg [4:0] rs1_out,
     output reg [4:0] rs2_out,
 
-    output reg is_exu_rd,
-    output reg is_lsu_rd,
-
-    output reg [4:0] rd_exu,
-
     output reg flush,
     output reg [31:0] pc_flush,
 
@@ -73,7 +67,17 @@ module ysyx_26040135_EXU (
     output reg [63:0] exu_blcokbw_cyc,
     output reg [63:0] exu_work_cyc,
 
-    output ebreak_end
+    output ebreak_end,
+
+// wbu flush 接收    
+    
+
+// -> top, wbu 的 wb_q更新信号
+
+    input [3:0][5:0] wb_q,
+    output reg exu_new_wbt,
+    output reg [5:0] exu_new_wbd
+
 );
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
@@ -270,7 +274,6 @@ module ysyx_26040135_EXU (
                     out_valid_wbu <= 1'b1;
                 end
             end
-
             
         end
     end
@@ -279,8 +282,10 @@ module ysyx_26040135_EXU (
         next = state;
         ebreak_end = 1'b0;
         flush = 1'b0;
-        rd_exu = 0;
         _new_instr = 1'b0;
+        exu_new_wbt = 1'b0;
+        exu_new_wbd = 6'd0;
+        
         case (state)
             IDLE: begin
                 if(in_valid && in_ready) begin
@@ -303,10 +308,14 @@ module ysyx_26040135_EXU (
                     next = EX;
                 end
             end
-            EX: begin   // 这时候取到的读取值才是正确的
+            EX: begin   // 这时候取到的读取值才是正确的, 在这个周期进行正常的EX操作
                 if(new_pc != pc_next_dft) begin
                     flush = 1'b1;
-                    rd_exu = rd_save;
+                end
+                // 需要wb的instr
+                if(!is_nlwb && !write) begin
+                    exu_new_wbt = 1'b1;
+                    exu_new_wbd = {{read}, rd_save};
                 end
                 next = IDLE;
             end
@@ -326,8 +335,8 @@ module ysyx_26040135_EXU (
     wire rsb_type = r_type | s_type | b_type;
     wire i_type = ~rsb_type & ~nrs;
 
-    wire gpr_read_invalid = (rsb_type & (iag[rs1] | iag[rs2])) | (i_type & iag[rs1]);   // 会读gpr且gpr存在io前后依赖问题
-
+    wire [1:0] rs_exist = valid_check(wb_q, rs1, rs2);
+    wire gpr_read_invalid = (rsb_type & (|rs_exist)) | (i_type & rs_exist[0]);   // 会读gpr且gpr存在io前后依赖问题
 
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;
@@ -371,11 +380,6 @@ module ysyx_26040135_EXU (
 
         rs1_out = rs1_save;
         rs2_out = rs2_save;    
-
-        is_lsu_rd = lw_save | lh_save | lb_save | lbu_save | lhu_save;
-        is_exu_rd = ~(lw_save | lh_save | lb_save | lbu_save | lhu_save | sw_save | sb_save | sh_save) & 
-                    ~(beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save) &
-                    ~(ecall_save | mret_save | ebreak_save | fence_i_save);
 
         io = read ? 1'b0 : 1'b1;
 
@@ -464,4 +468,28 @@ module ysyx_26040135_EXU (
 
 endmodule
 
+
+function automatic [1:0] valid_check;
+    input [3:0][5:0] wb_q;
+    input [4:0] rs1;
+    input [4:0] rs2;
+
+    reg [1:0] found;
+    integer i;
+
+    begin
+        found = 2'b00;
+
+        for (i = 0; i < 4; i = i + 1) begin
+            if (wb_q[i][4:0] == rs1) begin
+                found[0] = 1'b1;
+            end 
+            else if (wb_q[i][4:0] == rs2) begin
+                found[1] = 1'b1;
+            end
+        end
+
+        valid_check = found;
+    end
+endfunction
 

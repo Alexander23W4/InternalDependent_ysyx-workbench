@@ -19,6 +19,7 @@
 -> 现在暂没有支持自改代码的指令, 如果IFU读了LSU还没有写完的, 或者还没到LSU的, 就会出错
 -> AXI的读写是分离的, 所以如果运行一个写命令, 可以不阻塞读命令, 如果检测到是read请求, 且读的不是现在正在写的addr, 则可以给valid
 */
+
 module ysyx_26040135_AXI_LSU (
     ysyx_26040135_AXI4.master bus,
     
@@ -51,7 +52,9 @@ module ysyx_26040135_AXI_LSU (
     output reg [63:0] lsu_blcokb_cyc,
     output reg [63:0] lsu_work_cyc,
 
-    output reg lsu_blockf
+    output reg lsu_blockf,
+
+    input flush
 );
 
 
@@ -72,14 +75,13 @@ module ysyx_26040135_AXI_LSU (
 
     reg rdata_out;
 
+    reg flush_save;
+
 // 状态
     typedef enum [2:0]{ 
         IDLE, AR, R, AW, W, B
     } state_t;
     state_t state, next;
-
-
-
 
 
     always_ff @( posedge clock or posedge reset ) begin
@@ -104,6 +106,7 @@ module ysyx_26040135_AXI_LSU (
             lsu_work_cyc <= 0;
 
             lsu_blockf <= 1'b0;
+            flush_save <= 1'b0;
 
         end else begin
             state <= next;
@@ -127,6 +130,7 @@ module ysyx_26040135_AXI_LSU (
                 lsu_data_save <= lsu_wdata;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
+                flush_save <= 1'b0;
             end
 
             if(in_ready && !in_valid) begin
@@ -138,7 +142,11 @@ module ysyx_26040135_AXI_LSU (
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_out <= bus.rdata;
-                out_valid <= 1'b1;
+                if(flush_save || flush) begin
+                    in_ready <= 1'b1;
+                end else begin
+                    out_valid <= 1'b1;
+                end
             end
             if(state == B && bus.bvalid && bus.bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
                 in_ready <= 1'b1;
@@ -153,6 +161,15 @@ module ysyx_26040135_AXI_LSU (
 
             if(state != IDLE) begin
                 lsu_work_cyc <= lsu_work_cyc + 64'b1;
+            end
+
+            if(flush) begin
+                if(out_valid) begin
+                    out_valid <= 1'b0;
+                    in_ready <= 1'b1;
+                end else begin
+                    flush_save <= 1'b1;
+                end
             end
 
         end
@@ -284,3 +301,4 @@ module ysyx_26040135_AXI_LSU (
             ({32{lh}} & lh_rst);
 
 endmodule
+

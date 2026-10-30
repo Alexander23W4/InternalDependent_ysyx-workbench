@@ -9,7 +9,7 @@ module formal_top(
 
     always @(*) begin
         if (f_cycles == 4'd0) assume(reset);
-        else                  assume(!reset);
+        else                  assume(!reset); 
     end
 
     // ② 指令合法性: 8 个字必须是本 CPU 实现过的 RV32I 指令

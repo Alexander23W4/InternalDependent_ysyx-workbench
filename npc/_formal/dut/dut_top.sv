@@ -5,7 +5,6 @@ assume 和 difftest的DUT
 */
 module dut_top(
     
-    // ⭐: 现在cpu的引脚已经完全符合要求
     input clock,
     input reset,
     input logic [7:0] ram [0:31]   // 0-31   32-63
@@ -236,22 +235,21 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
-ysyx_26040135_AXI4_Xbar u_xbar (
-    .clock   (clock),
-    .reset   (reset),
-    .ifu_s   (bus_ifu.slave),
-    .lsu_s   (bus_lsu.slave),
-    .m_m     (bus_master.master)
-);
+    ysyx_26040135_AXI4_Xbar u_xbar (
+        .clock   (clock),
+        .reset   (reset),
+        .ifu_s   (bus_ifu.slave),
+        .lsu_s   (bus_lsu.slave),
+        .m_m     (bus_master.master)
+    );
 
 
-ysyx_26040135_AXI_RAM u_ram (
-    .bus   (bus_master.slave),
-    .clock(clock),
-    .reset(reset)
-);
-
-// ⭐: 补一个代表ram的slave, 连到bus_master
+    ysyx_26040135_AXI_RAM u_ram (
+        .bus   (bus_master.slave),
+        .clock(clock),
+        .reset(reset),
+        .ram_instr(ram)
+    );
 
 
 /*------------------------------------------------------------------------------------------------------------

@@ -176,27 +176,32 @@ function automatic [25:0] new_wb_q;   // [25] flush_type -- 11(ls) 10(ex) 00(无
 
     reg found_target;
     reg [23:0] result;
+    reg [1:0] flush_type;
 
     begin
         found_target = 1'b0;
         result = 0;
+        flush_type = 2'b00;
 
         for (int i = 0; i < 4; i++) begin
+
             if(wb_q[i][4:0] != rd) begin    // 不同rd, 无论如何照常写入
                 result = wb_q_enqueue(result, wb_q[i]);
-            end else begin
-                if(wb_q[i][5] == wb_type) begin  // 找到目标
-                    found_target = 1'b1;        
-                end else begin     // 不是目标, 但是是同一个rd
-                    if(!found_target) begin
-                        
-                    end else begin    // 目标后的同一个rd, 照常写入
-                        result = wb_q_enqueue(result, wb_q[i]);
+
+            end else begin   // 相同rd
+                if(!found_target) begin
+                    if(wb_q[i][5] == wb_type) begin  // 找到第一个对应的作为目标
+                        found_target = 1'b1;        
+
+                    end else begin        // 不是目标, 但是是同一个rd
+                        flush_type = wb_type ? 2'b10 : 2'b11;    // 和 wb_type是反过来的, wb_type写回的是ls, flush的就是ex
                     end
+                end else begin
+                    result = wb_q_enqueue(result, wb_q[i]);
                 end
             end
         end
-        new_wb_q = result;
+        new_wb_q = {flush_type, result};
     end
 
 endfunction

@@ -67,6 +67,75 @@ module ysyx_26040135_WBU(
     output reg compare,
     output reg [1:0] jump
 );
+
+function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
+    input [5:0] new_data;
+    input [`WB_Q_LEN*6-1:0] queue;
+
+    reg [`WB_Q_LEN*6-1:0] result;
+    reg found;
+    integer i;
+
+    begin
+        result = queue;
+        found = 1'b0;
+
+        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
+            if (!found && (queue[i] == 6'b0)) begin
+                result[i*6 +: 6] = new_data;
+                found = 1'b1;
+            end
+        end
+
+        wb_q_enqueue = result;
+    end
+endfunction
+function automatic [`WB_Q_LEN*6 + 1:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] new_wq
+    input [`WB_Q_LEN-1:0][5:0] wb_q;
+    input wb_type;
+    input exu_new_wbt;
+    input [5:0] exu_new_wbd;
+
+    reg found_target;
+    reg [`WB_Q_LEN*6-1:0] result;
+    reg flush;
+    reg the_first;
+
+    begin
+        found_target = 1'b0;
+        result = 0;
+        flush = 1'b0;
+        the_first = 1'b0;
+        compare = 1'b0;
+        jump = 2'b00;
+
+        for (int i = 0; i < `WB_Q_LEN; i++) begin
+
+            if(wb_q[i][4:0] != rd) begin    // 不同rd, 无论如何照常写入
+                result = wb_q_enqueue(result, wb_q[i]);
+
+            end else begin   // 相同rd
+                if(!found_target) begin
+                    if(wb_q[i][5] == wb_type) begin  // 找到第一个对应的作为目标
+                        found_target = 1'b1;        
+                        the_first = (i == 0);
+                    end else begin        // 不是目标, 但是是同一个rd
+                        flush = 1'b1;
+                    end
+                end else begin
+                    result = wb_q_enqueue(result, wb_q[i]);
+                end
+            end
+        end
+
+        if(exu_new_wbt) begin
+            result = wb_q_enqueue(result, exu_new_wbd);
+        end
+
+        new_wb_q = {the_first, flush, result};
+    end
+
+endfunction
 // 两个同时来, 先处理l
 
     reg in_ready;
@@ -152,77 +221,9 @@ module ysyx_26040135_WBU(
 
 
 
-function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
-    input [5:0] new_data;
-    input [`WB_Q_LEN*6-1:0] queue;
-
-    reg [`WB_Q_LEN*6-1:0] result;
-    reg found;
-    integer i;
-
-    begin
-        result = queue;
-        found = 1'b0;
-
-        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
-            if (!found && (queue[i] == 6'b0)) begin
-                result[i*6 +: 6] = new_data;
-                found = 1'b1;
-            end
-        end
-
-        wb_q_enqueue = result;
-    end
-endfunction
 
 
 // 遍历wb_q, 将这个rd之前的所有相同rd的待wb记录都删掉
-function automatic [`WB_Q_LEN*6 + 1:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] new_wq
-    input [`WB_Q_LEN-1:0][5:0] wb_q;
-    input wb_type;
-    input exu_new_wbt;
-    input [5:0] exu_new_wbd;
-
-    reg found_target;
-    reg [`WB_Q_LEN*6-1:0] result;
-    reg flush;
-    reg the_first;
-
-    begin
-        found_target = 1'b0;
-        result = 0;
-        flush = 1'b0;
-        the_first = 1'b0;
-        compare = 1'b0;
-        jump = 2'b00;
-
-        for (int i = 0; i < `WB_Q_LEN; i++) begin
-
-            if(wb_q[i][4:0] != rd) begin    // 不同rd, 无论如何照常写入
-                result = wb_q_enqueue(result, wb_q[i]);
-
-            end else begin   // 相同rd
-                if(!found_target) begin
-                    if(wb_q[i][5] == wb_type) begin  // 找到第一个对应的作为目标
-                        found_target = 1'b1;        
-                        the_first = (i == 0);
-                    end else begin        // 不是目标, 但是是同一个rd
-                        flush = 1'b1;
-                    end
-                end else begin
-                    result = wb_q_enqueue(result, wb_q[i]);
-                end
-            end
-        end
-
-        if(exu_new_wbt) begin
-            result = wb_q_enqueue(result, exu_new_wbd);
-        end
-
-        new_wb_q = {the_first, flush, result};
-    end
-
-endfunction
 
 endmodule
 

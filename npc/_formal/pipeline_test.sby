@@ -12,11 +12,11 @@ mode bmc
 depth 40
 
 [engines]
-smtbmc boolector
+cover: smtbmc boolector
+bmc:   smtbmc boolector
 
 [script]
 verilog_defines -DFORMAL
-read -formal -sv dut/compo/axi4.sv
 read -formal -sv dut/compo/xbar.sv
 read -formal -sv dut/compo/axi_ram.sv
 read -formal -sv dut/pipeline/_IFU.sv
@@ -34,7 +34,6 @@ read -formal -sv formal_top.sv
 prep -top formal_top
 
 [files]
-dut/compo/axi4.sv
 dut/compo/xbar.sv
 dut/compo/axi_ram.sv
 dut/pipeline/_IFU.sv

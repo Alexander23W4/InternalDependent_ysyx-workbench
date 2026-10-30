@@ -21,7 +21,35 @@
 */
 
 module ysyx_26040135_AXI_LSU (
-    ysyx_26040135_AXI4.master bus,
+    output logic [31:0] bus_araddr,
+    output logic [3:0] bus_arid,
+    output logic [7:0] bus_arlen,
+    output logic [2:0] bus_arsize,
+    output logic [1:0] bus_arburst,
+    output logic        bus_arvalid,
+    input         bus_arready,
+    input  [31:0] bus_rdata,
+    input  [3:0] bus_rid,
+    input  [1:0] bus_rresp,
+    input         bus_rlast,
+    input         bus_rvalid,
+    output logic        bus_rready,
+    output logic [31:0] bus_awaddr,
+    output logic [3:0] bus_awid,
+    output logic [7:0] bus_awlen,
+    output logic [2:0] bus_awsize,
+    output logic [1:0] bus_awburst,
+    output logic        bus_awvalid,
+    input         bus_awready,
+    output logic [31:0] bus_wdata,
+    output logic [3:0] bus_wstrb,
+    output logic        bus_wlast,
+    output logic        bus_wvalid,
+    input         bus_wready,
+    input  [3:0] bus_bid,
+    input  [1:0] bus_bresp,
+    input         bus_bvalid,
+    output logic        bus_bready,
     
     input clock,
     input reset,
@@ -78,7 +106,7 @@ module ysyx_26040135_AXI_LSU (
     reg flush_save;
 
 // 状态
-    typedef enum [2:0]{ 
+    typedef enum logic [2:0]{ 
         IDLE, AR, R, AW, W, B
     } state_t;
     state_t state, next;
@@ -140,23 +168,23 @@ module ysyx_26040135_AXI_LSU (
                 lsu_blockf <= 1'b0;
             end
 
-            if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
-                rdata_out <= bus.rdata;
+            if(state == R && bus_rvalid && bus_rresp == 2'b00) begin
+                rdata_out <= bus_rdata;
                 if(flush_save || flush) begin
                     in_ready <= 1'b1;
                 end else begin
                     out_valid <= 1'b1;
                 end
             end
-            if(state == B && bus.bvalid && bus.bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
+            if(state == B && bus_bvalid && bus_bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
                 in_ready <= 1'b1;
             end
 
-            if(state == R && bus.rvalid && bus.rresp != 2'b00) begin
-                error_save <= bus.rresp; 
+            if(state == R && bus_rvalid && bus_rresp != 2'b00) begin
+                error_save <= bus_rresp; 
             end
-            if(state == B && bus.bvalid && bus.bresp != 2'b00) begin
-                error_save <= bus.bresp;
+            if(state == B && bus_bvalid && bus_bresp != 2'b00) begin
+                error_save <= bus_bresp;
             end
 
             if(state != IDLE) begin
@@ -176,51 +204,51 @@ module ysyx_26040135_AXI_LSU (
     end
 
     always_comb begin
-        bus.wstrb = 4'b0000;  
-        bus.arsize = 3'b010;
-        bus.awsize = 3'b010;
+        bus_wstrb = 4'b0000;  
+        bus_arsize = 3'b010;
+        bus_awsize = 3'b010;
         if (io_save) begin
             case (io_type_save)
                 2'b10: begin
-                    bus.wstrb  = 4'b1111;
-                    bus.awsize = 3'b010;
+                    bus_wstrb  = 4'b1111;
+                    bus_awsize = 3'b010;
                 end
                 2'b01: begin
-                    bus.wstrb  = (lsu_addr_save[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
-                    bus.awsize = 3'b001;
+                    bus_wstrb  = (lsu_addr_save[1:0] == 2'b00) ? 4'b0011 : 4'b1100;
+                    bus_awsize = 3'b001;
                 end
                 2'b00: begin
-                    bus.wstrb  = 4'b0001 << lsu_addr_save[1:0];
-                    bus.awsize = 3'b000;
+                    bus_wstrb  = 4'b0001 << lsu_addr_save[1:0];
+                    bus_awsize = 3'b000;
                 end
             endcase
         end else begin
             case(io_type_save)
-                2'b10: bus.arsize = 3'b010;
-                2'b01: bus.arsize = 3'b001;
-                2'b00: bus.arsize = 3'b000;
+                2'b10: bus_arsize = 3'b010;
+                2'b01: bus_arsize = 3'b001;
+                2'b00: bus_arsize = 3'b000;
             endcase
         end 
     end
 
     always_comb begin
 
-        bus.arvalid = 1'b0;
-        bus.araddr = lsu_addr_save;
-        bus.arid = 4'b0000;
-        bus.arlen = 8'h00;
-        bus.arburst = 2'b00;
-        bus.rready = 1'b0;
+        bus_arvalid = 1'b0;
+        bus_araddr = lsu_addr_save;
+        bus_arid = 4'b0000;
+        bus_arlen = 8'h00;
+        bus_arburst = 2'b00;
+        bus_rready = 1'b0;
 
-        bus.awvalid = 1'b0;
-        bus.awaddr = lsu_addr_save;
-        bus.wdata = lsu_data_save << {lsu_addr_save[1:0], 3'b000};  // AXI 要求 wdata 里面的结构要是offset移位过后的
-        bus.awid = 4'b0000;
-        bus.awlen = 8'h00;
-        bus.awburst = 2'b00;
-        bus.wvalid = 1'b0;
-        bus.bready = 1'b0;
-        bus.wlast = 1'b1;
+        bus_awvalid = 1'b0;
+        bus_awaddr = lsu_addr_save;
+        bus_wdata = lsu_data_save << {lsu_addr_save[1:0], 3'b000};  // AXI 要求 wdata 里面的结构要是offset移位过后的
+        bus_awid = 4'b0000;
+        bus_awlen = 8'h00;
+        bus_awburst = 2'b00;
+        bus_wvalid = 1'b0;
+        bus_bready = 1'b0;
+        bus_wlast = 1'b1;
 
         sw_avail = 1'b0;
 
@@ -238,36 +266,36 @@ module ysyx_26040135_AXI_LSU (
             end
 
             AR: begin
-                bus.arvalid = 1'b1;
-                if(bus.arready == 1'b1) begin
+                bus_arvalid = 1'b1;
+                if(bus_arready == 1'b1) begin
                     next = R;
                 end
             end
 
             R: begin
-                if(bus.rvalid == 1'b1) begin
-                    bus.rready = 1'b1;              
+                if(bus_rvalid == 1'b1) begin
+                    bus_rready = 1'b1;              
                     next = IDLE;
                 end
             end
 
             AW: begin
-                bus.awvalid = 1'b1;
-                if(bus.awready == 1'b1) begin
+                bus_awvalid = 1'b1;
+                if(bus_awready == 1'b1) begin
                     next = W;
                 end
             end
 
             W: begin
-                bus.wvalid = 1'b1;
-                if(bus.wready == 1'b1) begin
+                bus_wvalid = 1'b1;
+                if(bus_wready == 1'b1) begin
                     next = B;
                 end
             end
 
             B: begin
-                if(bus.bvalid == 1'b1) begin
-                    bus.bready = 1'b1;
+                if(bus_bvalid == 1'b1) begin
+                    bus_bready = 1'b1;
                     next = IDLE;
                     sw_avail = 1'b1;
                 end

@@ -8,7 +8,35 @@
 */
 
 module ysyx_26040135_AXI_RAM (
-    ysyx_26040135_AXI4.slave bus,
+    input  [31:0] bus_araddr,
+    input  [3:0] bus_arid,
+    input  [7:0] bus_arlen,
+    input  [2:0] bus_arsize,
+    input  [1:0] bus_arburst,
+    input         bus_arvalid,
+    output logic        bus_arready,
+    output logic [31:0] bus_rdata,
+    output logic [3:0] bus_rid,
+    output logic [1:0] bus_rresp,
+    output logic        bus_rlast,
+    output logic        bus_rvalid,
+    input         bus_rready,
+    input  [31:0] bus_awaddr,
+    input  [3:0] bus_awid,
+    input  [7:0] bus_awlen,
+    input  [2:0] bus_awsize,
+    input  [1:0] bus_awburst,
+    input         bus_awvalid,
+    output logic        bus_awready,
+    input  [31:0] bus_wdata,
+    input  [3:0] bus_wstrb,
+    input         bus_wlast,
+    input         bus_wvalid,
+    output logic        bus_wready,
+    output logic [3:0] bus_bid,
+    output logic [1:0] bus_bresp,
+    output logic        bus_bvalid,
+    input         bus_bready,
 
     input clock, 
     input reset,
@@ -22,11 +50,11 @@ module ysyx_26040135_AXI_RAM (
     logic [31:0] r_paddr;
     logic [31:0] w_paddr;
     logic [31:0] w_paddr_save;
-    assign r_paddr = bus.araddr - 32'h80000000;
-    assign w_paddr = bus.awaddr - 32'h80000000;
+    assign r_paddr = bus_araddr - 32'h80000000;
+    assign w_paddr = bus_awaddr - 32'h80000000;
     assign w_paddr_save = awaddr_save - 32'h80000000;
 
-    typedef enum [2:0]{ 
+    typedef enum logic [2:0]{ 
         IDLE, R, W, B
     } state_t;
     state_t state, next;
@@ -50,26 +78,26 @@ module ysyx_26040135_AXI_RAM (
         end else begin
             state <= next;
 
-            if(state == IDLE && bus.arvalid) begin
+            if(state == IDLE && bus_arvalid) begin
                 rdata_save <= {ram[r_paddr+3], ram[r_paddr+2], ram[r_paddr+1], ram[r_paddr]}; 
             end
 
-            if(state == IDLE && bus.awvalid) begin
-                if(bus.wvalid) begin
+            if(state == IDLE && bus_awvalid) begin
+                if(bus_wvalid) begin
                     for (int i = 0; i < 4; i++) begin
-                        if (bus.wstrb[i]) begin
-                            ram[w_paddr + i] <= bus.wdata[i*8 +: 8];
+                        if (bus_wstrb[i]) begin
+                            ram[w_paddr + i] <= bus_wdata[i*8 +: 8];
                         end
                     end
                 end else begin
-                    awaddr_save <= bus.awaddr;                   
+                    awaddr_save <= bus_awaddr;                   
                 end
             end
 
-            if(state == W && bus.wvalid) begin
+            if(state == W && bus_wvalid) begin
                 for (int i = 0; i < 4; i++) begin
-                    if (bus.wstrb[i]) begin
-                        ram[w_paddr_save + i] <= bus.wdata[i*8 +: 8];
+                    if (bus_wstrb[i]) begin
+                        ram[w_paddr_save + i] <= bus_wdata[i*8 +: 8];
                     end
                 end
             end
@@ -77,31 +105,31 @@ module ysyx_26040135_AXI_RAM (
     end
 
     always_comb begin
-        bus.arready = 1'b0;
-        bus.rresp = 2'b00;
-        bus.rvalid = 1'b0;
-        bus.rdata = rdata_save;
-        bus.rlast = 0;
-        bus.rid = 0;
+        bus_arready = 1'b0;
+        bus_rresp = 2'b00;
+        bus_rvalid = 1'b0;
+        bus_rdata = rdata_save;
+        bus_rlast = 0;
+        bus_rid = 0;
 
-        bus.awready = 1'b0;
-        bus.wready = 1'b0;
-        bus.bresp = 2'b00;
-        bus.bvalid = 1'b0;
-        bus.bid = 0;
+        bus_awready = 1'b0;
+        bus_wready = 1'b0;
+        bus_bresp = 2'b00;
+        bus_bvalid = 1'b0;
+        bus_bid = 0;
 
         next = state;
 
         case(state)
             IDLE: begin
-                if(bus.arvalid) begin
-                    bus.arready = 1'b1;
+                if(bus_arvalid) begin
+                    bus_arready = 1'b1;
                     next = R;
                 end
-                else if(bus.awvalid) begin
-                    bus.awready = 1'b1;
-                    if(bus.wvalid) begin
-                        bus.wready = 1'b1;
+                else if(bus_awvalid) begin
+                    bus_awready = 1'b1;
+                    if(bus_wvalid) begin
+                        bus_wready = 1'b1;
                         next = B;
                     end
                     else begin
@@ -110,20 +138,20 @@ module ysyx_26040135_AXI_RAM (
                 end
             end
             R: begin
-                bus.rvalid = 1'b1;
-                if(bus.rready) begin
+                bus_rvalid = 1'b1;
+                if(bus_rready) begin
                     next = IDLE;
                 end
             end
             W: begin
-                if(bus.wvalid) begin
-                    bus.wready = 1'b1;
+                if(bus_wvalid) begin
+                    bus_wready = 1'b1;
                     next = B;
                 end
             end
             B: begin
-                bus.bvalid = 1'b1;
-                if(bus.bready) begin
+                bus_bvalid = 1'b1;
+                if(bus_bready) begin
                     next = IDLE;
                 end
             end

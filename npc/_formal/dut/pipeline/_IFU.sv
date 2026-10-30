@@ -29,7 +29,35 @@
 */
 
 module ysyx_26040135_AXI_IFU (
-    ysyx_26040135_AXI4.master bus,
+    output logic [31:0] bus_araddr,
+    output logic [3:0] bus_arid,
+    output logic [7:0] bus_arlen,
+    output logic [2:0] bus_arsize,
+    output logic [1:0] bus_arburst,
+    output logic        bus_arvalid,
+    input         bus_arready,
+    input  [31:0] bus_rdata,
+    input  [3:0] bus_rid,
+    input  [1:0] bus_rresp,
+    input         bus_rlast,
+    input         bus_rvalid,
+    output logic        bus_rready,
+    output logic [31:0] bus_awaddr,
+    output logic [3:0] bus_awid,
+    output logic [7:0] bus_awlen,
+    output logic [2:0] bus_awsize,
+    output logic [1:0] bus_awburst,
+    output logic        bus_awvalid,
+    input         bus_awready,
+    output logic [31:0] bus_wdata,
+    output logic [3:0] bus_wstrb,
+    output logic        bus_wlast,
+    output logic        bus_wvalid,
+    input         bus_wready,
+    input  [3:0] bus_bid,
+    input  [1:0] bus_bresp,
+    input         bus_bvalid,
+    output logic        bus_bready,
     
     input clock,
     input reset,
@@ -53,33 +81,17 @@ module ysyx_26040135_AXI_IFU (
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
-    localparam PMA_ENTRIES = 6;
-
-    typedef struct packed {
-        logic [31:0] base;
-        logic [31:0] size;
-        logic        executable;
-        logic        readable;
-        logic        writable;
-    } pma_entry_t;
-
-    pma_entry_t pma_table [PMA_ENTRIES] = '{
-        '{base: 32'h30000000, size: 32'h10000000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // Flash (16MB 窗口, 和 flash_read 的偏移一致)
-        '{base: 32'ha0000000, size: 32'h08000000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SDRAM (字扩展后 128MB)
-        '{base: 32'h0f000000, size: 32'h00002000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SRAM
-        '{base: 32'h80000000, size: 32'h00400000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // PSRAM
-        '{base: 32'h20000000, size: 32'h00001000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // MROM
-        '{base: 32'h10000000, size: 32'h00001000, executable: 1'b0, readable: 1'b1, writable: 1'b1}   // UART16550
-    };
-
+    // PMA: 6 个窗口. 形式化用 if 链代替 '{...} 数组初始化(yosys 不支持)
     function automatic reg is_executable(input [31:0] addr);
-        for (int i = 0; i < PMA_ENTRIES; i++) begin
-            if (addr >= pma_table[i].base && 
-                addr < pma_table[i].base + pma_table[i].size) begin
-                return pma_table[i].executable;
-            end
+        begin
+            is_executable = 1'b0;
+            if      (addr >= 32'h30000000 && addr < 32'h40000000) is_executable = 1'b1;  // Flash
+            else if (addr >= 32'ha0000000 && addr < 32'ha8000000) is_executable = 1'b1;  // SDRAM
+            else if (addr >= 32'h0f000000 && addr < 32'h0f002000) is_executable = 1'b1;  // SRAM
+            else if (addr >= 32'h80000000 && addr < 32'h80400000) is_executable = 1'b1;  // PSRAM
+            else if (addr >= 32'h20000000 && addr < 32'h20001000) is_executable = 1'b0;  // MROM
+            else if (addr >= 32'h10000000 && addr < 32'h10001000) is_executable = 1'b0;  // UART
         end
-        return 1'b0;  // 默认不可执行
     endfunction
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -155,18 +167,18 @@ module ysyx_26040135_AXI_IFU (
             end
 
 
-            if(state == R && bus.rvalid) begin
+            if(state == R && bus_rvalid) begin
                 if(flush_save) begin  // 如果在访存期间收到flush, 必须完成这次fetch才能够正式冲刷
                     pc <= pc_flush_save;  // 不给out_valid, 不读rdata, 废掉这次读取
                 end else begin
-                    if(bus.rresp == 2'b00) begin
-                        out_instr  <= bus.rdata;
+                    if(bus_rresp == 2'b00) begin
+                        out_instr  <= bus_rdata;
                         out_pc <= pc;
                         out_valid  <= 1'b1;
                         error_save <= 2'b00;
                         pc <= pc + 32'd4;   // 默认分支预测
                     end else begin
-                        error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
+                        error_save <= bus_rresp;    // 取指出错: 不产出指令, 只记错误
                     end 
                 end
 
@@ -177,24 +189,24 @@ module ysyx_26040135_AXI_IFU (
 
 // 状态 及 总线信号 赋值
     always_comb begin
-        bus.arvalid = 1'b0;
-        bus.araddr = pc;       
-        bus.arid = 4'b0000;
-        bus.arlen = 8'h00;    // 每次传输一个beat
-        bus.arsize = 3'b010;
-        bus.arburst = 2'b00;   // 每个beat使用相同地址   01递增 10回绕
-        bus.rready = 1'b0;
+        bus_arvalid = 1'b0;
+        bus_araddr = pc;       
+        bus_arid = 4'b0000;
+        bus_arlen = 8'h00;    // 每次传输一个beat
+        bus_arsize = 3'b010;
+        bus_arburst = 2'b00;   // 每个beat使用相同地址   01递增 10回绕
+        bus_rready = 1'b0;
 
-        bus.awvalid = 1'b0;
-        bus.awaddr = '0;
-        bus.wdata = '0;
-        bus.wstrb = '0;
-        bus.awid = 4'b0000;
-        bus.awsize = 3'b010;
-        bus.awlen = 8'h00;
-        bus.awburst = 2'b00;
-        bus.wvalid = 1'b0;
-        bus.bready = 1'b0;
+        bus_awvalid = 1'b0;
+        bus_awaddr = '0;
+        bus_wdata = '0;
+        bus_wstrb = '0;
+        bus_awid = 4'b0000;
+        bus_awsize = 3'b010;
+        bus_awlen = 8'h00;
+        bus_awburst = 2'b00;
+        bus_wvalid = 1'b0;
+        bus_bready = 1'b0;
 
         next = state;
             
@@ -206,15 +218,15 @@ module ysyx_26040135_AXI_IFU (
             end
 
             AR: begin
-                bus.arvalid = 1'b1;
-                if(bus.arready == 1'b1) begin
+                bus_arvalid = 1'b1;
+                if(bus_arready == 1'b1) begin
                     next = R;
                 end
             end
 
             R: begin
-                if(bus.rvalid == 1'b1) begin
-                    bus.rready = 1'b1;  
+                if(bus_rvalid == 1'b1) begin
+                    bus_rready = 1'b1;  
                     next = IDLE;
                 end
             end
@@ -227,16 +239,15 @@ module ysyx_26040135_AXI_IFU (
 // assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
 `ifndef SYNTHESIS
-    property p_write_channels_zero;
-        @(posedge clock) 
-        (bus.awaddr == 32'b0) &&
-        (bus.awvalid == 1'b0) &&
-        (bus.wdata == 32'b0) &&
-        (bus.wstrb == 4'b0) &&
-        (bus.wvalid == 1'b0) &&
-        (bus.bready == 1'b0);
-    endproperty
-    assert property (p_write_channels_zero) else $error("IFU: Write channel signals must be 0");
+    // 原来这里是 SVA 的 assert property, yosys 不支持, 改成等价的立即 assert
+    always @(posedge clock) begin
+        assert((bus_awaddr  == 32'b0) &&
+               (bus_awvalid == 1'b0) &&
+               (bus_wdata   == 32'b0) &&
+               (bus_wstrb   == 4'b0) &&
+               (bus_wvalid  == 1'b0) &&
+               (bus_bready  == 1'b0));
+    end
 `endif
 
 // assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-

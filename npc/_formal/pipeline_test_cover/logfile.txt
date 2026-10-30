@@ -1,0 +1,2 @@
+SBY 21:50:50 [pipeline_test_cover] Removing directory '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test_cover'.
+SBY 21:50:50 [pipeline_test_cover] ERROR: Config file is lacking engine configuration.

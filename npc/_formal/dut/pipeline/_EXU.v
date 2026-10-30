@@ -84,6 +84,30 @@ module ysyx_26040135_EXU (
 
 );
 
+
+function automatic [1:0] valid_check;
+    input [`WB_Q_LEN-1:0][5:0] wb_q;
+    input [4:0] rs1;
+    input [4:0] rs2;
+
+    reg [1:0] found;
+    integer i;
+
+    begin
+        found = 2'b00;
+
+        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
+            if (wb_q[i][4:0] == rs1) begin
+                found[0] = 1'b1;
+            end 
+            else if (wb_q[i][4:0] == rs2) begin
+                found[1] = 1'b1;
+            end
+        end
+
+        valid_check = found;
+    end
+endfunction
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
 
     reg [31:0] pc_save;
@@ -473,27 +497,4 @@ module ysyx_26040135_EXU (
 endmodule
 
 
-function automatic [1:0] valid_check;
-    input [`WB_Q_LEN-1:0][5:0] wb_q;
-    input [4:0] rs1;
-    input [4:0] rs2;
-
-    reg [1:0] found;
-    integer i;
-
-    begin
-        found = 2'b00;
-
-        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
-            if (wb_q[i][4:0] == rs1) begin
-                found[0] = 1'b1;
-            end 
-            else if (wb_q[i][4:0] == rs2) begin
-                found[1] = 1'b1;
-            end
-        end
-
-        valid_check = found;
-    end
-endfunction
 

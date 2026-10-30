@@ -10,10 +10,7 @@ module formal_top(
     reg [3:0] f_cycles = 4'd0;
     always @(posedge clock) if (f_cycles != 4'hf) f_cycles <= f_cycles + 4'd1;
 
-    always @(*) begin
-        if (f_cycles == 4'd0) assume(reset);
-        else                  assume(!reset); 
-    end
+    always @(*) assume(f_cycles == 4'd0 ? reset : !reset);
 
     // ② 指令合法性: 8 个字必须是本 CPU 实现过的 RV32I 指令
     //    排除 ecall/ebreak/mret (system 的 funct3==000) 和 fence.i (opcode 0001111);
@@ -41,15 +38,15 @@ module formal_top(
                         default: ;
                     endcase
                 end
-                7'b0000011: is_legal = (f3 inside {3'b000,3'b001,3'b010,3'b100,3'b101});      // lb/lh/lw/lbu/lhu
-                7'b0100011: is_legal = (f3 inside {3'b000,3'b001,3'b010});                    // sb/sh/sw
-                7'b1100011: is_legal = (f3 inside {3'b000,3'b001,3'b100,3'b101,3'b110,3'b111}); // branch
+                7'b0000011: is_legal = (f3==3'b000)||(f3==3'b001)||(f3==3'b010)||(f3==3'b100)||(f3==3'b101); // lb/lh/lw/lbu/lhu
+                7'b0100011: is_legal = (f3==3'b000)||(f3==3'b001)||(f3==3'b010);              // sb/sh/sw
+                7'b1100011: is_legal = (f3==3'b000)||(f3==3'b001)||(f3==3'b100)||(f3==3'b101)||(f3==3'b110)||(f3==3'b111); // branch
                 7'b1100111: is_legal = (f3 == 3'b000);                                        // jalr
                 7'b1101111: is_legal = 1'b1;                                                  // jal
                 7'b0110111: is_legal = 1'b1;                                                  // lui
                 7'b0010111: is_legal = 1'b1;                                                  // auipc
-                7'b1110011: is_legal = (f3 inside {3'b001,3'b010,3'b011}) &&                   // csrrw/csrrs/csrrc
-                                       (csr inside {12'h300, 12'h305, 12'h341, 12'h342, 12'hb00, 12'hb80});
+                7'b1110011: is_legal = ((f3==3'b001)||(f3==3'b010)||(f3==3'b011)) &&           // csrrw/csrrs/csrrc
+                                       ((csr==12'h300)||(csr==12'h305)||(csr==12'h341)||(csr==12'h342)||(csr==12'hb00)||(csr==12'hb80));
                 default: ;
             endcase
         end

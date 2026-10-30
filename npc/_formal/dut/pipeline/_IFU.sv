@@ -113,7 +113,7 @@ module ysyx_26040135_AXI_IFU (
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            pc <= 32'h30000000;
+            pc <= 32'h80000000;
 
             out_instr <= '0;
             out_valid <= 1'b0;  

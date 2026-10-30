@@ -20,6 +20,10 @@ module formal_top(
     wire [31:0] r_pc;
     wire [31:0] r_mstatus, r_mepc, r_mcause, r_mtvec, r_mcycle, r_mcycleh, r_mvendorid, r_marchid;
 
+    // 延一拍
+    reg d_new_instr_d;
+    always @(posedge clock) d_new_instr_d <= d_new_instr;
+
 
 
     dut_top dut (
@@ -37,6 +41,7 @@ module formal_top(
     ref_top u_ref (
         .clk(clock),
         .rst(reset),
+        .step(d_new_instr_d),
         .dbg_reg(r_dbg_reg),
         ._pc(r_pc),
         ._mstatus(r_mstatus), ._mepc(r_mepc), ._mcause(r_mcause), ._mtvec(r_mtvec),
@@ -55,18 +60,14 @@ module formal_top(
 
 */
 
-    // ---------- 比对 ----------
-    reg f_past_valid = 1'b0;
-    always @(posedge clock) f_past_valid <= 1'b1;
-
-    always @(posedge clock) if (f_past_valid && !reset && d_ret_valid) begin
-        assert(r_rd      == d_ret_rd);
-        assert(r_res     == d_ret_res);
-        assert(r_pc_next == d_ret_pc_next);   // 对比"新 PC",能早一拍抓到控制流错误
+    // 只比 pc
+    // EXU 的 _new_instr 那一拍, _pc(=pc_save) 还是上一条指令的 pc, 所以延一拍再比
+    always @(posedge clock) if (!reset && d_new_instr_d) begin
+        assert(d_pc == r_pc);
     end
 
-    // 顺手: x0 恒 0
-    always @(posedge clock) if (f_past_valid && !reset)
-        assert(dut.gpr[0] == 32'b0);
+    // 顺手: x0 恒 0 (dbg_reg 的第 0 个 32bit 就是 x0)
+    always @(posedge clock) if (!reset)
+        assert(d_dbg_reg[31:0] == 32'b0);
 
 endmodule

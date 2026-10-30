@@ -76,7 +76,7 @@ module ysyx_26040135_EXU (
 
     input [3:0][5:0] wb_q,
     output reg exu_new_wbt,
-    output reg exu_new_wbd [5:0]
+    output reg [5:0] exu_new_wbd
 
 );
 
@@ -380,11 +380,6 @@ module ysyx_26040135_EXU (
 
         rs1_out = rs1_save;
         rs2_out = rs2_save;    
-
-        is_lsu_rd = lw_save | lh_save | lb_save | lbu_save | lhu_save;
-        is_exu_rd = ~(lw_save | lh_save | lb_save | lbu_save | lhu_save | sw_save | sb_save | sh_save) & 
-                    ~(beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save) &
-                    ~(ecall_save | mret_save | ebreak_save | fence_i_save);
 
         io = read ? 1'b0 : 1'b1;
 

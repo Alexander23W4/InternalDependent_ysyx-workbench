@@ -86,7 +86,6 @@ module ysyx_26040135_WBU(
             wbu_blockf_cyc <= 0;
             wbu_work_cyc <= 0;
             wbu_blockf <= 0;
-            wb_q_update <= 0;
 
         end else begin   // 优先级 lsu > exu
             state <= next;
@@ -110,9 +109,6 @@ module ysyx_26040135_WBU(
                 wbu_blockf <= 1'b0;
             end
 
-            if(state == IDLE && next == WB) begin    // 每次wb之前都要清0
-                wb_q_update <= 0;
-            end
             
             if(state == WB) begin
                 wbu_work_cyc <= wbu_work_cyc + 64'b1;
@@ -126,6 +122,7 @@ module ysyx_26040135_WBU(
         next = state;
         wen = 1'b0;
         flush = 1'b0;
+        wb_q_update = 0;
 
         case (state)
             IDLE: begin
@@ -141,8 +138,6 @@ module ysyx_26040135_WBU(
             end
         endcase
     end
-
-endmodule
 
 
 
@@ -213,3 +208,7 @@ function automatic [24:0] new_wb_q;   // [24] flush  [23:0] new_wq
     end
 
 endfunction
+
+endmodule
+
+

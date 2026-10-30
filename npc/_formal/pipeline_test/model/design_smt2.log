@@ -46,6 +46,7 @@ Used module:         $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_regis
 Removed 0 unused modules.
 Module dut_top directly or indirectly contains formal properties -> setting "keep" attribute.
 Module formal_top directly or indirectly contains formal properties -> setting "keep" attribute.
+Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -> setting "keep" attribute.
 
 3. Executing FORMALFF pass.
 
@@ -110,24 +111,20 @@ Module formal_top directly or indirectly contains formal properties -> setting "
 
         +----------Local Count, excluding submodules.
         | 
-      254 wires
-     3610 wire bits
-      215 public wires
-     3505 public wire bits
+      232 wires
+     3588 wire bits
+      213 public wires
+     3503 public wire bits
         8 ports
      1318 port bits
-       55 cells
+       26 cells
         1   $anyinit
-        6   $anyseq
-        8   $assume
-        2   $eq
-        3   $ge
-        1   $le
-        5   $logic_and
-        4   $logic_not
-        2   $lt
-       19   $mux
-        4   $not
+        4   $anyseq
+        1   $assume
+        2   $logic_and
+        2   $logic_not
+       13   $mux
+        3   $not
         8 submodules
         1   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
         1   ysyx_26040135_AXI4_Xbar
@@ -142,24 +139,24 @@ Module formal_top directly or indirectly contains formal properties -> setting "
 
         +----------Local Count, excluding submodules.
         | 
-      445 wires
-     3066 wire bits
-       36 public wires
-     2651 public wire bits
+      454 wires
+     3330 wire bits
+       37 public wires
+     2907 public wire bits
         3 ports
       258 port bits
-      438 cells
+      449 cells
         1   $add
-        1   $anyinit
+        2   $anyinit
        16   $anyseq
-       10   $assume
-        1   $cover
-      192   $eq
-        3   $ff
-        8   $logic_and
-       18   $logic_not
+        2   $assert
+       11   $assume
+      194   $eq
+        5   $ff
+        9   $logic_and
+       19   $logic_not
       128   $logic_or
-        2   $mux
+        4   $mux
         1   $ne
         1   $not
        24   $pmux
@@ -172,15 +169,15 @@ Module formal_top directly or indirectly contains formal properties -> setting "
 
         +----------Local Count, excluding submodules.
         | 
-      414 wires
-    25203 wire bits
+      408 wires
+    22610 wire bits
       112 public wires
      3524 public wire bits
        14 ports
      1571 port bits
-      411 cells
+      405 cells
         9   $add
-       42   $and
+       41   $and
        10   $anyinit
         1   $assume
         9   $eq
@@ -188,12 +185,12 @@ Module formal_top directly or indirectly contains formal properties -> setting "
         4   $lt
       193   $mux
         1   $ne
-        5   $neg
-        7   $not
-       96   $or
+        4   $neg
+        6   $not
+       95   $or
         1   $pmux
         2   $reduce_or
-       10   $shift
+        8   $shift
         8   $shiftx
         2   $shl
         2   $shr
@@ -230,18 +227,20 @@ Module formal_top directly or indirectly contains formal properties -> setting "
 
         +----------Local Count, excluding submodules.
         | 
-      130 wires
-     1742 wire bits
+      131 wires
+     1743 wire bits
        61 public wires
       759 public wire bits
        41 ports
       422 port bits
-       98 cells
+      100 cells
         3   $add
        11   $anyinit
         3   $anyseq
+        1   $assert
         1   $assume
         2   $eq
+        1   $ff
         4   $ge
         7   $logic_and
         2   $logic_not
@@ -388,56 +387,55 @@ Module formal_top directly or indirectly contains formal properties -> setting "
 
         +----------Count including submodules.
         | 
-     2357 formal_top
-       55 dut_top
+     2335 formal_top
+       26 dut_top
        14   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        40   ysyx_26040135_AXI4_Xbar
-       98   ysyx_26040135_AXI_IFU
+      100   ysyx_26040135_AXI_IFU
       155   ysyx_26040135_AXI_LSU
       207   ysyx_26040135_AXI_RAM
       480   ysyx_26040135_EXU
       126   ysyx_26040135_IDU
       203   ysyx_26040135_WBU
-      411 ref_top
+      405 ref_top
         8   $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
       122   decode
 
         +----------Count including submodules.
         | 
-     2807 wires
-    93387 wire bits
-     1117 public wires
-    27783 public wire bits
+     2789 wires
+    91037 wire bits
+     1116 public wires
+    28037 public wire bits
       482 ports
      9210 port bits
         - memories
         - memory bits
         - processes
-     2357 cells
+     2335 cells
        34   $add
-       84   $and
-      120   $anyinit
-      118   $anyseq
-       25   $assume
-        1   $cover
+       83   $and
+      121   $anyinit
+      116   $anyseq
+        3   $assert
+       19   $assume
       279   $eq
-        3   $ff
-       11   $ge
-        1   $le
-       87   $logic_and
-       60   $logic_not
+        6   $ff
+        8   $ge
+       85   $logic_and
+       59   $logic_not
       136   $logic_or
-       14   $lt
+       12   $lt
         2   $mem_v2
-      953   $mux
+      949   $mux
         7   $ne
-       13   $neg
-       36   $not
-      177   $or
+       12   $neg
+       34   $not
+      176   $or
        68   $pmux
         7   $reduce_bool
        57   $reduce_or
-       26   $shift
+       24   $shift
        12   $shiftx
         6   $shl
         5   $shr
@@ -467,6 +465,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: 38d11d3fde, time: 0.12s, user: 0.11s, system: 0.01s, MEM: 28.39 MB peak
+End of script. Logfile hash: ed842a6682, time: 0.11s, user: 0.11s, system: 0.01s, MEM: 28.23 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 90% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...
+Time spent: 88% 2x write_smt2 (0 sec), 7% 2x read_rtlil (0 sec), ...

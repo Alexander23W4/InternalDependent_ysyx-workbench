@@ -1,0 +1,6 @@
+Elapsed clock time [H:MM:SS (secs)]: 0:00:22 (22)
+Elapsed process time [H:MM:SS (secs)]: 0:00:25 (25)
+engine_0 (smtbmc boolector) returned FAIL
+counterexample trace: engine_0/trace.vcd
+counterexample trace: engine_0/trace.yw
+  failed assertion formal_top._witness_.check_assert_formal_top_sv_126_49 at formal_top.sv:126.9-126.29 step 10

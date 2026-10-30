@@ -6,7 +6,7 @@ async2sync
 chformal -assume -early
 opt_clean
 formalff -setundef -clk2ff -ff2anyinit -hierarchy
-chformal -live -fair -assert -remove
+chformal -live -fair -cover -remove
 opt_clean
 check
 setundef -undriven -anyseq

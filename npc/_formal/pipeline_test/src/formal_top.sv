@@ -12,6 +12,13 @@ module formal_top(
 
     always @(*) assume(f_cycles == 4'd0 ? reset : !reset);
 
+    // ①.5 imem 一旦确定就不能再变(等价于需求里的"ram 内容保持不变")
+    //      imem 是自由输入, 每个 step 求解器都可以改; 而 DUT/REF 的 ram 是复位时锁存的,
+    //      如果不约束, 锁存到的程序和之后看到的 imem 不是同一个, 比对就没意义了
+    reg [7:0][31:0] imem_r;
+    always @(posedge clock) imem_r <= imem;
+    always @(*) assume(imem == imem_r);
+
     // ② 指令合法性: 8 个字必须是本 CPU 实现过的 RV32I 指令
     //    排除 ecall/ebreak/mret (system 的 funct3==000) 和 fence.i (opcode 0001111);
     //    CSR 指令的 CSR 地址限定在已实现的 6 个

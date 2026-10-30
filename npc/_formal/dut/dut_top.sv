@@ -15,6 +15,7 @@ module dut_top(
     input logic [31:0][7:0] ram,  // 0-31   32-63
     output compare,
     output [1:0] jump,   
+    output [32*32-1:0] dbg_reg,
 
     output _new_instr,
     output _pc

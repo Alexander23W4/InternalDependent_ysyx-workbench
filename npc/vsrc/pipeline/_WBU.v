@@ -46,6 +46,8 @@ module ysyx_26040135_WBU(
     input [31:0] wdata_lsu,
 
     input [3:0][5:0] wb_q,
+    input exu_new_wbt,    // exu has new wb task
+    input [5:0] exu_new_wbd,   // exu new wb data
 
     output reg wen,
     output reg [31:0] wdata,
@@ -60,7 +62,8 @@ module ysyx_26040135_WBU(
     output reg lsu_flush,
     output reg exu_flush,
 
-    output reg [3:0][5:0] wb_q_update
+    output reg [3:0][5:0] wb_q_update,
+    output [1:0] flush_type
 );
 // 两个同时来, 先处理l
 
@@ -110,9 +113,9 @@ module ysyx_26040135_WBU(
                 wbu_blockf <= 1'b0;
             end
 
-            // if(state == IDLE && next == WB) begin
-            //     wb_q_update <= 
-            // end
+            if(state == IDLE && next == WB) begin    // 每次wb之前都要清0
+                wb_q_update <= 0;
+            end
             
             if(state == WB) begin
                 wbu_work_cyc <= wbu_work_cyc + 64'b1;
@@ -125,6 +128,8 @@ module ysyx_26040135_WBU(
         
         next = state;
         wen = 1'b0;
+        flush_type = 2'b00;
+
         case (state)
             IDLE: begin
                 if((in_ready && in_valid_lsu) || (in_ready && in_valid_exu)) begin
@@ -134,8 +139,7 @@ module ysyx_26040135_WBU(
             WB: begin    // 这里操作 wb_q_update的时候, 直接接受来自exu的信号
                          // exu有rd要写入时, 判断信号wen, 如果wen就交给wbu来操作, !wen就交给TOP来处理, 总之依然是TOP控制wb_q
                 wen = 1'b1;
-                wb_q_update = new_wb_q(wb_q, wb_type);
-
+                {flush_type, wb_q_update} = new_wb_q(wb_q, wb_type, exu_new_wbt, exu_new_wbd);    // TOP根据wen信号来更新wb
                 next = IDLE;
             end
         endcase
@@ -173,6 +177,8 @@ endfunction
 function automatic [25:0] new_wb_q;   // [25] flush_type -- 11(ls) 10(ex) 00(无) [23:0] new_wq
     input [3:0][5:0] wb_q;
     input wb_type;
+    input exu_new_wbt;
+    input [5:0] exu_new_wbd;
 
     reg found_target;
     reg [23:0] result;
@@ -201,6 +207,11 @@ function automatic [25:0] new_wb_q;   // [25] flush_type -- 11(ls) 10(ex) 00(无
                 end
             end
         end
+
+        if(exu_new_wbt) begin
+            result = wb_q_enqueue(result, exu_new_wbd);
+        end
+
         new_wb_q = {flush_type, result};
     end
 

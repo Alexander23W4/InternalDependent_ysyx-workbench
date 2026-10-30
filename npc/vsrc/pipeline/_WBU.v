@@ -5,32 +5,28 @@
 lsu->l    exu->...
 本级可以接收 exu & lsu 的信号
 
-首先就现在这个设计, 最多会有2个在途 rd 
-只有两种可能 ll 和 le(先l后e) 
-总共 l/e/ll/le 4种可能, 接收时有 l/e/ll(两个同rd/两个不同rd)/le(两个同rd但e先来/两个同rd但l先来/两个不同rd但e先来/两个不同rd但l先来)
+WBU: 写回, 冲刷 
+TOP: 清理
 
-iag0 -> 这个是否有在途
-iag1 -> 这个有几个在途
-iag2 -> 最后一个在途的是哪个模式 e/l
+单个情况:                      
+ll两个不同rd:          
+ll两个相同rd:  
 
-收到valid信号之后, 读rd, 读iag, 出现下述情况:
-iag0为1, iag1为1, 则将iag0清0
-iag0为1, iag1为2, iag2不对应, 则将iag1减1, 不进行wb
-iag0为1, iag1为2, iag1对应(来早了), 则将iag
+le两个相同rd,l先来: 
 
-单个情况: (iag0 = 1, iag1 = 1) 清掉iag0, wb
-ll两个不同rd: (iag0 = 1, iag1 = 1) 清掉iag0, wb
-ll两个相同rd: (iag0 = 1, iag1 = 2) iag1 - 1, 不wb
-le两个相同rd,l先来: (iag0 = 1, iag1 = 2, iag2 = e) iag1 - 1, 不wb
-le两个相同rd,e先来: (iag0 = 1, iag1 = 2, iag2 = e) 清掉iag0, wb
-le两个不同rd,l先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb
-le两个不同rd,e先来: (iag0 = 1, iag1 = 1) 清掉iag0, wb
-l来了之后: (iag0 = 0) 不wb
 
-总结: 1, 1: 清掉iag0, wb
-     1, 2: l-> iag1 - 1, 不wb
-     1, 2: e-> 清掉iag0, wb
-     0 -> 不wb
+le两个相同rd,e先来: 
+le两个相同rd,l先来: 
+
+le两个相同rd,e先来: 
+
+le两个不同rd,l先来: 
+le两个不同rd,e先来: 
+le两个不同rd,l先来: 
+le两个不同rd,e先来: 
+
+遍历wb_q -> 找到n的同时记录相同rd
+
 */
 
 module ysyx_26040135_WBU(
@@ -49,12 +45,7 @@ module ysyx_26040135_WBU(
     input [4:0] rd_lsu,
     input [31:0] wdata_lsu,
 
-    output reg [4:0] rd_release,   // 清除记录在inaccessible_gprs的未写入rd, 只给一个周期, 要么就清0
-
-    input [31:0] iag,
-    input [31:0] iag_type,
-
-    input [1:0] iag_amt [31:0],
+    input [3:0][5:0] wb_q,
 
     output reg wen,
     output reg [31:0] wdata,
@@ -63,7 +54,13 @@ module ysyx_26040135_WBU(
     output reg [63:0] wbu_blockf_cyc,
     output reg [63:0] wbu_work_cyc,
 
-    output reg wbu_blockf
+    output reg wbu_blockf,
+
+    // 冲刷 (⭐值得优化, 很少出现的情况, 但是要跨级控制)
+    output reg lsu_flush,
+    output reg exu_flush,
+
+    output reg [3:0][5:0] wb_q_update
 );
 // 两个同时来, 先处理l
 
@@ -89,6 +86,7 @@ module ysyx_26040135_WBU(
             wbu_blockf_cyc <= 0;
             wbu_work_cyc <= 0;
             wbu_blockf <= 0;
+            wb_q_update <= 0;
 
         end else begin   // 优先级 lsu > exu
             state <= next;
@@ -111,6 +109,10 @@ module ysyx_26040135_WBU(
             end else begin
                 wbu_blockf <= 1'b0;
             end
+
+            if(state == IDLE && next == WB) begin
+                wb_q_update <= 
+            end
             
             if(state == WB) begin
                 wbu_work_cyc <= wbu_work_cyc + 64'b1;
@@ -123,21 +125,34 @@ module ysyx_26040135_WBU(
         
         next = state;
         wen = 1'b0;
-        rd_release = 5'b0;
         case (state)
             IDLE: begin
                 if((in_ready && in_valid_lsu) || (in_ready && in_valid_exu)) begin
                     next = WB;
                 end
             end
-            WB: begin
-                rd_release = rd;
-                if(!(!iag[rd] || (iag_amt[rd] == 2'b01 && wb_type == 1'b1))) begin
-                    wen = 1'b1;
-                end 
+            WB: begin    // 这里操作 wb_q_update的时候, 直接接受来自exu的信号
+                         // exu有rd要写入时, 判断信号wen, 如果wen就交给wbu来操作, !wen就交给TOP来处理, 总之依然是TOP控制wb_q
+                wen = 1'b1;
+                for (int i = 0; i < 4; i++) begin
+                    if(wb_q[i][4:0] == rd) begin
+                        
+                    end
+                end
+
                 next = IDLE;
             end
         endcase
     end
 
 endmodule
+
+
+
+function automatic [31:0] add;
+    input [31:0] a, b;
+    begin
+        add = a + b;
+    end
+endfunction
+

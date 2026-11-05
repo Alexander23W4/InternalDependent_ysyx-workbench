@@ -3,6 +3,7 @@
 // Refer to the data sheet for the flash instructions at
 // https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=zh
 
+// 这个模块包括SPI slave 和 flash内部的控制逻辑, 正常说是集成在flash芯片内部的逻辑
 module flash (
   input  sck,
   input  ss,

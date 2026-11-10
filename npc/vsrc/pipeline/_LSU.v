@@ -131,6 +131,10 @@ module ysyx_26040135_AXI_LSU (
                 lsu_data_save <= lsu_wdata;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
+
+                if(!is_ls) begin
+                    out_valid <= 1'b1;
+                end
             end
 
             if(in_ready && !in_valid) begin
@@ -221,8 +225,6 @@ module ysyx_26040135_AXI_LSU (
                         end else begin
                             next = AW;
                         end   
-                    end else begin
-                        next = NLS_OP;
                     end
                 end
             end
@@ -263,9 +265,6 @@ module ysyx_26040135_AXI_LSU (
                 end
             end
 
-            NLS_OP: begin
-                
-            end
 
         endcase
     end

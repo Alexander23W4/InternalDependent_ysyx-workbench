@@ -93,6 +93,9 @@ module ysyx_26040135_EXU (
     reg wen_save;
     reg [4:0] rd_wb_save;
 
+    reg bypass_active;
+    reg [31:0] bypass_data;
+
 
     // input存储
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
@@ -147,6 +150,8 @@ module ysyx_26040135_EXU (
             rd_amt <= 32'b0;
             wen_save <= 1'b0;
             rd_wb_save <= 5'b0;
+            bypass_active <= 1'b0;
+            bypass_data <= 32'b0;
 
             mstatus <= 32'h00001800;   
             mcause <= 0;
@@ -225,6 +230,9 @@ module ysyx_26040135_EXU (
                 csrrc_save    <= csrrc;
 
                 csr_rst_save  <= csrw_rst;
+
+                bypass_active <= 1'b0;
+                bypass_data <= 32'b0;
                 
             end
         // ------------------------------------------

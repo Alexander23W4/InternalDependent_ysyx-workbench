@@ -43,25 +43,19 @@ module ysyx_26040135_WBU(
     input clock,
     input reset, 
 
-    input in_valid_exu,
-    output in_ready_exu,
+    input in_valid,
+    output in_ready,
 
-    input [4:0] rd_exu,
-    input [31:0] wdata_exu,
-
-    input in_valid_lsu,
-    output in_ready_lsu,
-
-    input [4:0] rd_lsu,
-    input [31:0] wdata_lsu,
+    input [4:0] rd,
+    input [31:0] wdata,
 
     input [`WB_Q_LEN-1:0][5:0] wb_q,   // top
     input exu_new_wbt,    // exu has new wb task
     input [5:0] exu_new_wbd,   // exu new wb data
 
     output reg wen,   // -> top 
-    output reg [31:0] wdata,
-    output reg [4:0] rd,
+    output reg [31:0] wdata_wb,
+    output reg [4:0] rd_wb,
 
     output reg [63:0] wbu_blockf_cyc,
     output reg [63:0] wbu_work_cyc,
@@ -71,15 +65,12 @@ module ysyx_26040135_WBU(
     // 冲刷 (⭐值得优化, 很少出现的情况, 但是要跨级控制)    不需要冲刷了, 变成阻塞
 
     output reg [`WB_Q_LEN-1:0][5:0] wb_q_update,  // -> top
-    output flush  // 
 );
 // 两个同时来, 先处理l
 
     reg in_ready;
     assign in_ready_exu = in_ready;
     assign in_ready_lsu = in_ready;
-
-    reg wb_type;  // 0 -> exu  1 -> lsu
 
 // state: IDLE  WB
     localparam IDLE = 1'b0, WB = 1'b1;
@@ -90,9 +81,8 @@ module ysyx_26040135_WBU(
         if(reset) begin
             in_ready <= 1'b1;
             state <= IDLE;
-            rd <= 5'b0;
-            wdata <= 31'b0;
-            wb_type <= 1'b0;
+            rd_wb <= 5'b0;
+            wdata_wb <= 31'b0;
 
             wbu_blockf_cyc <= 0;
             wbu_work_cyc <= 0;
@@ -100,20 +90,13 @@ module ysyx_26040135_WBU(
 
         end else begin   // 优先级 lsu > exu
             state <= next;
-            if(state == IDLE && in_ready && in_valid_lsu) begin
+            if(state == IDLE && in_ready && in_valid) begin
                 in_ready <= 1'b0;
-                rd <= rd_lsu;
-                wdata <= wdata_lsu;
-                wb_type <= 1'b1;  // ls
-            end
-            else if(state == IDLE && in_ready && in_valid_exu) begin
-                in_ready <= 1'b0;
-                rd <= rd_exu;
-                wdata <= wdata_exu;
-                wb_type <= 1'b0;  // ex
+                rd_wb <= rd;
+                wdata_wb <= wdata;
             end
 
-            if(in_ready && !in_valid_exu && !in_valid_lsu) begin
+            if(in_ready && !in_valid) begin
                 wbu_blockf_cyc <= wbu_blockf_cyc + 64'b1;
                 wbu_blockf <= 1'b1;
             end else begin
@@ -132,12 +115,11 @@ module ysyx_26040135_WBU(
         
         next = state;
         wen = 1'b0;
-        flush = 1'b0;
         wb_q_update = 0;
 
         case (state)
             IDLE: begin
-                if((in_ready && in_valid_lsu) || (in_ready && in_valid_exu)) begin
+                if(in_ready && in_valid) begin
                     next = WB;
                 end
             end

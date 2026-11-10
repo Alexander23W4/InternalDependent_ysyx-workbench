@@ -46,7 +46,7 @@ module ysyx_26040135_AXI_LSU (
 
 
     output [31:0] wdata,  // 
-    output [4:0] rd_out_lsu,  //
+    output [4:0] rd_out,  //
 
     // ------------ 处理自修改代码的信号
     output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除

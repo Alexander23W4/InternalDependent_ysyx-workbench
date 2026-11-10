@@ -20,12 +20,14 @@
 -> AXI的读写是分离的, 所以如果运行一个写命令, 可以不阻塞读命令, 如果检测到是read请求, 且读的不是现在正在写的addr, 则可以给valid
 */
 
+
 module ysyx_26040135_AXI_LSU (
     ysyx_26040135_AXI4.master bus,
     
     input clock,
     input reset,
 
+    input is_ls,   // ⭐: 如果是ls, 则进入AW/AR, 如果不是则直接到WBU
     input io,
     input [1:0] io_type,
     input read_is_u,
@@ -42,9 +44,11 @@ module ysyx_26040135_AXI_LSU (
     
     output [1:0] __error,
 
-    output [31:0] wdata,
-    output [4:0] rd_out_lsu,
 
+    output [31:0] wdata,  // 
+    output [4:0] rd_out_lsu,  //
+
+    // ------------ 处理自修改代码的信号
     output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
     output sw_avail,
 
@@ -54,7 +58,6 @@ module ysyx_26040135_AXI_LSU (
 
     output reg lsu_blockf,
 
-    input flush
 );
 
 
@@ -75,11 +78,10 @@ module ysyx_26040135_AXI_LSU (
 
     reg rdata_out;
 
-    reg flush_save;
 
 // 状态
     typedef enum [2:0]{ 
-        IDLE, AR, R, AW, W, B
+        IDLE, AR, R, AW, W, B, NLS_OP
     } state_t;
     state_t state, next;
 
@@ -106,7 +108,6 @@ module ysyx_26040135_AXI_LSU (
             lsu_work_cyc <= 0;
 
             lsu_blockf <= 1'b0;
-            flush_save <= 1'b0;
 
         end else begin
             state <= next;
@@ -120,7 +121,7 @@ module ysyx_26040135_AXI_LSU (
                 lsu_blcokb_cyc <= lsu_blcokb_cyc + 64'b1;
             end
 
-            if(state == IDLE && in_valid && in_ready) begin
+            if(state == IDLE && in_valid && in_ready) begin   // 接受并保存
                 in_ready <= 1'b0;
 
                 io_save <= io;
@@ -130,7 +131,6 @@ module ysyx_26040135_AXI_LSU (
                 lsu_data_save <= lsu_wdata;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
-                flush_save <= 1'b0;
             end
 
             if(in_ready && !in_valid) begin
@@ -142,11 +142,7 @@ module ysyx_26040135_AXI_LSU (
 
             if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
                 rdata_out <= bus.rdata;
-                if(flush_save || flush) begin
-                    in_ready <= 1'b1;
-                end else begin
-                    out_valid <= 1'b1;
-                end
+                out_valid <= 1'b1;
             end
             if(state == B && bus.bvalid && bus.bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
                 in_ready <= 1'b1;
@@ -162,16 +158,6 @@ module ysyx_26040135_AXI_LSU (
             if(state != IDLE) begin
                 lsu_work_cyc <= lsu_work_cyc + 64'b1;
             end
-
-            if(flush) begin
-                if(out_valid) begin
-                    out_valid <= 1'b0;
-                    in_ready <= 1'b1;
-                end else begin
-                    flush_save <= 1'b1;
-                end
-            end
-
         end
     end
 
@@ -229,10 +215,14 @@ module ysyx_26040135_AXI_LSU (
         case(state)
             IDLE: begin
                 if(in_valid && in_ready) begin   // 只有读写指令的时候才允许触发总线交互
-                    if(!io) begin
-                        next = AR;
+                    if(is_ls) begin
+                        if(!io) begin
+                            next = AR;
+                        end else begin
+                            next = AW;
+                        end   
                     end else begin
-                        next = AW;
+                        next = NLS_OP;
                     end
                 end
             end
@@ -271,6 +261,10 @@ module ysyx_26040135_AXI_LSU (
                     next = IDLE;
                     sw_avail = 1'b1;
                 end
+            end
+
+            NLS_OP: begin
+                
             end
 
         endcase

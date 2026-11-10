@@ -52,6 +52,7 @@ module ysyx_26040135_EXU (
     output reg out_valid_lsu,
     input out_ready_lsu,
 
+    output reg is_ls,
     output reg io,
     output reg [1:0] io_type,
     output reg read_is_u,
@@ -210,6 +211,7 @@ module ysyx_26040135_EXU (
                 csr_rst_save  <= csrw_rst;
                 
             end
+        // ------------------------------------------
 
             if(in_ready && !in_valid) begin
                 exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
@@ -222,6 +224,7 @@ module ysyx_26040135_EXU (
                 exu_work_cyc <= exu_work_cyc + 64'b1;
             end
 
+        // ------------------------------------------
 
             if(out_ready_lsu && out_valid_lsu) begin
                 out_valid_lsu <= 1'b0;
@@ -232,6 +235,12 @@ module ysyx_26040135_EXU (
                 in_ready <= 1'b1;
             end
 
+            if(state == BLOCK) begin
+                // ⭐: 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
+                if(!gpr_read_invalid && !is_nlwb) begin
+                    out_valid_lsu <= 1'b1;  
+                end
+            end
 
             if(csrrw_save && state == EX) begin
                 case(imm_save)  // case CSR addr
@@ -261,13 +270,6 @@ module ysyx_26040135_EXU (
             if(ecall_save && state == EX) begin
                 mepc <= pc_save;
                 mcause <= 32'h0000000b;
-            end
-
-            if(state == BLOCK) begin
-                // ⭐: 只有ls和其他需要wb的instr需要转发, 其他指令直接返回, 并且给ready
-                if(!gpr_read_invalid) begin
-                    out_valid_lsu <= 1'b1;  
-                end
             end
             
         end
@@ -317,11 +319,11 @@ module ysyx_26040135_EXU (
         endcase
     end 
 
+    // ------------------------ 控制RAW阻塞的相关信号  
     wire read = lw_save | lh_save | lb_save | lbu_save | lhu_save;
     wire write = sw_save | sh_save | sb_save;
     wire is_ls = read | write;
     wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
-    wire is_ls_nwb = is_ls | is_nlwb;
     wire nrs = jal_save | jalr_save | lui_save;  // 这几个不需要读取, 没有gpr依赖问题
 
     wire r_type = add_save | sub_save | sll_save | slt_save | sltu_save | xor_inst_save | srl_save | sra_save | or_inst_save | and_inst_save;
@@ -332,6 +334,9 @@ module ysyx_26040135_EXU (
 
     wire [1:0] rs_exist = valid_check(wb_q, rs1, rs2);
     wire gpr_read_invalid = (rsb_type & (|rs_exist)) | (i_type & rs_exist[0]);   // 会读gpr且gpr存在io前后依赖问题
+
+
+    // ------------------------ EX阶段的组合计算逻辑(EX)
 
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;

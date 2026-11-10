@@ -270,7 +270,7 @@ module ysyx_26040135_EXU (
 
             if(state == BLOCK) begin
                 // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
-                if(!gpr_read_invalid && !is_nlwb) begin
+                if(gpr_read_valid && !is_nlwb) begin
                     out_valid_lsu <= 1'b1;  
                 end
             end
@@ -334,7 +334,7 @@ module ysyx_26040135_EXU (
                 end
             end
             BLOCK: begin   
-                if(!gpr_read_invalid) begin
+                if(gpr_read_valid) begin
                     next = EX;
                 end
             end
@@ -352,16 +352,18 @@ module ysyx_26040135_EXU (
     wire write = sw_save | sh_save | sb_save;
     wire is_ls = read | write;
     wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
-    wire nrs = jal_save | jalr_save | lui_save;  // 这几个不需要读取, 没有gpr依赖问题
 
+    wire nrs = jal_save | jalr_save | lui_save;  // 这几个不需要读取, 没有gpr依赖问题
     wire r_type = add_save | sub_save | sll_save | slt_save | sltu_save | xor_inst_save | srl_save | sra_save | or_inst_save | and_inst_save;
     wire s_type = sb_save | sh_save | sw_save;
     wire b_type = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save;
     wire rsb_type = r_type | s_type | b_type;
     wire i_type = ~rsb_type & ~nrs;
 
-    wire [1:0] rs_exist = valid_check(wb_q, rs1, rs2);
-    wire gpr_read_invalid = (rsb_type & (|rs_exist)) | (i_type & rs_exist[0]);   // 会读gpr且gpr存在io前后依赖问题
+    wire gpr_read_valid = (rsb_type && (!rd_list[rs1_save]) && (!rd_list[rs2_save])) || (i_type && (!rd_list[rs1_save]));   // 会读gpr且gpr存在io前后依赖问题
+
+
+
 
 
     // ------------------------ EX阶段的组合计算逻辑(EX)
@@ -497,27 +499,4 @@ module ysyx_26040135_EXU (
 endmodule
 
 
-function automatic [1:0] valid_check;
-    input [`WB_Q_LEN-1:0][5:0] wb_q;
-    input [4:0] rs1;
-    input [4:0] rs2;
-
-    reg [1:0] found;
-    integer i;
-
-    begin
-        found = 2'b00;
-
-        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
-            if (wb_q[i][4:0] == rs1) begin
-                found[0] = 1'b1;
-            end 
-            else if (wb_q[i][4:0] == rs2) begin
-                found[1] = 1'b1;
-            end
-        end
-
-        valid_check = found;
-    end
-endfunction
 

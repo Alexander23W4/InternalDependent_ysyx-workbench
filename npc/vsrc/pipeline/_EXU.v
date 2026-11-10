@@ -49,8 +49,8 @@ module ysyx_26040135_EXU (
     input in_valid,
     output reg in_ready,
 
-    output reg out_valid_lsu, out_valid_wbu,
-    input out_ready_lsu, out_ready_wbu,
+    output reg out_valid_lsu,
+    input out_ready_lsu,
 
     output reg io,
     output reg [1:0] io_type,
@@ -68,7 +68,6 @@ module ysyx_26040135_EXU (
 
     output reg [63:0] exu_blockf_cyc,
     output reg [63:0] exu_blcokbl_cyc,
-    output reg [63:0] exu_blcokbw_cyc,
     output reg [63:0] exu_work_cyc,
 
     output ebreak_end,
@@ -130,7 +129,6 @@ module ysyx_26040135_EXU (
     always @(posedge clock or posedge reset) begin
         if(reset) begin
             out_valid_lsu <= 1'b0;
-            out_valid_wbu <= 1'b0;
             in_ready <= 1'b1;
 
             mstatus <= 32'h00001800;   
@@ -219,9 +217,7 @@ module ysyx_26040135_EXU (
             if(out_valid_lsu && !out_ready_lsu) begin
                 exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
             end
-            if(out_valid_wbu && !out_ready_wbu) begin
-                exu_blcokbw_cyc <= exu_blcokbw_cyc + 64'b1;
-            end
+
             if(state != IDLE) begin
                 exu_work_cyc <= exu_work_cyc + 64'b1;
             end
@@ -231,10 +227,7 @@ module ysyx_26040135_EXU (
                 out_valid_lsu <= 1'b0;
                 in_ready <= 1'b1;
             end
-            if(out_ready_wbu && out_valid_wbu) begin
-                out_valid_wbu <= 1'b0;
-                in_ready <= 1'b1;
-            end
+ 
             if(state == EX && is_nlwb) begin
                 in_ready <= 1'b1;
             end
@@ -271,11 +264,9 @@ module ysyx_26040135_EXU (
             end
 
             if(state == BLOCK) begin
-                if(is_ls && !gpr_read_invalid) begin   // ls的
+                // ⭐: 只有ls和其他需要wb的instr需要转发, 其他指令直接返回, 并且给ready
+                if(!gpr_read_invalid) begin
                     out_valid_lsu <= 1'b1;  
-                end
-                else if (!is_ls_nwb && !gpr_read_invalid) begin  // 除ls之外需要写回的
-                    out_valid_wbu <= 1'b1;
                 end
             end
             

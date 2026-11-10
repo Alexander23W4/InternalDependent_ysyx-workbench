@@ -1545,9 +1545,9 @@ verilator --cc --exe --build -Wall -j --timescale "1ns/1ns" --no-timing --autofl
                                                                      : ... In instance ysyxSoCFull.asic.luart.muart.Uregs
   893 |         iir[0] <= #1 1'b1;
       |                   ^
-%Warning-WIDTHEXPAND: vsrc/pipeline/_EXU.v:266:32: Operator ASSIGNDLY expects 5 bits on the Assign RHS, but Assign RHS's VARREF 'rd_wb' generates 1 bits.
+%Warning-WIDTHEXPAND: vsrc/pipeline/_EXU.v:265:32: Operator ASSIGNDLY expects 5 bits on the Assign RHS, but Assign RHS's VARREF 'rd_wb' generates 1 bits.
                                                  : ... In instance ysyxSoCFull.asic.cpu.cpu.exu
-  266 |                     rd_wb_save <= rd_wb;
+  265 |                     rd_wb_save <= rd_wb;
       |                                ^~
 %Warning-WIDTHEXPAND: vsrc/pipeline/_WBU.v:34:22: Operator ASSIGNDLY expects 32 bits on the Assign RHS, but Assign RHS's CONST '31'h0' generates 31 bits.
                                                 : ... In instance ysyxSoCFull.asic.cpu.cpu.wbu

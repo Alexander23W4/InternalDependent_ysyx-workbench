@@ -1,10 +1,11 @@
 /*
     新pc的判断要加在这里, 如果有跳转则要推翻分支预测, 洗刷流水线
 */
-
-`ifndef WB_Q_LEN
-`define WB_Q_LEN 3
-`endif
+/*
+如果EX阶段未检测到RAW冒险, 则无需阻塞流水线, 这与上文的简单流水线一致
+如果EX阶段检测到了RAW冒险, 并且存在某个阶段满足转发条件, 则无需阻塞流水线, 同时将转发的数据作为ID阶段的输出    可以来源于LSU或者EXU或者WBU
+如果EX阶段检测到了RAW冒险, 但不存在满足转发条件的阶段, 则需要阻塞流水线
+*/
 
 module ysyx_26040135_EXU (
 
@@ -73,7 +74,16 @@ module ysyx_26040135_EXU (
     output reg [63:0] exu_blcokbl_cyc,
     output reg [63:0] exu_work_cyc,
 
-    output ebreak_end
+    output ebreak_end,
+
+    // bypass
+    input [31:0] bypass_wdata_lsu,  // 
+    input [4:0] bypass_rd_lsu,  //
+    input lsu_bypass_data_valid, 
+
+    input [31:0] bypass_wdata_wbu,
+    input [4:0] bypass_rd_wbu,
+    input wbu_bypass_data_valid
 );
 
     // RAW

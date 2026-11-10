@@ -47,6 +47,7 @@ module ysyx_26040135_AXI_LSU (
 
     output [31:0] wdata,  // 
     output [4:0] rd_out,  //
+    output reg lsu_bypass_data_valid, 
 
     // ------------ 处理自修改代码的信号
     output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
@@ -73,7 +74,7 @@ module ysyx_26040135_AXI_LSU (
     reg [31:0] ic_wb_wdata_save;
 
     assign __error = error_save;
-    assign rd_out_lsu = rd_save;
+    assign rd_out = rd_save;
     assign sw_addr = lsu_addr_save;
 
     reg rdata_out;
@@ -86,7 +87,7 @@ module ysyx_26040135_AXI_LSU (
     state_t state, next;
 
 
-    always_ff @( posedge clock or posedge reset ) begin
+    always_ff @(posedge clock or posedge reset) begin
         if(reset) begin
             state <= IDLE;
             rdata_out <= 32'b0;
@@ -169,6 +170,7 @@ module ysyx_26040135_AXI_LSU (
         bus.wstrb = 4'b0000;  
         bus.arsize = 3'b010;
         bus.awsize = 3'b010;
+
         if (io_save) begin
             case (io_type_save)
                 2'b10: begin
@@ -214,6 +216,8 @@ module ysyx_26040135_AXI_LSU (
 
         sw_avail = 1'b0;
 
+        lsu_bypass_data_valid = 1'b0;  
+
         next = state;
 
         case(state)
@@ -227,6 +231,7 @@ module ysyx_26040135_AXI_LSU (
                         end   
                     end
                 end
+                lsu_bypass_data_valid = out_valid;  // 只有在等wbu收数据的那几个周期是可以bypass的, wbu一收到数据, 数据立马就是通过wbu进行bypass
             end
 
             AR: begin

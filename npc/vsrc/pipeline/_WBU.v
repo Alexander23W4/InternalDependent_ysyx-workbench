@@ -1,44 +1,4 @@
 
-/*
-仅非(b和s)指令进入本级
-
-lsu->l    exu->...
-本级可以接收 exu & lsu 的信号
-
-WBU: 写回, 冲刷, 清理
-
-单个情况:                      
-ll两个不同rd:  
-
-ll两个相同rd:  
-
-le两个相同rd,l先来: 
-
-
-le两个相同rd,e先来: 
-le两个相同rd,l先来: 
-
-le两个相同rd,e先来: 
-
-le两个不同rd,l先来: 
-le两个不同rd,e先来: 
-le两个不同rd,l先来: 
-le两个不同rd,e先来: 
-
-遍历wb_q -> 找到n的同时记录相同rd
-
-
-WBW阻塞方案:
-
-新方案要求两个相同rd, 也就是WBW的情况下, 必须按照顺序接收.  也就是说, WBU发消息告诉top 清理的时候, 只需要发送一个被清理的rd信号即可
-
-这个时候top维护一个32*3的数组, 第一行表示
-*/
-
-`ifndef WB_Q_LEN 
-`define WB_Q_LEN 3
-`endif
-
 module ysyx_26040135_WBU(
     input clock,
     input reset, 
@@ -50,7 +10,7 @@ module ysyx_26040135_WBU(
     input [31:0] wdata,
 
 
-    output reg wen,   
+    output reg wen,    // 这个信号同时也承担 wb_bypass_data_valid 的作用
     output reg [31:0] wdata_wb,
     output reg [4:0] rd_wb,
 
@@ -79,7 +39,7 @@ module ysyx_26040135_WBU(
             wbu_work_cyc <= 0;
             wbu_blockf <= 0;
 
-        end else begin   // 优先级 lsu > exu
+        end else begin  
             state <= next;
             if(state == IDLE && in_ready && in_valid) begin
                 in_ready <= 1'b0;

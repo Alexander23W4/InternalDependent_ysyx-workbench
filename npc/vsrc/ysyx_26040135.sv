@@ -116,10 +116,6 @@ cache的优化, 替换算法, block, set-associative, 大小
 优化RTL的写法, verilog的省A & PW的方法
 */
 
-`ifndef WB_Q_LEN
-`define WB_Q_LEN 3
-`endif
-
 module ysyx_26040135(
     
     // ⭐: 现在cpu的引脚已经完全符合要求

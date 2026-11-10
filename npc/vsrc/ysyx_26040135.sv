@@ -111,6 +111,8 @@ cache的优化, 替换算法, block, set-associative, 大小
 ⭐ C:
 最后优化时钟周期
 
+⭐ 错误处理, 比如bresp != 2'b00, 怎么处理    (纯硬件)
+
 优化RTL的写法, verilog的省A & PW的方法
 */
 

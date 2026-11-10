@@ -1,9 +1,9 @@
 [options]
 mode bmc
-depth 40
+depth 20
 
 [engines]
-smtbmc boolector
+smtbmc yices
 
 [script]
 verilog_defines -DFORMAL

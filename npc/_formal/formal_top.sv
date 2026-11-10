@@ -47,9 +47,14 @@ module formal_top(
                 end
                 7'b0000011: is_legal = (f3==3'b000)||(f3==3'b001)||(f3==3'b010)||(f3==3'b100)||(f3==3'b101); // lb/lh/lw/lbu/lhu
                 7'b0100011: is_legal = (f3==3'b000)||(f3==3'b001)||(f3==3'b010);              // sb/sh/sw
+                // 控制流指令暂时不开放: EXU 的 _new_instr 是"收下指令"的脉冲, 跳转后的
+                // 错误路径指令也会发脉冲, 而 REF 是顺序执行的, 一对齐就错位.
+                // 等改成"退休"脉冲驱动 REF 后, 定义 FORMAL_CFLOW 再打开.
+`ifdef FORMAL_CFLOW
                 7'b1100011: is_legal = (f3==3'b000)||(f3==3'b001)||(f3==3'b100)||(f3==3'b101)||(f3==3'b110)||(f3==3'b111); // branch
                 7'b1100111: is_legal = (f3 == 3'b000);                                        // jalr
                 7'b1101111: is_legal = 1'b1;                                                  // jal
+`endif
                 7'b0110111: is_legal = 1'b1;                                                  // lui
                 7'b0010111: is_legal = 1'b1;                                                  // auipc
                 7'b1110011: is_legal = ((f3==3'b001)||(f3==3'b010)||(f3==3'b011)) &&           // csrrw/csrrs/csrrc

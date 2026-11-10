@@ -45,7 +45,7 @@ module dut_top(
     endfunction
     // ③ LS 地址必须落在 0x80000020~0x8000003f, 且严格对齐
     always @(*) begin
-        if (1'b0) begin                 // TEMP
+        if (!reset && valid_el) begin
             assume(lsu_addr >= 32'h8000_0020 && lsu_addr <= 32'h8000_003f);
             case (io_type)
                 2'b10: assume(lsu_addr[1:0] == 2'b00);   // lw / sw
@@ -64,7 +64,7 @@ module dut_top(
 
     // ⑤ 下一条 pc(跳转目标 / 顺序 pc+4)也不能跳出指令窗口
     //    注意: 只在 flush 有效(EXU 真的给出跳转)时才约束, 否则复位/空拍时 pc_flush 是垃圾, 会把整个 trace 变 UNSAT
-    always @(*) if (1'b0) begin     // TEMP
+    always @(*) if (!reset && flush) begin
         assume(pc_flush >= 32'h8000_0000 && pc_flush < 32'h8000_0020);
         assume(pc_flush[1:0] == 2'b00);
     end

@@ -71,8 +71,10 @@ module ysyx_26040135_AXI_RAM (
             for (int i = 0; i < 32; i++) begin   // instr
                 ram[i] <= ram_instr[i];
             end
-            for (int i = 32; i < 64; i++) begin   // data
-                ram[i] <= i - 32;
+            for (int i = 32; i < 64; i++) begin   // data: 填成 NOP(0x00000013) 的字节
+                // 为什么: IFU 会连续抢先取指, 8 条指令取完就会读到这里. 填成 NOP 后
+                // 越界取指只是执行空操作, 不会跳转/异常, 也不会把 trace 弄脏.
+                ram[i] <= (i[1:0] == 2'd0) ? 8'h13 : 8'h00;
             end
 
         end else begin

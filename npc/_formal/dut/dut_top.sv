@@ -43,32 +43,6 @@ module dut_top(
             wb_q_enqueue = result;
         end
     endfunction
-    // ③ LS 地址必须落在 0x80000020~0x8000003f, 且严格对齐
-    always @(*) begin
-        if (!reset && valid_el) begin
-            assume(lsu_addr >= 32'h8000_0020 && lsu_addr <= 32'h8000_003f);
-            case (io_type)
-                2'b10: assume(lsu_addr[1:0] == 2'b00);   // lw / sw
-                2'b01: assume(lsu_addr[0]   == 1'b0);    // lh / lhu / sh
-                default: ;                               // lb / lbu / sb 无对齐要求
-            endcase
-        end
-    end
-
-    // ④ 取指地址(IFU 内部的 pc 寄存器, 不是 out_pc!)必须在指令窗口内, 且 4 字节对齐
-    //    注意: dut_top 的 pc 是 IFU 的 out_pc, 复位后是 0, 不能拿它做 assume
-    always @(*) if (1'b0) begin     // TEMP
-        assume(ifu.pc >= 32'h8000_0000 && ifu.pc < 32'h8000_0020);
-        assume(ifu.pc[1:0] == 2'b00);
-    end
-
-    // ⑤ 下一条 pc(跳转目标 / 顺序 pc+4)也不能跳出指令窗口
-    //    注意: 只在 flush 有效(EXU 真的给出跳转)时才约束, 否则复位/空拍时 pc_flush 是垃圾, 会把整个 trace 变 UNSAT
-    always @(*) if (!reset && flush) begin
-        assume(pc_flush >= 32'h8000_0000 && pc_flush < 32'h8000_0020);
-        assume(pc_flush[1:0] == 2'b00);
-    end
-
 
     wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
     wire [31:0] _instr;

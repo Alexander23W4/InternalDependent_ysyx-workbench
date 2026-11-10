@@ -25,9 +25,6 @@ Used module:         \ysyx_26040135_AXI_LSU
 Used module:         \ysyx_26040135_AXI_RAM
 Used module:         \ysyx_26040135_AXI4_Xbar
 Used module:         \ysyx_26040135_WBU
-Used module:     \ref_top
-Used module:         \decode
-Used module:         $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
 
 2.2. Analyzing design hierarchy..
 Top module:  \formal_top
@@ -40,9 +37,6 @@ Used module:         \ysyx_26040135_AXI_LSU
 Used module:         \ysyx_26040135_AXI_RAM
 Used module:         \ysyx_26040135_AXI4_Xbar
 Used module:         \ysyx_26040135_WBU
-Used module:     \ref_top
-Used module:         \decode
-Used module:         $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
 Removed 0 unused modules.
 Module dut_top directly or indirectly contains formal properties -> setting "keep" attribute.
 Module formal_top directly or indirectly contains formal properties -> setting "keep" attribute.
@@ -53,23 +47,6 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 4. Executing DFFUNMAP pass (unmap clock enable and synchronous reset from FFs).
 
 5. Printing statistics.
-
-=== $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register ===
-
-        +----------Local Count, excluding submodules.
-        | 
-       16 wires
-     1245 wire bits
-       11 public wires
-     1174 public wire bits
-        9 ports
-     1137 port bits
-        8 cells
-        2   $anyseq
-        1   $logic_and
-        1   $mem_v2
-        3   $mux
-        1   $reduce_bool
 
 === $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register ===
 
@@ -88,47 +65,24 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
         7   $mux
         1   $reduce_bool
 
-=== decode ===
-
-        +----------Local Count, excluding submodules.
-        | 
-      135 wires
-      378 wire bits
-       67 public wires
-      310 public wire bits
-       53 ports
-      282 port bits
-      122 cells
-       11   $anyseq
-       18   $eq
-        1   $logic_and
-        2   $logic_not
-       71   $mux
-       11   $pmux
-        8   $reduce_or
-
 === dut_top ===
 
         +----------Local Count, excluding submodules.
         | 
-      252 wires
-     3608 wire bits
+      232 wires
+     3588 wire bits
       213 public wires
      3503 public wire bits
         8 ports
      1318 port bits
-       51 cells
+       26 cells
         1   $anyinit
         4   $anyseq
-        6   $assume
-        2   $eq
-        2   $ge
-        1   $le
-        6   $logic_and
-        5   $logic_not
-        1   $lt
-       19   $mux
-        4   $not
+        1   $assume
+        2   $logic_and
+        2   $logic_not
+       13   $mux
+        3   $not
         8 submodules
         1   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
         1   ysyx_26040135_AXI4_Xbar
@@ -143,67 +97,17 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      390 wires
-     3306 wire bits
-       37 public wires
-     2907 public wire bits
+        9 wires
+     1319 wire bits
+        8 public wires
+     1318 public wire bits
         3 ports
       258 port bits
-      393 cells
-        1   $add
-        2   $anyinit
-       16   $anyseq
-        2   $assert
-       11   $assume
-      170   $eq
-        5   $ff
-        9   $logic_and
-       19   $logic_not
-       96   $logic_or
-        4   $mux
-        1   $ne
-        1   $not
-       24   $pmux
-       32   $reduce_or
-        2 submodules
-        1   dut_top
-        1   ref_top
-
-=== ref_top ===
-
-        +----------Local Count, excluding submodules.
-        | 
-      408 wires
-    22610 wire bits
-      112 public wires
-     3524 public wire bits
-       14 ports
-     1571 port bits
-      405 cells
-        9   $add
-       41   $and
-       10   $anyinit
+        2 cells
         1   $assume
-        9   $eq
-        2   $ge
-        4   $lt
-      193   $mux
-        1   $ne
-        4   $neg
-        6   $not
-       95   $or
-        1   $pmux
-        2   $reduce_or
-        8   $shift
-        8   $shiftx
-        2   $shl
-        2   $shr
-        2   $sshr
-        3   $sub
-        2   $xor
-        2 submodules
-        1   $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
-        1   decode
+        1   $not
+        1 submodules
+        1   dut_top
 
 === ysyx_26040135_AXI4_Xbar ===
 
@@ -391,8 +295,8 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     2304 formal_top
-       51 dut_top
+     1353 formal_top
+       26 dut_top
        14   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        40   ysyx_26040135_AXI4_Xbar
       100   ysyx_26040135_AXI_IFU
@@ -401,55 +305,50 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
       480   ysyx_26040135_EXU
       126   ysyx_26040135_IDU
       203   ysyx_26040135_WBU
-      405 ref_top
-        8   $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
-      122   decode
 
         +----------Count including submodules.
         | 
-     2745 wires
-    91033 wire bits
-     1116 public wires
-    28037 public wire bits
-      482 ports
-     9210 port bits
+     1785 wires
+    64793 wire bits
+      897 public wires
+    21440 public wire bits
+      406 ports
+     6220 port bits
         - memories
         - memory bits
         - processes
-     2304 cells
-       34   $add
-       83   $and
-      121   $anyinit
-      116   $anyseq
-        3   $assert
-       24   $assume
-      257   $eq
-        6   $ff
-       10   $ge
-        1   $le
-       89   $logic_and
-       62   $logic_not
-      104   $logic_or
-       13   $lt
-        2   $mem_v2
-      955   $mux
-        7   $ne
-       12   $neg
-       35   $not
-      176   $or
-       68   $pmux
-        7   $reduce_bool
-       57   $reduce_or
-       24   $shift
-       12   $shiftx
-        6   $shl
-        5   $shr
-        4   $sshr
-        7   $sub
-        4   $xor
-        2 submodules
+     1353 cells
+       24   $add
+       42   $and
+      109   $anyinit
+       87   $anyseq
+        1   $assert
+        8   $assume
+       58   $eq
+        1   $ff
+        6   $ge
+       74   $logic_and
+       38   $logic_not
+        8   $logic_or
+        8   $lt
+        1   $mem_v2
+      678   $mux
+        5   $ne
+        8   $neg
+       28   $not
+       81   $or
+       32   $pmux
+        6   $reduce_bool
+       15   $reduce_or
+       16   $shift
+        4   $shiftx
+        4   $shl
+        3   $shr
+        2   $sshr
+        4   $sub
+        2   $xor
+        1 submodules
         1   dut_top
-        1   ref_top
 
 6. Executing SMT2 backend.
 
@@ -463,13 +362,10 @@ Creating SMT-LIBv2 representation of module ysyx_26040135_AXI_RAM.
 Creating SMT-LIBv2 representation of module ysyx_26040135_AXI_LSU.
 Creating SMT-LIBv2 representation of module ysyx_26040135_AXI_IFU.
 Creating SMT-LIBv2 representation of module ysyx_26040135_AXI4_Xbar.
-Creating SMT-LIBv2 representation of module decode.
 Creating SMT-LIBv2 representation of module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.
-Creating SMT-LIBv2 representation of module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.
-Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: 0fc9c5e027, time: 0.12s, user: 0.11s, system: 0.02s, MEM: 28.15 MB peak
+End of script. Logfile hash: 59b7ae69a2, time: 0.08s, user: 0.08s, system: 0.01s, MEM: 26.16 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 88% 2x write_smt2 (0 sec), 7% 2x read_rtlil (0 sec), ...
+Time spent: 91% 2x write_smt2 (0 sec), 5% 2x read_rtlil (0 sec), ...

@@ -11,6 +11,4 @@ VL_ATTR_COLD void Vtop___024unit___ctor_var_reset(Vtop___024unit* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit___ctor_var_reset\n"); );
-    // Body
-    vlSelf->__Vlvbound_h23c6c6d0__0 = VL_RAND_RESET_I(6);
 }

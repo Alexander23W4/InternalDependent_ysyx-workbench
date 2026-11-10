@@ -49,9 +49,6 @@ module ysyx_26040135_AXI_LSU (
     output [4:0] rd_out,  //
     output reg lsu_bypass_data_valid, 
 
-    // ------------ 处理自修改代码的信号
-    output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
-    output sw_avail,
 
     output reg [63:0] lsu_blockf_cyc,
     output reg [63:0] lsu_blcokb_cyc,
@@ -59,6 +56,9 @@ module ysyx_26040135_AXI_LSU (
 
     output reg lsu_blockf,
 
+    // ------------ 处理自修改代码的信号
+    output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
+    output sw_avail,
 );
 
 

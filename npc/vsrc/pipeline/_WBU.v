@@ -18,8 +18,6 @@ module ysyx_26040135_WBU(
     output reg [63:0] wbu_work_cyc,
     output reg wbu_blockf,
 
-
-    output reg [`WB_Q_LEN-1:0][5:0] wb_q_update,  
 );
 
 

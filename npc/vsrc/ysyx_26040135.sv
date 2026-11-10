@@ -230,12 +230,6 @@ module ysyx_26040135(
     wire __ebreak_end;
 
 
-
-
-// 流水线控制功能型寄存器
-
-    reg [`WB_Q_LEN-1:0][5:0] wb_q;    // write back queue   编码 xxxxx(写入的寄存器) x(rd的来源l/s)   这里留4个空, 认为最多不会超过4个在途rd
-
 // 流水线级间连接
 
     wire sw_avail;
@@ -322,27 +316,43 @@ ysyx_26040135_EXU exu (
     .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
     .ebreak(ebreak), .ecall(ecall), .mret(mret), .fence_i(fence_i),
     .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
+
     .rd(rd), .rs1(rs1), .rs2(rs2),
+
     .lsu_blockf(lsu_blockf), .wbu_blockf(wbu_blockf),
+    .wen(wen), .rd_wb(rd_wbu),
+
     ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
     ._mcycle(_mcycle), ._mcycleh(_mcycleh),
     ._mvendorid(_mvendorid), ._marchid(_marchid),
     ._pc(_pc), ._instr(_instr), ._new_instr(_new_instr),
+
     .in_valid(valid_de), .in_ready(ready_de),
-    .out_valid_lsu(valid_el), .out_valid_wbu(valid_ew),
-    .out_ready_lsu(ready_el), .out_ready_wbu(ready_ew),
+    .out_valid(valid_el),
+    .out_ready(ready_el),
+
+    .is_ls(is_ls),
     .io(io), .io_type(io_type), .read_is_u(read_is_u),
     .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr),
     .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
     .flush(flush), .pc_flush(pc_flush),
 
     .exu_blockf_cyc(exu_blockf_cyc),
-    .exu_blcokbl_cyc(exu_blcokbl_cyc), .exu_blcokbw_cyc(exu_blcokbw_cyc),
+    .exu_blcokbl_cyc(exu_blcokbl_cyc),
     .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),
     .wb_q(wb_q), .exu_new_wbd(exu_new_wbd), .exu_new_wbt(exu_new_wbt)
 
+    .bypass_wdata_lsu(bypass_wdata_lsu), .bypass_rd_lsu(bypass_rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
+    .bypass_wdata_wbu(bypass_wdata_wbu), .bypass_rd_wbu(bypass_rd_wbu), .wbu_bypass_data_valid(wbu_bypass_data_valid)
 );
-    wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_blcokbw_cyc, exu_work_cyc;
+    wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
+    wire is_ls;
+    wire [31:0] bypass_wdata_lsu;
+    wire [31:0] bypass_wdata_wbu;
+    wire [4:0] bypass_rd_lsu;
+    wire [4:0] bypass_rd_wbu;
+    wire lsu_bypass_data_valid;
+    wire wbu_bypass_data_valid;
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
@@ -359,8 +369,8 @@ ysyx_26040135_EXU exu (
         .dbg_regs(dbg_reg)
     );
 
-    wire valid_el, valid_ew;
-    wire ready_el, ready_ew;
+    wire valid_el;
+    wire ready_el;
     wire io;
     wire [1:0] io_type;
     wire read_is_u;
@@ -378,6 +388,7 @@ ysyx_26040135_EXU exu (
         .clock(clock),
         .reset(reset),
 
+        .is_ls(is_ls),
         .io(io),
         .io_type(io_type),
         .read_is_u(read_is_u),
@@ -394,6 +405,8 @@ ysyx_26040135_EXU exu (
         .__error(__lsu_error),
         .wdata(wdata_lw),
         .rd_out_lsu(rd_lsu),
+        .lsu_bypass_data_valid(lsu_bypass_data_valid),
+
         .lsu_blockf_cyc(lsu_blockf_cyc),
         .lsu_blcokb_cyc(lsu_blcokb_cyc),
         .lsu_work_cyc(lsu_work_cyc),
@@ -401,7 +414,6 @@ ysyx_26040135_EXU exu (
 
         .sw_addr(sw_addr),
         .sw_avail(sw_avail),
-        .flush(lsu_flush)
     );
 
     wire valid_lw, ready_lw;
@@ -416,14 +428,9 @@ ysyx_26040135_EXU exu (
         .clock(clock),
         .reset(reset),
 
-        .in_valid_exu(valid_ew),
-        .in_ready_exu(ready_ew),
-        .rd_exu(rd_out),
-        .wdata_exu(ic_wb_wdata),
-
-        .in_valid_lsu(valid_lw),
-        .in_ready_lsu(ready_lw),
-        .rd_lsu(rd_lsu),
+        .in_valid(valid_lw),
+        .in_ready(ready_lw),
+        .rd(rd_lsu),
         .wdata_lsu(wdata_lw),
 
         .wbu_blockf_cyc(wbu_blockf_cyc),
@@ -431,21 +438,14 @@ ysyx_26040135_EXU exu (
         .wbu_blockf(wbu_blockf),
 
         .wen(wen),
-        .rd(rd_wbu),
-        .wdata(wdata_wbu),
-
-        .wb_q(wb_q),
-        .exu_new_wbd(exu_new_wbd),
-        .exu_new_wbt(exu_new_wbt),
-        .flush(lsu_flush),
-        .wb_q_update(wb_q_update)
+        .rd_wb(rd_wbu),
+        .wdata_wb(wdata_wbu),
     );
 
     wire [4:0] rd_release;
     wire wen;
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;
-    wire [`WB_Q_LEN-1:0][5:0] wb_q_update;
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -454,7 +454,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // ⭐: BUS 总线相关
     ysyx_26040135_AXI4 bus_ifu ();
     ysyx_26040135_AXI4 bus_lsu ();
-    ysyx_26040135_AXI4 bus_master ();
+    ysyx_26040135_AXI4 bus_master();
     ysyx_26040135_AXI4 bus_clint ();     // Xbar <-> CLINT (0x0200_0000~0x0200_ffff)
     ysyx_26040135_AXI4 bus_icache();  
 
@@ -523,54 +523,6 @@ ysyx_26040135_AXI_CLINT u_clint (
     assign io_slave_rdata   = 32'b0;
     assign io_slave_rresp   = 2'b0;
     assign io_slave_rlast   = 1'b0;
-
-
-/*------------------------------------------------------------------------------------------------------------
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
--------------------------------------------------------------------------------------------------------------*/
-/*
-需要顶层维护的流水线控制逻辑
-*/
-
-// 应对数字冒险的寄存器io前后依赖记录
-    // always @(posedge clock or posedge reset) begin
-    //     if(reset) begin
-    //         wb_q <= 0;
-    //     end else begin
-    //         if(wen) begin
-    //             wb_q <= wb_q_update;
-    //         end else begin
-    //             if(exu_new_wbt) begin
-    //                 wb_q <= wb_q_enqueue(exu_new_wbd, wb_q);
-    //             end
-    //         end
-    //     end
-    // end
-
-
-
-// function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
-//     input [5:0] new_data;
-//     input [`WB_Q_LEN*6-1:0] queue;
-
-//     reg [`WB_Q_LEN*6-1:0] result;
-//     reg found;
-//     integer i;
-
-//     begin
-//         result = queue;
-//         found = 1'b0;
-
-//         for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
-//             if (!found && (queue[i] == 6'b0)) begin
-//                 result[i*6 +: 6] = new_data;
-//                 found = 1'b1;
-//             end
-//         end
-
-//         wb_q_enqueue = result;
-//     end
-// endfunction
 
 
     `include "vsrc/dpi-f.sv"

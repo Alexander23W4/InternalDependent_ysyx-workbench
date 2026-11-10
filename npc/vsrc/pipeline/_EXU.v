@@ -52,8 +52,8 @@ module ysyx_26040135_EXU (
     input in_valid,
     output reg in_ready,
 
-    output reg out_valid_lsu,
-    input out_ready_lsu,
+    output reg out_valid,
+    input out_ready,
 
     output reg is_ls,
     output reg io,
@@ -143,7 +143,7 @@ module ysyx_26040135_EXU (
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            out_valid_lsu <= 1'b0;
+            out_valid <= 1'b0;
             in_ready <= 1'b1;
 
             rd_list <= 32'b0;
@@ -241,7 +241,7 @@ module ysyx_26040135_EXU (
                 exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
             end
 
-            if(out_valid_lsu && !out_ready_lsu) begin
+            if(out_valid && !out_ready) begin
                 exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
             end
 
@@ -251,8 +251,8 @@ module ysyx_26040135_EXU (
 
         // ------------------------------------------
 
-            if(out_ready_lsu && out_valid_lsu) begin
-                out_valid_lsu <= 1'b0;
+            if(out_ready_lsu && out_valid) begin
+                out_valid <= 1'b0;
                 in_ready <= 1'b1;
             end
  
@@ -291,7 +291,7 @@ module ysyx_26040135_EXU (
             if(state == BLOCK) begin
                 // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
                 if(gpr_read_valid && !is_nlwb) begin
-                    out_valid_lsu <= 1'b1;  
+                    out_valid <= 1'b1;  
                 end
             end
 

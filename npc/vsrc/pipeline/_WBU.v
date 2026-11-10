@@ -68,7 +68,7 @@ module ysyx_26040135_WBU(
 
     output reg wbu_blockf,
 
-    // 冲刷 (⭐值得优化, 很少出现的情况, 但是要跨级控制)
+    // 冲刷 (⭐值得优化, 很少出现的情况, 但是要跨级控制)    不需要冲刷了, 变成阻塞
 
     output reg [`WB_Q_LEN-1:0][5:0] wb_q_update,  // -> top
     output flush  // 

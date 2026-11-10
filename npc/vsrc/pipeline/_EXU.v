@@ -452,7 +452,7 @@ module ysyx_26040135_EXU (
         end
         else if(bgeu_save) begin
             new_pc = (rdata1 >= rdata2) ? add_rst_w : pc_next_dft;
-        end
+        end     
 
         // system
         else if(ecall_save) begin    

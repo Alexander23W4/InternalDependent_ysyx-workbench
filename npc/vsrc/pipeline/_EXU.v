@@ -135,6 +135,8 @@ module ysyx_26040135_EXU (
 
             rd_list <= 32'b0;
             rd_amt <= 32'b0;
+            wen_save <= 1'b0;
+            rd_wb_save <= 5'b0;
 
             mstatus <= 32'h00001800;   
             mcause <= 0;
@@ -204,10 +206,10 @@ module ysyx_26040135_EXU (
                 bge_save      <= bge;
                 bltu_save     <= bltu;
                 bgeu_save     <= bgeu;
-                ebreak_save    <= ebreak;
-                ecall_save     <= ecall;
-                mret_save      <= mret;
-                fence_i_save   <= fence_i;
+                ebreak_save   <= ebreak;
+                ecall_save    <= ecall;
+                mret_save     <= mret;
+                fence_i_save  <= fence_i;
                 csrrw_save    <= csrrw;
                 csrrs_save    <= csrrs;
                 csrrc_save    <= csrrc;
@@ -220,6 +222,7 @@ module ysyx_26040135_EXU (
             if(in_ready && !in_valid) begin
                 exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
             end
+
             if(out_valid_lsu && !out_ready_lsu) begin
                 exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
             end
@@ -240,7 +243,7 @@ module ysyx_26040135_EXU (
             end
 
             if(wen) begin
-                wen_save <= wen;
+                wen_save <= 1'b1;
                 rd_wb_save <= rd_wb;
             end
 
@@ -251,8 +254,18 @@ module ysyx_26040135_EXU (
                         rd_amt[rd_save] <= 1'b1;
                     end else begin
                         rd_list[rd_save] <= 1'b1;
+                        rd_list[rd_save] <= 1'b0;
                     end
                 end 
+            end else begin
+                if(wen_save) begin
+                    wen_save <= 1'b0;
+                    if(rd_amt[rd_wb_save]) begin
+                        rd_amt[rd_wb_save] <= 1'b0;
+                    end else begin
+                        rd_list[rd_wb_save] <= 1'b0;
+                    end
+                end
             end
 
             if(state == BLOCK) begin

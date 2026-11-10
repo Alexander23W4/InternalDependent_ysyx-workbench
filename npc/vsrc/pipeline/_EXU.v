@@ -38,7 +38,9 @@ module ysyx_26040135_EXU (
     input lsu_blockf,
     input wbu_blockf,
 
-
+// 用于清除rd_list
+    input wen,
+    input rd_wb,
 
     output reg [31:0] _mstatus, _mtvec, _mepc, _mcause,
     output reg [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
@@ -71,19 +73,18 @@ module ysyx_26040135_EXU (
     output reg [63:0] exu_blcokbl_cyc,
     output reg [63:0] exu_work_cyc,
 
-    output ebreak_end,
-
-// wbu flush 接收    
-    
-
-// -> top, wbu 的 wb_q更新信号
-
-    input [`WB_Q_LEN-1:0][5:0] wb_q,
-    output reg exu_new_wbt,
-    output reg [5:0] exu_new_wbd
-
+    output ebreak_end
 );
 
+    // RAW
+    reg [31:0] rd_list;
+    reg [31:0] rd_amt;
+
+    reg wen_save;
+    reg [4:0] rd_wb_save;
+
+
+    // input存储
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
 
     reg [31:0] pc_save;
@@ -131,6 +132,9 @@ module ysyx_26040135_EXU (
         if(reset) begin
             out_valid_lsu <= 1'b0;
             in_ready <= 1'b1;
+
+            rd_list <= 32'b0;
+            rd_amt <= 32'b0;
 
             mstatus <= 32'h00001800;   
             mcause <= 0;
@@ -235,8 +239,24 @@ module ysyx_26040135_EXU (
                 in_ready <= 1'b1;
             end
 
+            if(wen) begin
+                wen_save <= wen;
+                rd_wb_save <= rd_wb;
+            end
+
+            if(state == EX) begin
+                // 需要wb的instr  
+                if(!is_nlwb && !write) begin
+                    if(rd_list[rd_save]) begin // 已经有没有完成的同一个rd了
+                        rd_amt[rd_save] <= 1'b1;
+                    end else begin
+                        rd_list[rd_save] <= 1'b1;
+                    end
+                end 
+            end
+
             if(state == BLOCK) begin
-                // ⭐: 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
+                // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
                 if(!gpr_read_invalid && !is_nlwb) begin
                     out_valid_lsu <= 1'b1;  
                 end
@@ -308,11 +328,6 @@ module ysyx_26040135_EXU (
             EX: begin   // 这时候取到的读取值才是正确的, 在这个周期进行正常的EX操作
                 if(new_pc != pc_next_dft) begin
                     flush = 1'b1;
-                end
-                // 需要wb的instr
-                if(!is_nlwb && !write) begin
-                    exu_new_wbt = 1'b1;
-                    exu_new_wbd = {{read}, rd_save};
                 end
                 next = IDLE;
             end

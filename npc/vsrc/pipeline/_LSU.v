@@ -27,7 +27,7 @@ module ysyx_26040135_AXI_LSU (
     input clock,
     input reset,
 
-    input is_ls,   // ⭐: 如果是ls, 则进入AW/AR, 如果不是则直接到WBU
+    input is_ls,   // 如果是ls, 则进入AW/AR, 如果不是则直接到WBU
     input io,
     input [1:0] io_type,
     input read_is_u,

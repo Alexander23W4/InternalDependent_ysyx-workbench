@@ -537,48 +537,49 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 */
 
 // 应对数字冒险的寄存器io前后依赖记录
-    always @(posedge clock or posedge reset) begin
-        if(reset) begin
-            wb_q <= 0;
-        end else begin
-            if(wen) begin
-                wb_q <= wb_q_update;
-            end else begin
-                if(exu_new_wbt) begin
-                    wb_q <= wb_q_enqueue(exu_new_wbd, wb_q);
-                end
-            end
-        end
-    end
+    // always @(posedge clock or posedge reset) begin
+    //     if(reset) begin
+    //         wb_q <= 0;
+    //     end else begin
+    //         if(wen) begin
+    //             wb_q <= wb_q_update;
+    //         end else begin
+    //             if(exu_new_wbt) begin
+    //                 wb_q <= wb_q_enqueue(exu_new_wbd, wb_q);
+    //             end
+    //         end
+    //     end
+    // end
+
+
+
+// function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
+//     input [5:0] new_data;
+//     input [`WB_Q_LEN*6-1:0] queue;
+
+//     reg [`WB_Q_LEN*6-1:0] result;
+//     reg found;
+//     integer i;
+
+//     begin
+//         result = queue;
+//         found = 1'b0;
+
+//         for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
+//             if (!found && (queue[i] == 6'b0)) begin
+//                 result[i*6 +: 6] = new_data;
+//                 found = 1'b1;
+//             end
+//         end
+
+//         wb_q_enqueue = result;
+//     end
+// endfunction
 
 
     `include "vsrc/dpi-f.sv"
 
 endmodule
-
-
-function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
-    input [5:0] new_data;
-    input [`WB_Q_LEN*6-1:0] queue;
-
-    reg [`WB_Q_LEN*6-1:0] result;
-    reg found;
-    integer i;
-
-    begin
-        result = queue;
-        found = 1'b0;
-
-        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
-            if (!found && (queue[i] == 6'b0)) begin
-                result[i*6 +: 6] = new_data;
-                found = 1'b1;
-            end
-        end
-
-        wb_q_enqueue = result;
-    end
-endfunction
 
 /* verilator lint_off UNUSEDSIGNAL */
 

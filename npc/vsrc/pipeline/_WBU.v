@@ -49,9 +49,6 @@ module ysyx_26040135_WBU(
     input [4:0] rd,
     input [31:0] wdata,
 
-    input [`WB_Q_LEN-1:0][5:0] wb_q,   // top
-    input exu_new_wbt,    // exu has new wb task
-    input [5:0] exu_new_wbd,   // exu new wb data
 
     output reg wen,   
     output reg [31:0] wdata_wb,
@@ -117,84 +114,14 @@ module ysyx_26040135_WBU(
                     next = WB;
                 end
             end
-            WB: begin    // 这里操作 wb_q_update的时候, 直接接受来自exu的信号
-                         // exu有rd要写入时, 判断信号wen, 如果wen就交给wbu来操作, !wen就交给TOP来处理, 总之依然是TOP控制wb_q
+            WB: begin    
                 wen = 1'b1;
-                {flush, wb_q_update} = new_wb_q(wb_q, wb_type, exu_new_wbt, exu_new_wbd);    // TOP根据wen信号来更新wb
                 next = IDLE;
             end
         endcase
     end
 
 
-
-function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
-    input [5:0] new_data;
-    input [`WB_Q_LEN*6-1:0] queue;
-
-    reg [`WB_Q_LEN*6-1:0] result;
-    reg found;
-    integer i;
-
-    begin
-        result = queue;
-        found = 1'b0;
-
-        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
-            if (!found && (queue[i] == 6'b0)) begin
-                result[i*6 +: 6] = new_data;
-                found = 1'b1;
-            end
-        end
-
-        wb_q_enqueue = result;
-    end
-endfunction
-
-
-// 遍历wb_q, 将这个rd之前的所有相同rd的待wb记录都删掉
-function automatic [`WB_Q_LEN*6:0] new_wb_q;   // [24] flush  [`WB_Q_LEN*6-1:0] new_wq
-    input [`WB_Q_LEN-1:0][5:0] wb_q;
-    input wb_type;
-    input exu_new_wbt;
-    input [5:0] exu_new_wbd;
-
-    reg found_target;
-    reg [`WB_Q_LEN*6-1:0] result;
-    reg flush;
-
-    begin
-        found_target = 1'b0;
-        result = 0;
-        flush = 1'b0;
-
-        for (int i = 0; i < `WB_Q_LEN; i++) begin
-
-            if(wb_q[i][4:0] != rd) begin    // 不同rd, 无论如何照常写入
-                result = wb_q_enqueue(result, wb_q[i]);
-
-            end else begin   // 相同rd
-                if(!found_target) begin
-                    if(wb_q[i][5] == wb_type) begin  // 找到第一个对应的作为目标
-                        found_target = 1'b1;        
-
-                    end else begin        // 不是目标, 但是是同一个rd
-                        flush = 1'b1;
-                    end
-                end else begin
-                    result = wb_q_enqueue(result, wb_q[i]);
-                end
-            end
-        end
-
-        if(exu_new_wbt) begin
-            result = wb_q_enqueue(result, exu_new_wbd);
-        end
-
-        new_wb_q = {flush, result};
-    end
-
-endfunction
 
 endmodule
 

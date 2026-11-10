@@ -12,9 +12,9 @@ module ysyx_26040135_IDU(
 
     output out_valid,
     input out_ready,
-
     output reg [31:0] out_pc,
     
+
 // opcodes  
 // === Arithmetic & Logical (Integer Register-Immediate Instructions) ===
     output reg addi,

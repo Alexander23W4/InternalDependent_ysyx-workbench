@@ -84,7 +84,7 @@ module dut_top(
         .bus_awburst(ifu_awburst),
         .bus_awvalid(ifu_awvalid),
         .bus_awready(ifu_awready),
-        .bus_wdata(ifu_wdata),
+        .bus_wdata(ifu_wdata), 
         .bus_wstrb(ifu_wstrb),
         .bus_wlast(ifu_wlast),
         .bus_wvalid(ifu_wvalid),

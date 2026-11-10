@@ -113,8 +113,8 @@ module ysyx_26040135_EXU (
     reg csrrw_save, csrrs_save, csrrc_save;
 
     reg [4:0] rd_save;
-    reg [31:0] rs1_save;
-    reg [31:0] rs2_save;
+    reg [4:0] rs1_save;
+    reg [4:0] rs2_save;
     reg [31:0] csr_rst_save;
 
     reg [31:0] csrw_rst;
@@ -253,13 +253,15 @@ module ysyx_26040135_EXU (
             end
 
             if(wen) begin
-                wen_save <= 1'b1;
-                rd_wb_save <= rd_wb;
+                if(|rd_wb) begin // 不是0
+                    wen_save <= 1'b1;
+                    rd_wb_save <= rd_wb;
+                end
             end
 
             if(state == EX) begin
                 // 需要wb的instr  
-                if(!is_nlwb && !write) begin
+                if(!is_nlwb && !write && (|rd_save)) begin  // 不是0
                     if(rd_list[rd_save]) begin // 已经有没有完成的同一个rd了
                         rd_amt[rd_save] <= 1'b1;
                     end else begin
@@ -287,26 +289,26 @@ module ysyx_26040135_EXU (
 
             if(csrrw_save && state == EX) begin
                 case(imm_save)  // case CSR addr
-                    32'h00000300: mstatus <= rdata1;
-                    32'h00000305: mtvec <= rdata1;
-                    32'h00000341: mepc <= rdata1;
-                    32'h00000342: mcause <= rdata1;
+                    32'h00000300: mstatus <= rdata1_ul;
+                    32'h00000305: mtvec <= rdata1_ul;
+                    32'h00000341: mepc <= rdata1_ul;
+                    32'h00000342: mcause <= rdata1_ul;
                 endcase
             end
             else if (|{{5{csrrs_save}} & rs1_save} && state == EX) begin
                 case(imm_save) 
-                    32'h00000300: mstatus <= rdata1 | csr_rst_save;
-                    32'h00000305: mtvec <= rdata1 | csr_rst_save;
-                    32'h00000341: mepc <= rdata1 | csr_rst_save;
-                    32'h00000342: mcause <= rdata1 | csr_rst_save;
+                    32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
+                    32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
+                    32'h00000341: mepc <= rdata1_ul | csr_rst_save;
+                    32'h00000342: mcause <= rdata1_ul | csr_rst_save;
                 endcase
             end
             else if (|{{5{csrrc_save}} & rs1_save} && state == EX) begin
                 case(imm_save) 
-                    32'h00000300: mstatus <= csr_rst_save & (~rdata1);
-                    32'h00000305: mtvec <= csr_rst_save & (~rdata1);
-                    32'h00000341: mepc <= csr_rst_save & (~rdata1);
-                    32'h00000342: mcause <= csr_rst_save & (~rdata1);
+                    32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
+                    32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
+                    32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
+                    32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
                 endcase
             end
 
@@ -314,7 +316,24 @@ module ysyx_26040135_EXU (
                 mepc <= pc_save;
                 mcause <= 32'h0000000b;
             end
-            
+
+            if(state == BLOCK && i_type && !gpr_read_valid) begin
+                if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
+                    if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                        bypass_data <= bypass_wdata_lsu;
+                        bypass_active <= 1'b1;
+                    end 
+                end else begin  // 一个的情况
+                    if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                        bypass_data <= bypass_wdata_lsu;
+                        bypass_active <= 1'b1;
+                    end 
+                    else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
+                        bypass_data <= bypass_wdata_wbu;
+                        bypass_active <= 1'b1;
+                    end
+                end
+            end
         end
     end
 
@@ -338,16 +357,35 @@ module ysyx_26040135_EXU (
                     end
                 end
             end
+
             WAIT_END: begin
                 if(lsu_blockf && wbu_blockf) begin   // 直到LSU和WBU的工作都完成, 才拉高一周期ebreak_end, 让仿真环境结束
                     ebreak_end = 1'b1;
                 end
             end
+
             BLOCK: begin   
-                if(gpr_read_valid) begin
+                if(gpr_read_valid) begin  // 没有RAW
                     next = EX;
+                end 
+                else begin  // 出现RAW, 看看能不能接受lsu或者wbu的bypass数据    这里暂时只处理i_type, 因为他只专注于rs1, 对关键时钟路径影响小
+                    if(i_type) begin   // 只要rs1 (i-type)
+                        if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
+                            if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                                next = EX;
+                            end 
+                        end else begin  // 一个的情况
+                            if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                                next = EX;
+                            end 
+                            else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
+                                next = EX;
+                            end
+                        end
+                    end
                 end
             end
+
             EX: begin   // 这时候取到的读取值才是正确的, 在这个周期进行正常的EX操作
                 if(new_pc != pc_next_dft) begin
                     flush = 1'b1;
@@ -378,34 +416,36 @@ module ysyx_26040135_EXU (
 
     // ------------------------ EX阶段的组合计算逻辑(EX)
 
+    wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;
+
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;
 
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
-    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1;
+    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_ul;
     wire [31:0] add2 = add_save ? rdata2 : imm_save;  
     wire [31:0] add_rst_w = add1 + add2;
-    wire [31:0] sub_rst  = rdata1 - rdata2;
-    wire [31:0] xor_rst  = rdata1 ^ rdata2;
-    wire [31:0] xori_rst = rdata1 ^ imm_save;
-    wire [31:0] or_rst   = rdata1 | rdata2;
-    wire [31:0] ori_rst  = rdata1 | imm_save;
-    wire [31:0] and_rst  = rdata1 & rdata2;
-    wire [31:0] andi_rst = rdata1 & imm_save;
+    wire [31:0] sub_rst  = rdata1_ul - rdata2;
+    wire [31:0] xor_rst  = rdata1_ul ^ rdata2;
+    wire [31:0] xori_rst = rdata1_ul ^ imm_save;
+    wire [31:0] or_rst   = rdata1_ul | rdata2;
+    wire [31:0] ori_rst  = rdata1_ul | imm_save;
+    wire [31:0] and_rst  = rdata1_ul & rdata2;
+    wire [31:0] andi_rst = rdata1_ul & imm_save;
 
-    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1) < $signed(rdata2))};
-    wire [31:0] sltu_rst  = {31'b0, (rdata1 < rdata2)};
-    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1) < $signed(imm_save))};
-    wire [31:0] sltiu_rst = {31'b0, (rdata1 < imm_save)};
+    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1_ul) < $signed(rdata2))};
+    wire [31:0] sltu_rst  = {31'b0, (rdata1_ul < rdata2)};
+    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1_ul) < $signed(imm_save))};
+    wire [31:0] sltiu_rst = {31'b0, (rdata1_ul < imm_save)};
 
 
-    wire [31:0] sll_rst   = rdata1 << shamt_r;
-    wire [31:0] slli_rst  = rdata1 << shamt_i;
-    wire [31:0] srl_rst   = rdata1 >> shamt_r;
-    wire [31:0] srli_rst  = rdata1 >> shamt_i;
-    wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
-    wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
+    wire [31:0] sll_rst   = rdata1_ul << shamt_r;
+    wire [31:0] slli_rst  = rdata1_ul << shamt_i;
+    wire [31:0] srl_rst   = rdata1_ul >> shamt_r;
+    wire [31:0] srli_rst  = rdata1_ul >> shamt_i;
+    wire [31:0] sra_rst   = $signed(rdata1_ul) >>> shamt_r;
+    wire [31:0] srai_rst  = $signed(rdata1_ul) >>> shamt_i;
     
     always @(*) begin
         if (lw_save || sw_save) begin
@@ -472,22 +512,22 @@ module ysyx_26040135_EXU (
             new_pc = add_rst_w;
         end
         else if(blt_save) begin
-            new_pc = ($signed(rdata1) < $signed(rdata2)) ? add_rst_w : pc_next_dft;
+            new_pc = ($signed(rdata1_ul) < $signed(rdata2)) ? add_rst_w : pc_next_dft;
         end
         else if(beq_save) begin
-            new_pc = (rdata1 == rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul == rdata2) ? add_rst_w : pc_next_dft;
         end
         else if(bne_save) begin
-            new_pc = (rdata1 != rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul != rdata2) ? add_rst_w : pc_next_dft;
         end
         else if(bge_save) begin
-            new_pc = ($signed(rdata1) >= $signed(rdata2)) ? add_rst_w : pc_next_dft;
+            new_pc = ($signed(rdata1_ul) >= $signed(rdata2)) ? add_rst_w : pc_next_dft;
         end
         else if(bltu_save) begin
-            new_pc = (rdata1 < rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul < rdata2) ? add_rst_w : pc_next_dft;
         end
         else if(bgeu_save) begin
-            new_pc = (rdata1 >= rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul >= rdata2) ? add_rst_w : pc_next_dft;
         end
 
         // system

@@ -2,7 +2,9 @@
 设计:
 提前做imm位扩展 & 提前做rs1和rs2的读取
 
+在IDU进行RAW阻塞并且读取rdata2, 如果有bypass数据可以用, 则直接发送bypass的数据代替rdata2
 */
+
 /* verilator lint_on UNUSEDSIGNAL */
 module ysyx_26040135_IDU(
     input [31:0] in_pc,

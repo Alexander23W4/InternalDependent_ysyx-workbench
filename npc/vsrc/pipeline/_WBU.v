@@ -35,7 +35,7 @@ WBW阻塞方案:
 这个时候top维护一个32*3的数组, 第一行表示
 */
 
-`ifndef WB_Q_LEN
+`ifndef WB_Q_LEN 
 `define WB_Q_LEN 3
 `endif
 
@@ -53,24 +53,18 @@ module ysyx_26040135_WBU(
     input exu_new_wbt,    // exu has new wb task
     input [5:0] exu_new_wbd,   // exu new wb data
 
-    output reg wen,   // -> top 
+    output reg wen,   
     output reg [31:0] wdata_wb,
     output reg [4:0] rd_wb,
 
     output reg [63:0] wbu_blockf_cyc,
     output reg [63:0] wbu_work_cyc,
-
     output reg wbu_blockf,
 
-    // 冲刷 (⭐值得优化, 很少出现的情况, 但是要跨级控制)    不需要冲刷了, 变成阻塞
 
-    output reg [`WB_Q_LEN-1:0][5:0] wb_q_update,  // -> top
+    output reg [`WB_Q_LEN-1:0][5:0] wb_q_update,  
 );
-// 两个同时来, 先处理l
 
-    reg in_ready;
-    assign in_ready_exu = in_ready;
-    assign in_ready_lsu = in_ready;
 
 // state: IDLE  WB
     localparam IDLE = 1'b0, WB = 1'b1;

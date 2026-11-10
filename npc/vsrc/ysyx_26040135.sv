@@ -90,14 +90,23 @@ CPI(P)
 */
 
 /*
+先明确流片的面积和时序要求
+做出来npc的可留片版本, 看懂面积, 时序, 最长路径(C)
+改WBW, 完成初始版本的形式化验证
+
 优化:
 
-pipeline: 
-lsu支持 sw 并行
-将内存读口x2, 支持lsu和ifu同时读取
-解决WBW, 将wbu算法改成阻塞
+⭐ pipeline: 
+lsu支持 sw 并行 (SS)
+将内存读口x2, 支持lsu和ifu同时读取 (SS)
+解决WBW, 将wbu算法改成简单阻塞, 不要列可能性. 或者尝试开发 register renaming  (DHS)
+分支预测算法 (CS)
+
+⭐ Cache:
 cache的优化, 替换算法, block, set-associative, 大小
 
+⭐ C:
+最后优化时钟周期
 */
 
 `ifndef WB_Q_LEN

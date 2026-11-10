@@ -55,7 +55,7 @@ module ysyx_26040135_EXU (
     output reg out_valid,
     input out_ready,
 
-    output reg is_ls,
+    output is_ls,
     output reg io,
     output reg [1:0] io_type,
     output reg read_is_u,
@@ -164,7 +164,6 @@ module ysyx_26040135_EXU (
 
             exu_blockf_cyc <= 0;
             exu_blcokbl_cyc <= 0;
-            exu_blcokbw_cyc <= 0;
             exu_work_cyc <= 0;
 
             state <= IDLE;
@@ -251,7 +250,7 @@ module ysyx_26040135_EXU (
 
         // ------------------------------------------
 
-            if(out_ready_lsu && out_valid) begin
+            if(out_ready && out_valid) begin
                 out_valid <= 1'b0;
                 in_ready <= 1'b1;
             end
@@ -350,8 +349,6 @@ module ysyx_26040135_EXU (
         ebreak_end = 1'b0;
         flush = 1'b0;
         _new_instr = 1'b0;
-        exu_new_wbt = 1'b0;
-        exu_new_wbd = 6'd0;
         
         case (state)
             IDLE: begin
@@ -406,7 +403,7 @@ module ysyx_26040135_EXU (
     // ------------------------ 控制RAW阻塞的相关信号  
     wire read = lw_save | lh_save | lb_save | lbu_save | lhu_save;
     wire write = sw_save | sh_save | sb_save;
-    wire is_ls = read | write;
+    assign is_ls = read | write;
     wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
 
     wire nrs = jal_save | jalr_save | lui_save;  // 这几个不需要读取, 没有gpr依赖问题

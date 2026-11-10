@@ -11,7 +11,7 @@ module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     output [DATA_WIDTH-1:0] rdata1,  
     output [DATA_WIDTH-1:0] rdata2,
 
-    output [(DATA_WIDTH * (2**ADDR_WIDTH)) - 1 : 0] dbg_regs,
+    output [(DATA_WIDTH * (2**ADDR_WIDTH)) - 1 : 0] dbg_regs
 );
 
     reg [DATA_WIDTH-1:0] gpr [2**ADDR_WIDTH-1:0];

@@ -4,7 +4,7 @@ module ysyx_26040135_WBU(
     input reset, 
 
     input in_valid,
-    output in_ready,
+    output reg in_ready,
 
     input [4:0] rd,
     input [31:0] wdata,
@@ -16,7 +16,7 @@ module ysyx_26040135_WBU(
 
     output reg [63:0] wbu_blockf_cyc,
     output reg [63:0] wbu_work_cyc,
-    output reg wbu_blockf,
+    output reg wbu_blockf
 
 );
 
@@ -64,7 +64,6 @@ module ysyx_26040135_WBU(
         
         next = state;
         wen = 1'b0;
-        wb_q_update = 0;
 
         case (state)
             IDLE: begin

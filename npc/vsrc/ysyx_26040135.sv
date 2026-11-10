@@ -90,9 +90,14 @@ CPI(P)
 */
 
 /*
+优化:
+
+pipeline: 
 lsu支持 sw 并行
-cache的替换算法优化
-exu双路流水线握手, e.g.不必因为lsu没有接收数据而阻塞, 如果in_valid, 我可以先收下来, 如果下一条是不用走lsu的, 那可以直接操作掉, wbu的走wbu的流水线握手, 不用等lsu的ready信号
+将内存读口x2, 支持lsu和ifu同时读取
+解决WBW, 将wbu算法改成阻塞
+cache的优化, 替换算法, block, set-associative, 大小
+
 */
 
 `ifndef WB_Q_LEN

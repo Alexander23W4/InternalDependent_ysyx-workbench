@@ -128,6 +128,7 @@ module formal_top(
     // dut_top 的输出
     wire             d_new_instr;
     wire [31:0]      d_pc;
+    wire [31:0]      d_idu_pc;
     wire [32*32-1:0] d_dbg_reg;
     wire [31:0]      d_pc_i;
     wire is_ls_C;
@@ -145,6 +146,7 @@ module formal_top(
         .ram(imem),          // 8 个 32bit 字 = 32 个 byte, 都是 256bit, 位序一致
         ._new_instr(d_new_instr),
         ._pc(d_pc),
+        ._idu_pc(d_idu_pc),
         .dbg_reg(d_dbg_reg),
         ._pc_i(d_pc_i),
         .is_ls_C(is_ls_C),
@@ -172,7 +174,7 @@ module formal_top(
             clk_en <= 1'b0;
         end else begin
             if(d_new_instr) begin   
-                assert(d_pc == r_pc);
+                assert(d_idu_pc == r_pc);   // 即时比较
                 clk_en <= 1'b1;   // 收到new_instr之后驱动一个周期
             end
             if(clk_en && !d_new_instr) begin

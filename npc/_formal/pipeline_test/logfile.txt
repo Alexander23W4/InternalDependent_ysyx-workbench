@@ -1,0 +1,35 @@
+SBY 14:37:23 [pipeline_test] Removing directory '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/xbar.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/xbar.sv'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/axi_ram.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/axi_ram.sv'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IFU.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IFU.sv'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IDU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IDU.v'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_EXU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_EXU.v'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_LSU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_LSU.v'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_WBU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_WBU.v'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_dbg_register.v'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_top.sv'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/ref_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/ref_top.sv'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/decode.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/decode.v'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/register.v'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dbg_register.v'.
+SBY 14:37:23 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/formal_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/formal_top.sv'.
+SBY 14:37:23 [pipeline_test] engine_0: smtbmc yices
+SBY 14:37:23 [pipeline_test] base: starting process "cd pipeline_test/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 14:37:23 [pipeline_test] base: Warning: wire '\sw_avail' is assigned in a block at _LSU.v:247.9-247.24.
+SBY 14:37:23 [pipeline_test] base: Warning: wire '\sw_avail' is assigned in a block at _LSU.v:299.21-299.36.
+SBY 14:37:23 [pipeline_test] base: Warning: Replacing memory \gpr with list of registers. See dut_dbg_register.v:25
+SBY 14:37:23 [pipeline_test] base: Warning: wire '\ebreak_end' is assigned in a block at _EXU.v:349.9-349.26.
+SBY 14:37:23 [pipeline_test] base: Warning: wire '\ebreak_end' is assigned in a block at _EXU.v:368.21-368.38.
+SBY 14:37:23 [pipeline_test] base: Warning: wire '\_pc' is assigned in a block at _EXU.v:486.9-486.22.
+SBY 14:37:23 [pipeline_test] base: Warning: wire '\_instr' is assigned in a block at _EXU.v:487.9-487.28.
+SBY 14:37:23 [pipeline_test] base: Warning: Async reset value `{ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }' is not constant!
+SBY 14:37:24 [pipeline_test] base: finished (returncode=0)
+SBY 14:37:24 [pipeline_test] prep: starting process "cd pipeline_test/model; yosys -ql design_prep.log design_prep.ys"
+SBY 14:37:24 [pipeline_test] prep: ERROR: $check cell _witness_.check_assert_formal_top_sv_177_89 with TRG_WIDTH > 1 is not support by async2sync, use clk2fflogic.
+SBY 14:37:24 [pipeline_test] prep: finished (returncode=1)
+SBY 14:37:24 [pipeline_test] prep: task failed. ERROR.
+SBY 14:37:24 [pipeline_test] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:01 (1)
+SBY 14:37:24 [pipeline_test] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:01 (1)
+SBY 14:37:24 [pipeline_test] summary: engine_0 (smtbmc yices) did not return a status
+SBY 14:37:24 [pipeline_test] summary: engine_0 did not produce any traces
+SBY 14:37:24 [pipeline_test] DONE (ERROR, rc=16)

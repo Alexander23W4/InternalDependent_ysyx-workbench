@@ -1,0 +1,68 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+
+-- Executing script file `design_prep.ys' --
+
+1. Executing RTLIL frontend.
+Input filename: design.il
+
+2. Executing SCC pass (detecting logic loops).
+Found 0 SCCs in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.
+Found 0 SCCs in module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.
+Found 0 SCCs in module decode.
+Found 0 SCCs in module dut_top.
+Found 0 SCCs in module formal_top.
+Found 0 SCCs in module ref_top.
+Found 0 SCCs in module ysyx_26040135_AXI4_Xbar.
+Found 0 SCCs in module ysyx_26040135_AXI_IFU.
+Found 0 SCCs in module ysyx_26040135_AXI_LSU.
+Found 0 SCCs in module ysyx_26040135_AXI_RAM.
+Found 0 SCCs in module ysyx_26040135_EXU.
+Found 0 SCCs in module ysyx_26040135_IDU.
+Found 0 SCCs in module ysyx_26040135_WBU.
+Found 0 SCCs.
+
+3. Executing SIMPLEMAP pass (map simple cells to gate primitives).
+
+4. Executing MEMORY_NORDFF pass (extracting $dff cells from memories).
+
+5. Executing ASYNC2SYNC pass.
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7447 ($adff): ARST=\reset, D=$0\gpr[0][31:0], Q=\gpr[0]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7450 ($adff): ARST=\reset, D=$0\gpr[1][31:0], Q=\gpr[1]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7453 ($adff): ARST=\reset, D=$0\gpr[2][31:0], Q=\gpr[2]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7456 ($adff): ARST=\reset, D=$0\gpr[3][31:0], Q=\gpr[3]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7459 ($adff): ARST=\reset, D=$0\gpr[4][31:0], Q=\gpr[4]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7462 ($adff): ARST=\reset, D=$0\gpr[5][31:0], Q=\gpr[5]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7465 ($adff): ARST=\reset, D=$0\gpr[6][31:0], Q=\gpr[6]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7468 ($adff): ARST=\reset, D=$0\gpr[7][31:0], Q=\gpr[7]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7471 ($adff): ARST=\reset, D=$0\gpr[8][31:0], Q=\gpr[8]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7474 ($adff): ARST=\reset, D=$0\gpr[9][31:0], Q=\gpr[9]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7477 ($adff): ARST=\reset, D=$0\gpr[10][31:0], Q=\gpr[10]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7480 ($adff): ARST=\reset, D=$0\gpr[11][31:0], Q=\gpr[11]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7483 ($adff): ARST=\reset, D=$0\gpr[12][31:0], Q=\gpr[12]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7486 ($adff): ARST=\reset, D=$0\gpr[13][31:0], Q=\gpr[13]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7489 ($adff): ARST=\reset, D=$0\gpr[14][31:0], Q=\gpr[14]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7492 ($adff): ARST=\reset, D=$0\gpr[15][31:0], Q=\gpr[15]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7495 ($adff): ARST=\reset, D=$0\gpr[16][31:0], Q=\gpr[16]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7498 ($adff): ARST=\reset, D=$0\gpr[17][31:0], Q=\gpr[17]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7501 ($adff): ARST=\reset, D=$0\gpr[18][31:0], Q=\gpr[18]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7504 ($adff): ARST=\reset, D=$0\gpr[19][31:0], Q=\gpr[19]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7507 ($adff): ARST=\reset, D=$0\gpr[20][31:0], Q=\gpr[20]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7510 ($adff): ARST=\reset, D=$0\gpr[21][31:0], Q=\gpr[21]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7513 ($adff): ARST=\reset, D=$0\gpr[22][31:0], Q=\gpr[22]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7516 ($adff): ARST=\reset, D=$0\gpr[23][31:0], Q=\gpr[23]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7519 ($adff): ARST=\reset, D=$0\gpr[24][31:0], Q=\gpr[24]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7522 ($adff): ARST=\reset, D=$0\gpr[25][31:0], Q=\gpr[25]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7525 ($adff): ARST=\reset, D=$0\gpr[26][31:0], Q=\gpr[26]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7528 ($adff): ARST=\reset, D=$0\gpr[27][31:0], Q=\gpr[27]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7531 ($adff): ARST=\reset, D=$0\gpr[28][31:0], Q=\gpr[28]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7534 ($adff): ARST=\reset, D=$0\gpr[29][31:0], Q=\gpr[29]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7537 ($adff): ARST=\reset, D=$0\gpr[30][31:0], Q=\gpr[30]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$7540 ($adff): ARST=\reset, D=$0\gpr[31][31:0], Q=\gpr[31]
+Replacing formal_top.$procdff$7746 ($adff): ARST=\reset, D=$0\clk_en[0:0], Q=\clk_en
+ERROR: $check cell _witness_.check_assert_formal_top_sv_177_89 with TRG_WIDTH > 1 is not support by async2sync, use clk2fflogic.

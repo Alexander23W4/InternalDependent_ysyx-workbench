@@ -121,12 +121,12 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      206 wires
-     3501 wire bits
-      206 public wires
-     3501 public wire bits
-       12 ports
-     1446 port bits
+      207 wires
+     3502 wire bits
+      207 public wires
+     3502 public wire bits
+       13 ports
+     1447 port bits
         8 submodules
         1   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
         1   ysyx_26040135_AXI4_Xbar
@@ -141,15 +141,15 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      569 wires
-     4624 wire bits
-       78 public wires
-     4127 public wire bits
+      574 wires
+     4629 wire bits
+       82 public wires
+     4131 public wire bits
         3 ports
       258 port bits
-      563 cells
+      566 cells
        17   $add
-        2   $anyinit
+        3   $anyinit
        16   $anyseq
         1   $assert
        35   $assume
@@ -161,7 +161,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
        23   $logic_not
       112   $logic_or
        16   $lt
-       40   $mux
+       42   $mux
         1   $ne
         3   $not
        24   $pmux
@@ -174,12 +174,12 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      433 wires
-    23490 wire bits
-      126 public wires
-     4391 public wire bits
-       18 ports
-     1638 port bits
+      434 wires
+    23491 wire bits
+      127 public wires
+     4392 public wire bits
+       19 ports
+     1639 port bits
       365 cells
         9   $add
        41   $and
@@ -391,7 +391,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     2721 formal_top
+     2724 formal_top
       264   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        31   ysyx_26040135_AXI4_Xbar
       108   ysyx_26040135_AXI_IFU
@@ -406,19 +406,19 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     3314 wires
-    98371 wire bits
-     1252 public wires
-    31286 public wire bits
-      486 ports
-     9346 port bits
+     3321 wires
+    98378 wire bits
+     1258 public wires
+    31292 public wire bits
+      488 ports
+     9348 port bits
         - memories
         - memory bits
         - processes
-     2721 cells
+     2724 cells
        49   $add
        85   $and
-      186   $anyinit
+      187   $anyinit
        59   $anyseq
         2   $assert
        44   $assume
@@ -430,7 +430,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
        52   $logic_not
       120   $logic_or
        28   $lt
-     1074   $mux
+     1076   $mux
         4   $ne
        14   $neg
        31   $not
@@ -468,6 +468,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: 22bb346b74, time: 0.13s, user: 0.13s, system: 0.01s, MEM: 28.04 MB peak
+End of script. Logfile hash: eb36e4716a, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 28.05 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 89% 2x write_smt2 (0 sec), 7% 2x read_rtlil (0 sec), ...
+Time spent: 89% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...

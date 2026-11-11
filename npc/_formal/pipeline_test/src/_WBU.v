@@ -17,7 +17,6 @@ module ysyx_26040135_WBU(
     output reg [63:0] wbu_blockf_cyc,
     output reg [63:0] wbu_work_cyc,
     output reg wbu_blockf
-
 );
 
 
@@ -51,7 +50,6 @@ module ysyx_26040135_WBU(
             end else begin
                 wbu_blockf <= 1'b0;
             end
-
             
             if(state == WB) begin
                 wbu_work_cyc <= wbu_work_cyc + 64'b1;

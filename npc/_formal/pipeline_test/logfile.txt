@@ -1,76 +1,41 @@
-SBY 18:11:29 [pipeline_test] Removing directory '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/xbar.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/xbar.sv'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/axi_ram.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/axi_ram.sv'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IFU.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IFU.sv'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IDU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IDU.v'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_EXU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_EXU.v'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_LSU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_LSU.v'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_WBU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_WBU.v'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_dbg_register.v'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_top.sv'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/ref_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/ref_top.sv'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/decode.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/decode.v'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/register.v'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dbg_register.v'.
-SBY 18:11:29 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/formal_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/formal_top.sv'.
-SBY 18:11:29 [pipeline_test] engine_0: smtbmc yices
-SBY 18:11:29 [pipeline_test] base: starting process "cd pipeline_test/src; yosys -ql ../model/design.log ../model/design.ys"
-SBY 18:11:29 [pipeline_test] base: Warning: Replacing memory \gpr with list of registers. See dut_dbg_register.v:25
-SBY 18:11:29 [pipeline_test] base: Warning: Replacing memory \gpr with list of registers. See dbg_register.v:25
-SBY 18:11:29 [pipeline_test] base: Warning: Async reset value `{ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }' is not constant!
-SBY 18:11:30 [pipeline_test] base: finished (returncode=0)
-SBY 18:11:30 [pipeline_test] prep: starting process "cd pipeline_test/model; yosys -ql design_prep.log design_prep.ys"
-SBY 18:11:31 [pipeline_test] prep: finished (returncode=0)
-SBY 18:11:31 [pipeline_test] smt2: starting process "cd pipeline_test/model; yosys -ql design_smt2.log design_smt2.ys"
-SBY 18:11:31 [pipeline_test] smt2: finished (returncode=0)
-SBY 18:11:31 [pipeline_test] engine_0: starting process "cd pipeline_test; yosys-smtbmc -s yices --presat --unroll --noprogress -t 20  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
-SBY 18:11:31 [pipeline_test] engine_0: ##   0:00:00  Solver: yices
-SBY 18:11:32 [pipeline_test] engine_0: ##   0:00:00  Checking assumptions in step 0..
-SBY 18:11:32 [pipeline_test] engine_0: ##   0:00:00  Checking assertions in step 0..
-SBY 18:11:32 [pipeline_test] engine_0: ##   0:00:01  Checking assumptions in step 1..
-SBY 18:11:32 [pipeline_test] engine_0: ##   0:00:01  Checking assertions in step 1..
-SBY 18:11:33 [pipeline_test] engine_0: ##   0:00:02  Checking assumptions in step 2..
-SBY 18:11:33 [pipeline_test] engine_0: ##   0:00:02  Checking assertions in step 2..
-SBY 18:11:34 [pipeline_test] engine_0: ##   0:00:03  Checking assumptions in step 3..
-SBY 18:11:34 [pipeline_test] engine_0: ##   0:00:03  Checking assertions in step 3..
-SBY 18:11:35 [pipeline_test] engine_0: ##   0:00:03  Checking assumptions in step 4..
-SBY 18:11:35 [pipeline_test] engine_0: ##   0:00:04  Checking assertions in step 4..
-SBY 18:11:36 [pipeline_test] engine_0: ##   0:00:04  Checking assumptions in step 5..
-SBY 18:11:36 [pipeline_test] engine_0: ##   0:00:05  Checking assertions in step 5..
-SBY 18:11:37 [pipeline_test] engine_0: ##   0:00:05  Checking assumptions in step 6..
-SBY 18:11:37 [pipeline_test] engine_0: ##   0:00:05  Checking assertions in step 6..
-SBY 18:11:38 [pipeline_test] engine_0: ##   0:00:06  Checking assumptions in step 7..
-SBY 18:11:38 [pipeline_test] engine_0: ##   0:00:07  Checking assertions in step 7..
-SBY 18:11:39 [pipeline_test] engine_0: ##   0:00:07  Checking assumptions in step 8..
-SBY 18:11:39 [pipeline_test] engine_0: ##   0:00:08  Checking assertions in step 8..
-SBY 18:11:40 [pipeline_test] engine_0: ##   0:00:08  Checking assumptions in step 9..
-SBY 18:11:40 [pipeline_test] engine_0: ##   0:00:09  Checking assertions in step 9..
-SBY 18:11:43 [pipeline_test] engine_0: ##   0:00:12  Checking assumptions in step 10..
-SBY 18:11:44 [pipeline_test] engine_0: ##   0:00:12  Checking assertions in step 10..
-SBY 18:11:44 [pipeline_test] engine_0: ##   0:00:13  Checking assumptions in step 11..
-SBY 18:11:45 [pipeline_test] engine_0: ##   0:00:14  Checking assertions in step 11..
-SBY 18:11:46 [pipeline_test] engine_0: ##   0:00:14  Checking assumptions in step 12..
-SBY 18:11:46 [pipeline_test] engine_0: ##   0:00:15  Checking assertions in step 12..
-SBY 18:12:46 [pipeline_test] engine_0: ##   0:01:15  waiting for solver (1 minute)
-SBY 18:13:06 [pipeline_test] engine_0: ##   0:01:34  Checking assumptions in step 13..
-SBY 18:13:07 [pipeline_test] engine_0: ##   0:01:35  Checking assertions in step 13..
-SBY 18:13:08 [pipeline_test] engine_0: ##   0:01:36  Checking assumptions in step 14..
-SBY 18:13:09 [pipeline_test] engine_0: ##   0:01:38  Checking assertions in step 14..
-SBY 18:14:09 [pipeline_test] engine_0: ##   0:02:38  waiting for solver (1 minute)
-SBY 18:18:08 [pipeline_test] engine_0: ##   0:06:37  Checking assumptions in step 15..
-SBY 18:18:09 [pipeline_test] engine_0: ##   0:06:38  Checking assertions in step 15..
-SBY 18:19:09 [pipeline_test] engine_0: ##   0:07:38  waiting for solver (1 minute)
-SBY 18:23:09 [pipeline_test] engine_0: ##   0:11:38  waiting for solver (5 minutes)
-SBY 18:28:09 [pipeline_test] engine_0: ##   0:16:38  waiting for solver (10 minutes)
-SBY 18:33:09 [pipeline_test] engine_0: ##   0:21:38  waiting for solver (15 minutes)
-SBY 18:48:10 [pipeline_test] engine_0: ##   0:36:38  waiting for solver (30 minutes)
-SBY 19:13:29 [pipeline_test] engine_0: ##   1:01:58  Checking assumptions in step 16..
-SBY 19:13:31 [pipeline_test] engine_0: ##   1:01:59  Checking assertions in step 16..
-SBY 19:13:33 [pipeline_test] engine_0: ##   1:02:01  Checking assumptions in step 17..
-SBY 19:13:34 [pipeline_test] engine_0: ##   1:02:03  Checking assertions in step 17..
-SBY 19:14:34 [pipeline_test] engine_0: ##   1:03:03  waiting for solver (1 minute)
-SBY 19:18:34 [pipeline_test] engine_0: ##   1:07:03  waiting for solver (5 minutes)
-SBY 19:23:34 [pipeline_test] engine_0: ##   1:12:03  waiting for solver (10 minutes)
-SBY 19:28:34 [pipeline_test] engine_0: ##   1:17:03  waiting for solver (15 minutes)
-SBY 19:43:34 [pipeline_test] engine_0: ##   1:32:03  waiting for solver (30 minutes)
-SBY 20:13:34 [pipeline_test] engine_0: ##   2:02:03  waiting for solver (1 hour)
+SBY 20:36:16 [pipeline_test] Removing directory '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/xbar.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/xbar.sv'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/compo/axi_ram.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/axi_ram.sv'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IFU.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IFU.sv'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_IDU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_IDU.v'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_EXU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_EXU.v'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_LSU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_LSU.v'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/pipeline/_WBU.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/_WBU.v'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_dbg_register.v'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/dut/dut_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dut_top.sv'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/ref_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/ref_top.sv'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/decode.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/decode.v'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/register.v'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/ref/dbg_register.v' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/dbg_register.v'.
+SBY 20:36:16 [pipeline_test] Copy '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/formal_top.sv' to '/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/src/formal_top.sv'.
+SBY 20:36:16 [pipeline_test] engine_0: smtbmc yices
+SBY 20:36:16 [pipeline_test] base: starting process "cd pipeline_test/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 20:36:16 [pipeline_test] base: Warning: Replacing memory \gpr with list of registers. See dut_dbg_register.v:25
+SBY 20:36:16 [pipeline_test] base: Warning: Replacing memory \gpr with list of registers. See dbg_register.v:25
+SBY 20:36:16 [pipeline_test] base: Warning: Async reset value `{ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }' is not constant!
+SBY 20:36:17 [pipeline_test] base: finished (returncode=0)
+SBY 20:36:17 [pipeline_test] prep: starting process "cd pipeline_test/model; yosys -ql design_prep.log design_prep.ys"
+SBY 20:36:17 [pipeline_test] prep: finished (returncode=0)
+SBY 20:36:17 [pipeline_test] smt2: starting process "cd pipeline_test/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 20:36:18 [pipeline_test] smt2: finished (returncode=0)
+SBY 20:36:18 [pipeline_test] engine_0: starting process "cd pipeline_test; yosys-smtbmc -s yices --presat --unroll --noprogress -t 20  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 20:36:18 [pipeline_test] engine_0: ##   0:00:00  Solver: yices
+SBY 20:36:18 [pipeline_test] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 20:36:18 [pipeline_test] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 20:36:19 [pipeline_test] engine_0: ##   0:00:01  Checking assumptions in step 1..
+SBY 20:36:19 [pipeline_test] engine_0: ##   0:00:01  Checking assertions in step 1..
+SBY 20:36:20 [pipeline_test] engine_0: ##   0:00:02  Checking assumptions in step 2..
+SBY 20:36:20 [pipeline_test] engine_0: ##   0:00:02  Checking assertions in step 2..
+SBY 20:36:21 [pipeline_test] engine_0: ##   0:00:02  Checking assumptions in step 3..
+SBY 20:36:21 [pipeline_test] engine_0: ##   0:00:03  Checking assertions in step 3..
+SBY 20:36:21 [pipeline_test] engine_0: ##   0:00:03  Checking assumptions in step 4..
+SBY 20:36:21 [pipeline_test] engine_0: ##   0:00:03  Checking assertions in step 4..
+SBY 20:36:22 [pipeline_test] engine_0: ##   0:00:04  Checking assumptions in step 5..
+SBY 20:36:22 [pipeline_test] engine_0: ##   0:00:04  Checking assertions in step 5..
+SBY 20:36:23 [pipeline_test] engine_0: ##   0:00:05  Checking assumptions in step 6..
+SBY 20:36:23 [pipeline_test] engine_0: ##   0:00:05  Checking assertions in step 6..

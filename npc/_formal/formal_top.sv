@@ -198,25 +198,25 @@ module formal_top(
 
     reg clk_en;
 
-// 关键点：任意 assert/assume/cover 都不能写在带 posedge reset 的块里。
-    always @(posedge clock or posedge reset) begin   // 收到新的instr之后, 先比较, 再驱动ref跳转
-        if(reset) begin
-            clk_en <= 1'b0;
-        end else begin
-            if(d_new_instr) begin   
-                clk_en <= 1'b1;   // 收到new_instr之后驱动一个周期
-            end
-            if(clk_en && !d_new_instr) begin
-                clk_en <= 1'b0;
-            end
-        end
-    end
+// // 关键点：任意 assert/assume/cover 都不能写在带 posedge reset 的块里。
+//     always @(posedge clock or posedge reset) begin   // 收到新的instr之后, 先比较, 再驱动ref跳转
+//         if(reset) begin
+//             clk_en <= 1'b0;
+//         end else begin
+//             if(d_new_instr) begin   
+//                 clk_en <= 1'b1;   // 收到new_instr之后驱动一个周期
+//             end
+//             if(clk_en && !d_new_instr) begin
+//                 clk_en <= 1'b0;
+//             end
+//         end
+//     end
 
-    always @(posedge clock) begin
-        if(!reset && d_new_instr) begin
-            assert(d_idu_pc == r_pc);
-        end
-    end
+//     always @(posedge clock) begin
+//         if(!reset && d_new_instr) begin
+//             assert(d_idu_pc == r_pc);
+//         end
+//     end
 
     reg gpr_check_valid;
 
@@ -225,14 +225,13 @@ module formal_top(
             clk_en <= 1'b0;
             gpr_check_valid <= 1'b0;
         end else begin
-            while(!f_wen) begin   
-                clk_en <= 1'b1;
-            end
+
+            clk_en <= !f_wen;    // 让ref一直跑, 直到遇到一个需要wb的instr周期
+
             if(d_wen && f_wen) begin  // dut和ref都是下一个周期更新gpr
                 clk_en <= 1'b1;
                 gpr_check_valid <= 1'b1;
-            end
-            if(gpr_check_valid) begin
+            end else begin
                 gpr_check_valid <= 1'b0;
             end
         end

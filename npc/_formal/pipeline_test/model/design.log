@@ -216,39 +216,39 @@ Marked 3 switch rules as full_case in process $proc$dut_dbg_register.v:22$1366 i
 Marked 9 switch rules as full_case in process $proc$_LSU.v:228$1332 in module ysyx_26040135_AXI_LSU.
 Marked 3 switch rules as full_case in process $proc$_LSU.v:197$1328 in module ysyx_26040135_AXI_LSU.
 Marked 2 switch rules as full_case in process $proc$_LSU.v:118$1296 in module ysyx_26040135_AXI_LSU.
-Removed 1 dead cases from process $proc$_WBU.v:63$1294 in module ysyx_26040135_WBU.
-Marked 2 switch rules as full_case in process $proc$_WBU.v:63$1294 in module ysyx_26040135_WBU.
-Marked 2 switch rules as full_case in process $proc$_WBU.v:29$1285 in module ysyx_26040135_WBU.
+Removed 1 dead cases from process $proc$_WBU.v:61$1294 in module ysyx_26040135_WBU.
+Marked 2 switch rules as full_case in process $proc$_WBU.v:61$1294 in module ysyx_26040135_WBU.
+Marked 2 switch rules as full_case in process $proc$_WBU.v:28$1285 in module ysyx_26040135_WBU.
 Marked 5 switch rules as full_case in process $proc$xbar.sv:162$1266 in module ysyx_26040135_AXI4_Xbar.
 Marked 1 switch rules as full_case in process $proc$xbar.sv:150$1263 in module ysyx_26040135_AXI4_Xbar.
 Marked 7 switch rules as full_case in process $proc$axi_ram.sv:107$1262 in module ysyx_26040135_AXI_RAM.
 Marked 12 switch rules as full_case in process $proc$axi_ram.sv:63$1112 in module ysyx_26040135_AXI_RAM.
-Marked 17 switch rules as full_case in process $proc$ref_top.sv:271$941 in module ref_top.
-Marked 2 switch rules as full_case in process $proc$ref_top.sv:248$924 in module ref_top.
-Marked 1 switch rules as full_case in process $proc$ref_top.sv:199$866 in module ref_top.
-Removed 2 dead cases from process $proc$formal_top.sv:92$682 in module formal_top.
-Marked 3 switch rules as full_case in process $proc$formal_top.sv:92$682 in module formal_top.
-Removed 2 dead cases from process $proc$formal_top.sv:92$602 in module formal_top.
-Marked 3 switch rules as full_case in process $proc$formal_top.sv:92$602 in module formal_top.
-Removed 2 dead cases from process $proc$formal_top.sv:92$522 in module formal_top.
-Marked 3 switch rules as full_case in process $proc$formal_top.sv:92$522 in module formal_top.
-Removed 2 dead cases from process $proc$formal_top.sv:92$442 in module formal_top.
-Marked 3 switch rules as full_case in process $proc$formal_top.sv:92$442 in module formal_top.
-Removed 2 dead cases from process $proc$formal_top.sv:92$362 in module formal_top.
-Marked 3 switch rules as full_case in process $proc$formal_top.sv:92$362 in module formal_top.
-Removed 2 dead cases from process $proc$formal_top.sv:92$282 in module formal_top.
-Marked 3 switch rules as full_case in process $proc$formal_top.sv:92$282 in module formal_top.
-Removed 2 dead cases from process $proc$formal_top.sv:92$202 in module formal_top.
-Marked 3 switch rules as full_case in process $proc$formal_top.sv:92$202 in module formal_top.
-Removed 2 dead cases from process $proc$formal_top.sv:92$122 in module formal_top.
-Marked 3 switch rules as full_case in process $proc$formal_top.sv:92$122 in module formal_top.
-Marked 1 switch rules as full_case in process $proc$formal_top.sv:195$104 in module formal_top.
+Marked 17 switch rules as full_case in process $proc$ref_top.sv:274$941 in module ref_top.
+Marked 2 switch rules as full_case in process $proc$ref_top.sv:251$924 in module ref_top.
+Marked 1 switch rules as full_case in process $proc$ref_top.sv:202$866 in module ref_top.
+Removed 2 dead cases from process $proc$formal_top.sv:93$682 in module formal_top.
+Marked 3 switch rules as full_case in process $proc$formal_top.sv:93$682 in module formal_top.
+Removed 2 dead cases from process $proc$formal_top.sv:93$602 in module formal_top.
+Marked 3 switch rules as full_case in process $proc$formal_top.sv:93$602 in module formal_top.
+Removed 2 dead cases from process $proc$formal_top.sv:93$522 in module formal_top.
+Marked 3 switch rules as full_case in process $proc$formal_top.sv:93$522 in module formal_top.
+Removed 2 dead cases from process $proc$formal_top.sv:93$442 in module formal_top.
+Marked 3 switch rules as full_case in process $proc$formal_top.sv:93$442 in module formal_top.
+Removed 2 dead cases from process $proc$formal_top.sv:93$362 in module formal_top.
+Marked 3 switch rules as full_case in process $proc$formal_top.sv:93$362 in module formal_top.
+Removed 2 dead cases from process $proc$formal_top.sv:93$282 in module formal_top.
+Marked 3 switch rules as full_case in process $proc$formal_top.sv:93$282 in module formal_top.
+Removed 2 dead cases from process $proc$formal_top.sv:93$202 in module formal_top.
+Marked 3 switch rules as full_case in process $proc$formal_top.sv:93$202 in module formal_top.
+Removed 2 dead cases from process $proc$formal_top.sv:93$122 in module formal_top.
+Marked 3 switch rules as full_case in process $proc$formal_top.sv:93$122 in module formal_top.
+Marked 2 switch rules as full_case in process $proc$formal_top.sv:223$104 in module formal_top.
 Removed 2 dead cases from process $proc$decode.v:196$1785 in module decode.
 Marked 15 switch rules as full_case in process $proc$decode.v:196$1785 in module decode.
 Removed a total of 26 dead cases.
 
 15.3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
-Removed 21 redundant assignments.
+Removed 23 redundant assignments.
 Promoted 338 assignments to connections.
 
 15.3.4. Executing PROC_INIT pass (extract init attributes).
@@ -261,15 +261,15 @@ Found async reset \reset in `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
 Found async reset \reset in `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
 Found async reset \reset in `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
 Found async reset \reset in `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-Found async reset \reset in `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
+Found async reset \reset in `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
 Found async reset \reset in `\ysyx_26040135_AXI4_Xbar.$proc$xbar.sv:150$1263'.
 Found async reset \reset in `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-Found async reset \rst in `\ref_top.$proc$ref_top.sv:271$941'.
-Found async reset \reset in `\formal_top.$proc$formal_top.sv:195$104'.
+Found async reset \rst in `\ref_top.$proc$ref_top.sv:274$941'.
+Found async reset \reset in `\formal_top.$proc$formal_top.sv:223$104'.
 
 15.3.6. Executing PROC_ROM pass (convert switches to ROMs).
 Converted 0 switches.
-<suppressed ~237 debug messages>
+<suppressed ~236 debug messages>
 
 15.3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
 Creating decoders for process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:20$1782'.
@@ -675,11 +675,11 @@ Creating decoders for process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
     14/16: $0\lsu_work_cyc[63:0]
     15/16: $0\lsu_blcokb_cyc[63:0]
     16/16: $0\lsu_blockf_cyc[63:0]
-Creating decoders for process `\ysyx_26040135_WBU.$proc$_WBU.v:63$1294'.
+Creating decoders for process `\ysyx_26040135_WBU.$proc$_WBU.v:61$1294'.
      1/3: $2\next[0:0]
      2/3: $1\next[0:0]
      3/3: $1\wen[0:0]
-Creating decoders for process `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
+Creating decoders for process `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
      1/7: $0\wbu_blockf[0:0]
      2/7: $0\state[0:0]
      3/7: $0\wdata_wb[31:0]
@@ -766,45 +766,45 @@ Creating decoders for process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
     48/50: $1$fordecl_block$1.i[31:0]$1126
     49/50: $0\awaddr_save[31:0]
     50/50: $0\rdata_save[31:0]
-Creating decoders for process `\ref_top.$proc$ref_top.sv:271$941'.
+Creating decoders for process `\ref_top.$proc$ref_top.sv:274$941'.
      1/50: $5$fordecl_block$17.i[31:0]$1054
      2/50: $5$lookahead\ram$940[511:0]$1057
-     3/50: $5$bitselwrite$pos$ref_top.sv:342$759[31:0]$1056
-     4/50: $5$bitselwrite$pos$ref_top.sv:342$758[31:0]$1055
+     3/50: $5$bitselwrite$pos$ref_top.sv:345$759[31:0]$1056
+     4/50: $5$bitselwrite$pos$ref_top.sv:345$758[31:0]$1055
      5/50: $4$lookahead\ram$940[511:0]$1044
-     6/50: $4$bitselwrite$pos$ref_top.sv:338$757[31:0]$1040
-     7/50: $4$bitselwrite$pos$ref_top.sv:342$759[31:0]$1043
-     8/50: $4$bitselwrite$pos$ref_top.sv:342$758[31:0]$1042
+     6/50: $4$bitselwrite$pos$ref_top.sv:341$757[31:0]$1040
+     7/50: $4$bitselwrite$pos$ref_top.sv:345$759[31:0]$1043
+     8/50: $4$bitselwrite$pos$ref_top.sv:345$758[31:0]$1042
      9/50: $4$fordecl_block$17.i[31:0]$1041
     10/50: $3$fordecl_block$15.i[31:0]$990
     11/50: $3$lookahead\ram$940[511:0]$999
-    12/50: $3$bitselwrite$pos$ref_top.sv:334$756[31:0]$994
-    13/50: $3$bitselwrite$pos$ref_top.sv:334$755[31:0]$993
-    14/50: $3$bitselwrite$pos$ref_top.sv:334$754[31:0]$992
-    15/50: $3$bitselwrite$pos$ref_top.sv:334$753[31:0]$991
-    16/50: $3$bitselwrite$pos$ref_top.sv:342$759[31:0]$998
-    17/50: $3$bitselwrite$pos$ref_top.sv:342$758[31:0]$997
+    12/50: $3$bitselwrite$pos$ref_top.sv:337$756[31:0]$994
+    13/50: $3$bitselwrite$pos$ref_top.sv:337$755[31:0]$993
+    14/50: $3$bitselwrite$pos$ref_top.sv:337$754[31:0]$992
+    15/50: $3$bitselwrite$pos$ref_top.sv:337$753[31:0]$991
+    16/50: $3$bitselwrite$pos$ref_top.sv:345$759[31:0]$998
+    17/50: $3$bitselwrite$pos$ref_top.sv:345$758[31:0]$997
     18/50: $3$fordecl_block$17.i[31:0]$996
-    19/50: $3$bitselwrite$pos$ref_top.sv:338$757[31:0]$995
+    19/50: $3$bitselwrite$pos$ref_top.sv:341$757[31:0]$995
     20/50: $2$lookahead\ram$940[511:0]$975
-    21/50: $2$bitselwrite$pos$ref_top.sv:342$759[31:0]$974
-    22/50: $2$bitselwrite$pos$ref_top.sv:342$758[31:0]$973
+    21/50: $2$bitselwrite$pos$ref_top.sv:345$759[31:0]$974
+    22/50: $2$bitselwrite$pos$ref_top.sv:345$758[31:0]$973
     23/50: $2$fordecl_block$17.i[31:0]$972
-    24/50: $2$bitselwrite$pos$ref_top.sv:338$757[31:0]$971
-    25/50: $2$bitselwrite$pos$ref_top.sv:334$756[31:0]$970
-    26/50: $2$bitselwrite$pos$ref_top.sv:334$755[31:0]$969
-    27/50: $2$bitselwrite$pos$ref_top.sv:334$754[31:0]$968
-    28/50: $2$bitselwrite$pos$ref_top.sv:334$753[31:0]$967
+    24/50: $2$bitselwrite$pos$ref_top.sv:341$757[31:0]$971
+    25/50: $2$bitselwrite$pos$ref_top.sv:337$756[31:0]$970
+    26/50: $2$bitselwrite$pos$ref_top.sv:337$755[31:0]$969
+    27/50: $2$bitselwrite$pos$ref_top.sv:337$754[31:0]$968
+    28/50: $2$bitselwrite$pos$ref_top.sv:337$753[31:0]$967
     29/50: $2$fordecl_block$15.i[31:0]$966
     30/50: $0\mcycleh[31:0]
-    31/50: $1$bitselwrite$pos$ref_top.sv:342$759[31:0]$964
-    32/50: $1$bitselwrite$pos$ref_top.sv:342$758[31:0]$963
+    31/50: $1$bitselwrite$pos$ref_top.sv:345$759[31:0]$964
+    32/50: $1$bitselwrite$pos$ref_top.sv:345$758[31:0]$963
     33/50: $1$fordecl_block$17.i[31:0]$962
-    34/50: $1$bitselwrite$pos$ref_top.sv:338$757[31:0]$961
-    35/50: $1$bitselwrite$pos$ref_top.sv:334$756[31:0]$960
-    36/50: $1$bitselwrite$pos$ref_top.sv:334$755[31:0]$959
-    37/50: $1$bitselwrite$pos$ref_top.sv:334$754[31:0]$958
-    38/50: $1$bitselwrite$pos$ref_top.sv:334$753[31:0]$957
+    34/50: $1$bitselwrite$pos$ref_top.sv:341$757[31:0]$961
+    35/50: $1$bitselwrite$pos$ref_top.sv:337$756[31:0]$960
+    36/50: $1$bitselwrite$pos$ref_top.sv:337$755[31:0]$959
+    37/50: $1$bitselwrite$pos$ref_top.sv:337$754[31:0]$958
+    38/50: $1$bitselwrite$pos$ref_top.sv:337$753[31:0]$957
     39/50: $1$fordecl_block$15.i[31:0]$956
     40/50: $1$fordecl_block$13.i[31:0]$955
     41/50: $1$fordecl_block$11.i[31:0]$954
@@ -817,7 +817,7 @@ Creating decoders for process `\ref_top.$proc$ref_top.sv:271$941'.
     48/50: $0\mepc[31:0]
     49/50: $0\mstatus[31:0]
     50/50: $0\pc[31:0]
-Creating decoders for process `\ref_top.$proc$ref_top.sv:248$924'.
+Creating decoders for process `\ref_top.$proc$ref_top.sv:251$924'.
      1/11: $2\lw_rst[31:0]
      2/11: $2\lh_rst[31:0]
      3/11: $2\lb_rst[31:0]
@@ -829,102 +829,103 @@ Creating decoders for process `\ref_top.$proc$ref_top.sv:248$924'.
      9/11: $1\lbu_rst[31:0]
     10/11: $1\lw_rst[31:0]
     11/11: $1\read_ram_rst[31:0]
-Creating decoders for process `\ref_top.$proc$ref_top.sv:199$866'.
+Creating decoders for process `\ref_top.$proc$ref_top.sv:202$866'.
      1/1: $1\csrw_rst[31:0]
 Creating decoders for process `\formal_top.$proc$formal_top.sv:15$752'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:97$746'.
-     1/1: $assume$formal_top.sv:98$748_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:94$740'.
-     1/1: $assume$formal_top.sv:95$742_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:92$682'.
-     1/3: $3\is_legal$func$formal_top.sv:92$45.$result[0:0]$695
-     2/3: $2\is_legal$func$formal_top.sv:92$45.$result[0:0]$690
-     3/3: $1\is_legal$func$formal_top.sv:92$45.$result[0:0]$689
-Creating decoders for process `\formal_top.$proc$formal_top.sv:90$677'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:89$672'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:97$666'.
-     1/1: $assume$formal_top.sv:98$668_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:94$660'.
-     1/1: $assume$formal_top.sv:95$662_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:92$602'.
-     1/3: $3\is_legal$func$formal_top.sv:92$42.$result[0:0]$615
-     2/3: $2\is_legal$func$formal_top.sv:92$42.$result[0:0]$610
-     3/3: $1\is_legal$func$formal_top.sv:92$42.$result[0:0]$609
-Creating decoders for process `\formal_top.$proc$formal_top.sv:90$597'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:89$592'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:97$586'.
-     1/1: $assume$formal_top.sv:98$588_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:94$580'.
-     1/1: $assume$formal_top.sv:95$582_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:92$522'.
-     1/3: $3\is_legal$func$formal_top.sv:92$39.$result[0:0]$535
-     2/3: $2\is_legal$func$formal_top.sv:92$39.$result[0:0]$530
-     3/3: $1\is_legal$func$formal_top.sv:92$39.$result[0:0]$529
-Creating decoders for process `\formal_top.$proc$formal_top.sv:90$517'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:89$512'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:97$506'.
-     1/1: $assume$formal_top.sv:98$508_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:94$500'.
-     1/1: $assume$formal_top.sv:95$502_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:92$442'.
-     1/3: $3\is_legal$func$formal_top.sv:92$36.$result[0:0]$455
-     2/3: $2\is_legal$func$formal_top.sv:92$36.$result[0:0]$450
-     3/3: $1\is_legal$func$formal_top.sv:92$36.$result[0:0]$449
-Creating decoders for process `\formal_top.$proc$formal_top.sv:90$437'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:89$432'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:97$426'.
-     1/1: $assume$formal_top.sv:98$428_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:94$420'.
-     1/1: $assume$formal_top.sv:95$422_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:92$362'.
-     1/3: $3\is_legal$func$formal_top.sv:92$33.$result[0:0]$375
-     2/3: $2\is_legal$func$formal_top.sv:92$33.$result[0:0]$370
-     3/3: $1\is_legal$func$formal_top.sv:92$33.$result[0:0]$369
-Creating decoders for process `\formal_top.$proc$formal_top.sv:90$357'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:89$352'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:97$346'.
-     1/1: $assume$formal_top.sv:98$348_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:94$340'.
-     1/1: $assume$formal_top.sv:95$342_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:92$282'.
-     1/3: $3\is_legal$func$formal_top.sv:92$30.$result[0:0]$295
-     2/3: $2\is_legal$func$formal_top.sv:92$30.$result[0:0]$290
-     3/3: $1\is_legal$func$formal_top.sv:92$30.$result[0:0]$289
-Creating decoders for process `\formal_top.$proc$formal_top.sv:90$277'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:89$272'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:97$266'.
-     1/1: $assume$formal_top.sv:98$268_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:94$260'.
-     1/1: $assume$formal_top.sv:95$262_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:92$202'.
-     1/3: $3\is_legal$func$formal_top.sv:92$27.$result[0:0]$215
-     2/3: $2\is_legal$func$formal_top.sv:92$27.$result[0:0]$210
-     3/3: $1\is_legal$func$formal_top.sv:92$27.$result[0:0]$209
-Creating decoders for process `\formal_top.$proc$formal_top.sv:90$197'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:89$192'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:97$186'.
-     1/1: $assume$formal_top.sv:98$188_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:94$180'.
-     1/1: $assume$formal_top.sv:95$182_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:92$122'.
-     1/3: $3\is_legal$func$formal_top.sv:92$24.$result[0:0]$135
-     2/3: $2\is_legal$func$formal_top.sv:92$24.$result[0:0]$130
-     3/3: $1\is_legal$func$formal_top.sv:92$24.$result[0:0]$129
-Creating decoders for process `\formal_top.$proc$formal_top.sv:90$117'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:89$112'.
-Creating decoders for process `\formal_top.$proc$formal_top.sv:208$107'.
-     1/1: $assert$formal_top.sv:210$110_EN
-Creating decoders for process `\formal_top.$proc$formal_top.sv:195$104'.
-     1/1: $0\clk_en[0:0]
-Creating decoders for process `\formal_top.$proc$formal_top.sv:112$74'.
-     1/8: $assume$formal_top.sv:128$102_EN
-     2/8: $assume$formal_top.sv:127$100_EN
-     3/8: $assume$formal_top.sv:125$96_EN
-     4/8: $assume$formal_top.sv:120$94_EN
-     5/8: $assume$formal_top.sv:119$92_EN
-     6/8: $assume$formal_top.sv:117$88_EN
-     7/8: $assume$formal_top.sv:115$82_EN
-     8/8: $assume$formal_top.sv:114$76_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:98$746'.
+     1/1: $assume$formal_top.sv:99$748_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:95$740'.
+     1/1: $assume$formal_top.sv:96$742_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:93$682'.
+     1/3: $3\is_legal$func$formal_top.sv:93$45.$result[0:0]$695
+     2/3: $2\is_legal$func$formal_top.sv:93$45.$result[0:0]$690
+     3/3: $1\is_legal$func$formal_top.sv:93$45.$result[0:0]$689
+Creating decoders for process `\formal_top.$proc$formal_top.sv:91$677'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:90$672'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:98$666'.
+     1/1: $assume$formal_top.sv:99$668_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:95$660'.
+     1/1: $assume$formal_top.sv:96$662_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:93$602'.
+     1/3: $3\is_legal$func$formal_top.sv:93$42.$result[0:0]$615
+     2/3: $2\is_legal$func$formal_top.sv:93$42.$result[0:0]$610
+     3/3: $1\is_legal$func$formal_top.sv:93$42.$result[0:0]$609
+Creating decoders for process `\formal_top.$proc$formal_top.sv:91$597'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:90$592'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:98$586'.
+     1/1: $assume$formal_top.sv:99$588_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:95$580'.
+     1/1: $assume$formal_top.sv:96$582_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:93$522'.
+     1/3: $3\is_legal$func$formal_top.sv:93$39.$result[0:0]$535
+     2/3: $2\is_legal$func$formal_top.sv:93$39.$result[0:0]$530
+     3/3: $1\is_legal$func$formal_top.sv:93$39.$result[0:0]$529
+Creating decoders for process `\formal_top.$proc$formal_top.sv:91$517'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:90$512'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:98$506'.
+     1/1: $assume$formal_top.sv:99$508_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:95$500'.
+     1/1: $assume$formal_top.sv:96$502_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:93$442'.
+     1/3: $3\is_legal$func$formal_top.sv:93$36.$result[0:0]$455
+     2/3: $2\is_legal$func$formal_top.sv:93$36.$result[0:0]$450
+     3/3: $1\is_legal$func$formal_top.sv:93$36.$result[0:0]$449
+Creating decoders for process `\formal_top.$proc$formal_top.sv:91$437'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:90$432'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:98$426'.
+     1/1: $assume$formal_top.sv:99$428_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:95$420'.
+     1/1: $assume$formal_top.sv:96$422_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:93$362'.
+     1/3: $3\is_legal$func$formal_top.sv:93$33.$result[0:0]$375
+     2/3: $2\is_legal$func$formal_top.sv:93$33.$result[0:0]$370
+     3/3: $1\is_legal$func$formal_top.sv:93$33.$result[0:0]$369
+Creating decoders for process `\formal_top.$proc$formal_top.sv:91$357'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:90$352'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:98$346'.
+     1/1: $assume$formal_top.sv:99$348_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:95$340'.
+     1/1: $assume$formal_top.sv:96$342_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:93$282'.
+     1/3: $3\is_legal$func$formal_top.sv:93$30.$result[0:0]$295
+     2/3: $2\is_legal$func$formal_top.sv:93$30.$result[0:0]$290
+     3/3: $1\is_legal$func$formal_top.sv:93$30.$result[0:0]$289
+Creating decoders for process `\formal_top.$proc$formal_top.sv:91$277'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:90$272'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:98$266'.
+     1/1: $assume$formal_top.sv:99$268_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:95$260'.
+     1/1: $assume$formal_top.sv:96$262_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:93$202'.
+     1/3: $3\is_legal$func$formal_top.sv:93$27.$result[0:0]$215
+     2/3: $2\is_legal$func$formal_top.sv:93$27.$result[0:0]$210
+     3/3: $1\is_legal$func$formal_top.sv:93$27.$result[0:0]$209
+Creating decoders for process `\formal_top.$proc$formal_top.sv:91$197'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:90$192'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:98$186'.
+     1/1: $assume$formal_top.sv:99$188_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:95$180'.
+     1/1: $assume$formal_top.sv:96$182_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:93$122'.
+     1/3: $3\is_legal$func$formal_top.sv:93$24.$result[0:0]$135
+     2/3: $2\is_legal$func$formal_top.sv:93$24.$result[0:0]$130
+     3/3: $1\is_legal$func$formal_top.sv:93$24.$result[0:0]$129
+Creating decoders for process `\formal_top.$proc$formal_top.sv:91$117'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:90$112'.
+Creating decoders for process `\formal_top.$proc$formal_top.sv:240$107'.
+     1/1: $assert$formal_top.sv:242$110_EN
+Creating decoders for process `\formal_top.$proc$formal_top.sv:223$104'.
+     1/2: $0\gpr_check_valid[0:0]
+     2/2: $0\clk_en[0:0]
+Creating decoders for process `\formal_top.$proc$formal_top.sv:113$74'.
+     1/8: $assume$formal_top.sv:129$102_EN
+     2/8: $assume$formal_top.sv:128$100_EN
+     3/8: $assume$formal_top.sv:126$96_EN
+     4/8: $assume$formal_top.sv:121$94_EN
+     5/8: $assume$formal_top.sv:120$92_EN
+     6/8: $assume$formal_top.sv:118$88_EN
+     7/8: $assume$formal_top.sv:116$82_EN
+     8/8: $assume$formal_top.sv:115$76_EN
 Creating decoders for process `\formal_top.$proc$formal_top.sv:31$71'.
 Creating decoders for process `\formal_top.$proc$formal_top.sv:28$70'.
 Creating decoders for process `\formal_top.$proc$formal_top.sv:21$65'.
@@ -1156,8 +1157,8 @@ No latch inferred for signal `\ysyx_26040135_AXI_LSU.\next' from process `\ysyx_
 No latch inferred for signal `\ysyx_26040135_AXI_LSU.\bus_arsize' from process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:197$1328'.
 No latch inferred for signal `\ysyx_26040135_AXI_LSU.\bus_awsize' from process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:197$1328'.
 No latch inferred for signal `\ysyx_26040135_AXI_LSU.\bus_wstrb' from process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:197$1328'.
-No latch inferred for signal `\ysyx_26040135_WBU.\wen' from process `\ysyx_26040135_WBU.$proc$_WBU.v:63$1294'.
-No latch inferred for signal `\ysyx_26040135_WBU.\next' from process `\ysyx_26040135_WBU.$proc$_WBU.v:63$1294'.
+No latch inferred for signal `\ysyx_26040135_WBU.\wen' from process `\ysyx_26040135_WBU.$proc$_WBU.v:61$1294'.
+No latch inferred for signal `\ysyx_26040135_WBU.\next' from process `\ysyx_26040135_WBU.$proc$_WBU.v:61$1294'.
 No latch inferred for signal `\ysyx_26040135_AXI4_Xbar.\r_next_state' from process `\ysyx_26040135_AXI4_Xbar.$proc$xbar.sv:162$1266'.
 No latch inferred for signal `\ysyx_26040135_AXI_RAM.\bus_arready' from process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:107$1262'.
 No latch inferred for signal `\ysyx_26040135_AXI_RAM.\bus_rdata' from process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:107$1262'.
@@ -1171,29 +1172,29 @@ No latch inferred for signal `\ysyx_26040135_AXI_RAM.\bus_bid' from process `\ys
 No latch inferred for signal `\ysyx_26040135_AXI_RAM.\bus_bresp' from process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:107$1262'.
 No latch inferred for signal `\ysyx_26040135_AXI_RAM.\bus_bvalid' from process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:107$1262'.
 No latch inferred for signal `\ysyx_26040135_AXI_RAM.\next' from process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:107$1262'.
-No latch inferred for signal `\ref_top.\read_ram_rst' from process `\ref_top.$proc$ref_top.sv:248$924'.
-No latch inferred for signal `\ref_top.\lw_rst' from process `\ref_top.$proc$ref_top.sv:248$924'.
-No latch inferred for signal `\ref_top.\lbu_rst' from process `\ref_top.$proc$ref_top.sv:248$924'.
-No latch inferred for signal `\ref_top.\lhu_rst' from process `\ref_top.$proc$ref_top.sv:248$924'.
-No latch inferred for signal `\ref_top.\lb_rst' from process `\ref_top.$proc$ref_top.sv:248$924'.
-No latch inferred for signal `\ref_top.\lh_rst' from process `\ref_top.$proc$ref_top.sv:248$924'.
-No latch inferred for signal `\ref_top.\csrw_rst' from process `\ref_top.$proc$ref_top.sv:199$866'.
-No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:90$44.$result' from process `\formal_top.$proc$formal_top.sv:90$677'.
-No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:89$43.$result' from process `\formal_top.$proc$formal_top.sv:89$672'.
-No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:90$41.$result' from process `\formal_top.$proc$formal_top.sv:90$597'.
-No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:89$40.$result' from process `\formal_top.$proc$formal_top.sv:89$592'.
-No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:90$38.$result' from process `\formal_top.$proc$formal_top.sv:90$517'.
-No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:89$37.$result' from process `\formal_top.$proc$formal_top.sv:89$512'.
-No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:90$35.$result' from process `\formal_top.$proc$formal_top.sv:90$437'.
-No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:89$34.$result' from process `\formal_top.$proc$formal_top.sv:89$432'.
-No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:90$32.$result' from process `\formal_top.$proc$formal_top.sv:90$357'.
-No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:89$31.$result' from process `\formal_top.$proc$formal_top.sv:89$352'.
-No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:90$29.$result' from process `\formal_top.$proc$formal_top.sv:90$277'.
-No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:89$28.$result' from process `\formal_top.$proc$formal_top.sv:89$272'.
-No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:90$26.$result' from process `\formal_top.$proc$formal_top.sv:90$197'.
-No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:89$25.$result' from process `\formal_top.$proc$formal_top.sv:89$192'.
-No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:90$23.$result' from process `\formal_top.$proc$formal_top.sv:90$117'.
-No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:89$22.$result' from process `\formal_top.$proc$formal_top.sv:89$112'.
+No latch inferred for signal `\ref_top.\read_ram_rst' from process `\ref_top.$proc$ref_top.sv:251$924'.
+No latch inferred for signal `\ref_top.\lw_rst' from process `\ref_top.$proc$ref_top.sv:251$924'.
+No latch inferred for signal `\ref_top.\lbu_rst' from process `\ref_top.$proc$ref_top.sv:251$924'.
+No latch inferred for signal `\ref_top.\lhu_rst' from process `\ref_top.$proc$ref_top.sv:251$924'.
+No latch inferred for signal `\ref_top.\lb_rst' from process `\ref_top.$proc$ref_top.sv:251$924'.
+No latch inferred for signal `\ref_top.\lh_rst' from process `\ref_top.$proc$ref_top.sv:251$924'.
+No latch inferred for signal `\ref_top.\csrw_rst' from process `\ref_top.$proc$ref_top.sv:202$866'.
+No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:91$44.$result' from process `\formal_top.$proc$formal_top.sv:91$677'.
+No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:90$43.$result' from process `\formal_top.$proc$formal_top.sv:90$672'.
+No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:91$41.$result' from process `\formal_top.$proc$formal_top.sv:91$597'.
+No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:90$40.$result' from process `\formal_top.$proc$formal_top.sv:90$592'.
+No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:91$38.$result' from process `\formal_top.$proc$formal_top.sv:91$517'.
+No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:90$37.$result' from process `\formal_top.$proc$formal_top.sv:90$512'.
+No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:91$35.$result' from process `\formal_top.$proc$formal_top.sv:91$437'.
+No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:90$34.$result' from process `\formal_top.$proc$formal_top.sv:90$432'.
+No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:91$32.$result' from process `\formal_top.$proc$formal_top.sv:91$357'.
+No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:90$31.$result' from process `\formal_top.$proc$formal_top.sv:90$352'.
+No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:91$29.$result' from process `\formal_top.$proc$formal_top.sv:91$277'.
+No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:90$28.$result' from process `\formal_top.$proc$formal_top.sv:90$272'.
+No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:91$26.$result' from process `\formal_top.$proc$formal_top.sv:91$197'.
+No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:90$25.$result' from process `\formal_top.$proc$formal_top.sv:90$192'.
+No latch inferred for signal `\formal_top.\imm_j$func$formal_top.sv:91$23.$result' from process `\formal_top.$proc$formal_top.sv:91$117'.
+No latch inferred for signal `\formal_top.\imm_b$func$formal_top.sv:90$22.$result' from process `\formal_top.$proc$formal_top.sv:90$112'.
 No latch inferred for signal `\decode.\addi' from process `\decode.$proc$decode.v:196$1785'.
 No latch inferred for signal `\decode.\slti' from process `\decode.$proc$decode.v:196$1785'.
 No latch inferred for signal `\decode.\sltiu' from process `\decode.$proc$decode.v:196$1785'.
@@ -1240,461 +1241,463 @@ No latch inferred for signal `\decode.\csrrc' from process `\decode.$proc$decode
 
 15.3.9. Executing PROC_DFF pass (convert process syncs to FFs).
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[0]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7910' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7912' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[1]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7913' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7915' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[2]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7916' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7918' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[3]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7919' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7921' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[4]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7922' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7924' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[5]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7925' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7927' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[6]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7928' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7930' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[7]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7931' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7933' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[8]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7934' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7936' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[9]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7937' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7939' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[10]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7940' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7942' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[11]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7943' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7945' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[12]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7946' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7948' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[13]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7949' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7951' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[14]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7952' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7954' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[15]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7955' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7957' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[16]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7958' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7960' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[17]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7961' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7963' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[18]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7964' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7966' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[19]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7967' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7969' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[20]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7970' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7972' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[21]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7973' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7975' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[22]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7976' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7978' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[23]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7979' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7981' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[24]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7982' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7984' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[25]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7985' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7987' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[26]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7988' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7990' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[27]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7991' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7993' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[28]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7994' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7996' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[29]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$7997' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$7999' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[30]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$8000' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8002' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\gpr[31]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$8003' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8005' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$fordecl_block$19.i' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$8006' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8008' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$mem2reg_wr$\gpr$dbg_register.v:29$1765_ADDR' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$8009' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8011' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$mem2reg_wr$\gpr$dbg_register.v:29$1765_DATA' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$proc$dbg_register.v:22$1766'.
-  created $adff cell `$procdff$8012' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8014' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\pc' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8015' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8017' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\ifu_work_cyc' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8018' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8020' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\ifu_block_cyc' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8021' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8023' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\out_instr' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8024' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8026' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\out_valid' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8027' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8029' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\out_pc' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8030' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8032' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\state' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8033' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8035' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\error_save' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8036' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8038' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\master_validation_error_save' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8039' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8041' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\flush_save' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8042' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8044' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\pc_flush_save' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8045' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8047' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\is_executable$func$_IFU.sv:166$1694.$result' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8048' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8050' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_IFU.\is_executable$func$_IFU.sv:166$1694.addr' using process `\ysyx_26040135_AXI_IFU.$proc$_IFU.sv:128$1695'.
-  created $adff cell `$procdff$8051' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8053' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\mstatus' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8054' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8056' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\mepc' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8057' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8059' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\mcause' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8060' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8062' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\mtvec' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8063' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8065' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\mcycle' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8066' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8068' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\mcycleh' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8069' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8071' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\mvendorid' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8072' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8074' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\marchid' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8075' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8077' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\exu_blockf_cyc' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8078' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8080' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\exu_blcokbl_cyc' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8081' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8083' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\exu_work_cyc' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8084' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8086' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\out_valid' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8087' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8089' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\in_ready' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8090' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8092' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\state' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8093' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8095' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\rd_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8098' with positive edge clock.
+  created $dff cell `$procdff$8100' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\rd_list' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8101' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8103' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\rd_amt' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8104' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8106' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\wen_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8107' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8109' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\rd_wb_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8110' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8112' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\bypass_active' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8113' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8115' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\bypass_data' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8116' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8118' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.\pc_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8121' with positive edge clock.
+  created $dff cell `$procdff$8123' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\imm_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8126' with positive edge clock.
+  created $dff cell `$procdff$8128' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\instr_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8131' with positive edge clock.
+  created $dff cell `$procdff$8133' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\add_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8136' with positive edge clock.
+  created $dff cell `$procdff$8138' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\addi_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8141' with positive edge clock.
+  created $dff cell `$procdff$8143' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\sub_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8146' with positive edge clock.
+  created $dff cell `$procdff$8148' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\lui_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8151' with positive edge clock.
+  created $dff cell `$procdff$8153' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\auipc_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8156' with positive edge clock.
+  created $dff cell `$procdff$8158' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\and_inst_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8161' with positive edge clock.
+  created $dff cell `$procdff$8163' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\or_inst_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8166' with positive edge clock.
+  created $dff cell `$procdff$8168' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\xor_inst_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8171' with positive edge clock.
+  created $dff cell `$procdff$8173' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\andi_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8176' with positive edge clock.
+  created $dff cell `$procdff$8178' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\ori_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8181' with positive edge clock.
+  created $dff cell `$procdff$8183' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\xori_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8186' with positive edge clock.
+  created $dff cell `$procdff$8188' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\sll_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8191' with positive edge clock.
+  created $dff cell `$procdff$8193' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\srl_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8196' with positive edge clock.
+  created $dff cell `$procdff$8198' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\sra_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8201' with positive edge clock.
+  created $dff cell `$procdff$8203' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\slli_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8206' with positive edge clock.
+  created $dff cell `$procdff$8208' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\srli_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8211' with positive edge clock.
+  created $dff cell `$procdff$8213' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\srai_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8216' with positive edge clock.
+  created $dff cell `$procdff$8218' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\slt_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8221' with positive edge clock.
+  created $dff cell `$procdff$8223' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\sltu_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8226' with positive edge clock.
+  created $dff cell `$procdff$8228' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\slti_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8231' with positive edge clock.
+  created $dff cell `$procdff$8233' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\sltiu_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8236' with positive edge clock.
+  created $dff cell `$procdff$8238' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\jal_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8241' with positive edge clock.
+  created $dff cell `$procdff$8243' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\jalr_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8246' with positive edge clock.
+  created $dff cell `$procdff$8248' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\lb_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8251' with positive edge clock.
+  created $dff cell `$procdff$8253' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\lh_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8256' with positive edge clock.
+  created $dff cell `$procdff$8258' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\lw_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8261' with positive edge clock.
+  created $dff cell `$procdff$8263' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\lbu_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8266' with positive edge clock.
+  created $dff cell `$procdff$8268' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\lhu_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8271' with positive edge clock.
+  created $dff cell `$procdff$8273' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\sb_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8276' with positive edge clock.
+  created $dff cell `$procdff$8278' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\sh_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8281' with positive edge clock.
+  created $dff cell `$procdff$8283' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\sw_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8286' with positive edge clock.
+  created $dff cell `$procdff$8288' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\beq_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8291' with positive edge clock.
+  created $dff cell `$procdff$8293' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\bne_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8296' with positive edge clock.
+  created $dff cell `$procdff$8298' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\blt_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8301' with positive edge clock.
+  created $dff cell `$procdff$8303' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\bge_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8306' with positive edge clock.
+  created $dff cell `$procdff$8308' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\bltu_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8311' with positive edge clock.
+  created $dff cell `$procdff$8313' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\bgeu_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8316' with positive edge clock.
+  created $dff cell `$procdff$8318' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\ebreak_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8321' with positive edge clock.
+  created $dff cell `$procdff$8323' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\ecall_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8326' with positive edge clock.
+  created $dff cell `$procdff$8328' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\mret_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8331' with positive edge clock.
+  created $dff cell `$procdff$8333' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\fence_i_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8336' with positive edge clock.
+  created $dff cell `$procdff$8338' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\csrrw_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8341' with positive edge clock.
+  created $dff cell `$procdff$8343' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\csrrs_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8346' with positive edge clock.
+  created $dff cell `$procdff$8348' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\csrrc_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8351' with positive edge clock.
+  created $dff cell `$procdff$8353' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\rs1_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8356' with positive edge clock.
+  created $dff cell `$procdff$8358' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\rs2_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8361' with positive edge clock.
+  created $dff cell `$procdff$8363' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.\csr_rst_save' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $dff cell `$procdff$8366' with positive edge clock.
+  created $dff cell `$procdff$8368' with positive edge clock.
 Creating register for signal `\ysyx_26040135_EXU.$bitselwrite$pos$_EXU.v:273$1383' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8369' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8371' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.$bitselwrite$pos$_EXU.v:275$1384' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8372' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8374' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.$bitselwrite$pos$_EXU.v:276$1385' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8375' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8377' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.$bitselwrite$pos$_EXU.v:283$1386' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8378' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8380' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.$bitselwrite$pos$_EXU.v:285$1387' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8381' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8383' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.$lookahead\rd_amt$1389' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8384' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8386' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_EXU.$lookahead\rd_list$1390' using process `\ysyx_26040135_EXU.$proc$_EXU.v:144$1391'.
-  created $adff cell `$procdff$8387' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8389' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$fordecl_block$9.i' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8390' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8392' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[0]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8393' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8395' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[1]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8396' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8398' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[2]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8399' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8401' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[3]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8402' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8404' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[4]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8405' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8407' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[5]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8408' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8410' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[6]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8411' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8413' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[7]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8414' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8416' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[8]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8417' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8419' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[9]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8420' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8422' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[10]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8423' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8425' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[11]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8426' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8428' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[12]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8429' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8431' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[13]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8432' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8434' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[14]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8435' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8437' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[15]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8438' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8440' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[16]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8441' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8443' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[17]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8444' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8446' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[18]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8447' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8449' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[19]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8450' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8452' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[20]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8453' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8455' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[21]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8456' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8458' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[22]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8459' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8461' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[23]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8462' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8464' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[24]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8465' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8467' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[25]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8468' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8470' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[26]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8471' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8473' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[27]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8474' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8476' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[28]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8477' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8479' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[29]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8480' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8482' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[30]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8483' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8485' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.\gpr[31]' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8486' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8488' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$mem2reg_wr$\gpr$dut_dbg_register.v:28$1365_ADDR' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8489' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8491' with positive edge clock and positive level reset.
 Creating register for signal `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$mem2reg_wr$\gpr$dut_dbg_register.v:28$1365_DATA' using process `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$proc$dut_dbg_register.v:22$1366'.
-  created $adff cell `$procdff$8492' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8494' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\lsu_blockf_cyc' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8495' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8497' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\lsu_blcokb_cyc' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8498' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8500' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\lsu_work_cyc' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8501' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8503' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\lsu_blockf' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8504' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8506' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\out_valid' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8507' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8509' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\in_ready' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8510' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8512' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\state' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8513' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8515' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\error_save' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8516' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8518' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\io_save' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8519' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8521' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\io_type_save' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8522' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8524' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\read_is_u_save' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8525' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8527' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\rd_save' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8528' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8530' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\lsu_data_save' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8531' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8533' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\lsu_addr_save' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8534' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8536' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\ic_wb_wdata_save' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8537' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8539' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_LSU.\rdata_out' using process `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-  created $adff cell `$procdff$8540' with positive edge clock and positive level reset.
-Creating register for signal `\ysyx_26040135_WBU.\wbu_blockf_cyc' using process `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
-  created $adff cell `$procdff$8543' with positive edge clock and positive level reset.
-Creating register for signal `\ysyx_26040135_WBU.\wbu_work_cyc' using process `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
-  created $adff cell `$procdff$8546' with positive edge clock and positive level reset.
-Creating register for signal `\ysyx_26040135_WBU.\wbu_blockf' using process `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
-  created $adff cell `$procdff$8549' with positive edge clock and positive level reset.
-Creating register for signal `\ysyx_26040135_WBU.\in_ready' using process `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
-  created $adff cell `$procdff$8552' with positive edge clock and positive level reset.
-Creating register for signal `\ysyx_26040135_WBU.\rd_wb' using process `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
-  created $adff cell `$procdff$8555' with positive edge clock and positive level reset.
-Creating register for signal `\ysyx_26040135_WBU.\wdata_wb' using process `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
-  created $adff cell `$procdff$8558' with positive edge clock and positive level reset.
-Creating register for signal `\ysyx_26040135_WBU.\state' using process `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
-  created $adff cell `$procdff$8561' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8542' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_WBU.\wbu_blockf_cyc' using process `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
+  created $adff cell `$procdff$8545' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_WBU.\wbu_work_cyc' using process `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
+  created $adff cell `$procdff$8548' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_WBU.\wbu_blockf' using process `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
+  created $adff cell `$procdff$8551' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_WBU.\in_ready' using process `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
+  created $adff cell `$procdff$8554' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_WBU.\rd_wb' using process `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
+  created $adff cell `$procdff$8557' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_WBU.\wdata_wb' using process `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
+  created $adff cell `$procdff$8560' with positive edge clock and positive level reset.
+Creating register for signal `\ysyx_26040135_WBU.\state' using process `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
+  created $adff cell `$procdff$8563' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI4_Xbar.\r_current_state' using process `\ysyx_26040135_AXI4_Xbar.$proc$xbar.sv:150$1263'.
-  created $adff cell `$procdff$8564' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8566' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.\ram' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
 Warning: Async reset value `{ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }' is not constant!
-  created $aldff cell `$procdff$8567' with positive edge clock and positive level non-const reset.
+  created $aldff cell `$procdff$8569' with positive edge clock and positive level non-const reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.\rdata_save' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8570' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8572' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.\awaddr_save' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8573' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8575' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.\state' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8576' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8578' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$fordecl_block$1.i' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8579' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8581' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$fordecl_block$3.i' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8582' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8584' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$fordecl_block$5.i' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $dff cell `$procdff$8587' with positive edge clock.
+  created $dff cell `$procdff$8589' with positive edge clock.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$bitselwrite$pos$axi_ram.sv:89$1100' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8590' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8592' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$bitselwrite$pos$axi_ram.sv:89$1101' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8593' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8595' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$bitselwrite$pos$axi_ram.sv:89$1102' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8596' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8598' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$bitselwrite$pos$axi_ram.sv:89$1103' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8599' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8601' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$fordecl_block$7.i' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $dff cell `$procdff$8604' with positive edge clock.
+  created $dff cell `$procdff$8606' with positive edge clock.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$bitselwrite$pos$axi_ram.sv:100$1104' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8607' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8609' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$bitselwrite$pos$axi_ram.sv:100$1105' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8610' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8612' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$bitselwrite$pos$axi_ram.sv:100$1106' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8613' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8615' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$bitselwrite$pos$axi_ram.sv:100$1107' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8616' with positive edge clock and positive level reset.
+  created $adff cell `$procdff$8618' with positive edge clock and positive level reset.
 Creating register for signal `\ysyx_26040135_AXI_RAM.$lookahead\ram$1111' using process `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-  created $adff cell `$procdff$8619' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\ram' using process `\ref_top.$proc$ref_top.sv:271$941'.
+  created $adff cell `$procdff$8621' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\ram' using process `\ref_top.$proc$ref_top.sv:274$941'.
 Warning: Async reset value `{ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }' is not constant!
-  created $aldff cell `$procdff$8622' with positive edge clock and positive level non-const reset.
-Creating register for signal `\ref_top.\pc' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8625' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\mstatus' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8628' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\mepc' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8631' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\mcause' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8634' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\mtvec' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8637' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\mcycle' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8640' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\mcycleh' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8643' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\mvendorid' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8646' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.\marchid' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8649' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$fordecl_block$11.i' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8652' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$fordecl_block$13.i' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8655' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$fordecl_block$15.i' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $dff cell `$procdff$8660' with positive edge clock.
-Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:334$753' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8663' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:334$754' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8666' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:334$755' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8669' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:334$756' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8672' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:338$757' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8675' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$fordecl_block$17.i' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $dff cell `$procdff$8680' with positive edge clock.
-Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:342$758' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8683' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:342$759' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8686' with positive edge clock and positive level reset.
-Creating register for signal `\ref_top.$lookahead\ram$940' using process `\ref_top.$proc$ref_top.sv:271$941'.
-  created $adff cell `$procdff$8689' with positive edge clock and positive level reset.
-Creating register for signal `\formal_top.\clk_en' using process `\formal_top.$proc$formal_top.sv:195$104'.
-  created $adff cell `$procdff$8692' with positive edge clock and positive level reset.
+  created $aldff cell `$procdff$8624' with positive edge clock and positive level non-const reset.
+Creating register for signal `\ref_top.\pc' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8627' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\mstatus' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8630' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\mepc' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8633' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\mcause' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8636' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\mtvec' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8639' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\mcycle' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8642' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\mcycleh' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8645' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\mvendorid' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8648' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.\marchid' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8651' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$fordecl_block$11.i' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8654' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$fordecl_block$13.i' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8657' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$fordecl_block$15.i' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $dff cell `$procdff$8662' with positive edge clock.
+Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:337$753' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8665' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:337$754' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8668' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:337$755' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8671' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:337$756' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8674' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:341$757' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8677' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$fordecl_block$17.i' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $dff cell `$procdff$8682' with positive edge clock.
+Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:345$758' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8685' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$bitselwrite$pos$ref_top.sv:345$759' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8688' with positive edge clock and positive level reset.
+Creating register for signal `\ref_top.$lookahead\ram$940' using process `\ref_top.$proc$ref_top.sv:274$941'.
+  created $adff cell `$procdff$8691' with positive edge clock and positive level reset.
+Creating register for signal `\formal_top.\clk_en' using process `\formal_top.$proc$formal_top.sv:223$104'.
+  created $adff cell `$procdff$8694' with positive edge clock and positive level reset.
+Creating register for signal `\formal_top.\gpr_check_valid' using process `\formal_top.$proc$formal_top.sv:223$104'.
+  created $adff cell `$procdff$8697' with positive edge clock and positive level reset.
 Creating register for signal `\formal_top.\imem_r' using process `\formal_top.$proc$formal_top.sv:28$70'.
-  created $dff cell `$procdff$8693' with positive edge clock.
+  created $dff cell `$procdff$8698' with positive edge clock.
 Creating register for signal `\formal_top.\f_cycles' using process `\formal_top.$proc$formal_top.sv:16$62'.
-  created $dff cell `$procdff$8694' with positive edge clock.
+  created $dff cell `$procdff$8699' with positive edge clock.
 
 15.3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
 
@@ -1734,10 +1737,10 @@ Found and cleaned up 3 empty switches in `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:19
 Removing empty process `ysyx_26040135_AXI_LSU.$proc$_LSU.v:197$1328'.
 Found and cleaned up 10 empty switches in `\ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
 Removing empty process `ysyx_26040135_AXI_LSU.$proc$_LSU.v:118$1296'.
-Found and cleaned up 2 empty switches in `\ysyx_26040135_WBU.$proc$_WBU.v:63$1294'.
-Removing empty process `ysyx_26040135_WBU.$proc$_WBU.v:63$1294'.
-Found and cleaned up 3 empty switches in `\ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
-Removing empty process `ysyx_26040135_WBU.$proc$_WBU.v:29$1285'.
+Found and cleaned up 2 empty switches in `\ysyx_26040135_WBU.$proc$_WBU.v:61$1294'.
+Removing empty process `ysyx_26040135_WBU.$proc$_WBU.v:61$1294'.
+Found and cleaned up 3 empty switches in `\ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
+Removing empty process `ysyx_26040135_WBU.$proc$_WBU.v:28$1285'.
 Found and cleaned up 5 empty switches in `\ysyx_26040135_AXI4_Xbar.$proc$xbar.sv:162$1266'.
 Removing empty process `ysyx_26040135_AXI4_Xbar.$proc$xbar.sv:162$1266'.
 Removing empty process `ysyx_26040135_AXI4_Xbar.$proc$xbar.sv:150$1263'.
@@ -1745,83 +1748,83 @@ Found and cleaned up 7 empty switches in `\ysyx_26040135_AXI_RAM.$proc$axi_ram.s
 Removing empty process `ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:107$1262'.
 Found and cleaned up 12 empty switches in `\ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
 Removing empty process `ysyx_26040135_AXI_RAM.$proc$axi_ram.sv:63$1112'.
-Found and cleaned up 20 empty switches in `\ref_top.$proc$ref_top.sv:271$941'.
-Removing empty process `ref_top.$proc$ref_top.sv:271$941'.
-Found and cleaned up 2 empty switches in `\ref_top.$proc$ref_top.sv:248$924'.
-Removing empty process `ref_top.$proc$ref_top.sv:248$924'.
-Found and cleaned up 1 empty switch in `\ref_top.$proc$ref_top.sv:199$866'.
-Removing empty process `ref_top.$proc$ref_top.sv:199$866'.
+Found and cleaned up 20 empty switches in `\ref_top.$proc$ref_top.sv:274$941'.
+Removing empty process `ref_top.$proc$ref_top.sv:274$941'.
+Found and cleaned up 2 empty switches in `\ref_top.$proc$ref_top.sv:251$924'.
+Removing empty process `ref_top.$proc$ref_top.sv:251$924'.
+Found and cleaned up 1 empty switch in `\ref_top.$proc$ref_top.sv:202$866'.
+Removing empty process `ref_top.$proc$ref_top.sv:202$866'.
 Removing empty process `formal_top.$proc$formal_top.sv:15$752'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:97$746'.
-Removing empty process `formal_top.$proc$formal_top.sv:97$746'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:94$740'.
-Removing empty process `formal_top.$proc$formal_top.sv:94$740'.
-Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:92$682'.
-Removing empty process `formal_top.$proc$formal_top.sv:92$682'.
-Removing empty process `formal_top.$proc$formal_top.sv:90$677'.
-Removing empty process `formal_top.$proc$formal_top.sv:89$672'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:97$666'.
-Removing empty process `formal_top.$proc$formal_top.sv:97$666'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:94$660'.
-Removing empty process `formal_top.$proc$formal_top.sv:94$660'.
-Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:92$602'.
-Removing empty process `formal_top.$proc$formal_top.sv:92$602'.
-Removing empty process `formal_top.$proc$formal_top.sv:90$597'.
-Removing empty process `formal_top.$proc$formal_top.sv:89$592'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:97$586'.
-Removing empty process `formal_top.$proc$formal_top.sv:97$586'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:94$580'.
-Removing empty process `formal_top.$proc$formal_top.sv:94$580'.
-Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:92$522'.
-Removing empty process `formal_top.$proc$formal_top.sv:92$522'.
-Removing empty process `formal_top.$proc$formal_top.sv:90$517'.
-Removing empty process `formal_top.$proc$formal_top.sv:89$512'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:97$506'.
-Removing empty process `formal_top.$proc$formal_top.sv:97$506'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:94$500'.
-Removing empty process `formal_top.$proc$formal_top.sv:94$500'.
-Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:92$442'.
-Removing empty process `formal_top.$proc$formal_top.sv:92$442'.
-Removing empty process `formal_top.$proc$formal_top.sv:90$437'.
-Removing empty process `formal_top.$proc$formal_top.sv:89$432'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:97$426'.
-Removing empty process `formal_top.$proc$formal_top.sv:97$426'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:94$420'.
-Removing empty process `formal_top.$proc$formal_top.sv:94$420'.
-Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:92$362'.
-Removing empty process `formal_top.$proc$formal_top.sv:92$362'.
-Removing empty process `formal_top.$proc$formal_top.sv:90$357'.
-Removing empty process `formal_top.$proc$formal_top.sv:89$352'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:97$346'.
-Removing empty process `formal_top.$proc$formal_top.sv:97$346'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:94$340'.
-Removing empty process `formal_top.$proc$formal_top.sv:94$340'.
-Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:92$282'.
-Removing empty process `formal_top.$proc$formal_top.sv:92$282'.
-Removing empty process `formal_top.$proc$formal_top.sv:90$277'.
-Removing empty process `formal_top.$proc$formal_top.sv:89$272'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:97$266'.
-Removing empty process `formal_top.$proc$formal_top.sv:97$266'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:94$260'.
-Removing empty process `formal_top.$proc$formal_top.sv:94$260'.
-Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:92$202'.
-Removing empty process `formal_top.$proc$formal_top.sv:92$202'.
-Removing empty process `formal_top.$proc$formal_top.sv:90$197'.
-Removing empty process `formal_top.$proc$formal_top.sv:89$192'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:97$186'.
-Removing empty process `formal_top.$proc$formal_top.sv:97$186'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:94$180'.
-Removing empty process `formal_top.$proc$formal_top.sv:94$180'.
-Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:92$122'.
-Removing empty process `formal_top.$proc$formal_top.sv:92$122'.
-Removing empty process `formal_top.$proc$formal_top.sv:90$117'.
-Removing empty process `formal_top.$proc$formal_top.sv:89$112'.
-Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:208$107'.
-Removing empty process `formal_top.$proc$formal_top.sv:208$107'.
-Found and cleaned up 2 empty switches in `\formal_top.$proc$formal_top.sv:195$104'.
-Removing empty process `formal_top.$proc$formal_top.sv:195$104'.
-Found and cleaned up 5 empty switches in `\formal_top.$proc$formal_top.sv:112$74'.
-Removing empty process `formal_top.$proc$formal_top.sv:112$74'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:98$746'.
+Removing empty process `formal_top.$proc$formal_top.sv:98$746'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:95$740'.
+Removing empty process `formal_top.$proc$formal_top.sv:95$740'.
+Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:93$682'.
+Removing empty process `formal_top.$proc$formal_top.sv:93$682'.
+Removing empty process `formal_top.$proc$formal_top.sv:91$677'.
+Removing empty process `formal_top.$proc$formal_top.sv:90$672'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:98$666'.
+Removing empty process `formal_top.$proc$formal_top.sv:98$666'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:95$660'.
+Removing empty process `formal_top.$proc$formal_top.sv:95$660'.
+Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:93$602'.
+Removing empty process `formal_top.$proc$formal_top.sv:93$602'.
+Removing empty process `formal_top.$proc$formal_top.sv:91$597'.
+Removing empty process `formal_top.$proc$formal_top.sv:90$592'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:98$586'.
+Removing empty process `formal_top.$proc$formal_top.sv:98$586'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:95$580'.
+Removing empty process `formal_top.$proc$formal_top.sv:95$580'.
+Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:93$522'.
+Removing empty process `formal_top.$proc$formal_top.sv:93$522'.
+Removing empty process `formal_top.$proc$formal_top.sv:91$517'.
+Removing empty process `formal_top.$proc$formal_top.sv:90$512'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:98$506'.
+Removing empty process `formal_top.$proc$formal_top.sv:98$506'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:95$500'.
+Removing empty process `formal_top.$proc$formal_top.sv:95$500'.
+Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:93$442'.
+Removing empty process `formal_top.$proc$formal_top.sv:93$442'.
+Removing empty process `formal_top.$proc$formal_top.sv:91$437'.
+Removing empty process `formal_top.$proc$formal_top.sv:90$432'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:98$426'.
+Removing empty process `formal_top.$proc$formal_top.sv:98$426'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:95$420'.
+Removing empty process `formal_top.$proc$formal_top.sv:95$420'.
+Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:93$362'.
+Removing empty process `formal_top.$proc$formal_top.sv:93$362'.
+Removing empty process `formal_top.$proc$formal_top.sv:91$357'.
+Removing empty process `formal_top.$proc$formal_top.sv:90$352'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:98$346'.
+Removing empty process `formal_top.$proc$formal_top.sv:98$346'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:95$340'.
+Removing empty process `formal_top.$proc$formal_top.sv:95$340'.
+Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:93$282'.
+Removing empty process `formal_top.$proc$formal_top.sv:93$282'.
+Removing empty process `formal_top.$proc$formal_top.sv:91$277'.
+Removing empty process `formal_top.$proc$formal_top.sv:90$272'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:98$266'.
+Removing empty process `formal_top.$proc$formal_top.sv:98$266'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:95$260'.
+Removing empty process `formal_top.$proc$formal_top.sv:95$260'.
+Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:93$202'.
+Removing empty process `formal_top.$proc$formal_top.sv:93$202'.
+Removing empty process `formal_top.$proc$formal_top.sv:91$197'.
+Removing empty process `formal_top.$proc$formal_top.sv:90$192'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:98$186'.
+Removing empty process `formal_top.$proc$formal_top.sv:98$186'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:95$180'.
+Removing empty process `formal_top.$proc$formal_top.sv:95$180'.
+Found and cleaned up 3 empty switches in `\formal_top.$proc$formal_top.sv:93$122'.
+Removing empty process `formal_top.$proc$formal_top.sv:93$122'.
+Removing empty process `formal_top.$proc$formal_top.sv:91$117'.
+Removing empty process `formal_top.$proc$formal_top.sv:90$112'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:240$107'.
+Removing empty process `formal_top.$proc$formal_top.sv:240$107'.
+Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:223$104'.
+Removing empty process `formal_top.$proc$formal_top.sv:223$104'.
+Found and cleaned up 5 empty switches in `\formal_top.$proc$formal_top.sv:113$74'.
+Removing empty process `formal_top.$proc$formal_top.sv:113$74'.
 Removing empty process `formal_top.$proc$formal_top.sv:31$71'.
 Removing empty process `formal_top.$proc$formal_top.sv:28$70'.
 Removing empty process `formal_top.$proc$formal_top.sv:21$65'.
@@ -1829,7 +1832,7 @@ Found and cleaned up 1 empty switch in `\formal_top.$proc$formal_top.sv:16$62'.
 Removing empty process `formal_top.$proc$formal_top.sv:16$62'.
 Found and cleaned up 15 empty switches in `\decode.$proc$decode.v:196$1785'.
 Removing empty process `decode.$proc$decode.v:196$1785'.
-Cleaned up 237 empty switches.
+Cleaned up 236 empty switches.
 
 15.3.12. Executing OPT_EXPR pass (perform const folding).
 Optimizing module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.
@@ -1854,7 +1857,7 @@ Optimizing module dut_top.
 Optimizing module ref_top.
 <suppressed ~38 debug messages>
 Optimizing module formal_top.
-<suppressed ~96 debug messages>
+<suppressed ~97 debug messages>
 Optimizing module decode.
 <suppressed ~26 debug messages>
 
@@ -1905,7 +1908,7 @@ Finding unused cells or wires in module \dut_top..
 Finding unused cells or wires in module \ref_top..
 Finding unused cells or wires in module \formal_top..
 Finding unused cells or wires in module \decode..
-Removed 188 unused cells and 2608 unused wires.
+Removed 188 unused cells and 2610 unused wires.
 <suppressed ~202 debug messages>
 
 15.8. Executing OPT pass (performing simple optimizations).
@@ -2012,13 +2015,13 @@ Computing hashes of 372 cells of `\ref_top'.
 Finding duplicate cells in `\ref_top'.
 <suppressed ~219 debug messages>
 Finding identical cells in module `\formal_top'.
-Computing hashes of 857 cells of `\formal_top'.
+Computing hashes of 858 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
-Computing hashes of 584 cells of `\formal_top'.
+Computing hashes of 585 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
-Computing hashes of 560 cells of `\formal_top'.
+Computing hashes of 561 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
-Computing hashes of 552 cells of `\formal_top'.
+Computing hashes of 553 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
 <suppressed ~915 debug messages>
 Finding identical cells in module `\decode'.
@@ -2360,8 +2363,8 @@ Running muxtree optimizer on module \formal_top..
     dead port 2/2 on $mux $procmux$6579.
     dead port 2/2 on $mux $procmux$6732.
     dead port 2/2 on $mux $procmux$6717.
-    dead port 2/2 on $mux $procmux$6870.
     dead port 2/2 on $mux $procmux$6686.
+    dead port 2/2 on $mux $procmux$6870.
     dead port 2/2 on $mux $procmux$6671.
     dead port 2/2 on $mux $procmux$6640.
     dead port 2/2 on $mux $procmux$6625.
@@ -2371,140 +2374,140 @@ Running muxtree optimizer on module \decode..
   Creating internal representation of mux trees.
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
-    dead port 2/2 on $mux $procmux$7330.
-    dead port 2/2 on $mux $procmux$7475.
-    dead port 2/2 on $mux $procmux$7317.
-    dead port 2/2 on $mux $procmux$7461.
-    dead port 2/2 on $mux $procmux$7304.
-    dead port 2/2 on $mux $procmux$7291.
-    dead port 2/2 on $mux $procmux$7447.
-    dead port 2/2 on $mux $procmux$7660.
-    dead port 2/2 on $mux $procmux$7278.
-    dead port 2/2 on $mux $procmux$7433.
-    dead port 2/2 on $mux $procmux$7645.
-    dead port 2/2 on $mux $procmux$7265.
-    dead port 2/2 on $mux $procmux$7631.
-    dead port 2/2 on $mux $procmux$7419.
-    dead port 2/2 on $mux $procmux$7618.
-    dead port 2/2 on $mux $procmux$7252.
-    dead port 2/2 on $mux $procmux$7606.
-    dead port 2/2 on $mux $procmux$7595.
-    dead port 2/2 on $mux $procmux$7405.
-    dead port 2/2 on $mux $procmux$7239.
-    dead port 2/2 on $mux $procmux$7579.
-    dead port 2/2 on $mux $procmux$7566.
-    dead port 2/2 on $mux $procmux$7226.
-    dead port 2/2 on $mux $procmux$7391.
-    dead port 2/2 on $mux $procmux$7554.
-    dead port 2/2 on $mux $procmux$7543.
+    dead port 2/2 on $mux $procmux$7332.
+    dead port 2/2 on $mux $procmux$7477.
+    dead port 2/2 on $mux $procmux$7319.
+    dead port 2/2 on $mux $procmux$7463.
+    dead port 2/2 on $mux $procmux$7306.
+    dead port 2/2 on $mux $procmux$7293.
+    dead port 2/2 on $mux $procmux$7449.
+    dead port 2/2 on $mux $procmux$7662.
+    dead port 2/2 on $mux $procmux$7280.
+    dead port 2/2 on $mux $procmux$7435.
+    dead port 2/2 on $mux $procmux$7647.
+    dead port 2/2 on $mux $procmux$7267.
+    dead port 2/2 on $mux $procmux$7633.
+    dead port 2/2 on $mux $procmux$7421.
+    dead port 2/2 on $mux $procmux$7620.
+    dead port 2/2 on $mux $procmux$7254.
+    dead port 2/2 on $mux $procmux$7608.
+    dead port 2/2 on $mux $procmux$7597.
+    dead port 2/2 on $mux $procmux$7407.
+    dead port 2/2 on $mux $procmux$7241.
+    dead port 2/2 on $mux $procmux$7581.
+    dead port 2/2 on $mux $procmux$7568.
+    dead port 2/2 on $mux $procmux$7228.
+    dead port 2/2 on $mux $procmux$7393.
+    dead port 2/2 on $mux $procmux$7556.
+    dead port 2/2 on $mux $procmux$7545.
+    dead port 2/2 on $mux $procmux$7215.
     dead port 2/2 on $mux $procmux$7213.
-    dead port 2/2 on $mux $procmux$7211.
+    dead port 2/2 on $mux $procmux$7199.
+    dead port 2/2 on $mux $procmux$7379.
     dead port 2/2 on $mux $procmux$7197.
-    dead port 2/2 on $mux $procmux$7377.
-    dead port 2/2 on $mux $procmux$7195.
+    dead port 2/2 on $mux $procmux$7183.
+    dead port 2/2 on $mux $procmux$7535.
     dead port 2/2 on $mux $procmux$7181.
-    dead port 2/2 on $mux $procmux$7533.
-    dead port 2/2 on $mux $procmux$7179.
+    dead port 2/2 on $mux $procmux$7172.
     dead port 2/2 on $mux $procmux$7170.
-    dead port 2/2 on $mux $procmux$7168.
-    dead port 2/2 on $mux $procmux$7159.
-    dead port 2/2 on $mux $procmux$7519.
-    dead port 2/2 on $mux $procmux$7153.
-    dead port 2/2 on $mux $procmux$7147.
-    dead port 2/2 on $mux $procmux$7141.
-    dead port 2/2 on $mux $procmux$7135.
-    dead port 2/2 on $mux $procmux$7129.
+    dead port 2/2 on $mux $procmux$7161.
+    dead port 2/2 on $mux $procmux$7521.
+    dead port 2/2 on $mux $procmux$7155.
+    dead port 2/2 on $mux $procmux$7149.
+    dead port 2/2 on $mux $procmux$7143.
+    dead port 2/2 on $mux $procmux$7137.
+    dead port 2/2 on $mux $procmux$7131.
+    dead port 2/2 on $mux $procmux$7365.
+    dead port 2/2 on $mux $procmux$7125.
+    dead port 2/2 on $mux $procmux$7511.
+    dead port 1/2 on $mux $procmux$7123.
+    dead port 2/2 on $mux $procmux$7116.
     dead port 2/2 on $mux $procmux$7363.
-    dead port 2/2 on $mux $procmux$7123.
-    dead port 2/2 on $mux $procmux$7509.
-    dead port 1/2 on $mux $procmux$7121.
-    dead port 2/2 on $mux $procmux$7114.
-    dead port 2/2 on $mux $procmux$7361.
-    dead port 1/2 on $mux $procmux$7112.
-    dead port 2/2 on $mux $procmux$7105.
-    dead port 1/2 on $mux $procmux$7103.
-    dead port 2/2 on $mux $procmux$7096.
-    dead port 1/2 on $mux $procmux$7094.
-    dead port 2/2 on $mux $procmux$7087.
+    dead port 1/2 on $mux $procmux$7114.
+    dead port 2/2 on $mux $procmux$7107.
+    dead port 1/2 on $mux $procmux$7105.
+    dead port 2/2 on $mux $procmux$7098.
+    dead port 1/2 on $mux $procmux$7096.
+    dead port 2/2 on $mux $procmux$7089.
+    dead port 2/2 on $mux $procmux$7355.
+    dead port 1/2 on $mux $procmux$7087.
+    dead port 2/2 on $mux $procmux$7080.
+    dead port 1/2 on $mux $procmux$7078.
+    dead port 1/2 on $mux $procmux$7075.
+    dead port 2/2 on $mux $procmux$7068.
     dead port 2/2 on $mux $procmux$7353.
-    dead port 1/2 on $mux $procmux$7085.
-    dead port 2/2 on $mux $procmux$7078.
-    dead port 1/2 on $mux $procmux$7076.
-    dead port 1/2 on $mux $procmux$7073.
-    dead port 2/2 on $mux $procmux$7066.
-    dead port 2/2 on $mux $procmux$7351.
-    dead port 1/2 on $mux $procmux$7064.
-    dead port 1/2 on $mux $procmux$7061.
-    dead port 2/2 on $mux $procmux$7054.
-    dead port 1/2 on $mux $procmux$7052.
-    dead port 1/2 on $mux $procmux$7049.
-    dead port 2/2 on $mux $procmux$7042.
-    dead port 1/2 on $mux $procmux$7040.
-    dead port 1/2 on $mux $procmux$7037.
-    dead port 2/2 on $mux $procmux$7030.
-    dead port 2/2 on $mux $procmux$7343.
-    dead port 1/2 on $mux $procmux$7028.
-    dead port 1/2 on $mux $procmux$7025.
-    dead port 1/2 on $mux $procmux$7022.
-    dead port 2/2 on $mux $procmux$7015.
-    dead port 2/2 on $mux $procmux$7500.
-    dead port 1/2 on $mux $procmux$7013.
-    dead port 1/2 on $mux $procmux$7010.
-    dead port 1/2 on $mux $procmux$7007.
-    dead port 2/2 on $mux $procmux$7000.
-    dead port 1/2 on $mux $procmux$6998.
-    dead port 1/2 on $mux $procmux$6995.
-    dead port 1/2 on $mux $procmux$6992.
-    dead port 2/2 on $mux $procmux$6985.
-    dead port 1/2 on $mux $procmux$6983.
-    dead port 1/2 on $mux $procmux$6980.
-    dead port 1/2 on $mux $procmux$6977.
-    dead port 1/2 on $mux $procmux$6974.
-    dead port 2/2 on $mux $procmux$6967.
-    dead port 1/2 on $mux $procmux$6965.
-    dead port 1/2 on $mux $procmux$6962.
-    dead port 1/2 on $mux $procmux$6959.
-    dead port 1/2 on $mux $procmux$6956.
-    dead port 2/2 on $mux $procmux$6949.
-    dead port 2/2 on $mux $procmux$7489.
-    dead port 1/2 on $mux $procmux$6947.
-    dead port 1/2 on $mux $procmux$6944.
-    dead port 1/2 on $mux $procmux$6941.
-    dead port 1/2 on $mux $procmux$6938.
-    dead port 1/2 on $mux $procmux$6935.
+    dead port 1/2 on $mux $procmux$7066.
+    dead port 1/2 on $mux $procmux$7063.
+    dead port 2/2 on $mux $procmux$7056.
+    dead port 1/2 on $mux $procmux$7054.
+    dead port 1/2 on $mux $procmux$7051.
+    dead port 2/2 on $mux $procmux$7044.
+    dead port 1/2 on $mux $procmux$7042.
+    dead port 1/2 on $mux $procmux$7039.
+    dead port 2/2 on $mux $procmux$7032.
+    dead port 2/2 on $mux $procmux$7345.
+    dead port 1/2 on $mux $procmux$7030.
+    dead port 1/2 on $mux $procmux$7027.
+    dead port 1/2 on $mux $procmux$7024.
+    dead port 2/2 on $mux $procmux$7017.
+    dead port 2/2 on $mux $procmux$7502.
+    dead port 1/2 on $mux $procmux$7015.
+    dead port 1/2 on $mux $procmux$7012.
+    dead port 1/2 on $mux $procmux$7009.
+    dead port 2/2 on $mux $procmux$7002.
+    dead port 1/2 on $mux $procmux$7000.
+    dead port 1/2 on $mux $procmux$6997.
+    dead port 1/2 on $mux $procmux$6994.
+    dead port 2/2 on $mux $procmux$6987.
+    dead port 1/2 on $mux $procmux$6985.
+    dead port 1/2 on $mux $procmux$6982.
+    dead port 1/2 on $mux $procmux$6979.
+    dead port 1/2 on $mux $procmux$6976.
+    dead port 2/2 on $mux $procmux$6969.
+    dead port 1/2 on $mux $procmux$6967.
+    dead port 1/2 on $mux $procmux$6964.
+    dead port 1/2 on $mux $procmux$6961.
+    dead port 1/2 on $mux $procmux$6958.
+    dead port 2/2 on $mux $procmux$6951.
+    dead port 2/2 on $mux $procmux$7491.
+    dead port 1/2 on $mux $procmux$6949.
+    dead port 1/2 on $mux $procmux$6946.
+    dead port 1/2 on $mux $procmux$6943.
+    dead port 1/2 on $mux $procmux$6940.
+    dead port 1/2 on $mux $procmux$6937.
 Removed 390 multiplexer ports.
-<suppressed ~1834 debug messages>
+<suppressed ~1835 debug messages>
 
 15.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
   Optimizing cells in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.
   Optimizing cells in module \ysyx_26040135_AXI_IFU.
   Optimizing cells in module \ysyx_26040135_AXI_IFU.
   Optimizing cells in module \ysyx_26040135_IDU.
-    New ctrl vector for $pmux cell $procmux$3146: { $auto$opt_reduce.cc:137:opt_pmux$8696 $procmux$3523_CMP }
-    New ctrl vector for $pmux cell $procmux$3395: { $auto$opt_reduce.cc:137:opt_pmux$8698 $procmux$3415_CMP }
-    New ctrl vector for $pmux cell $procmux$3311: { $procmux$3559_CMP $auto$opt_reduce.cc:137:opt_pmux$8700 }
-    New ctrl vector for $pmux cell $procmux$3224: { $auto$opt_reduce.cc:137:opt_pmux$8702 $procmux$3573_CMP }
-    New ctrl vector for $pmux cell $procmux$3381: { $auto$opt_reduce.cc:137:opt_pmux$8704 $procmux$3573_CMP }
-    New ctrl vector for $pmux cell $procmux$3297: { $auto$opt_reduce.cc:137:opt_pmux$8706 $procmux$3523_CMP }
-    New ctrl vector for $pmux cell $procmux$3211: { $auto$opt_reduce.cc:137:opt_pmux$8708 $procmux$3559_CMP }
-    New ctrl vector for $pmux cell $procmux$3851: { $procmux$3852_CMP $procmux$3853_CMP $procmux$3854_CMP $procmux$3855_CMP $auto$opt_reduce.cc:137:opt_pmux$8710 }
-    New ctrl vector for $pmux cell $procmux$3367: { $auto$opt_reduce.cc:137:opt_pmux$8712 $procmux$3546_CMP }
-    New ctrl vector for $pmux cell $procmux$3198: { $auto$opt_reduce.cc:137:opt_pmux$8714 $procmux$3559_CMP }
-    New ctrl vector for $pmux cell $procmux$3409: { $auto$opt_reduce.cc:137:opt_pmux$8716 $procmux$3494_CMP }
-    New ctrl vector for $pmux cell $procmux$3353: { $auto$opt_reduce.cc:137:opt_pmux$8718 $procmux$3534_CMP }
-    New ctrl vector for $pmux cell $procmux$3250: { $auto$opt_reduce.cc:137:opt_pmux$8720 $procmux$3494_CMP }
-    New ctrl vector for $pmux cell $procmux$3185: { $auto$opt_reduce.cc:137:opt_pmux$8722 $procmux$3546_CMP }
-    New ctrl vector for $pmux cell $procmux$3263: { $auto$opt_reduce.cc:137:opt_pmux$8724 $procmux$3588_CMP }
-    New ctrl vector for $pmux cell $procmux$3172: { $procmux$3534_CMP $auto$opt_reduce.cc:137:opt_pmux$8726 }
-    New ctrl vector for $pmux cell $procmux$3339: { $auto$opt_reduce.cc:137:opt_pmux$8728 $procmux$3588_CMP }
-    New ctrl vector for $pmux cell $procmux$3159: { $auto$opt_reduce.cc:137:opt_pmux$8730 $procmux$3523_CMP }
-    New ctrl vector for $pmux cell $procmux$3325: { $procmux$3559_CMP $auto$opt_reduce.cc:137:opt_pmux$8732 }
-    New ctrl vector for $pmux cell $procmux$3237: { $auto$opt_reduce.cc:137:opt_pmux$8734 $procmux$3415_CMP }
+    New ctrl vector for $pmux cell $procmux$3146: { $auto$opt_reduce.cc:137:opt_pmux$8701 $procmux$3523_CMP }
+    New ctrl vector for $pmux cell $procmux$3395: { $auto$opt_reduce.cc:137:opt_pmux$8703 $procmux$3415_CMP }
+    New ctrl vector for $pmux cell $procmux$3311: { $procmux$3559_CMP $auto$opt_reduce.cc:137:opt_pmux$8705 }
+    New ctrl vector for $pmux cell $procmux$3224: { $auto$opt_reduce.cc:137:opt_pmux$8707 $procmux$3573_CMP }
+    New ctrl vector for $pmux cell $procmux$3381: { $auto$opt_reduce.cc:137:opt_pmux$8709 $procmux$3573_CMP }
+    New ctrl vector for $pmux cell $procmux$3297: { $auto$opt_reduce.cc:137:opt_pmux$8711 $procmux$3523_CMP }
+    New ctrl vector for $pmux cell $procmux$3211: { $auto$opt_reduce.cc:137:opt_pmux$8713 $procmux$3559_CMP }
+    New ctrl vector for $pmux cell $procmux$3851: { $procmux$3852_CMP $procmux$3853_CMP $procmux$3854_CMP $procmux$3855_CMP $auto$opt_reduce.cc:137:opt_pmux$8715 }
+    New ctrl vector for $pmux cell $procmux$3367: { $auto$opt_reduce.cc:137:opt_pmux$8717 $procmux$3546_CMP }
+    New ctrl vector for $pmux cell $procmux$3198: { $auto$opt_reduce.cc:137:opt_pmux$8719 $procmux$3559_CMP }
+    New ctrl vector for $pmux cell $procmux$3409: { $auto$opt_reduce.cc:137:opt_pmux$8721 $procmux$3494_CMP }
+    New ctrl vector for $pmux cell $procmux$3353: { $auto$opt_reduce.cc:137:opt_pmux$8723 $procmux$3534_CMP }
+    New ctrl vector for $pmux cell $procmux$3250: { $auto$opt_reduce.cc:137:opt_pmux$8725 $procmux$3494_CMP }
+    New ctrl vector for $pmux cell $procmux$3185: { $auto$opt_reduce.cc:137:opt_pmux$8727 $procmux$3546_CMP }
+    New ctrl vector for $pmux cell $procmux$3263: { $auto$opt_reduce.cc:137:opt_pmux$8729 $procmux$3588_CMP }
+    New ctrl vector for $pmux cell $procmux$3172: { $procmux$3534_CMP $auto$opt_reduce.cc:137:opt_pmux$8731 }
+    New ctrl vector for $pmux cell $procmux$3339: { $auto$opt_reduce.cc:137:opt_pmux$8733 $procmux$3588_CMP }
+    New ctrl vector for $pmux cell $procmux$3159: { $auto$opt_reduce.cc:137:opt_pmux$8735 $procmux$3523_CMP }
+    New ctrl vector for $pmux cell $procmux$3325: { $procmux$3559_CMP $auto$opt_reduce.cc:137:opt_pmux$8737 }
+    New ctrl vector for $pmux cell $procmux$3237: { $auto$opt_reduce.cc:137:opt_pmux$8739 $procmux$3415_CMP }
   Optimizing cells in module \ysyx_26040135_IDU.
   Optimizing cells in module \ysyx_26040135_EXU.
-    New ctrl vector for $pmux cell $procmux$4170: { $procmux$4171_CMP $auto$opt_reduce.cc:137:opt_pmux$8736 }
-    New ctrl vector for $pmux cell $procmux$4165: { $auto$opt_reduce.cc:137:opt_pmux$8738 $procmux$4173_CMP }
-    New ctrl vector for $pmux cell $procmux$4160: { $auto$opt_reduce.cc:137:opt_pmux$8740 $procmux$4174_CMP }
+    New ctrl vector for $pmux cell $procmux$4170: { $procmux$4171_CMP $auto$opt_reduce.cc:137:opt_pmux$8741 }
+    New ctrl vector for $pmux cell $procmux$4165: { $auto$opt_reduce.cc:137:opt_pmux$8743 $procmux$4173_CMP }
+    New ctrl vector for $pmux cell $procmux$4160: { $auto$opt_reduce.cc:137:opt_pmux$8745 $procmux$4174_CMP }
   Optimizing cells in module \ysyx_26040135_EXU.
   Optimizing cells in module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.
   Optimizing cells in module \ysyx_26040135_AXI_LSU.
@@ -2514,35 +2517,35 @@ Removed 390 multiplexer ports.
   Optimizing cells in module \dut_top.
   Optimizing cells in module \ref_top.
   Optimizing cells in module \formal_top.
-    New ctrl vector for $pmux cell $procmux$6827: { $procmux$6828_CMP $auto$opt_reduce.cc:137:opt_pmux$8742 $procmux$6831_CMP $procmux$6833_CMP $procmux$6834_CMP $procmux$6835_CMP $procmux$6836_CMP $procmux$6837_CMP }
-    New ctrl vector for $pmux cell $procmux$6781: { $procmux$6782_CMP $auto$opt_reduce.cc:137:opt_pmux$8744 $procmux$6785_CMP $procmux$6787_CMP $procmux$6788_CMP $procmux$6789_CMP $procmux$6790_CMP $procmux$6791_CMP }
-    New ctrl vector for $pmux cell $procmux$6735: { $procmux$6736_CMP $auto$opt_reduce.cc:137:opt_pmux$8746 $procmux$6739_CMP $procmux$6741_CMP $procmux$6742_CMP $procmux$6743_CMP $procmux$6744_CMP $procmux$6745_CMP }
-    New ctrl vector for $pmux cell $procmux$6873: { $procmux$6874_CMP $auto$opt_reduce.cc:137:opt_pmux$8748 $procmux$6877_CMP $procmux$6879_CMP $procmux$6880_CMP $procmux$6881_CMP $procmux$6882_CMP $procmux$6883_CMP }
-    New ctrl vector for $pmux cell $procmux$6689: { $procmux$6690_CMP $auto$opt_reduce.cc:137:opt_pmux$8750 $procmux$6693_CMP $procmux$6695_CMP $procmux$6696_CMP $procmux$6697_CMP $procmux$6698_CMP $procmux$6699_CMP }
-    New ctrl vector for $pmux cell $procmux$6643: { $procmux$6644_CMP $auto$opt_reduce.cc:137:opt_pmux$8752 $procmux$6647_CMP $procmux$6649_CMP $procmux$6650_CMP $procmux$6651_CMP $procmux$6652_CMP $procmux$6653_CMP }
-    New ctrl vector for $pmux cell $procmux$6551: { $procmux$6552_CMP $auto$opt_reduce.cc:137:opt_pmux$8754 $procmux$6555_CMP $procmux$6557_CMP $procmux$6558_CMP $procmux$6559_CMP $procmux$6560_CMP $procmux$6561_CMP }
-    New ctrl vector for $pmux cell $procmux$6597: { $procmux$6598_CMP $auto$opt_reduce.cc:137:opt_pmux$8756 $procmux$6601_CMP $procmux$6603_CMP $procmux$6604_CMP $procmux$6605_CMP $procmux$6606_CMP $procmux$6607_CMP }
+    New ctrl vector for $pmux cell $procmux$6827: { $procmux$6828_CMP $auto$opt_reduce.cc:137:opt_pmux$8747 $procmux$6831_CMP $procmux$6833_CMP $procmux$6834_CMP $procmux$6835_CMP $procmux$6836_CMP $procmux$6837_CMP }
+    New ctrl vector for $pmux cell $procmux$6781: { $procmux$6782_CMP $auto$opt_reduce.cc:137:opt_pmux$8749 $procmux$6785_CMP $procmux$6787_CMP $procmux$6788_CMP $procmux$6789_CMP $procmux$6790_CMP $procmux$6791_CMP }
+    New ctrl vector for $pmux cell $procmux$6735: { $procmux$6736_CMP $auto$opt_reduce.cc:137:opt_pmux$8751 $procmux$6739_CMP $procmux$6741_CMP $procmux$6742_CMP $procmux$6743_CMP $procmux$6744_CMP $procmux$6745_CMP }
+    New ctrl vector for $pmux cell $procmux$6873: { $procmux$6874_CMP $auto$opt_reduce.cc:137:opt_pmux$8753 $procmux$6877_CMP $procmux$6879_CMP $procmux$6880_CMP $procmux$6881_CMP $procmux$6882_CMP $procmux$6883_CMP }
+    New ctrl vector for $pmux cell $procmux$6689: { $procmux$6690_CMP $auto$opt_reduce.cc:137:opt_pmux$8755 $procmux$6693_CMP $procmux$6695_CMP $procmux$6696_CMP $procmux$6697_CMP $procmux$6698_CMP $procmux$6699_CMP }
+    New ctrl vector for $pmux cell $procmux$6643: { $procmux$6644_CMP $auto$opt_reduce.cc:137:opt_pmux$8757 $procmux$6647_CMP $procmux$6649_CMP $procmux$6650_CMP $procmux$6651_CMP $procmux$6652_CMP $procmux$6653_CMP }
+    New ctrl vector for $pmux cell $procmux$6551: { $procmux$6552_CMP $auto$opt_reduce.cc:137:opt_pmux$8759 $procmux$6555_CMP $procmux$6557_CMP $procmux$6558_CMP $procmux$6559_CMP $procmux$6560_CMP $procmux$6561_CMP }
+    New ctrl vector for $pmux cell $procmux$6597: { $procmux$6598_CMP $auto$opt_reduce.cc:137:opt_pmux$8761 $procmux$6601_CMP $procmux$6603_CMP $procmux$6604_CMP $procmux$6605_CMP $procmux$6606_CMP $procmux$6607_CMP }
   Optimizing cells in module \formal_top.
   Optimizing cells in module \decode.
-    New ctrl vector for $pmux cell $procmux$7382: { $procmux$7630_CMP $auto$opt_reduce.cc:137:opt_pmux$8758 }
-    New ctrl vector for $pmux cell $procmux$7295: { $auto$opt_reduce.cc:137:opt_pmux$8760 $procmux$7644_CMP }
-    New ctrl vector for $pmux cell $procmux$7452: { $auto$opt_reduce.cc:137:opt_pmux$8762 $procmux$7644_CMP }
-    New ctrl vector for $pmux cell $procmux$7480: { $auto$opt_reduce.cc:137:opt_pmux$8764 $procmux$7565_CMP }
-    New ctrl vector for $pmux cell $procmux$7368: { $auto$opt_reduce.cc:137:opt_pmux$8766 $procmux$7594_CMP }
-    New ctrl vector for $pmux cell $procmux$7282: { $auto$opt_reduce.cc:137:opt_pmux$8768 $procmux$7630_CMP }
-    New ctrl vector for $pmux cell $procmux$7438: { $auto$opt_reduce.cc:137:opt_pmux$8770 $procmux$7617_CMP }
-    New ctrl vector for $pmux cell $procmux$7321: { $auto$opt_reduce.cc:137:opt_pmux$8772 $procmux$7565_CMP }
-    New ctrl vector for $pmux cell $procmux$7269: { $auto$opt_reduce.cc:137:opt_pmux$8774 $procmux$7630_CMP }
-    New ctrl vector for $pmux cell $procmux$7424: { $auto$opt_reduce.cc:137:opt_pmux$8776 $procmux$7605_CMP }
-    New ctrl vector for $pmux cell $procmux$7256: { $auto$opt_reduce.cc:137:opt_pmux$8778 $procmux$7617_CMP }
-    New ctrl vector for $pmux cell $procmux$7410: { $auto$opt_reduce.cc:137:opt_pmux$8780 $procmux$7659_CMP }
-    New ctrl vector for $pmux cell $procmux$7243: { $procmux$7605_CMP $auto$opt_reduce.cc:137:opt_pmux$8782 }
-    New ctrl vector for $pmux cell $procmux$7466: { $auto$opt_reduce.cc:137:opt_pmux$8784 $procmux$7486_CMP }
-    New ctrl vector for $pmux cell $procmux$7308: { $auto$opt_reduce.cc:137:opt_pmux$8786 $procmux$7486_CMP }
-    New ctrl vector for $pmux cell $procmux$7396: { $procmux$7630_CMP $auto$opt_reduce.cc:137:opt_pmux$8788 }
-    New ctrl vector for $pmux cell $procmux$7230: { $auto$opt_reduce.cc:137:opt_pmux$8790 $procmux$7594_CMP }
-    New ctrl vector for $pmux cell $procmux$7217: { $auto$opt_reduce.cc:137:opt_pmux$8792 $procmux$7594_CMP }
-    New ctrl vector for $pmux cell $procmux$7334: { $auto$opt_reduce.cc:137:opt_pmux$8794 $procmux$7659_CMP }
+    New ctrl vector for $pmux cell $procmux$7384: { $procmux$7632_CMP $auto$opt_reduce.cc:137:opt_pmux$8763 }
+    New ctrl vector for $pmux cell $procmux$7297: { $auto$opt_reduce.cc:137:opt_pmux$8765 $procmux$7646_CMP }
+    New ctrl vector for $pmux cell $procmux$7454: { $auto$opt_reduce.cc:137:opt_pmux$8767 $procmux$7646_CMP }
+    New ctrl vector for $pmux cell $procmux$7482: { $auto$opt_reduce.cc:137:opt_pmux$8769 $procmux$7567_CMP }
+    New ctrl vector for $pmux cell $procmux$7370: { $auto$opt_reduce.cc:137:opt_pmux$8771 $procmux$7596_CMP }
+    New ctrl vector for $pmux cell $procmux$7284: { $auto$opt_reduce.cc:137:opt_pmux$8773 $procmux$7632_CMP }
+    New ctrl vector for $pmux cell $procmux$7440: { $auto$opt_reduce.cc:137:opt_pmux$8775 $procmux$7619_CMP }
+    New ctrl vector for $pmux cell $procmux$7323: { $auto$opt_reduce.cc:137:opt_pmux$8777 $procmux$7567_CMP }
+    New ctrl vector for $pmux cell $procmux$7271: { $auto$opt_reduce.cc:137:opt_pmux$8779 $procmux$7632_CMP }
+    New ctrl vector for $pmux cell $procmux$7426: { $auto$opt_reduce.cc:137:opt_pmux$8781 $procmux$7607_CMP }
+    New ctrl vector for $pmux cell $procmux$7258: { $auto$opt_reduce.cc:137:opt_pmux$8783 $procmux$7619_CMP }
+    New ctrl vector for $pmux cell $procmux$7412: { $auto$opt_reduce.cc:137:opt_pmux$8785 $procmux$7661_CMP }
+    New ctrl vector for $pmux cell $procmux$7245: { $procmux$7607_CMP $auto$opt_reduce.cc:137:opt_pmux$8787 }
+    New ctrl vector for $pmux cell $procmux$7468: { $auto$opt_reduce.cc:137:opt_pmux$8789 $procmux$7488_CMP }
+    New ctrl vector for $pmux cell $procmux$7310: { $auto$opt_reduce.cc:137:opt_pmux$8791 $procmux$7488_CMP }
+    New ctrl vector for $pmux cell $procmux$7398: { $procmux$7632_CMP $auto$opt_reduce.cc:137:opt_pmux$8793 }
+    New ctrl vector for $pmux cell $procmux$7232: { $auto$opt_reduce.cc:137:opt_pmux$8795 $procmux$7596_CMP }
+    New ctrl vector for $pmux cell $procmux$7219: { $auto$opt_reduce.cc:137:opt_pmux$8797 $procmux$7596_CMP }
+    New ctrl vector for $pmux cell $procmux$7336: { $auto$opt_reduce.cc:137:opt_pmux$8799 $procmux$7661_CMP }
   Optimizing cells in module \decode.
 Performed a total of 51 changes.
 
@@ -2594,9 +2597,9 @@ Finding identical cells in module `\ref_top'.
 Computing hashes of 361 cells of `\ref_top'.
 Finding duplicate cells in `\ref_top'.
 Finding identical cells in module `\formal_top'.
-Computing hashes of 544 cells of `\formal_top'.
+Computing hashes of 545 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
-Computing hashes of 543 cells of `\formal_top'.
+Computing hashes of 544 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
 <suppressed ~3 debug messages>
 Finding identical cells in module `\decode'.
@@ -2696,7 +2699,7 @@ Running muxtree optimizer on module \decode..
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
 Removed 0 multiplexer ports.
-<suppressed ~1506 debug messages>
+<suppressed ~1507 debug messages>
 
 15.8.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
   Optimizing cells in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.
@@ -2749,7 +2752,7 @@ Finding identical cells in module `\ref_top'.
 Computing hashes of 361 cells of `\ref_top'.
 Finding duplicate cells in `\ref_top'.
 Finding identical cells in module `\formal_top'.
-Computing hashes of 543 cells of `\formal_top'.
+Computing hashes of 544 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
 Finding identical cells in module `\decode'.
 Computing hashes of 111 cells of `\decode'.
@@ -2949,8 +2952,8 @@ Removed top 1 bits (of 3) from wire ysyx_26040135_AXI_LSU.$2\bus_arsize[2:0].
 Removed top 16 bits (of 32) from wire ysyx_26040135_AXI_LSU.lsu_rdata_shifted.
 Removed top 16 bits (of 32) from wire ysyx_26040135_AXI_LSU.lhu_rst.
 Removed top 24 bits (of 32) from wire ysyx_26040135_AXI_LSU.lbu_rst.
-Removed top 63 bits (of 64) from port B of cell ysyx_26040135_WBU.$add$_WBU.v:49$1291 ($add).
-Removed top 63 bits (of 64) from port B of cell ysyx_26040135_WBU.$add$_WBU.v:57$1293 ($add).
+Removed top 63 bits (of 64) from port B of cell ysyx_26040135_WBU.$add$_WBU.v:48$1291 ($add).
+Removed top 63 bits (of 64) from port B of cell ysyx_26040135_WBU.$add$_WBU.v:55$1293 ($add).
 Removed top 1 bits (of 2) from port B of cell ysyx_26040135_AXI4_Xbar.$procmux$5594_CMP0 ($eq).
 Removed top 28 bits (of 32) from port B of cell ysyx_26040135_AXI_RAM.$mul$axi_ram.sv:82$1141 ($mul).
 Removed top 31 bits (of 32) from port B of cell ysyx_26040135_AXI_RAM.$add$axi_ram.sv:82$1143 ($add).
@@ -2996,39 +2999,39 @@ Removed top 1 bits (of 3) from port B of cell ysyx_26040135_AXI_RAM.$procmux$573
 Removed top 1 bits (of 3) from port B of cell ysyx_26040135_AXI_RAM.$procmux$5751_CMP0 ($eq).
 Removed top 2 bits (of 3) from port B of cell ysyx_26040135_AXI_RAM.$procmux$5756_CMP0 ($eq).
 Removed top 2 bits (of 3) from wire ysyx_26040135_AXI_RAM.$4\next[2:0].
-Removed top 1 bits (of 2) from mux cell ref_top.$ternary$ref_top.sv:17$770 ($mux).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:27$774 ($mul).
-Removed top 31 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:27$776 ($add).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:27$777 ($mul).
-Removed top 30 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:27$779 ($add).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:27$780 ($mul).
-Removed top 30 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:27$782 ($add).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:27$783 ($mul).
-Removed top 29 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:72$785 ($add).
-Removed top 31 bits (of 32) from port B of cell ref_top.$and$ref_top.sv:235$911 ($and).
-Removed top 31 bits (of 32) from port B of cell ref_top.$and$ref_top.sv:236$913 ($and).
-Removed top 31 bits (of 32) from port B of cell ref_top.$and$ref_top.sv:237$915 ($and).
-Removed top 31 bits (of 32) from port B of cell ref_top.$and$ref_top.sv:238$917 ($and).
-Removed top 63 bits (of 64) from port B of cell ref_top.$add$ref_top.sv:291$976 ($add).
-Removed top 30 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:334$1021 ($add).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:334$1022 ($mul).
-Converting cell ref_top.$neg$ref_top.sv:334$1027 ($neg) from signed to unsigned.
-Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:334$1027 ($neg).
-Removed top 30 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:334$1031 ($add).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:334$1032 ($mul).
-Converting cell ref_top.$neg$ref_top.sv:334$1037 ($neg) from signed to unsigned.
-Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:334$1037 ($neg).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:338$1046 ($mul).
-Converting cell ref_top.$neg$ref_top.sv:338$1051 ($neg) from signed to unsigned.
-Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:338$1051 ($neg).
-Removed top 31 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:342$1059 ($add).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:342$1060 ($mul).
-Converting cell ref_top.$neg$ref_top.sv:342$1065 ($neg) from signed to unsigned.
-Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:342$1065 ($neg).
-Removed top 31 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:342$1069 ($add).
-Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:342$1070 ($mul).
-Converting cell ref_top.$neg$ref_top.sv:342$1075 ($neg) from signed to unsigned.
-Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:342$1075 ($neg).
+Removed top 1 bits (of 2) from mux cell ref_top.$ternary$ref_top.sv:19$770 ($mux).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:30$774 ($mul).
+Removed top 31 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:30$776 ($add).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:30$777 ($mul).
+Removed top 30 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:30$779 ($add).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:30$780 ($mul).
+Removed top 30 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:30$782 ($add).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:30$783 ($mul).
+Removed top 29 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:75$785 ($add).
+Removed top 31 bits (of 32) from port B of cell ref_top.$and$ref_top.sv:238$911 ($and).
+Removed top 31 bits (of 32) from port B of cell ref_top.$and$ref_top.sv:239$913 ($and).
+Removed top 31 bits (of 32) from port B of cell ref_top.$and$ref_top.sv:240$915 ($and).
+Removed top 31 bits (of 32) from port B of cell ref_top.$and$ref_top.sv:241$917 ($and).
+Removed top 63 bits (of 64) from port B of cell ref_top.$add$ref_top.sv:294$976 ($add).
+Removed top 30 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:337$1021 ($add).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:337$1022 ($mul).
+Converting cell ref_top.$neg$ref_top.sv:337$1027 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:337$1027 ($neg).
+Removed top 30 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:337$1031 ($add).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:337$1032 ($mul).
+Converting cell ref_top.$neg$ref_top.sv:337$1037 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:337$1037 ($neg).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:341$1046 ($mul).
+Converting cell ref_top.$neg$ref_top.sv:341$1051 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:341$1051 ($neg).
+Removed top 31 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:345$1059 ($add).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:345$1060 ($mul).
+Converting cell ref_top.$neg$ref_top.sv:345$1065 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:345$1065 ($neg).
+Removed top 31 bits (of 32) from port B of cell ref_top.$add$ref_top.sv:345$1069 ($add).
+Removed top 28 bits (of 32) from port B of cell ref_top.$mul$ref_top.sv:345$1070 ($mul).
+Converting cell ref_top.$neg$ref_top.sv:345$1075 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell ref_top.$neg$ref_top.sv:345$1075 ($neg).
 Removed top 20 bits (of 32) from port B of cell ref_top.$procmux$6152_CMP0 ($eq).
 Removed top 20 bits (of 32) from port B of cell ref_top.$procmux$6181_CMP0 ($eq).
 Removed top 22 bits (of 32) from port B of cell ref_top.$procmux$6219_CMP0 ($eq).
@@ -3049,7 +3052,7 @@ Removed top 16 bits (of 32) from wire ref_top.$2\lhu_rst[31:0].
 Removed top 24 bits (of 32) from wire ref_top.$2\lbu_rst[31:0].
 Removed top 16 bits (of 32) from wire ref_top.$procmux$6471_Y.
 Removed top 24 bits (of 32) from wire ref_top.$procmux$6482_Y.
-Removed top 1 bits (of 2) from wire ref_top.$ternary$ref_top.sv:17$770_Y.
+Removed top 1 bits (of 2) from wire ref_top.$ternary$ref_top.sv:19$770_Y.
 Removed top 16 bits (of 32) from wire ref_top.lhu_rst.
 Removed top 24 bits (of 32) from wire ref_top.lbu_rst.
 Removed top 31 bits (of 32) from wire ref_top.sltiu_rst.
@@ -3169,18 +3172,18 @@ Removed top 1 bits (of 7) from port B of cell formal_top.$procmux$6880_CMP0 ($eq
 Removed top 5 bits (of 7) from port B of cell formal_top.$procmux$6881_CMP0 ($eq).
 Removed top 2 bits (of 7) from port B of cell formal_top.$procmux$6882_CMP0 ($eq).
 Removed top 1 bits (of 7) from port B of cell formal_top.$procmux$6883_CMP0 ($eq).
-Removed top 1 bits (of 2) from port B of cell formal_top.$procmux$6898_CMP0 ($eq).
-Removed top 1 bits (of 2) from port B of cell formal_top.$procmux$6915_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell formal_top.$procmux$6900_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell formal_top.$procmux$6917_CMP0 ($eq).
 Removed top 2 bits (of 25) from port B of cell decode.$eq$decode.v:344$1788 ($eq).
-Removed top 1 bits (of 3) from port B of cell decode.$procmux$7486_CMP0 ($eq).
-Removed top 1 bits (of 3) from port B of cell decode.$procmux$7565_CMP0 ($eq).
-Removed top 2 bits (of 3) from port B of cell decode.$procmux$7659_CMP0 ($eq).
-Removed top 2 bits (of 7) from port B of cell decode.$procmux$7673_CMP0 ($eq).
-Removed top 1 bits (of 7) from port B of cell decode.$procmux$7702_CMP0 ($eq).
-Removed top 1 bits (of 7) from port B of cell decode.$procmux$7787_CMP0 ($eq).
-Removed top 5 bits (of 7) from port B of cell decode.$procmux$7822_CMP0 ($eq).
-Removed top 1 bits (of 7) from port B of cell decode.$procmux$7862_CMP0 ($eq).
-Removed top 2 bits (of 7) from port B of cell decode.$procmux$7907_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell decode.$procmux$7488_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell decode.$procmux$7567_CMP0 ($eq).
+Removed top 2 bits (of 3) from port B of cell decode.$procmux$7661_CMP0 ($eq).
+Removed top 2 bits (of 7) from port B of cell decode.$procmux$7675_CMP0 ($eq).
+Removed top 1 bits (of 7) from port B of cell decode.$procmux$7704_CMP0 ($eq).
+Removed top 1 bits (of 7) from port B of cell decode.$procmux$7789_CMP0 ($eq).
+Removed top 5 bits (of 7) from port B of cell decode.$procmux$7824_CMP0 ($eq).
+Removed top 1 bits (of 7) from port B of cell decode.$procmux$7864_CMP0 ($eq).
+Removed top 2 bits (of 7) from port B of cell decode.$procmux$7909_CMP0 ($eq).
 
 15.10. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register..
@@ -3256,7 +3259,7 @@ Finding identical cells in module `\ref_top'.
 Computing hashes of 361 cells of `\ref_top'.
 Finding duplicate cells in `\ref_top'.
 Finding identical cells in module `\formal_top'.
-Computing hashes of 543 cells of `\formal_top'.
+Computing hashes of 544 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
 Finding identical cells in module `\decode'.
 Computing hashes of 111 cells of `\decode'.
@@ -3346,12 +3349,12 @@ Removed 0 unused cells and 1 unused wires.
 
         +----------Local Count, excluding submodules.
         | 
-      206 wires
-     3501 wire bits
-      206 public wires
-     3501 public wire bits
-       12 ports
-     1446 port bits
+      207 wires
+     3502 wire bits
+      207 public wires
+     3502 public wire bits
+       13 ports
+     1447 port bits
         8 submodules
         1   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
         1   ysyx_26040135_AXI4_Xbar
@@ -3366,15 +3369,15 @@ Removed 0 unused cells and 1 unused wires.
 
         +----------Local Count, excluding submodules.
         | 
-      604 wires
-     5603 wire bits
-      117 public wires
-     5110 public wire bits
+      607 wires
+     5606 wire bits
+      120 public wires
+     5113 public wire bits
         3 ports
       258 port bits
-      541 cells
+      542 cells
        17   $add
-        1   $adff
+        2   $adff
        35   $check
         2   $dff
       182   $eq
@@ -3397,12 +3400,12 @@ Removed 0 unused cells and 1 unused wires.
 
         +----------Local Count, excluding submodules.
         | 
-      428 wires
-    24802 wire bits
-      116 public wires
-     3591 public wire bits
-       18 ports
-     1638 port bits
+      429 wires
+    24803 wire bits
+      117 public wires
+     3592 public wire bits
+       19 ports
+     1639 port bits
       359 cells
        10   $add
         9   $adff
@@ -3603,7 +3606,7 @@ Removed 0 unused cells and 1 unused wires.
 
         +----------Count including submodules.
         | 
-     2401 formal_top
+     2402 formal_top
       196   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        27   ysyx_26040135_AXI4_Xbar
        81   ysyx_26040135_AXI_IFU
@@ -3618,18 +3621,18 @@ Removed 0 unused cells and 1 unused wires.
 
         +----------Count including submodules.
         | 
-     3060 wires
-    88430 wire bits
-     1115 public wires
-    22750 public wire bits
-      486 ports
-     9346 port bits
+     3065 wires
+    88435 wire bits
+     1120 public wires
+    22755 public wire bits
+      488 ports
+     9348 port bits
         - memories
         - memory bits
         - processes
-     2401 cells
+     2402 cells
        52   $add
-      132   $adff
+      133   $adff
         2   $aldff
        86   $and
        36   $check
@@ -3720,6 +3723,6 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 Output filename: ../model/design.il
 
 Warnings: 3 unique messages, 4 total
-End of script. Logfile hash: 96fc5f9efd, time: 1.19s, user: 1.15s, system: 0.05s, MEM: 55.29 MB peak
+End of script. Logfile hash: d1d751f700, time: 1.23s, user: 1.19s, system: 0.05s, MEM: 54.66 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
 Time spent: 35% 2x check (0 sec), 22% 5x opt_clean (0 sec), ...

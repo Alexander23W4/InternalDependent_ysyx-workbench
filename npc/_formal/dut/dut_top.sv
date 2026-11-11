@@ -14,7 +14,10 @@ module dut_top(
     output _new_instr,
     output [31:0] _pc,
 
-    output [31:0] _pc_i
+    output [31:0] _pc_i,
+    output is_ls_C,
+    output [1:0] io_type_C,
+    output [31:0] lsu_addr_C
 );
 
 
@@ -158,6 +161,9 @@ ysyx_26040135_EXU exu (
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
     wire lsu_bypass_data_valid;
+    assign is_ls_C = is_ls;
+    assign io_type_C = io_type;
+    assign lsu_addr_C = lsu_addr;
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (

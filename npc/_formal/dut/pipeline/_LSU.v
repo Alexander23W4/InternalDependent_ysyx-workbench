@@ -55,13 +55,13 @@ module ysyx_26040135_AXI_LSU (
     input clock,
     input reset,
 
-    input is_ls,   // 如果是ls, 则进入AW/AR, 如果不是则直接到WBU
+    input is_ls,   // 如果是ls, 则进入AW/AR, 如果不是则直接到WBU  
     input io,
     input [1:0] io_type,
     input read_is_u,
     input [4:0] rd,
     input [31:0] lsu_wdata,   // rdata2
-    input [31:0] lsu_addr,    // add_rst
+    input [31:0] lsu_addr,    // add_rst    // 约束
     input [31:0] ic_wb_wdata,
 
     input in_valid,

@@ -112,7 +112,15 @@ module formal_top(
 
     always @(*) begin
         if(!reset) begin
-            assume(d_pc_i >= 32'h80000000 && d_pc_i <= 32'h8000001c);
+            assume(d_pc_i >= 32'h80000000 && d_pc_i <= 32'h8000001c && d_pc_i[1:0] == 2'b00);
+            if(is_ls_C) begin
+                assume(lsu_addr_C >= 32'h80000020 && lsu_addr_C <= 32'8000003f);
+                case(io_type)
+                    2'b01: assume(lsu_addr_C[0] == 1'b0);
+                    2'b10: assume(lsu_addr_C[1:0] == 2'b00);
+                    default: ;
+                endcase
+            end
         end
     end
 
@@ -122,6 +130,9 @@ module formal_top(
     wire [31:0]      d_pc;
     wire [32*32-1:0] d_dbg_reg;
     wire [31:0]      d_pc_i;
+    wire is_ls_C;
+    wire [1:0] io_type_C;
+    wire [31:0] lsu_addr_C;
 
     // ref_top 的输出
     wire [32*32-1:0] r_dbg_reg;
@@ -136,7 +147,10 @@ module formal_top(
         ._new_instr(d_new_instr),
         ._pc(d_pc),
         .dbg_reg(d_dbg_reg),
-        ._pc_i(d_pc_i)
+        ._pc_i(d_pc_i),
+        .is_ls_C(is_ls_C),
+        .io_type_C(io_type_C),
+        .lsu_addr_C(lsu_addr_C)
     );
 
     ref_top u_ref (
@@ -177,3 +191,4 @@ module formal_top(
         end
     end
 endmodule
+ 

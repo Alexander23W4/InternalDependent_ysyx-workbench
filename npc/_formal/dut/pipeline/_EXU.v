@@ -55,13 +55,13 @@ module ysyx_26040135_EXU (
     output reg out_valid,
     input out_ready,
 
-    output is_ls,
+    output is_ls,  // 判断是否进行lsu_addr约束
     output reg io,
     output reg [1:0] io_type,
     output reg read_is_u,
     output reg [4:0] rd_out,
     output reg [31:0] lsu_wdata,
-    output reg [31:0] lsu_addr,
+    output reg [31:0] lsu_addr,  // 约束
     output reg [31:0] ic_wb_wdata,
 
     output reg [4:0] rs1_out,

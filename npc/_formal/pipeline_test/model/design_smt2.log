@@ -44,6 +44,7 @@ Used module:     \ref_top
 Used module:         \decode
 Used module:         $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
 Removed 0 unused modules.
+Module formal_top directly or indirectly displays text -> setting "keep" attribute.
 Module dut_top directly or indirectly contains formal properties -> setting "keep" attribute.
 Module formal_top directly or indirectly contains formal properties -> setting "keep" attribute.
 Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -> setting "keep" attribute.
@@ -141,15 +142,15 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      576 wires
-     4537 wire bits
-       73 public wires
-     4028 public wire bits
+      578 wires
+     4601 wire bits
+       75 public wires
+     4092 public wire bits
         3 ports
       258 port bits
-      571 cells
+      573 cells
        17   $add
-        2   $anyinit
+        4   $anyinit
        16   $anyseq
         1   $assert
        31   $assume
@@ -390,7 +391,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     2675 formal_top
+     2677 formal_top
       264   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        31   ysyx_26040135_AXI4_Xbar
        99   ysyx_26040135_AXI_IFU
@@ -405,19 +406,19 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     3263 wires
-    97107 wire bits
-     1241 public wires
-    31087 public wire bits
+     3265 wires
+    97171 wire bits
+     1243 public wires
+    31151 public wire bits
       480 ports
      9246 port bits
         - memories
         - memory bits
         - processes
-     2675 cells
+     2677 cells
        49   $add
        85   $and
-      186   $anyinit
+      188   $anyinit
        59   $anyseq
         2   $assert
        40   $assume
@@ -467,6 +468,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: c443cf300f, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 27.99 MB peak
+End of script. Logfile hash: c8c8697d0f, time: 0.12s, user: 0.11s, system: 0.02s, MEM: 27.99 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 89% 2x write_smt2 (0 sec), 7% 2x read_rtlil (0 sec), ...
+Time spent: 90% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...

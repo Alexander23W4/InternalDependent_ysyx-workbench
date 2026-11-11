@@ -6,12 +6,18 @@ DEFAULT_FLAGS=-Wall -j --timescale "1ns/1ns" --no-timing --autoflush
 SOURCES=$(shell find ./dut ./ref -type f \( -name "*.v" -o -name "*.sv" \) | sort) \
 		./formal_top.sv
 
+TEST_NAME=pipeline_test
+
 run:
 	$(OSS_HOME)/bin/sby -f pipeline_test.sby
 
 # 加上--top-module之后，Verilator 只从 formal_top 往下走：只有真正被实例化到的模块才参与检查
 static:
 	verilator $(STATIC_CHECK_FLAG) --top-module formal_top $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(SOURCES)
+
+trace:
+	gtkwave $(TEST_NAME)/engine_0/trace.vcd
+
 
 
 # 5aabac4d54cafff4a5b6e9d8ece2c1ac6ee9938d, 给我把从这个commit到现在, vsrc的改动(也就是我仿真用的cpu), 

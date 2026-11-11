@@ -184,6 +184,8 @@ module formal_top(
 
     always @(posedge clock) begin
         if(!reset && d_new_instr) begin
+            $display(d_idu_pc);
+            $display(r_pc);
             assert(d_idu_pc == r_pc);
         end
     end

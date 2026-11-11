@@ -124,6 +124,12 @@ module ysyx_26040135_AXI4_Xbar (
     assign lsu_s_bid     = m_m_bid;
     assign lsu_s_bresp   = m_m_bresp;
     assign lsu_s_bvalid  = m_m_bvalid;
+    // IFU 只读不写, 它的写通道/写响应输出直接接 0(否则 Verilator 报 UNDRIVEN / 综合时是悬空)
+    assign ifu_s_awready = 1'b0;
+    assign ifu_s_wready  = 1'b0;
+    assign ifu_s_bvalid  = 1'b0;
+    assign ifu_s_bid     = 4'b0;
+    assign ifu_s_bresp   = 2'b0;
 
     assign m_m_bready    = lsu_s_bready;
 

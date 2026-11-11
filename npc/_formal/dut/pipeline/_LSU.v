@@ -110,7 +110,7 @@ module ysyx_26040135_AXI_LSU (
 
 // 状态
     typedef enum logic [2:0]{ 
-        IDLE, AR, R, AW, W, B, NLS_OP
+        IDLE, AR, R, AW, W, B
     } state_t;
     state_t state, next;
 

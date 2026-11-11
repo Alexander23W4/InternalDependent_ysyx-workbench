@@ -107,6 +107,7 @@ module ysyx_26040135_AXI_IFU (
     reg [31:0] pc_flush_save;
 
 
+    assign bus_wlast = 1'b0;   
     assign __error = error_save;   
     assign __master_validation_error = master_validation_error_save;
 

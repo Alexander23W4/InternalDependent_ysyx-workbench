@@ -272,7 +272,7 @@ module ref_top(
                 ram[i] <= ram_instr[i];
             end
             for (int i = 32; i < 64; i++) begin   // data
-                ram[i] <= i - 32;
+                ram[i] <= i[7:0] - 8'd32;
             end
         end
         else if (clk_en) begin

@@ -194,6 +194,7 @@ module ysyx_26040135_AXI_IFU (
         bus.awlen = 8'h00;
         bus.awburst = 2'b00;
         bus.wvalid = 1'b0;
+        bus.wlast  = 1'b0;   // IFU 只读不写, 写通道的 wlast 恒 0
         bus.bready = 1'b0;
 
         next = state;

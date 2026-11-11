@@ -233,7 +233,7 @@ module ysyx_26040135(
 // 流水线级间连接
 
     wire sw_avail;
-    wire sw_addr;
+    wire [31:0] sw_addr;   
 
     ysyx_26040135_AXI_ICACHE icache (
         .bus                            (bus_ifu.slave),

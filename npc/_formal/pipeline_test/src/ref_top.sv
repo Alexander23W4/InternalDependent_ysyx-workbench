@@ -126,6 +126,7 @@ module ref_top(
 
     dbg_register #(5, 32) GPR (
         .clk(clk),
+        .rst(rst),
         .wen(wen),
         .raddr1(rs1),
         .raddr2(rs2),

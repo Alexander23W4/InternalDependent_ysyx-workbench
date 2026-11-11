@@ -1,5 +1,6 @@
 module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     input clk,
+    input rst,
     input wen,
     
     input [ADDR_WIDTH-1:0] raddr1,   // rs1
@@ -17,9 +18,16 @@ module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     assign rdata1 = gpr[raddr1];
     assign rdata2 = gpr[raddr2];
 
-    always @(posedge clk) begin
-        if (wen && waddr != 0) gpr[waddr] <= wdata;
+    always @(posedge clk or posedge rst) begin
+        if(rst) begin
+            for (int i = 0; i < 2**ADDR_WIDTH; i = i + 1) begin 
+                gpr[i] <= '0;
+            end
+        end else begin
+            if (wen && waddr != 0) gpr[waddr] <= wdata;
+        end
     end
+
 
     genvar i;
     generate

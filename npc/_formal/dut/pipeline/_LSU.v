@@ -86,7 +86,7 @@ module ysyx_26040135_AXI_LSU (
 
     // ------------ 处理自修改代码的信号
     output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
-    output sw_avail
+    output reg sw_avail
 );
 
 

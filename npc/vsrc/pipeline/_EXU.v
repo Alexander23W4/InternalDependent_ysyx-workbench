@@ -45,8 +45,8 @@ module ysyx_26040135_EXU (
 
     output reg [31:0] _mstatus, _mtvec, _mepc, _mcause,
     output reg [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
-    output [31:0] _pc,
-    output [31:0] _instr,
+    output reg [31:0] _pc,
+    output reg [31:0] _instr,
     output reg _new_instr,
 
     input in_valid,
@@ -74,7 +74,7 @@ module ysyx_26040135_EXU (
     output reg [63:0] exu_blcokbl_cyc,
     output reg [63:0] exu_work_cyc,
 
-    output ebreak_end,
+    output reg ebreak_end,
 
     // bypass
     input [31:0] bypass_wdata_lsu,  // 

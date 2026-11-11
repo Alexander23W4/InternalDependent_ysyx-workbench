@@ -313,6 +313,7 @@ module ysyx_26040135_AXI_LSU (
     assign lb_rst  = {{24{lsu_rdata_shifted[7]}}, lsu_rdata_shifted[7:0]};
     assign lh_rst  = {{16{lsu_rdata_shifted[15]}}, lsu_rdata_shifted[15:0]};
 
+    wire lw, lh, lhu, lbu, lb;
     assign lw = (io_type_save == 2'b10);
     assign lh = (io_type_save == 2'b01 && !read_is_u_save);
     assign lhu = (io_type_save == 2'b01 && read_is_u_save);

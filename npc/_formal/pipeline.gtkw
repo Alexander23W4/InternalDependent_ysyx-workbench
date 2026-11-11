@@ -17,5 +17,7 @@ formal_top.d_new_instr
 @22
 formal_top.d_idu_pc[31:0]
 formal_top.r_pc[31:0]
+formal_top.d_idu_instr[31:0]
+formal_top.r_instr[31:0]
 [pattern_trace] 1
 [pattern_trace] 0

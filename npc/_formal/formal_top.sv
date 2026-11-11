@@ -129,6 +129,7 @@ module formal_top(
     wire             d_new_instr;
     wire [31:0]      d_pc;
     wire [31:0]      d_idu_pc;
+    wire [31:0]      d_idu_instr;
     wire [32*32-1:0] d_dbg_reg;
     wire [31:0]      d_pc_i;
     wire is_ls_C;
@@ -148,6 +149,7 @@ module formal_top(
         ._new_instr(d_new_instr),
         ._pc(d_pc),
         ._idu_pc(d_idu_pc),
+        ._idu_instr(d_idu_instr),
         .dbg_reg(d_dbg_reg),
         ._pc_i(d_pc_i),
         .is_ls_C(is_ls_C),

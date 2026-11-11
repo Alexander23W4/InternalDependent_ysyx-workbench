@@ -1,5 +1,9 @@
 // $(OSS_HOME)/bin/sby -f pipeline_test.sby
 
+/*
+先比较pc, 
+只在wb阶段检测, (现在wb是顺序写回), 则到wb之后, 检测这是那个instr, ref直接执行到这个isntr, 然后比较一次gpr
+*/
 module formal_top(
     input clock,
     input reset,

@@ -8,7 +8,7 @@ module dut_top(
     input clock,
     input reset,
     
-    input logic [31:0][7:0] ram,  // 0-31   32-63
+    input logic [31:0][7:0] ram,  // 0-31   32-63  前8个, 后8个
     output [32*32-1:0] dbg_reg,
 
     output _new_instr,

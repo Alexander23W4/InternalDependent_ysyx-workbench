@@ -23,7 +23,8 @@ module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
             for (int i = 0; i < 2**ADDR_WIDTH; i = i + 1) begin 
                 gpr[i] <= '0;
             end
-        end else begin
+        end 
+        else if(clk_en) begin
             if (wen && waddr != 0) gpr[waddr] <= wdata;
         end
     end

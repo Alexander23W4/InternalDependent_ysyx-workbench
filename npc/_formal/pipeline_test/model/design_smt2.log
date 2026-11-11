@@ -58,20 +58,20 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      271 wires
-     6421 wire bits
-       76 public wires
-     3250 public wire bits
+      304 wires
+     7446 wire bits
+       77 public wires
+     3251 public wire bits
        10 ports
      1138 port bits
-      264 cells
+      297 cells
        32   $anyinit
-        2   $anyseq
+        3   $anyseq
         1   $assume
        93   $eq
         1   $logic_and
         3   $logic_not
-      128   $mux
+      160   $mux
         1   $not
         2   $pmux
         1   $reduce_bool
@@ -391,7 +391,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     2713 formal_top
+     2746 formal_top
       264   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        31   ysyx_26040135_AXI4_Xbar
       100   ysyx_26040135_AXI_IFU
@@ -401,25 +401,25 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
       126   ysyx_26040135_IDU
        43   ysyx_26040135_WBU
       365 ref_top
-      264   $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
+      297   $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
       122   decode
 
         +----------Count including submodules.
         | 
-     3305 wires
-    97339 wire bits
-     1251 public wires
-    31285 public wire bits
+     3338 wires
+    98364 wire bits
+     1252 public wires
+    31286 public wire bits
       485 ports
      9345 port bits
         - memories
         - memory bits
         - processes
-     2713 cells
+     2746 cells
        49   $add
        85   $and
       186   $anyinit
-       59   $anyseq
+       60   $anyseq
         2   $assert
        44   $assume
       462   $eq
@@ -430,7 +430,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
        52   $logic_not
       136   $logic_or
        28   $lt
-     1036   $mux
+     1068   $mux
         4   $ne
        14   $neg
        31   $not
@@ -468,6 +468,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: 4c3b381bc3, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 28.05 MB peak
+End of script. Logfile hash: 320f9ce694, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 28.10 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 90% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...
+Time spent: 89% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...

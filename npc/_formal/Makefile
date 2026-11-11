@@ -8,6 +8,7 @@ SOURCES=$(shell find ./dut ./ref -type f \( -name "*.v" -o -name "*.sv" \) | sor
 
 TEST_NAME=pipeline_test
 GTKW_FILE=./pipeline.gtkw
+RC_FILE=./trace.rc     # 让波形窗口字体大 4pt + 线更粗(行高更够, 数字看得清)
 
 run:
 	$(OSS_HOME)/bin/sby -f pipeline_test.sby
@@ -17,7 +18,7 @@ static:
 	verilator $(STATIC_CHECK_FLAG) --top-module formal_top $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(SOURCES)
 
 trace:
-	gtkwave $(TEST_NAME)/engine_0/trace.vcd $(GTKW_FILE)
+	gtkwave $(TEST_NAME)/engine_0/trace.vcd $(GTKW_FILE) $(RC_FILE)
 
 
 

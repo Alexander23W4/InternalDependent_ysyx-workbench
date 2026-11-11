@@ -1,0 +1,11 @@
+#
+# GTKWave rcfile: npc/_formal 的反例波形用
+#   gtkwave pipeline_test/engine_0/trace.vcd pipeline.gtkw trace.rc
+#
+# use_big_fonts: 波形窗口的字体比默认大 4pt -> 每行波形变高, 数字看得清
+# use_fat_lines: 波形的线画粗一点
+#
+use_pango_fonts   on
+use_big_fonts     on
+use_fat_lines     yes
+use_nonprop_fonts yes

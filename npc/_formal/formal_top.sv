@@ -165,30 +165,19 @@ module formal_top(
         .ram_instr(imem)
     );
 
+    reg clk_en;
 
-    reg first_instr;
 
-    always @(posedge clock or posedge reset) begin
-        if(reset) begin
-            first_instr <= 1'b1;
-        end else begin
-            if(d_new_instr) begin
-                if(first_instr) begin
-                    first_instr <= 1'b0;
-                end else begin   // 不是第一条指令, 才驱动ref并且比较
-                    assert(d_pc == r_pc);
-                end
-            end
+    always @(posedge clock or posedge reset) begin   // 收到新的instr之后, 先比较, 在驱动ref跳转
+        if(d_new_instr) begin   
+                assert(d_pc == r_pc);
+                clk_en <= 1'b1;   // 收到new_instr之后驱动一个周期
+        end
+        if(clk_en && !d_new_instr) begin
+            clk_en <= 1'b0;
         end
     end
 
-    always @(*) begin
-        clk_en = 1'b0;
-        if(!first_instr && !reset) begin 
-            if(d_new_instr) begin
-                clk_en = 1'b1;
-            end
-        end
-    end
+
+
 endmodule
- 

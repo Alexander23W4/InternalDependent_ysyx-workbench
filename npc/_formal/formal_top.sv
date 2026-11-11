@@ -114,8 +114,8 @@ module formal_top(
         if(!reset) begin
             assume(d_pc_i >= 32'h80000000 && d_pc_i <= 32'h8000001c && d_pc_i[1:0] == 2'b00);
             if(is_ls_C) begin
-                assume(lsu_addr_C >= 32'h80000020 && lsu_addr_C <= 32'8000003f);
-                case(io_type)
+                assume(lsu_addr_C >= 32'h80000020 && lsu_addr_C <= 32'h8000003f);
+                case(io_type_C)
                     2'b01: assume(lsu_addr_C[0] == 1'b0);
                     2'b10: assume(lsu_addr_C[1:0] == 2'b00);
                     default: ;
@@ -138,7 +138,6 @@ module formal_top(
     wire [32*32-1:0] r_dbg_reg;
     wire [31:0]      r_pc;
     wire [31:0]      r_mstatus, r_mepc, r_mcause, r_mtvec, r_mcycle, r_mcycleh, r_mvendorid, r_marchid;
-    wire clk_en;
 
     dut_top dut (
         .clock(clock),

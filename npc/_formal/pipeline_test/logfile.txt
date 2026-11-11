@@ -45,3 +45,29 @@ SBY 16:57:19 [pipeline_test] engine_0: ##   0:00:07  Checking assumptions in ste
 SBY 16:57:19 [pipeline_test] engine_0: ##   0:00:07  Checking assertions in step 8..
 SBY 16:57:20 [pipeline_test] engine_0: ##   0:00:08  Checking assumptions in step 9..
 SBY 16:57:20 [pipeline_test] engine_0: ##   0:00:08  Checking assertions in step 9..
+SBY 16:57:22 [pipeline_test] engine_0: ##   0:00:10  Checking assumptions in step 10..
+SBY 16:57:23 [pipeline_test] engine_0: ##   0:00:10  Checking assertions in step 10..
+SBY 16:57:23 [pipeline_test] engine_0: ##   0:00:11  Checking assumptions in step 11..
+SBY 16:57:24 [pipeline_test] engine_0: ##   0:00:12  Checking assertions in step 11..
+SBY 16:57:25 [pipeline_test] engine_0: ##   0:00:13  Checking assumptions in step 12..
+SBY 16:57:25 [pipeline_test] engine_0: ##   0:00:13  Checking assertions in step 12..
+SBY 16:58:25 [pipeline_test] engine_0: ##   0:01:13  waiting for solver (1 minute)
+SBY 16:58:35 [pipeline_test] engine_0: ##   0:01:23  Checking assumptions in step 13..
+SBY 16:58:36 [pipeline_test] engine_0: ##   0:01:24  Checking assertions in step 13..
+SBY 16:58:37 [pipeline_test] engine_0: ##   0:01:25  Checking assumptions in step 14..
+SBY 16:58:38 [pipeline_test] engine_0: ##   0:01:26  Checking assertions in step 14..
+SBY 16:58:40 [pipeline_test] engine_0: ##   0:01:28  BMC failed!
+SBY 16:58:40 [pipeline_test] engine_0: ##   0:01:28  Assert failed in formal_top: formal_top.sv:211.13-211.37 (_witness_.check_assert_formal_top_sv_211_110)
+SBY 16:58:40 [pipeline_test] engine_0: ##   0:01:28  Writing trace to VCD file: engine_0/trace.vcd
+SBY 16:58:40 [pipeline_test] engine_0: ##   0:01:28  Writing trace to Verilog testbench: engine_0/trace_tb.v
+SBY 16:58:40 [pipeline_test] engine_0: ##   0:01:28  Writing trace to constraints file: engine_0/trace.smtc
+SBY 16:58:40 [pipeline_test] engine_0: ##   0:01:28  Writing trace to Yosys witness file: engine_0/trace.yw
+SBY 16:58:41 [pipeline_test] engine_0: ##   0:01:29  Status: failed
+SBY 16:58:41 [pipeline_test] engine_0: finished (returncode=1)
+SBY 16:58:41 [pipeline_test] engine_0: Status returned by engine: FAIL
+SBY 16:58:41 [pipeline_test] summary: Elapsed clock time [H:MM:SS (secs)]: 0:01:31 (91)
+SBY 16:58:41 [pipeline_test] summary: Elapsed process time [H:MM:SS (secs)]: 0:01:32 (92)
+SBY 16:58:41 [pipeline_test] summary: engine_0 (smtbmc yices) returned FAIL
+SBY 16:58:41 [pipeline_test] summary: counterexample trace: pipeline_test/engine_0/trace.vcd
+SBY 16:58:41 [pipeline_test] summary:   failed assertion formal_top._witness_.check_assert_formal_top_sv_211_110 at formal_top.sv:211.13-211.37 step 14
+SBY 16:58:41 [pipeline_test] DONE (FAIL, rc=2)

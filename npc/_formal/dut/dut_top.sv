@@ -174,7 +174,7 @@ ysyx_26040135_EXU exu (
         .reset(reset),
         .wen(wen), // WB
         .raddr1(rs1_out),  // EX
-        .raddr2(rs1_out), // EX
+        .raddr2(rs2_out), // EX
         .waddr(rd_wbu), // WB
         .wdata(wdata_wbu), // WB
 

@@ -386,7 +386,7 @@ ysyx_26040135_EXU exu (
         .read_is_u(read_is_u),
         .rd(rd_out),
         .lsu_wdata(lsu_wdata),
-        .lsu_addr(lsu_addr),rd_lsu
+        .lsu_addr(lsu_addr),
         .ic_wb_wdata(ic_wb_wdata),
 
         .in_valid(valid_el),

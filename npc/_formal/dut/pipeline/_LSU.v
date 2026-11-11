@@ -105,7 +105,7 @@ module ysyx_26040135_AXI_LSU (
     assign rd_out = rd_save;
     assign sw_addr = lsu_addr_save;
 
-    reg rdata_out;
+    reg [31:0] rdata_out;
 
 
 // 状态

@@ -12,7 +12,9 @@ module dut_top(
     output [32*32-1:0] dbg_reg,
 
     output _new_instr,
-    output [31:0] _pc
+    output [31:0] _pc,
+
+    output [31:0] _pc_i
 );
 
 
@@ -73,7 +75,8 @@ module dut_top(
         .flush(flush),
         .pc_flush(pc_flush),
         .ifu_work_cyc(ifu_work_cyc),
-        .ifu_block_cyc(ifu_block_cyc)
+        .ifu_block_cyc(ifu_block_cyc),
+        ._pc_i(_pc_i)
     ); 
 
     wire [63:0] ifu_work_cyc, ifu_block_cyc;

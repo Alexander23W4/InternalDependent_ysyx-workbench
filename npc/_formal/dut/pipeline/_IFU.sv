@@ -76,7 +76,9 @@ module ysyx_26040135_AXI_IFU (
     input [31:0] pc_flush,
 
     output reg [63:0] ifu_work_cyc,
-    output reg [63:0] ifu_block_cyc
+    output reg [63:0] ifu_block_cyc,
+
+    output [31:0] _pc_i
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -112,7 +114,7 @@ module ysyx_26040135_AXI_IFU (
     // 内部寄存器
     reg [31:0] pc;       // pc完全由IFU控制
 
-
+    assign _pc_i = pc;
     // 状态
     typedef enum logic [1:0]{ 
         IDLE, AR, R

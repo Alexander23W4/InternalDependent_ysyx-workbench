@@ -7,10 +7,11 @@ assume  assert
     第一周期拉高, 后续拉低
 
 ## 对于imem的assume: 
-    对于跳转指令的所有情况, 只能跳转到前8个word, 只有前8个word是指令 (0x80000000 - 0x8000001f)
-    只能生成下表这些现在npc支持的指令, 不能够生成 ebreak ecall mret fence.i
-    访存指令要对齐, 访存地址的目标只能是后8个word(0x80000020 - 0x8000003f), 只有这些是可以访问的数据
-    csr-instr只能生成地址 mstatus mepc mcause mtvec mcycle mcycleh 这些csr的地址
+    imem的内容是前8个word, 代表8个指令, 在任何时间都保持恒定, 从第0个周期到永远 //
+    对于跳转指令的所有情况, 只能跳转到前8个word, 只有前8个word是指令 (0x80000000 - 0x8000001f)   ⭐ 限制ifu.pc, 不能够取指范围外的, 根治
+    访存指令要对齐, 访存地址的目标只能是后8个word(0x80000020 - 0x8000003f), 只有这些是可以访问的数据    ⭐ 限制lsu_addr, 根治, 而且要对齐
+    csr-instr只能生成地址 mstatus mepc mcause mtvec mcycle mcycleh 这些csr的地址   //
+    只能生成下表这些现在npc支持的指令, 不能够生成 ebreak ecall mret fence.i   // 
 
 // === Arithmetic & Logical (Integer Register-Immediate Instructions) ===
     output reg addi,

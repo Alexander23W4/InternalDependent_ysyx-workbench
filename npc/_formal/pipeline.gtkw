@@ -1,0 +1,20 @@
+
+[*]
+[dumpfile] "/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/engine_0/trace.vcd"
+[savefile] "/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline.gtkw"
+[timestart] 0
+[size] 1600 1000
+[pos] -1 -1
+*0.000000 5 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 300
+[signals_width] 240
+[sst_expanded] 1
+[sst_vpaned_height] 500
+@28
+formal_top.clock
+formal_top.reset
+@22
+formal_top.d_idu_pc[31:0]
+formal_top.r_pc[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

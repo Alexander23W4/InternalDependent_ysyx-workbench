@@ -7,6 +7,7 @@ SOURCES=$(shell find ./dut ./ref -type f \( -name "*.v" -o -name "*.sv" \) | sor
 		./formal_top.sv
 
 TEST_NAME=pipeline_test
+GTKW_FILE=./pipeline.gtkw
 
 run:
 	$(OSS_HOME)/bin/sby -f pipeline_test.sby
@@ -16,7 +17,7 @@ static:
 	verilator $(STATIC_CHECK_FLAG) --top-module formal_top $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(SOURCES)
 
 trace:
-	gtkwave $(TEST_NAME)/engine_0/trace.vcd
+	gtkwave $(TEST_NAME)/engine_0/trace.vcd $(GTKW_FILE)
 
 
 

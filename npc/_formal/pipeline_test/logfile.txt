@@ -71,3 +71,6 @@ SBY 19:13:34 [pipeline_test] engine_0: ##   1:02:03  Checking assertions in step
 SBY 19:14:34 [pipeline_test] engine_0: ##   1:03:03  waiting for solver (1 minute)
 SBY 19:18:34 [pipeline_test] engine_0: ##   1:07:03  waiting for solver (5 minutes)
 SBY 19:23:34 [pipeline_test] engine_0: ##   1:12:03  waiting for solver (10 minutes)
+SBY 19:28:34 [pipeline_test] engine_0: ##   1:17:03  waiting for solver (15 minutes)
+SBY 19:43:34 [pipeline_test] engine_0: ##   1:32:03  waiting for solver (30 minutes)
+SBY 20:13:34 [pipeline_test] engine_0: ##   2:02:03  waiting for solver (1 hour)

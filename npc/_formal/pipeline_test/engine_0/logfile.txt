@@ -45,3 +45,6 @@
 ##   1:03:03  waiting for solver (1 minute)
 ##   1:07:03  waiting for solver (5 minutes)
 ##   1:12:03  waiting for solver (10 minutes)
+##   1:17:03  waiting for solver (15 minutes)
+##   1:32:03  waiting for solver (30 minutes)
+##   2:02:03  waiting for solver (1 hour)

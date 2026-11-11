@@ -67,7 +67,7 @@ module formal_top(
                 7'b0110111: is_legal = 1'b1;                                            // lui
                 7'b0010111: is_legal = 1'b1;                                            // auipc
                 7'b1110011: is_legal = ((f3==3'b001)||(f3==3'b010)||(f3==3'b011)) &&    // csrrw/csrrs/csrrc  限制只操作4个csr
-                                       ((csr==12'h300)||(csr==12'h341)||(csr==12'h342)|| (csr==12'h305));
+                                       ((csr==12'h300)||(csr==12'h341)||(csr==12'h342)||(csr==12'h305));
                 default: ;    // ecall/ebreak/mret 是 1110011 的 f3==000, fence.i 是 0001111 -> 都不合法
             endcase
         end
@@ -77,7 +77,7 @@ module formal_top(
     function automatic [31:0] imm_b(input [31:0] ins);
         imm_b = {{20{ins[31]}}, ins[7], ins[30:25], ins[11:8], 1'b0};
     endfunction
-    
+
     function automatic [31:0] imm_j(input [31:0] ins);
         imm_j = {{12{ins[31]}}, ins[19:12], ins[20], ins[30:21], 1'b0};
     endfunction
@@ -144,6 +144,7 @@ module formal_top(
     wire is_ls_C;
     wire [1:0] io_type_C;
     wire [31:0] lsu_addr_C;
+    wire d_wen;
 
     // ref_top 的输出
     wire [32*32-1:0] r_dbg_reg;
@@ -153,6 +154,7 @@ module formal_top(
     wire is_ls_R;
     wire [31:0] ls_addr_R;
     wire [1:0] io_type_R;
+    wire f_wen;
     
 
     dut_top dut (
@@ -171,7 +173,9 @@ module formal_top(
 
         .is_ls_C(is_ls_C),
         .io_type_C(io_type_C),
-        .lsu_addr_C(lsu_addr_C)
+        .lsu_addr_C(lsu_addr_C),
+
+        ._wen(d_wen)
     );
 
     ref_top u_ref (
@@ -187,7 +191,9 @@ module formal_top(
         ._instr(r_instr),
         .is_ls(is_ls_R),
         .ls_addr(ls_addr_R),
-        .io_type(io_type_R)
+        .io_type(io_type_R),
+        
+        ._wen(f_wen)
     );
 
     reg clk_en;
@@ -212,6 +218,31 @@ module formal_top(
         end
     end
 
+    reg gpr_check_valid;
+
+    always @(posedge clock or posedge reset) begin
+        if(reset) begin
+            clk_en <= 1'b0;
+            gpr_check_valid <= 1'b0;
+        end else begin
+            while(!f_wen) begin   
+                clk_en <= 1'b1;
+            end
+            if(d_wen && f_wen) begin  // dut和ref都是下一个周期更新gpr
+                clk_en <= 1'b1;
+                gpr_check_valid <= 1'b1;
+            end
+            if(gpr_check_valid) begin
+                gpr_check_valid <= 1'b0;
+            end
+        end
+    end
+
+    always @(posedge clock) begin
+        if(gpr_check_valid && !reset) begin
+            assert(r_dbg_reg == d_dbg_reg);
+        end
+    end
 
 
 endmodule

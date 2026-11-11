@@ -10,11 +10,14 @@ module ref_top(
     output [31:0] _instr,
     output is_ls,
     output [31:0] ls_addr,
-    output [1:0] io_type
+    output [1:0] io_type,
+    output _wen
 );
+
     assign is_ls = lb | lh | lw | lbu | lhu | sw | sb | sh; 
     assign ls_addr = add_rst;
     assign io_type = is_ls ? ((sw | lw) ? 2'b10 : ((sh | lhu | lh) ? 2'b01 : 2'b00)) : 2'b11;
+    assign _wen = wen;
 
 
     localparam BASE_ADDR = 32'h80000000;

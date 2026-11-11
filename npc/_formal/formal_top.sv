@@ -3,6 +3,7 @@
 /*
 
 */
+
 module formal_top(
     input clock,
     input reset,
@@ -39,4 +40,20 @@ module formal_top(
         .ram_instr(imem)
     );
 
+
+    reg first_instr;
+
+    always @(posedge clock or posedge reset) begin
+        if(reset) begin
+            first_instr <= 1'b1;
+        end
+        if(d_new_instr) begin
+            if(first_instr) begin
+                first_instr <= 1'b0;
+            end else begin   // 不是第一条指令, 才驱动ref并且比较
+                ref_jump..  // 这里驱动ref一个周期
+                assert(d_pc == r_pc);
+            end
+        end
+    end
 endmodule

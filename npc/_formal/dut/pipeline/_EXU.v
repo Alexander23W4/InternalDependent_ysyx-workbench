@@ -301,7 +301,7 @@ module ysyx_26040135_EXU (
                     32'h00000341: mepc <= rdata1_ul;
                     32'h00000342: mcause <= rdata1_ul;
                 endcase
-            end
+            end 
             else if (|{{5{csrrs_save}} & rs1_save} && state == EX) begin
                 case(imm_save) 
                     32'h00000300: mstatus <= rdata1_ul | csr_rst_save;

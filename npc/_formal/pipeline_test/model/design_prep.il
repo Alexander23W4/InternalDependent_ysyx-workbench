@@ -24723,7 +24723,7 @@ module \dut_top
     connect \reset \reset
     connect \rdata2 \rdata2
     connect \rdata1 \rdata1
-    connect \raddr2 \rs1_out
+    connect \raddr2 \rs2_out
     connect \raddr1 \rs1_out
     connect \dbg_regs \dbg_reg
     connect \clock \clock

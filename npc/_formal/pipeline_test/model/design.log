@@ -3720,6 +3720,6 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 Output filename: ../model/design.il
 
 Warnings: 3 unique messages, 4 total
-End of script. Logfile hash: 8977856efb, time: 1.22s, user: 1.17s, system: 0.05s, MEM: 55.38 MB peak
+End of script. Logfile hash: 8977856efb, time: 1.18s, user: 1.14s, system: 0.05s, MEM: 55.39 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 36% 2x check (0 sec), 23% 5x opt_clean (0 sec), ...
+Time spent: 35% 2x check (0 sec), 23% 5x opt_clean (0 sec), ...

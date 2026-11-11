@@ -468,6 +468,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: 1724475481, time: 0.12s, user: 0.11s, system: 0.02s, MEM: 28.08 MB peak
+End of script. Logfile hash: 1724475481, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 28.22 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 89% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...
+Time spent: 88% 2x write_smt2 (0 sec), 7% 2x read_rtlil (0 sec), ...

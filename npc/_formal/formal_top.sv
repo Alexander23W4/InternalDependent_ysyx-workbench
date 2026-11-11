@@ -168,18 +168,23 @@ module formal_top(
 
     reg clk_en;
 
-
+// 关键点：任意 assert/assume/cover 都不能写在带 posedge reset 的块里。
     always @(posedge clock or posedge reset) begin   // 收到新的instr之后, 先比较, 再驱动ref跳转
         if(reset) begin
             clk_en <= 1'b0;
         end else begin
             if(d_new_instr) begin   
-                assert(d_idu_pc == r_pc);   // 即时比较
                 clk_en <= 1'b1;   // 收到new_instr之后驱动一个周期
             end
             if(clk_en && !d_new_instr) begin
                 clk_en <= 1'b0;
             end
+        end
+    end
+
+    always @(posedge clock) begin
+        if(!reset && d_new_instr) begin
+            assert(d_idu_pc == r_pc);
         end
     end
 

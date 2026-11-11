@@ -6,8 +6,17 @@ module ref_top(
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,  // 
-    input logic [31:0][7:0] ram_instr
+    input logic [31:0][7:0] ram_instr,
+    output [31:0] _instr,
+    output is_ls,
+    output [31:0] ls_addr,
+    output [1:0] io_type
 );
+    is_ls = lb | lh | lw | lbu | lhu | sw | sb | sh; 
+    ls_addr = add_rst;
+    io_type = is_ls ? ((sw | lw) ? 2'b10 : ((sh | lhu | lh) ? 2'b01 : 2'b00)) : 2'b11;
+
+
     localparam BASE_ADDR = 32'h80000000;
     logic [63:0][7:0] ram;
 
@@ -16,6 +25,7 @@ module ref_top(
 
     wire [31:0] instr;
     assign instr = {ram[fetch_addr+3], ram[fetch_addr+2], ram[fetch_addr+1], ram[fetch_addr]};
+    assign _instr = instr;
 
     reg [31:0] pc;   // reg
     assign _pc = pc;

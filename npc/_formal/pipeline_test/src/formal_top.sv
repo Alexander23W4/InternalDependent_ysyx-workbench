@@ -113,6 +113,7 @@ module formal_top(
     always @(*) begin
         if(!reset) begin
             assume(d_pc_i >= 32'h80000000 && d_pc_i <= 32'h8000001c && d_pc_i[1:0] == 2'b00);
+            assume(r_pc >= 32'h80000000 && r_pc <= 32'h8000001c && r_pc[1:0] == 2'b00);
             if(is_ls_C) begin
                 assume(lsu_addr_C >= 32'h80000020 && lsu_addr_C <= 32'h8000003f);
                 case(io_type_C)
@@ -121,34 +122,53 @@ module formal_top(
                     default: ;
                 endcase
             end
+            if(is_ls_R) begin
+                assume(ls_addr_R >= 32'h80000020 && ls_addr_R <= 32'h8000003f);
+                case(io_type_R)
+                    2'b01: assume(ls_addr_R[0] == 1'b0);
+                    2'b10: assume(ls_addr_R[1:0] == 2'b00);
+                    default: ;
+                endcase
+            end
         end
     end
 
 
     // dut_top 的输出
-    wire             d_new_instr;
-    wire [31:0]      d_pc;
-    wire [31:0]      d_idu_pc;
+    wire d_new_instr;
+    wire [31:0] d_pc;
+    wire [31:0] d_idu_pc;
+    wire [31:0] d_idu_instr;
     wire [32*32-1:0] d_dbg_reg;
-    wire [31:0]      d_pc_i;
+    wire [31:0] d_pc_i;
     wire is_ls_C;
     wire [1:0] io_type_C;
     wire [31:0] lsu_addr_C;
 
     // ref_top 的输出
     wire [32*32-1:0] r_dbg_reg;
-    wire [31:0]      r_pc;
-    wire [31:0]      r_mstatus, r_mepc, r_mcause, r_mtvec, r_mcycle, r_mcycleh, r_mvendorid, r_marchid;
+    wire [31:0] r_pc;
+    wire [31:0] r_mstatus, r_mepc, r_mcause, r_mtvec, r_mcycle, r_mcycleh, r_mvendorid, r_marchid;
+    wire [31:0] r_instr;
+    wire is_ls_R;
+    wire [31:0] ls_addr_R;
+    wire [1:0] io_type_R;
+    
 
     dut_top dut (
         .clock(clock),
         .reset(reset),
         .ram(imem),          // 8 个 32bit 字 = 32 个 byte, 都是 256bit, 位序一致
         ._new_instr(d_new_instr),
+
         ._pc(d_pc),
         ._idu_pc(d_idu_pc),
+        ._idu_instr(d_idu_instr),
+
         .dbg_reg(d_dbg_reg),
+
         ._pc_i(d_pc_i),
+
         .is_ls_C(is_ls_C),
         .io_type_C(io_type_C),
         .lsu_addr_C(lsu_addr_C)
@@ -163,7 +183,11 @@ module formal_top(
         ._mstatus(r_mstatus), ._mepc(r_mepc), ._mcause(r_mcause), ._mtvec(r_mtvec),
         ._mcycle(r_mcycle), ._mcycleh(r_mcycleh),
         ._mvendorid(r_mvendorid), ._marchid(r_marchid),
-        .ram_instr(imem)
+        .ram_instr(imem),
+        ._instr(r_instr),
+        .is_ls(is_ls_R),
+        .ls_addr(ls_addr_R),
+        .io_type(io_type_R)
     );
 
     reg clk_en;
@@ -184,8 +208,6 @@ module formal_top(
 
     always @(posedge clock) begin
         if(!reset && d_new_instr) begin
-            $display(d_idu_pc);
-            $display(r_pc);
             assert(d_idu_pc == r_pc);
         end
     end

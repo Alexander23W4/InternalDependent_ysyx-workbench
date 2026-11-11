@@ -13,14 +13,24 @@ module formal_top(
 
     // reset
     reg [3:0] f_cycles = 4'd0;
-    always @(posedge clock) if (f_cycles != 4'hf) f_cycles <= f_cycles + 4'd1;
-    always @(*) assume(f_cycles == 4'd0 ? reset : !reset);
+    always @(posedge clock) begin
+        if(f_cycles != 4'hf) begin
+            f_cycles <= f_cycles + 4'd1;
+        end
+    end
+    always @(*) begin
+        assume(f_cycles == 4'd0 ? reset : !reset);
+    end
 
 
     // imem
     reg [7:0][31:0] imem_r;
-    always @(posedge clock) imem_r <= imem;
-    always @(*) assume(imem == imem_r);   // 强制保持imem恒定
+    always @(posedge clock) begin
+        imem_r <= imem;
+    end
+    always @(*) begin
+        assume(imem == imem_r);   // 强制保持imem恒定 
+    end
 
     //  指令合法性: 只允许 npc 已经实现的指令, 排除 ebreak / ecall / mret / fence.i
     //     CSR 指令的 CSR 地址只允许 mstatus/mepc/mcause/mtvec/mcycle/mcycleh
@@ -72,7 +82,7 @@ module formal_top(
         imm_j = {{12{ins[31]}}, ins[19:12], ins[20], ins[30:21], 1'b0};
     endfunction
 
-    // 3.3 每个指令字: 合法 + 跳转目标只能落在前 8 个 word(0x80000000~0x8000001f)
+    // 直接约束 b 和 jal 合法
     generate
         for (genvar i = 0; i < 8; i++) begin : g_instr_assume
             wire [31:0] ins = imem[i];
@@ -88,19 +98,30 @@ module formal_top(
             always @(*) if (ins[6:0] == 7'b1100011)                  // branch 跳过去的目标
                 assume(tgt_b >= 32'h8000_0000 && tgt_b < 32'h8000_0020);
 
+        end
+    endgenerate
+
+    // 间接约束
             // 注意(静态约束不了的两条, 需要 dut_top 另外引出信号):
             //   * jalr 的目标 = (GPR[rs1] + imm) & ~1, 依赖寄存器值, 光看 imem 算不出来   ⭐: 这个也弄到跳转的扣上, 或者直接assume pc 范围
             //   * 访存地址/对齐 = GPR + imm, 同样依赖寄存器值              ⭐ 把assume加到访存的扣上
+
+            // 
             //   要做到这两条, 需要把 EXU 的 pc_flush / LSU 的 lsu_addr 作为端口引到 dut_top 上,
             //   再在顶层 assume 它们落在 0x80000000~0x8000001f(跳转) / 0x80000020~0x8000003f(访存)。
+
+    always @(*) begin
+        if(!reset) begin
+            assume(d_pc_i >= 32'h80000000 && d_pc_i <= 32'h8000001c);
         end
-    endgenerate
+    end
 
 
     // dut_top 的输出
     wire             d_new_instr;
     wire [31:0]      d_pc;
     wire [32*32-1:0] d_dbg_reg;
+    wire [31:0]      d_pc_i;
 
     // ref_top 的输出
     wire [32*32-1:0] r_dbg_reg;
@@ -114,7 +135,8 @@ module formal_top(
         .ram(imem),          // 8 个 32bit 字 = 32 个 byte, 都是 256bit, 位序一致
         ._new_instr(d_new_instr),
         ._pc(d_pc),
-        .dbg_reg(d_dbg_reg)
+        .dbg_reg(d_dbg_reg),
+        ._pc_i(d_pc_i)
     );
 
     ref_top u_ref (

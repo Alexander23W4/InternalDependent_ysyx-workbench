@@ -32,141 +32,140 @@ Found 0 SCCs.
 4. Executing MEMORY_NORDFF pass (extracting $dff cells from memories).
 
 5. Executing ASYNC2SYNC pass.
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7918 ($adff): ARST=\rst, D=$0\gpr[0][31:0], Q=\gpr[0]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7921 ($adff): ARST=\rst, D=$0\gpr[1][31:0], Q=\gpr[1]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7924 ($adff): ARST=\rst, D=$0\gpr[2][31:0], Q=\gpr[2]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7927 ($adff): ARST=\rst, D=$0\gpr[3][31:0], Q=\gpr[3]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7930 ($adff): ARST=\rst, D=$0\gpr[4][31:0], Q=\gpr[4]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7933 ($adff): ARST=\rst, D=$0\gpr[5][31:0], Q=\gpr[5]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7936 ($adff): ARST=\rst, D=$0\gpr[6][31:0], Q=\gpr[6]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7939 ($adff): ARST=\rst, D=$0\gpr[7][31:0], Q=\gpr[7]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7942 ($adff): ARST=\rst, D=$0\gpr[8][31:0], Q=\gpr[8]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7945 ($adff): ARST=\rst, D=$0\gpr[9][31:0], Q=\gpr[9]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7948 ($adff): ARST=\rst, D=$0\gpr[10][31:0], Q=\gpr[10]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7951 ($adff): ARST=\rst, D=$0\gpr[11][31:0], Q=\gpr[11]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7954 ($adff): ARST=\rst, D=$0\gpr[12][31:0], Q=\gpr[12]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7957 ($adff): ARST=\rst, D=$0\gpr[13][31:0], Q=\gpr[13]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7960 ($adff): ARST=\rst, D=$0\gpr[14][31:0], Q=\gpr[14]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7963 ($adff): ARST=\rst, D=$0\gpr[15][31:0], Q=\gpr[15]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7966 ($adff): ARST=\rst, D=$0\gpr[16][31:0], Q=\gpr[16]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7969 ($adff): ARST=\rst, D=$0\gpr[17][31:0], Q=\gpr[17]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7972 ($adff): ARST=\rst, D=$0\gpr[18][31:0], Q=\gpr[18]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7975 ($adff): ARST=\rst, D=$0\gpr[19][31:0], Q=\gpr[19]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7978 ($adff): ARST=\rst, D=$0\gpr[20][31:0], Q=\gpr[20]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7981 ($adff): ARST=\rst, D=$0\gpr[21][31:0], Q=\gpr[21]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7984 ($adff): ARST=\rst, D=$0\gpr[22][31:0], Q=\gpr[22]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7987 ($adff): ARST=\rst, D=$0\gpr[23][31:0], Q=\gpr[23]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7990 ($adff): ARST=\rst, D=$0\gpr[24][31:0], Q=\gpr[24]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7993 ($adff): ARST=\rst, D=$0\gpr[25][31:0], Q=\gpr[25]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7996 ($adff): ARST=\rst, D=$0\gpr[26][31:0], Q=\gpr[26]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7999 ($adff): ARST=\rst, D=$0\gpr[27][31:0], Q=\gpr[27]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8002 ($adff): ARST=\rst, D=$0\gpr[28][31:0], Q=\gpr[28]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8005 ($adff): ARST=\rst, D=$0\gpr[29][31:0], Q=\gpr[29]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8008 ($adff): ARST=\rst, D=$0\gpr[30][31:0], Q=\gpr[30]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8011 ($adff): ARST=\rst, D=$0\gpr[31][31:0], Q=\gpr[31]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8401 ($adff): ARST=\reset, D=$0\gpr[0][31:0], Q=\gpr[0]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8404 ($adff): ARST=\reset, D=$0\gpr[1][31:0], Q=\gpr[1]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8407 ($adff): ARST=\reset, D=$0\gpr[2][31:0], Q=\gpr[2]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8410 ($adff): ARST=\reset, D=$0\gpr[3][31:0], Q=\gpr[3]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8413 ($adff): ARST=\reset, D=$0\gpr[4][31:0], Q=\gpr[4]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8416 ($adff): ARST=\reset, D=$0\gpr[5][31:0], Q=\gpr[5]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8419 ($adff): ARST=\reset, D=$0\gpr[6][31:0], Q=\gpr[6]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8422 ($adff): ARST=\reset, D=$0\gpr[7][31:0], Q=\gpr[7]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8425 ($adff): ARST=\reset, D=$0\gpr[8][31:0], Q=\gpr[8]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8428 ($adff): ARST=\reset, D=$0\gpr[9][31:0], Q=\gpr[9]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8431 ($adff): ARST=\reset, D=$0\gpr[10][31:0], Q=\gpr[10]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8434 ($adff): ARST=\reset, D=$0\gpr[11][31:0], Q=\gpr[11]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8437 ($adff): ARST=\reset, D=$0\gpr[12][31:0], Q=\gpr[12]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8440 ($adff): ARST=\reset, D=$0\gpr[13][31:0], Q=\gpr[13]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8443 ($adff): ARST=\reset, D=$0\gpr[14][31:0], Q=\gpr[14]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8446 ($adff): ARST=\reset, D=$0\gpr[15][31:0], Q=\gpr[15]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8449 ($adff): ARST=\reset, D=$0\gpr[16][31:0], Q=\gpr[16]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8452 ($adff): ARST=\reset, D=$0\gpr[17][31:0], Q=\gpr[17]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8455 ($adff): ARST=\reset, D=$0\gpr[18][31:0], Q=\gpr[18]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8458 ($adff): ARST=\reset, D=$0\gpr[19][31:0], Q=\gpr[19]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8461 ($adff): ARST=\reset, D=$0\gpr[20][31:0], Q=\gpr[20]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8464 ($adff): ARST=\reset, D=$0\gpr[21][31:0], Q=\gpr[21]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8467 ($adff): ARST=\reset, D=$0\gpr[22][31:0], Q=\gpr[22]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8470 ($adff): ARST=\reset, D=$0\gpr[23][31:0], Q=\gpr[23]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8473 ($adff): ARST=\reset, D=$0\gpr[24][31:0], Q=\gpr[24]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8476 ($adff): ARST=\reset, D=$0\gpr[25][31:0], Q=\gpr[25]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8479 ($adff): ARST=\reset, D=$0\gpr[26][31:0], Q=\gpr[26]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8482 ($adff): ARST=\reset, D=$0\gpr[27][31:0], Q=\gpr[27]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8485 ($adff): ARST=\reset, D=$0\gpr[28][31:0], Q=\gpr[28]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8488 ($adff): ARST=\reset, D=$0\gpr[29][31:0], Q=\gpr[29]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8491 ($adff): ARST=\reset, D=$0\gpr[30][31:0], Q=\gpr[30]
-Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8494 ($adff): ARST=\reset, D=$0\gpr[31][31:0], Q=\gpr[31]
-Replacing formal_top.$procdff$8700 ($adff): ARST=\reset, D=$0\clk_en[0:0], Q=\clk_en
-Replacing formal_top.$procdff$8708 ($adff): ARST=\reset, D=$0\gpr_check_valid[0:0], Q=\gpr_check_valid
-Replacing ref_top.$procdff$8630 ($aldff): ALOAD=\rst, AD={ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }, D=$0$lookahead\ram$940[511:0]$953, Q=\ram
-Replacing ref_top.$procdff$8633 ($adff): ARST=\rst, D=$0\pc[31:0], Q=\pc
-Replacing ref_top.$procdff$8636 ($adff): ARST=\rst, D=$0\mstatus[31:0], Q=\mstatus
-Replacing ref_top.$procdff$8639 ($adff): ARST=\rst, D=$0\mepc[31:0], Q=\mepc
-Replacing ref_top.$procdff$8642 ($adff): ARST=\rst, D=$0\mcause[31:0], Q=\mcause
-Replacing ref_top.$procdff$8645 ($adff): ARST=\rst, D=$0\mtvec[31:0], Q=\mtvec
-Replacing ref_top.$procdff$8648 ($adff): ARST=\rst, D=$0\mcycle[31:0], Q=\mcycle
-Replacing ref_top.$procdff$8651 ($adff): ARST=\rst, D=$0\mcycleh[31:0], Q=\mcycleh
-Replacing ref_top.$procdff$8654 ($adff): ARST=\rst, D=\mvendorid, Q=\mvendorid
-Replacing ref_top.$procdff$8657 ($adff): ARST=\rst, D=\marchid, Q=\marchid
-Replacing ysyx_26040135_AXI4_Xbar.$procdff$8572 ($adff): ARST=\reset, D=\r_next_state, Q=\r_current_state
-Replacing ysyx_26040135_AXI_IFU.$procdff$8023 ($adff): ARST=\reset, D=$0\pc[31:0], Q=\pc
-Replacing ysyx_26040135_AXI_IFU.$procdff$8026 ($adff): ARST=\reset, D=$0\ifu_work_cyc[63:0], Q=\ifu_work_cyc
-Replacing ysyx_26040135_AXI_IFU.$procdff$8029 ($adff): ARST=\reset, D=$0\ifu_block_cyc[63:0], Q=\ifu_block_cyc
-Replacing ysyx_26040135_AXI_IFU.$procdff$8032 ($adff): ARST=\reset, D=$0\out_instr[31:0], Q=\out_instr
-Replacing ysyx_26040135_AXI_IFU.$procdff$8035 ($adff): ARST=\reset, D=$0\out_valid[0:0], Q=\out_valid
-Replacing ysyx_26040135_AXI_IFU.$procdff$8038 ($adff): ARST=\reset, D=$0\out_pc[31:0], Q=\out_pc
-Replacing ysyx_26040135_AXI_IFU.$procdff$8041 ($adff): ARST=\reset, D=\next, Q=\state
-Replacing ysyx_26040135_AXI_IFU.$procdff$8044 ($adff): ARST=\reset, D=$0\error_save[1:0], Q=\error_save
-Replacing ysyx_26040135_AXI_IFU.$procdff$8047 ($adff): ARST=\reset, D=$0\master_validation_error_save[0:0], Q=\master_validation_error_save
-Replacing ysyx_26040135_AXI_IFU.$procdff$8050 ($adff): ARST=\reset, D=$0\flush_save[0:0], Q=\flush_save
-Replacing ysyx_26040135_AXI_IFU.$procdff$8053 ($adff): ARST=\reset, D=$0\pc_flush_save[31:0], Q=\pc_flush_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8503 ($adff): ARST=\reset, D=$0\lsu_blockf_cyc[63:0], Q=\lsu_blockf_cyc
-Replacing ysyx_26040135_AXI_LSU.$procdff$8506 ($adff): ARST=\reset, D=$0\lsu_blcokb_cyc[63:0], Q=\lsu_blcokb_cyc
-Replacing ysyx_26040135_AXI_LSU.$procdff$8509 ($adff): ARST=\reset, D=$0\lsu_work_cyc[63:0], Q=\lsu_work_cyc
-Replacing ysyx_26040135_AXI_LSU.$procdff$8512 ($adff): ARST=\reset, D=$0\lsu_blockf[0:0], Q=\lsu_blockf
-Replacing ysyx_26040135_AXI_LSU.$procdff$8515 ($adff): ARST=\reset, D=$0\out_valid[0:0], Q=\out_valid
-Replacing ysyx_26040135_AXI_LSU.$procdff$8518 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
-Replacing ysyx_26040135_AXI_LSU.$procdff$8521 ($adff): ARST=\reset, D=\next, Q=\state
-Replacing ysyx_26040135_AXI_LSU.$procdff$8524 ($adff): ARST=\reset, D=$0\error_save[1:0], Q=\error_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8527 ($adff): ARST=\reset, D=$0\io_save[0:0], Q=\io_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8530 ($adff): ARST=\reset, D=$0\io_type_save[1:0], Q=\io_type_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8533 ($adff): ARST=\reset, D=$0\read_is_u_save[0:0], Q=\read_is_u_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8536 ($adff): ARST=\reset, D=$0\rd_save[4:0], Q=\rd_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8539 ($adff): ARST=\reset, D=$0\lsu_data_save[31:0], Q=\lsu_data_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8542 ($adff): ARST=\reset, D=$0\lsu_addr_save[31:0], Q=\lsu_addr_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8545 ($adff): ARST=\reset, D=$0\ic_wb_wdata_save[31:0], Q=\ic_wb_wdata_save
-Replacing ysyx_26040135_AXI_LSU.$procdff$8548 ($adff): ARST=\reset, D=$0\rdata_out[31:0], Q=\rdata_out
-Replacing ysyx_26040135_AXI_RAM.$procdff$8575 ($aldff): ALOAD=\reset, AD={ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }, D=$0$lookahead\ram$1111[511:0]$1125, Q=\ram
-Replacing ysyx_26040135_AXI_RAM.$procdff$8578 ($adff): ARST=\reset, D=$0\rdata_save[31:0], Q=\rdata_save
-Replacing ysyx_26040135_AXI_RAM.$procdff$8581 ($adff): ARST=\reset, D=$0\awaddr_save[31:0], Q=\awaddr_save
-Replacing ysyx_26040135_AXI_RAM.$procdff$8584 ($adff): ARST=\reset, D=\next, Q=\state
-Replacing ysyx_26040135_EXU.$procdff$8062 ($adff): ARST=\reset, D=$0\mstatus[31:0], Q=\mstatus
-Replacing ysyx_26040135_EXU.$procdff$8065 ($adff): ARST=\reset, D=$0\mepc[31:0], Q=\mepc
-Replacing ysyx_26040135_EXU.$procdff$8068 ($adff): ARST=\reset, D=$0\mcause[31:0], Q=\mcause
-Replacing ysyx_26040135_EXU.$procdff$8071 ($adff): ARST=\reset, D=$0\mtvec[31:0], Q=\mtvec
-Replacing ysyx_26040135_EXU.$procdff$8074 ($adff): ARST=\reset, D=$0\mcycle[31:0], Q=\mcycle
-Replacing ysyx_26040135_EXU.$procdff$8077 ($adff): ARST=\reset, D=$0\mcycleh[31:0], Q=\mcycleh
-Replacing ysyx_26040135_EXU.$procdff$8080 ($adff): ARST=\reset, D=\mvendorid, Q=\mvendorid
-Replacing ysyx_26040135_EXU.$procdff$8083 ($adff): ARST=\reset, D=\marchid, Q=\marchid
-Replacing ysyx_26040135_EXU.$procdff$8086 ($adff): ARST=\reset, D=$0\exu_blockf_cyc[63:0], Q=\exu_blockf_cyc
-Replacing ysyx_26040135_EXU.$procdff$8089 ($adff): ARST=\reset, D=$0\exu_blcokbl_cyc[63:0], Q=\exu_blcokbl_cyc
-Replacing ysyx_26040135_EXU.$procdff$8092 ($adff): ARST=\reset, D=$0\exu_work_cyc[63:0], Q=\exu_work_cyc
-Replacing ysyx_26040135_EXU.$procdff$8095 ($adff): ARST=\reset, D=$0\out_valid[0:0], Q=\out_valid
-Replacing ysyx_26040135_EXU.$procdff$8098 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
-Replacing ysyx_26040135_EXU.$procdff$8101 ($adff): ARST=\reset, D=\next, Q=\state
-Replacing ysyx_26040135_EXU.$procdff$8109 ($adff): ARST=\reset, D=$0$lookahead\rd_list$1390[31:0]$1398, Q=\rd_list
-Replacing ysyx_26040135_EXU.$procdff$8112 ($adff): ARST=\reset, D=$0$lookahead\rd_amt$1389[31:0]$1397, Q=\rd_amt
-Replacing ysyx_26040135_EXU.$procdff$8115 ($adff): ARST=\reset, D=$0\wen_save[0:0], Q=\wen_save
-Replacing ysyx_26040135_EXU.$procdff$8118 ($adff): ARST=\reset, D=$0\rd_wb_save[4:0], Q=\rd_wb_save
-Replacing ysyx_26040135_EXU.$procdff$8121 ($adff): ARST=\reset, D=$0\bypass_active[0:0], Q=\bypass_active
-Replacing ysyx_26040135_EXU.$procdff$8124 ($adff): ARST=\reset, D=$0\bypass_data[31:0], Q=\bypass_data
-Replacing ysyx_26040135_WBU.$procdff$8551 ($adff): ARST=\reset, D=$0\wbu_blockf_cyc[63:0], Q=\wbu_blockf_cyc
-Replacing ysyx_26040135_WBU.$procdff$8554 ($adff): ARST=\reset, D=$0\wbu_work_cyc[63:0], Q=\wbu_work_cyc
-Replacing ysyx_26040135_WBU.$procdff$8557 ($adff): ARST=\reset, D=$0\wbu_blockf[0:0], Q=\wbu_blockf
-Replacing ysyx_26040135_WBU.$procdff$8560 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
-Replacing ysyx_26040135_WBU.$procdff$8563 ($adff): ARST=\reset, D=$0\rd_wb[4:0], Q=\rd_wb
-Replacing ysyx_26040135_WBU.$procdff$8566 ($adff): ARST=\reset, D=$0\wdata_wb[31:0], Q=\wdata_wb
-Replacing ysyx_26040135_WBU.$procdff$8569 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7922 ($adff): ARST=\rst, D=$0\gpr[0][31:0], Q=\gpr[0]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7925 ($adff): ARST=\rst, D=$0\gpr[1][31:0], Q=\gpr[1]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7928 ($adff): ARST=\rst, D=$0\gpr[2][31:0], Q=\gpr[2]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7931 ($adff): ARST=\rst, D=$0\gpr[3][31:0], Q=\gpr[3]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7934 ($adff): ARST=\rst, D=$0\gpr[4][31:0], Q=\gpr[4]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7937 ($adff): ARST=\rst, D=$0\gpr[5][31:0], Q=\gpr[5]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7940 ($adff): ARST=\rst, D=$0\gpr[6][31:0], Q=\gpr[6]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7943 ($adff): ARST=\rst, D=$0\gpr[7][31:0], Q=\gpr[7]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7946 ($adff): ARST=\rst, D=$0\gpr[8][31:0], Q=\gpr[8]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7949 ($adff): ARST=\rst, D=$0\gpr[9][31:0], Q=\gpr[9]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7952 ($adff): ARST=\rst, D=$0\gpr[10][31:0], Q=\gpr[10]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7955 ($adff): ARST=\rst, D=$0\gpr[11][31:0], Q=\gpr[11]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7958 ($adff): ARST=\rst, D=$0\gpr[12][31:0], Q=\gpr[12]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7961 ($adff): ARST=\rst, D=$0\gpr[13][31:0], Q=\gpr[13]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7964 ($adff): ARST=\rst, D=$0\gpr[14][31:0], Q=\gpr[14]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7967 ($adff): ARST=\rst, D=$0\gpr[15][31:0], Q=\gpr[15]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7970 ($adff): ARST=\rst, D=$0\gpr[16][31:0], Q=\gpr[16]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7973 ($adff): ARST=\rst, D=$0\gpr[17][31:0], Q=\gpr[17]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7976 ($adff): ARST=\rst, D=$0\gpr[18][31:0], Q=\gpr[18]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7979 ($adff): ARST=\rst, D=$0\gpr[19][31:0], Q=\gpr[19]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7982 ($adff): ARST=\rst, D=$0\gpr[20][31:0], Q=\gpr[20]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7985 ($adff): ARST=\rst, D=$0\gpr[21][31:0], Q=\gpr[21]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7988 ($adff): ARST=\rst, D=$0\gpr[22][31:0], Q=\gpr[22]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7991 ($adff): ARST=\rst, D=$0\gpr[23][31:0], Q=\gpr[23]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7994 ($adff): ARST=\rst, D=$0\gpr[24][31:0], Q=\gpr[24]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$7997 ($adff): ARST=\rst, D=$0\gpr[25][31:0], Q=\gpr[25]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8000 ($adff): ARST=\rst, D=$0\gpr[26][31:0], Q=\gpr[26]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8003 ($adff): ARST=\rst, D=$0\gpr[27][31:0], Q=\gpr[27]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8006 ($adff): ARST=\rst, D=$0\gpr[28][31:0], Q=\gpr[28]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8009 ($adff): ARST=\rst, D=$0\gpr[29][31:0], Q=\gpr[29]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8012 ($adff): ARST=\rst, D=$0\gpr[30][31:0], Q=\gpr[30]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.$procdff$8015 ($adff): ARST=\rst, D=$0\gpr[31][31:0], Q=\gpr[31]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8405 ($adff): ARST=\reset, D=$0\gpr[0][31:0], Q=\gpr[0]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8408 ($adff): ARST=\reset, D=$0\gpr[1][31:0], Q=\gpr[1]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8411 ($adff): ARST=\reset, D=$0\gpr[2][31:0], Q=\gpr[2]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8414 ($adff): ARST=\reset, D=$0\gpr[3][31:0], Q=\gpr[3]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8417 ($adff): ARST=\reset, D=$0\gpr[4][31:0], Q=\gpr[4]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8420 ($adff): ARST=\reset, D=$0\gpr[5][31:0], Q=\gpr[5]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8423 ($adff): ARST=\reset, D=$0\gpr[6][31:0], Q=\gpr[6]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8426 ($adff): ARST=\reset, D=$0\gpr[7][31:0], Q=\gpr[7]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8429 ($adff): ARST=\reset, D=$0\gpr[8][31:0], Q=\gpr[8]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8432 ($adff): ARST=\reset, D=$0\gpr[9][31:0], Q=\gpr[9]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8435 ($adff): ARST=\reset, D=$0\gpr[10][31:0], Q=\gpr[10]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8438 ($adff): ARST=\reset, D=$0\gpr[11][31:0], Q=\gpr[11]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8441 ($adff): ARST=\reset, D=$0\gpr[12][31:0], Q=\gpr[12]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8444 ($adff): ARST=\reset, D=$0\gpr[13][31:0], Q=\gpr[13]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8447 ($adff): ARST=\reset, D=$0\gpr[14][31:0], Q=\gpr[14]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8450 ($adff): ARST=\reset, D=$0\gpr[15][31:0], Q=\gpr[15]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8453 ($adff): ARST=\reset, D=$0\gpr[16][31:0], Q=\gpr[16]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8456 ($adff): ARST=\reset, D=$0\gpr[17][31:0], Q=\gpr[17]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8459 ($adff): ARST=\reset, D=$0\gpr[18][31:0], Q=\gpr[18]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8462 ($adff): ARST=\reset, D=$0\gpr[19][31:0], Q=\gpr[19]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8465 ($adff): ARST=\reset, D=$0\gpr[20][31:0], Q=\gpr[20]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8468 ($adff): ARST=\reset, D=$0\gpr[21][31:0], Q=\gpr[21]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8471 ($adff): ARST=\reset, D=$0\gpr[22][31:0], Q=\gpr[22]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8474 ($adff): ARST=\reset, D=$0\gpr[23][31:0], Q=\gpr[23]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8477 ($adff): ARST=\reset, D=$0\gpr[24][31:0], Q=\gpr[24]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8480 ($adff): ARST=\reset, D=$0\gpr[25][31:0], Q=\gpr[25]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8483 ($adff): ARST=\reset, D=$0\gpr[26][31:0], Q=\gpr[26]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8486 ($adff): ARST=\reset, D=$0\gpr[27][31:0], Q=\gpr[27]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8489 ($adff): ARST=\reset, D=$0\gpr[28][31:0], Q=\gpr[28]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8492 ($adff): ARST=\reset, D=$0\gpr[29][31:0], Q=\gpr[29]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8495 ($adff): ARST=\reset, D=$0\gpr[30][31:0], Q=\gpr[30]
+Replacing $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register.$procdff$8498 ($adff): ARST=\reset, D=$0\gpr[31][31:0], Q=\gpr[31]
+Replacing formal_top.$procdff$8704 ($adff): ARST=\reset, D=$0\gpr_check_valid[0:0], Q=\gpr_check_valid
+Replacing ref_top.$procdff$8634 ($aldff): ALOAD=\rst, AD={ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }, D=$0$lookahead\ram$944[511:0]$957, Q=\ram
+Replacing ref_top.$procdff$8637 ($adff): ARST=\rst, D=$0\pc[31:0], Q=\pc
+Replacing ref_top.$procdff$8640 ($adff): ARST=\rst, D=$0\mstatus[31:0], Q=\mstatus
+Replacing ref_top.$procdff$8643 ($adff): ARST=\rst, D=$0\mepc[31:0], Q=\mepc
+Replacing ref_top.$procdff$8646 ($adff): ARST=\rst, D=$0\mcause[31:0], Q=\mcause
+Replacing ref_top.$procdff$8649 ($adff): ARST=\rst, D=$0\mtvec[31:0], Q=\mtvec
+Replacing ref_top.$procdff$8652 ($adff): ARST=\rst, D=$0\mcycle[31:0], Q=\mcycle
+Replacing ref_top.$procdff$8655 ($adff): ARST=\rst, D=$0\mcycleh[31:0], Q=\mcycleh
+Replacing ref_top.$procdff$8658 ($adff): ARST=\rst, D=\mvendorid, Q=\mvendorid
+Replacing ref_top.$procdff$8661 ($adff): ARST=\rst, D=\marchid, Q=\marchid
+Replacing ysyx_26040135_AXI4_Xbar.$procdff$8576 ($adff): ARST=\reset, D=\r_next_state, Q=\r_current_state
+Replacing ysyx_26040135_AXI_IFU.$procdff$8027 ($adff): ARST=\reset, D=$0\pc[31:0], Q=\pc
+Replacing ysyx_26040135_AXI_IFU.$procdff$8030 ($adff): ARST=\reset, D=$0\ifu_work_cyc[63:0], Q=\ifu_work_cyc
+Replacing ysyx_26040135_AXI_IFU.$procdff$8033 ($adff): ARST=\reset, D=$0\ifu_block_cyc[63:0], Q=\ifu_block_cyc
+Replacing ysyx_26040135_AXI_IFU.$procdff$8036 ($adff): ARST=\reset, D=$0\out_instr[31:0], Q=\out_instr
+Replacing ysyx_26040135_AXI_IFU.$procdff$8039 ($adff): ARST=\reset, D=$0\out_valid[0:0], Q=\out_valid
+Replacing ysyx_26040135_AXI_IFU.$procdff$8042 ($adff): ARST=\reset, D=$0\out_pc[31:0], Q=\out_pc
+Replacing ysyx_26040135_AXI_IFU.$procdff$8045 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_AXI_IFU.$procdff$8048 ($adff): ARST=\reset, D=$0\error_save[1:0], Q=\error_save
+Replacing ysyx_26040135_AXI_IFU.$procdff$8051 ($adff): ARST=\reset, D=$0\master_validation_error_save[0:0], Q=\master_validation_error_save
+Replacing ysyx_26040135_AXI_IFU.$procdff$8054 ($adff): ARST=\reset, D=$0\flush_save[0:0], Q=\flush_save
+Replacing ysyx_26040135_AXI_IFU.$procdff$8057 ($adff): ARST=\reset, D=$0\pc_flush_save[31:0], Q=\pc_flush_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8507 ($adff): ARST=\reset, D=$0\lsu_blockf_cyc[63:0], Q=\lsu_blockf_cyc
+Replacing ysyx_26040135_AXI_LSU.$procdff$8510 ($adff): ARST=\reset, D=$0\lsu_blcokb_cyc[63:0], Q=\lsu_blcokb_cyc
+Replacing ysyx_26040135_AXI_LSU.$procdff$8513 ($adff): ARST=\reset, D=$0\lsu_work_cyc[63:0], Q=\lsu_work_cyc
+Replacing ysyx_26040135_AXI_LSU.$procdff$8516 ($adff): ARST=\reset, D=$0\lsu_blockf[0:0], Q=\lsu_blockf
+Replacing ysyx_26040135_AXI_LSU.$procdff$8519 ($adff): ARST=\reset, D=$0\out_valid[0:0], Q=\out_valid
+Replacing ysyx_26040135_AXI_LSU.$procdff$8522 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
+Replacing ysyx_26040135_AXI_LSU.$procdff$8525 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_AXI_LSU.$procdff$8528 ($adff): ARST=\reset, D=$0\error_save[1:0], Q=\error_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8531 ($adff): ARST=\reset, D=$0\io_save[0:0], Q=\io_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8534 ($adff): ARST=\reset, D=$0\io_type_save[1:0], Q=\io_type_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8537 ($adff): ARST=\reset, D=$0\read_is_u_save[0:0], Q=\read_is_u_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8540 ($adff): ARST=\reset, D=$0\rd_save[4:0], Q=\rd_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8543 ($adff): ARST=\reset, D=$0\lsu_data_save[31:0], Q=\lsu_data_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8546 ($adff): ARST=\reset, D=$0\lsu_addr_save[31:0], Q=\lsu_addr_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8549 ($adff): ARST=\reset, D=$0\ic_wb_wdata_save[31:0], Q=\ic_wb_wdata_save
+Replacing ysyx_26040135_AXI_LSU.$procdff$8552 ($adff): ARST=\reset, D=$0\rdata_out[31:0], Q=\rdata_out
+Replacing ysyx_26040135_AXI_RAM.$procdff$8579 ($aldff): ALOAD=\reset, AD={ 256'0001111100011110000111010001110000011011000110100001100100011000000101110001011000010101000101000001001100010010000100010001000000001111000011100000110100001100000010110000101000001001000010000000011100000110000001010000010000000011000000100000000100000000 \ram_instr }, D=$0$lookahead\ram$1115[511:0]$1129, Q=\ram
+Replacing ysyx_26040135_AXI_RAM.$procdff$8582 ($adff): ARST=\reset, D=$0\rdata_save[31:0], Q=\rdata_save
+Replacing ysyx_26040135_AXI_RAM.$procdff$8585 ($adff): ARST=\reset, D=$0\awaddr_save[31:0], Q=\awaddr_save
+Replacing ysyx_26040135_AXI_RAM.$procdff$8588 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_EXU.$procdff$8066 ($adff): ARST=\reset, D=$0\mstatus[31:0], Q=\mstatus
+Replacing ysyx_26040135_EXU.$procdff$8069 ($adff): ARST=\reset, D=$0\mepc[31:0], Q=\mepc
+Replacing ysyx_26040135_EXU.$procdff$8072 ($adff): ARST=\reset, D=$0\mcause[31:0], Q=\mcause
+Replacing ysyx_26040135_EXU.$procdff$8075 ($adff): ARST=\reset, D=$0\mtvec[31:0], Q=\mtvec
+Replacing ysyx_26040135_EXU.$procdff$8078 ($adff): ARST=\reset, D=$0\mcycle[31:0], Q=\mcycle
+Replacing ysyx_26040135_EXU.$procdff$8081 ($adff): ARST=\reset, D=$0\mcycleh[31:0], Q=\mcycleh
+Replacing ysyx_26040135_EXU.$procdff$8084 ($adff): ARST=\reset, D=\mvendorid, Q=\mvendorid
+Replacing ysyx_26040135_EXU.$procdff$8087 ($adff): ARST=\reset, D=\marchid, Q=\marchid
+Replacing ysyx_26040135_EXU.$procdff$8090 ($adff): ARST=\reset, D=$0\exu_blockf_cyc[63:0], Q=\exu_blockf_cyc
+Replacing ysyx_26040135_EXU.$procdff$8093 ($adff): ARST=\reset, D=$0\exu_blcokbl_cyc[63:0], Q=\exu_blcokbl_cyc
+Replacing ysyx_26040135_EXU.$procdff$8096 ($adff): ARST=\reset, D=$0\exu_work_cyc[63:0], Q=\exu_work_cyc
+Replacing ysyx_26040135_EXU.$procdff$8099 ($adff): ARST=\reset, D=$0\out_valid[0:0], Q=\out_valid
+Replacing ysyx_26040135_EXU.$procdff$8102 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
+Replacing ysyx_26040135_EXU.$procdff$8105 ($adff): ARST=\reset, D=\next, Q=\state
+Replacing ysyx_26040135_EXU.$procdff$8113 ($adff): ARST=\reset, D=$0$lookahead\rd_list$1394[31:0]$1402, Q=\rd_list
+Replacing ysyx_26040135_EXU.$procdff$8116 ($adff): ARST=\reset, D=$0$lookahead\rd_amt$1393[31:0]$1401, Q=\rd_amt
+Replacing ysyx_26040135_EXU.$procdff$8119 ($adff): ARST=\reset, D=$0\wen_save[0:0], Q=\wen_save
+Replacing ysyx_26040135_EXU.$procdff$8122 ($adff): ARST=\reset, D=$0\rd_wb_save[4:0], Q=\rd_wb_save
+Replacing ysyx_26040135_EXU.$procdff$8125 ($adff): ARST=\reset, D=$0\bypass_active[0:0], Q=\bypass_active
+Replacing ysyx_26040135_EXU.$procdff$8128 ($adff): ARST=\reset, D=$0\bypass_data[31:0], Q=\bypass_data
+Replacing ysyx_26040135_WBU.$procdff$8555 ($adff): ARST=\reset, D=$0\wbu_blockf_cyc[63:0], Q=\wbu_blockf_cyc
+Replacing ysyx_26040135_WBU.$procdff$8558 ($adff): ARST=\reset, D=$0\wbu_work_cyc[63:0], Q=\wbu_work_cyc
+Replacing ysyx_26040135_WBU.$procdff$8561 ($adff): ARST=\reset, D=$0\wbu_blockf[0:0], Q=\wbu_blockf
+Replacing ysyx_26040135_WBU.$procdff$8564 ($adff): ARST=\reset, D=$0\in_ready[0:0], Q=\in_ready
+Replacing ysyx_26040135_WBU.$procdff$8567 ($adff): ARST=\reset, D=$0\rd_wb[4:0], Q=\rd_wb
+Replacing ysyx_26040135_WBU.$procdff$8570 ($adff): ARST=\reset, D=$0\wdata_wb[31:0], Q=\wdata_wb
+Replacing ysyx_26040135_WBU.$procdff$8573 ($adff): ARST=\reset, D=\next, Q=\state
 
 6. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register..
@@ -255,7 +254,7 @@ Finding identical cells in module `\dut_top'.
 Computing hashes of 8 cells of `\dut_top'.
 Finding duplicate cells in `\dut_top'.
 Finding identical cells in module `\formal_top'.
-Computing hashes of 626 cells of `\formal_top'.
+Computing hashes of 621 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
 Finding identical cells in module `\ref_top'.
 Computing hashes of 372 cells of `\ref_top'.
@@ -284,7 +283,7 @@ Finding duplicate cells in `\ysyx_26040135_WBU'.
 Removed a total of 0 cells.
 
 11.3. Executing OPT_DFF pass (perform DFF optimizations).
-Setting constant 1-bit at position 0 on $auto$async2sync.cc:118:execute$9023 ($ff) from module ysyx_26040135_AXI_IFU.
+Setting constant 1-bit at position 0 on $auto$async2sync.cc:118:execute$9017 ($ff) from module ysyx_26040135_AXI_IFU.
 
 11.4. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register..
@@ -334,7 +333,7 @@ Finding identical cells in module `\dut_top'.
 Computing hashes of 8 cells of `\dut_top'.
 Finding duplicate cells in `\dut_top'.
 Finding identical cells in module `\formal_top'.
-Computing hashes of 570 cells of `\formal_top'.
+Computing hashes of 565 cells of `\formal_top'.
 Finding duplicate cells in `\formal_top'.
 Finding identical cells in module `\ref_top'.
 Computing hashes of 371 cells of `\ref_top'.
@@ -408,12 +407,12 @@ Finding unused cells or wires in module \ysyx_26040135_AXI_RAM..
 Finding unused cells or wires in module \ysyx_26040135_EXU..
 Finding unused cells or wires in module \ysyx_26040135_IDU..
 Finding unused cells or wires in module \ysyx_26040135_WBU..
-Removed 0 unused cells and 194 unused wires.
+Removed 0 unused cells and 193 unused wires.
 <suppressed ~12 debug messages>
 
 13. Executing RTLIL backend.
 Output filename: ../model/design_prep.il
 
-End of script. Logfile hash: 2fbeb5aad7, time: 0.60s, user: 0.58s, system: 0.03s, MEM: 44.68 MB peak
+End of script. Logfile hash: 4dd45ccca6, time: 0.87s, user: 0.78s, system: 0.10s, MEM: 44.48 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 37% 5x opt_clean (0 sec), 34% 1x check (0 sec), ...
+Time spent: 36% 5x opt_clean (0 sec), 30% 1x check (0 sec), ...

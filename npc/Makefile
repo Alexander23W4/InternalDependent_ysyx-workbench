@@ -36,10 +36,15 @@ EXE=$(OBJ_DIR)/V$(TOP_MODULE)
 
 
 # 需要的头文件路径写在这里
-INC_SOURCES=-CFLAGS "-I./include -I./include/sub"
-GDB_INC_SOURCES=-CFLAGS "-g -I./include -I./include/sub"
-INC_SOURCES_M=-CFLAGS "-I./include_m -I./include_m/sub"
-GDB_INC_SOURCES=-CFLAGS "-g -I./include_m -I./include_m/sub"
+# 注意: -CFLAGS 的内容不能再拼进另一个 -CFLAGS 里(会变成 g++ 的非法参数),
+#       所以把"头文件目录"和"-CFLAGS"分开, trace 目标只拼目录
+INC_DIRS   =-I./include -I./include/sub
+INC_DIRS_M =-I./include_m -I./include_m/sub
+
+INC_SOURCES=-CFLAGS "$(INC_DIRS)"
+GDB_INC_SOURCES=-CFLAGS "-g $(INC_DIRS)"
+INC_SOURCES_M=-CFLAGS "$(INC_DIRS_M)"
+GDB_INC_SOURCES_M=-CFLAGS "-g $(INC_DIRS_M)"
 
 PERIP_SRC = -I../ysyxSoC/perip/uart16550/rtl -I../ysyxSoC/perip/spi/rtl
 
@@ -89,10 +94,11 @@ CROSS_COMPILE ?= riscv64-linux-gnu-
 
 WAVE_FILE  ?= wave.vcd
 WAVE_START ?= 0
-WAVE_END   ?= 3000
+WAVE_END   ?= 10000
 WAVE_HALF_PERIOD ?= 1
 
 GTKW_FILE  ?= wave.gtkw
+RC_FILE=./trace.rc
 
 IMAGE ?= ../am-kernels/kernels/hello/build/hello-riscv32e-ysyxsoc
 
@@ -118,12 +124,14 @@ ifeq ($(USE_M),1)
 MODE_SOURCES  = $(SOURCES_M)
 MODE_CPP_SRC  = $(CPP_SRC_M)
 MODE_INC      = $(INC_SOURCES_M)
+MODE_INC_DIRS = $(INC_DIRS_M)
 MODE_GDB_INC  = $(GDB_INC_SOURCES_M)
 MODE_VSRC_DIR = ./vsrc_m
 else
 MODE_SOURCES  = $(SOURCES)
 MODE_CPP_SRC  = $(CPP_SRC)
 MODE_INC      = $(INC_SOURCES)
+MODE_INC_DIRS = $(INC_DIRS)
 MODE_GDB_INC  = $(GDB_INC_SOURCES)
 MODE_VSRC_DIR = ./vsrc
 endif
@@ -136,11 +144,11 @@ trace: clean_obj
 	@echo "[TRACE] IMAGE = $(IMAGE)"
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) $(WAVE_GEN_FLAG) \
 	$(PERIP_SRC) $(V_SRC) $(MODE_SOURCES) $(MODE_CPP_SRC) \
-	-CFLAGS "-DWAVE_TRACE=1 $(MODE_INC)" \
+	-CFLAGS "-DWAVE_TRACE=1 $(MODE_INC_DIRS)" \
 	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 	WAVE_FILE=$(WAVE_FILE) WAVE_START=$(WAVE_START) WAVE_END=$(WAVE_END) WAVE_HALF_PERIOD=$(WAVE_HALF_PERIOD) \
 	$(OBJ_DIR)/Vtop $(ARGS)
-	$(WAVE_GEN) $(WAVE_FILE) $(if $(wildcard $(GTKW_FILE)),$(GTKW_FILE),)
+	$(WAVE_GEN) $(WAVE_FILE) $(if $(wildcard $(GTKW_FILE)),$(GTKW_FILE),) $(RC_FILE)
 endif
 
 

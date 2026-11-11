@@ -6,7 +6,8 @@ module ref_top(
     output [32*32-1:0] dbg_reg,
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,  // 
-    input logic [31:0][7:0] ram_instr
+    input logic [31:0][7:0] ram_instr,
+    output [31:0] _isntr
 );
     localparam BASE_ADDR = 32'h80000000;
     logic [63:0][7:0] ram;

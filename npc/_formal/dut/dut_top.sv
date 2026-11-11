@@ -14,6 +14,7 @@ module dut_top(
     output _new_instr,
     output [31:0] _pc,
     output [31:0] _idu_pc,
+    output [31:0] _idu_instr,
 
     output [31:0] _pc_i,
     output is_ls_C,
@@ -21,6 +22,7 @@ module dut_top(
     output [31:0] lsu_addr_C
 );
     assign _idu_pc = pc_d;
+    assign _idu_instr = instr_de;
 
     wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
     wire [31:0] _instr;

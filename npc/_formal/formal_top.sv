@@ -139,6 +139,7 @@ module formal_top(
     wire [32*32-1:0] r_dbg_reg;
     wire [31:0]      r_pc;
     wire [31:0]      r_mstatus, r_mepc, r_mcause, r_mtvec, r_mcycle, r_mcycleh, r_mvendorid, r_marchid;
+    wire [31:0]      r_instr;
 
     dut_top dut (
         .clock(clock),
@@ -163,7 +164,8 @@ module formal_top(
         ._mstatus(r_mstatus), ._mepc(r_mepc), ._mcause(r_mcause), ._mtvec(r_mtvec),
         ._mcycle(r_mcycle), ._mcycleh(r_mcycleh),
         ._mvendorid(r_mvendorid), ._marchid(r_marchid),
-        .ram_instr(imem)
+        .ram_instr(imem),
+        ._instr(r_instr)
     );
 
     reg clk_en;

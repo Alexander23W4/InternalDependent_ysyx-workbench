@@ -13,6 +13,7 @@
 @28
 formal_top.clock
 formal_top.reset
+formal_top.d_new_instr
 @22
 formal_top.d_idu_pc[31:0]
 formal_top.r_pc[31:0]

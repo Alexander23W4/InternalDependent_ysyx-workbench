@@ -1,27 +1,32 @@
-
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Nov 11 09:33:21 2026
 [*]
 [dumpfile] "/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline_test/engine_0/trace.vcd"
+[dumpfile_mtime] "Wed Nov 11 09:31:43 2026"
+[dumpfile_size] 648782
 [savefile] "/home/wang/InternalDependent_ysyx-workbench/npc/_formal/pipeline.gtkw"
-[timestart] 0
-[size] 1600 1000
-[pos] -1 -1
-*0.000000 5 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[timestart] 33
+[size] 2072 1135
+[pos] -51 -51
+*-4.000000 5 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [sst_width] 300
 [signals_width] 240
 [sst_expanded] 1
-[sst_vpaned_height] 500
+[sst_vpaned_height] 583
 @28
 formal_top.clock
 formal_top.reset
 formal_top.d_new_instr
 formal_top.clk_en
 @22
+formal_top.d_pc_i[31:0]
 formal_top.d_idu_pc[31:0]
 formal_top.r_pc[31:0]
 formal_top.d_idu_instr[31:0]
 formal_top.r_instr[31:0]
 formal_top.u_ref.GPR.gpr<10>[31:0]
+formal_top.dut.exu.flush
+formal_top.dut.exu.pc_flush[31:0]
 [pattern_trace] 1
 [pattern_trace] 0
-
-

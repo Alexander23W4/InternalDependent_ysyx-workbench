@@ -128,6 +128,7 @@ module ysyx_26040135_AXI_IFU (
             ifu_block_cyc <= 64'b0;
 
         end else begin
+
             if(flush) begin  // 分支预测失败, 冲刷
                 flush_save <= 1'b1;
                 pc_flush_save <= pc_flush;
@@ -138,6 +139,12 @@ module ysyx_26040135_AXI_IFU (
             
             if(state == IDLE && out_ready && out_valid) begin   //
                 out_valid <= 1'b0;
+            end
+
+            if(state == IDLE && out_valid) begin
+                if(flush | flush_save) begin
+                    out_valid <= 1'b0;   
+                end
             end
 
             if(state == IDLE) begin
@@ -158,6 +165,7 @@ module ysyx_26040135_AXI_IFU (
             if(state == R && bus.rvalid) begin
                 if(flush_save | flush) begin  // 如果在访存期间收到flush, 必须完成这次fetch才能够正式冲刷
                     pc <= pc_flush_save;  // 不给out_valid, 不读rdata, 废掉这次读取
+                    flush_save <= 1'b0;
                 end else begin
                     if(bus.rresp == 2'b00) begin
                         out_instr  <= bus.rdata;
@@ -169,7 +177,11 @@ module ysyx_26040135_AXI_IFU (
                         error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
                     end 
                 end
+            end
 
+            if(state == IDLE && (flush_save | flush)) begin
+                pc <= pc_flush_save;
+                flush_save <= 1'b0;
             end
         end
     end

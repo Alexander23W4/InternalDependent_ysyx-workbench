@@ -33,7 +33,7 @@ formal_top.u_ref.GPR.gpr<10>[31:0]
 formal_top.dut.GPR.gpr<10>[31:0]
 formal_top.dut.exu.flush
 formal_top.dut.exu.pc_flush[31:0]
-formal_top.d_rd_wb
-formal_top.d_wdata_wb
+formal_top.d_rd_wb[4:0]
+formal_top.d_wdata_wb[31:0]
 [pattern_trace] 1
 [pattern_trace] 0

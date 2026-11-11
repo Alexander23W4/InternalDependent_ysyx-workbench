@@ -32,3 +32,11 @@
 ##   0:01:55  Checking assertions in step 14..
 ##   0:01:56  Checking assumptions in step 15..
 ##   0:01:58  Checking assertions in step 15..
+##   0:02:58  waiting for solver (1 minute)
+##   0:03:12  BMC failed!
+##   0:03:12  Assert failed in formal_top: formal_top.sv:253.13-253.43 (_witness_.check_assert_formal_top_sv_253_110)
+##   0:03:12  Writing trace to VCD file: engine_0/trace.vcd
+##   0:03:13  Writing trace to Verilog testbench: engine_0/trace_tb.v
+##   0:03:13  Writing trace to constraints file: engine_0/trace.smtc
+##   0:03:13  Writing trace to Yosys witness file: engine_0/trace.yw
+##   0:03:14  Status: failed

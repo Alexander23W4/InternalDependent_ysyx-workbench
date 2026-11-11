@@ -58,3 +58,19 @@ SBY 21:23:47 [pipeline_test] engine_0: ##   0:01:54  Checking assumptions in ste
 SBY 21:23:48 [pipeline_test] engine_0: ##   0:01:55  Checking assertions in step 14..
 SBY 21:23:49 [pipeline_test] engine_0: ##   0:01:56  Checking assumptions in step 15..
 SBY 21:23:50 [pipeline_test] engine_0: ##   0:01:58  Checking assertions in step 15..
+SBY 21:24:50 [pipeline_test] engine_0: ##   0:02:58  waiting for solver (1 minute)
+SBY 21:25:05 [pipeline_test] engine_0: ##   0:03:12  BMC failed!
+SBY 21:25:05 [pipeline_test] engine_0: ##   0:03:12  Assert failed in formal_top: formal_top.sv:253.13-253.43 (_witness_.check_assert_formal_top_sv_253_110)
+SBY 21:25:05 [pipeline_test] engine_0: ##   0:03:12  Writing trace to VCD file: engine_0/trace.vcd
+SBY 21:25:05 [pipeline_test] engine_0: ##   0:03:13  Writing trace to Verilog testbench: engine_0/trace_tb.v
+SBY 21:25:06 [pipeline_test] engine_0: ##   0:03:13  Writing trace to constraints file: engine_0/trace.smtc
+SBY 21:25:06 [pipeline_test] engine_0: ##   0:03:13  Writing trace to Yosys witness file: engine_0/trace.yw
+SBY 21:25:06 [pipeline_test] engine_0: ##   0:03:14  Status: failed
+SBY 21:25:06 [pipeline_test] engine_0: finished (returncode=1)
+SBY 21:25:06 [pipeline_test] engine_0: Status returned by engine: FAIL
+SBY 21:25:06 [pipeline_test] summary: Elapsed clock time [H:MM:SS (secs)]: 0:03:16 (196)
+SBY 21:25:06 [pipeline_test] summary: Elapsed process time [H:MM:SS (secs)]: 0:03:17 (197)
+SBY 21:25:06 [pipeline_test] summary: engine_0 (smtbmc yices) returned FAIL
+SBY 21:25:06 [pipeline_test] summary: counterexample trace: pipeline_test/engine_0/trace.vcd
+SBY 21:25:06 [pipeline_test] summary:   failed assertion formal_top._witness_.check_assert_formal_top_sv_253_110 at formal_top.sv:253.13-253.43 step 15
+SBY 21:25:06 [pipeline_test] DONE (FAIL, rc=2)

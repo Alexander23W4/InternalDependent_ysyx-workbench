@@ -339,17 +339,12 @@ ysyx_26040135_EXU exu (
     .exu_blcokbl_cyc(exu_blcokbl_cyc),
     .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),
 
-    .bypass_wdata_lsu(bypass_wdata_lsu), .bypass_rd_lsu(bypass_rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
-    .bypass_wdata_wbu(bypass_wdata_wbu), .bypass_rd_wbu(bypass_rd_wbu), .wbu_bypass_data_valid(wbu_bypass_data_valid)
+    .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
+    .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen)
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
-    wire [31:0] bypass_wdata_lsu;
-    wire [31:0] bypass_wdata_wbu;
-    wire [4:0] bypass_rd_lsu;
-    wire [4:0] bypass_rd_wbu;
     wire lsu_bypass_data_valid;
-    wire wbu_bypass_data_valid;
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
@@ -391,7 +386,7 @@ ysyx_26040135_EXU exu (
         .read_is_u(read_is_u),
         .rd(rd_out),
         .lsu_wdata(lsu_wdata),
-        .lsu_addr(lsu_addr),
+        .lsu_addr(lsu_addr),rd_lsu
         .ic_wb_wdata(ic_wb_wdata),
 
         .in_valid(valid_el),

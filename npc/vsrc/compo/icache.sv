@@ -117,7 +117,7 @@ module ysyx_26040135_AXI_ICACHE (
                          (req_region == SDRAM_TAG0) || (req_region == SDRAM_TAG1);
 
 
-    typedef enum [2:0]{ 
+    typedef enum logic [2:0]{ 
         IDLE, OPERATE, DRAM_AR, DRAM_R, RETURN, WRITE_W, WRITE_B
     } state_t;
     state_t state, next;

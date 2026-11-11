@@ -138,6 +138,7 @@ module ref_top(
         .clk(clk),
         .rst(rst),
         .wen(wen),
+        .clk_en(clk_en),
         .raddr1(rs1),
         .raddr2(rs2),
         .waddr(rd),

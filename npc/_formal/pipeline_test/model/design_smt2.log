@@ -62,11 +62,11 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
      7446 wire bits
        77 public wires
      3251 public wire bits
-       10 ports
-     1138 port bits
-      297 cells
+       11 ports
+     1139 port bits
+      296 cells
        32   $anyinit
-        3   $anyseq
+        2   $anyseq
         1   $assume
        93   $eq
         1   $logic_and
@@ -391,7 +391,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     2746 formal_top
+     2745 formal_top
       264   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        31   ysyx_26040135_AXI4_Xbar
       100   ysyx_26040135_AXI_IFU
@@ -401,7 +401,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
       126   ysyx_26040135_IDU
        43   ysyx_26040135_WBU
       365 ref_top
-      297   $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
+      296   $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register
       122   decode
 
         +----------Count including submodules.
@@ -410,16 +410,16 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
     98364 wire bits
      1252 public wires
     31286 public wire bits
-      485 ports
-     9345 port bits
+      486 ports
+     9346 port bits
         - memories
         - memory bits
         - processes
-     2746 cells
+     2745 cells
        49   $add
        85   $and
       186   $anyinit
-       60   $anyseq
+       59   $anyseq
         2   $assert
        44   $assume
       462   $eq
@@ -468,6 +468,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: 320f9ce694, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 28.10 MB peak
+End of script. Logfile hash: 1724475481, time: 0.12s, user: 0.11s, system: 0.02s, MEM: 28.08 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
 Time spent: 89% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...

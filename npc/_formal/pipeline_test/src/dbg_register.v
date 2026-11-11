@@ -2,6 +2,7 @@ module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     input clk,
     input rst,
     input wen,
+    input clk_en,
     
     input [ADDR_WIDTH-1:0] raddr1,   // rs1
     input [ADDR_WIDTH-1:0] raddr2,   // rs2

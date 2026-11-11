@@ -205,7 +205,6 @@ Removed 10 unused cells and 10 unused wires.
 
 9. Executing CHECK pass (checking for obvious problems).
 Checking module $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register...
-Warning: Wire $paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register.\clk_en is used but has no driver.
 Checking module $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register...
 Checking module decode...
 Checking module dut_top...
@@ -218,7 +217,7 @@ Checking module ysyx_26040135_AXI_RAM...
 Checking module ysyx_26040135_EXU...
 Checking module ysyx_26040135_IDU...
 Checking module ysyx_26040135_WBU...
-Found and reported 1 problems.
+Found and reported 0 problems.
 
 10. Executing SETUNDEF pass (replace undef values with defined constants).
 
@@ -243,7 +242,7 @@ Optimizing module ysyx_26040135_WBU.
 
 11.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
-Computing hashes of 295 cells of `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
+Computing hashes of 294 cells of `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
 Finding duplicate cells in `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
 Finding identical cells in module `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register'.
 Computing hashes of 262 cells of `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register'.
@@ -300,8 +299,8 @@ Finding unused cells or wires in module \ysyx_26040135_AXI_RAM..
 Finding unused cells or wires in module \ysyx_26040135_EXU..
 Finding unused cells or wires in module \ysyx_26040135_IDU..
 Finding unused cells or wires in module \ysyx_26040135_WBU..
-Removed 56 unused cells and 138 unused wires.
-<suppressed ~120 debug messages>
+Removed 56 unused cells and 137 unused wires.
+<suppressed ~119 debug messages>
 
 11.5. Rerunning OPT passes. (Removed registers in this run.)
 
@@ -322,7 +321,7 @@ Optimizing module ysyx_26040135_WBU.
 
 11.7. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
-Computing hashes of 295 cells of `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
+Computing hashes of 294 cells of `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
 Finding duplicate cells in `$paramod$69437980e42767c350af827a9fef437148ade08c\dbg_register'.
 Finding identical cells in module `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register'.
 Computing hashes of 262 cells of `$paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register'.
@@ -414,7 +413,6 @@ Removed 0 unused cells and 193 unused wires.
 13. Executing RTLIL backend.
 Output filename: ../model/design_prep.il
 
-Warnings: 1 unique messages, 1 total
-End of script. Logfile hash: 87f84a91b4, time: 0.58s, user: 0.56s, system: 0.03s, MEM: 44.13 MB peak
+End of script. Logfile hash: 5bed7bacb4, time: 0.57s, user: 0.55s, system: 0.03s, MEM: 43.23 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 36% 5x opt_clean (0 sec), 35% 1x check (0 sec), ...
+Time spent: 38% 5x opt_clean (0 sec), 34% 1x check (0 sec), ...

@@ -25,7 +25,8 @@ formal_top.d_idu_pc[31:0]
 formal_top.r_pc[31:0]
 formal_top.d_idu_instr[31:0]
 formal_top.r_instr[31:0]
-formal_top.u_ref.GPR.gpr<10>[31:0]
+formal_top.u_ref.GPR.gpr<1>[31:0]
+formal_top.dut.GPR.gpr<1>[31:0]
 formal_top.dut.exu.flush
 formal_top.dut.exu.pc_flush[31:0]
 [pattern_trace] 1

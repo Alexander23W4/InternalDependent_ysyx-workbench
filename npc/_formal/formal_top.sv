@@ -217,7 +217,7 @@ module formal_top(
 //             assert(d_idu_pc == r_pc);
 //         end
 //     end
-
+    reg gpr_check_step;
     reg gpr_check_valid;
 
     always @(posedge clock or posedge reset) begin
@@ -230,7 +230,14 @@ module formal_top(
 
             if(d_wen && f_wen) begin  // dut和ref都是下一个周期更新gpr
                 clk_en <= 1'b1;
+                gpr_check_step <= 1'b1;
+            end else begin
+                gpr_check_step <= 1'b0;
+            end
+
+            if(gpr_check_step) begin
                 gpr_check_valid <= 1'b1;
+                clk_en <= 1'b0;
             end else begin
                 gpr_check_valid <= 1'b0;
             end

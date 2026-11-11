@@ -156,7 +156,7 @@ module ysyx_26040135_AXI_IFU (
 
 
             if(state == R && bus.rvalid) begin
-                if(flush_save) begin  // 如果在访存期间收到flush, 必须完成这次fetch才能够正式冲刷
+                if(flush_save | flush) begin  // 如果在访存期间收到flush, 必须完成这次fetch才能够正式冲刷
                     pc <= pc_flush_save;  // 不给out_valid, 不读rdata, 废掉这次读取
                 end else begin
                     if(bus.rresp == 2'b00) begin

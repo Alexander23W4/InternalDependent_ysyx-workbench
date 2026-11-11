@@ -393,7 +393,7 @@ module ysyx_26040135_EXU (
 
             EX: begin   // 这时候取到的读取值才是正确的, 在这个周期进行正常的EX操作
                 if(new_pc != pc_next_dft) begin
-                    flush = 1'b1;
+                    flush = 1'b1;  //
                 end
                 next = IDLE;
             end

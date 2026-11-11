@@ -301,7 +301,7 @@ module ysyx_26040135_EXU (
                     32'h00000341: mepc <= rdata1_ul;
                     32'h00000342: mcause <= rdata1_ul;
                 endcase
-            end
+            end 
             else if (|{{5{csrrs_save}} & rs1_save} && state == EX) begin
                 case(imm_save) 
                     32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
@@ -393,7 +393,7 @@ module ysyx_26040135_EXU (
 
             EX: begin   // 这时候取到的读取值才是正确的, 在这个周期进行正常的EX操作
                 if(new_pc != pc_next_dft) begin
-                    flush = 1'b1;
+                    flush = 1'b1;  //
                 end
                 next = IDLE;
             end

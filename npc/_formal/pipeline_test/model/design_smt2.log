@@ -231,13 +231,13 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      132 wires
-     1775 wire bits
+      133 wires
+     1776 wire bits
        62 public wires
       791 public wire bits
        42 ports
       454 port bits
-       99 cells
+      100 cells
         3   $add
        11   $anyinit
         2   $anyseq
@@ -251,6 +251,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
         4   $lt
        58   $mux
         1   $not
+        1   $or
         1   $pmux
         1   $reduce_bool
 
@@ -390,10 +391,10 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     2712 formal_top
+     2713 formal_top
       264   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
        31   ysyx_26040135_AXI4_Xbar
-       99   ysyx_26040135_AXI_IFU
+      100   ysyx_26040135_AXI_IFU
       145   ysyx_26040135_AXI_LSU
       134   ysyx_26040135_AXI_RAM
       524   ysyx_26040135_EXU
@@ -405,8 +406,8 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     3304 wires
-    97338 wire bits
+     3305 wires
+    97339 wire bits
      1251 public wires
     31285 public wire bits
       485 ports
@@ -414,7 +415,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
         - memories
         - memory bits
         - processes
-     2712 cells
+     2713 cells
        49   $add
        85   $and
       186   $anyinit
@@ -433,7 +434,7 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
         4   $ne
        14   $neg
        31   $not
-      190   $or
+      191   $or
        66   $pmux
         7   $reduce_bool
        58   $reduce_or
@@ -467,6 +468,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: 4dcf499e3d, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 28.05 MB peak
+End of script. Logfile hash: 4c3b381bc3, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 28.05 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 89% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...
+Time spent: 90% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...

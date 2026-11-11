@@ -19,15 +19,21 @@ formal_top.clock
 formal_top.reset
 formal_top.d_new_instr
 formal_top.clk_en
+formal_top.gpr_check_valid
+formal_top.d_wen
 @22
 formal_top.d_pc_i[31:0]
 formal_top.d_idu_pc[31:0]
 formal_top.r_pc[31:0]
 formal_top.d_idu_instr[31:0]
 formal_top.r_instr[31:0]
-formal_top.u_ref.GPR.gpr<1>[31:0]
-formal_top.dut.GPR.gpr<1>[31:0]
+formal_top.u_ref.GPR.gpr<26>[31:0]
+formal_top.dut.GPR.gpr<26>[31:0]
+formal_top.u_ref.GPR.gpr<10>[31:0]
+formal_top.dut.GPR.gpr<10>[31:0]
 formal_top.dut.exu.flush
 formal_top.dut.exu.pc_flush[31:0]
+formal_top.d_rd_wb
+formal_top.d_wdata_wb
 [pattern_trace] 1
 [pattern_trace] 0

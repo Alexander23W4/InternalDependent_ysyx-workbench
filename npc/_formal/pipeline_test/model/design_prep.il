@@ -16734,7 +16734,7 @@ module \ref_top
   connect \shamt_i \immI [4:0]
   connect \shamt_r \rdata2 [4:0]
 end
-attribute \src "formal_top.sv:8.1-254.10"
+attribute \src "formal_top.sv:8.1-258.10"
 attribute \top 1
 attribute \hdlname "formal_top"
 attribute \keep 1
@@ -16779,8 +16779,8 @@ module \formal_top
   wire $assume$formal_top.sv:118$88_EN
   attribute \src "formal_top.sv:115.13-115.93"
   wire $assume$formal_top.sv:115$76_EN
-  attribute \src "formal_top.sv:249.13-249.43"
-  wire $assert$formal_top.sv:249$110_EN
+  attribute \src "formal_top.sv:253.13-253.43"
+  wire $assert$formal_top.sv:253$110_EN
   attribute \src "formal_top.sv:18.25-18.40"
   wire width 4 $add$formal_top.sv:18$64_Y
   attribute \src "formal_top.sv:93.13-93.47"
@@ -16831,13 +16831,13 @@ module \formal_top
   wire $0\is_legal$func$formal_top.sv:93$27.$result[0:0]$203
   attribute \src "formal_top.sv:93.13-93.47"
   wire $0\is_legal$func$formal_top.sv:93$24.$result[0:0]$123
-  attribute \src "formal_top.sv:223.5-245.8"
+  attribute \src "formal_top.sv:227.5-249.8"
   wire $0\gpr_check_valid[0:0]
-  attribute \src "formal_top.sv:223.5-245.8"
+  attribute \src "formal_top.sv:227.5-249.8"
   wire $0\gpr_check_step[0:0]
   attribute \src "formal_top.sv:16.5-20.8"
   wire width 4 $0\f_cycles[3:0]
-  attribute \src "formal_top.sv:223.5-245.8"
+  attribute \src "formal_top.sv:227.5-249.8"
   wire $0\clk_en[0:0]
   attribute \hdlname "_witness_ anyinit_procdff_8700"
   wire \_witness_.anyinit_procdff_8700
@@ -16889,9 +16889,9 @@ module \formal_top
   wire width 256 \imem_r
   attribute \src "formal_top.sv:11.23-11.27"
   wire width 256 input 3 \imem
-  attribute \src "formal_top.sv:221.9-221.24"
+  attribute \src "formal_top.sv:225.9-225.24"
   wire \gpr_check_valid
-  attribute \src "formal_top.sv:220.9-220.23"
+  attribute \src "formal_top.sv:224.9-224.23"
   wire \gpr_check_step
   attribute \src "formal_top.sv:91.25-91.30"
   wire width 32 \g_instr_assume[7].tgt_j
@@ -16964,6 +16964,10 @@ module \formal_top
   wire width 4 \f_cycles
   attribute \src "formal_top.sv:147.10-147.15"
   wire \d_wen
+  attribute \src "formal_top.sv:159.17-159.27"
+  wire width 32 \d_wdata_wb
+  attribute \src "formal_top.sv:158.16-158.23"
+  wire width 5 \d_rd_wb
   attribute \src "formal_top.sv:143.17-143.23"
   wire width 32 \d_pc_i
   attribute \src "formal_top.sv:139.17-139.21"
@@ -16980,7 +16984,7 @@ module \formal_top
   attribute \replaced_by_gclk 1'1
   attribute \keep 1
   wire input 1 \clock
-  attribute \src "formal_top.sv:199.9-199.15"
+  attribute \src "formal_top.sv:203.9-203.15"
   wire \clk_en
   attribute \src "formal_top.sv:22.16-22.49"
   wire $ternary$formal_top.sv:22$69_Y
@@ -17345,8 +17349,8 @@ module \formal_top
   wire $logic_or$formal_top.sv:45$213_Y
   attribute \src "formal_top.sv:45.52-45.92"
   wire $logic_or$formal_top.sv:45$133_Y
-  attribute \src "formal_top.sv:229.23-229.29"
-  wire $logic_not$formal_top.sv:229$105_Y
+  attribute \src "formal_top.sv:233.23-233.29"
+  wire $logic_not$formal_top.sv:233$105_Y
   attribute \src "formal_top.sv:22.43-22.49"
   wire $logic_not$formal_top.sv:22$68_Y
   attribute \src "formal_top.sv:99.24-99.71"
@@ -17397,10 +17401,10 @@ module \formal_top
   wire $logic_and$formal_top.sv:69$258_Y
   attribute \src "formal_top.sv:69.40-70.104"
   wire $logic_and$formal_top.sv:69$178_Y
-  attribute \src "formal_top.sv:248.12-248.37"
-  wire $logic_and$formal_top.sv:248$109_Y
-  attribute \src "formal_top.sv:231.16-231.30"
-  wire $logic_and$formal_top.sv:231$106_Y
+  attribute \src "formal_top.sv:252.12-252.37"
+  wire $logic_and$formal_top.sv:252$109_Y
+  attribute \src "formal_top.sv:235.16-235.30"
+  wire $logic_and$formal_top.sv:235$106_Y
   attribute \src "formal_top.sv:126.24-126.78"
   wire $logic_and$formal_top.sv:126$99_Y
   attribute \src "formal_top.sv:118.24-118.80"
@@ -17719,8 +17723,8 @@ module \formal_top
   wire $eq$formal_top.sv:45$131_Y
   attribute \src "formal_top.sv:32.16-32.30"
   wire $eq$formal_top.sv:32$73_Y
-  attribute \src "formal_top.sv:249.20-249.42"
-  wire $eq$formal_top.sv:249$111_Y
+  attribute \src "formal_top.sv:253.20-253.42"
+  wire $eq$formal_top.sv:253$111_Y
   attribute \src "formal_top.sv:22.16-22.32"
   wire $eq$formal_top.sv:22$67_Y
   attribute \src "formal_top.sv:129.35-129.58"
@@ -17782,7 +17786,7 @@ module \formal_top
   wire $assume$formal_top.sv:128$100_EN
   attribute \src "formal_top.sv:126.17-126.79"
   wire $assume$formal_top.sv:126$96_EN
-  attribute \src "formal_top.sv:181.13-197.6"
+  attribute \src "formal_top.sv:185.13-201.6"
   attribute \module_not_derived 1
   cell \ref_top \u_ref
     connect \rst \reset
@@ -17805,7 +17809,7 @@ module \formal_top
     connect \_marchid \r_marchid
     connect \_instr \r_instr
   end
-  attribute \src "formal_top.sv:160.13-179.6"
+  attribute \src "formal_top.sv:162.13-183.6"
   attribute \module_not_derived 1
   cell \dut_top \dut
     connect \reset \reset
@@ -17816,6 +17820,8 @@ module \formal_top
     connect \dbg_reg \d_dbg_reg
     connect \clock \clock
     connect \_wen \d_wen
+    connect \_wdata_wb \d_wdata_wb
+    connect \_rd_wb \d_rd_wb
     connect \_pc_i \d_pc_i
     connect \_pc \d_pc
     connect \_new_instr \d_new_instr
@@ -18060,11 +18066,11 @@ module \formal_top
     connect \A $logic_and$formal_top.sv:115$81_Y
     connect \EN $assume$formal_top.sv:115$76_EN
   end
-  attribute \src "formal_top.sv:249.13-249.43"
+  attribute \src "formal_top.sv:253.13-253.43"
   attribute \keep 1
-  attribute \hdlname "_witness_ check_assert_formal_top_sv_249_110"
+  attribute \hdlname "_witness_ check_assert_formal_top_sv_253_110"
   attribute \trg_on_gclk 1
-  cell $assert \_witness_.check_assert_formal_top_sv_249_110
+  cell $assert \_witness_.check_assert_formal_top_sv_253_110
     connect \A $auto$async2sync.cc:116:execute$8970
     connect \EN $auto$async2sync.cc:107:execute$8966
   end
@@ -18264,16 +18270,16 @@ module \formal_top
     connect \B 1'1
     connect \A 1'0
   end
-  attribute \src "formal_top.sv:231.16-231.30|formal_top.sv:231.13-236.16"
+  attribute \src "formal_top.sv:235.16-235.30|formal_top.sv:235.13-240.16"
   attribute \full_case 1
   cell $mux $procmux$6896
     parameter \WIDTH 1
     connect \Y $0\gpr_check_step[0:0]
-    connect \S $logic_and$formal_top.sv:231$106_Y
+    connect \S $logic_and$formal_top.sv:235$106_Y
     connect \B 1'1
     connect \A 1'0
   end
-  attribute \src "formal_top.sv:238.16-238.30|formal_top.sv:238.13-243.16"
+  attribute \src "formal_top.sv:242.16-242.30|formal_top.sv:242.13-247.16"
   attribute \full_case 1
   cell $mux $procmux$6893
     parameter \WIDTH 1
@@ -18282,16 +18288,16 @@ module \formal_top
     connect \B 1'0
     connect \A $procmux$6890_Y
   end
-  attribute \src "formal_top.sv:231.16-231.30|formal_top.sv:231.13-236.16"
+  attribute \src "formal_top.sv:235.16-235.30|formal_top.sv:235.13-240.16"
   attribute \full_case 1
   cell $mux $procmux$6890
     parameter \WIDTH 1
     connect \Y $procmux$6890_Y
-    connect \S $logic_and$formal_top.sv:231$106_Y
+    connect \S $logic_and$formal_top.sv:235$106_Y
     connect \B 1'1
-    connect \A $logic_not$formal_top.sv:229$105_Y
+    connect \A $logic_not$formal_top.sv:233$105_Y
   end
-  attribute \src "formal_top.sv:238.16-238.30|formal_top.sv:238.13-243.16"
+  attribute \src "formal_top.sv:242.16-242.30|formal_top.sv:242.13-247.16"
   attribute \full_case 1
   cell $mux $procmux$6887
     parameter \WIDTH 1
@@ -18300,11 +18306,11 @@ module \formal_top
     connect \B 1'1
     connect \A 1'0
   end
-  attribute \src "formal_top.sv:248.12-248.37|formal_top.sv:248.9-250.12"
+  attribute \src "formal_top.sv:252.12-252.37|formal_top.sv:252.9-254.12"
   cell $mux $procmux$6884
     parameter \WIDTH 1
-    connect \Y $assert$formal_top.sv:249$110_EN
-    connect \S $logic_and$formal_top.sv:248$109_Y
+    connect \Y $assert$formal_top.sv:253$110_EN
+    connect \S $logic_and$formal_top.sv:252$109_Y
     connect \B 1'1
     connect \A 1'0
   end
@@ -20602,7 +20608,7 @@ module \formal_top
     connect \D \imem
     connect \Q \imem_r
   end
-  attribute \src "formal_top.sv:223.5-245.8"
+  attribute \src "formal_top.sv:227.5-249.8"
   cell $anyinit $procdff$8705
     parameter \WIDTH 1
     connect \D $auto$rtlil.cc:3369:Mux$8704
@@ -20615,7 +20621,7 @@ module \formal_top
     connect \S \reset
     connect \Y \gpr_check_valid
   end
-  attribute \src "formal_top.sv:223.5-245.8"
+  attribute \src "formal_top.sv:227.5-249.8"
   cell $anyinit $procdff$8700
     parameter \WIDTH 1
     connect \D $auto$rtlil.cc:3369:Mux$9431
@@ -22047,20 +22053,20 @@ module \formal_top
     connect \B $eq$formal_top.sv:45$132_Y
     connect \A $eq$formal_top.sv:45$131_Y
   end
-  attribute \src "formal_top.sv:248.31-248.37"
-  cell $logic_not $logic_not$formal_top.sv:248$108
+  attribute \src "formal_top.sv:252.31-252.37"
+  cell $logic_not $logic_not$formal_top.sv:252$108
     parameter \Y_WIDTH 1
     parameter \A_WIDTH 1
     parameter \A_SIGNED 0
     connect \Y $logic_not$formal_top.sv:22$68_Y
     connect \A \reset
   end
-  attribute \src "formal_top.sv:229.23-229.29"
-  cell $logic_not $logic_not$formal_top.sv:229$105
+  attribute \src "formal_top.sv:233.23-233.29"
+  cell $logic_not $logic_not$formal_top.sv:233$105
     parameter \Y_WIDTH 1
     parameter \A_WIDTH 1
     parameter \A_SIGNED 0
-    connect \Y $logic_not$formal_top.sv:229$105_Y
+    connect \Y $logic_not$formal_top.sv:233$105_Y
     connect \A \f_wen
   end
   attribute \src "formal_top.sv:99.24-99.71"
@@ -22327,25 +22333,25 @@ module \formal_top
     connect \B $logic_or$formal_top.sv:70$177_Y
     connect \A $logic_or$formal_top.sv:69$170_Y
   end
-  attribute \src "formal_top.sv:248.12-248.37"
-  cell $logic_and $logic_and$formal_top.sv:248$109
+  attribute \src "formal_top.sv:252.12-252.37"
+  cell $logic_and $logic_and$formal_top.sv:252$109
     parameter \Y_WIDTH 1
     parameter \B_WIDTH 1
     parameter \B_SIGNED 0
     parameter \A_WIDTH 1
     parameter \A_SIGNED 0
-    connect \Y $logic_and$formal_top.sv:248$109_Y
+    connect \Y $logic_and$formal_top.sv:252$109_Y
     connect \B $logic_not$formal_top.sv:22$68_Y
     connect \A \gpr_check_valid
   end
-  attribute \src "formal_top.sv:231.16-231.30"
-  cell $logic_and $logic_and$formal_top.sv:231$106
+  attribute \src "formal_top.sv:235.16-235.30"
+  cell $logic_and $logic_and$formal_top.sv:235$106
     parameter \Y_WIDTH 1
     parameter \B_WIDTH 1
     parameter \B_SIGNED 0
     parameter \A_WIDTH 1
     parameter \A_SIGNED 0
-    connect \Y $logic_and$formal_top.sv:231$106_Y
+    connect \Y $logic_and$formal_top.sv:235$106_Y
     connect \B \f_wen
     connect \A \d_wen
   end
@@ -23194,14 +23200,14 @@ module \formal_top
     connect \B \imem_r
     connect \A \imem
   end
-  attribute \src "formal_top.sv:249.20-249.42"
-  cell $eq $eq$formal_top.sv:249$111
+  attribute \src "formal_top.sv:253.20-253.42"
+  cell $eq $eq$formal_top.sv:253$111
     parameter \Y_WIDTH 1
     parameter \B_WIDTH 1024
     parameter \B_SIGNED 0
     parameter \A_WIDTH 1024
     parameter \A_SIGNED 0
-    connect \Y $eq$formal_top.sv:249$111_Y
+    connect \Y $eq$formal_top.sv:253$111_Y
     connect \B \d_dbg_reg
     connect \A \r_dbg_reg
   end
@@ -23525,19 +23531,19 @@ module \formal_top
     connect \S \reset
     connect \Y $auto$rtlil.cc:3369:Mux$9429
   end
-  attribute \src "formal_top.sv:249.13-249.43"
+  attribute \src "formal_top.sv:253.13-253.43"
   cell $ff $auto$async2sync.cc:118:execute$8971
     parameter \WIDTH 1
-    connect \D $eq$formal_top.sv:249$111_Y
+    connect \D $eq$formal_top.sv:253$111_Y
     connect \Q $auto$async2sync.cc:116:execute$8970
   end
-  attribute \src "formal_top.sv:249.13-249.43"
+  attribute \src "formal_top.sv:253.13-253.43"
   cell $ff $auto$async2sync.cc:110:execute$8968
     parameter \WIDTH 1
-    connect \D $assert$formal_top.sv:249$110_EN
+    connect \D $assert$formal_top.sv:253$110_EN
     connect \Q $auto$async2sync.cc:107:execute$8966
   end
-  attribute \src "formal_top.sv:223.5-245.8"
+  attribute \src "formal_top.sv:227.5-249.8"
   cell $anyinit $procdff$8708
     parameter \WIDTH 1
     connect \D $auto$rtlil.cc:3369:Mux$9429
@@ -23630,425 +23636,429 @@ module \formal_top
   connect \g_instr_assume[7].ins \imem [255:224]
   connect \g_instr_assume[7].pc 32'10000000000000000000000000011100
 end
-attribute \src "dut_top.sv:6.1-522.10"
+attribute \src "dut_top.sv:6.1-527.10"
 attribute \hdlname "dut_top"
 attribute \keep 1
 module \dut_top
-  attribute \src "dut_top.sv:118.29-118.33"
+  attribute \src "dut_top.sv:123.29-123.33"
   wire \xori
-  attribute \src "dut_top.sv:119.36-119.44"
+  attribute \src "dut_top.sv:124.36-124.44"
   wire \xor_inst
-  attribute \src "dut_top.sv:287.10-287.13"
+  attribute \src "dut_top.sv:292.10-292.13"
   wire \wen
-  attribute \src "dut_top.sv:289.17-289.26"
+  attribute \src "dut_top.sv:294.17-294.26"
   wire width 32 \wdata_wbu
-  attribute \src "dut_top.sv:263.17-263.25"
+  attribute \src "dut_top.sv:268.17-268.25"
   wire width 32 \wdata_lw
-  attribute \src "dut_top.sv:265.33-265.45"
+  attribute \src "dut_top.sv:270.33-270.45"
   wire width 64 \wbu_work_cyc
-  attribute \src "dut_top.sv:265.17-265.31"
+  attribute \src "dut_top.sv:270.17-270.31"
   wire width 64 \wbu_blockf_cyc
-  attribute \src "dut_top.sv:266.10-266.20"
+  attribute \src "dut_top.sv:271.10-271.20"
   wire \wbu_blockf
-  attribute \src "dut_top.sv:262.10-262.18"
+  attribute \src "dut_top.sv:267.10-267.18"
   wire \valid_lw
-  attribute \src "dut_top.sv:97.10-97.18"
+  attribute \src "dut_top.sv:102.10-102.18"
   wire \valid_fd
-  attribute \src "dut_top.sv:189.10-189.18"
+  attribute \src "dut_top.sv:194.10-194.18"
   wire \valid_el
-  attribute \src "dut_top.sv:116.10-116.18"
+  attribute \src "dut_top.sv:121.10-121.18"
   wire \valid_de
-  attribute \src "dut_top.sv:42.10-42.18"
+  attribute \src "dut_top.sv:47.10-47.18"
   wire \sw_avail
-  attribute \src "dut_top.sv:43.17-43.24"
+  attribute \src "dut_top.sv:48.17-48.24"
   wire width 32 \sw_addr
-  attribute \src "dut_top.sv:120.40-120.42"
+  attribute \src "dut_top.sv:125.40-125.42"
   wire \sw
-  attribute \src "dut_top.sv:119.15-119.18"
+  attribute \src "dut_top.sv:124.15-124.18"
   wire \sub
-  attribute \src "dut_top.sv:118.52-118.56"
+  attribute \src "dut_top.sv:123.52-123.56"
   wire \srli
-  attribute \src "dut_top.sv:119.46-119.49"
+  attribute \src "dut_top.sv:124.46-124.49"
   wire \srl
-  attribute \src "dut_top.sv:118.58-118.62"
+  attribute \src "dut_top.sv:123.58-123.62"
   wire \srai
-  attribute \src "dut_top.sv:119.51-119.54"
+  attribute \src "dut_top.sv:124.51-124.54"
   wire \sra
-  attribute \src "dut_top.sv:119.30-119.34"
+  attribute \src "dut_top.sv:124.30-124.34"
   wire \sltu
-  attribute \src "dut_top.sv:118.22-118.27"
+  attribute \src "dut_top.sv:123.22-123.27"
   wire \sltiu
-  attribute \src "dut_top.sv:118.16-118.20"
+  attribute \src "dut_top.sv:123.16-123.20"
   wire \slti
-  attribute \src "dut_top.sv:119.25-119.28"
+  attribute \src "dut_top.sv:124.25-124.28"
   wire \slt
-  attribute \src "dut_top.sv:118.46-118.50"
+  attribute \src "dut_top.sv:123.46-123.50"
   wire \slli
-  attribute \src "dut_top.sv:119.20-119.23"
+  attribute \src "dut_top.sv:124.20-124.23"
   wire \sll
-  attribute \src "dut_top.sv:120.36-120.38"
+  attribute \src "dut_top.sv:125.36-125.38"
   wire \sh
-  attribute \src "dut_top.sv:120.32-120.34"
+  attribute \src "dut_top.sv:125.32-125.34"
   wire \sb
-  attribute \src "dut_top.sv:194.33-194.40"
+  attribute \src "dut_top.sv:199.33-199.40"
   wire width 5 \rs2_out
-  attribute \src "dut_top.sv:125.25-125.28"
+  attribute \src "dut_top.sv:130.25-130.28"
   wire width 5 \rs2
-  attribute \src "dut_top.sv:194.24-194.31"
+  attribute \src "dut_top.sv:199.24-199.31"
   wire width 5 \rs1_out
-  attribute \src "dut_top.sv:125.20-125.23"
+  attribute \src "dut_top.sv:130.20-130.23"
   wire width 5 \rs1
   attribute \src "dut_top.sv:9.11-9.16"
   wire input 2 \reset
-  attribute \src "dut_top.sv:98.10-98.18"
+  attribute \src "dut_top.sv:103.10-103.18"
   wire \ready_rd
-  attribute \src "dut_top.sv:262.20-262.28"
+  attribute \src "dut_top.sv:267.20-267.28"
   wire \ready_lw
-  attribute \src "dut_top.sv:190.10-190.18"
+  attribute \src "dut_top.sv:195.10-195.18"
   wire \ready_el
-  attribute \src "dut_top.sv:116.20-116.28"
+  attribute \src "dut_top.sv:121.20-121.28"
   wire \ready_de
-  attribute \src "dut_top.sv:193.10-193.19"
+  attribute \src "dut_top.sv:198.10-198.19"
   wire \read_is_u
-  attribute \src "dut_top.sv:196.25-196.31"
+  attribute \src "dut_top.sv:201.25-201.31"
   wire width 32 \rdata2
-  attribute \src "dut_top.sv:196.17-196.23"
+  attribute \src "dut_top.sv:201.17-201.23"
   wire width 32 \rdata1
-  attribute \src "dut_top.sv:288.16-288.22"
+  attribute \src "dut_top.sv:293.16-293.22"
   wire width 5 \rd_wbu
-  attribute \src "dut_top.sv:194.16-194.22"
+  attribute \src "dut_top.sv:199.16-199.22"
   wire width 5 \rd_out
-  attribute \src "dut_top.sv:264.16-264.22"
+  attribute \src "dut_top.sv:269.16-269.22"
   wire width 5 \rd_lsu
-  attribute \src "dut_top.sv:125.16-125.18"
+  attribute \src "dut_top.sv:130.16-130.18"
   wire width 5 \rd
   attribute \src "dut_top.sv:11.29-11.32"
   wire width 256 input 3 \ram
-  attribute \src "dut_top.sv:94.17-94.25"
+  attribute \src "dut_top.sv:99.17-99.25"
   wire width 32 \pc_flush
-  attribute \src "dut_top.sv:117.17-117.21"
+  attribute \src "dut_top.sv:122.17-122.21"
   wire width 32 \pc_d
-  attribute \src "dut_top.sv:95.17-95.19"
+  attribute \src "dut_top.sv:100.17-100.19"
   wire width 32 \pc
-  attribute \src "dut_top.sv:118.35-118.38"
+  attribute \src "dut_top.sv:123.35-123.38"
   wire \ori
-  attribute \src "dut_top.sv:119.56-119.63"
+  attribute \src "dut_top.sv:124.56-124.63"
   wire \or_inst
-  attribute \src "dut_top.sv:124.46-124.50"
+  attribute \src "dut_top.sv:129.46-129.50"
   wire \mret
-  attribute \src "dut_top.sv:379.17-379.27"
-  wire \mem_wvalid
-  attribute \src "dut_top.sv:377.16-377.25"
-  wire width 4 \mem_wstrb
-  attribute \src "dut_top.sv:380.17-380.27"
-  wire \mem_wready
-  attribute \src "dut_top.sv:378.17-378.26"
-  wire \mem_wlast
-  attribute \src "dut_top.sv:376.17-376.26"
-  wire width 32 \mem_wdata
-  attribute \src "dut_top.sv:367.17-367.27"
-  wire \mem_rvalid
-  attribute \src "dut_top.sv:365.16-365.25"
-  wire width 2 \mem_rresp
-  attribute \src "dut_top.sv:368.17-368.27"
-  wire \mem_rready
-  attribute \src "dut_top.sv:366.17-366.26"
-  wire \mem_rlast
-  attribute \src "dut_top.sv:364.16-364.23"
-  wire width 4 \mem_rid
-  attribute \src "dut_top.sv:363.17-363.26"
-  wire width 32 \mem_rdata
-  attribute \src "dut_top.sv:383.17-383.27"
-  wire \mem_bvalid
-  attribute \src "dut_top.sv:382.16-382.25"
-  wire width 2 \mem_bresp
   attribute \src "dut_top.sv:384.17-384.27"
+  wire \mem_wvalid
+  attribute \src "dut_top.sv:382.16-382.25"
+  wire width 4 \mem_wstrb
+  attribute \src "dut_top.sv:385.17-385.27"
+  wire \mem_wready
+  attribute \src "dut_top.sv:383.17-383.26"
+  wire \mem_wlast
+  attribute \src "dut_top.sv:381.17-381.26"
+  wire width 32 \mem_wdata
+  attribute \src "dut_top.sv:372.17-372.27"
+  wire \mem_rvalid
+  attribute \src "dut_top.sv:370.16-370.25"
+  wire width 2 \mem_rresp
+  attribute \src "dut_top.sv:373.17-373.27"
+  wire \mem_rready
+  attribute \src "dut_top.sv:371.17-371.26"
+  wire \mem_rlast
+  attribute \src "dut_top.sv:369.16-369.23"
+  wire width 4 \mem_rid
+  attribute \src "dut_top.sv:368.17-368.26"
+  wire width 32 \mem_rdata
+  attribute \src "dut_top.sv:388.17-388.27"
+  wire \mem_bvalid
+  attribute \src "dut_top.sv:387.16-387.25"
+  wire width 2 \mem_bresp
+  attribute \src "dut_top.sv:389.17-389.27"
   wire \mem_bready
-  attribute \src "dut_top.sv:381.16-381.23"
+  attribute \src "dut_top.sv:386.16-386.23"
   wire width 4 \mem_bid
-  attribute \src "dut_top.sv:374.17-374.28"
+  attribute \src "dut_top.sv:379.17-379.28"
   wire \mem_awvalid
-  attribute \src "dut_top.sv:372.16-372.26"
+  attribute \src "dut_top.sv:377.16-377.26"
   wire width 3 \mem_awsize
-  attribute \src "dut_top.sv:375.17-375.28"
+  attribute \src "dut_top.sv:380.17-380.28"
   wire \mem_awready
-  attribute \src "dut_top.sv:371.16-371.25"
+  attribute \src "dut_top.sv:376.16-376.25"
   wire width 8 \mem_awlen
-  attribute \src "dut_top.sv:370.16-370.24"
+  attribute \src "dut_top.sv:375.16-375.24"
   wire width 4 \mem_awid
-  attribute \src "dut_top.sv:373.16-373.27"
+  attribute \src "dut_top.sv:378.16-378.27"
   wire width 2 \mem_awburst
-  attribute \src "dut_top.sv:369.17-369.27"
+  attribute \src "dut_top.sv:374.17-374.27"
   wire width 32 \mem_awaddr
-  attribute \src "dut_top.sv:361.17-361.28"
+  attribute \src "dut_top.sv:366.17-366.28"
   wire \mem_arvalid
-  attribute \src "dut_top.sv:359.16-359.26"
+  attribute \src "dut_top.sv:364.16-364.26"
   wire width 3 \mem_arsize
-  attribute \src "dut_top.sv:362.17-362.28"
+  attribute \src "dut_top.sv:367.17-367.28"
   wire \mem_arready
-  attribute \src "dut_top.sv:358.16-358.25"
+  attribute \src "dut_top.sv:363.16-363.25"
   wire width 8 \mem_arlen
-  attribute \src "dut_top.sv:357.16-357.24"
+  attribute \src "dut_top.sv:362.16-362.24"
   wire width 4 \mem_arid
-  attribute \src "dut_top.sv:360.16-360.27"
+  attribute \src "dut_top.sv:365.16-365.27"
   wire width 2 \mem_arburst
-  attribute \src "dut_top.sv:356.17-356.27"
+  attribute \src "dut_top.sv:361.17-361.27"
   wire width 32 \mem_araddr
-  attribute \src "dut_top.sv:120.18-120.20"
+  attribute \src "dut_top.sv:125.18-125.20"
   wire \lw
-  attribute \src "dut_top.sv:123.10-123.13"
+  attribute \src "dut_top.sv:128.10-128.13"
   wire \lui
-  attribute \src "dut_top.sv:197.49-197.61"
+  attribute \src "dut_top.sv:202.49-202.61"
   wire width 64 \lsu_work_cyc
-  attribute \src "dut_top.sv:195.17-195.26"
+  attribute \src "dut_top.sv:200.17-200.26"
   wire width 32 \lsu_wdata
-  attribute \src "dut_top.sv:169.10-169.31"
+  attribute \src "dut_top.sv:174.10-174.31"
   wire \lsu_bypass_data_valid
-  attribute \src "dut_top.sv:197.17-197.31"
+  attribute \src "dut_top.sv:202.17-202.31"
   wire width 64 \lsu_blockf_cyc
-  attribute \src "dut_top.sv:198.10-198.20"
+  attribute \src "dut_top.sv:203.10-203.20"
   wire \lsu_blockf
-  attribute \src "dut_top.sv:197.33-197.47"
+  attribute \src "dut_top.sv:202.33-202.47"
   wire width 64 \lsu_blcokb_cyc
   attribute \src "dut_top.sv:22.19-22.29"
   wire width 32 output 12 \lsu_addr_C
-  attribute \src "dut_top.sv:195.28-195.36"
+  attribute \src "dut_top.sv:200.28-200.36"
   wire width 32 \lsu_addr
-  attribute \src "dut_top.sv:349.17-349.29"
-  wire \lsbus_wvalid
-  attribute \src "dut_top.sv:347.16-347.27"
-  wire width 4 \lsbus_wstrb
-  attribute \src "dut_top.sv:350.17-350.29"
-  wire \lsbus_wready
-  attribute \src "dut_top.sv:348.17-348.28"
-  wire \lsbus_wlast
-  attribute \src "dut_top.sv:346.17-346.28"
-  wire width 32 \lsbus_wdata
-  attribute \src "dut_top.sv:337.17-337.29"
-  wire \lsbus_rvalid
-  attribute \src "dut_top.sv:335.16-335.27"
-  wire width 2 \lsbus_rresp
-  attribute \src "dut_top.sv:338.17-338.29"
-  wire \lsbus_rready
-  attribute \src "dut_top.sv:336.17-336.28"
-  wire \lsbus_rlast
-  attribute \src "dut_top.sv:334.16-334.25"
-  wire width 4 \lsbus_rid
-  attribute \src "dut_top.sv:333.17-333.28"
-  wire width 32 \lsbus_rdata
-  attribute \src "dut_top.sv:353.17-353.29"
-  wire \lsbus_bvalid
-  attribute \src "dut_top.sv:352.16-352.27"
-  wire width 2 \lsbus_bresp
   attribute \src "dut_top.sv:354.17-354.29"
+  wire \lsbus_wvalid
+  attribute \src "dut_top.sv:352.16-352.27"
+  wire width 4 \lsbus_wstrb
+  attribute \src "dut_top.sv:355.17-355.29"
+  wire \lsbus_wready
+  attribute \src "dut_top.sv:353.17-353.28"
+  wire \lsbus_wlast
+  attribute \src "dut_top.sv:351.17-351.28"
+  wire width 32 \lsbus_wdata
+  attribute \src "dut_top.sv:342.17-342.29"
+  wire \lsbus_rvalid
+  attribute \src "dut_top.sv:340.16-340.27"
+  wire width 2 \lsbus_rresp
+  attribute \src "dut_top.sv:343.17-343.29"
+  wire \lsbus_rready
+  attribute \src "dut_top.sv:341.17-341.28"
+  wire \lsbus_rlast
+  attribute \src "dut_top.sv:339.16-339.25"
+  wire width 4 \lsbus_rid
+  attribute \src "dut_top.sv:338.17-338.28"
+  wire width 32 \lsbus_rdata
+  attribute \src "dut_top.sv:358.17-358.29"
+  wire \lsbus_bvalid
+  attribute \src "dut_top.sv:357.16-357.27"
+  wire width 2 \lsbus_bresp
+  attribute \src "dut_top.sv:359.17-359.29"
   wire \lsbus_bready
-  attribute \src "dut_top.sv:351.16-351.25"
+  attribute \src "dut_top.sv:356.16-356.25"
   wire width 4 \lsbus_bid
-  attribute \src "dut_top.sv:344.17-344.30"
+  attribute \src "dut_top.sv:349.17-349.30"
   wire \lsbus_awvalid
-  attribute \src "dut_top.sv:342.16-342.28"
+  attribute \src "dut_top.sv:347.16-347.28"
   wire width 3 \lsbus_awsize
-  attribute \src "dut_top.sv:345.17-345.30"
+  attribute \src "dut_top.sv:350.17-350.30"
   wire \lsbus_awready
-  attribute \src "dut_top.sv:341.16-341.27"
+  attribute \src "dut_top.sv:346.16-346.27"
   wire width 8 \lsbus_awlen
-  attribute \src "dut_top.sv:340.16-340.26"
+  attribute \src "dut_top.sv:345.16-345.26"
   wire width 4 \lsbus_awid
-  attribute \src "dut_top.sv:343.16-343.29"
+  attribute \src "dut_top.sv:348.16-348.29"
   wire width 2 \lsbus_awburst
-  attribute \src "dut_top.sv:339.17-339.29"
+  attribute \src "dut_top.sv:344.17-344.29"
   wire width 32 \lsbus_awaddr
-  attribute \src "dut_top.sv:331.17-331.30"
+  attribute \src "dut_top.sv:336.17-336.30"
   wire \lsbus_arvalid
-  attribute \src "dut_top.sv:329.16-329.28"
+  attribute \src "dut_top.sv:334.16-334.28"
   wire width 3 \lsbus_arsize
-  attribute \src "dut_top.sv:332.17-332.30"
+  attribute \src "dut_top.sv:337.17-337.30"
   wire \lsbus_arready
-  attribute \src "dut_top.sv:328.16-328.27"
+  attribute \src "dut_top.sv:333.16-333.27"
   wire width 8 \lsbus_arlen
-  attribute \src "dut_top.sv:327.16-327.26"
+  attribute \src "dut_top.sv:332.16-332.26"
   wire width 4 \lsbus_arid
-  attribute \src "dut_top.sv:330.16-330.29"
+  attribute \src "dut_top.sv:335.16-335.29"
   wire width 2 \lsbus_arburst
-  attribute \src "dut_top.sv:326.17-326.29"
+  attribute \src "dut_top.sv:331.17-331.29"
   wire width 32 \lsbus_araddr
-  attribute \src "dut_top.sv:120.27-120.30"
+  attribute \src "dut_top.sv:125.27-125.30"
   wire \lhu
-  attribute \src "dut_top.sv:120.14-120.16"
+  attribute \src "dut_top.sv:125.14-125.16"
   wire \lh
-  attribute \src "dut_top.sv:120.22-120.25"
+  attribute \src "dut_top.sv:125.22-125.25"
   wire \lbu
-  attribute \src "dut_top.sv:120.10-120.12"
+  attribute \src "dut_top.sv:125.10-125.12"
   wire \lb
-  attribute \src "dut_top.sv:122.15-122.19"
+  attribute \src "dut_top.sv:127.15-127.19"
   wire \jalr
-  attribute \src "dut_top.sv:122.10-122.13"
+  attribute \src "dut_top.sv:127.10-127.13"
   wire \jal
   attribute \src "dut_top.sv:20.12-20.19"
   wire output 10 \is_ls_C
-  attribute \src "dut_top.sv:168.10-168.15"
+  attribute \src "dut_top.sv:173.10-173.15"
   wire \is_ls
   attribute \src "dut_top.sv:21.18-21.27"
   wire width 2 output 11 \io_type_C
-  attribute \src "dut_top.sv:192.16-192.23"
+  attribute \src "dut_top.sv:197.16-197.23"
   wire width 2 \io_type
-  attribute \src "dut_top.sv:191.10-191.12"
+  attribute \src "dut_top.sv:196.10-196.12"
   wire \io
-  attribute \src "dut_top.sv:127.17-127.25"
+  attribute \src "dut_top.sv:132.17-132.25"
   wire width 32 \instr_de
-  attribute \src "dut_top.sv:96.17-96.22"
+  attribute \src "dut_top.sv:101.17-101.22"
   wire width 32 \instr
-  attribute \src "dut_top.sv:126.17-126.20"
+  attribute \src "dut_top.sv:131.17-131.20"
   wire width 32 \imm
-  attribute \src "dut_top.sv:319.17-319.27"
-  wire \ifu_wvalid
-  attribute \src "dut_top.sv:317.16-317.25"
-  wire width 4 \ifu_wstrb
-  attribute \src "dut_top.sv:320.17-320.27"
-  wire \ifu_wready
-  attribute \src "dut_top.sv:91.17-91.29"
-  wire width 64 \ifu_work_cyc
-  attribute \src "dut_top.sv:318.17-318.26"
-  wire \ifu_wlast
-  attribute \src "dut_top.sv:316.17-316.26"
-  wire width 32 \ifu_wdata
-  attribute \src "dut_top.sv:307.17-307.27"
-  wire \ifu_rvalid
-  attribute \src "dut_top.sv:305.16-305.25"
-  wire width 2 \ifu_rresp
-  attribute \src "dut_top.sv:308.17-308.27"
-  wire \ifu_rready
-  attribute \src "dut_top.sv:306.17-306.26"
-  wire \ifu_rlast
-  attribute \src "dut_top.sv:304.16-304.23"
-  wire width 4 \ifu_rid
-  attribute \src "dut_top.sv:303.17-303.26"
-  wire width 32 \ifu_rdata
-  attribute \src "dut_top.sv:323.17-323.27"
-  wire \ifu_bvalid
-  attribute \src "dut_top.sv:322.16-322.25"
-  wire width 2 \ifu_bresp
   attribute \src "dut_top.sv:324.17-324.27"
+  wire \ifu_wvalid
+  attribute \src "dut_top.sv:322.16-322.25"
+  wire width 4 \ifu_wstrb
+  attribute \src "dut_top.sv:325.17-325.27"
+  wire \ifu_wready
+  attribute \src "dut_top.sv:96.17-96.29"
+  wire width 64 \ifu_work_cyc
+  attribute \src "dut_top.sv:323.17-323.26"
+  wire \ifu_wlast
+  attribute \src "dut_top.sv:321.17-321.26"
+  wire width 32 \ifu_wdata
+  attribute \src "dut_top.sv:312.17-312.27"
+  wire \ifu_rvalid
+  attribute \src "dut_top.sv:310.16-310.25"
+  wire width 2 \ifu_rresp
+  attribute \src "dut_top.sv:313.17-313.27"
+  wire \ifu_rready
+  attribute \src "dut_top.sv:311.17-311.26"
+  wire \ifu_rlast
+  attribute \src "dut_top.sv:309.16-309.23"
+  wire width 4 \ifu_rid
+  attribute \src "dut_top.sv:308.17-308.26"
+  wire width 32 \ifu_rdata
+  attribute \src "dut_top.sv:328.17-328.27"
+  wire \ifu_bvalid
+  attribute \src "dut_top.sv:327.16-327.25"
+  wire width 2 \ifu_bresp
+  attribute \src "dut_top.sv:329.17-329.27"
   wire \ifu_bready
-  attribute \src "dut_top.sv:91.31-91.44"
+  attribute \src "dut_top.sv:96.31-96.44"
   wire width 64 \ifu_block_cyc
-  attribute \src "dut_top.sv:321.16-321.23"
+  attribute \src "dut_top.sv:326.16-326.23"
   wire width 4 \ifu_bid
-  attribute \src "dut_top.sv:314.17-314.28"
+  attribute \src "dut_top.sv:319.17-319.28"
   wire \ifu_awvalid
-  attribute \src "dut_top.sv:312.16-312.26"
+  attribute \src "dut_top.sv:317.16-317.26"
   wire width 3 \ifu_awsize
-  attribute \src "dut_top.sv:315.17-315.28"
+  attribute \src "dut_top.sv:320.17-320.28"
   wire \ifu_awready
-  attribute \src "dut_top.sv:311.16-311.25"
+  attribute \src "dut_top.sv:316.16-316.25"
   wire width 8 \ifu_awlen
-  attribute \src "dut_top.sv:310.16-310.24"
+  attribute \src "dut_top.sv:315.16-315.24"
   wire width 4 \ifu_awid
-  attribute \src "dut_top.sv:313.16-313.27"
+  attribute \src "dut_top.sv:318.16-318.27"
   wire width 2 \ifu_awburst
-  attribute \src "dut_top.sv:309.17-309.27"
+  attribute \src "dut_top.sv:314.17-314.27"
   wire width 32 \ifu_awaddr
-  attribute \src "dut_top.sv:301.17-301.28"
+  attribute \src "dut_top.sv:306.17-306.28"
   wire \ifu_arvalid
-  attribute \src "dut_top.sv:299.16-299.26"
+  attribute \src "dut_top.sv:304.16-304.26"
   wire width 3 \ifu_arsize
-  attribute \src "dut_top.sv:302.17-302.28"
+  attribute \src "dut_top.sv:307.17-307.28"
   wire \ifu_arready
-  attribute \src "dut_top.sv:298.16-298.25"
+  attribute \src "dut_top.sv:303.16-303.25"
   wire width 8 \ifu_arlen
-  attribute \src "dut_top.sv:297.16-297.24"
+  attribute \src "dut_top.sv:302.16-302.24"
   wire width 4 \ifu_arid
-  attribute \src "dut_top.sv:300.16-300.27"
+  attribute \src "dut_top.sv:305.16-305.27"
   wire width 2 \ifu_arburst
-  attribute \src "dut_top.sv:296.17-296.27"
+  attribute \src "dut_top.sv:301.17-301.27"
   wire width 32 \ifu_araddr
-  attribute \src "dut_top.sv:195.38-195.49"
+  attribute \src "dut_top.sv:200.38-200.49"
   wire width 32 \ic_wb_wdata
-  attribute \src "dut_top.sv:93.17-93.22"
+  attribute \src "dut_top.sv:98.17-98.22"
   wire \flush
-  attribute \src "dut_top.sv:124.52-124.59"
+  attribute \src "dut_top.sv:129.52-129.59"
   wire \fence_i
-  attribute \src "dut_top.sv:167.50-167.62"
+  attribute \src "dut_top.sv:172.50-172.62"
   wire width 64 \exu_work_cyc
-  attribute \src "dut_top.sv:167.17-167.31"
+  attribute \src "dut_top.sv:172.17-172.31"
   wire width 64 \exu_blockf_cyc
-  attribute \src "dut_top.sv:167.33-167.48"
+  attribute \src "dut_top.sv:172.33-172.48"
   wire width 64 \exu_blcokbl_cyc
-  attribute \src "dut_top.sv:124.18-124.23"
+  attribute \src "dut_top.sv:129.18-129.23"
   wire \ecall
-  attribute \src "dut_top.sv:124.10-124.16"
+  attribute \src "dut_top.sv:129.10-129.16"
   wire \ebreak
   attribute \src "dut_top.sv:12.24-12.31"
   wire width 1024 output 4 \dbg_reg
-  attribute \src "dut_top.sv:124.25-124.30"
+  attribute \src "dut_top.sv:129.25-129.30"
   wire \csrrw
-  attribute \src "dut_top.sv:124.32-124.37"
+  attribute \src "dut_top.sv:129.32-129.37"
   wire \csrrs
-  attribute \src "dut_top.sv:124.39-124.44"
+  attribute \src "dut_top.sv:129.39-129.44"
   wire \csrrc
   attribute \src "dut_top.sv:8.11-8.16"
   wire input 1 \clock
-  attribute \src "dut_top.sv:121.15-121.18"
+  attribute \src "dut_top.sv:126.15-126.18"
   wire \bne
-  attribute \src "dut_top.sv:121.30-121.34"
+  attribute \src "dut_top.sv:126.30-126.34"
   wire \bltu
-  attribute \src "dut_top.sv:121.20-121.23"
+  attribute \src "dut_top.sv:126.20-126.23"
   wire \blt
-  attribute \src "dut_top.sv:121.36-121.40"
+  attribute \src "dut_top.sv:126.36-126.40"
   wire \bgeu
-  attribute \src "dut_top.sv:121.25-121.28"
+  attribute \src "dut_top.sv:126.25-126.28"
   wire \bge
-  attribute \src "dut_top.sv:121.10-121.13"
+  attribute \src "dut_top.sv:126.10-126.13"
   wire \beq
-  attribute \src "dut_top.sv:123.15-123.20"
+  attribute \src "dut_top.sv:128.15-128.20"
   wire \auipc
-  attribute \src "dut_top.sv:118.40-118.44"
+  attribute \src "dut_top.sv:123.40-123.44"
   wire \andi
-  attribute \src "dut_top.sv:119.65-119.73"
+  attribute \src "dut_top.sv:124.65-124.73"
   wire \and_inst
-  attribute \src "dut_top.sv:118.10-118.14"
+  attribute \src "dut_top.sv:123.10-123.14"
   wire \addi
-  attribute \src "dut_top.sv:119.10-119.13"
+  attribute \src "dut_top.sv:124.10-124.13"
   wire \add
   attribute \src "dut_top.sv:24.12-24.16"
   wire output 13 \_wen
+  attribute \src "dut_top.sv:26.19-26.28"
+  wire width 32 output 15 \_wdata_wb
+  attribute \src "dut_top.sv:25.18-25.24"
+  wire width 5 output 14 \_rd_wb
   attribute \src "dut_top.sv:19.19-19.24"
   wire width 32 output 9 \_pc_i
   attribute \src "dut_top.sv:15.19-15.22"
   wire width 32 output 6 \_pc
   attribute \src "dut_top.sv:14.12-14.22"
   wire output 5 \_new_instr
-  attribute \src "dut_top.sv:30.70-30.80"
+  attribute \src "dut_top.sv:35.70-35.80"
   wire width 32 \_mvendorid
-  attribute \src "dut_top.sv:30.43-30.49"
+  attribute \src "dut_top.sv:35.43-35.49"
   wire width 32 \_mtvec
-  attribute \src "dut_top.sv:30.17-30.25"
+  attribute \src "dut_top.sv:35.17-35.25"
   wire width 32 \_mstatus
-  attribute \src "dut_top.sv:30.27-30.32"
+  attribute \src "dut_top.sv:35.27-35.32"
   wire width 32 \_mepc
-  attribute \src "dut_top.sv:30.60-30.68"
+  attribute \src "dut_top.sv:35.60-35.68"
   wire width 32 \_mcycleh
-  attribute \src "dut_top.sv:30.51-30.58"
+  attribute \src "dut_top.sv:35.51-35.58"
   wire width 32 \_mcycle
-  attribute \src "dut_top.sv:30.34-30.41"
+  attribute \src "dut_top.sv:35.34-35.41"
   wire width 32 \_mcause
-  attribute \src "dut_top.sv:30.82-30.90"
+  attribute \src "dut_top.sv:35.82-35.90"
   wire width 32 \_marchid
-  attribute \src "dut_top.sv:31.17-31.23"
+  attribute \src "dut_top.sv:36.17-36.23"
   wire width 32 \_instr
   attribute \src "dut_top.sv:16.19-16.26"
   wire width 32 output 7 \_idu_pc
   attribute \src "dut_top.sv:17.19-17.29"
   wire width 32 output 8 \_idu_instr
-  attribute \src "dut_top.sv:36.17-36.28"
+  attribute \src "dut_top.sv:41.17-41.28"
   wire width 2 \__lsu_error
-  attribute \src "dut_top.sv:35.17-35.46"
+  attribute \src "dut_top.sv:40.17-40.46"
   wire \__ifu_master_validation_error
-  attribute \src "dut_top.sv:34.17-34.28"
+  attribute \src "dut_top.sv:39.17-39.28"
   wire width 2 \__ifu_error
-  attribute \src "dut_top.sv:38.10-38.22"
+  attribute \src "dut_top.sv:43.10-43.22"
   wire \__ebreak_end
-  attribute \src "dut_top.sv:269.23-285.6"
+  attribute \src "dut_top.sv:274.23-290.6"
   attribute \module_not_derived 1
   cell \ysyx_26040135_WBU \wbu
     connect \wen \wen
@@ -24064,7 +24074,7 @@ module \dut_top
     connect \in_ready \ready_lw
     connect \clock \clock
   end
-  attribute \src "dut_top.sv:389.29-478.37"
+  attribute \src "dut_top.sv:394.29-483.37"
   attribute \module_not_derived 1
   cell \ysyx_26040135_AXI4_Xbar \u_xbar
     connect \reset \reset
@@ -24157,7 +24167,7 @@ module \dut_top
     connect \ifu_s_araddr \ifu_araddr
     connect \clock \clock
   end
-  attribute \src "dut_top.sv:481.27-514.6"
+  attribute \src "dut_top.sv:486.27-519.6"
   attribute \module_not_derived 1
   cell \ysyx_26040135_AXI_RAM \u_ram
     connect \reset \reset
@@ -24193,7 +24203,7 @@ module \dut_top
     connect \bus_arburst \mem_arburst
     connect \bus_araddr \mem_araddr
   end
-  attribute \src "dut_top.sv:201.27-260.6"
+  attribute \src "dut_top.sv:206.27-265.6"
   attribute \module_not_derived 1
   cell \ysyx_26040135_AXI_LSU \lsu
     connect \wdata \wdata_lw
@@ -24250,7 +24260,7 @@ module \dut_top
     connect \bus_araddr \lsbus_araddr
     connect \__error \__lsu_error
   end
-  attribute \src "dut_top.sv:46.27-89.6"
+  attribute \src "dut_top.sv:51.27-94.6"
   attribute \module_not_derived 1
   cell \ysyx_26040135_AXI_IFU \ifu
     connect \reset \reset
@@ -24296,7 +24306,7 @@ module \dut_top
     connect \__master_validation_error \__ifu_master_validation_error
     connect \__error \__ifu_error
   end
-  attribute \src "dut_top.sv:100.23-114.6"
+  attribute \src "dut_top.sv:105.23-119.6"
   attribute \module_not_derived 1
   cell \ysyx_26040135_IDU \idu
     connect \xori \xori
@@ -24356,7 +24366,7 @@ module \dut_top
     connect \addi \addi
     connect \add \add
   end
-  attribute \src "dut_top.sv:130.19-166.2"
+  attribute \src "dut_top.sv:135.19-171.2"
   attribute \module_not_derived 1
   cell \ysyx_26040135_EXU \exu
     connect \xori \xori
@@ -24455,7 +24465,7 @@ module \dut_top
     connect \_marchid \_marchid
     connect \_instr \_instr
   end
-  attribute \src "dut_top.sv:175.41-187.6"
+  attribute \src "dut_top.sv:180.41-192.6"
   attribute \module_not_derived 1
   cell $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register \GPR
     connect \wen \wen
@@ -24471,6 +24481,8 @@ module \dut_top
   end
   connect \_idu_instr \instr_de
   connect \_idu_pc \pc_d
+  connect \_rd_wb \rd_wbu
+  connect \_wdata_wb \wdata_wbu
   connect \_wen \wen
   connect \io_type_C \io_type
   connect \is_ls_C \is_ls

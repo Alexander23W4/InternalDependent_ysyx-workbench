@@ -121,12 +121,12 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      207 wires
-     3502 wire bits
-      207 public wires
-     3502 public wire bits
-       13 ports
-     1447 port bits
+      209 wires
+     3539 wire bits
+      209 public wires
+     3539 public wire bits
+       15 ports
+     1484 port bits
         8 submodules
         1   $paramod$69437980e42767c350af827a9fef437148ade08c\ysyx_26040135_dbg_register
         1   ysyx_26040135_AXI4_Xbar
@@ -141,10 +141,10 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Local Count, excluding submodules.
         | 
-      578 wires
-     4633 wire bits
-       83 public wires
-     4132 public wire bits
+      580 wires
+     4670 wire bits
+       85 public wires
+     4169 public wire bits
         3 ports
       258 port bits
       570 cells
@@ -406,12 +406,12 @@ Module ysyx_26040135_AXI_IFU directly or indirectly contains formal properties -
 
         +----------Count including submodules.
         | 
-     3325 wires
-    98382 wire bits
-     1259 public wires
-    31293 public wire bits
-      488 ports
-     9348 port bits
+     3329 wires
+    98456 wire bits
+     1263 public wires
+    31367 public wire bits
+      490 ports
+     9385 port bits
         - memories
         - memory bits
         - processes
@@ -468,6 +468,6 @@ Creating SMT-LIBv2 representation of module ref_top.
 Creating SMT-LIBv2 representation of module dut_top.
 Creating SMT-LIBv2 representation of module formal_top.
 
-End of script. Logfile hash: b5bd909874, time: 0.12s, user: 0.11s, system: 0.02s, MEM: 28.05 MB peak
+End of script. Logfile hash: f81b297b7a, time: 0.12s, user: 0.12s, system: 0.01s, MEM: 28.06 MB peak
 Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
-Time spent: 90% 2x write_smt2 (0 sec), 6% 2x read_rtlil (0 sec), ...
+Time spent: 89% 2x write_smt2 (0 sec), 7% 2x read_rtlil (0 sec), ...

@@ -21,11 +21,16 @@ module dut_top(
     output [1:0] io_type_C,
     output [31:0] lsu_addr_C,
 
-    output _wen
+    output _wen,
+    output [4:0] _rd_wb,
+    output [31:0] _wdata_wb
 );
     assign _idu_pc = pc_d;
     assign _idu_instr = instr_de;
     assign _wen = wen;
+
+    assign _rd_wb = rd_wbu;
+    assign _wdata_wb = wdata_wbu;
 
     wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
     wire [31:0] _instr;

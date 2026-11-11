@@ -155,6 +155,8 @@ module formal_top(
     wire [31:0] ls_addr_R;
     wire [1:0] io_type_R;
     wire f_wen;
+    wire [4:0] d_rd_wb;
+    wire [31:0] d_wdata_wb;
     
 
     dut_top dut (
@@ -175,7 +177,9 @@ module formal_top(
         .io_type_C(io_type_C),
         .lsu_addr_C(lsu_addr_C),
 
-        ._wen(d_wen)
+        ._wen(d_wen),
+        ._rd_wb(d_rd_wb),
+        ._wdata_wb(d_wdata_wb)
     );
 
     ref_top u_ref (

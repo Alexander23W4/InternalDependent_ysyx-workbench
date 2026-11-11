@@ -6342,6 +6342,12 @@
 (declare-fun |dut_top#142| (|dut_top_s|) (_ BitVec 32)) ; \wdata_wbu
 (declare-fun |dut_top#143| (|dut_top_s|) Bool) ; \wen
 (declare-fun |dut_top_h wbu| (|dut_top_s|) |ysyx_26040135_WBU_s|)
+; yosys-smt2-output _rd_wb 5
+; yosys-smt2-wire _rd_wb 5
+(define-fun |dut_top_n _rd_wb| ((state |dut_top_s|)) (_ BitVec 5) (|dut_top#138| state))
+; yosys-smt2-output _wdata_wb 32
+; yosys-smt2-wire _wdata_wb 32
+(define-fun |dut_top_n _wdata_wb| ((state |dut_top_s|)) (_ BitVec 32) (|dut_top#142| state))
 ; yosys-smt2-output _wen 1
 ; yosys-smt2-wire _wen 1
 (define-fun |dut_top_n _wen| ((state |dut_top_s|)) Bool (|dut_top#143| state))
@@ -7249,7 +7255,7 @@
 ; yosys-smt2-module formal_top
 (declare-sort |formal_top_s| 0)
 (declare-fun |formal_top_is| (|formal_top_s|) Bool)
-; yosys-smt2-anyinit formal_top#0 1 formal_top.sv:223.5-245.8
+; yosys-smt2-anyinit formal_top#0 1 formal_top.sv:227.5-249.8
 ; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyinit_procdff_8700"], "smtname": 0, "smtoffset": 0, "type": "init", "width": 1}
 (declare-fun |formal_top#0| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyinit_procdff_8700
 (declare-fun |formal_top#1| (|formal_top_s|) (_ BitVec 1)) ; \reset
@@ -7270,14 +7276,16 @@
 (declare-fun |formal_top#6| (|formal_top_s|) Bool) ; \d_new_instr
 (declare-fun |formal_top#7| (|formal_top_s|) (_ BitVec 32)) ; \d_pc
 (declare-fun |formal_top#8| (|formal_top_s|) (_ BitVec 32)) ; \d_pc_i
-(declare-fun |formal_top#9| (|formal_top_s|) Bool) ; \d_wen
-(declare-fun |formal_top#10| (|formal_top_s|) (_ BitVec 1024)) ; \d_dbg_reg
-(declare-fun |formal_top#11| (|formal_top_s|) (_ BitVec 2)) ; \io_type_C
-(declare-fun |formal_top#12| (|formal_top_s|) Bool) ; \is_ls_C
-(declare-fun |formal_top#13| (|formal_top_s|) (_ BitVec 32)) ; \lsu_addr_C
+(declare-fun |formal_top#9| (|formal_top_s|) (_ BitVec 5)) ; \d_rd_wb
+(declare-fun |formal_top#10| (|formal_top_s|) (_ BitVec 32)) ; \d_wdata_wb
+(declare-fun |formal_top#11| (|formal_top_s|) Bool) ; \d_wen
+(declare-fun |formal_top#12| (|formal_top_s|) (_ BitVec 1024)) ; \d_dbg_reg
+(declare-fun |formal_top#13| (|formal_top_s|) (_ BitVec 2)) ; \io_type_C
+(declare-fun |formal_top#14| (|formal_top_s|) Bool) ; \is_ls_C
+(declare-fun |formal_top#15| (|formal_top_s|) (_ BitVec 32)) ; \lsu_addr_C
 (declare-fun |formal_top_h dut| (|formal_top_s|) |dut_top_s|)
 ; yosys-smt2-wire d_dbg_reg 1024
-(define-fun |formal_top_n d_dbg_reg| ((state |formal_top_s|)) (_ BitVec 1024) (|formal_top#10| state))
+(define-fun |formal_top_n d_dbg_reg| ((state |formal_top_s|)) (_ BitVec 1024) (|formal_top#12| state))
 ; yosys-smt2-wire d_idu_instr 32
 (define-fun |formal_top_n d_idu_instr| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#4| state))
 ; yosys-smt2-wire d_idu_pc 32
@@ -7288,840 +7296,844 @@
 (define-fun |formal_top_n d_pc| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#7| state))
 ; yosys-smt2-wire d_pc_i 32
 (define-fun |formal_top_n d_pc_i| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#8| state))
+; yosys-smt2-wire d_rd_wb 5
+(define-fun |formal_top_n d_rd_wb| ((state |formal_top_s|)) (_ BitVec 5) (|formal_top#9| state))
+; yosys-smt2-wire d_wdata_wb 32
+(define-fun |formal_top_n d_wdata_wb| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#10| state))
 ; yosys-smt2-wire d_wen 1
-(define-fun |formal_top_n d_wen| ((state |formal_top_s|)) Bool (|formal_top#9| state))
-; yosys-smt2-witness {"offset": 0, "path": ["\\f_cycles"], "smtname": 14, "smtoffset": 0, "type": "reg", "width": 4}
-(declare-fun |formal_top#14| (|formal_top_s|) (_ BitVec 4)) ; \f_cycles
+(define-fun |formal_top_n d_wen| ((state |formal_top_s|)) Bool (|formal_top#11| state))
+; yosys-smt2-witness {"offset": 0, "path": ["\\f_cycles"], "smtname": 16, "smtoffset": 0, "type": "reg", "width": 4}
+(declare-fun |formal_top#16| (|formal_top_s|) (_ BitVec 4)) ; \f_cycles
 ; yosys-smt2-register f_cycles 4
 ; yosys-smt2-wire f_cycles 4
-(define-fun |formal_top_n f_cycles| ((state |formal_top_s|)) (_ BitVec 4) (|formal_top#14| state))
+(define-fun |formal_top_n f_cycles| ((state |formal_top_s|)) (_ BitVec 4) (|formal_top#16| state))
 ; yosys-smt2-cell ref_top u_ref
 ; yosys-smt2-witness {"path": ["\\u_ref"], "smtname": "u_ref", "type": "cell"}
-(declare-fun |formal_top#15| (|formal_top_s|) (_ BitVec 32)) ; \r_instr
-(declare-fun |formal_top#16| (|formal_top_s|) (_ BitVec 32)) ; \r_marchid
-(declare-fun |formal_top#17| (|formal_top_s|) (_ BitVec 32)) ; \r_mcause
-(declare-fun |formal_top#18| (|formal_top_s|) (_ BitVec 32)) ; \r_mcycle
-(declare-fun |formal_top#19| (|formal_top_s|) (_ BitVec 32)) ; \r_mcycleh
-(declare-fun |formal_top#20| (|formal_top_s|) (_ BitVec 32)) ; \r_mepc
-(declare-fun |formal_top#21| (|formal_top_s|) (_ BitVec 32)) ; \r_mstatus
-(declare-fun |formal_top#22| (|formal_top_s|) (_ BitVec 32)) ; \r_mtvec
-(declare-fun |formal_top#23| (|formal_top_s|) (_ BitVec 32)) ; \r_mvendorid
-(declare-fun |formal_top#24| (|formal_top_s|) (_ BitVec 32)) ; \r_pc
-(declare-fun |formal_top#25| (|formal_top_s|) Bool) ; \f_wen
-(declare-fun |formal_top#26| (|formal_top_s|) (_ BitVec 1024)) ; \r_dbg_reg
-(declare-fun |formal_top#27| (|formal_top_s|) (_ BitVec 2)) ; \io_type_R
-(declare-fun |formal_top#28| (|formal_top_s|) Bool) ; \is_ls_R
-(declare-fun |formal_top#29| (|formal_top_s|) (_ BitVec 32)) ; \ls_addr_R
+(declare-fun |formal_top#17| (|formal_top_s|) (_ BitVec 32)) ; \r_instr
+(declare-fun |formal_top#18| (|formal_top_s|) (_ BitVec 32)) ; \r_marchid
+(declare-fun |formal_top#19| (|formal_top_s|) (_ BitVec 32)) ; \r_mcause
+(declare-fun |formal_top#20| (|formal_top_s|) (_ BitVec 32)) ; \r_mcycle
+(declare-fun |formal_top#21| (|formal_top_s|) (_ BitVec 32)) ; \r_mcycleh
+(declare-fun |formal_top#22| (|formal_top_s|) (_ BitVec 32)) ; \r_mepc
+(declare-fun |formal_top#23| (|formal_top_s|) (_ BitVec 32)) ; \r_mstatus
+(declare-fun |formal_top#24| (|formal_top_s|) (_ BitVec 32)) ; \r_mtvec
+(declare-fun |formal_top#25| (|formal_top_s|) (_ BitVec 32)) ; \r_mvendorid
+(declare-fun |formal_top#26| (|formal_top_s|) (_ BitVec 32)) ; \r_pc
+(declare-fun |formal_top#27| (|formal_top_s|) Bool) ; \f_wen
+(declare-fun |formal_top#28| (|formal_top_s|) (_ BitVec 1024)) ; \r_dbg_reg
+(declare-fun |formal_top#29| (|formal_top_s|) (_ BitVec 2)) ; \io_type_R
+(declare-fun |formal_top#30| (|formal_top_s|) Bool) ; \is_ls_R
+(declare-fun |formal_top#31| (|formal_top_s|) (_ BitVec 32)) ; \ls_addr_R
 (declare-fun |formal_top_h u_ref| (|formal_top_s|) |ref_top_s|)
 ; yosys-smt2-wire f_wen 1
-(define-fun |formal_top_n f_wen| ((state |formal_top_s|)) Bool (|formal_top#25| state))
-(declare-fun |formal_top#30| (|formal_top_s|) (_ BitVec 32)) ; \imem [31:0]
+(define-fun |formal_top_n f_wen| ((state |formal_top_s|)) Bool (|formal_top#27| state))
+(declare-fun |formal_top#32| (|formal_top_s|) (_ BitVec 32)) ; \imem [31:0]
 ; yosys-smt2-wire g_instr_assume[0].ins 32
-(define-fun |formal_top_n g_instr_assume[0].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#30| state))
+(define-fun |formal_top_n g_instr_assume[0].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#32| state))
 ; yosys-smt2-wire g_instr_assume[0].pc 32
 (define-fun |formal_top_n g_instr_assume[0].pc| ((state |formal_top_s|)) (_ BitVec 32) #b10000000000000000000000000000000)
-(define-fun |formal_top#31| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000000000 (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 7 7) (|formal_top#30| state)) (concat ((_ extract 30 25) (|formal_top#30| state)) (concat ((_ extract 11 8) (|formal_top#30| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[0].tgt_b
+(define-fun |formal_top#33| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000000000 (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 7 7) (|formal_top#32| state)) (concat ((_ extract 30 25) (|formal_top#32| state)) (concat ((_ extract 11 8) (|formal_top#32| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[0].tgt_b
 ; yosys-smt2-wire g_instr_assume[0].tgt_b 32
-(define-fun |formal_top_n g_instr_assume[0].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#31| state))
-(define-fun |formal_top#32| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000000000 (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 31 31) (|formal_top#30| state)) (concat ((_ extract 19 12) (|formal_top#30| state)) (concat ((_ extract 20 20) (|formal_top#30| state)) (concat ((_ extract 30 21) (|formal_top#30| state)) #b0))))))))))))))))) ; \g_instr_assume[0].tgt_j
+(define-fun |formal_top_n g_instr_assume[0].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#33| state))
+(define-fun |formal_top#34| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000000000 (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 31 31) (|formal_top#32| state)) (concat ((_ extract 19 12) (|formal_top#32| state)) (concat ((_ extract 20 20) (|formal_top#32| state)) (concat ((_ extract 30 21) (|formal_top#32| state)) #b0))))))))))))))))) ; \g_instr_assume[0].tgt_j
 ; yosys-smt2-wire g_instr_assume[0].tgt_j 32
-(define-fun |formal_top_n g_instr_assume[0].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#32| state))
-(declare-fun |formal_top#33| (|formal_top_s|) (_ BitVec 32)) ; \imem [63:32]
+(define-fun |formal_top_n g_instr_assume[0].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#34| state))
+(declare-fun |formal_top#35| (|formal_top_s|) (_ BitVec 32)) ; \imem [63:32]
 ; yosys-smt2-wire g_instr_assume[1].ins 32
-(define-fun |formal_top_n g_instr_assume[1].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#33| state))
+(define-fun |formal_top_n g_instr_assume[1].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#35| state))
 ; yosys-smt2-wire g_instr_assume[1].pc 32
 (define-fun |formal_top_n g_instr_assume[1].pc| ((state |formal_top_s|)) (_ BitVec 32) #b10000000000000000000000000000100)
-(define-fun |formal_top#34| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000000100 (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 7 7) (|formal_top#33| state)) (concat ((_ extract 30 25) (|formal_top#33| state)) (concat ((_ extract 11 8) (|formal_top#33| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[1].tgt_b
+(define-fun |formal_top#36| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000000100 (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 7 7) (|formal_top#35| state)) (concat ((_ extract 30 25) (|formal_top#35| state)) (concat ((_ extract 11 8) (|formal_top#35| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[1].tgt_b
 ; yosys-smt2-wire g_instr_assume[1].tgt_b 32
-(define-fun |formal_top_n g_instr_assume[1].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#34| state))
-(define-fun |formal_top#35| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000000100 (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 31 31) (|formal_top#33| state)) (concat ((_ extract 19 12) (|formal_top#33| state)) (concat ((_ extract 20 20) (|formal_top#33| state)) (concat ((_ extract 30 21) (|formal_top#33| state)) #b0))))))))))))))))) ; \g_instr_assume[1].tgt_j
+(define-fun |formal_top_n g_instr_assume[1].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#36| state))
+(define-fun |formal_top#37| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000000100 (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 31 31) (|formal_top#35| state)) (concat ((_ extract 19 12) (|formal_top#35| state)) (concat ((_ extract 20 20) (|formal_top#35| state)) (concat ((_ extract 30 21) (|formal_top#35| state)) #b0))))))))))))))))) ; \g_instr_assume[1].tgt_j
 ; yosys-smt2-wire g_instr_assume[1].tgt_j 32
-(define-fun |formal_top_n g_instr_assume[1].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#35| state))
-(declare-fun |formal_top#36| (|formal_top_s|) (_ BitVec 32)) ; \imem [95:64]
+(define-fun |formal_top_n g_instr_assume[1].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#37| state))
+(declare-fun |formal_top#38| (|formal_top_s|) (_ BitVec 32)) ; \imem [95:64]
 ; yosys-smt2-wire g_instr_assume[2].ins 32
-(define-fun |formal_top_n g_instr_assume[2].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#36| state))
+(define-fun |formal_top_n g_instr_assume[2].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#38| state))
 ; yosys-smt2-wire g_instr_assume[2].pc 32
 (define-fun |formal_top_n g_instr_assume[2].pc| ((state |formal_top_s|)) (_ BitVec 32) #b10000000000000000000000000001000)
-(define-fun |formal_top#37| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000001000 (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 7 7) (|formal_top#36| state)) (concat ((_ extract 30 25) (|formal_top#36| state)) (concat ((_ extract 11 8) (|formal_top#36| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[2].tgt_b
+(define-fun |formal_top#39| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000001000 (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 7 7) (|formal_top#38| state)) (concat ((_ extract 30 25) (|formal_top#38| state)) (concat ((_ extract 11 8) (|formal_top#38| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[2].tgt_b
 ; yosys-smt2-wire g_instr_assume[2].tgt_b 32
-(define-fun |formal_top_n g_instr_assume[2].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#37| state))
-(define-fun |formal_top#38| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000001000 (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 31 31) (|formal_top#36| state)) (concat ((_ extract 19 12) (|formal_top#36| state)) (concat ((_ extract 20 20) (|formal_top#36| state)) (concat ((_ extract 30 21) (|formal_top#36| state)) #b0))))))))))))))))) ; \g_instr_assume[2].tgt_j
+(define-fun |formal_top_n g_instr_assume[2].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#39| state))
+(define-fun |formal_top#40| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000001000 (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 31 31) (|formal_top#38| state)) (concat ((_ extract 19 12) (|formal_top#38| state)) (concat ((_ extract 20 20) (|formal_top#38| state)) (concat ((_ extract 30 21) (|formal_top#38| state)) #b0))))))))))))))))) ; \g_instr_assume[2].tgt_j
 ; yosys-smt2-wire g_instr_assume[2].tgt_j 32
-(define-fun |formal_top_n g_instr_assume[2].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#38| state))
-(declare-fun |formal_top#39| (|formal_top_s|) (_ BitVec 32)) ; \imem [127:96]
+(define-fun |formal_top_n g_instr_assume[2].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#40| state))
+(declare-fun |formal_top#41| (|formal_top_s|) (_ BitVec 32)) ; \imem [127:96]
 ; yosys-smt2-wire g_instr_assume[3].ins 32
-(define-fun |formal_top_n g_instr_assume[3].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#39| state))
+(define-fun |formal_top_n g_instr_assume[3].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#41| state))
 ; yosys-smt2-wire g_instr_assume[3].pc 32
 (define-fun |formal_top_n g_instr_assume[3].pc| ((state |formal_top_s|)) (_ BitVec 32) #b10000000000000000000000000001100)
-(define-fun |formal_top#40| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000001100 (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 7 7) (|formal_top#39| state)) (concat ((_ extract 30 25) (|formal_top#39| state)) (concat ((_ extract 11 8) (|formal_top#39| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[3].tgt_b
+(define-fun |formal_top#42| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000001100 (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 7 7) (|formal_top#41| state)) (concat ((_ extract 30 25) (|formal_top#41| state)) (concat ((_ extract 11 8) (|formal_top#41| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[3].tgt_b
 ; yosys-smt2-wire g_instr_assume[3].tgt_b 32
-(define-fun |formal_top_n g_instr_assume[3].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#40| state))
-(define-fun |formal_top#41| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000001100 (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 31 31) (|formal_top#39| state)) (concat ((_ extract 19 12) (|formal_top#39| state)) (concat ((_ extract 20 20) (|formal_top#39| state)) (concat ((_ extract 30 21) (|formal_top#39| state)) #b0))))))))))))))))) ; \g_instr_assume[3].tgt_j
+(define-fun |formal_top_n g_instr_assume[3].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#42| state))
+(define-fun |formal_top#43| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000001100 (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 31 31) (|formal_top#41| state)) (concat ((_ extract 19 12) (|formal_top#41| state)) (concat ((_ extract 20 20) (|formal_top#41| state)) (concat ((_ extract 30 21) (|formal_top#41| state)) #b0))))))))))))))))) ; \g_instr_assume[3].tgt_j
 ; yosys-smt2-wire g_instr_assume[3].tgt_j 32
-(define-fun |formal_top_n g_instr_assume[3].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#41| state))
-(declare-fun |formal_top#42| (|formal_top_s|) (_ BitVec 32)) ; \imem [159:128]
+(define-fun |formal_top_n g_instr_assume[3].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#43| state))
+(declare-fun |formal_top#44| (|formal_top_s|) (_ BitVec 32)) ; \imem [159:128]
 ; yosys-smt2-wire g_instr_assume[4].ins 32
-(define-fun |formal_top_n g_instr_assume[4].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#42| state))
+(define-fun |formal_top_n g_instr_assume[4].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#44| state))
 ; yosys-smt2-wire g_instr_assume[4].pc 32
 (define-fun |formal_top_n g_instr_assume[4].pc| ((state |formal_top_s|)) (_ BitVec 32) #b10000000000000000000000000010000)
-(define-fun |formal_top#43| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000010000 (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 7 7) (|formal_top#42| state)) (concat ((_ extract 30 25) (|formal_top#42| state)) (concat ((_ extract 11 8) (|formal_top#42| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[4].tgt_b
+(define-fun |formal_top#45| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000010000 (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 7 7) (|formal_top#44| state)) (concat ((_ extract 30 25) (|formal_top#44| state)) (concat ((_ extract 11 8) (|formal_top#44| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[4].tgt_b
 ; yosys-smt2-wire g_instr_assume[4].tgt_b 32
-(define-fun |formal_top_n g_instr_assume[4].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#43| state))
-(define-fun |formal_top#44| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000010000 (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 31 31) (|formal_top#42| state)) (concat ((_ extract 19 12) (|formal_top#42| state)) (concat ((_ extract 20 20) (|formal_top#42| state)) (concat ((_ extract 30 21) (|formal_top#42| state)) #b0))))))))))))))))) ; \g_instr_assume[4].tgt_j
+(define-fun |formal_top_n g_instr_assume[4].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#45| state))
+(define-fun |formal_top#46| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000010000 (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 31 31) (|formal_top#44| state)) (concat ((_ extract 19 12) (|formal_top#44| state)) (concat ((_ extract 20 20) (|formal_top#44| state)) (concat ((_ extract 30 21) (|formal_top#44| state)) #b0))))))))))))))))) ; \g_instr_assume[4].tgt_j
 ; yosys-smt2-wire g_instr_assume[4].tgt_j 32
-(define-fun |formal_top_n g_instr_assume[4].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#44| state))
-(declare-fun |formal_top#45| (|formal_top_s|) (_ BitVec 32)) ; \imem [191:160]
+(define-fun |formal_top_n g_instr_assume[4].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#46| state))
+(declare-fun |formal_top#47| (|formal_top_s|) (_ BitVec 32)) ; \imem [191:160]
 ; yosys-smt2-wire g_instr_assume[5].ins 32
-(define-fun |formal_top_n g_instr_assume[5].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#45| state))
+(define-fun |formal_top_n g_instr_assume[5].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#47| state))
 ; yosys-smt2-wire g_instr_assume[5].pc 32
 (define-fun |formal_top_n g_instr_assume[5].pc| ((state |formal_top_s|)) (_ BitVec 32) #b10000000000000000000000000010100)
-(define-fun |formal_top#46| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000010100 (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 7 7) (|formal_top#45| state)) (concat ((_ extract 30 25) (|formal_top#45| state)) (concat ((_ extract 11 8) (|formal_top#45| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[5].tgt_b
+(define-fun |formal_top#48| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000010100 (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 7 7) (|formal_top#47| state)) (concat ((_ extract 30 25) (|formal_top#47| state)) (concat ((_ extract 11 8) (|formal_top#47| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[5].tgt_b
 ; yosys-smt2-wire g_instr_assume[5].tgt_b 32
-(define-fun |formal_top_n g_instr_assume[5].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#46| state))
-(define-fun |formal_top#47| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000010100 (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 31 31) (|formal_top#45| state)) (concat ((_ extract 19 12) (|formal_top#45| state)) (concat ((_ extract 20 20) (|formal_top#45| state)) (concat ((_ extract 30 21) (|formal_top#45| state)) #b0))))))))))))))))) ; \g_instr_assume[5].tgt_j
+(define-fun |formal_top_n g_instr_assume[5].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#48| state))
+(define-fun |formal_top#49| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000010100 (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 31 31) (|formal_top#47| state)) (concat ((_ extract 19 12) (|formal_top#47| state)) (concat ((_ extract 20 20) (|formal_top#47| state)) (concat ((_ extract 30 21) (|formal_top#47| state)) #b0))))))))))))))))) ; \g_instr_assume[5].tgt_j
 ; yosys-smt2-wire g_instr_assume[5].tgt_j 32
-(define-fun |formal_top_n g_instr_assume[5].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#47| state))
-(declare-fun |formal_top#48| (|formal_top_s|) (_ BitVec 32)) ; \imem [223:192]
+(define-fun |formal_top_n g_instr_assume[5].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#49| state))
+(declare-fun |formal_top#50| (|formal_top_s|) (_ BitVec 32)) ; \imem [223:192]
 ; yosys-smt2-wire g_instr_assume[6].ins 32
-(define-fun |formal_top_n g_instr_assume[6].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#48| state))
+(define-fun |formal_top_n g_instr_assume[6].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#50| state))
 ; yosys-smt2-wire g_instr_assume[6].pc 32
 (define-fun |formal_top_n g_instr_assume[6].pc| ((state |formal_top_s|)) (_ BitVec 32) #b10000000000000000000000000011000)
-(define-fun |formal_top#49| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000011000 (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 7 7) (|formal_top#48| state)) (concat ((_ extract 30 25) (|formal_top#48| state)) (concat ((_ extract 11 8) (|formal_top#48| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[6].tgt_b
+(define-fun |formal_top#51| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000011000 (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 7 7) (|formal_top#50| state)) (concat ((_ extract 30 25) (|formal_top#50| state)) (concat ((_ extract 11 8) (|formal_top#50| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[6].tgt_b
 ; yosys-smt2-wire g_instr_assume[6].tgt_b 32
-(define-fun |formal_top_n g_instr_assume[6].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#49| state))
-(define-fun |formal_top#50| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000011000 (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 31 31) (|formal_top#48| state)) (concat ((_ extract 19 12) (|formal_top#48| state)) (concat ((_ extract 20 20) (|formal_top#48| state)) (concat ((_ extract 30 21) (|formal_top#48| state)) #b0))))))))))))))))) ; \g_instr_assume[6].tgt_j
+(define-fun |formal_top_n g_instr_assume[6].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#51| state))
+(define-fun |formal_top#52| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000011000 (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 31 31) (|formal_top#50| state)) (concat ((_ extract 19 12) (|formal_top#50| state)) (concat ((_ extract 20 20) (|formal_top#50| state)) (concat ((_ extract 30 21) (|formal_top#50| state)) #b0))))))))))))))))) ; \g_instr_assume[6].tgt_j
 ; yosys-smt2-wire g_instr_assume[6].tgt_j 32
-(define-fun |formal_top_n g_instr_assume[6].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#50| state))
-(declare-fun |formal_top#51| (|formal_top_s|) (_ BitVec 32)) ; \imem [255:224]
+(define-fun |formal_top_n g_instr_assume[6].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#52| state))
+(declare-fun |formal_top#53| (|formal_top_s|) (_ BitVec 32)) ; \imem [255:224]
 ; yosys-smt2-wire g_instr_assume[7].ins 32
-(define-fun |formal_top_n g_instr_assume[7].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#51| state))
+(define-fun |formal_top_n g_instr_assume[7].ins| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#53| state))
 ; yosys-smt2-wire g_instr_assume[7].pc 32
 (define-fun |formal_top_n g_instr_assume[7].pc| ((state |formal_top_s|)) (_ BitVec 32) #b10000000000000000000000000011100)
-(define-fun |formal_top#52| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000011100 (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 7 7) (|formal_top#51| state)) (concat ((_ extract 30 25) (|formal_top#51| state)) (concat ((_ extract 11 8) (|formal_top#51| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[7].tgt_b
+(define-fun |formal_top#54| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000011100 (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 7 7) (|formal_top#53| state)) (concat ((_ extract 30 25) (|formal_top#53| state)) (concat ((_ extract 11 8) (|formal_top#53| state)) #b0))))))))))))))))))))))))) ; \g_instr_assume[7].tgt_b
 ; yosys-smt2-wire g_instr_assume[7].tgt_b 32
-(define-fun |formal_top_n g_instr_assume[7].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#52| state))
-(define-fun |formal_top#53| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000011100 (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 31 31) (|formal_top#51| state)) (concat ((_ extract 19 12) (|formal_top#51| state)) (concat ((_ extract 20 20) (|formal_top#51| state)) (concat ((_ extract 30 21) (|formal_top#51| state)) #b0))))))))))))))))) ; \g_instr_assume[7].tgt_j
+(define-fun |formal_top_n g_instr_assume[7].tgt_b| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#54| state))
+(define-fun |formal_top#55| ((state |formal_top_s|)) (_ BitVec 32) (bvadd #b10000000000000000000000000011100 (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 31 31) (|formal_top#53| state)) (concat ((_ extract 19 12) (|formal_top#53| state)) (concat ((_ extract 20 20) (|formal_top#53| state)) (concat ((_ extract 30 21) (|formal_top#53| state)) #b0))))))))))))))))) ; \g_instr_assume[7].tgt_j
 ; yosys-smt2-wire g_instr_assume[7].tgt_j 32
-(define-fun |formal_top_n g_instr_assume[7].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#53| state))
-; yosys-smt2-anyinit formal_top#54 1 formal_top.sv:223.5-245.8
-; yosys-smt2-witness {"offset": 0, "path": ["\\gpr_check_step"], "smtname": 54, "smtoffset": 0, "type": "init", "width": 1}
-(declare-fun |formal_top#54| (|formal_top_s|) (_ BitVec 1)) ; \gpr_check_step
+(define-fun |formal_top_n g_instr_assume[7].tgt_j| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#55| state))
+; yosys-smt2-anyinit formal_top#56 1 formal_top.sv:227.5-249.8
+; yosys-smt2-witness {"offset": 0, "path": ["\\gpr_check_step"], "smtname": 56, "smtoffset": 0, "type": "init", "width": 1}
+(declare-fun |formal_top#56| (|formal_top_s|) (_ BitVec 1)) ; \gpr_check_step
 ; yosys-smt2-register gpr_check_step 1
 ; yosys-smt2-wire gpr_check_step 1
-(define-fun |formal_top_n gpr_check_step| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#54| state)) #b1))
-; yosys-smt2-anyinit formal_top#55 1 formal_top.sv:223.5-245.8
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyinit_procdff_8708"], "smtname": 55, "smtoffset": 0, "type": "init", "width": 1}
-(declare-fun |formal_top#55| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyinit_procdff_8708
-(define-fun |formal_top#56| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#55| state))) ; \gpr_check_valid
+(define-fun |formal_top_n gpr_check_step| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#56| state)) #b1))
+; yosys-smt2-anyinit formal_top#57 1 formal_top.sv:227.5-249.8
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyinit_procdff_8708"], "smtname": 57, "smtoffset": 0, "type": "init", "width": 1}
+(declare-fun |formal_top#57| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyinit_procdff_8708
+(define-fun |formal_top#58| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#57| state))) ; \gpr_check_valid
 ; yosys-smt2-wire gpr_check_valid 1
-(define-fun |formal_top_n gpr_check_valid| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#56| state)) #b1))
+(define-fun |formal_top_n gpr_check_valid| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#58| state)) #b1))
 ; yosys-smt2-input imem 256
 ; yosys-smt2-wire imem 256
 ; yosys-smt2-witness {"offset": 0, "path": ["\\imem"], "smtname": "imem", "smtoffset": 0, "type": "input", "width": 256}
-(define-fun |formal_top_n imem| ((state |formal_top_s|)) (_ BitVec 256) (concat (|formal_top#51| state) (concat (|formal_top#48| state) (concat (|formal_top#45| state) (concat (|formal_top#42| state) (concat (|formal_top#39| state) (concat (|formal_top#36| state) (concat (|formal_top#33| state) (|formal_top#30| state)))))))))
-; yosys-smt2-anyinit formal_top#57 256 formal_top.sv:28.5-30.8
-; yosys-smt2-witness {"offset": 0, "path": ["\\imem_r"], "smtname": 57, "smtoffset": 0, "type": "init", "width": 256}
-(declare-fun |formal_top#57| (|formal_top_s|) (_ BitVec 256)) ; \imem_r
+(define-fun |formal_top_n imem| ((state |formal_top_s|)) (_ BitVec 256) (concat (|formal_top#53| state) (concat (|formal_top#50| state) (concat (|formal_top#47| state) (concat (|formal_top#44| state) (concat (|formal_top#41| state) (concat (|formal_top#38| state) (concat (|formal_top#35| state) (|formal_top#32| state)))))))))
+; yosys-smt2-anyinit formal_top#59 256 formal_top.sv:28.5-30.8
+; yosys-smt2-witness {"offset": 0, "path": ["\\imem_r"], "smtname": 59, "smtoffset": 0, "type": "init", "width": 256}
+(declare-fun |formal_top#59| (|formal_top_s|) (_ BitVec 256)) ; \imem_r
 ; yosys-smt2-register imem_r 256
 ; yosys-smt2-wire imem_r 256
-(define-fun |formal_top_n imem_r| ((state |formal_top_s|)) (_ BitVec 256) (|formal_top#57| state))
-; yosys-smt2-anyseq formal_top#58 1 $auto$setundef.cc:550:execute$9646
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9646"], "smtname": 58, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#58| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9646
+(define-fun |formal_top_n imem_r| ((state |formal_top_s|)) (_ BitVec 256) (|formal_top#59| state))
+; yosys-smt2-anyseq formal_top#60 1 $auto$setundef.cc:550:execute$9646
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9646"], "smtname": 60, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#60| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9646
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9646 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9646| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#58| state)) #b1))
-; yosys-smt2-anyseq formal_top#59 1 $auto$setundef.cc:550:execute$9644
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9644"], "smtname": 59, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#59| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9644
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9646| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#60| state)) #b1))
+; yosys-smt2-anyseq formal_top#61 1 $auto$setundef.cc:550:execute$9644
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9644"], "smtname": 61, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#61| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9644
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9644 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9644| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#59| state)) #b1))
-; yosys-smt2-anyseq formal_top#60 1 $auto$setundef.cc:550:execute$9642
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9642"], "smtname": 60, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#60| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9642
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9644| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#61| state)) #b1))
+; yosys-smt2-anyseq formal_top#62 1 $auto$setundef.cc:550:execute$9642
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9642"], "smtname": 62, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#62| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9642
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9642 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9642| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#60| state)) #b1))
-; yosys-smt2-anyseq formal_top#61 1 $auto$setundef.cc:550:execute$9640
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9640"], "smtname": 61, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#61| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9640
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9642| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#62| state)) #b1))
+; yosys-smt2-anyseq formal_top#63 1 $auto$setundef.cc:550:execute$9640
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9640"], "smtname": 63, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#63| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9640
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9640 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9640| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#61| state)) #b1))
-; yosys-smt2-anyseq formal_top#62 1 $auto$setundef.cc:550:execute$9638
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9638"], "smtname": 62, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#62| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9638
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9640| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#63| state)) #b1))
+; yosys-smt2-anyseq formal_top#64 1 $auto$setundef.cc:550:execute$9638
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9638"], "smtname": 64, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#64| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9638
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9638 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9638| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#62| state)) #b1))
-; yosys-smt2-anyseq formal_top#63 1 $auto$setundef.cc:550:execute$9636
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9636"], "smtname": 63, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#63| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9636
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9638| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#64| state)) #b1))
+; yosys-smt2-anyseq formal_top#65 1 $auto$setundef.cc:550:execute$9636
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9636"], "smtname": 65, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#65| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9636
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9636 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9636| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#63| state)) #b1))
-; yosys-smt2-anyseq formal_top#64 1 $auto$setundef.cc:550:execute$9634
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9634"], "smtname": 64, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#64| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9634
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9636| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#65| state)) #b1))
+; yosys-smt2-anyseq formal_top#66 1 $auto$setundef.cc:550:execute$9634
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9634"], "smtname": 66, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#66| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9634
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9634 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9634| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#64| state)) #b1))
-; yosys-smt2-anyseq formal_top#65 1 $auto$setundef.cc:550:execute$9632
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9632"], "smtname": 65, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#65| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9632
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9634| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#66| state)) #b1))
+; yosys-smt2-anyseq formal_top#67 1 $auto$setundef.cc:550:execute$9632
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9632"], "smtname": 67, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#67| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9632
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9632 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9632| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#65| state)) #b1))
-; yosys-smt2-anyseq formal_top#66 1 $auto$setundef.cc:550:execute$9630
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9630"], "smtname": 66, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#66| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9630
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9632| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#67| state)) #b1))
+; yosys-smt2-anyseq formal_top#68 1 $auto$setundef.cc:550:execute$9630
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9630"], "smtname": 68, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#68| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9630
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9630 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9630| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#66| state)) #b1))
-; yosys-smt2-anyseq formal_top#67 1 $auto$setundef.cc:550:execute$9628
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9628"], "smtname": 67, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#67| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9628
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9630| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#68| state)) #b1))
+; yosys-smt2-anyseq formal_top#69 1 $auto$setundef.cc:550:execute$9628
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9628"], "smtname": 69, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#69| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9628
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9628 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9628| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#67| state)) #b1))
-; yosys-smt2-anyseq formal_top#68 1 $auto$setundef.cc:550:execute$9626
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9626"], "smtname": 68, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#68| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9626
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9628| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#69| state)) #b1))
+; yosys-smt2-anyseq formal_top#70 1 $auto$setundef.cc:550:execute$9626
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9626"], "smtname": 70, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#70| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9626
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9626 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9626| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#68| state)) #b1))
-; yosys-smt2-anyseq formal_top#69 1 $auto$setundef.cc:550:execute$9624
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9624"], "smtname": 69, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#69| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9624
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9626| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#70| state)) #b1))
+; yosys-smt2-anyseq formal_top#71 1 $auto$setundef.cc:550:execute$9624
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9624"], "smtname": 71, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#71| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9624
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9624 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9624| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#69| state)) #b1))
-; yosys-smt2-anyseq formal_top#70 1 $auto$setundef.cc:550:execute$9622
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9622"], "smtname": 70, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#70| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9622
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9624| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#71| state)) #b1))
+; yosys-smt2-anyseq formal_top#72 1 $auto$setundef.cc:550:execute$9622
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9622"], "smtname": 72, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#72| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9622
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9622 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9622| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#70| state)) #b1))
-; yosys-smt2-anyseq formal_top#71 1 $auto$setundef.cc:550:execute$9620
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9620"], "smtname": 71, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#71| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9620
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9622| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#72| state)) #b1))
+; yosys-smt2-anyseq formal_top#73 1 $auto$setundef.cc:550:execute$9620
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9620"], "smtname": 73, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#73| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9620
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9620 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9620| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#71| state)) #b1))
-; yosys-smt2-anyseq formal_top#72 1 $auto$setundef.cc:550:execute$9618
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9618"], "smtname": 72, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#72| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9618
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9620| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#73| state)) #b1))
+; yosys-smt2-anyseq formal_top#74 1 $auto$setundef.cc:550:execute$9618
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9618"], "smtname": 74, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#74| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9618
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9618 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9618| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#72| state)) #b1))
-; yosys-smt2-anyseq formal_top#73 1 $auto$setundef.cc:550:execute$9616
-; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9616"], "smtname": 73, "smtoffset": 0, "type": "seq", "width": 1}
-(declare-fun |formal_top#73| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9616
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9618| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#74| state)) #b1))
+; yosys-smt2-anyseq formal_top#75 1 $auto$setundef.cc:550:execute$9616
+; yosys-smt2-witness {"offset": 0, "path": ["\\_witness_", "\\anyseq_auto_setundef_cc_550_execute_9616"], "smtname": 75, "smtoffset": 0, "type": "seq", "width": 1}
+(declare-fun |formal_top#75| (|formal_top_s|) (_ BitVec 1)) ; \_witness_.anyseq_auto_setundef_cc_550_execute_9616
 ; yosys-smt2-wire _witness_.anyseq_auto_setundef_cc_550_execute_9616 1
-(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9616| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#73| state)) #b1))
+(define-fun |formal_top_n _witness_.anyseq_auto_setundef_cc_550_execute_9616| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#75| state)) #b1))
 ; yosys-smt2-wire io_type_C 2
-(define-fun |formal_top_n io_type_C| ((state |formal_top_s|)) (_ BitVec 2) (|formal_top#11| state))
+(define-fun |formal_top_n io_type_C| ((state |formal_top_s|)) (_ BitVec 2) (|formal_top#13| state))
 ; yosys-smt2-wire io_type_R 2
-(define-fun |formal_top_n io_type_R| ((state |formal_top_s|)) (_ BitVec 2) (|formal_top#27| state))
-; yosys-smt2-witness {"offset": 0, "path": ["$auto$async2sync.cc:116:execute$8970"], "smtname": 74, "smtoffset": 0, "type": "reg", "width": 1}
-(declare-fun |formal_top#74| (|formal_top_s|) (_ BitVec 1)) ; $auto$async2sync.cc:116:execute$8970
+(define-fun |formal_top_n io_type_R| ((state |formal_top_s|)) (_ BitVec 2) (|formal_top#29| state))
+; yosys-smt2-witness {"offset": 0, "path": ["$auto$async2sync.cc:116:execute$8970"], "smtname": 76, "smtoffset": 0, "type": "reg", "width": 1}
+(declare-fun |formal_top#76| (|formal_top_s|) (_ BitVec 1)) ; $auto$async2sync.cc:116:execute$8970
 ; yosys-smt2-register $auto$async2sync.cc:116:execute$8970 1
-(define-fun |formal_top_n $auto$async2sync.cc:116:execute$8970| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#74| state)) #b1))
-; yosys-smt2-witness {"offset": 0, "path": ["$auto$async2sync.cc:107:execute$8966"], "smtname": 75, "smtoffset": 0, "type": "reg", "width": 1}
-(declare-fun |formal_top#75| (|formal_top_s|) (_ BitVec 1)) ; $auto$async2sync.cc:107:execute$8966
+(define-fun |formal_top_n $auto$async2sync.cc:116:execute$8970| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#76| state)) #b1))
+; yosys-smt2-witness {"offset": 0, "path": ["$auto$async2sync.cc:107:execute$8966"], "smtname": 77, "smtoffset": 0, "type": "reg", "width": 1}
+(declare-fun |formal_top#77| (|formal_top_s|) (_ BitVec 1)) ; $auto$async2sync.cc:107:execute$8966
 ; yosys-smt2-register $auto$async2sync.cc:107:execute$8966 1
-(define-fun |formal_top_n $auto$async2sync.cc:107:execute$8966| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#75| state)) #b1))
+(define-fun |formal_top_n $auto$async2sync.cc:107:execute$8966| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#77| state)) #b1))
 ; yosys-smt2-register _witness_.anyinit_procdff_8708 1
 ; yosys-smt2-wire _witness_.anyinit_procdff_8708 1
-(define-fun |formal_top_n _witness_.anyinit_procdff_8708| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#55| state)) #b1))
+(define-fun |formal_top_n _witness_.anyinit_procdff_8708| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#57| state)) #b1))
 ; yosys-smt2-register _witness_.anyinit_procdff_8700 1
 ; yosys-smt2-wire _witness_.anyinit_procdff_8700 1
 (define-fun |formal_top_n _witness_.anyinit_procdff_8700| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#0| state)) #b1))
 ; yosys-smt2-wire is_ls_C 1
-(define-fun |formal_top_n is_ls_C| ((state |formal_top_s|)) Bool (|formal_top#12| state))
+(define-fun |formal_top_n is_ls_C| ((state |formal_top_s|)) Bool (|formal_top#14| state))
 ; yosys-smt2-wire is_ls_R 1
-(define-fun |formal_top_n is_ls_R| ((state |formal_top_s|)) Bool (|formal_top#28| state))
+(define-fun |formal_top_n is_ls_R| ((state |formal_top_s|)) Bool (|formal_top#30| state))
 ; yosys-smt2-wire ls_addr_R 32
-(define-fun |formal_top_n ls_addr_R| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#29| state))
+(define-fun |formal_top_n ls_addr_R| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#31| state))
 ; yosys-smt2-wire lsu_addr_C 32
-(define-fun |formal_top_n lsu_addr_C| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#13| state))
+(define-fun |formal_top_n lsu_addr_C| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#15| state))
 ; yosys-smt2-wire r_dbg_reg 1024
-(define-fun |formal_top_n r_dbg_reg| ((state |formal_top_s|)) (_ BitVec 1024) (|formal_top#26| state))
+(define-fun |formal_top_n r_dbg_reg| ((state |formal_top_s|)) (_ BitVec 1024) (|formal_top#28| state))
 ; yosys-smt2-wire r_instr 32
-(define-fun |formal_top_n r_instr| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#15| state))
+(define-fun |formal_top_n r_instr| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#17| state))
 ; yosys-smt2-wire r_marchid 32
-(define-fun |formal_top_n r_marchid| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#16| state))
+(define-fun |formal_top_n r_marchid| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#18| state))
 ; yosys-smt2-wire r_mcause 32
-(define-fun |formal_top_n r_mcause| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#17| state))
+(define-fun |formal_top_n r_mcause| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#19| state))
 ; yosys-smt2-wire r_mcycle 32
-(define-fun |formal_top_n r_mcycle| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#18| state))
+(define-fun |formal_top_n r_mcycle| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#20| state))
 ; yosys-smt2-wire r_mcycleh 32
-(define-fun |formal_top_n r_mcycleh| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#19| state))
+(define-fun |formal_top_n r_mcycleh| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#21| state))
 ; yosys-smt2-wire r_mepc 32
-(define-fun |formal_top_n r_mepc| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#20| state))
+(define-fun |formal_top_n r_mepc| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#22| state))
 ; yosys-smt2-wire r_mstatus 32
-(define-fun |formal_top_n r_mstatus| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#21| state))
+(define-fun |formal_top_n r_mstatus| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#23| state))
 ; yosys-smt2-wire r_mtvec 32
-(define-fun |formal_top_n r_mtvec| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#22| state))
+(define-fun |formal_top_n r_mtvec| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#24| state))
 ; yosys-smt2-wire r_mvendorid 32
-(define-fun |formal_top_n r_mvendorid| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#23| state))
+(define-fun |formal_top_n r_mvendorid| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#25| state))
 ; yosys-smt2-wire r_pc 32
-(define-fun |formal_top_n r_pc| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#24| state))
+(define-fun |formal_top_n r_pc| ((state |formal_top_s|)) (_ BitVec 32) (|formal_top#26| state))
 ; yosys-smt2-input reset 1
 ; yosys-smt2-wire reset 1
 ; yosys-smt2-witness {"offset": 0, "path": ["\\reset"], "smtname": "reset", "smtoffset": 0, "type": "input", "width": 1}
 (define-fun |formal_top_n reset| ((state |formal_top_s|)) Bool (= ((_ extract 0 0) (|formal_top#1| state)) #b1))
-(define-fun |formal_top#76| ((state |formal_top_s|)) (_ BitVec 1) (bvnot (ite (|formal_top#3| state) #b1 #b0))) ; $auto$rtlil.cc:3234:Not$9824
+(define-fun |formal_top#78| ((state |formal_top_s|)) (_ BitVec 1) (bvnot (ite (|formal_top#3| state) #b1 #b0))) ; $auto$rtlil.cc:3234:Not$9824
 ; yosys-smt2-assume 0 $auto$formalff.cc:987:execute$9825
-(define-fun |formal_top_u 0| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#76| state)) #b1) (not true))) ; $auto$formalff.cc:987:execute$9825
-; yosys-smt2-assert 0 _witness_.check_assert_formal_top_sv_249_110 formal_top.sv:249.13-249.43
-(define-fun |formal_top_a 0| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#74| state)) #b1) (not (= ((_ extract 0 0) (|formal_top#75| state)) #b1)))) ; _witness_.check_assert_formal_top_sv_249_110
-(define-fun |formal_top#77| ((state |formal_top_s|)) Bool (bvuge (|formal_top#8| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:115$77_Y
-(define-fun |formal_top#78| ((state |formal_top_s|)) Bool (bvule (|formal_top#8| state) #b10000000000000000000000000011100)) ; $le$formal_top.sv:115$78_Y
-(define-fun |formal_top#79| ((state |formal_top_s|)) Bool (and (or  (|formal_top#77| state) false) (or  (|formal_top#78| state) false))) ; $logic_and$formal_top.sv:115$79_Y
-(define-fun |formal_top#80| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#8| state)) #b1) (= ((_ extract 1 1) (|formal_top#8| state)) #b1)))) ; $eq$formal_top.sv:115$80_Y
-(define-fun |formal_top#81| ((state |formal_top_s|)) Bool (and (or  (|formal_top#79| state) false) (or  (|formal_top#80| state) false))) ; $logic_and$formal_top.sv:115$81_Y
-(define-fun |formal_top#82| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 #b1)) ; $assume$formal_top.sv:115$76_EN
+(define-fun |formal_top_u 0| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#78| state)) #b1) (not true))) ; $auto$formalff.cc:987:execute$9825
+; yosys-smt2-assert 0 _witness_.check_assert_formal_top_sv_253_110 formal_top.sv:253.13-253.43
+(define-fun |formal_top_a 0| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#76| state)) #b1) (not (= ((_ extract 0 0) (|formal_top#77| state)) #b1)))) ; _witness_.check_assert_formal_top_sv_253_110
+(define-fun |formal_top#79| ((state |formal_top_s|)) Bool (bvuge (|formal_top#8| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:115$77_Y
+(define-fun |formal_top#80| ((state |formal_top_s|)) Bool (bvule (|formal_top#8| state) #b10000000000000000000000000011100)) ; $le$formal_top.sv:115$78_Y
+(define-fun |formal_top#81| ((state |formal_top_s|)) Bool (and (or  (|formal_top#79| state) false) (or  (|formal_top#80| state) false))) ; $logic_and$formal_top.sv:115$79_Y
+(define-fun |formal_top#82| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#8| state)) #b1) (= ((_ extract 1 1) (|formal_top#8| state)) #b1)))) ; $eq$formal_top.sv:115$80_Y
+(define-fun |formal_top#83| ((state |formal_top_s|)) Bool (and (or  (|formal_top#81| state) false) (or  (|formal_top#82| state) false))) ; $logic_and$formal_top.sv:115$81_Y
+(define-fun |formal_top#84| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 #b1)) ; $assume$formal_top.sv:115$76_EN
 ; yosys-smt2-assume 1 _witness_.check_assume_formal_top_sv_115_76 formal_top.sv:115.13-115.93
-(define-fun |formal_top_u 1| ((state |formal_top_s|)) Bool (or (|formal_top#81| state) (not (= ((_ extract 0 0) (|formal_top#82| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_115_76
-(define-fun |formal_top#83| ((state |formal_top_s|)) Bool (bvuge (|formal_top#24| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:116$83_Y
-(define-fun |formal_top#84| ((state |formal_top_s|)) Bool (bvule (|formal_top#24| state) #b10000000000000000000000000011100)) ; $le$formal_top.sv:116$84_Y
-(define-fun |formal_top#85| ((state |formal_top_s|)) Bool (and (or  (|formal_top#83| state) false) (or  (|formal_top#84| state) false))) ; $logic_and$formal_top.sv:116$85_Y
-(define-fun |formal_top#86| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#24| state)) #b1) (= ((_ extract 1 1) (|formal_top#24| state)) #b1)))) ; $eq$formal_top.sv:116$86_Y
-(define-fun |formal_top#87| ((state |formal_top_s|)) Bool (and (or  (|formal_top#85| state) false) (or  (|formal_top#86| state) false))) ; $logic_and$formal_top.sv:116$87_Y
+(define-fun |formal_top_u 1| ((state |formal_top_s|)) Bool (or (|formal_top#83| state) (not (= ((_ extract 0 0) (|formal_top#84| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_115_76
+(define-fun |formal_top#85| ((state |formal_top_s|)) Bool (bvuge (|formal_top#26| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:116$83_Y
+(define-fun |formal_top#86| ((state |formal_top_s|)) Bool (bvule (|formal_top#26| state) #b10000000000000000000000000011100)) ; $le$formal_top.sv:116$84_Y
+(define-fun |formal_top#87| ((state |formal_top_s|)) Bool (and (or  (|formal_top#85| state) false) (or  (|formal_top#86| state) false))) ; $logic_and$formal_top.sv:116$85_Y
+(define-fun |formal_top#88| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#26| state)) #b1) (= ((_ extract 1 1) (|formal_top#26| state)) #b1)))) ; $eq$formal_top.sv:116$86_Y
+(define-fun |formal_top#89| ((state |formal_top_s|)) Bool (and (or  (|formal_top#87| state) false) (or  (|formal_top#88| state) false))) ; $logic_and$formal_top.sv:116$87_Y
 ; yosys-smt2-assume 2 _witness_.check_assume_formal_top_sv_116_82 formal_top.sv:116.13-116.87
-(define-fun |formal_top_u 2| ((state |formal_top_s|)) Bool (or (|formal_top#87| state) (not (= ((_ extract 0 0) (|formal_top#82| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_116_82
-(define-fun |formal_top#88| ((state |formal_top_s|)) Bool (bvuge (|formal_top#13| state) #b10000000000000000000000000100000)) ; $ge$formal_top.sv:118$89_Y
-(define-fun |formal_top#89| ((state |formal_top_s|)) Bool (bvule (|formal_top#13| state) #b10000000000000000000000000111111)) ; $le$formal_top.sv:118$90_Y
-(define-fun |formal_top#90| ((state |formal_top_s|)) Bool (and (or  (|formal_top#88| state) false) (or  (|formal_top#89| state) false))) ; $logic_and$formal_top.sv:118$91_Y
-(define-fun |formal_top#91| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#12| state) #b1 #b0)) ; $procmux$6928_Y
-(define-fun |formal_top#92| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#91| state))) ; $assume$formal_top.sv:118$88_EN
+(define-fun |formal_top_u 2| ((state |formal_top_s|)) Bool (or (|formal_top#89| state) (not (= ((_ extract 0 0) (|formal_top#84| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_116_82
+(define-fun |formal_top#90| ((state |formal_top_s|)) Bool (bvuge (|formal_top#15| state) #b10000000000000000000000000100000)) ; $ge$formal_top.sv:118$89_Y
+(define-fun |formal_top#91| ((state |formal_top_s|)) Bool (bvule (|formal_top#15| state) #b10000000000000000000000000111111)) ; $le$formal_top.sv:118$90_Y
+(define-fun |formal_top#92| ((state |formal_top_s|)) Bool (and (or  (|formal_top#90| state) false) (or  (|formal_top#91| state) false))) ; $logic_and$formal_top.sv:118$91_Y
+(define-fun |formal_top#93| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#14| state) #b1 #b0)) ; $procmux$6928_Y
+(define-fun |formal_top#94| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#93| state))) ; $assume$formal_top.sv:118$88_EN
 ; yosys-smt2-assume 3 _witness_.check_assume_formal_top_sv_118_88 formal_top.sv:118.17-118.81
-(define-fun |formal_top_u 3| ((state |formal_top_s|)) Bool (or (|formal_top#90| state) (not (= ((_ extract 0 0) (|formal_top#92| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_118_88
-(define-fun |formal_top#93| ((state |formal_top_s|)) (_ BitVec 1) (bvnot ((_ extract 0 0) (|formal_top#13| state)))) ; $eq$formal_top.sv:120$93_Y
-(define-fun |formal_top#94| ((state |formal_top_s|)) Bool (= (|formal_top#11| state) #b01)) ; $procmux$6923_CMP
-(define-fun |formal_top#95| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#94| state) #b1 #b0)) ; $procmux$6922_Y
-(define-fun |formal_top#96| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#12| state) (|formal_top#95| state) #b0)) ; $procmux$6924_Y
-(define-fun |formal_top#97| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#96| state))) ; $assume$formal_top.sv:120$92_EN
+(define-fun |formal_top_u 3| ((state |formal_top_s|)) Bool (or (|formal_top#92| state) (not (= ((_ extract 0 0) (|formal_top#94| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_118_88
+(define-fun |formal_top#95| ((state |formal_top_s|)) (_ BitVec 1) (bvnot ((_ extract 0 0) (|formal_top#15| state)))) ; $eq$formal_top.sv:120$93_Y
+(define-fun |formal_top#96| ((state |formal_top_s|)) Bool (= (|formal_top#13| state) #b01)) ; $procmux$6923_CMP
+(define-fun |formal_top#97| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#96| state) #b1 #b0)) ; $procmux$6922_Y
+(define-fun |formal_top#98| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#14| state) (|formal_top#97| state) #b0)) ; $procmux$6924_Y
+(define-fun |formal_top#99| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#98| state))) ; $assume$formal_top.sv:120$92_EN
 ; yosys-smt2-assume 4 _witness_.check_assume_formal_top_sv_120_92 formal_top.sv:120.28-120.57
-(define-fun |formal_top_u 4| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#93| state)) #b1) (not (= ((_ extract 0 0) (|formal_top#97| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_120_92
-(define-fun |formal_top#98| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#13| state)) #b1) (= ((_ extract 1 1) (|formal_top#13| state)) #b1)))) ; $eq$formal_top.sv:121$95_Y
-(define-fun |formal_top#99| ((state |formal_top_s|)) Bool (= (|formal_top#11| state) #b10)) ; $procmux$6916_CMP
-(define-fun |formal_top#100| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#99| state) #b1 #b0)) ; $procmux$6915_Y
-(define-fun |formal_top#101| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#12| state) (|formal_top#100| state) #b0)) ; $procmux$6917_Y
-(define-fun |formal_top#102| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#101| state))) ; $assume$formal_top.sv:121$94_EN
+(define-fun |formal_top_u 4| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#95| state)) #b1) (not (= ((_ extract 0 0) (|formal_top#99| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_120_92
+(define-fun |formal_top#100| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#15| state)) #b1) (= ((_ extract 1 1) (|formal_top#15| state)) #b1)))) ; $eq$formal_top.sv:121$95_Y
+(define-fun |formal_top#101| ((state |formal_top_s|)) Bool (= (|formal_top#13| state) #b10)) ; $procmux$6916_CMP
+(define-fun |formal_top#102| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#101| state) #b1 #b0)) ; $procmux$6915_Y
+(define-fun |formal_top#103| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#14| state) (|formal_top#102| state) #b0)) ; $procmux$6917_Y
+(define-fun |formal_top#104| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#103| state))) ; $assume$formal_top.sv:121$94_EN
 ; yosys-smt2-assume 5 _witness_.check_assume_formal_top_sv_121_94 formal_top.sv:121.28-121.60
-(define-fun |formal_top_u 5| ((state |formal_top_s|)) Bool (or (|formal_top#98| state) (not (= ((_ extract 0 0) (|formal_top#102| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_121_94
-(define-fun |formal_top#103| ((state |formal_top_s|)) Bool (bvuge (|formal_top#29| state) #b10000000000000000000000000100000)) ; $ge$formal_top.sv:126$97_Y
-(define-fun |formal_top#104| ((state |formal_top_s|)) Bool (bvule (|formal_top#29| state) #b10000000000000000000000000111111)) ; $le$formal_top.sv:126$98_Y
-(define-fun |formal_top#105| ((state |formal_top_s|)) Bool (and (or  (|formal_top#103| state) false) (or  (|formal_top#104| state) false))) ; $logic_and$formal_top.sv:126$99_Y
-(define-fun |formal_top#106| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#28| state) #b1 #b0)) ; $procmux$6911_Y
-(define-fun |formal_top#107| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#106| state))) ; $assume$formal_top.sv:126$96_EN
+(define-fun |formal_top_u 5| ((state |formal_top_s|)) Bool (or (|formal_top#100| state) (not (= ((_ extract 0 0) (|formal_top#104| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_121_94
+(define-fun |formal_top#105| ((state |formal_top_s|)) Bool (bvuge (|formal_top#31| state) #b10000000000000000000000000100000)) ; $ge$formal_top.sv:126$97_Y
+(define-fun |formal_top#106| ((state |formal_top_s|)) Bool (bvule (|formal_top#31| state) #b10000000000000000000000000111111)) ; $le$formal_top.sv:126$98_Y
+(define-fun |formal_top#107| ((state |formal_top_s|)) Bool (and (or  (|formal_top#105| state) false) (or  (|formal_top#106| state) false))) ; $logic_and$formal_top.sv:126$99_Y
+(define-fun |formal_top#108| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#30| state) #b1 #b0)) ; $procmux$6911_Y
+(define-fun |formal_top#109| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#108| state))) ; $assume$formal_top.sv:126$96_EN
 ; yosys-smt2-assume 6 _witness_.check_assume_formal_top_sv_126_96 formal_top.sv:126.17-126.79
-(define-fun |formal_top_u 6| ((state |formal_top_s|)) Bool (or (|formal_top#105| state) (not (= ((_ extract 0 0) (|formal_top#107| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_126_96
-(define-fun |formal_top#108| ((state |formal_top_s|)) (_ BitVec 1) (bvnot ((_ extract 0 0) (|formal_top#29| state)))) ; $eq$formal_top.sv:128$101_Y
-(define-fun |formal_top#109| ((state |formal_top_s|)) Bool (= (|formal_top#27| state) #b01)) ; $procmux$6906_CMP
-(define-fun |formal_top#110| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#109| state) #b1 #b0)) ; $procmux$6905_Y
-(define-fun |formal_top#111| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#28| state) (|formal_top#110| state) #b0)) ; $procmux$6907_Y
-(define-fun |formal_top#112| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#111| state))) ; $assume$formal_top.sv:128$100_EN
+(define-fun |formal_top_u 6| ((state |formal_top_s|)) Bool (or (|formal_top#107| state) (not (= ((_ extract 0 0) (|formal_top#109| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_126_96
+(define-fun |formal_top#110| ((state |formal_top_s|)) (_ BitVec 1) (bvnot ((_ extract 0 0) (|formal_top#31| state)))) ; $eq$formal_top.sv:128$101_Y
+(define-fun |formal_top#111| ((state |formal_top_s|)) Bool (= (|formal_top#29| state) #b01)) ; $procmux$6906_CMP
+(define-fun |formal_top#112| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#111| state) #b1 #b0)) ; $procmux$6905_Y
+(define-fun |formal_top#113| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#30| state) (|formal_top#112| state) #b0)) ; $procmux$6907_Y
+(define-fun |formal_top#114| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#113| state))) ; $assume$formal_top.sv:128$100_EN
 ; yosys-smt2-assume 7 _witness_.check_assume_formal_top_sv_128_100 formal_top.sv:128.28-128.56
-(define-fun |formal_top_u 7| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#108| state)) #b1) (not (= ((_ extract 0 0) (|formal_top#112| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_128_100
-(define-fun |formal_top#113| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#29| state)) #b1) (= ((_ extract 1 1) (|formal_top#29| state)) #b1)))) ; $eq$formal_top.sv:129$103_Y
-(define-fun |formal_top#114| ((state |formal_top_s|)) Bool (= (|formal_top#27| state) #b10)) ; $procmux$6899_CMP
-(define-fun |formal_top#115| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#114| state) #b1 #b0)) ; $procmux$6898_Y
-(define-fun |formal_top#116| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#28| state) (|formal_top#115| state) #b0)) ; $procmux$6900_Y
-(define-fun |formal_top#117| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#116| state))) ; $assume$formal_top.sv:129$102_EN
+(define-fun |formal_top_u 7| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#110| state)) #b1) (not (= ((_ extract 0 0) (|formal_top#114| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_128_100
+(define-fun |formal_top#115| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#31| state)) #b1) (= ((_ extract 1 1) (|formal_top#31| state)) #b1)))) ; $eq$formal_top.sv:129$103_Y
+(define-fun |formal_top#116| ((state |formal_top_s|)) Bool (= (|formal_top#29| state) #b10)) ; $procmux$6899_CMP
+(define-fun |formal_top#117| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#116| state) #b1 #b0)) ; $procmux$6898_Y
+(define-fun |formal_top#118| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#30| state) (|formal_top#117| state) #b0)) ; $procmux$6900_Y
+(define-fun |formal_top#119| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#118| state))) ; $assume$formal_top.sv:129$102_EN
 ; yosys-smt2-assume 8 _witness_.check_assume_formal_top_sv_129_102 formal_top.sv:129.28-129.59
-(define-fun |formal_top_u 8| ((state |formal_top_s|)) Bool (or (|formal_top#113| state) (not (= ((_ extract 0 0) (|formal_top#117| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_129_102
-(define-fun |formal_top#118| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#1| state)) #b1) false))) ; $logic_not$formal_top.sv:22$68_Y
-(define-fun |formal_top#119| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#14| state)) #b1) (= ((_ extract 1 1) (|formal_top#14| state)) #b1) (= ((_ extract 2 2) (|formal_top#14| state)) #b1) (= ((_ extract 3 3) (|formal_top#14| state)) #b1)))) ; $eq$formal_top.sv:22$67_Y
-(define-fun |formal_top#120| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#119| state) (|formal_top#1| state) (ite (|formal_top#118| state) #b1 #b0))) ; $ternary$formal_top.sv:22$69_Y
+(define-fun |formal_top_u 8| ((state |formal_top_s|)) Bool (or (|formal_top#115| state) (not (= ((_ extract 0 0) (|formal_top#119| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_129_102
+(define-fun |formal_top#120| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#1| state)) #b1) false))) ; $logic_not$formal_top.sv:22$68_Y
+(define-fun |formal_top#121| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 0 0) (|formal_top#16| state)) #b1) (= ((_ extract 1 1) (|formal_top#16| state)) #b1) (= ((_ extract 2 2) (|formal_top#16| state)) #b1) (= ((_ extract 3 3) (|formal_top#16| state)) #b1)))) ; $eq$formal_top.sv:22$67_Y
+(define-fun |formal_top#122| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#121| state) (|formal_top#1| state) (ite (|formal_top#120| state) #b1 #b0))) ; $ternary$formal_top.sv:22$69_Y
 ; yosys-smt2-assume 9 _witness_.check_assume_formal_top_sv_22_66 formal_top.sv:22.9-22.50
-(define-fun |formal_top_u 9| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#120| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_22_66
-(define-fun |formal_top#121| ((state |formal_top_s|)) Bool (= (concat (|formal_top#51| state) (concat (|formal_top#48| state) (concat (|formal_top#45| state) (concat (|formal_top#42| state) (concat (|formal_top#39| state) (concat (|formal_top#36| state) (concat (|formal_top#33| state) (|formal_top#30| state)))))))) (|formal_top#57| state))) ; $eq$formal_top.sv:32$73_Y
+(define-fun |formal_top_u 9| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#122| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_22_66
+(define-fun |formal_top#123| ((state |formal_top_s|)) Bool (= (concat (|formal_top#53| state) (concat (|formal_top#50| state) (concat (|formal_top#47| state) (concat (|formal_top#44| state) (concat (|formal_top#41| state) (concat (|formal_top#38| state) (concat (|formal_top#35| state) (|formal_top#32| state)))))))) (|formal_top#59| state))) ; $eq$formal_top.sv:32$73_Y
 ; yosys-smt2-assume 10 _witness_.check_assume_formal_top_sv_32_72 formal_top.sv:32.9-32.31
-(define-fun |formal_top_u 10| ((state |formal_top_s|)) Bool (or (|formal_top#121| state) (not true))) ; _witness_.check_assume_formal_top_sv_32_72
-(define-fun |formal_top#122| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#30| state)) #b1) (= ((_ extract 26 26) (|formal_top#30| state)) #b1) (= ((_ extract 27 27) (|formal_top#30| state)) #b1) (= ((_ extract 28 28) (|formal_top#30| state)) #b1) (= ((_ extract 29 29) (|formal_top#30| state)) #b1) (= ((_ extract 30 30) (|formal_top#30| state)) #b1) (= ((_ extract 31 31) (|formal_top#30| state)) #b1)))) ; $eq$formal_top.sv:45$131_Y
-(define-fun |formal_top#123| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#30| state)) #b0100000)) ; $eq$formal_top.sv:45$132_Y
-(define-fun |formal_top#124| ((state |formal_top_s|)) Bool (or  (|formal_top#122| state) false  (|formal_top#123| state) false)) ; $logic_or$formal_top.sv:45$133_Y
-(define-fun |formal_top#125| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#30| state)) #b001)) ; $eq$formal_top.sv:60$141_Y
-(define-fun |formal_top#126| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#30| state)) #b010)) ; $eq$formal_top.sv:60$143_Y
-(define-fun |formal_top#127| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#30| state)) #b100)) ; $eq$formal_top.sv:61$145_Y
-(define-fun |formal_top#128| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#30| state)) #b110)) ; $eq$formal_top.sv:64$161_Y
-(define-fun |formal_top#129| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#30| state)) #b111)) ; $eq$formal_top.sv:64$163_Y
-(define-fun |formal_top#130| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#30| state)) #b011)) ; $eq$formal_top.sv:69$169_Y
-(define-fun |formal_top#131| ((state |formal_top_s|)) Bool (or  (|formal_top#125| state) (|formal_top#126| state) (|formal_top#127| state) (|formal_top#128| state) (|formal_top#129| state) (|formal_top#130| state))) ; $procmux$6868_CTRL
-(define-fun |formal_top#132| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#30| state)) #b1) (= ((_ extract 13 13) (|formal_top#30| state)) #b1) (= ((_ extract 14 14) (|formal_top#30| state)) #b1)))) ; $eq$formal_top.sv:60$140_Y
-(define-fun |formal_top#133| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#30| state)) #b101)) ; $eq$formal_top.sv:61$147_Y
-(define-fun |formal_top#134| ((state |formal_top_s|)) Bool (or  (|formal_top#132| state) (|formal_top#133| state))) ; $procmux$6869_CTRL
-(define-fun |formal_top#135| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#134| state) (ite (|formal_top#124| state) #b1 #b0) (ite (|formal_top#131| state) (ite (|formal_top#122| state) #b1 #b0) (|formal_top#58| state)))) ; $2\is_legal$func$formal_top.sv:93$24.$result[0:0]$130
-(define-fun |formal_top#136| ((state |formal_top_s|)) Bool (or  (|formal_top#132| state) (|formal_top#126| state) (|formal_top#127| state) (|formal_top#128| state) (|formal_top#129| state) (|formal_top#130| state))) ; $procmux$6854_CTRL
-(define-fun |formal_top#137| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#136| state) #b1 (ite (|formal_top#125| state) (ite (|formal_top#122| state) #b1 #b0) (ite (|formal_top#133| state) (ite (|formal_top#124| state) #b1 #b0) (|formal_top#59| state))))) ; $3\is_legal$func$formal_top.sv:93$24.$result[0:0]$135
-(define-fun |formal_top#138| ((state |formal_top_s|)) Bool (or  (|formal_top#132| state) false  (|formal_top#125| state) false)) ; $logic_or$formal_top.sv:60$142_Y
-(define-fun |formal_top#139| ((state |formal_top_s|)) Bool (or  (|formal_top#138| state) false  (|formal_top#126| state) false)) ; $logic_or$formal_top.sv:60$144_Y
-(define-fun |formal_top#140| ((state |formal_top_s|)) Bool (or  (|formal_top#139| state) false  (|formal_top#127| state) false)) ; $logic_or$formal_top.sv:60$146_Y
-(define-fun |formal_top#141| ((state |formal_top_s|)) Bool (or  (|formal_top#140| state) false  (|formal_top#133| state) false)) ; $logic_or$formal_top.sv:60$148_Y
-(define-fun |formal_top#142| ((state |formal_top_s|)) Bool (or  (|formal_top#138| state) false  (|formal_top#127| state) false)) ; $logic_or$formal_top.sv:63$158_Y
-(define-fun |formal_top#143| ((state |formal_top_s|)) Bool (or  (|formal_top#142| state) false  (|formal_top#133| state) false)) ; $logic_or$formal_top.sv:63$160_Y
-(define-fun |formal_top#144| ((state |formal_top_s|)) Bool (or  (|formal_top#143| state) false  (|formal_top#128| state) false)) ; $logic_or$formal_top.sv:63$162_Y
-(define-fun |formal_top#145| ((state |formal_top_s|)) Bool (or  (|formal_top#144| state) false  (|formal_top#129| state) false)) ; $logic_or$formal_top.sv:63$164_Y
-(define-fun |formal_top#146| ((state |formal_top_s|)) Bool (or  (|formal_top#125| state) false  (|formal_top#126| state) false)) ; $logic_or$formal_top.sv:69$168_Y
-(define-fun |formal_top#147| ((state |formal_top_s|)) Bool (or  (|formal_top#146| state) false  (|formal_top#130| state) false)) ; $logic_or$formal_top.sv:69$170_Y
-(define-fun |formal_top#148| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#30| state)) #b001100000000)) ; $eq$formal_top.sv:70$171_Y
-(define-fun |formal_top#149| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#30| state)) #b001101000001)) ; $eq$formal_top.sv:70$172_Y
-(define-fun |formal_top#150| ((state |formal_top_s|)) Bool (or  (|formal_top#148| state) false  (|formal_top#149| state) false)) ; $logic_or$formal_top.sv:70$173_Y
-(define-fun |formal_top#151| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#30| state)) #b001101000010)) ; $eq$formal_top.sv:70$174_Y
-(define-fun |formal_top#152| ((state |formal_top_s|)) Bool (or  (|formal_top#150| state) false  (|formal_top#151| state) false)) ; $logic_or$formal_top.sv:70$175_Y
-(define-fun |formal_top#153| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#30| state)) #b001100000101)) ; $eq$formal_top.sv:70$176_Y
-(define-fun |formal_top#154| ((state |formal_top_s|)) Bool (or  (|formal_top#152| state) false  (|formal_top#153| state) false)) ; $logic_or$formal_top.sv:70$177_Y
-(define-fun |formal_top#155| ((state |formal_top_s|)) Bool (and (or  (|formal_top#147| state) false) (or  (|formal_top#154| state) false))) ; $logic_and$formal_top.sv:69$178_Y
-(define-fun |formal_top#156| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b0110011)) ; $procmux$6871_CMP
-(define-fun |formal_top#157| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b0010011)) ; $procmux$6856_CMP
-(define-fun |formal_top#158| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b0000011)) ; $procmux$6881_CMP
-(define-fun |formal_top#159| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b0100011)) ; $procmux$6880_CMP
-(define-fun |formal_top#160| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b1100011)) ; $eq$formal_top.sv:98$187_Y
-(define-fun |formal_top#161| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b1100111)) ; $procmux$6877_CMP
-(define-fun |formal_top#162| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b1101111)) ; $eq$formal_top.sv:95$181_Y
-(define-fun |formal_top#163| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b0010111)) ; $procmux$6875_CMP
-(define-fun |formal_top#164| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b0110111)) ; $procmux$6876_CMP
-(define-fun |formal_top#165| ((state |formal_top_s|)) Bool (or  (|formal_top#162| state) (|formal_top#163| state) (|formal_top#164| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8768
-(define-fun |formal_top#166| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#30| state)) #b1110011)) ; $procmux$6874_CMP
-(define-fun |formal_top#167| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#166| state) (ite (|formal_top#155| state) #b1 #b0) (ite (|formal_top#165| state) #b1 (ite (|formal_top#161| state) (ite (|formal_top#132| state) #b1 #b0) (ite (|formal_top#160| state) (ite (|formal_top#145| state) #b1 #b0) (ite (|formal_top#159| state) (ite (|formal_top#139| state) #b1 #b0) (ite (|formal_top#158| state) (ite (|formal_top#141| state) #b1 #b0) (ite (|formal_top#157| state) (|formal_top#137| state) (ite (|formal_top#156| state) (|formal_top#135| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$24.$result[0:0]$123
+(define-fun |formal_top_u 10| ((state |formal_top_s|)) Bool (or (|formal_top#123| state) (not true))) ; _witness_.check_assume_formal_top_sv_32_72
+(define-fun |formal_top#124| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#32| state)) #b1) (= ((_ extract 26 26) (|formal_top#32| state)) #b1) (= ((_ extract 27 27) (|formal_top#32| state)) #b1) (= ((_ extract 28 28) (|formal_top#32| state)) #b1) (= ((_ extract 29 29) (|formal_top#32| state)) #b1) (= ((_ extract 30 30) (|formal_top#32| state)) #b1) (= ((_ extract 31 31) (|formal_top#32| state)) #b1)))) ; $eq$formal_top.sv:45$131_Y
+(define-fun |formal_top#125| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#32| state)) #b0100000)) ; $eq$formal_top.sv:45$132_Y
+(define-fun |formal_top#126| ((state |formal_top_s|)) Bool (or  (|formal_top#124| state) false  (|formal_top#125| state) false)) ; $logic_or$formal_top.sv:45$133_Y
+(define-fun |formal_top#127| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#32| state)) #b001)) ; $eq$formal_top.sv:60$141_Y
+(define-fun |formal_top#128| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#32| state)) #b010)) ; $eq$formal_top.sv:60$143_Y
+(define-fun |formal_top#129| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#32| state)) #b100)) ; $eq$formal_top.sv:61$145_Y
+(define-fun |formal_top#130| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#32| state)) #b110)) ; $eq$formal_top.sv:64$161_Y
+(define-fun |formal_top#131| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#32| state)) #b111)) ; $eq$formal_top.sv:64$163_Y
+(define-fun |formal_top#132| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#32| state)) #b011)) ; $eq$formal_top.sv:69$169_Y
+(define-fun |formal_top#133| ((state |formal_top_s|)) Bool (or  (|formal_top#127| state) (|formal_top#128| state) (|formal_top#129| state) (|formal_top#130| state) (|formal_top#131| state) (|formal_top#132| state))) ; $procmux$6868_CTRL
+(define-fun |formal_top#134| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#32| state)) #b1) (= ((_ extract 13 13) (|formal_top#32| state)) #b1) (= ((_ extract 14 14) (|formal_top#32| state)) #b1)))) ; $eq$formal_top.sv:60$140_Y
+(define-fun |formal_top#135| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#32| state)) #b101)) ; $eq$formal_top.sv:61$147_Y
+(define-fun |formal_top#136| ((state |formal_top_s|)) Bool (or  (|formal_top#134| state) (|formal_top#135| state))) ; $procmux$6869_CTRL
+(define-fun |formal_top#137| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#136| state) (ite (|formal_top#126| state) #b1 #b0) (ite (|formal_top#133| state) (ite (|formal_top#124| state) #b1 #b0) (|formal_top#60| state)))) ; $2\is_legal$func$formal_top.sv:93$24.$result[0:0]$130
+(define-fun |formal_top#138| ((state |formal_top_s|)) Bool (or  (|formal_top#134| state) (|formal_top#128| state) (|formal_top#129| state) (|formal_top#130| state) (|formal_top#131| state) (|formal_top#132| state))) ; $procmux$6854_CTRL
+(define-fun |formal_top#139| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#138| state) #b1 (ite (|formal_top#127| state) (ite (|formal_top#124| state) #b1 #b0) (ite (|formal_top#135| state) (ite (|formal_top#126| state) #b1 #b0) (|formal_top#61| state))))) ; $3\is_legal$func$formal_top.sv:93$24.$result[0:0]$135
+(define-fun |formal_top#140| ((state |formal_top_s|)) Bool (or  (|formal_top#134| state) false  (|formal_top#127| state) false)) ; $logic_or$formal_top.sv:60$142_Y
+(define-fun |formal_top#141| ((state |formal_top_s|)) Bool (or  (|formal_top#140| state) false  (|formal_top#128| state) false)) ; $logic_or$formal_top.sv:60$144_Y
+(define-fun |formal_top#142| ((state |formal_top_s|)) Bool (or  (|formal_top#141| state) false  (|formal_top#129| state) false)) ; $logic_or$formal_top.sv:60$146_Y
+(define-fun |formal_top#143| ((state |formal_top_s|)) Bool (or  (|formal_top#142| state) false  (|formal_top#135| state) false)) ; $logic_or$formal_top.sv:60$148_Y
+(define-fun |formal_top#144| ((state |formal_top_s|)) Bool (or  (|formal_top#140| state) false  (|formal_top#129| state) false)) ; $logic_or$formal_top.sv:63$158_Y
+(define-fun |formal_top#145| ((state |formal_top_s|)) Bool (or  (|formal_top#144| state) false  (|formal_top#135| state) false)) ; $logic_or$formal_top.sv:63$160_Y
+(define-fun |formal_top#146| ((state |formal_top_s|)) Bool (or  (|formal_top#145| state) false  (|formal_top#130| state) false)) ; $logic_or$formal_top.sv:63$162_Y
+(define-fun |formal_top#147| ((state |formal_top_s|)) Bool (or  (|formal_top#146| state) false  (|formal_top#131| state) false)) ; $logic_or$formal_top.sv:63$164_Y
+(define-fun |formal_top#148| ((state |formal_top_s|)) Bool (or  (|formal_top#127| state) false  (|formal_top#128| state) false)) ; $logic_or$formal_top.sv:69$168_Y
+(define-fun |formal_top#149| ((state |formal_top_s|)) Bool (or  (|formal_top#148| state) false  (|formal_top#132| state) false)) ; $logic_or$formal_top.sv:69$170_Y
+(define-fun |formal_top#150| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#32| state)) #b001100000000)) ; $eq$formal_top.sv:70$171_Y
+(define-fun |formal_top#151| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#32| state)) #b001101000001)) ; $eq$formal_top.sv:70$172_Y
+(define-fun |formal_top#152| ((state |formal_top_s|)) Bool (or  (|formal_top#150| state) false  (|formal_top#151| state) false)) ; $logic_or$formal_top.sv:70$173_Y
+(define-fun |formal_top#153| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#32| state)) #b001101000010)) ; $eq$formal_top.sv:70$174_Y
+(define-fun |formal_top#154| ((state |formal_top_s|)) Bool (or  (|formal_top#152| state) false  (|formal_top#153| state) false)) ; $logic_or$formal_top.sv:70$175_Y
+(define-fun |formal_top#155| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#32| state)) #b001100000101)) ; $eq$formal_top.sv:70$176_Y
+(define-fun |formal_top#156| ((state |formal_top_s|)) Bool (or  (|formal_top#154| state) false  (|formal_top#155| state) false)) ; $logic_or$formal_top.sv:70$177_Y
+(define-fun |formal_top#157| ((state |formal_top_s|)) Bool (and (or  (|formal_top#149| state) false) (or  (|formal_top#156| state) false))) ; $logic_and$formal_top.sv:69$178_Y
+(define-fun |formal_top#158| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b0110011)) ; $procmux$6871_CMP
+(define-fun |formal_top#159| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b0010011)) ; $procmux$6856_CMP
+(define-fun |formal_top#160| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b0000011)) ; $procmux$6881_CMP
+(define-fun |formal_top#161| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b0100011)) ; $procmux$6880_CMP
+(define-fun |formal_top#162| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b1100011)) ; $eq$formal_top.sv:98$187_Y
+(define-fun |formal_top#163| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b1100111)) ; $procmux$6877_CMP
+(define-fun |formal_top#164| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b1101111)) ; $eq$formal_top.sv:95$181_Y
+(define-fun |formal_top#165| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b0010111)) ; $procmux$6875_CMP
+(define-fun |formal_top#166| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b0110111)) ; $procmux$6876_CMP
+(define-fun |formal_top#167| ((state |formal_top_s|)) Bool (or  (|formal_top#164| state) (|formal_top#165| state) (|formal_top#166| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8768
+(define-fun |formal_top#168| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#32| state)) #b1110011)) ; $procmux$6874_CMP
+(define-fun |formal_top#169| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#168| state) (ite (|formal_top#157| state) #b1 #b0) (ite (|formal_top#167| state) #b1 (ite (|formal_top#163| state) (ite (|formal_top#134| state) #b1 #b0) (ite (|formal_top#162| state) (ite (|formal_top#147| state) #b1 #b0) (ite (|formal_top#161| state) (ite (|formal_top#141| state) #b1 #b0) (ite (|formal_top#160| state) (ite (|formal_top#143| state) #b1 #b0) (ite (|formal_top#159| state) (|formal_top#139| state) (ite (|formal_top#158| state) (|formal_top#137| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$24.$result[0:0]$123
 ; yosys-smt2-assume 11 _witness_.check_assume_formal_top_sv_93_179 formal_top.sv:93.25-93.46
-(define-fun |formal_top_u 11| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#167| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_179
-(define-fun |formal_top#168| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#33| state)) #b1) (= ((_ extract 26 26) (|formal_top#33| state)) #b1) (= ((_ extract 27 27) (|formal_top#33| state)) #b1) (= ((_ extract 28 28) (|formal_top#33| state)) #b1) (= ((_ extract 29 29) (|formal_top#33| state)) #b1) (= ((_ extract 30 30) (|formal_top#33| state)) #b1) (= ((_ extract 31 31) (|formal_top#33| state)) #b1)))) ; $eq$formal_top.sv:45$211_Y
-(define-fun |formal_top#169| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#33| state)) #b0100000)) ; $eq$formal_top.sv:45$212_Y
-(define-fun |formal_top#170| ((state |formal_top_s|)) Bool (or  (|formal_top#168| state) false  (|formal_top#169| state) false)) ; $logic_or$formal_top.sv:45$213_Y
-(define-fun |formal_top#171| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#33| state)) #b001)) ; $eq$formal_top.sv:60$221_Y
-(define-fun |formal_top#172| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#33| state)) #b010)) ; $eq$formal_top.sv:60$223_Y
-(define-fun |formal_top#173| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#33| state)) #b100)) ; $eq$formal_top.sv:61$225_Y
-(define-fun |formal_top#174| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#33| state)) #b110)) ; $eq$formal_top.sv:64$241_Y
-(define-fun |formal_top#175| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#33| state)) #b111)) ; $eq$formal_top.sv:64$243_Y
-(define-fun |formal_top#176| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#33| state)) #b011)) ; $eq$formal_top.sv:69$249_Y
-(define-fun |formal_top#177| ((state |formal_top_s|)) Bool (or  (|formal_top#171| state) (|formal_top#172| state) (|formal_top#173| state) (|formal_top#174| state) (|formal_top#175| state) (|formal_top#176| state))) ; $procmux$6822_CTRL
-(define-fun |formal_top#178| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#33| state)) #b1) (= ((_ extract 13 13) (|formal_top#33| state)) #b1) (= ((_ extract 14 14) (|formal_top#33| state)) #b1)))) ; $eq$formal_top.sv:60$220_Y
-(define-fun |formal_top#179| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#33| state)) #b101)) ; $eq$formal_top.sv:61$227_Y
-(define-fun |formal_top#180| ((state |formal_top_s|)) Bool (or  (|formal_top#178| state) (|formal_top#179| state))) ; $procmux$6823_CTRL
-(define-fun |formal_top#181| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#180| state) (ite (|formal_top#170| state) #b1 #b0) (ite (|formal_top#177| state) (ite (|formal_top#168| state) #b1 #b0) (|formal_top#60| state)))) ; $2\is_legal$func$formal_top.sv:93$27.$result[0:0]$210
-(define-fun |formal_top#182| ((state |formal_top_s|)) Bool (or  (|formal_top#178| state) (|formal_top#172| state) (|formal_top#173| state) (|formal_top#174| state) (|formal_top#175| state) (|formal_top#176| state))) ; $procmux$6808_CTRL
-(define-fun |formal_top#183| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#182| state) #b1 (ite (|formal_top#171| state) (ite (|formal_top#168| state) #b1 #b0) (ite (|formal_top#179| state) (ite (|formal_top#170| state) #b1 #b0) (|formal_top#61| state))))) ; $3\is_legal$func$formal_top.sv:93$27.$result[0:0]$215
-(define-fun |formal_top#184| ((state |formal_top_s|)) Bool (or  (|formal_top#178| state) false  (|formal_top#171| state) false)) ; $logic_or$formal_top.sv:60$222_Y
-(define-fun |formal_top#185| ((state |formal_top_s|)) Bool (or  (|formal_top#184| state) false  (|formal_top#172| state) false)) ; $logic_or$formal_top.sv:60$224_Y
-(define-fun |formal_top#186| ((state |formal_top_s|)) Bool (or  (|formal_top#185| state) false  (|formal_top#173| state) false)) ; $logic_or$formal_top.sv:60$226_Y
-(define-fun |formal_top#187| ((state |formal_top_s|)) Bool (or  (|formal_top#186| state) false  (|formal_top#179| state) false)) ; $logic_or$formal_top.sv:60$228_Y
-(define-fun |formal_top#188| ((state |formal_top_s|)) Bool (or  (|formal_top#184| state) false  (|formal_top#173| state) false)) ; $logic_or$formal_top.sv:63$238_Y
-(define-fun |formal_top#189| ((state |formal_top_s|)) Bool (or  (|formal_top#188| state) false  (|formal_top#179| state) false)) ; $logic_or$formal_top.sv:63$240_Y
-(define-fun |formal_top#190| ((state |formal_top_s|)) Bool (or  (|formal_top#189| state) false  (|formal_top#174| state) false)) ; $logic_or$formal_top.sv:63$242_Y
-(define-fun |formal_top#191| ((state |formal_top_s|)) Bool (or  (|formal_top#190| state) false  (|formal_top#175| state) false)) ; $logic_or$formal_top.sv:63$244_Y
-(define-fun |formal_top#192| ((state |formal_top_s|)) Bool (or  (|formal_top#171| state) false  (|formal_top#172| state) false)) ; $logic_or$formal_top.sv:69$248_Y
-(define-fun |formal_top#193| ((state |formal_top_s|)) Bool (or  (|formal_top#192| state) false  (|formal_top#176| state) false)) ; $logic_or$formal_top.sv:69$250_Y
-(define-fun |formal_top#194| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#33| state)) #b001100000000)) ; $eq$formal_top.sv:70$251_Y
-(define-fun |formal_top#195| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#33| state)) #b001101000001)) ; $eq$formal_top.sv:70$252_Y
-(define-fun |formal_top#196| ((state |formal_top_s|)) Bool (or  (|formal_top#194| state) false  (|formal_top#195| state) false)) ; $logic_or$formal_top.sv:70$253_Y
-(define-fun |formal_top#197| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#33| state)) #b001101000010)) ; $eq$formal_top.sv:70$254_Y
-(define-fun |formal_top#198| ((state |formal_top_s|)) Bool (or  (|formal_top#196| state) false  (|formal_top#197| state) false)) ; $logic_or$formal_top.sv:70$255_Y
-(define-fun |formal_top#199| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#33| state)) #b001100000101)) ; $eq$formal_top.sv:70$256_Y
-(define-fun |formal_top#200| ((state |formal_top_s|)) Bool (or  (|formal_top#198| state) false  (|formal_top#199| state) false)) ; $logic_or$formal_top.sv:70$257_Y
-(define-fun |formal_top#201| ((state |formal_top_s|)) Bool (and (or  (|formal_top#193| state) false) (or  (|formal_top#200| state) false))) ; $logic_and$formal_top.sv:69$258_Y
-(define-fun |formal_top#202| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b0110011)) ; $procmux$6825_CMP
-(define-fun |formal_top#203| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b0010011)) ; $procmux$6810_CMP
-(define-fun |formal_top#204| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b0000011)) ; $procmux$6835_CMP
-(define-fun |formal_top#205| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b0100011)) ; $procmux$6834_CMP
-(define-fun |formal_top#206| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b1100011)) ; $eq$formal_top.sv:98$267_Y
-(define-fun |formal_top#207| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b1100111)) ; $procmux$6831_CMP
-(define-fun |formal_top#208| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b1101111)) ; $eq$formal_top.sv:95$261_Y
-(define-fun |formal_top#209| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b0010111)) ; $procmux$6829_CMP
-(define-fun |formal_top#210| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b0110111)) ; $procmux$6830_CMP
-(define-fun |formal_top#211| ((state |formal_top_s|)) Bool (or  (|formal_top#208| state) (|formal_top#209| state) (|formal_top#210| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8758
-(define-fun |formal_top#212| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#33| state)) #b1110011)) ; $procmux$6828_CMP
-(define-fun |formal_top#213| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#212| state) (ite (|formal_top#201| state) #b1 #b0) (ite (|formal_top#211| state) #b1 (ite (|formal_top#207| state) (ite (|formal_top#178| state) #b1 #b0) (ite (|formal_top#206| state) (ite (|formal_top#191| state) #b1 #b0) (ite (|formal_top#205| state) (ite (|formal_top#185| state) #b1 #b0) (ite (|formal_top#204| state) (ite (|formal_top#187| state) #b1 #b0) (ite (|formal_top#203| state) (|formal_top#183| state) (ite (|formal_top#202| state) (|formal_top#181| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$27.$result[0:0]$203
+(define-fun |formal_top_u 11| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#169| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_179
+(define-fun |formal_top#170| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#35| state)) #b1) (= ((_ extract 26 26) (|formal_top#35| state)) #b1) (= ((_ extract 27 27) (|formal_top#35| state)) #b1) (= ((_ extract 28 28) (|formal_top#35| state)) #b1) (= ((_ extract 29 29) (|formal_top#35| state)) #b1) (= ((_ extract 30 30) (|formal_top#35| state)) #b1) (= ((_ extract 31 31) (|formal_top#35| state)) #b1)))) ; $eq$formal_top.sv:45$211_Y
+(define-fun |formal_top#171| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#35| state)) #b0100000)) ; $eq$formal_top.sv:45$212_Y
+(define-fun |formal_top#172| ((state |formal_top_s|)) Bool (or  (|formal_top#170| state) false  (|formal_top#171| state) false)) ; $logic_or$formal_top.sv:45$213_Y
+(define-fun |formal_top#173| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#35| state)) #b001)) ; $eq$formal_top.sv:60$221_Y
+(define-fun |formal_top#174| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#35| state)) #b010)) ; $eq$formal_top.sv:60$223_Y
+(define-fun |formal_top#175| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#35| state)) #b100)) ; $eq$formal_top.sv:61$225_Y
+(define-fun |formal_top#176| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#35| state)) #b110)) ; $eq$formal_top.sv:64$241_Y
+(define-fun |formal_top#177| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#35| state)) #b111)) ; $eq$formal_top.sv:64$243_Y
+(define-fun |formal_top#178| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#35| state)) #b011)) ; $eq$formal_top.sv:69$249_Y
+(define-fun |formal_top#179| ((state |formal_top_s|)) Bool (or  (|formal_top#173| state) (|formal_top#174| state) (|formal_top#175| state) (|formal_top#176| state) (|formal_top#177| state) (|formal_top#178| state))) ; $procmux$6822_CTRL
+(define-fun |formal_top#180| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#35| state)) #b1) (= ((_ extract 13 13) (|formal_top#35| state)) #b1) (= ((_ extract 14 14) (|formal_top#35| state)) #b1)))) ; $eq$formal_top.sv:60$220_Y
+(define-fun |formal_top#181| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#35| state)) #b101)) ; $eq$formal_top.sv:61$227_Y
+(define-fun |formal_top#182| ((state |formal_top_s|)) Bool (or  (|formal_top#180| state) (|formal_top#181| state))) ; $procmux$6823_CTRL
+(define-fun |formal_top#183| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#182| state) (ite (|formal_top#172| state) #b1 #b0) (ite (|formal_top#179| state) (ite (|formal_top#170| state) #b1 #b0) (|formal_top#62| state)))) ; $2\is_legal$func$formal_top.sv:93$27.$result[0:0]$210
+(define-fun |formal_top#184| ((state |formal_top_s|)) Bool (or  (|formal_top#180| state) (|formal_top#174| state) (|formal_top#175| state) (|formal_top#176| state) (|formal_top#177| state) (|formal_top#178| state))) ; $procmux$6808_CTRL
+(define-fun |formal_top#185| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#184| state) #b1 (ite (|formal_top#173| state) (ite (|formal_top#170| state) #b1 #b0) (ite (|formal_top#181| state) (ite (|formal_top#172| state) #b1 #b0) (|formal_top#63| state))))) ; $3\is_legal$func$formal_top.sv:93$27.$result[0:0]$215
+(define-fun |formal_top#186| ((state |formal_top_s|)) Bool (or  (|formal_top#180| state) false  (|formal_top#173| state) false)) ; $logic_or$formal_top.sv:60$222_Y
+(define-fun |formal_top#187| ((state |formal_top_s|)) Bool (or  (|formal_top#186| state) false  (|formal_top#174| state) false)) ; $logic_or$formal_top.sv:60$224_Y
+(define-fun |formal_top#188| ((state |formal_top_s|)) Bool (or  (|formal_top#187| state) false  (|formal_top#175| state) false)) ; $logic_or$formal_top.sv:60$226_Y
+(define-fun |formal_top#189| ((state |formal_top_s|)) Bool (or  (|formal_top#188| state) false  (|formal_top#181| state) false)) ; $logic_or$formal_top.sv:60$228_Y
+(define-fun |formal_top#190| ((state |formal_top_s|)) Bool (or  (|formal_top#186| state) false  (|formal_top#175| state) false)) ; $logic_or$formal_top.sv:63$238_Y
+(define-fun |formal_top#191| ((state |formal_top_s|)) Bool (or  (|formal_top#190| state) false  (|formal_top#181| state) false)) ; $logic_or$formal_top.sv:63$240_Y
+(define-fun |formal_top#192| ((state |formal_top_s|)) Bool (or  (|formal_top#191| state) false  (|formal_top#176| state) false)) ; $logic_or$formal_top.sv:63$242_Y
+(define-fun |formal_top#193| ((state |formal_top_s|)) Bool (or  (|formal_top#192| state) false  (|formal_top#177| state) false)) ; $logic_or$formal_top.sv:63$244_Y
+(define-fun |formal_top#194| ((state |formal_top_s|)) Bool (or  (|formal_top#173| state) false  (|formal_top#174| state) false)) ; $logic_or$formal_top.sv:69$248_Y
+(define-fun |formal_top#195| ((state |formal_top_s|)) Bool (or  (|formal_top#194| state) false  (|formal_top#178| state) false)) ; $logic_or$formal_top.sv:69$250_Y
+(define-fun |formal_top#196| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#35| state)) #b001100000000)) ; $eq$formal_top.sv:70$251_Y
+(define-fun |formal_top#197| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#35| state)) #b001101000001)) ; $eq$formal_top.sv:70$252_Y
+(define-fun |formal_top#198| ((state |formal_top_s|)) Bool (or  (|formal_top#196| state) false  (|formal_top#197| state) false)) ; $logic_or$formal_top.sv:70$253_Y
+(define-fun |formal_top#199| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#35| state)) #b001101000010)) ; $eq$formal_top.sv:70$254_Y
+(define-fun |formal_top#200| ((state |formal_top_s|)) Bool (or  (|formal_top#198| state) false  (|formal_top#199| state) false)) ; $logic_or$formal_top.sv:70$255_Y
+(define-fun |formal_top#201| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#35| state)) #b001100000101)) ; $eq$formal_top.sv:70$256_Y
+(define-fun |formal_top#202| ((state |formal_top_s|)) Bool (or  (|formal_top#200| state) false  (|formal_top#201| state) false)) ; $logic_or$formal_top.sv:70$257_Y
+(define-fun |formal_top#203| ((state |formal_top_s|)) Bool (and (or  (|formal_top#195| state) false) (or  (|formal_top#202| state) false))) ; $logic_and$formal_top.sv:69$258_Y
+(define-fun |formal_top#204| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b0110011)) ; $procmux$6825_CMP
+(define-fun |formal_top#205| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b0010011)) ; $procmux$6810_CMP
+(define-fun |formal_top#206| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b0000011)) ; $procmux$6835_CMP
+(define-fun |formal_top#207| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b0100011)) ; $procmux$6834_CMP
+(define-fun |formal_top#208| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b1100011)) ; $eq$formal_top.sv:98$267_Y
+(define-fun |formal_top#209| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b1100111)) ; $procmux$6831_CMP
+(define-fun |formal_top#210| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b1101111)) ; $eq$formal_top.sv:95$261_Y
+(define-fun |formal_top#211| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b0010111)) ; $procmux$6829_CMP
+(define-fun |formal_top#212| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b0110111)) ; $procmux$6830_CMP
+(define-fun |formal_top#213| ((state |formal_top_s|)) Bool (or  (|formal_top#210| state) (|formal_top#211| state) (|formal_top#212| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8758
+(define-fun |formal_top#214| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#35| state)) #b1110011)) ; $procmux$6828_CMP
+(define-fun |formal_top#215| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#214| state) (ite (|formal_top#203| state) #b1 #b0) (ite (|formal_top#213| state) #b1 (ite (|formal_top#209| state) (ite (|formal_top#180| state) #b1 #b0) (ite (|formal_top#208| state) (ite (|formal_top#193| state) #b1 #b0) (ite (|formal_top#207| state) (ite (|formal_top#187| state) #b1 #b0) (ite (|formal_top#206| state) (ite (|formal_top#189| state) #b1 #b0) (ite (|formal_top#205| state) (|formal_top#185| state) (ite (|formal_top#204| state) (|formal_top#183| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$27.$result[0:0]$203
 ; yosys-smt2-assume 12 _witness_.check_assume_formal_top_sv_93_259 formal_top.sv:93.25-93.46
-(define-fun |formal_top_u 12| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#213| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_259
-(define-fun |formal_top#214| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#36| state)) #b1) (= ((_ extract 26 26) (|formal_top#36| state)) #b1) (= ((_ extract 27 27) (|formal_top#36| state)) #b1) (= ((_ extract 28 28) (|formal_top#36| state)) #b1) (= ((_ extract 29 29) (|formal_top#36| state)) #b1) (= ((_ extract 30 30) (|formal_top#36| state)) #b1) (= ((_ extract 31 31) (|formal_top#36| state)) #b1)))) ; $eq$formal_top.sv:45$291_Y
-(define-fun |formal_top#215| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#36| state)) #b0100000)) ; $eq$formal_top.sv:45$292_Y
-(define-fun |formal_top#216| ((state |formal_top_s|)) Bool (or  (|formal_top#214| state) false  (|formal_top#215| state) false)) ; $logic_or$formal_top.sv:45$293_Y
-(define-fun |formal_top#217| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#36| state)) #b001)) ; $eq$formal_top.sv:60$301_Y
-(define-fun |formal_top#218| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#36| state)) #b010)) ; $eq$formal_top.sv:60$303_Y
-(define-fun |formal_top#219| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#36| state)) #b100)) ; $eq$formal_top.sv:61$305_Y
-(define-fun |formal_top#220| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#36| state)) #b110)) ; $eq$formal_top.sv:64$321_Y
-(define-fun |formal_top#221| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#36| state)) #b111)) ; $eq$formal_top.sv:64$323_Y
-(define-fun |formal_top#222| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#36| state)) #b011)) ; $eq$formal_top.sv:69$329_Y
-(define-fun |formal_top#223| ((state |formal_top_s|)) Bool (or  (|formal_top#217| state) (|formal_top#218| state) (|formal_top#219| state) (|formal_top#220| state) (|formal_top#221| state) (|formal_top#222| state))) ; $procmux$6776_CTRL
-(define-fun |formal_top#224| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#36| state)) #b1) (= ((_ extract 13 13) (|formal_top#36| state)) #b1) (= ((_ extract 14 14) (|formal_top#36| state)) #b1)))) ; $eq$formal_top.sv:60$300_Y
-(define-fun |formal_top#225| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#36| state)) #b101)) ; $eq$formal_top.sv:61$307_Y
-(define-fun |formal_top#226| ((state |formal_top_s|)) Bool (or  (|formal_top#224| state) (|formal_top#225| state))) ; $procmux$6777_CTRL
-(define-fun |formal_top#227| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#226| state) (ite (|formal_top#216| state) #b1 #b0) (ite (|formal_top#223| state) (ite (|formal_top#214| state) #b1 #b0) (|formal_top#62| state)))) ; $2\is_legal$func$formal_top.sv:93$30.$result[0:0]$290
-(define-fun |formal_top#228| ((state |formal_top_s|)) Bool (or  (|formal_top#224| state) (|formal_top#218| state) (|formal_top#219| state) (|formal_top#220| state) (|formal_top#221| state) (|formal_top#222| state))) ; $procmux$6762_CTRL
-(define-fun |formal_top#229| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#228| state) #b1 (ite (|formal_top#217| state) (ite (|formal_top#214| state) #b1 #b0) (ite (|formal_top#225| state) (ite (|formal_top#216| state) #b1 #b0) (|formal_top#63| state))))) ; $3\is_legal$func$formal_top.sv:93$30.$result[0:0]$295
-(define-fun |formal_top#230| ((state |formal_top_s|)) Bool (or  (|formal_top#224| state) false  (|formal_top#217| state) false)) ; $logic_or$formal_top.sv:60$302_Y
-(define-fun |formal_top#231| ((state |formal_top_s|)) Bool (or  (|formal_top#230| state) false  (|formal_top#218| state) false)) ; $logic_or$formal_top.sv:60$304_Y
-(define-fun |formal_top#232| ((state |formal_top_s|)) Bool (or  (|formal_top#231| state) false  (|formal_top#219| state) false)) ; $logic_or$formal_top.sv:60$306_Y
-(define-fun |formal_top#233| ((state |formal_top_s|)) Bool (or  (|formal_top#232| state) false  (|formal_top#225| state) false)) ; $logic_or$formal_top.sv:60$308_Y
-(define-fun |formal_top#234| ((state |formal_top_s|)) Bool (or  (|formal_top#230| state) false  (|formal_top#219| state) false)) ; $logic_or$formal_top.sv:63$318_Y
-(define-fun |formal_top#235| ((state |formal_top_s|)) Bool (or  (|formal_top#234| state) false  (|formal_top#225| state) false)) ; $logic_or$formal_top.sv:63$320_Y
-(define-fun |formal_top#236| ((state |formal_top_s|)) Bool (or  (|formal_top#235| state) false  (|formal_top#220| state) false)) ; $logic_or$formal_top.sv:63$322_Y
-(define-fun |formal_top#237| ((state |formal_top_s|)) Bool (or  (|formal_top#236| state) false  (|formal_top#221| state) false)) ; $logic_or$formal_top.sv:63$324_Y
-(define-fun |formal_top#238| ((state |formal_top_s|)) Bool (or  (|formal_top#217| state) false  (|formal_top#218| state) false)) ; $logic_or$formal_top.sv:69$328_Y
-(define-fun |formal_top#239| ((state |formal_top_s|)) Bool (or  (|formal_top#238| state) false  (|formal_top#222| state) false)) ; $logic_or$formal_top.sv:69$330_Y
-(define-fun |formal_top#240| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#36| state)) #b001100000000)) ; $eq$formal_top.sv:70$331_Y
-(define-fun |formal_top#241| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#36| state)) #b001101000001)) ; $eq$formal_top.sv:70$332_Y
-(define-fun |formal_top#242| ((state |formal_top_s|)) Bool (or  (|formal_top#240| state) false  (|formal_top#241| state) false)) ; $logic_or$formal_top.sv:70$333_Y
-(define-fun |formal_top#243| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#36| state)) #b001101000010)) ; $eq$formal_top.sv:70$334_Y
-(define-fun |formal_top#244| ((state |formal_top_s|)) Bool (or  (|formal_top#242| state) false  (|formal_top#243| state) false)) ; $logic_or$formal_top.sv:70$335_Y
-(define-fun |formal_top#245| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#36| state)) #b001100000101)) ; $eq$formal_top.sv:70$336_Y
-(define-fun |formal_top#246| ((state |formal_top_s|)) Bool (or  (|formal_top#244| state) false  (|formal_top#245| state) false)) ; $logic_or$formal_top.sv:70$337_Y
-(define-fun |formal_top#247| ((state |formal_top_s|)) Bool (and (or  (|formal_top#239| state) false) (or  (|formal_top#246| state) false))) ; $logic_and$formal_top.sv:69$338_Y
-(define-fun |formal_top#248| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b0110011)) ; $procmux$6779_CMP
-(define-fun |formal_top#249| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b0010011)) ; $procmux$6764_CMP
-(define-fun |formal_top#250| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b0000011)) ; $procmux$6789_CMP
-(define-fun |formal_top#251| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b0100011)) ; $procmux$6788_CMP
-(define-fun |formal_top#252| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b1100011)) ; $eq$formal_top.sv:98$347_Y
-(define-fun |formal_top#253| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b1100111)) ; $procmux$6785_CMP
-(define-fun |formal_top#254| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b1101111)) ; $eq$formal_top.sv:95$341_Y
-(define-fun |formal_top#255| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b0010111)) ; $procmux$6783_CMP
-(define-fun |formal_top#256| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b0110111)) ; $procmux$6784_CMP
-(define-fun |formal_top#257| ((state |formal_top_s|)) Bool (or  (|formal_top#254| state) (|formal_top#255| state) (|formal_top#256| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8762
-(define-fun |formal_top#258| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#36| state)) #b1110011)) ; $procmux$6782_CMP
-(define-fun |formal_top#259| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#258| state) (ite (|formal_top#247| state) #b1 #b0) (ite (|formal_top#257| state) #b1 (ite (|formal_top#253| state) (ite (|formal_top#224| state) #b1 #b0) (ite (|formal_top#252| state) (ite (|formal_top#237| state) #b1 #b0) (ite (|formal_top#251| state) (ite (|formal_top#231| state) #b1 #b0) (ite (|formal_top#250| state) (ite (|formal_top#233| state) #b1 #b0) (ite (|formal_top#249| state) (|formal_top#229| state) (ite (|formal_top#248| state) (|formal_top#227| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$30.$result[0:0]$283
+(define-fun |formal_top_u 12| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#215| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_259
+(define-fun |formal_top#216| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#38| state)) #b1) (= ((_ extract 26 26) (|formal_top#38| state)) #b1) (= ((_ extract 27 27) (|formal_top#38| state)) #b1) (= ((_ extract 28 28) (|formal_top#38| state)) #b1) (= ((_ extract 29 29) (|formal_top#38| state)) #b1) (= ((_ extract 30 30) (|formal_top#38| state)) #b1) (= ((_ extract 31 31) (|formal_top#38| state)) #b1)))) ; $eq$formal_top.sv:45$291_Y
+(define-fun |formal_top#217| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#38| state)) #b0100000)) ; $eq$formal_top.sv:45$292_Y
+(define-fun |formal_top#218| ((state |formal_top_s|)) Bool (or  (|formal_top#216| state) false  (|formal_top#217| state) false)) ; $logic_or$formal_top.sv:45$293_Y
+(define-fun |formal_top#219| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#38| state)) #b001)) ; $eq$formal_top.sv:60$301_Y
+(define-fun |formal_top#220| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#38| state)) #b010)) ; $eq$formal_top.sv:60$303_Y
+(define-fun |formal_top#221| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#38| state)) #b100)) ; $eq$formal_top.sv:61$305_Y
+(define-fun |formal_top#222| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#38| state)) #b110)) ; $eq$formal_top.sv:64$321_Y
+(define-fun |formal_top#223| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#38| state)) #b111)) ; $eq$formal_top.sv:64$323_Y
+(define-fun |formal_top#224| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#38| state)) #b011)) ; $eq$formal_top.sv:69$329_Y
+(define-fun |formal_top#225| ((state |formal_top_s|)) Bool (or  (|formal_top#219| state) (|formal_top#220| state) (|formal_top#221| state) (|formal_top#222| state) (|formal_top#223| state) (|formal_top#224| state))) ; $procmux$6776_CTRL
+(define-fun |formal_top#226| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#38| state)) #b1) (= ((_ extract 13 13) (|formal_top#38| state)) #b1) (= ((_ extract 14 14) (|formal_top#38| state)) #b1)))) ; $eq$formal_top.sv:60$300_Y
+(define-fun |formal_top#227| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#38| state)) #b101)) ; $eq$formal_top.sv:61$307_Y
+(define-fun |formal_top#228| ((state |formal_top_s|)) Bool (or  (|formal_top#226| state) (|formal_top#227| state))) ; $procmux$6777_CTRL
+(define-fun |formal_top#229| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#228| state) (ite (|formal_top#218| state) #b1 #b0) (ite (|formal_top#225| state) (ite (|formal_top#216| state) #b1 #b0) (|formal_top#64| state)))) ; $2\is_legal$func$formal_top.sv:93$30.$result[0:0]$290
+(define-fun |formal_top#230| ((state |formal_top_s|)) Bool (or  (|formal_top#226| state) (|formal_top#220| state) (|formal_top#221| state) (|formal_top#222| state) (|formal_top#223| state) (|formal_top#224| state))) ; $procmux$6762_CTRL
+(define-fun |formal_top#231| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#230| state) #b1 (ite (|formal_top#219| state) (ite (|formal_top#216| state) #b1 #b0) (ite (|formal_top#227| state) (ite (|formal_top#218| state) #b1 #b0) (|formal_top#65| state))))) ; $3\is_legal$func$formal_top.sv:93$30.$result[0:0]$295
+(define-fun |formal_top#232| ((state |formal_top_s|)) Bool (or  (|formal_top#226| state) false  (|formal_top#219| state) false)) ; $logic_or$formal_top.sv:60$302_Y
+(define-fun |formal_top#233| ((state |formal_top_s|)) Bool (or  (|formal_top#232| state) false  (|formal_top#220| state) false)) ; $logic_or$formal_top.sv:60$304_Y
+(define-fun |formal_top#234| ((state |formal_top_s|)) Bool (or  (|formal_top#233| state) false  (|formal_top#221| state) false)) ; $logic_or$formal_top.sv:60$306_Y
+(define-fun |formal_top#235| ((state |formal_top_s|)) Bool (or  (|formal_top#234| state) false  (|formal_top#227| state) false)) ; $logic_or$formal_top.sv:60$308_Y
+(define-fun |formal_top#236| ((state |formal_top_s|)) Bool (or  (|formal_top#232| state) false  (|formal_top#221| state) false)) ; $logic_or$formal_top.sv:63$318_Y
+(define-fun |formal_top#237| ((state |formal_top_s|)) Bool (or  (|formal_top#236| state) false  (|formal_top#227| state) false)) ; $logic_or$formal_top.sv:63$320_Y
+(define-fun |formal_top#238| ((state |formal_top_s|)) Bool (or  (|formal_top#237| state) false  (|formal_top#222| state) false)) ; $logic_or$formal_top.sv:63$322_Y
+(define-fun |formal_top#239| ((state |formal_top_s|)) Bool (or  (|formal_top#238| state) false  (|formal_top#223| state) false)) ; $logic_or$formal_top.sv:63$324_Y
+(define-fun |formal_top#240| ((state |formal_top_s|)) Bool (or  (|formal_top#219| state) false  (|formal_top#220| state) false)) ; $logic_or$formal_top.sv:69$328_Y
+(define-fun |formal_top#241| ((state |formal_top_s|)) Bool (or  (|formal_top#240| state) false  (|formal_top#224| state) false)) ; $logic_or$formal_top.sv:69$330_Y
+(define-fun |formal_top#242| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#38| state)) #b001100000000)) ; $eq$formal_top.sv:70$331_Y
+(define-fun |formal_top#243| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#38| state)) #b001101000001)) ; $eq$formal_top.sv:70$332_Y
+(define-fun |formal_top#244| ((state |formal_top_s|)) Bool (or  (|formal_top#242| state) false  (|formal_top#243| state) false)) ; $logic_or$formal_top.sv:70$333_Y
+(define-fun |formal_top#245| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#38| state)) #b001101000010)) ; $eq$formal_top.sv:70$334_Y
+(define-fun |formal_top#246| ((state |formal_top_s|)) Bool (or  (|formal_top#244| state) false  (|formal_top#245| state) false)) ; $logic_or$formal_top.sv:70$335_Y
+(define-fun |formal_top#247| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#38| state)) #b001100000101)) ; $eq$formal_top.sv:70$336_Y
+(define-fun |formal_top#248| ((state |formal_top_s|)) Bool (or  (|formal_top#246| state) false  (|formal_top#247| state) false)) ; $logic_or$formal_top.sv:70$337_Y
+(define-fun |formal_top#249| ((state |formal_top_s|)) Bool (and (or  (|formal_top#241| state) false) (or  (|formal_top#248| state) false))) ; $logic_and$formal_top.sv:69$338_Y
+(define-fun |formal_top#250| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b0110011)) ; $procmux$6779_CMP
+(define-fun |formal_top#251| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b0010011)) ; $procmux$6764_CMP
+(define-fun |formal_top#252| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b0000011)) ; $procmux$6789_CMP
+(define-fun |formal_top#253| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b0100011)) ; $procmux$6788_CMP
+(define-fun |formal_top#254| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b1100011)) ; $eq$formal_top.sv:98$347_Y
+(define-fun |formal_top#255| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b1100111)) ; $procmux$6785_CMP
+(define-fun |formal_top#256| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b1101111)) ; $eq$formal_top.sv:95$341_Y
+(define-fun |formal_top#257| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b0010111)) ; $procmux$6783_CMP
+(define-fun |formal_top#258| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b0110111)) ; $procmux$6784_CMP
+(define-fun |formal_top#259| ((state |formal_top_s|)) Bool (or  (|formal_top#256| state) (|formal_top#257| state) (|formal_top#258| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8762
+(define-fun |formal_top#260| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#38| state)) #b1110011)) ; $procmux$6782_CMP
+(define-fun |formal_top#261| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#260| state) (ite (|formal_top#249| state) #b1 #b0) (ite (|formal_top#259| state) #b1 (ite (|formal_top#255| state) (ite (|formal_top#226| state) #b1 #b0) (ite (|formal_top#254| state) (ite (|formal_top#239| state) #b1 #b0) (ite (|formal_top#253| state) (ite (|formal_top#233| state) #b1 #b0) (ite (|formal_top#252| state) (ite (|formal_top#235| state) #b1 #b0) (ite (|formal_top#251| state) (|formal_top#231| state) (ite (|formal_top#250| state) (|formal_top#229| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$30.$result[0:0]$283
 ; yosys-smt2-assume 13 _witness_.check_assume_formal_top_sv_93_339 formal_top.sv:93.25-93.46
-(define-fun |formal_top_u 13| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#259| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_339
-(define-fun |formal_top#260| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#39| state)) #b1) (= ((_ extract 26 26) (|formal_top#39| state)) #b1) (= ((_ extract 27 27) (|formal_top#39| state)) #b1) (= ((_ extract 28 28) (|formal_top#39| state)) #b1) (= ((_ extract 29 29) (|formal_top#39| state)) #b1) (= ((_ extract 30 30) (|formal_top#39| state)) #b1) (= ((_ extract 31 31) (|formal_top#39| state)) #b1)))) ; $eq$formal_top.sv:45$371_Y
-(define-fun |formal_top#261| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#39| state)) #b0100000)) ; $eq$formal_top.sv:45$372_Y
-(define-fun |formal_top#262| ((state |formal_top_s|)) Bool (or  (|formal_top#260| state) false  (|formal_top#261| state) false)) ; $logic_or$formal_top.sv:45$373_Y
-(define-fun |formal_top#263| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#39| state)) #b001)) ; $eq$formal_top.sv:60$381_Y
-(define-fun |formal_top#264| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#39| state)) #b010)) ; $eq$formal_top.sv:60$383_Y
-(define-fun |formal_top#265| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#39| state)) #b100)) ; $eq$formal_top.sv:61$385_Y
-(define-fun |formal_top#266| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#39| state)) #b110)) ; $eq$formal_top.sv:64$401_Y
-(define-fun |formal_top#267| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#39| state)) #b111)) ; $eq$formal_top.sv:64$403_Y
-(define-fun |formal_top#268| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#39| state)) #b011)) ; $eq$formal_top.sv:69$409_Y
-(define-fun |formal_top#269| ((state |formal_top_s|)) Bool (or  (|formal_top#263| state) (|formal_top#264| state) (|formal_top#265| state) (|formal_top#266| state) (|formal_top#267| state) (|formal_top#268| state))) ; $procmux$6730_CTRL
-(define-fun |formal_top#270| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#39| state)) #b1) (= ((_ extract 13 13) (|formal_top#39| state)) #b1) (= ((_ extract 14 14) (|formal_top#39| state)) #b1)))) ; $eq$formal_top.sv:60$380_Y
-(define-fun |formal_top#271| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#39| state)) #b101)) ; $eq$formal_top.sv:61$387_Y
-(define-fun |formal_top#272| ((state |formal_top_s|)) Bool (or  (|formal_top#270| state) (|formal_top#271| state))) ; $procmux$6731_CTRL
-(define-fun |formal_top#273| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#272| state) (ite (|formal_top#262| state) #b1 #b0) (ite (|formal_top#269| state) (ite (|formal_top#260| state) #b1 #b0) (|formal_top#64| state)))) ; $2\is_legal$func$formal_top.sv:93$33.$result[0:0]$370
-(define-fun |formal_top#274| ((state |formal_top_s|)) Bool (or  (|formal_top#270| state) (|formal_top#264| state) (|formal_top#265| state) (|formal_top#266| state) (|formal_top#267| state) (|formal_top#268| state))) ; $procmux$6716_CTRL
-(define-fun |formal_top#275| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#274| state) #b1 (ite (|formal_top#263| state) (ite (|formal_top#260| state) #b1 #b0) (ite (|formal_top#271| state) (ite (|formal_top#262| state) #b1 #b0) (|formal_top#65| state))))) ; $3\is_legal$func$formal_top.sv:93$33.$result[0:0]$375
-(define-fun |formal_top#276| ((state |formal_top_s|)) Bool (or  (|formal_top#270| state) false  (|formal_top#263| state) false)) ; $logic_or$formal_top.sv:60$382_Y
-(define-fun |formal_top#277| ((state |formal_top_s|)) Bool (or  (|formal_top#276| state) false  (|formal_top#264| state) false)) ; $logic_or$formal_top.sv:60$384_Y
-(define-fun |formal_top#278| ((state |formal_top_s|)) Bool (or  (|formal_top#277| state) false  (|formal_top#265| state) false)) ; $logic_or$formal_top.sv:60$386_Y
-(define-fun |formal_top#279| ((state |formal_top_s|)) Bool (or  (|formal_top#278| state) false  (|formal_top#271| state) false)) ; $logic_or$formal_top.sv:60$388_Y
-(define-fun |formal_top#280| ((state |formal_top_s|)) Bool (or  (|formal_top#276| state) false  (|formal_top#265| state) false)) ; $logic_or$formal_top.sv:63$398_Y
-(define-fun |formal_top#281| ((state |formal_top_s|)) Bool (or  (|formal_top#280| state) false  (|formal_top#271| state) false)) ; $logic_or$formal_top.sv:63$400_Y
-(define-fun |formal_top#282| ((state |formal_top_s|)) Bool (or  (|formal_top#281| state) false  (|formal_top#266| state) false)) ; $logic_or$formal_top.sv:63$402_Y
-(define-fun |formal_top#283| ((state |formal_top_s|)) Bool (or  (|formal_top#282| state) false  (|formal_top#267| state) false)) ; $logic_or$formal_top.sv:63$404_Y
-(define-fun |formal_top#284| ((state |formal_top_s|)) Bool (or  (|formal_top#263| state) false  (|formal_top#264| state) false)) ; $logic_or$formal_top.sv:69$408_Y
-(define-fun |formal_top#285| ((state |formal_top_s|)) Bool (or  (|formal_top#284| state) false  (|formal_top#268| state) false)) ; $logic_or$formal_top.sv:69$410_Y
-(define-fun |formal_top#286| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#39| state)) #b001100000000)) ; $eq$formal_top.sv:70$411_Y
-(define-fun |formal_top#287| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#39| state)) #b001101000001)) ; $eq$formal_top.sv:70$412_Y
-(define-fun |formal_top#288| ((state |formal_top_s|)) Bool (or  (|formal_top#286| state) false  (|formal_top#287| state) false)) ; $logic_or$formal_top.sv:70$413_Y
-(define-fun |formal_top#289| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#39| state)) #b001101000010)) ; $eq$formal_top.sv:70$414_Y
-(define-fun |formal_top#290| ((state |formal_top_s|)) Bool (or  (|formal_top#288| state) false  (|formal_top#289| state) false)) ; $logic_or$formal_top.sv:70$415_Y
-(define-fun |formal_top#291| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#39| state)) #b001100000101)) ; $eq$formal_top.sv:70$416_Y
-(define-fun |formal_top#292| ((state |formal_top_s|)) Bool (or  (|formal_top#290| state) false  (|formal_top#291| state) false)) ; $logic_or$formal_top.sv:70$417_Y
-(define-fun |formal_top#293| ((state |formal_top_s|)) Bool (and (or  (|formal_top#285| state) false) (or  (|formal_top#292| state) false))) ; $logic_and$formal_top.sv:69$418_Y
-(define-fun |formal_top#294| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b0110011)) ; $procmux$6733_CMP
-(define-fun |formal_top#295| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b0010011)) ; $procmux$6718_CMP
-(define-fun |formal_top#296| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b0000011)) ; $procmux$6743_CMP
-(define-fun |formal_top#297| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b0100011)) ; $procmux$6742_CMP
-(define-fun |formal_top#298| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b1100011)) ; $eq$formal_top.sv:98$427_Y
-(define-fun |formal_top#299| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b1100111)) ; $procmux$6739_CMP
-(define-fun |formal_top#300| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b1101111)) ; $eq$formal_top.sv:95$421_Y
-(define-fun |formal_top#301| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b0010111)) ; $procmux$6737_CMP
-(define-fun |formal_top#302| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b0110111)) ; $procmux$6738_CMP
-(define-fun |formal_top#303| ((state |formal_top_s|)) Bool (or  (|formal_top#300| state) (|formal_top#301| state) (|formal_top#302| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8764
-(define-fun |formal_top#304| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#39| state)) #b1110011)) ; $procmux$6736_CMP
-(define-fun |formal_top#305| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#304| state) (ite (|formal_top#293| state) #b1 #b0) (ite (|formal_top#303| state) #b1 (ite (|formal_top#299| state) (ite (|formal_top#270| state) #b1 #b0) (ite (|formal_top#298| state) (ite (|formal_top#283| state) #b1 #b0) (ite (|formal_top#297| state) (ite (|formal_top#277| state) #b1 #b0) (ite (|formal_top#296| state) (ite (|formal_top#279| state) #b1 #b0) (ite (|formal_top#295| state) (|formal_top#275| state) (ite (|formal_top#294| state) (|formal_top#273| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$33.$result[0:0]$363
+(define-fun |formal_top_u 13| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#261| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_339
+(define-fun |formal_top#262| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#41| state)) #b1) (= ((_ extract 26 26) (|formal_top#41| state)) #b1) (= ((_ extract 27 27) (|formal_top#41| state)) #b1) (= ((_ extract 28 28) (|formal_top#41| state)) #b1) (= ((_ extract 29 29) (|formal_top#41| state)) #b1) (= ((_ extract 30 30) (|formal_top#41| state)) #b1) (= ((_ extract 31 31) (|formal_top#41| state)) #b1)))) ; $eq$formal_top.sv:45$371_Y
+(define-fun |formal_top#263| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#41| state)) #b0100000)) ; $eq$formal_top.sv:45$372_Y
+(define-fun |formal_top#264| ((state |formal_top_s|)) Bool (or  (|formal_top#262| state) false  (|formal_top#263| state) false)) ; $logic_or$formal_top.sv:45$373_Y
+(define-fun |formal_top#265| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#41| state)) #b001)) ; $eq$formal_top.sv:60$381_Y
+(define-fun |formal_top#266| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#41| state)) #b010)) ; $eq$formal_top.sv:60$383_Y
+(define-fun |formal_top#267| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#41| state)) #b100)) ; $eq$formal_top.sv:61$385_Y
+(define-fun |formal_top#268| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#41| state)) #b110)) ; $eq$formal_top.sv:64$401_Y
+(define-fun |formal_top#269| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#41| state)) #b111)) ; $eq$formal_top.sv:64$403_Y
+(define-fun |formal_top#270| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#41| state)) #b011)) ; $eq$formal_top.sv:69$409_Y
+(define-fun |formal_top#271| ((state |formal_top_s|)) Bool (or  (|formal_top#265| state) (|formal_top#266| state) (|formal_top#267| state) (|formal_top#268| state) (|formal_top#269| state) (|formal_top#270| state))) ; $procmux$6730_CTRL
+(define-fun |formal_top#272| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#41| state)) #b1) (= ((_ extract 13 13) (|formal_top#41| state)) #b1) (= ((_ extract 14 14) (|formal_top#41| state)) #b1)))) ; $eq$formal_top.sv:60$380_Y
+(define-fun |formal_top#273| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#41| state)) #b101)) ; $eq$formal_top.sv:61$387_Y
+(define-fun |formal_top#274| ((state |formal_top_s|)) Bool (or  (|formal_top#272| state) (|formal_top#273| state))) ; $procmux$6731_CTRL
+(define-fun |formal_top#275| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#274| state) (ite (|formal_top#264| state) #b1 #b0) (ite (|formal_top#271| state) (ite (|formal_top#262| state) #b1 #b0) (|formal_top#66| state)))) ; $2\is_legal$func$formal_top.sv:93$33.$result[0:0]$370
+(define-fun |formal_top#276| ((state |formal_top_s|)) Bool (or  (|formal_top#272| state) (|formal_top#266| state) (|formal_top#267| state) (|formal_top#268| state) (|formal_top#269| state) (|formal_top#270| state))) ; $procmux$6716_CTRL
+(define-fun |formal_top#277| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#276| state) #b1 (ite (|formal_top#265| state) (ite (|formal_top#262| state) #b1 #b0) (ite (|formal_top#273| state) (ite (|formal_top#264| state) #b1 #b0) (|formal_top#67| state))))) ; $3\is_legal$func$formal_top.sv:93$33.$result[0:0]$375
+(define-fun |formal_top#278| ((state |formal_top_s|)) Bool (or  (|formal_top#272| state) false  (|formal_top#265| state) false)) ; $logic_or$formal_top.sv:60$382_Y
+(define-fun |formal_top#279| ((state |formal_top_s|)) Bool (or  (|formal_top#278| state) false  (|formal_top#266| state) false)) ; $logic_or$formal_top.sv:60$384_Y
+(define-fun |formal_top#280| ((state |formal_top_s|)) Bool (or  (|formal_top#279| state) false  (|formal_top#267| state) false)) ; $logic_or$formal_top.sv:60$386_Y
+(define-fun |formal_top#281| ((state |formal_top_s|)) Bool (or  (|formal_top#280| state) false  (|formal_top#273| state) false)) ; $logic_or$formal_top.sv:60$388_Y
+(define-fun |formal_top#282| ((state |formal_top_s|)) Bool (or  (|formal_top#278| state) false  (|formal_top#267| state) false)) ; $logic_or$formal_top.sv:63$398_Y
+(define-fun |formal_top#283| ((state |formal_top_s|)) Bool (or  (|formal_top#282| state) false  (|formal_top#273| state) false)) ; $logic_or$formal_top.sv:63$400_Y
+(define-fun |formal_top#284| ((state |formal_top_s|)) Bool (or  (|formal_top#283| state) false  (|formal_top#268| state) false)) ; $logic_or$formal_top.sv:63$402_Y
+(define-fun |formal_top#285| ((state |formal_top_s|)) Bool (or  (|formal_top#284| state) false  (|formal_top#269| state) false)) ; $logic_or$formal_top.sv:63$404_Y
+(define-fun |formal_top#286| ((state |formal_top_s|)) Bool (or  (|formal_top#265| state) false  (|formal_top#266| state) false)) ; $logic_or$formal_top.sv:69$408_Y
+(define-fun |formal_top#287| ((state |formal_top_s|)) Bool (or  (|formal_top#286| state) false  (|formal_top#270| state) false)) ; $logic_or$formal_top.sv:69$410_Y
+(define-fun |formal_top#288| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#41| state)) #b001100000000)) ; $eq$formal_top.sv:70$411_Y
+(define-fun |formal_top#289| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#41| state)) #b001101000001)) ; $eq$formal_top.sv:70$412_Y
+(define-fun |formal_top#290| ((state |formal_top_s|)) Bool (or  (|formal_top#288| state) false  (|formal_top#289| state) false)) ; $logic_or$formal_top.sv:70$413_Y
+(define-fun |formal_top#291| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#41| state)) #b001101000010)) ; $eq$formal_top.sv:70$414_Y
+(define-fun |formal_top#292| ((state |formal_top_s|)) Bool (or  (|formal_top#290| state) false  (|formal_top#291| state) false)) ; $logic_or$formal_top.sv:70$415_Y
+(define-fun |formal_top#293| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#41| state)) #b001100000101)) ; $eq$formal_top.sv:70$416_Y
+(define-fun |formal_top#294| ((state |formal_top_s|)) Bool (or  (|formal_top#292| state) false  (|formal_top#293| state) false)) ; $logic_or$formal_top.sv:70$417_Y
+(define-fun |formal_top#295| ((state |formal_top_s|)) Bool (and (or  (|formal_top#287| state) false) (or  (|formal_top#294| state) false))) ; $logic_and$formal_top.sv:69$418_Y
+(define-fun |formal_top#296| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b0110011)) ; $procmux$6733_CMP
+(define-fun |formal_top#297| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b0010011)) ; $procmux$6718_CMP
+(define-fun |formal_top#298| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b0000011)) ; $procmux$6743_CMP
+(define-fun |formal_top#299| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b0100011)) ; $procmux$6742_CMP
+(define-fun |formal_top#300| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b1100011)) ; $eq$formal_top.sv:98$427_Y
+(define-fun |formal_top#301| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b1100111)) ; $procmux$6739_CMP
+(define-fun |formal_top#302| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b1101111)) ; $eq$formal_top.sv:95$421_Y
+(define-fun |formal_top#303| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b0010111)) ; $procmux$6737_CMP
+(define-fun |formal_top#304| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b0110111)) ; $procmux$6738_CMP
+(define-fun |formal_top#305| ((state |formal_top_s|)) Bool (or  (|formal_top#302| state) (|formal_top#303| state) (|formal_top#304| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8764
+(define-fun |formal_top#306| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#41| state)) #b1110011)) ; $procmux$6736_CMP
+(define-fun |formal_top#307| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#306| state) (ite (|formal_top#295| state) #b1 #b0) (ite (|formal_top#305| state) #b1 (ite (|formal_top#301| state) (ite (|formal_top#272| state) #b1 #b0) (ite (|formal_top#300| state) (ite (|formal_top#285| state) #b1 #b0) (ite (|formal_top#299| state) (ite (|formal_top#279| state) #b1 #b0) (ite (|formal_top#298| state) (ite (|formal_top#281| state) #b1 #b0) (ite (|formal_top#297| state) (|formal_top#277| state) (ite (|formal_top#296| state) (|formal_top#275| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$33.$result[0:0]$363
 ; yosys-smt2-assume 14 _witness_.check_assume_formal_top_sv_93_419 formal_top.sv:93.25-93.46
-(define-fun |formal_top_u 14| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#305| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_419
-(define-fun |formal_top#306| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#42| state)) #b1) (= ((_ extract 26 26) (|formal_top#42| state)) #b1) (= ((_ extract 27 27) (|formal_top#42| state)) #b1) (= ((_ extract 28 28) (|formal_top#42| state)) #b1) (= ((_ extract 29 29) (|formal_top#42| state)) #b1) (= ((_ extract 30 30) (|formal_top#42| state)) #b1) (= ((_ extract 31 31) (|formal_top#42| state)) #b1)))) ; $eq$formal_top.sv:45$451_Y
-(define-fun |formal_top#307| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#42| state)) #b0100000)) ; $eq$formal_top.sv:45$452_Y
-(define-fun |formal_top#308| ((state |formal_top_s|)) Bool (or  (|formal_top#306| state) false  (|formal_top#307| state) false)) ; $logic_or$formal_top.sv:45$453_Y
-(define-fun |formal_top#309| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#42| state)) #b001)) ; $eq$formal_top.sv:60$461_Y
-(define-fun |formal_top#310| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#42| state)) #b010)) ; $eq$formal_top.sv:60$463_Y
-(define-fun |formal_top#311| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#42| state)) #b100)) ; $eq$formal_top.sv:61$465_Y
-(define-fun |formal_top#312| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#42| state)) #b110)) ; $eq$formal_top.sv:64$481_Y
-(define-fun |formal_top#313| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#42| state)) #b111)) ; $eq$formal_top.sv:64$483_Y
-(define-fun |formal_top#314| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#42| state)) #b011)) ; $eq$formal_top.sv:69$489_Y
-(define-fun |formal_top#315| ((state |formal_top_s|)) Bool (or  (|formal_top#309| state) (|formal_top#310| state) (|formal_top#311| state) (|formal_top#312| state) (|formal_top#313| state) (|formal_top#314| state))) ; $procmux$6684_CTRL
-(define-fun |formal_top#316| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#42| state)) #b1) (= ((_ extract 13 13) (|formal_top#42| state)) #b1) (= ((_ extract 14 14) (|formal_top#42| state)) #b1)))) ; $eq$formal_top.sv:60$460_Y
-(define-fun |formal_top#317| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#42| state)) #b101)) ; $eq$formal_top.sv:61$467_Y
-(define-fun |formal_top#318| ((state |formal_top_s|)) Bool (or  (|formal_top#316| state) (|formal_top#317| state))) ; $procmux$6685_CTRL
-(define-fun |formal_top#319| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#318| state) (ite (|formal_top#308| state) #b1 #b0) (ite (|formal_top#315| state) (ite (|formal_top#306| state) #b1 #b0) (|formal_top#66| state)))) ; $2\is_legal$func$formal_top.sv:93$36.$result[0:0]$450
-(define-fun |formal_top#320| ((state |formal_top_s|)) Bool (or  (|formal_top#316| state) (|formal_top#310| state) (|formal_top#311| state) (|formal_top#312| state) (|formal_top#313| state) (|formal_top#314| state))) ; $procmux$6670_CTRL
-(define-fun |formal_top#321| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#320| state) #b1 (ite (|formal_top#309| state) (ite (|formal_top#306| state) #b1 #b0) (ite (|formal_top#317| state) (ite (|formal_top#308| state) #b1 #b0) (|formal_top#67| state))))) ; $3\is_legal$func$formal_top.sv:93$36.$result[0:0]$455
-(define-fun |formal_top#322| ((state |formal_top_s|)) Bool (or  (|formal_top#316| state) false  (|formal_top#309| state) false)) ; $logic_or$formal_top.sv:60$462_Y
-(define-fun |formal_top#323| ((state |formal_top_s|)) Bool (or  (|formal_top#322| state) false  (|formal_top#310| state) false)) ; $logic_or$formal_top.sv:60$464_Y
-(define-fun |formal_top#324| ((state |formal_top_s|)) Bool (or  (|formal_top#323| state) false  (|formal_top#311| state) false)) ; $logic_or$formal_top.sv:60$466_Y
-(define-fun |formal_top#325| ((state |formal_top_s|)) Bool (or  (|formal_top#324| state) false  (|formal_top#317| state) false)) ; $logic_or$formal_top.sv:60$468_Y
-(define-fun |formal_top#326| ((state |formal_top_s|)) Bool (or  (|formal_top#322| state) false  (|formal_top#311| state) false)) ; $logic_or$formal_top.sv:63$478_Y
-(define-fun |formal_top#327| ((state |formal_top_s|)) Bool (or  (|formal_top#326| state) false  (|formal_top#317| state) false)) ; $logic_or$formal_top.sv:63$480_Y
-(define-fun |formal_top#328| ((state |formal_top_s|)) Bool (or  (|formal_top#327| state) false  (|formal_top#312| state) false)) ; $logic_or$formal_top.sv:63$482_Y
-(define-fun |formal_top#329| ((state |formal_top_s|)) Bool (or  (|formal_top#328| state) false  (|formal_top#313| state) false)) ; $logic_or$formal_top.sv:63$484_Y
-(define-fun |formal_top#330| ((state |formal_top_s|)) Bool (or  (|formal_top#309| state) false  (|formal_top#310| state) false)) ; $logic_or$formal_top.sv:69$488_Y
-(define-fun |formal_top#331| ((state |formal_top_s|)) Bool (or  (|formal_top#330| state) false  (|formal_top#314| state) false)) ; $logic_or$formal_top.sv:69$490_Y
-(define-fun |formal_top#332| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#42| state)) #b001100000000)) ; $eq$formal_top.sv:70$491_Y
-(define-fun |formal_top#333| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#42| state)) #b001101000001)) ; $eq$formal_top.sv:70$492_Y
-(define-fun |formal_top#334| ((state |formal_top_s|)) Bool (or  (|formal_top#332| state) false  (|formal_top#333| state) false)) ; $logic_or$formal_top.sv:70$493_Y
-(define-fun |formal_top#335| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#42| state)) #b001101000010)) ; $eq$formal_top.sv:70$494_Y
-(define-fun |formal_top#336| ((state |formal_top_s|)) Bool (or  (|formal_top#334| state) false  (|formal_top#335| state) false)) ; $logic_or$formal_top.sv:70$495_Y
-(define-fun |formal_top#337| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#42| state)) #b001100000101)) ; $eq$formal_top.sv:70$496_Y
-(define-fun |formal_top#338| ((state |formal_top_s|)) Bool (or  (|formal_top#336| state) false  (|formal_top#337| state) false)) ; $logic_or$formal_top.sv:70$497_Y
-(define-fun |formal_top#339| ((state |formal_top_s|)) Bool (and (or  (|formal_top#331| state) false) (or  (|formal_top#338| state) false))) ; $logic_and$formal_top.sv:69$498_Y
-(define-fun |formal_top#340| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b0110011)) ; $procmux$6687_CMP
-(define-fun |formal_top#341| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b0010011)) ; $procmux$6672_CMP
-(define-fun |formal_top#342| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b0000011)) ; $procmux$6697_CMP
-(define-fun |formal_top#343| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b0100011)) ; $procmux$6696_CMP
-(define-fun |formal_top#344| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b1100011)) ; $eq$formal_top.sv:98$507_Y
-(define-fun |formal_top#345| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b1100111)) ; $procmux$6693_CMP
-(define-fun |formal_top#346| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b1101111)) ; $eq$formal_top.sv:95$501_Y
-(define-fun |formal_top#347| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b0010111)) ; $procmux$6691_CMP
-(define-fun |formal_top#348| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b0110111)) ; $procmux$6692_CMP
-(define-fun |formal_top#349| ((state |formal_top_s|)) Bool (or  (|formal_top#346| state) (|formal_top#347| state) (|formal_top#348| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8766
-(define-fun |formal_top#350| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#42| state)) #b1110011)) ; $procmux$6690_CMP
-(define-fun |formal_top#351| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#350| state) (ite (|formal_top#339| state) #b1 #b0) (ite (|formal_top#349| state) #b1 (ite (|formal_top#345| state) (ite (|formal_top#316| state) #b1 #b0) (ite (|formal_top#344| state) (ite (|formal_top#329| state) #b1 #b0) (ite (|formal_top#343| state) (ite (|formal_top#323| state) #b1 #b0) (ite (|formal_top#342| state) (ite (|formal_top#325| state) #b1 #b0) (ite (|formal_top#341| state) (|formal_top#321| state) (ite (|formal_top#340| state) (|formal_top#319| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$36.$result[0:0]$443
+(define-fun |formal_top_u 14| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#307| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_419
+(define-fun |formal_top#308| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#44| state)) #b1) (= ((_ extract 26 26) (|formal_top#44| state)) #b1) (= ((_ extract 27 27) (|formal_top#44| state)) #b1) (= ((_ extract 28 28) (|formal_top#44| state)) #b1) (= ((_ extract 29 29) (|formal_top#44| state)) #b1) (= ((_ extract 30 30) (|formal_top#44| state)) #b1) (= ((_ extract 31 31) (|formal_top#44| state)) #b1)))) ; $eq$formal_top.sv:45$451_Y
+(define-fun |formal_top#309| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#44| state)) #b0100000)) ; $eq$formal_top.sv:45$452_Y
+(define-fun |formal_top#310| ((state |formal_top_s|)) Bool (or  (|formal_top#308| state) false  (|formal_top#309| state) false)) ; $logic_or$formal_top.sv:45$453_Y
+(define-fun |formal_top#311| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#44| state)) #b001)) ; $eq$formal_top.sv:60$461_Y
+(define-fun |formal_top#312| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#44| state)) #b010)) ; $eq$formal_top.sv:60$463_Y
+(define-fun |formal_top#313| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#44| state)) #b100)) ; $eq$formal_top.sv:61$465_Y
+(define-fun |formal_top#314| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#44| state)) #b110)) ; $eq$formal_top.sv:64$481_Y
+(define-fun |formal_top#315| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#44| state)) #b111)) ; $eq$formal_top.sv:64$483_Y
+(define-fun |formal_top#316| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#44| state)) #b011)) ; $eq$formal_top.sv:69$489_Y
+(define-fun |formal_top#317| ((state |formal_top_s|)) Bool (or  (|formal_top#311| state) (|formal_top#312| state) (|formal_top#313| state) (|formal_top#314| state) (|formal_top#315| state) (|formal_top#316| state))) ; $procmux$6684_CTRL
+(define-fun |formal_top#318| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#44| state)) #b1) (= ((_ extract 13 13) (|formal_top#44| state)) #b1) (= ((_ extract 14 14) (|formal_top#44| state)) #b1)))) ; $eq$formal_top.sv:60$460_Y
+(define-fun |formal_top#319| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#44| state)) #b101)) ; $eq$formal_top.sv:61$467_Y
+(define-fun |formal_top#320| ((state |formal_top_s|)) Bool (or  (|formal_top#318| state) (|formal_top#319| state))) ; $procmux$6685_CTRL
+(define-fun |formal_top#321| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#320| state) (ite (|formal_top#310| state) #b1 #b0) (ite (|formal_top#317| state) (ite (|formal_top#308| state) #b1 #b0) (|formal_top#68| state)))) ; $2\is_legal$func$formal_top.sv:93$36.$result[0:0]$450
+(define-fun |formal_top#322| ((state |formal_top_s|)) Bool (or  (|formal_top#318| state) (|formal_top#312| state) (|formal_top#313| state) (|formal_top#314| state) (|formal_top#315| state) (|formal_top#316| state))) ; $procmux$6670_CTRL
+(define-fun |formal_top#323| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#322| state) #b1 (ite (|formal_top#311| state) (ite (|formal_top#308| state) #b1 #b0) (ite (|formal_top#319| state) (ite (|formal_top#310| state) #b1 #b0) (|formal_top#69| state))))) ; $3\is_legal$func$formal_top.sv:93$36.$result[0:0]$455
+(define-fun |formal_top#324| ((state |formal_top_s|)) Bool (or  (|formal_top#318| state) false  (|formal_top#311| state) false)) ; $logic_or$formal_top.sv:60$462_Y
+(define-fun |formal_top#325| ((state |formal_top_s|)) Bool (or  (|formal_top#324| state) false  (|formal_top#312| state) false)) ; $logic_or$formal_top.sv:60$464_Y
+(define-fun |formal_top#326| ((state |formal_top_s|)) Bool (or  (|formal_top#325| state) false  (|formal_top#313| state) false)) ; $logic_or$formal_top.sv:60$466_Y
+(define-fun |formal_top#327| ((state |formal_top_s|)) Bool (or  (|formal_top#326| state) false  (|formal_top#319| state) false)) ; $logic_or$formal_top.sv:60$468_Y
+(define-fun |formal_top#328| ((state |formal_top_s|)) Bool (or  (|formal_top#324| state) false  (|formal_top#313| state) false)) ; $logic_or$formal_top.sv:63$478_Y
+(define-fun |formal_top#329| ((state |formal_top_s|)) Bool (or  (|formal_top#328| state) false  (|formal_top#319| state) false)) ; $logic_or$formal_top.sv:63$480_Y
+(define-fun |formal_top#330| ((state |formal_top_s|)) Bool (or  (|formal_top#329| state) false  (|formal_top#314| state) false)) ; $logic_or$formal_top.sv:63$482_Y
+(define-fun |formal_top#331| ((state |formal_top_s|)) Bool (or  (|formal_top#330| state) false  (|formal_top#315| state) false)) ; $logic_or$formal_top.sv:63$484_Y
+(define-fun |formal_top#332| ((state |formal_top_s|)) Bool (or  (|formal_top#311| state) false  (|formal_top#312| state) false)) ; $logic_or$formal_top.sv:69$488_Y
+(define-fun |formal_top#333| ((state |formal_top_s|)) Bool (or  (|formal_top#332| state) false  (|formal_top#316| state) false)) ; $logic_or$formal_top.sv:69$490_Y
+(define-fun |formal_top#334| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#44| state)) #b001100000000)) ; $eq$formal_top.sv:70$491_Y
+(define-fun |formal_top#335| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#44| state)) #b001101000001)) ; $eq$formal_top.sv:70$492_Y
+(define-fun |formal_top#336| ((state |formal_top_s|)) Bool (or  (|formal_top#334| state) false  (|formal_top#335| state) false)) ; $logic_or$formal_top.sv:70$493_Y
+(define-fun |formal_top#337| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#44| state)) #b001101000010)) ; $eq$formal_top.sv:70$494_Y
+(define-fun |formal_top#338| ((state |formal_top_s|)) Bool (or  (|formal_top#336| state) false  (|formal_top#337| state) false)) ; $logic_or$formal_top.sv:70$495_Y
+(define-fun |formal_top#339| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#44| state)) #b001100000101)) ; $eq$formal_top.sv:70$496_Y
+(define-fun |formal_top#340| ((state |formal_top_s|)) Bool (or  (|formal_top#338| state) false  (|formal_top#339| state) false)) ; $logic_or$formal_top.sv:70$497_Y
+(define-fun |formal_top#341| ((state |formal_top_s|)) Bool (and (or  (|formal_top#333| state) false) (or  (|formal_top#340| state) false))) ; $logic_and$formal_top.sv:69$498_Y
+(define-fun |formal_top#342| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b0110011)) ; $procmux$6687_CMP
+(define-fun |formal_top#343| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b0010011)) ; $procmux$6672_CMP
+(define-fun |formal_top#344| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b0000011)) ; $procmux$6697_CMP
+(define-fun |formal_top#345| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b0100011)) ; $procmux$6696_CMP
+(define-fun |formal_top#346| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b1100011)) ; $eq$formal_top.sv:98$507_Y
+(define-fun |formal_top#347| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b1100111)) ; $procmux$6693_CMP
+(define-fun |formal_top#348| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b1101111)) ; $eq$formal_top.sv:95$501_Y
+(define-fun |formal_top#349| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b0010111)) ; $procmux$6691_CMP
+(define-fun |formal_top#350| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b0110111)) ; $procmux$6692_CMP
+(define-fun |formal_top#351| ((state |formal_top_s|)) Bool (or  (|formal_top#348| state) (|formal_top#349| state) (|formal_top#350| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8766
+(define-fun |formal_top#352| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#44| state)) #b1110011)) ; $procmux$6690_CMP
+(define-fun |formal_top#353| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#352| state) (ite (|formal_top#341| state) #b1 #b0) (ite (|formal_top#351| state) #b1 (ite (|formal_top#347| state) (ite (|formal_top#318| state) #b1 #b0) (ite (|formal_top#346| state) (ite (|formal_top#331| state) #b1 #b0) (ite (|formal_top#345| state) (ite (|formal_top#325| state) #b1 #b0) (ite (|formal_top#344| state) (ite (|formal_top#327| state) #b1 #b0) (ite (|formal_top#343| state) (|formal_top#323| state) (ite (|formal_top#342| state) (|formal_top#321| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$36.$result[0:0]$443
 ; yosys-smt2-assume 15 _witness_.check_assume_formal_top_sv_93_499 formal_top.sv:93.25-93.46
-(define-fun |formal_top_u 15| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#351| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_499
-(define-fun |formal_top#352| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#45| state)) #b1) (= ((_ extract 26 26) (|formal_top#45| state)) #b1) (= ((_ extract 27 27) (|formal_top#45| state)) #b1) (= ((_ extract 28 28) (|formal_top#45| state)) #b1) (= ((_ extract 29 29) (|formal_top#45| state)) #b1) (= ((_ extract 30 30) (|formal_top#45| state)) #b1) (= ((_ extract 31 31) (|formal_top#45| state)) #b1)))) ; $eq$formal_top.sv:45$531_Y
-(define-fun |formal_top#353| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#45| state)) #b0100000)) ; $eq$formal_top.sv:45$532_Y
-(define-fun |formal_top#354| ((state |formal_top_s|)) Bool (or  (|formal_top#352| state) false  (|formal_top#353| state) false)) ; $logic_or$formal_top.sv:45$533_Y
-(define-fun |formal_top#355| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#45| state)) #b001)) ; $eq$formal_top.sv:60$541_Y
-(define-fun |formal_top#356| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#45| state)) #b010)) ; $eq$formal_top.sv:60$543_Y
-(define-fun |formal_top#357| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#45| state)) #b100)) ; $eq$formal_top.sv:61$545_Y
-(define-fun |formal_top#358| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#45| state)) #b110)) ; $eq$formal_top.sv:64$561_Y
-(define-fun |formal_top#359| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#45| state)) #b111)) ; $eq$formal_top.sv:64$563_Y
-(define-fun |formal_top#360| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#45| state)) #b011)) ; $eq$formal_top.sv:69$569_Y
-(define-fun |formal_top#361| ((state |formal_top_s|)) Bool (or  (|formal_top#355| state) (|formal_top#356| state) (|formal_top#357| state) (|formal_top#358| state) (|formal_top#359| state) (|formal_top#360| state))) ; $procmux$6638_CTRL
-(define-fun |formal_top#362| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#45| state)) #b1) (= ((_ extract 13 13) (|formal_top#45| state)) #b1) (= ((_ extract 14 14) (|formal_top#45| state)) #b1)))) ; $eq$formal_top.sv:60$540_Y
-(define-fun |formal_top#363| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#45| state)) #b101)) ; $eq$formal_top.sv:61$547_Y
-(define-fun |formal_top#364| ((state |formal_top_s|)) Bool (or  (|formal_top#362| state) (|formal_top#363| state))) ; $procmux$6639_CTRL
-(define-fun |formal_top#365| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#364| state) (ite (|formal_top#354| state) #b1 #b0) (ite (|formal_top#361| state) (ite (|formal_top#352| state) #b1 #b0) (|formal_top#68| state)))) ; $2\is_legal$func$formal_top.sv:93$39.$result[0:0]$530
-(define-fun |formal_top#366| ((state |formal_top_s|)) Bool (or  (|formal_top#362| state) (|formal_top#356| state) (|formal_top#357| state) (|formal_top#358| state) (|formal_top#359| state) (|formal_top#360| state))) ; $procmux$6624_CTRL
-(define-fun |formal_top#367| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#366| state) #b1 (ite (|formal_top#355| state) (ite (|formal_top#352| state) #b1 #b0) (ite (|formal_top#363| state) (ite (|formal_top#354| state) #b1 #b0) (|formal_top#69| state))))) ; $3\is_legal$func$formal_top.sv:93$39.$result[0:0]$535
-(define-fun |formal_top#368| ((state |formal_top_s|)) Bool (or  (|formal_top#362| state) false  (|formal_top#355| state) false)) ; $logic_or$formal_top.sv:60$542_Y
-(define-fun |formal_top#369| ((state |formal_top_s|)) Bool (or  (|formal_top#368| state) false  (|formal_top#356| state) false)) ; $logic_or$formal_top.sv:60$544_Y
-(define-fun |formal_top#370| ((state |formal_top_s|)) Bool (or  (|formal_top#369| state) false  (|formal_top#357| state) false)) ; $logic_or$formal_top.sv:60$546_Y
-(define-fun |formal_top#371| ((state |formal_top_s|)) Bool (or  (|formal_top#370| state) false  (|formal_top#363| state) false)) ; $logic_or$formal_top.sv:60$548_Y
-(define-fun |formal_top#372| ((state |formal_top_s|)) Bool (or  (|formal_top#368| state) false  (|formal_top#357| state) false)) ; $logic_or$formal_top.sv:63$558_Y
-(define-fun |formal_top#373| ((state |formal_top_s|)) Bool (or  (|formal_top#372| state) false  (|formal_top#363| state) false)) ; $logic_or$formal_top.sv:63$560_Y
-(define-fun |formal_top#374| ((state |formal_top_s|)) Bool (or  (|formal_top#373| state) false  (|formal_top#358| state) false)) ; $logic_or$formal_top.sv:63$562_Y
-(define-fun |formal_top#375| ((state |formal_top_s|)) Bool (or  (|formal_top#374| state) false  (|formal_top#359| state) false)) ; $logic_or$formal_top.sv:63$564_Y
-(define-fun |formal_top#376| ((state |formal_top_s|)) Bool (or  (|formal_top#355| state) false  (|formal_top#356| state) false)) ; $logic_or$formal_top.sv:69$568_Y
-(define-fun |formal_top#377| ((state |formal_top_s|)) Bool (or  (|formal_top#376| state) false  (|formal_top#360| state) false)) ; $logic_or$formal_top.sv:69$570_Y
-(define-fun |formal_top#378| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#45| state)) #b001100000000)) ; $eq$formal_top.sv:70$571_Y
-(define-fun |formal_top#379| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#45| state)) #b001101000001)) ; $eq$formal_top.sv:70$572_Y
-(define-fun |formal_top#380| ((state |formal_top_s|)) Bool (or  (|formal_top#378| state) false  (|formal_top#379| state) false)) ; $logic_or$formal_top.sv:70$573_Y
-(define-fun |formal_top#381| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#45| state)) #b001101000010)) ; $eq$formal_top.sv:70$574_Y
-(define-fun |formal_top#382| ((state |formal_top_s|)) Bool (or  (|formal_top#380| state) false  (|formal_top#381| state) false)) ; $logic_or$formal_top.sv:70$575_Y
-(define-fun |formal_top#383| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#45| state)) #b001100000101)) ; $eq$formal_top.sv:70$576_Y
-(define-fun |formal_top#384| ((state |formal_top_s|)) Bool (or  (|formal_top#382| state) false  (|formal_top#383| state) false)) ; $logic_or$formal_top.sv:70$577_Y
-(define-fun |formal_top#385| ((state |formal_top_s|)) Bool (and (or  (|formal_top#377| state) false) (or  (|formal_top#384| state) false))) ; $logic_and$formal_top.sv:69$578_Y
-(define-fun |formal_top#386| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b0110011)) ; $procmux$6641_CMP
-(define-fun |formal_top#387| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b0010011)) ; $procmux$6626_CMP
-(define-fun |formal_top#388| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b0000011)) ; $procmux$6651_CMP
-(define-fun |formal_top#389| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b0100011)) ; $procmux$6650_CMP
-(define-fun |formal_top#390| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b1100011)) ; $eq$formal_top.sv:98$587_Y
-(define-fun |formal_top#391| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b1100111)) ; $procmux$6647_CMP
-(define-fun |formal_top#392| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b1101111)) ; $eq$formal_top.sv:95$581_Y
-(define-fun |formal_top#393| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b0010111)) ; $procmux$6645_CMP
-(define-fun |formal_top#394| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b0110111)) ; $procmux$6646_CMP
-(define-fun |formal_top#395| ((state |formal_top_s|)) Bool (or  (|formal_top#392| state) (|formal_top#393| state) (|formal_top#394| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8770
-(define-fun |formal_top#396| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#45| state)) #b1110011)) ; $procmux$6644_CMP
-(define-fun |formal_top#397| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#396| state) (ite (|formal_top#385| state) #b1 #b0) (ite (|formal_top#395| state) #b1 (ite (|formal_top#391| state) (ite (|formal_top#362| state) #b1 #b0) (ite (|formal_top#390| state) (ite (|formal_top#375| state) #b1 #b0) (ite (|formal_top#389| state) (ite (|formal_top#369| state) #b1 #b0) (ite (|formal_top#388| state) (ite (|formal_top#371| state) #b1 #b0) (ite (|formal_top#387| state) (|formal_top#367| state) (ite (|formal_top#386| state) (|formal_top#365| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$39.$result[0:0]$523
+(define-fun |formal_top_u 15| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#353| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_499
+(define-fun |formal_top#354| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#47| state)) #b1) (= ((_ extract 26 26) (|formal_top#47| state)) #b1) (= ((_ extract 27 27) (|formal_top#47| state)) #b1) (= ((_ extract 28 28) (|formal_top#47| state)) #b1) (= ((_ extract 29 29) (|formal_top#47| state)) #b1) (= ((_ extract 30 30) (|formal_top#47| state)) #b1) (= ((_ extract 31 31) (|formal_top#47| state)) #b1)))) ; $eq$formal_top.sv:45$531_Y
+(define-fun |formal_top#355| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#47| state)) #b0100000)) ; $eq$formal_top.sv:45$532_Y
+(define-fun |formal_top#356| ((state |formal_top_s|)) Bool (or  (|formal_top#354| state) false  (|formal_top#355| state) false)) ; $logic_or$formal_top.sv:45$533_Y
+(define-fun |formal_top#357| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#47| state)) #b001)) ; $eq$formal_top.sv:60$541_Y
+(define-fun |formal_top#358| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#47| state)) #b010)) ; $eq$formal_top.sv:60$543_Y
+(define-fun |formal_top#359| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#47| state)) #b100)) ; $eq$formal_top.sv:61$545_Y
+(define-fun |formal_top#360| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#47| state)) #b110)) ; $eq$formal_top.sv:64$561_Y
+(define-fun |formal_top#361| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#47| state)) #b111)) ; $eq$formal_top.sv:64$563_Y
+(define-fun |formal_top#362| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#47| state)) #b011)) ; $eq$formal_top.sv:69$569_Y
+(define-fun |formal_top#363| ((state |formal_top_s|)) Bool (or  (|formal_top#357| state) (|formal_top#358| state) (|formal_top#359| state) (|formal_top#360| state) (|formal_top#361| state) (|formal_top#362| state))) ; $procmux$6638_CTRL
+(define-fun |formal_top#364| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#47| state)) #b1) (= ((_ extract 13 13) (|formal_top#47| state)) #b1) (= ((_ extract 14 14) (|formal_top#47| state)) #b1)))) ; $eq$formal_top.sv:60$540_Y
+(define-fun |formal_top#365| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#47| state)) #b101)) ; $eq$formal_top.sv:61$547_Y
+(define-fun |formal_top#366| ((state |formal_top_s|)) Bool (or  (|formal_top#364| state) (|formal_top#365| state))) ; $procmux$6639_CTRL
+(define-fun |formal_top#367| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#366| state) (ite (|formal_top#356| state) #b1 #b0) (ite (|formal_top#363| state) (ite (|formal_top#354| state) #b1 #b0) (|formal_top#70| state)))) ; $2\is_legal$func$formal_top.sv:93$39.$result[0:0]$530
+(define-fun |formal_top#368| ((state |formal_top_s|)) Bool (or  (|formal_top#364| state) (|formal_top#358| state) (|formal_top#359| state) (|formal_top#360| state) (|formal_top#361| state) (|formal_top#362| state))) ; $procmux$6624_CTRL
+(define-fun |formal_top#369| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#368| state) #b1 (ite (|formal_top#357| state) (ite (|formal_top#354| state) #b1 #b0) (ite (|formal_top#365| state) (ite (|formal_top#356| state) #b1 #b0) (|formal_top#71| state))))) ; $3\is_legal$func$formal_top.sv:93$39.$result[0:0]$535
+(define-fun |formal_top#370| ((state |formal_top_s|)) Bool (or  (|formal_top#364| state) false  (|formal_top#357| state) false)) ; $logic_or$formal_top.sv:60$542_Y
+(define-fun |formal_top#371| ((state |formal_top_s|)) Bool (or  (|formal_top#370| state) false  (|formal_top#358| state) false)) ; $logic_or$formal_top.sv:60$544_Y
+(define-fun |formal_top#372| ((state |formal_top_s|)) Bool (or  (|formal_top#371| state) false  (|formal_top#359| state) false)) ; $logic_or$formal_top.sv:60$546_Y
+(define-fun |formal_top#373| ((state |formal_top_s|)) Bool (or  (|formal_top#372| state) false  (|formal_top#365| state) false)) ; $logic_or$formal_top.sv:60$548_Y
+(define-fun |formal_top#374| ((state |formal_top_s|)) Bool (or  (|formal_top#370| state) false  (|formal_top#359| state) false)) ; $logic_or$formal_top.sv:63$558_Y
+(define-fun |formal_top#375| ((state |formal_top_s|)) Bool (or  (|formal_top#374| state) false  (|formal_top#365| state) false)) ; $logic_or$formal_top.sv:63$560_Y
+(define-fun |formal_top#376| ((state |formal_top_s|)) Bool (or  (|formal_top#375| state) false  (|formal_top#360| state) false)) ; $logic_or$formal_top.sv:63$562_Y
+(define-fun |formal_top#377| ((state |formal_top_s|)) Bool (or  (|formal_top#376| state) false  (|formal_top#361| state) false)) ; $logic_or$formal_top.sv:63$564_Y
+(define-fun |formal_top#378| ((state |formal_top_s|)) Bool (or  (|formal_top#357| state) false  (|formal_top#358| state) false)) ; $logic_or$formal_top.sv:69$568_Y
+(define-fun |formal_top#379| ((state |formal_top_s|)) Bool (or  (|formal_top#378| state) false  (|formal_top#362| state) false)) ; $logic_or$formal_top.sv:69$570_Y
+(define-fun |formal_top#380| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#47| state)) #b001100000000)) ; $eq$formal_top.sv:70$571_Y
+(define-fun |formal_top#381| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#47| state)) #b001101000001)) ; $eq$formal_top.sv:70$572_Y
+(define-fun |formal_top#382| ((state |formal_top_s|)) Bool (or  (|formal_top#380| state) false  (|formal_top#381| state) false)) ; $logic_or$formal_top.sv:70$573_Y
+(define-fun |formal_top#383| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#47| state)) #b001101000010)) ; $eq$formal_top.sv:70$574_Y
+(define-fun |formal_top#384| ((state |formal_top_s|)) Bool (or  (|formal_top#382| state) false  (|formal_top#383| state) false)) ; $logic_or$formal_top.sv:70$575_Y
+(define-fun |formal_top#385| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#47| state)) #b001100000101)) ; $eq$formal_top.sv:70$576_Y
+(define-fun |formal_top#386| ((state |formal_top_s|)) Bool (or  (|formal_top#384| state) false  (|formal_top#385| state) false)) ; $logic_or$formal_top.sv:70$577_Y
+(define-fun |formal_top#387| ((state |formal_top_s|)) Bool (and (or  (|formal_top#379| state) false) (or  (|formal_top#386| state) false))) ; $logic_and$formal_top.sv:69$578_Y
+(define-fun |formal_top#388| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b0110011)) ; $procmux$6641_CMP
+(define-fun |formal_top#389| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b0010011)) ; $procmux$6626_CMP
+(define-fun |formal_top#390| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b0000011)) ; $procmux$6651_CMP
+(define-fun |formal_top#391| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b0100011)) ; $procmux$6650_CMP
+(define-fun |formal_top#392| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b1100011)) ; $eq$formal_top.sv:98$587_Y
+(define-fun |formal_top#393| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b1100111)) ; $procmux$6647_CMP
+(define-fun |formal_top#394| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b1101111)) ; $eq$formal_top.sv:95$581_Y
+(define-fun |formal_top#395| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b0010111)) ; $procmux$6645_CMP
+(define-fun |formal_top#396| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b0110111)) ; $procmux$6646_CMP
+(define-fun |formal_top#397| ((state |formal_top_s|)) Bool (or  (|formal_top#394| state) (|formal_top#395| state) (|formal_top#396| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8770
+(define-fun |formal_top#398| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#47| state)) #b1110011)) ; $procmux$6644_CMP
+(define-fun |formal_top#399| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#398| state) (ite (|formal_top#387| state) #b1 #b0) (ite (|formal_top#397| state) #b1 (ite (|formal_top#393| state) (ite (|formal_top#364| state) #b1 #b0) (ite (|formal_top#392| state) (ite (|formal_top#377| state) #b1 #b0) (ite (|formal_top#391| state) (ite (|formal_top#371| state) #b1 #b0) (ite (|formal_top#390| state) (ite (|formal_top#373| state) #b1 #b0) (ite (|formal_top#389| state) (|formal_top#369| state) (ite (|formal_top#388| state) (|formal_top#367| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$39.$result[0:0]$523
 ; yosys-smt2-assume 16 _witness_.check_assume_formal_top_sv_93_579 formal_top.sv:93.25-93.46
-(define-fun |formal_top_u 16| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#397| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_579
-(define-fun |formal_top#398| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#48| state)) #b1) (= ((_ extract 26 26) (|formal_top#48| state)) #b1) (= ((_ extract 27 27) (|formal_top#48| state)) #b1) (= ((_ extract 28 28) (|formal_top#48| state)) #b1) (= ((_ extract 29 29) (|formal_top#48| state)) #b1) (= ((_ extract 30 30) (|formal_top#48| state)) #b1) (= ((_ extract 31 31) (|formal_top#48| state)) #b1)))) ; $eq$formal_top.sv:45$611_Y
-(define-fun |formal_top#399| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#48| state)) #b0100000)) ; $eq$formal_top.sv:45$612_Y
-(define-fun |formal_top#400| ((state |formal_top_s|)) Bool (or  (|formal_top#398| state) false  (|formal_top#399| state) false)) ; $logic_or$formal_top.sv:45$613_Y
-(define-fun |formal_top#401| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#48| state)) #b001)) ; $eq$formal_top.sv:60$621_Y
-(define-fun |formal_top#402| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#48| state)) #b010)) ; $eq$formal_top.sv:60$623_Y
-(define-fun |formal_top#403| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#48| state)) #b100)) ; $eq$formal_top.sv:61$625_Y
-(define-fun |formal_top#404| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#48| state)) #b110)) ; $eq$formal_top.sv:64$641_Y
-(define-fun |formal_top#405| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#48| state)) #b111)) ; $eq$formal_top.sv:64$643_Y
-(define-fun |formal_top#406| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#48| state)) #b011)) ; $eq$formal_top.sv:69$649_Y
-(define-fun |formal_top#407| ((state |formal_top_s|)) Bool (or  (|formal_top#401| state) (|formal_top#402| state) (|formal_top#403| state) (|formal_top#404| state) (|formal_top#405| state) (|formal_top#406| state))) ; $procmux$6592_CTRL
-(define-fun |formal_top#408| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#48| state)) #b1) (= ((_ extract 13 13) (|formal_top#48| state)) #b1) (= ((_ extract 14 14) (|formal_top#48| state)) #b1)))) ; $eq$formal_top.sv:60$620_Y
-(define-fun |formal_top#409| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#48| state)) #b101)) ; $eq$formal_top.sv:61$627_Y
-(define-fun |formal_top#410| ((state |formal_top_s|)) Bool (or  (|formal_top#408| state) (|formal_top#409| state))) ; $procmux$6593_CTRL
-(define-fun |formal_top#411| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#410| state) (ite (|formal_top#400| state) #b1 #b0) (ite (|formal_top#407| state) (ite (|formal_top#398| state) #b1 #b0) (|formal_top#70| state)))) ; $2\is_legal$func$formal_top.sv:93$42.$result[0:0]$610
-(define-fun |formal_top#412| ((state |formal_top_s|)) Bool (or  (|formal_top#408| state) (|formal_top#402| state) (|formal_top#403| state) (|formal_top#404| state) (|formal_top#405| state) (|formal_top#406| state))) ; $procmux$6578_CTRL
-(define-fun |formal_top#413| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#412| state) #b1 (ite (|formal_top#401| state) (ite (|formal_top#398| state) #b1 #b0) (ite (|formal_top#409| state) (ite (|formal_top#400| state) #b1 #b0) (|formal_top#71| state))))) ; $3\is_legal$func$formal_top.sv:93$42.$result[0:0]$615
-(define-fun |formal_top#414| ((state |formal_top_s|)) Bool (or  (|formal_top#408| state) false  (|formal_top#401| state) false)) ; $logic_or$formal_top.sv:60$622_Y
-(define-fun |formal_top#415| ((state |formal_top_s|)) Bool (or  (|formal_top#414| state) false  (|formal_top#402| state) false)) ; $logic_or$formal_top.sv:60$624_Y
-(define-fun |formal_top#416| ((state |formal_top_s|)) Bool (or  (|formal_top#415| state) false  (|formal_top#403| state) false)) ; $logic_or$formal_top.sv:60$626_Y
-(define-fun |formal_top#417| ((state |formal_top_s|)) Bool (or  (|formal_top#416| state) false  (|formal_top#409| state) false)) ; $logic_or$formal_top.sv:60$628_Y
-(define-fun |formal_top#418| ((state |formal_top_s|)) Bool (or  (|formal_top#414| state) false  (|formal_top#403| state) false)) ; $logic_or$formal_top.sv:63$638_Y
-(define-fun |formal_top#419| ((state |formal_top_s|)) Bool (or  (|formal_top#418| state) false  (|formal_top#409| state) false)) ; $logic_or$formal_top.sv:63$640_Y
-(define-fun |formal_top#420| ((state |formal_top_s|)) Bool (or  (|formal_top#419| state) false  (|formal_top#404| state) false)) ; $logic_or$formal_top.sv:63$642_Y
-(define-fun |formal_top#421| ((state |formal_top_s|)) Bool (or  (|formal_top#420| state) false  (|formal_top#405| state) false)) ; $logic_or$formal_top.sv:63$644_Y
-(define-fun |formal_top#422| ((state |formal_top_s|)) Bool (or  (|formal_top#401| state) false  (|formal_top#402| state) false)) ; $logic_or$formal_top.sv:69$648_Y
-(define-fun |formal_top#423| ((state |formal_top_s|)) Bool (or  (|formal_top#422| state) false  (|formal_top#406| state) false)) ; $logic_or$formal_top.sv:69$650_Y
-(define-fun |formal_top#424| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#48| state)) #b001100000000)) ; $eq$formal_top.sv:70$651_Y
-(define-fun |formal_top#425| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#48| state)) #b001101000001)) ; $eq$formal_top.sv:70$652_Y
-(define-fun |formal_top#426| ((state |formal_top_s|)) Bool (or  (|formal_top#424| state) false  (|formal_top#425| state) false)) ; $logic_or$formal_top.sv:70$653_Y
-(define-fun |formal_top#427| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#48| state)) #b001101000010)) ; $eq$formal_top.sv:70$654_Y
-(define-fun |formal_top#428| ((state |formal_top_s|)) Bool (or  (|formal_top#426| state) false  (|formal_top#427| state) false)) ; $logic_or$formal_top.sv:70$655_Y
-(define-fun |formal_top#429| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#48| state)) #b001100000101)) ; $eq$formal_top.sv:70$656_Y
-(define-fun |formal_top#430| ((state |formal_top_s|)) Bool (or  (|formal_top#428| state) false  (|formal_top#429| state) false)) ; $logic_or$formal_top.sv:70$657_Y
-(define-fun |formal_top#431| ((state |formal_top_s|)) Bool (and (or  (|formal_top#423| state) false) (or  (|formal_top#430| state) false))) ; $logic_and$formal_top.sv:69$658_Y
-(define-fun |formal_top#432| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b0110011)) ; $procmux$6595_CMP
-(define-fun |formal_top#433| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b0010011)) ; $procmux$6580_CMP
-(define-fun |formal_top#434| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b0000011)) ; $procmux$6605_CMP
-(define-fun |formal_top#435| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b0100011)) ; $procmux$6604_CMP
-(define-fun |formal_top#436| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b1100011)) ; $eq$formal_top.sv:98$667_Y
-(define-fun |formal_top#437| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b1100111)) ; $procmux$6601_CMP
-(define-fun |formal_top#438| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b1101111)) ; $eq$formal_top.sv:95$661_Y
-(define-fun |formal_top#439| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b0010111)) ; $procmux$6599_CMP
-(define-fun |formal_top#440| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b0110111)) ; $procmux$6600_CMP
-(define-fun |formal_top#441| ((state |formal_top_s|)) Bool (or  (|formal_top#438| state) (|formal_top#439| state) (|formal_top#440| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8772
-(define-fun |formal_top#442| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#48| state)) #b1110011)) ; $procmux$6598_CMP
-(define-fun |formal_top#443| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#442| state) (ite (|formal_top#431| state) #b1 #b0) (ite (|formal_top#441| state) #b1 (ite (|formal_top#437| state) (ite (|formal_top#408| state) #b1 #b0) (ite (|formal_top#436| state) (ite (|formal_top#421| state) #b1 #b0) (ite (|formal_top#435| state) (ite (|formal_top#415| state) #b1 #b0) (ite (|formal_top#434| state) (ite (|formal_top#417| state) #b1 #b0) (ite (|formal_top#433| state) (|formal_top#413| state) (ite (|formal_top#432| state) (|formal_top#411| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$42.$result[0:0]$603
+(define-fun |formal_top_u 16| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#399| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_579
+(define-fun |formal_top#400| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#50| state)) #b1) (= ((_ extract 26 26) (|formal_top#50| state)) #b1) (= ((_ extract 27 27) (|formal_top#50| state)) #b1) (= ((_ extract 28 28) (|formal_top#50| state)) #b1) (= ((_ extract 29 29) (|formal_top#50| state)) #b1) (= ((_ extract 30 30) (|formal_top#50| state)) #b1) (= ((_ extract 31 31) (|formal_top#50| state)) #b1)))) ; $eq$formal_top.sv:45$611_Y
+(define-fun |formal_top#401| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#50| state)) #b0100000)) ; $eq$formal_top.sv:45$612_Y
+(define-fun |formal_top#402| ((state |formal_top_s|)) Bool (or  (|formal_top#400| state) false  (|formal_top#401| state) false)) ; $logic_or$formal_top.sv:45$613_Y
+(define-fun |formal_top#403| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#50| state)) #b001)) ; $eq$formal_top.sv:60$621_Y
+(define-fun |formal_top#404| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#50| state)) #b010)) ; $eq$formal_top.sv:60$623_Y
+(define-fun |formal_top#405| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#50| state)) #b100)) ; $eq$formal_top.sv:61$625_Y
+(define-fun |formal_top#406| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#50| state)) #b110)) ; $eq$formal_top.sv:64$641_Y
+(define-fun |formal_top#407| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#50| state)) #b111)) ; $eq$formal_top.sv:64$643_Y
+(define-fun |formal_top#408| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#50| state)) #b011)) ; $eq$formal_top.sv:69$649_Y
+(define-fun |formal_top#409| ((state |formal_top_s|)) Bool (or  (|formal_top#403| state) (|formal_top#404| state) (|formal_top#405| state) (|formal_top#406| state) (|formal_top#407| state) (|formal_top#408| state))) ; $procmux$6592_CTRL
+(define-fun |formal_top#410| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#50| state)) #b1) (= ((_ extract 13 13) (|formal_top#50| state)) #b1) (= ((_ extract 14 14) (|formal_top#50| state)) #b1)))) ; $eq$formal_top.sv:60$620_Y
+(define-fun |formal_top#411| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#50| state)) #b101)) ; $eq$formal_top.sv:61$627_Y
+(define-fun |formal_top#412| ((state |formal_top_s|)) Bool (or  (|formal_top#410| state) (|formal_top#411| state))) ; $procmux$6593_CTRL
+(define-fun |formal_top#413| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#412| state) (ite (|formal_top#402| state) #b1 #b0) (ite (|formal_top#409| state) (ite (|formal_top#400| state) #b1 #b0) (|formal_top#72| state)))) ; $2\is_legal$func$formal_top.sv:93$42.$result[0:0]$610
+(define-fun |formal_top#414| ((state |formal_top_s|)) Bool (or  (|formal_top#410| state) (|formal_top#404| state) (|formal_top#405| state) (|formal_top#406| state) (|formal_top#407| state) (|formal_top#408| state))) ; $procmux$6578_CTRL
+(define-fun |formal_top#415| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#414| state) #b1 (ite (|formal_top#403| state) (ite (|formal_top#400| state) #b1 #b0) (ite (|formal_top#411| state) (ite (|formal_top#402| state) #b1 #b0) (|formal_top#73| state))))) ; $3\is_legal$func$formal_top.sv:93$42.$result[0:0]$615
+(define-fun |formal_top#416| ((state |formal_top_s|)) Bool (or  (|formal_top#410| state) false  (|formal_top#403| state) false)) ; $logic_or$formal_top.sv:60$622_Y
+(define-fun |formal_top#417| ((state |formal_top_s|)) Bool (or  (|formal_top#416| state) false  (|formal_top#404| state) false)) ; $logic_or$formal_top.sv:60$624_Y
+(define-fun |formal_top#418| ((state |formal_top_s|)) Bool (or  (|formal_top#417| state) false  (|formal_top#405| state) false)) ; $logic_or$formal_top.sv:60$626_Y
+(define-fun |formal_top#419| ((state |formal_top_s|)) Bool (or  (|formal_top#418| state) false  (|formal_top#411| state) false)) ; $logic_or$formal_top.sv:60$628_Y
+(define-fun |formal_top#420| ((state |formal_top_s|)) Bool (or  (|formal_top#416| state) false  (|formal_top#405| state) false)) ; $logic_or$formal_top.sv:63$638_Y
+(define-fun |formal_top#421| ((state |formal_top_s|)) Bool (or  (|formal_top#420| state) false  (|formal_top#411| state) false)) ; $logic_or$formal_top.sv:63$640_Y
+(define-fun |formal_top#422| ((state |formal_top_s|)) Bool (or  (|formal_top#421| state) false  (|formal_top#406| state) false)) ; $logic_or$formal_top.sv:63$642_Y
+(define-fun |formal_top#423| ((state |formal_top_s|)) Bool (or  (|formal_top#422| state) false  (|formal_top#407| state) false)) ; $logic_or$formal_top.sv:63$644_Y
+(define-fun |formal_top#424| ((state |formal_top_s|)) Bool (or  (|formal_top#403| state) false  (|formal_top#404| state) false)) ; $logic_or$formal_top.sv:69$648_Y
+(define-fun |formal_top#425| ((state |formal_top_s|)) Bool (or  (|formal_top#424| state) false  (|formal_top#408| state) false)) ; $logic_or$formal_top.sv:69$650_Y
+(define-fun |formal_top#426| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#50| state)) #b001100000000)) ; $eq$formal_top.sv:70$651_Y
+(define-fun |formal_top#427| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#50| state)) #b001101000001)) ; $eq$formal_top.sv:70$652_Y
+(define-fun |formal_top#428| ((state |formal_top_s|)) Bool (or  (|formal_top#426| state) false  (|formal_top#427| state) false)) ; $logic_or$formal_top.sv:70$653_Y
+(define-fun |formal_top#429| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#50| state)) #b001101000010)) ; $eq$formal_top.sv:70$654_Y
+(define-fun |formal_top#430| ((state |formal_top_s|)) Bool (or  (|formal_top#428| state) false  (|formal_top#429| state) false)) ; $logic_or$formal_top.sv:70$655_Y
+(define-fun |formal_top#431| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#50| state)) #b001100000101)) ; $eq$formal_top.sv:70$656_Y
+(define-fun |formal_top#432| ((state |formal_top_s|)) Bool (or  (|formal_top#430| state) false  (|formal_top#431| state) false)) ; $logic_or$formal_top.sv:70$657_Y
+(define-fun |formal_top#433| ((state |formal_top_s|)) Bool (and (or  (|formal_top#425| state) false) (or  (|formal_top#432| state) false))) ; $logic_and$formal_top.sv:69$658_Y
+(define-fun |formal_top#434| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b0110011)) ; $procmux$6595_CMP
+(define-fun |formal_top#435| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b0010011)) ; $procmux$6580_CMP
+(define-fun |formal_top#436| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b0000011)) ; $procmux$6605_CMP
+(define-fun |formal_top#437| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b0100011)) ; $procmux$6604_CMP
+(define-fun |formal_top#438| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b1100011)) ; $eq$formal_top.sv:98$667_Y
+(define-fun |formal_top#439| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b1100111)) ; $procmux$6601_CMP
+(define-fun |formal_top#440| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b1101111)) ; $eq$formal_top.sv:95$661_Y
+(define-fun |formal_top#441| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b0010111)) ; $procmux$6599_CMP
+(define-fun |formal_top#442| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b0110111)) ; $procmux$6600_CMP
+(define-fun |formal_top#443| ((state |formal_top_s|)) Bool (or  (|formal_top#440| state) (|formal_top#441| state) (|formal_top#442| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8772
+(define-fun |formal_top#444| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#50| state)) #b1110011)) ; $procmux$6598_CMP
+(define-fun |formal_top#445| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#444| state) (ite (|formal_top#433| state) #b1 #b0) (ite (|formal_top#443| state) #b1 (ite (|formal_top#439| state) (ite (|formal_top#410| state) #b1 #b0) (ite (|formal_top#438| state) (ite (|formal_top#423| state) #b1 #b0) (ite (|formal_top#437| state) (ite (|formal_top#417| state) #b1 #b0) (ite (|formal_top#436| state) (ite (|formal_top#419| state) #b1 #b0) (ite (|formal_top#435| state) (|formal_top#415| state) (ite (|formal_top#434| state) (|formal_top#413| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$42.$result[0:0]$603
 ; yosys-smt2-assume 17 _witness_.check_assume_formal_top_sv_93_659 formal_top.sv:93.25-93.46
-(define-fun |formal_top_u 17| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#443| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_659
-(define-fun |formal_top#444| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#51| state)) #b1) (= ((_ extract 26 26) (|formal_top#51| state)) #b1) (= ((_ extract 27 27) (|formal_top#51| state)) #b1) (= ((_ extract 28 28) (|formal_top#51| state)) #b1) (= ((_ extract 29 29) (|formal_top#51| state)) #b1) (= ((_ extract 30 30) (|formal_top#51| state)) #b1) (= ((_ extract 31 31) (|formal_top#51| state)) #b1)))) ; $eq$formal_top.sv:45$691_Y
-(define-fun |formal_top#445| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#51| state)) #b0100000)) ; $eq$formal_top.sv:45$692_Y
-(define-fun |formal_top#446| ((state |formal_top_s|)) Bool (or  (|formal_top#444| state) false  (|formal_top#445| state) false)) ; $logic_or$formal_top.sv:45$693_Y
-(define-fun |formal_top#447| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#51| state)) #b001)) ; $eq$formal_top.sv:60$701_Y
-(define-fun |formal_top#448| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#51| state)) #b010)) ; $eq$formal_top.sv:60$703_Y
-(define-fun |formal_top#449| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#51| state)) #b100)) ; $eq$formal_top.sv:61$705_Y
-(define-fun |formal_top#450| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#51| state)) #b110)) ; $eq$formal_top.sv:64$721_Y
-(define-fun |formal_top#451| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#51| state)) #b111)) ; $eq$formal_top.sv:64$723_Y
-(define-fun |formal_top#452| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#51| state)) #b011)) ; $eq$formal_top.sv:69$729_Y
-(define-fun |formal_top#453| ((state |formal_top_s|)) Bool (or  (|formal_top#447| state) (|formal_top#448| state) (|formal_top#449| state) (|formal_top#450| state) (|formal_top#451| state) (|formal_top#452| state))) ; $procmux$6546_CTRL
-(define-fun |formal_top#454| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#51| state)) #b1) (= ((_ extract 13 13) (|formal_top#51| state)) #b1) (= ((_ extract 14 14) (|formal_top#51| state)) #b1)))) ; $eq$formal_top.sv:60$700_Y
-(define-fun |formal_top#455| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#51| state)) #b101)) ; $eq$formal_top.sv:61$707_Y
-(define-fun |formal_top#456| ((state |formal_top_s|)) Bool (or  (|formal_top#454| state) (|formal_top#455| state))) ; $procmux$6547_CTRL
-(define-fun |formal_top#457| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#456| state) (ite (|formal_top#446| state) #b1 #b0) (ite (|formal_top#453| state) (ite (|formal_top#444| state) #b1 #b0) (|formal_top#72| state)))) ; $2\is_legal$func$formal_top.sv:93$45.$result[0:0]$690
-(define-fun |formal_top#458| ((state |formal_top_s|)) Bool (or  (|formal_top#454| state) (|formal_top#448| state) (|formal_top#449| state) (|formal_top#450| state) (|formal_top#451| state) (|formal_top#452| state))) ; $procmux$6532_CTRL
-(define-fun |formal_top#459| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#458| state) #b1 (ite (|formal_top#447| state) (ite (|formal_top#444| state) #b1 #b0) (ite (|formal_top#455| state) (ite (|formal_top#446| state) #b1 #b0) (|formal_top#73| state))))) ; $3\is_legal$func$formal_top.sv:93$45.$result[0:0]$695
-(define-fun |formal_top#460| ((state |formal_top_s|)) Bool (or  (|formal_top#454| state) false  (|formal_top#447| state) false)) ; $logic_or$formal_top.sv:60$702_Y
-(define-fun |formal_top#461| ((state |formal_top_s|)) Bool (or  (|formal_top#460| state) false  (|formal_top#448| state) false)) ; $logic_or$formal_top.sv:60$704_Y
-(define-fun |formal_top#462| ((state |formal_top_s|)) Bool (or  (|formal_top#461| state) false  (|formal_top#449| state) false)) ; $logic_or$formal_top.sv:60$706_Y
-(define-fun |formal_top#463| ((state |formal_top_s|)) Bool (or  (|formal_top#462| state) false  (|formal_top#455| state) false)) ; $logic_or$formal_top.sv:60$708_Y
-(define-fun |formal_top#464| ((state |formal_top_s|)) Bool (or  (|formal_top#460| state) false  (|formal_top#449| state) false)) ; $logic_or$formal_top.sv:63$718_Y
-(define-fun |formal_top#465| ((state |formal_top_s|)) Bool (or  (|formal_top#464| state) false  (|formal_top#455| state) false)) ; $logic_or$formal_top.sv:63$720_Y
-(define-fun |formal_top#466| ((state |formal_top_s|)) Bool (or  (|formal_top#465| state) false  (|formal_top#450| state) false)) ; $logic_or$formal_top.sv:63$722_Y
-(define-fun |formal_top#467| ((state |formal_top_s|)) Bool (or  (|formal_top#466| state) false  (|formal_top#451| state) false)) ; $logic_or$formal_top.sv:63$724_Y
-(define-fun |formal_top#468| ((state |formal_top_s|)) Bool (or  (|formal_top#447| state) false  (|formal_top#448| state) false)) ; $logic_or$formal_top.sv:69$728_Y
-(define-fun |formal_top#469| ((state |formal_top_s|)) Bool (or  (|formal_top#468| state) false  (|formal_top#452| state) false)) ; $logic_or$formal_top.sv:69$730_Y
-(define-fun |formal_top#470| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#51| state)) #b001100000000)) ; $eq$formal_top.sv:70$731_Y
-(define-fun |formal_top#471| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#51| state)) #b001101000001)) ; $eq$formal_top.sv:70$732_Y
-(define-fun |formal_top#472| ((state |formal_top_s|)) Bool (or  (|formal_top#470| state) false  (|formal_top#471| state) false)) ; $logic_or$formal_top.sv:70$733_Y
-(define-fun |formal_top#473| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#51| state)) #b001101000010)) ; $eq$formal_top.sv:70$734_Y
-(define-fun |formal_top#474| ((state |formal_top_s|)) Bool (or  (|formal_top#472| state) false  (|formal_top#473| state) false)) ; $logic_or$formal_top.sv:70$735_Y
-(define-fun |formal_top#475| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#51| state)) #b001100000101)) ; $eq$formal_top.sv:70$736_Y
-(define-fun |formal_top#476| ((state |formal_top_s|)) Bool (or  (|formal_top#474| state) false  (|formal_top#475| state) false)) ; $logic_or$formal_top.sv:70$737_Y
-(define-fun |formal_top#477| ((state |formal_top_s|)) Bool (and (or  (|formal_top#469| state) false) (or  (|formal_top#476| state) false))) ; $logic_and$formal_top.sv:69$738_Y
-(define-fun |formal_top#478| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b0110011)) ; $procmux$6549_CMP
-(define-fun |formal_top#479| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b0010011)) ; $procmux$6534_CMP
-(define-fun |formal_top#480| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b0000011)) ; $procmux$6559_CMP
-(define-fun |formal_top#481| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b0100011)) ; $procmux$6558_CMP
-(define-fun |formal_top#482| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b1100011)) ; $eq$formal_top.sv:98$747_Y
-(define-fun |formal_top#483| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b1100111)) ; $procmux$6555_CMP
-(define-fun |formal_top#484| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b1101111)) ; $eq$formal_top.sv:95$741_Y
-(define-fun |formal_top#485| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b0010111)) ; $procmux$6553_CMP
-(define-fun |formal_top#486| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b0110111)) ; $procmux$6554_CMP
-(define-fun |formal_top#487| ((state |formal_top_s|)) Bool (or  (|formal_top#484| state) (|formal_top#485| state) (|formal_top#486| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8760
-(define-fun |formal_top#488| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#51| state)) #b1110011)) ; $procmux$6552_CMP
-(define-fun |formal_top#489| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#488| state) (ite (|formal_top#477| state) #b1 #b0) (ite (|formal_top#487| state) #b1 (ite (|formal_top#483| state) (ite (|formal_top#454| state) #b1 #b0) (ite (|formal_top#482| state) (ite (|formal_top#467| state) #b1 #b0) (ite (|formal_top#481| state) (ite (|formal_top#461| state) #b1 #b0) (ite (|formal_top#480| state) (ite (|formal_top#463| state) #b1 #b0) (ite (|formal_top#479| state) (|formal_top#459| state) (ite (|formal_top#478| state) (|formal_top#457| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$45.$result[0:0]$683
+(define-fun |formal_top_u 17| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#445| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_659
+(define-fun |formal_top#446| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 25 25) (|formal_top#53| state)) #b1) (= ((_ extract 26 26) (|formal_top#53| state)) #b1) (= ((_ extract 27 27) (|formal_top#53| state)) #b1) (= ((_ extract 28 28) (|formal_top#53| state)) #b1) (= ((_ extract 29 29) (|formal_top#53| state)) #b1) (= ((_ extract 30 30) (|formal_top#53| state)) #b1) (= ((_ extract 31 31) (|formal_top#53| state)) #b1)))) ; $eq$formal_top.sv:45$691_Y
+(define-fun |formal_top#447| ((state |formal_top_s|)) Bool (= ((_ extract 31 25) (|formal_top#53| state)) #b0100000)) ; $eq$formal_top.sv:45$692_Y
+(define-fun |formal_top#448| ((state |formal_top_s|)) Bool (or  (|formal_top#446| state) false  (|formal_top#447| state) false)) ; $logic_or$formal_top.sv:45$693_Y
+(define-fun |formal_top#449| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#53| state)) #b001)) ; $eq$formal_top.sv:60$701_Y
+(define-fun |formal_top#450| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#53| state)) #b010)) ; $eq$formal_top.sv:60$703_Y
+(define-fun |formal_top#451| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#53| state)) #b100)) ; $eq$formal_top.sv:61$705_Y
+(define-fun |formal_top#452| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#53| state)) #b110)) ; $eq$formal_top.sv:64$721_Y
+(define-fun |formal_top#453| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#53| state)) #b111)) ; $eq$formal_top.sv:64$723_Y
+(define-fun |formal_top#454| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#53| state)) #b011)) ; $eq$formal_top.sv:69$729_Y
+(define-fun |formal_top#455| ((state |formal_top_s|)) Bool (or  (|formal_top#449| state) (|formal_top#450| state) (|formal_top#451| state) (|formal_top#452| state) (|formal_top#453| state) (|formal_top#454| state))) ; $procmux$6546_CTRL
+(define-fun |formal_top#456| ((state |formal_top_s|)) Bool (not (or  (= ((_ extract 12 12) (|formal_top#53| state)) #b1) (= ((_ extract 13 13) (|formal_top#53| state)) #b1) (= ((_ extract 14 14) (|formal_top#53| state)) #b1)))) ; $eq$formal_top.sv:60$700_Y
+(define-fun |formal_top#457| ((state |formal_top_s|)) Bool (= ((_ extract 14 12) (|formal_top#53| state)) #b101)) ; $eq$formal_top.sv:61$707_Y
+(define-fun |formal_top#458| ((state |formal_top_s|)) Bool (or  (|formal_top#456| state) (|formal_top#457| state))) ; $procmux$6547_CTRL
+(define-fun |formal_top#459| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#458| state) (ite (|formal_top#448| state) #b1 #b0) (ite (|formal_top#455| state) (ite (|formal_top#446| state) #b1 #b0) (|formal_top#74| state)))) ; $2\is_legal$func$formal_top.sv:93$45.$result[0:0]$690
+(define-fun |formal_top#460| ((state |formal_top_s|)) Bool (or  (|formal_top#456| state) (|formal_top#450| state) (|formal_top#451| state) (|formal_top#452| state) (|formal_top#453| state) (|formal_top#454| state))) ; $procmux$6532_CTRL
+(define-fun |formal_top#461| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#460| state) #b1 (ite (|formal_top#449| state) (ite (|formal_top#446| state) #b1 #b0) (ite (|formal_top#457| state) (ite (|formal_top#448| state) #b1 #b0) (|formal_top#75| state))))) ; $3\is_legal$func$formal_top.sv:93$45.$result[0:0]$695
+(define-fun |formal_top#462| ((state |formal_top_s|)) Bool (or  (|formal_top#456| state) false  (|formal_top#449| state) false)) ; $logic_or$formal_top.sv:60$702_Y
+(define-fun |formal_top#463| ((state |formal_top_s|)) Bool (or  (|formal_top#462| state) false  (|formal_top#450| state) false)) ; $logic_or$formal_top.sv:60$704_Y
+(define-fun |formal_top#464| ((state |formal_top_s|)) Bool (or  (|formal_top#463| state) false  (|formal_top#451| state) false)) ; $logic_or$formal_top.sv:60$706_Y
+(define-fun |formal_top#465| ((state |formal_top_s|)) Bool (or  (|formal_top#464| state) false  (|formal_top#457| state) false)) ; $logic_or$formal_top.sv:60$708_Y
+(define-fun |formal_top#466| ((state |formal_top_s|)) Bool (or  (|formal_top#462| state) false  (|formal_top#451| state) false)) ; $logic_or$formal_top.sv:63$718_Y
+(define-fun |formal_top#467| ((state |formal_top_s|)) Bool (or  (|formal_top#466| state) false  (|formal_top#457| state) false)) ; $logic_or$formal_top.sv:63$720_Y
+(define-fun |formal_top#468| ((state |formal_top_s|)) Bool (or  (|formal_top#467| state) false  (|formal_top#452| state) false)) ; $logic_or$formal_top.sv:63$722_Y
+(define-fun |formal_top#469| ((state |formal_top_s|)) Bool (or  (|formal_top#468| state) false  (|formal_top#453| state) false)) ; $logic_or$formal_top.sv:63$724_Y
+(define-fun |formal_top#470| ((state |formal_top_s|)) Bool (or  (|formal_top#449| state) false  (|formal_top#450| state) false)) ; $logic_or$formal_top.sv:69$728_Y
+(define-fun |formal_top#471| ((state |formal_top_s|)) Bool (or  (|formal_top#470| state) false  (|formal_top#454| state) false)) ; $logic_or$formal_top.sv:69$730_Y
+(define-fun |formal_top#472| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#53| state)) #b001100000000)) ; $eq$formal_top.sv:70$731_Y
+(define-fun |formal_top#473| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#53| state)) #b001101000001)) ; $eq$formal_top.sv:70$732_Y
+(define-fun |formal_top#474| ((state |formal_top_s|)) Bool (or  (|formal_top#472| state) false  (|formal_top#473| state) false)) ; $logic_or$formal_top.sv:70$733_Y
+(define-fun |formal_top#475| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#53| state)) #b001101000010)) ; $eq$formal_top.sv:70$734_Y
+(define-fun |formal_top#476| ((state |formal_top_s|)) Bool (or  (|formal_top#474| state) false  (|formal_top#475| state) false)) ; $logic_or$formal_top.sv:70$735_Y
+(define-fun |formal_top#477| ((state |formal_top_s|)) Bool (= ((_ extract 31 20) (|formal_top#53| state)) #b001100000101)) ; $eq$formal_top.sv:70$736_Y
+(define-fun |formal_top#478| ((state |formal_top_s|)) Bool (or  (|formal_top#476| state) false  (|formal_top#477| state) false)) ; $logic_or$formal_top.sv:70$737_Y
+(define-fun |formal_top#479| ((state |formal_top_s|)) Bool (and (or  (|formal_top#471| state) false) (or  (|formal_top#478| state) false))) ; $logic_and$formal_top.sv:69$738_Y
+(define-fun |formal_top#480| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b0110011)) ; $procmux$6549_CMP
+(define-fun |formal_top#481| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b0010011)) ; $procmux$6534_CMP
+(define-fun |formal_top#482| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b0000011)) ; $procmux$6559_CMP
+(define-fun |formal_top#483| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b0100011)) ; $procmux$6558_CMP
+(define-fun |formal_top#484| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b1100011)) ; $eq$formal_top.sv:98$747_Y
+(define-fun |formal_top#485| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b1100111)) ; $procmux$6555_CMP
+(define-fun |formal_top#486| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b1101111)) ; $eq$formal_top.sv:95$741_Y
+(define-fun |formal_top#487| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b0010111)) ; $procmux$6553_CMP
+(define-fun |formal_top#488| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b0110111)) ; $procmux$6554_CMP
+(define-fun |formal_top#489| ((state |formal_top_s|)) Bool (or  (|formal_top#486| state) (|formal_top#487| state) (|formal_top#488| state))) ; $auto$opt_reduce.cc:137:opt_pmux$8760
+(define-fun |formal_top#490| ((state |formal_top_s|)) Bool (= ((_ extract 6 0) (|formal_top#53| state)) #b1110011)) ; $procmux$6552_CMP
+(define-fun |formal_top#491| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#490| state) (ite (|formal_top#479| state) #b1 #b0) (ite (|formal_top#489| state) #b1 (ite (|formal_top#485| state) (ite (|formal_top#456| state) #b1 #b0) (ite (|formal_top#484| state) (ite (|formal_top#469| state) #b1 #b0) (ite (|formal_top#483| state) (ite (|formal_top#463| state) #b1 #b0) (ite (|formal_top#482| state) (ite (|formal_top#465| state) #b1 #b0) (ite (|formal_top#481| state) (|formal_top#461| state) (ite (|formal_top#480| state) (|formal_top#459| state) #b0))))))))) ; $0\is_legal$func$formal_top.sv:93$45.$result[0:0]$683
 ; yosys-smt2-assume 18 _witness_.check_assume_formal_top_sv_93_739 formal_top.sv:93.25-93.46
-(define-fun |formal_top_u 18| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#489| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_739
-(define-fun |formal_top#490| ((state |formal_top_s|)) Bool (bvuge (|formal_top#32| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$183_Y
-(define-fun |formal_top#491| ((state |formal_top_s|)) Bool (bvult (|formal_top#32| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$184_Y
-(define-fun |formal_top#492| ((state |formal_top_s|)) Bool (and (or  (|formal_top#490| state) false) (or  (|formal_top#491| state) false))) ; $logic_and$formal_top.sv:96$185_Y
-(define-fun |formal_top#493| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#162| state) #b1 #b0)) ; $assume$formal_top.sv:96$182_EN
+(define-fun |formal_top_u 18| ((state |formal_top_s|)) Bool (or (= ((_ extract 0 0) (|formal_top#491| state)) #b1) (not true))) ; _witness_.check_assume_formal_top_sv_93_739
+(define-fun |formal_top#492| ((state |formal_top_s|)) Bool (bvuge (|formal_top#34| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$183_Y
+(define-fun |formal_top#493| ((state |formal_top_s|)) Bool (bvult (|formal_top#34| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$184_Y
+(define-fun |formal_top#494| ((state |formal_top_s|)) Bool (and (or  (|formal_top#492| state) false) (or  (|formal_top#493| state) false))) ; $logic_and$formal_top.sv:96$185_Y
+(define-fun |formal_top#495| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#164| state) #b1 #b0)) ; $assume$formal_top.sv:96$182_EN
 ; yosys-smt2-assume 19 _witness_.check_assume_formal_top_sv_96_182 formal_top.sv:96.17-96.72
-(define-fun |formal_top_u 19| ((state |formal_top_s|)) Bool (or (|formal_top#492| state) (not (= ((_ extract 0 0) (|formal_top#493| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_182
-(define-fun |formal_top#494| ((state |formal_top_s|)) Bool (bvuge (|formal_top#35| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$263_Y
-(define-fun |formal_top#495| ((state |formal_top_s|)) Bool (bvult (|formal_top#35| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$264_Y
-(define-fun |formal_top#496| ((state |formal_top_s|)) Bool (and (or  (|formal_top#494| state) false) (or  (|formal_top#495| state) false))) ; $logic_and$formal_top.sv:96$265_Y
-(define-fun |formal_top#497| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#208| state) #b1 #b0)) ; $assume$formal_top.sv:96$262_EN
+(define-fun |formal_top_u 19| ((state |formal_top_s|)) Bool (or (|formal_top#494| state) (not (= ((_ extract 0 0) (|formal_top#495| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_182
+(define-fun |formal_top#496| ((state |formal_top_s|)) Bool (bvuge (|formal_top#37| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$263_Y
+(define-fun |formal_top#497| ((state |formal_top_s|)) Bool (bvult (|formal_top#37| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$264_Y
+(define-fun |formal_top#498| ((state |formal_top_s|)) Bool (and (or  (|formal_top#496| state) false) (or  (|formal_top#497| state) false))) ; $logic_and$formal_top.sv:96$265_Y
+(define-fun |formal_top#499| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#210| state) #b1 #b0)) ; $assume$formal_top.sv:96$262_EN
 ; yosys-smt2-assume 20 _witness_.check_assume_formal_top_sv_96_262 formal_top.sv:96.17-96.72
-(define-fun |formal_top_u 20| ((state |formal_top_s|)) Bool (or (|formal_top#496| state) (not (= ((_ extract 0 0) (|formal_top#497| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_262
-(define-fun |formal_top#498| ((state |formal_top_s|)) Bool (bvuge (|formal_top#38| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$343_Y
-(define-fun |formal_top#499| ((state |formal_top_s|)) Bool (bvult (|formal_top#38| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$344_Y
-(define-fun |formal_top#500| ((state |formal_top_s|)) Bool (and (or  (|formal_top#498| state) false) (or  (|formal_top#499| state) false))) ; $logic_and$formal_top.sv:96$345_Y
-(define-fun |formal_top#501| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#254| state) #b1 #b0)) ; $assume$formal_top.sv:96$342_EN
+(define-fun |formal_top_u 20| ((state |formal_top_s|)) Bool (or (|formal_top#498| state) (not (= ((_ extract 0 0) (|formal_top#499| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_262
+(define-fun |formal_top#500| ((state |formal_top_s|)) Bool (bvuge (|formal_top#40| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$343_Y
+(define-fun |formal_top#501| ((state |formal_top_s|)) Bool (bvult (|formal_top#40| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$344_Y
+(define-fun |formal_top#502| ((state |formal_top_s|)) Bool (and (or  (|formal_top#500| state) false) (or  (|formal_top#501| state) false))) ; $logic_and$formal_top.sv:96$345_Y
+(define-fun |formal_top#503| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#256| state) #b1 #b0)) ; $assume$formal_top.sv:96$342_EN
 ; yosys-smt2-assume 21 _witness_.check_assume_formal_top_sv_96_342 formal_top.sv:96.17-96.72
-(define-fun |formal_top_u 21| ((state |formal_top_s|)) Bool (or (|formal_top#500| state) (not (= ((_ extract 0 0) (|formal_top#501| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_342
-(define-fun |formal_top#502| ((state |formal_top_s|)) Bool (bvuge (|formal_top#41| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$423_Y
-(define-fun |formal_top#503| ((state |formal_top_s|)) Bool (bvult (|formal_top#41| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$424_Y
-(define-fun |formal_top#504| ((state |formal_top_s|)) Bool (and (or  (|formal_top#502| state) false) (or  (|formal_top#503| state) false))) ; $logic_and$formal_top.sv:96$425_Y
-(define-fun |formal_top#505| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#300| state) #b1 #b0)) ; $assume$formal_top.sv:96$422_EN
+(define-fun |formal_top_u 21| ((state |formal_top_s|)) Bool (or (|formal_top#502| state) (not (= ((_ extract 0 0) (|formal_top#503| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_342
+(define-fun |formal_top#504| ((state |formal_top_s|)) Bool (bvuge (|formal_top#43| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$423_Y
+(define-fun |formal_top#505| ((state |formal_top_s|)) Bool (bvult (|formal_top#43| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$424_Y
+(define-fun |formal_top#506| ((state |formal_top_s|)) Bool (and (or  (|formal_top#504| state) false) (or  (|formal_top#505| state) false))) ; $logic_and$formal_top.sv:96$425_Y
+(define-fun |formal_top#507| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#302| state) #b1 #b0)) ; $assume$formal_top.sv:96$422_EN
 ; yosys-smt2-assume 22 _witness_.check_assume_formal_top_sv_96_422 formal_top.sv:96.17-96.72
-(define-fun |formal_top_u 22| ((state |formal_top_s|)) Bool (or (|formal_top#504| state) (not (= ((_ extract 0 0) (|formal_top#505| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_422
-(define-fun |formal_top#506| ((state |formal_top_s|)) Bool (bvuge (|formal_top#44| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$503_Y
-(define-fun |formal_top#507| ((state |formal_top_s|)) Bool (bvult (|formal_top#44| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$504_Y
-(define-fun |formal_top#508| ((state |formal_top_s|)) Bool (and (or  (|formal_top#506| state) false) (or  (|formal_top#507| state) false))) ; $logic_and$formal_top.sv:96$505_Y
-(define-fun |formal_top#509| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#346| state) #b1 #b0)) ; $assume$formal_top.sv:96$502_EN
+(define-fun |formal_top_u 22| ((state |formal_top_s|)) Bool (or (|formal_top#506| state) (not (= ((_ extract 0 0) (|formal_top#507| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_422
+(define-fun |formal_top#508| ((state |formal_top_s|)) Bool (bvuge (|formal_top#46| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$503_Y
+(define-fun |formal_top#509| ((state |formal_top_s|)) Bool (bvult (|formal_top#46| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$504_Y
+(define-fun |formal_top#510| ((state |formal_top_s|)) Bool (and (or  (|formal_top#508| state) false) (or  (|formal_top#509| state) false))) ; $logic_and$formal_top.sv:96$505_Y
+(define-fun |formal_top#511| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#348| state) #b1 #b0)) ; $assume$formal_top.sv:96$502_EN
 ; yosys-smt2-assume 23 _witness_.check_assume_formal_top_sv_96_502 formal_top.sv:96.17-96.72
-(define-fun |formal_top_u 23| ((state |formal_top_s|)) Bool (or (|formal_top#508| state) (not (= ((_ extract 0 0) (|formal_top#509| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_502
-(define-fun |formal_top#510| ((state |formal_top_s|)) Bool (bvuge (|formal_top#47| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$583_Y
-(define-fun |formal_top#511| ((state |formal_top_s|)) Bool (bvult (|formal_top#47| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$584_Y
-(define-fun |formal_top#512| ((state |formal_top_s|)) Bool (and (or  (|formal_top#510| state) false) (or  (|formal_top#511| state) false))) ; $logic_and$formal_top.sv:96$585_Y
-(define-fun |formal_top#513| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#392| state) #b1 #b0)) ; $assume$formal_top.sv:96$582_EN
+(define-fun |formal_top_u 23| ((state |formal_top_s|)) Bool (or (|formal_top#510| state) (not (= ((_ extract 0 0) (|formal_top#511| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_502
+(define-fun |formal_top#512| ((state |formal_top_s|)) Bool (bvuge (|formal_top#49| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$583_Y
+(define-fun |formal_top#513| ((state |formal_top_s|)) Bool (bvult (|formal_top#49| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$584_Y
+(define-fun |formal_top#514| ((state |formal_top_s|)) Bool (and (or  (|formal_top#512| state) false) (or  (|formal_top#513| state) false))) ; $logic_and$formal_top.sv:96$585_Y
+(define-fun |formal_top#515| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#394| state) #b1 #b0)) ; $assume$formal_top.sv:96$582_EN
 ; yosys-smt2-assume 24 _witness_.check_assume_formal_top_sv_96_582 formal_top.sv:96.17-96.72
-(define-fun |formal_top_u 24| ((state |formal_top_s|)) Bool (or (|formal_top#512| state) (not (= ((_ extract 0 0) (|formal_top#513| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_582
-(define-fun |formal_top#514| ((state |formal_top_s|)) Bool (bvuge (|formal_top#50| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$663_Y
-(define-fun |formal_top#515| ((state |formal_top_s|)) Bool (bvult (|formal_top#50| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$664_Y
-(define-fun |formal_top#516| ((state |formal_top_s|)) Bool (and (or  (|formal_top#514| state) false) (or  (|formal_top#515| state) false))) ; $logic_and$formal_top.sv:96$665_Y
-(define-fun |formal_top#517| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#438| state) #b1 #b0)) ; $assume$formal_top.sv:96$662_EN
+(define-fun |formal_top_u 24| ((state |formal_top_s|)) Bool (or (|formal_top#514| state) (not (= ((_ extract 0 0) (|formal_top#515| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_582
+(define-fun |formal_top#516| ((state |formal_top_s|)) Bool (bvuge (|formal_top#52| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$663_Y
+(define-fun |formal_top#517| ((state |formal_top_s|)) Bool (bvult (|formal_top#52| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$664_Y
+(define-fun |formal_top#518| ((state |formal_top_s|)) Bool (and (or  (|formal_top#516| state) false) (or  (|formal_top#517| state) false))) ; $logic_and$formal_top.sv:96$665_Y
+(define-fun |formal_top#519| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#440| state) #b1 #b0)) ; $assume$formal_top.sv:96$662_EN
 ; yosys-smt2-assume 25 _witness_.check_assume_formal_top_sv_96_662 formal_top.sv:96.17-96.72
-(define-fun |formal_top_u 25| ((state |formal_top_s|)) Bool (or (|formal_top#516| state) (not (= ((_ extract 0 0) (|formal_top#517| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_662
-(define-fun |formal_top#518| ((state |formal_top_s|)) Bool (bvuge (|formal_top#53| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$743_Y
-(define-fun |formal_top#519| ((state |formal_top_s|)) Bool (bvult (|formal_top#53| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$744_Y
-(define-fun |formal_top#520| ((state |formal_top_s|)) Bool (and (or  (|formal_top#518| state) false) (or  (|formal_top#519| state) false))) ; $logic_and$formal_top.sv:96$745_Y
-(define-fun |formal_top#521| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#484| state) #b1 #b0)) ; $assume$formal_top.sv:96$742_EN
+(define-fun |formal_top_u 25| ((state |formal_top_s|)) Bool (or (|formal_top#518| state) (not (= ((_ extract 0 0) (|formal_top#519| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_662
+(define-fun |formal_top#520| ((state |formal_top_s|)) Bool (bvuge (|formal_top#55| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:96$743_Y
+(define-fun |formal_top#521| ((state |formal_top_s|)) Bool (bvult (|formal_top#55| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:96$744_Y
+(define-fun |formal_top#522| ((state |formal_top_s|)) Bool (and (or  (|formal_top#520| state) false) (or  (|formal_top#521| state) false))) ; $logic_and$formal_top.sv:96$745_Y
+(define-fun |formal_top#523| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#486| state) #b1 #b0)) ; $assume$formal_top.sv:96$742_EN
 ; yosys-smt2-assume 26 _witness_.check_assume_formal_top_sv_96_742 formal_top.sv:96.17-96.72
-(define-fun |formal_top_u 26| ((state |formal_top_s|)) Bool (or (|formal_top#520| state) (not (= ((_ extract 0 0) (|formal_top#521| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_742
-(define-fun |formal_top#522| ((state |formal_top_s|)) Bool (bvuge (|formal_top#31| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$189_Y
-(define-fun |formal_top#523| ((state |formal_top_s|)) Bool (bvult (|formal_top#31| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$190_Y
-(define-fun |formal_top#524| ((state |formal_top_s|)) Bool (and (or  (|formal_top#522| state) false) (or  (|formal_top#523| state) false))) ; $logic_and$formal_top.sv:99$191_Y
-(define-fun |formal_top#525| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#160| state) #b1 #b0)) ; $assume$formal_top.sv:99$188_EN
+(define-fun |formal_top_u 26| ((state |formal_top_s|)) Bool (or (|formal_top#522| state) (not (= ((_ extract 0 0) (|formal_top#523| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_96_742
+(define-fun |formal_top#524| ((state |formal_top_s|)) Bool (bvuge (|formal_top#33| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$189_Y
+(define-fun |formal_top#525| ((state |formal_top_s|)) Bool (bvult (|formal_top#33| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$190_Y
+(define-fun |formal_top#526| ((state |formal_top_s|)) Bool (and (or  (|formal_top#524| state) false) (or  (|formal_top#525| state) false))) ; $logic_and$formal_top.sv:99$191_Y
+(define-fun |formal_top#527| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#162| state) #b1 #b0)) ; $assume$formal_top.sv:99$188_EN
 ; yosys-smt2-assume 27 _witness_.check_assume_formal_top_sv_99_188 formal_top.sv:99.17-99.72
-(define-fun |formal_top_u 27| ((state |formal_top_s|)) Bool (or (|formal_top#524| state) (not (= ((_ extract 0 0) (|formal_top#525| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_188
-(define-fun |formal_top#526| ((state |formal_top_s|)) Bool (bvuge (|formal_top#34| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$269_Y
-(define-fun |formal_top#527| ((state |formal_top_s|)) Bool (bvult (|formal_top#34| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$270_Y
-(define-fun |formal_top#528| ((state |formal_top_s|)) Bool (and (or  (|formal_top#526| state) false) (or  (|formal_top#527| state) false))) ; $logic_and$formal_top.sv:99$271_Y
-(define-fun |formal_top#529| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#206| state) #b1 #b0)) ; $assume$formal_top.sv:99$268_EN
+(define-fun |formal_top_u 27| ((state |formal_top_s|)) Bool (or (|formal_top#526| state) (not (= ((_ extract 0 0) (|formal_top#527| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_188
+(define-fun |formal_top#528| ((state |formal_top_s|)) Bool (bvuge (|formal_top#36| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$269_Y
+(define-fun |formal_top#529| ((state |formal_top_s|)) Bool (bvult (|formal_top#36| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$270_Y
+(define-fun |formal_top#530| ((state |formal_top_s|)) Bool (and (or  (|formal_top#528| state) false) (or  (|formal_top#529| state) false))) ; $logic_and$formal_top.sv:99$271_Y
+(define-fun |formal_top#531| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#208| state) #b1 #b0)) ; $assume$formal_top.sv:99$268_EN
 ; yosys-smt2-assume 28 _witness_.check_assume_formal_top_sv_99_268 formal_top.sv:99.17-99.72
-(define-fun |formal_top_u 28| ((state |formal_top_s|)) Bool (or (|formal_top#528| state) (not (= ((_ extract 0 0) (|formal_top#529| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_268
-(define-fun |formal_top#530| ((state |formal_top_s|)) Bool (bvuge (|formal_top#37| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$349_Y
-(define-fun |formal_top#531| ((state |formal_top_s|)) Bool (bvult (|formal_top#37| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$350_Y
-(define-fun |formal_top#532| ((state |formal_top_s|)) Bool (and (or  (|formal_top#530| state) false) (or  (|formal_top#531| state) false))) ; $logic_and$formal_top.sv:99$351_Y
-(define-fun |formal_top#533| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#252| state) #b1 #b0)) ; $assume$formal_top.sv:99$348_EN
+(define-fun |formal_top_u 28| ((state |formal_top_s|)) Bool (or (|formal_top#530| state) (not (= ((_ extract 0 0) (|formal_top#531| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_268
+(define-fun |formal_top#532| ((state |formal_top_s|)) Bool (bvuge (|formal_top#39| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$349_Y
+(define-fun |formal_top#533| ((state |formal_top_s|)) Bool (bvult (|formal_top#39| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$350_Y
+(define-fun |formal_top#534| ((state |formal_top_s|)) Bool (and (or  (|formal_top#532| state) false) (or  (|formal_top#533| state) false))) ; $logic_and$formal_top.sv:99$351_Y
+(define-fun |formal_top#535| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#254| state) #b1 #b0)) ; $assume$formal_top.sv:99$348_EN
 ; yosys-smt2-assume 29 _witness_.check_assume_formal_top_sv_99_348 formal_top.sv:99.17-99.72
-(define-fun |formal_top_u 29| ((state |formal_top_s|)) Bool (or (|formal_top#532| state) (not (= ((_ extract 0 0) (|formal_top#533| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_348
-(define-fun |formal_top#534| ((state |formal_top_s|)) Bool (bvuge (|formal_top#40| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$429_Y
-(define-fun |formal_top#535| ((state |formal_top_s|)) Bool (bvult (|formal_top#40| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$430_Y
-(define-fun |formal_top#536| ((state |formal_top_s|)) Bool (and (or  (|formal_top#534| state) false) (or  (|formal_top#535| state) false))) ; $logic_and$formal_top.sv:99$431_Y
-(define-fun |formal_top#537| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#298| state) #b1 #b0)) ; $assume$formal_top.sv:99$428_EN
+(define-fun |formal_top_u 29| ((state |formal_top_s|)) Bool (or (|formal_top#534| state) (not (= ((_ extract 0 0) (|formal_top#535| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_348
+(define-fun |formal_top#536| ((state |formal_top_s|)) Bool (bvuge (|formal_top#42| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$429_Y
+(define-fun |formal_top#537| ((state |formal_top_s|)) Bool (bvult (|formal_top#42| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$430_Y
+(define-fun |formal_top#538| ((state |formal_top_s|)) Bool (and (or  (|formal_top#536| state) false) (or  (|formal_top#537| state) false))) ; $logic_and$formal_top.sv:99$431_Y
+(define-fun |formal_top#539| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#300| state) #b1 #b0)) ; $assume$formal_top.sv:99$428_EN
 ; yosys-smt2-assume 30 _witness_.check_assume_formal_top_sv_99_428 formal_top.sv:99.17-99.72
-(define-fun |formal_top_u 30| ((state |formal_top_s|)) Bool (or (|formal_top#536| state) (not (= ((_ extract 0 0) (|formal_top#537| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_428
-(define-fun |formal_top#538| ((state |formal_top_s|)) Bool (bvuge (|formal_top#43| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$509_Y
-(define-fun |formal_top#539| ((state |formal_top_s|)) Bool (bvult (|formal_top#43| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$510_Y
-(define-fun |formal_top#540| ((state |formal_top_s|)) Bool (and (or  (|formal_top#538| state) false) (or  (|formal_top#539| state) false))) ; $logic_and$formal_top.sv:99$511_Y
-(define-fun |formal_top#541| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#344| state) #b1 #b0)) ; $assume$formal_top.sv:99$508_EN
+(define-fun |formal_top_u 30| ((state |formal_top_s|)) Bool (or (|formal_top#538| state) (not (= ((_ extract 0 0) (|formal_top#539| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_428
+(define-fun |formal_top#540| ((state |formal_top_s|)) Bool (bvuge (|formal_top#45| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$509_Y
+(define-fun |formal_top#541| ((state |formal_top_s|)) Bool (bvult (|formal_top#45| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$510_Y
+(define-fun |formal_top#542| ((state |formal_top_s|)) Bool (and (or  (|formal_top#540| state) false) (or  (|formal_top#541| state) false))) ; $logic_and$formal_top.sv:99$511_Y
+(define-fun |formal_top#543| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#346| state) #b1 #b0)) ; $assume$formal_top.sv:99$508_EN
 ; yosys-smt2-assume 31 _witness_.check_assume_formal_top_sv_99_508 formal_top.sv:99.17-99.72
-(define-fun |formal_top_u 31| ((state |formal_top_s|)) Bool (or (|formal_top#540| state) (not (= ((_ extract 0 0) (|formal_top#541| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_508
-(define-fun |formal_top#542| ((state |formal_top_s|)) Bool (bvuge (|formal_top#46| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$589_Y
-(define-fun |formal_top#543| ((state |formal_top_s|)) Bool (bvult (|formal_top#46| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$590_Y
-(define-fun |formal_top#544| ((state |formal_top_s|)) Bool (and (or  (|formal_top#542| state) false) (or  (|formal_top#543| state) false))) ; $logic_and$formal_top.sv:99$591_Y
-(define-fun |formal_top#545| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#390| state) #b1 #b0)) ; $assume$formal_top.sv:99$588_EN
+(define-fun |formal_top_u 31| ((state |formal_top_s|)) Bool (or (|formal_top#542| state) (not (= ((_ extract 0 0) (|formal_top#543| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_508
+(define-fun |formal_top#544| ((state |formal_top_s|)) Bool (bvuge (|formal_top#48| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$589_Y
+(define-fun |formal_top#545| ((state |formal_top_s|)) Bool (bvult (|formal_top#48| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$590_Y
+(define-fun |formal_top#546| ((state |formal_top_s|)) Bool (and (or  (|formal_top#544| state) false) (or  (|formal_top#545| state) false))) ; $logic_and$formal_top.sv:99$591_Y
+(define-fun |formal_top#547| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#392| state) #b1 #b0)) ; $assume$formal_top.sv:99$588_EN
 ; yosys-smt2-assume 32 _witness_.check_assume_formal_top_sv_99_588 formal_top.sv:99.17-99.72
-(define-fun |formal_top_u 32| ((state |formal_top_s|)) Bool (or (|formal_top#544| state) (not (= ((_ extract 0 0) (|formal_top#545| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_588
-(define-fun |formal_top#546| ((state |formal_top_s|)) Bool (bvuge (|formal_top#49| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$669_Y
-(define-fun |formal_top#547| ((state |formal_top_s|)) Bool (bvult (|formal_top#49| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$670_Y
-(define-fun |formal_top#548| ((state |formal_top_s|)) Bool (and (or  (|formal_top#546| state) false) (or  (|formal_top#547| state) false))) ; $logic_and$formal_top.sv:99$671_Y
-(define-fun |formal_top#549| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#436| state) #b1 #b0)) ; $assume$formal_top.sv:99$668_EN
+(define-fun |formal_top_u 32| ((state |formal_top_s|)) Bool (or (|formal_top#546| state) (not (= ((_ extract 0 0) (|formal_top#547| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_588
+(define-fun |formal_top#548| ((state |formal_top_s|)) Bool (bvuge (|formal_top#51| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$669_Y
+(define-fun |formal_top#549| ((state |formal_top_s|)) Bool (bvult (|formal_top#51| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$670_Y
+(define-fun |formal_top#550| ((state |formal_top_s|)) Bool (and (or  (|formal_top#548| state) false) (or  (|formal_top#549| state) false))) ; $logic_and$formal_top.sv:99$671_Y
+(define-fun |formal_top#551| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#438| state) #b1 #b0)) ; $assume$formal_top.sv:99$668_EN
 ; yosys-smt2-assume 33 _witness_.check_assume_formal_top_sv_99_668 formal_top.sv:99.17-99.72
-(define-fun |formal_top_u 33| ((state |formal_top_s|)) Bool (or (|formal_top#548| state) (not (= ((_ extract 0 0) (|formal_top#549| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_668
-(define-fun |formal_top#550| ((state |formal_top_s|)) Bool (bvuge (|formal_top#52| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$749_Y
-(define-fun |formal_top#551| ((state |formal_top_s|)) Bool (bvult (|formal_top#52| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$750_Y
-(define-fun |formal_top#552| ((state |formal_top_s|)) Bool (and (or  (|formal_top#550| state) false) (or  (|formal_top#551| state) false))) ; $logic_and$formal_top.sv:99$751_Y
-(define-fun |formal_top#553| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#482| state) #b1 #b0)) ; $assume$formal_top.sv:99$748_EN
+(define-fun |formal_top_u 33| ((state |formal_top_s|)) Bool (or (|formal_top#550| state) (not (= ((_ extract 0 0) (|formal_top#551| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_668
+(define-fun |formal_top#552| ((state |formal_top_s|)) Bool (bvuge (|formal_top#54| state) #b10000000000000000000000000000000)) ; $ge$formal_top.sv:99$749_Y
+(define-fun |formal_top#553| ((state |formal_top_s|)) Bool (bvult (|formal_top#54| state) #b10000000000000000000000000100000)) ; $lt$formal_top.sv:99$750_Y
+(define-fun |formal_top#554| ((state |formal_top_s|)) Bool (and (or  (|formal_top#552| state) false) (or  (|formal_top#553| state) false))) ; $logic_and$formal_top.sv:99$751_Y
+(define-fun |formal_top#555| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#484| state) #b1 #b0)) ; $assume$formal_top.sv:99$748_EN
 ; yosys-smt2-assume 34 _witness_.check_assume_formal_top_sv_99_748 formal_top.sv:99.17-99.72
-(define-fun |formal_top_u 34| ((state |formal_top_s|)) Bool (or (|formal_top#552| state) (not (= ((_ extract 0 0) (|formal_top#553| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_748
-(define-fun |formal_top#554| ((state |formal_top_s|)) Bool (and (or  (= ((_ extract 0 0) (|formal_top#56| state)) #b1) false) (or  (|formal_top#118| state) false))) ; $logic_and$formal_top.sv:248$109_Y
-(define-fun |formal_top#555| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#554| state) #b1 #b0)) ; $assert$formal_top.sv:249$110_EN
-(define-fun |formal_top#556| ((state |formal_top_s|)) Bool (= (|formal_top#26| state) (|formal_top#10| state))) ; $eq$formal_top.sv:249$111_Y
-(define-fun |formal_top#557| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#54| state)) #b1) #b1 #b0)) ; $0\gpr_check_valid[0:0]
-(define-fun |formal_top#558| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#557| state))) ; $auto$rtlil.cc:3369:Mux$9429
-(define-fun |formal_top#559| ((state |formal_top_s|)) Bool (and (or  (|formal_top#9| state) false) (or  (|formal_top#25| state) false))) ; $logic_and$formal_top.sv:231$106_Y
-(define-fun |formal_top#560| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#559| state) #b1 #b0)) ; $0\gpr_check_step[0:0]
-(define-fun |formal_top#561| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) (|formal_top#54| state) (|formal_top#560| state))) ; $auto$rtlil.cc:3369:Mux$8704
-(define-fun |formal_top#562| ((state |formal_top_s|)) (_ BitVec 4) (bvadd (|formal_top#14| state) #b0001)) ; $add$formal_top.sv:18$64_Y
-(define-fun |formal_top#563| ((state |formal_top_s|)) Bool (distinct (|formal_top#14| state) #b1111)) ; $ne$formal_top.sv:17$63_Y
-(define-fun |formal_top#564| ((state |formal_top_s|)) (_ BitVec 4) (ite (|formal_top#563| state) (|formal_top#562| state) (|formal_top#14| state))) ; $0\f_cycles[3:0]
-(define-fun |formal_top#565| ((state |formal_top_s|)) Bool (not (or  (|formal_top#25| state) false))) ; $logic_not$formal_top.sv:229$105_Y
-(define-fun |formal_top#566| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#559| state) #b1 (ite (|formal_top#565| state) #b1 #b0))) ; $procmux$6890_Y
-(define-fun |formal_top#567| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#54| state)) #b1) #b0 (|formal_top#566| state))) ; $0\clk_en[0:0]
-(define-fun |formal_top#568| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#567| state))) ; $auto$rtlil.cc:3369:Mux$9431
+(define-fun |formal_top_u 34| ((state |formal_top_s|)) Bool (or (|formal_top#554| state) (not (= ((_ extract 0 0) (|formal_top#555| state)) #b1)))) ; _witness_.check_assume_formal_top_sv_99_748
+(define-fun |formal_top#556| ((state |formal_top_s|)) Bool (and (or  (= ((_ extract 0 0) (|formal_top#58| state)) #b1) false) (or  (|formal_top#120| state) false))) ; $logic_and$formal_top.sv:252$109_Y
+(define-fun |formal_top#557| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#556| state) #b1 #b0)) ; $assert$formal_top.sv:253$110_EN
+(define-fun |formal_top#558| ((state |formal_top_s|)) Bool (= (|formal_top#28| state) (|formal_top#12| state))) ; $eq$formal_top.sv:253$111_Y
+(define-fun |formal_top#559| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#56| state)) #b1) #b1 #b0)) ; $0\gpr_check_valid[0:0]
+(define-fun |formal_top#560| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#559| state))) ; $auto$rtlil.cc:3369:Mux$9429
+(define-fun |formal_top#561| ((state |formal_top_s|)) Bool (and (or  (|formal_top#11| state) false) (or  (|formal_top#27| state) false))) ; $logic_and$formal_top.sv:235$106_Y
+(define-fun |formal_top#562| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#561| state) #b1 #b0)) ; $0\gpr_check_step[0:0]
+(define-fun |formal_top#563| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) (|formal_top#56| state) (|formal_top#562| state))) ; $auto$rtlil.cc:3369:Mux$8704
+(define-fun |formal_top#564| ((state |formal_top_s|)) (_ BitVec 4) (bvadd (|formal_top#16| state) #b0001)) ; $add$formal_top.sv:18$64_Y
+(define-fun |formal_top#565| ((state |formal_top_s|)) Bool (distinct (|formal_top#16| state) #b1111)) ; $ne$formal_top.sv:17$63_Y
+(define-fun |formal_top#566| ((state |formal_top_s|)) (_ BitVec 4) (ite (|formal_top#565| state) (|formal_top#564| state) (|formal_top#16| state))) ; $0\f_cycles[3:0]
+(define-fun |formal_top#567| ((state |formal_top_s|)) Bool (not (or  (|formal_top#27| state) false))) ; $logic_not$formal_top.sv:233$105_Y
+(define-fun |formal_top#568| ((state |formal_top_s|)) (_ BitVec 1) (ite (|formal_top#561| state) #b1 (ite (|formal_top#567| state) #b1 #b0))) ; $procmux$6890_Y
+(define-fun |formal_top#569| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#56| state)) #b1) #b0 (|formal_top#568| state))) ; $0\clk_en[0:0]
+(define-fun |formal_top#570| ((state |formal_top_s|)) (_ BitVec 1) (ite (= ((_ extract 0 0) (|formal_top#1| state)) #b1) #b0 (|formal_top#569| state))) ; $auto$rtlil.cc:3369:Mux$9431
 (define-fun |formal_top_a| ((state |formal_top_s|)) Bool (and
   (|formal_top_a 0| state)
   (|ref_top_a| (|formal_top_h u_ref| state))
@@ -8167,32 +8179,32 @@
   (|dut_top_u| (|formal_top_h dut| state))
 ))
 (define-fun |formal_top_i| ((state |formal_top_s|)) Bool (and
-  (= (|formal_top#14| state) #b0000) ; f_cycles
-  (= (= ((_ extract 0 0) (|formal_top#74| state)) #b1) true) ; $auto$async2sync.cc:116:execute$8970
-  (= (= ((_ extract 0 0) (|formal_top#75| state)) #b1) false) ; $auto$async2sync.cc:107:execute$8966
+  (= (|formal_top#16| state) #b0000) ; f_cycles
+  (= (= ((_ extract 0 0) (|formal_top#76| state)) #b1) true) ; $auto$async2sync.cc:116:execute$8970
+  (= (= ((_ extract 0 0) (|formal_top#77| state)) #b1) false) ; $auto$async2sync.cc:107:execute$8966
   (|ref_top_i| (|formal_top_h u_ref| state))
   (|dut_top_i| (|formal_top_h dut| state))
 ))
 (define-fun |formal_top_h| ((state |formal_top_s|)) Bool (and
   (= (|formal_top_is| state) (|ref_top_is| (|formal_top_h u_ref| state)))
-  (= (|formal_top#15| state) (|ref_top_n _instr| (|formal_top_h u_ref| state))) ; ref_top._instr
-  (= (|formal_top#16| state) (|ref_top_n _marchid| (|formal_top_h u_ref| state))) ; ref_top._marchid
-  (= (|formal_top#17| state) (|ref_top_n _mcause| (|formal_top_h u_ref| state))) ; ref_top._mcause
-  (= (|formal_top#18| state) (|ref_top_n _mcycle| (|formal_top_h u_ref| state))) ; ref_top._mcycle
-  (= (|formal_top#19| state) (|ref_top_n _mcycleh| (|formal_top_h u_ref| state))) ; ref_top._mcycleh
-  (= (|formal_top#20| state) (|ref_top_n _mepc| (|formal_top_h u_ref| state))) ; ref_top._mepc
-  (= (|formal_top#21| state) (|ref_top_n _mstatus| (|formal_top_h u_ref| state))) ; ref_top._mstatus
-  (= (|formal_top#22| state) (|ref_top_n _mtvec| (|formal_top_h u_ref| state))) ; ref_top._mtvec
-  (= (|formal_top#23| state) (|ref_top_n _mvendorid| (|formal_top_h u_ref| state))) ; ref_top._mvendorid
-  (= (|formal_top#24| state) (|ref_top_n _pc| (|formal_top_h u_ref| state))) ; ref_top._pc
-  (= (|formal_top#25| state) (|ref_top_n _wen| (|formal_top_h u_ref| state))) ; ref_top._wen
+  (= (|formal_top#17| state) (|ref_top_n _instr| (|formal_top_h u_ref| state))) ; ref_top._instr
+  (= (|formal_top#18| state) (|ref_top_n _marchid| (|formal_top_h u_ref| state))) ; ref_top._marchid
+  (= (|formal_top#19| state) (|ref_top_n _mcause| (|formal_top_h u_ref| state))) ; ref_top._mcause
+  (= (|formal_top#20| state) (|ref_top_n _mcycle| (|formal_top_h u_ref| state))) ; ref_top._mcycle
+  (= (|formal_top#21| state) (|ref_top_n _mcycleh| (|formal_top_h u_ref| state))) ; ref_top._mcycleh
+  (= (|formal_top#22| state) (|ref_top_n _mepc| (|formal_top_h u_ref| state))) ; ref_top._mepc
+  (= (|formal_top#23| state) (|ref_top_n _mstatus| (|formal_top_h u_ref| state))) ; ref_top._mstatus
+  (= (|formal_top#24| state) (|ref_top_n _mtvec| (|formal_top_h u_ref| state))) ; ref_top._mtvec
+  (= (|formal_top#25| state) (|ref_top_n _mvendorid| (|formal_top_h u_ref| state))) ; ref_top._mvendorid
+  (= (|formal_top#26| state) (|ref_top_n _pc| (|formal_top_h u_ref| state))) ; ref_top._pc
+  (= (|formal_top#27| state) (|ref_top_n _wen| (|formal_top_h u_ref| state))) ; ref_top._wen
   (= (|formal_top#3| state) (|ref_top_n clk| (|formal_top_h u_ref| state))) ; ref_top.clk
   (= (= ((_ extract 0 0) (|formal_top#2| state)) #b1) (|ref_top_n clk_en| (|formal_top_h u_ref| state))) ; ref_top.clk_en
-  (= (|formal_top#26| state) (|ref_top_n dbg_reg| (|formal_top_h u_ref| state))) ; ref_top.dbg_reg
-  (= (|formal_top#27| state) (|ref_top_n io_type| (|formal_top_h u_ref| state))) ; ref_top.io_type
-  (= (|formal_top#28| state) (|ref_top_n is_ls| (|formal_top_h u_ref| state))) ; ref_top.is_ls
-  (= (|formal_top#29| state) (|ref_top_n ls_addr| (|formal_top_h u_ref| state))) ; ref_top.ls_addr
-  (= (concat (|formal_top#51| state) (concat (|formal_top#48| state) (concat (|formal_top#45| state) (concat (|formal_top#42| state) (concat (|formal_top#39| state) (concat (|formal_top#36| state) (concat (|formal_top#33| state) (|formal_top#30| state)))))))) (|ref_top_n ram_instr| (|formal_top_h u_ref| state))) ; ref_top.ram_instr
+  (= (|formal_top#28| state) (|ref_top_n dbg_reg| (|formal_top_h u_ref| state))) ; ref_top.dbg_reg
+  (= (|formal_top#29| state) (|ref_top_n io_type| (|formal_top_h u_ref| state))) ; ref_top.io_type
+  (= (|formal_top#30| state) (|ref_top_n is_ls| (|formal_top_h u_ref| state))) ; ref_top.is_ls
+  (= (|formal_top#31| state) (|ref_top_n ls_addr| (|formal_top_h u_ref| state))) ; ref_top.ls_addr
+  (= (concat (|formal_top#53| state) (concat (|formal_top#50| state) (concat (|formal_top#47| state) (concat (|formal_top#44| state) (concat (|formal_top#41| state) (concat (|formal_top#38| state) (concat (|formal_top#35| state) (|formal_top#32| state)))))))) (|ref_top_n ram_instr| (|formal_top_h u_ref| state))) ; ref_top.ram_instr
   (= (= ((_ extract 0 0) (|formal_top#1| state)) #b1) (|ref_top_n rst| (|formal_top_h u_ref| state))) ; ref_top.rst
   (= (|formal_top_is| state) (|dut_top_is| (|formal_top_h dut| state)))
   (= (|formal_top#4| state) (|dut_top_n _idu_instr| (|formal_top_h dut| state))) ; dut_top._idu_instr
@@ -8200,25 +8212,27 @@
   (= (|formal_top#6| state) (|dut_top_n _new_instr| (|formal_top_h dut| state))) ; dut_top._new_instr
   (= (|formal_top#7| state) (|dut_top_n _pc| (|formal_top_h dut| state))) ; dut_top._pc
   (= (|formal_top#8| state) (|dut_top_n _pc_i| (|formal_top_h dut| state))) ; dut_top._pc_i
-  (= (|formal_top#9| state) (|dut_top_n _wen| (|formal_top_h dut| state))) ; dut_top._wen
+  (= (|formal_top#9| state) (|dut_top_n _rd_wb| (|formal_top_h dut| state))) ; dut_top._rd_wb
+  (= (|formal_top#10| state) (|dut_top_n _wdata_wb| (|formal_top_h dut| state))) ; dut_top._wdata_wb
+  (= (|formal_top#11| state) (|dut_top_n _wen| (|formal_top_h dut| state))) ; dut_top._wen
   (= (|formal_top#3| state) (|dut_top_n clock| (|formal_top_h dut| state))) ; dut_top.clock
-  (= (|formal_top#10| state) (|dut_top_n dbg_reg| (|formal_top_h dut| state))) ; dut_top.dbg_reg
-  (= (|formal_top#11| state) (|dut_top_n io_type_C| (|formal_top_h dut| state))) ; dut_top.io_type_C
-  (= (|formal_top#12| state) (|dut_top_n is_ls_C| (|formal_top_h dut| state))) ; dut_top.is_ls_C
-  (= (|formal_top#13| state) (|dut_top_n lsu_addr_C| (|formal_top_h dut| state))) ; dut_top.lsu_addr_C
-  (= (concat (|formal_top#51| state) (concat (|formal_top#48| state) (concat (|formal_top#45| state) (concat (|formal_top#42| state) (concat (|formal_top#39| state) (concat (|formal_top#36| state) (concat (|formal_top#33| state) (|formal_top#30| state)))))))) (|dut_top_n ram| (|formal_top_h dut| state))) ; dut_top.ram
+  (= (|formal_top#12| state) (|dut_top_n dbg_reg| (|formal_top_h dut| state))) ; dut_top.dbg_reg
+  (= (|formal_top#13| state) (|dut_top_n io_type_C| (|formal_top_h dut| state))) ; dut_top.io_type_C
+  (= (|formal_top#14| state) (|dut_top_n is_ls_C| (|formal_top_h dut| state))) ; dut_top.is_ls_C
+  (= (|formal_top#15| state) (|dut_top_n lsu_addr_C| (|formal_top_h dut| state))) ; dut_top.lsu_addr_C
+  (= (concat (|formal_top#53| state) (concat (|formal_top#50| state) (concat (|formal_top#47| state) (concat (|formal_top#44| state) (concat (|formal_top#41| state) (concat (|formal_top#38| state) (concat (|formal_top#35| state) (|formal_top#32| state)))))))) (|dut_top_n ram| (|formal_top_h dut| state))) ; dut_top.ram
   (= (= ((_ extract 0 0) (|formal_top#1| state)) #b1) (|dut_top_n reset| (|formal_top_h dut| state))) ; dut_top.reset
   (|ref_top_h| (|formal_top_h u_ref| state))
   (|dut_top_h| (|formal_top_h dut| state))
 ))
 (define-fun |formal_top_t| ((state |formal_top_s|) (next_state |formal_top_s|)) Bool (and
-  (= (|formal_top#555| state) (|formal_top#75| next_state)) ; $auto$async2sync.cc:110:execute$8968 $auto$async2sync.cc:107:execute$8966
-  (= (ite (|formal_top#556| state) #b1 #b0) (|formal_top#74| next_state)) ; $auto$async2sync.cc:118:execute$8971 $auto$async2sync.cc:116:execute$8970
-  (= (concat (|formal_top#51| state) (concat (|formal_top#48| state) (concat (|formal_top#45| state) (concat (|formal_top#42| state) (concat (|formal_top#39| state) (concat (|formal_top#36| state) (concat (|formal_top#33| state) (|formal_top#30| state)))))))) (|formal_top#57| next_state)) ; $procdff$8709 \imem_r
-  (= (|formal_top#558| state) (|formal_top#55| next_state)) ; $procdff$8708 \_witness_.anyinit_procdff_8708
-  (= (|formal_top#561| state) (|formal_top#54| next_state)) ; $procdff$8705 \gpr_check_step
-  (= (|formal_top#564| state) (|formal_top#14| next_state)) ; $procdff$8710 \f_cycles
-  (= (|formal_top#568| state) (|formal_top#0| next_state)) ; $procdff$8700 \_witness_.anyinit_procdff_8700
+  (= (|formal_top#557| state) (|formal_top#77| next_state)) ; $auto$async2sync.cc:110:execute$8968 $auto$async2sync.cc:107:execute$8966
+  (= (ite (|formal_top#558| state) #b1 #b0) (|formal_top#76| next_state)) ; $auto$async2sync.cc:118:execute$8971 $auto$async2sync.cc:116:execute$8970
+  (= (concat (|formal_top#53| state) (concat (|formal_top#50| state) (concat (|formal_top#47| state) (concat (|formal_top#44| state) (concat (|formal_top#41| state) (concat (|formal_top#38| state) (concat (|formal_top#35| state) (|formal_top#32| state)))))))) (|formal_top#59| next_state)) ; $procdff$8709 \imem_r
+  (= (|formal_top#560| state) (|formal_top#57| next_state)) ; $procdff$8708 \_witness_.anyinit_procdff_8708
+  (= (|formal_top#563| state) (|formal_top#56| next_state)) ; $procdff$8705 \gpr_check_step
+  (= (|formal_top#566| state) (|formal_top#16| next_state)) ; $procdff$8710 \f_cycles
+  (= (|formal_top#570| state) (|formal_top#0| next_state)) ; $procdff$8700 \_witness_.anyinit_procdff_8700
   (|ref_top_t| (|formal_top_h u_ref| state) (|formal_top_h u_ref| next_state))
   (|dut_top_t| (|formal_top_h dut| state) (|formal_top_h dut| next_state))
 )) ; end of module formal_top

@@ -6898,7 +6898,7 @@
                   "name": "wbu",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "dut_top.sv:269.23-285.6"
+                    "src": "dut_top.sv:274.23-290.6"
                   },
                   "parameters": {
 
@@ -7075,7 +7075,7 @@
                   "name": "u_ram",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "dut_top.sv:481.27-514.6"
+                    "src": "dut_top.sv:486.27-519.6"
                   },
                   "parameters": {
 
@@ -7357,7 +7357,7 @@
                   "name": "lsu",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "dut_top.sv:201.27-260.6"
+                    "src": "dut_top.sv:206.27-265.6"
                   },
                   "parameters": {
 
@@ -7584,7 +7584,7 @@
                   "name": "ifu",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "dut_top.sv:46.27-89.6"
+                    "src": "dut_top.sv:51.27-94.6"
                   },
                   "parameters": {
 
@@ -7881,7 +7881,7 @@
                   "name": "idu",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "dut_top.sv:100.23-114.6"
+                    "src": "dut_top.sv:105.23-119.6"
                   },
                   "parameters": {
 
@@ -8373,7 +8373,7 @@
                   "name": "exu",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "dut_top.sv:130.19-166.2"
+                    "src": "dut_top.sv:135.19-171.2"
                   },
                   "parameters": {
 
@@ -8835,7 +8835,7 @@
                   "name": "u_xbar",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "dut_top.sv:389.29-478.37"
+                    "src": "dut_top.sv:394.29-483.37"
                   },
                   "parameters": {
 
@@ -8902,7 +8902,7 @@
                   "name": "GPR",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "dut_top.sv:175.41-187.6"
+                    "src": "dut_top.sv:180.41-192.6"
                   },
                   "parameters": {
 
@@ -8914,7 +8914,7 @@
         "attributes": {
             "keep": "00000000000000000000000000000001",
             "hdlname": "dut_top",
-            "src": "dut_top.sv:6.1-522.10"
+            "src": "dut_top.sv:6.1-527.10"
         }
       },
       {
@@ -9237,11 +9237,11 @@
             ],
             "cells": [
                 {
-                  "name": "_witness_.check_assert_formal_top_sv_249_110",
+                  "name": "_witness_.check_assert_formal_top_sv_253_110",
                   "attributes": {
-                    "hdlname": "_witness_ check_assert_formal_top_sv_249_110",
+                    "hdlname": "_witness_ check_assert_formal_top_sv_253_110",
                     "keep": "00000000000000000000000000000001",
-                    "src": "formal_top.sv:249.13-249.43"
+                    "src": "formal_top.sv:253.13-253.43"
                   },
                   "parameters": {
                     "ARGS_WIDTH": "00000000000000000000000000000000",
@@ -9856,7 +9856,7 @@
                 {
                   "name": "$procdff$8705",
                   "attributes": {
-                    "src": "formal_top.sv:223.5-245.8"
+                    "src": "formal_top.sv:227.5-249.8"
                   },
                   "parameters": {
                     "CLK_POLARITY": "1",
@@ -9914,6 +9914,16 @@
                   "range": [32, 0]
                 },
                 {
+                  "name": "_rd_wb",
+                  "direction": "",
+                  "range": [5, 0]
+                },
+                {
+                  "name": "_wdata_wb",
+                  "direction": "",
+                  "range": [32, 0]
+                },
+                {
                   "name": "_wen",
                   "direction": "",
                   "range": [0, 0]
@@ -9959,7 +9969,7 @@
                   "name": "dut",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "formal_top.sv:160.13-179.6"
+                    "src": "formal_top.sv:162.13-183.6"
                   },
                   "parameters": {
 
@@ -10624,9 +10634,9 @@
             ],
             "cells": [
                 {
-                  "name": "$eq$formal_top.sv:249$111",
+                  "name": "$eq$formal_top.sv:253$111",
                   "attributes": {
-                    "src": "formal_top.sv:249.20-249.42"
+                    "src": "formal_top.sv:253.20-253.42"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -13437,7 +13447,7 @@
                 {
                   "name": "$procdff$8700",
                   "attributes": {
-                    "src": "formal_top.sv:223.5-245.8"
+                    "src": "formal_top.sv:227.5-249.8"
                   },
                   "parameters": {
                     "ARST_POLARITY": "1",
@@ -13449,7 +13459,7 @@
                 {
                   "name": "$procdff$8708",
                   "attributes": {
-                    "src": "formal_top.sv:223.5-245.8"
+                    "src": "formal_top.sv:227.5-249.8"
                   },
                   "parameters": {
                     "ARST_POLARITY": "1",
@@ -13633,9 +13643,9 @@
                   }
                 },
                 {
-                  "name": "$logic_and$formal_top.sv:231$106",
+                  "name": "$logic_and$formal_top.sv:235$106",
                   "attributes": {
-                    "src": "formal_top.sv:231.16-231.30"
+                    "src": "formal_top.sv:235.16-235.30"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -13646,9 +13656,9 @@
                   }
                 },
                 {
-                  "name": "$logic_and$formal_top.sv:248$109",
+                  "name": "$logic_and$formal_top.sv:252$109",
                   "attributes": {
-                    "src": "formal_top.sv:248.12-248.37"
+                    "src": "formal_top.sv:252.12-252.37"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -15648,9 +15658,9 @@
                   }
                 },
                 {
-                  "name": "$logic_not$formal_top.sv:229$105",
+                  "name": "$logic_not$formal_top.sv:233$105",
                   "attributes": {
-                    "src": "formal_top.sv:229.23-229.29"
+                    "src": "formal_top.sv:233.23-233.29"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -15659,9 +15669,9 @@
                   }
                 },
                 {
-                  "name": "$logic_not$formal_top.sv:248$108",
+                  "name": "$logic_not$formal_top.sv:252$108",
                   "attributes": {
-                    "src": "formal_top.sv:248.31-248.37"
+                    "src": "formal_top.sv:252.31-252.37"
                   },
                   "parameters": {
                     "A_SIGNED": "00000000000000000000000000000000",
@@ -16101,7 +16111,7 @@
                   "name": "u_ref",
                   "attributes": {
                     "module_not_derived": "00000000000000000000000000000001",
-                    "src": "formal_top.sv:181.13-197.6"
+                    "src": "formal_top.sv:185.13-201.6"
                   },
                   "parameters": {
 
@@ -16290,7 +16300,7 @@
                 {
                   "name": "$procmux$6884",
                   "attributes": {
-                    "src": "formal_top.sv:248.12-248.37|formal_top.sv:248.9-250.12"
+                    "src": "formal_top.sv:252.12-252.37|formal_top.sv:252.9-254.12"
                   },
                   "parameters": {
                     "WIDTH": "00000000000000000000000000000001"
@@ -16300,7 +16310,7 @@
                   "name": "$procmux$6887",
                   "attributes": {
                     "full_case": "00000000000000000000000000000001",
-                    "src": "formal_top.sv:238.16-238.30|formal_top.sv:238.13-243.16"
+                    "src": "formal_top.sv:242.16-242.30|formal_top.sv:242.13-247.16"
                   },
                   "parameters": {
                     "WIDTH": "00000000000000000000000000000001"
@@ -16310,7 +16320,7 @@
                   "name": "$procmux$6890",
                   "attributes": {
                     "full_case": "00000000000000000000000000000001",
-                    "src": "formal_top.sv:231.16-231.30|formal_top.sv:231.13-236.16"
+                    "src": "formal_top.sv:235.16-235.30|formal_top.sv:235.13-240.16"
                   },
                   "parameters": {
                     "WIDTH": "00000000000000000000000000000001"
@@ -16320,7 +16330,7 @@
                   "name": "$procmux$6893",
                   "attributes": {
                     "full_case": "00000000000000000000000000000001",
-                    "src": "formal_top.sv:238.16-238.30|formal_top.sv:238.13-243.16"
+                    "src": "formal_top.sv:242.16-242.30|formal_top.sv:242.13-247.16"
                   },
                   "parameters": {
                     "WIDTH": "00000000000000000000000000000001"
@@ -16330,7 +16340,7 @@
                   "name": "$procmux$6896",
                   "attributes": {
                     "full_case": "00000000000000000000000000000001",
-                    "src": "formal_top.sv:231.16-231.30|formal_top.sv:231.13-236.16"
+                    "src": "formal_top.sv:235.16-235.30|formal_top.sv:235.13-240.16"
                   },
                   "parameters": {
                     "WIDTH": "00000000000000000000000000000001"
@@ -16549,7 +16559,7 @@
             "keep": "00000000000000000000000000000001",
             "hdlname": "formal_top",
             "top": "00000000000000000000000000000001",
-            "src": "formal_top.sv:8.1-254.10"
+            "src": "formal_top.sv:8.1-258.10"
         }
       },
       {

@@ -66,9 +66,8 @@ module formal_top(
                 7'b1100111: is_legal = (f3 == 3'b000);                                  // jalr
                 7'b0110111: is_legal = 1'b1;                                            // lui
                 7'b0010111: is_legal = 1'b1;                                            // auipc
-                7'b1110011: is_legal = ((f3==3'b001)||(f3==3'b010)||(f3==3'b011)) &&    // csrrw/csrrs/csrrc  限制只操作6个csr
-                                       ((csr==12'h300)||(csr==12'h341)||(csr==12'h342)||
-                                        (csr==12'h305)||(csr==12'hb00)||(csr==12'hb80));
+                7'b1110011: is_legal = ((f3==3'b001)||(f3==3'b010)||(f3==3'b011)) &&    // csrrw/csrrs/csrrc  限制只操作4个csr
+                                       ((csr==12'h300)||(csr==12'h341)||(csr==12'h342)|| (csr==12'h305));
                 default: ;    // ecall/ebreak/mret 是 1110011 的 f3==000, fence.i 是 0001111 -> 都不合法
             endcase
         end
@@ -78,6 +77,7 @@ module formal_top(
     function automatic [31:0] imm_b(input [31:0] ins);
         imm_b = {{20{ins[31]}}, ins[7], ins[30:25], ins[11:8], 1'b0};
     endfunction
+    
     function automatic [31:0] imm_j(input [31:0] ins);
         imm_j = {{12{ins[31]}}, ins[19:12], ins[20], ins[30:21], 1'b0};
     endfunction

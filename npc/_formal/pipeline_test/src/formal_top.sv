@@ -67,8 +67,7 @@ module formal_top(
                 7'b0110111: is_legal = 1'b1;                                            // lui
                 7'b0010111: is_legal = 1'b1;                                            // auipc
                 7'b1110011: is_legal = ((f3==3'b001)||(f3==3'b010)||(f3==3'b011)) &&    // csrrw/csrrs/csrrc  限制只操作6个csr
-                                       ((csr==12'h300)||(csr==12'h341)||(csr==12'h342)||
-                                        (csr==12'h305)||(csr==12'hb00)||(csr==12'hb80));
+                                       ((csr==12'h300)||(csr==12'h341)||(csr==12'h342)|| (csr==12'h305));
                 default: ;    // ecall/ebreak/mret 是 1110011 的 f3==000, fence.i 是 0001111 -> 都不合法
             endcase
         end

@@ -184,7 +184,7 @@ module formal_top(
 
     always @(*) begin
         clk_en = 1'b0;
-        if(!first_instr && !reset) begin
+        if(!first_instr && !reset) begin 
             if(d_new_instr) begin
                 clk_en = 1'b1;
             end

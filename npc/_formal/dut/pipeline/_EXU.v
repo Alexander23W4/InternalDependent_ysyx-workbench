@@ -1,10 +1,11 @@
 /*
     新pc的判断要加在这里, 如果有跳转则要推翻分支预测, 洗刷流水线
 */
-
-`ifndef WB_Q_LEN
-`define WB_Q_LEN 3
-`endif
+/*
+如果EX阶段未检测到RAW冒险, 则无需阻塞流水线, 这与上文的简单流水线一致
+如果EX阶段检测到了RAW冒险, 并且存在某个阶段满足转发条件, 则无需阻塞流水线, 同时将转发的数据作为ID阶段的输出    可以来源于LSU或者EXU或者WBU
+如果EX阶段检测到了RAW冒险, 但不存在满足转发条件的阶段, 则需要阻塞流水线
+*/
 
 module ysyx_26040135_EXU (
 
@@ -38,7 +39,9 @@ module ysyx_26040135_EXU (
     input lsu_blockf,
     input wbu_blockf,
 
-
+// 用于清除rd_list
+    input wen,
+    input rd_wb,
 
     output reg [31:0] _mstatus, _mtvec, _mepc, _mcause,
     output reg [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
@@ -49,9 +52,10 @@ module ysyx_26040135_EXU (
     input in_valid,
     output reg in_ready,
 
-    output reg out_valid_lsu, out_valid_wbu,
-    input out_ready_lsu, out_ready_wbu,
+    output reg out_valid,
+    input out_ready,
 
+    output is_ls,
     output reg io,
     output reg [1:0] io_type,
     output reg read_is_u,
@@ -68,46 +72,32 @@ module ysyx_26040135_EXU (
 
     output reg [63:0] exu_blockf_cyc,
     output reg [63:0] exu_blcokbl_cyc,
-    output reg [63:0] exu_blcokbw_cyc,
     output reg [63:0] exu_work_cyc,
 
     output ebreak_end,
 
-// wbu flush 接收    
-    
+    // bypass
+    input [31:0] bypass_wdata_lsu,  // 
+    input [4:0] bypass_rd_lsu,  //
+    input lsu_bypass_data_valid, 
 
-// -> top, wbu 的 wb_q更新信号
-
-    input [`WB_Q_LEN-1:0][5:0] wb_q,
-    output reg exu_new_wbt,
-    output reg [5:0] exu_new_wbd
-
+    input [31:0] bypass_wdata_wbu,
+    input [4:0] bypass_rd_wbu,
+    input wbu_bypass_data_valid
 );
 
+    // RAW
+    reg [31:0] rd_list;
+    reg [31:0] rd_amt;
 
-function automatic [1:0] valid_check;
-    input [`WB_Q_LEN-1:0][5:0] wb_q;
-    input [4:0] rs1;
-    input [4:0] rs2;
+    reg wen_save;
+    reg [4:0] rd_wb_save;
 
-    reg [1:0] found;
-    integer i;
+    reg bypass_active;
+    reg [31:0] bypass_data;
 
-    begin
-        found = 2'b00;
 
-        for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
-            if (wb_q[i][4:0] == rs1) begin
-                found[0] = 1'b1;
-            end 
-            else if (wb_q[i][4:0] == rs2) begin
-                found[1] = 1'b1;
-            end
-        end
-
-        valid_check = found;
-    end
-endfunction
+    // input存储
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
 
     reg [31:0] pc_save;
@@ -126,8 +116,8 @@ endfunction
     reg csrrw_save, csrrs_save, csrrc_save;
 
     reg [4:0] rd_save;
-    reg [31:0] rs1_save;
-    reg [31:0] rs2_save;
+    reg [4:0] rs1_save;
+    reg [4:0] rs2_save;
     reg [31:0] csr_rst_save;
 
     reg [31:0] csrw_rst;
@@ -153,9 +143,15 @@ endfunction
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
-            out_valid_lsu <= 1'b0;
-            out_valid_wbu <= 1'b0;
+            out_valid <= 1'b0;
             in_ready <= 1'b1;
+
+            rd_list <= 32'b0;
+            rd_amt <= 32'b0;
+            wen_save <= 1'b0;
+            rd_wb_save <= 5'b0;
+            bypass_active <= 1'b0;
+            bypass_data <= 32'b0;
 
             mstatus <= 32'h00001800;   
             mcause <= 0;
@@ -168,7 +164,6 @@ endfunction
 
             exu_blockf_cyc <= 0;
             exu_blcokbl_cyc <= 0;
-            exu_blcokbw_cyc <= 0;
             exu_work_cyc <= 0;
 
             state <= IDLE;
@@ -225,67 +220,102 @@ endfunction
                 bge_save      <= bge;
                 bltu_save     <= bltu;
                 bgeu_save     <= bgeu;
-                ebreak_save    <= ebreak;
-                ecall_save     <= ecall;
-                mret_save      <= mret;
-                fence_i_save   <= fence_i;
+                ebreak_save   <= ebreak;
+                ecall_save    <= ecall;
+                mret_save     <= mret;
+                fence_i_save  <= fence_i;
                 csrrw_save    <= csrrw;
                 csrrs_save    <= csrrs;
                 csrrc_save    <= csrrc;
 
                 csr_rst_save  <= csrw_rst;
+
+                bypass_active <= 1'b0;
+                bypass_data <= 32'b0;
                 
             end
+        // ------------------------------------------
 
             if(in_ready && !in_valid) begin
                 exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
             end
-            if(out_valid_lsu && !out_ready_lsu) begin
+
+            if(out_valid && !out_ready) begin
                 exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
             end
-            if(out_valid_wbu && !out_ready_wbu) begin
-                exu_blcokbw_cyc <= exu_blcokbw_cyc + 64'b1;
-            end
+
             if(state != IDLE) begin
                 exu_work_cyc <= exu_work_cyc + 64'b1;
             end
 
+        // ------------------------------------------
 
-            if(out_ready_lsu && out_valid_lsu) begin
-                out_valid_lsu <= 1'b0;
+            if(out_ready && out_valid) begin
+                out_valid <= 1'b0;
                 in_ready <= 1'b1;
             end
-            if(out_ready_wbu && out_valid_wbu) begin
-                out_valid_wbu <= 1'b0;
-                in_ready <= 1'b1;
-            end
+ 
             if(state == EX && is_nlwb) begin
                 in_ready <= 1'b1;
             end
 
+            if(wen) begin
+                if(|rd_wb) begin // 不是0
+                    wen_save <= 1'b1;
+                    rd_wb_save <= rd_wb;
+                end
+            end
+
+            if(state == EX) begin
+                // 需要wb的instr  
+                if(!is_nlwb && !write && (|rd_save)) begin  // 不是0
+                    if(rd_list[rd_save]) begin // 已经有没有完成的同一个rd了
+                        rd_amt[rd_save] <= 1'b1;
+                    end else begin
+                        rd_list[rd_save] <= 1'b1;
+                        rd_amt[rd_save] <= 1'b0;
+                    end
+                end 
+            end else begin
+                if(wen_save) begin
+                    wen_save <= 1'b0;
+                    if(rd_amt[rd_wb_save]) begin
+                        rd_amt[rd_wb_save] <= 1'b0;
+                    end else begin
+                        rd_list[rd_wb_save] <= 1'b0;
+                    end
+                end
+            end
+
+            if(state == BLOCK) begin
+                // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
+                if(gpr_read_valid && !is_nlwb) begin
+                    out_valid <= 1'b1;  
+                end
+            end
 
             if(csrrw_save && state == EX) begin
                 case(imm_save)  // case CSR addr
-                    32'h00000300: mstatus <= rdata1;
-                    32'h00000305: mtvec <= rdata1;
-                    32'h00000341: mepc <= rdata1;
-                    32'h00000342: mcause <= rdata1;
+                    32'h00000300: mstatus <= rdata1_ul;
+                    32'h00000305: mtvec <= rdata1_ul;
+                    32'h00000341: mepc <= rdata1_ul;
+                    32'h00000342: mcause <= rdata1_ul;
                 endcase
             end
             else if (|{{5{csrrs_save}} & rs1_save} && state == EX) begin
                 case(imm_save) 
-                    32'h00000300: mstatus <= rdata1 | csr_rst_save;
-                    32'h00000305: mtvec <= rdata1 | csr_rst_save;
-                    32'h00000341: mepc <= rdata1 | csr_rst_save;
-                    32'h00000342: mcause <= rdata1 | csr_rst_save;
+                    32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
+                    32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
+                    32'h00000341: mepc <= rdata1_ul | csr_rst_save;
+                    32'h00000342: mcause <= rdata1_ul | csr_rst_save;
                 endcase
             end
             else if (|{{5{csrrc_save}} & rs1_save} && state == EX) begin
                 case(imm_save) 
-                    32'h00000300: mstatus <= csr_rst_save & (~rdata1);
-                    32'h00000305: mtvec <= csr_rst_save & (~rdata1);
-                    32'h00000341: mepc <= csr_rst_save & (~rdata1);
-                    32'h00000342: mcause <= csr_rst_save & (~rdata1);
+                    32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
+                    32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
+                    32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
+                    32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
                 endcase
             end
 
@@ -294,15 +324,23 @@ endfunction
                 mcause <= 32'h0000000b;
             end
 
-            if(state == BLOCK) begin
-                if(is_ls && !gpr_read_invalid) begin   // ls的
-                    out_valid_lsu <= 1'b1;  
-                end
-                else if (!is_ls_nwb && !gpr_read_invalid) begin  // 除ls之外需要写回的
-                    out_valid_wbu <= 1'b1;
+            if(state == BLOCK && i_type && !gpr_read_valid) begin
+                if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
+                    if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                        bypass_data <= bypass_wdata_lsu;
+                        bypass_active <= 1'b1;
+                    end 
+                end else begin  // 一个的情况
+                    if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                        bypass_data <= bypass_wdata_lsu;
+                        bypass_active <= 1'b1;
+                    end 
+                    else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
+                        bypass_data <= bypass_wdata_wbu;
+                        bypass_active <= 1'b1;
+                    end
                 end
             end
-            
         end
     end
 
@@ -311,8 +349,6 @@ endfunction
         ebreak_end = 1'b0;
         flush = 1'b0;
         _new_instr = 1'b0;
-        exu_new_wbt = 1'b0;
-        exu_new_wbd = 6'd0;
         
         case (state)
             IDLE: begin
@@ -326,74 +362,96 @@ endfunction
                     end
                 end
             end
+
             WAIT_END: begin
                 if(lsu_blockf && wbu_blockf) begin   // 直到LSU和WBU的工作都完成, 才拉高一周期ebreak_end, 让仿真环境结束
                     ebreak_end = 1'b1;
                 end
             end
+
             BLOCK: begin   
-                if(!gpr_read_invalid) begin
+                if(gpr_read_valid) begin  // 没有RAW
                     next = EX;
+                end 
+                else begin  // 出现RAW, 看看能不能接受lsu或者wbu的bypass数据    这里暂时只处理i_type, 因为他只专注于rs1, 对关键时钟路径影响小
+                    if(i_type) begin   // 只要rs1 (i-type)
+                        if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
+                            if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                                next = EX;
+                            end 
+                        end else begin  // 一个的情况
+                            if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                                next = EX;
+                            end 
+                            else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
+                                next = EX;
+                            end
+                        end
+                    end
                 end
             end
+
             EX: begin   // 这时候取到的读取值才是正确的, 在这个周期进行正常的EX操作
                 if(new_pc != pc_next_dft) begin
                     flush = 1'b1;
-                end
-                // 需要wb的instr
-                if(!is_nlwb && !write) begin
-                    exu_new_wbt = 1'b1;
-                    exu_new_wbd = {{read}, rd_save};
                 end
                 next = IDLE;
             end
         endcase
     end 
 
+    // ------------------------ 控制RAW阻塞的相关信号  
     wire read = lw_save | lh_save | lb_save | lbu_save | lhu_save;
     wire write = sw_save | sh_save | sb_save;
-    wire is_ls = read | write;
+    assign is_ls = read | write;
     wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
-    wire is_ls_nwb = is_ls | is_nlwb;
-    wire nrs = jal_save | jalr_save | lui_save;  // 这几个不需要读取, 没有gpr依赖问题
 
+    wire nrs = jal_save | jalr_save | lui_save | auipc_save;  // 这几个不需要读取, 没有gpr依赖问题
     wire r_type = add_save | sub_save | sll_save | slt_save | sltu_save | xor_inst_save | srl_save | sra_save | or_inst_save | and_inst_save;
     wire s_type = sb_save | sh_save | sw_save;
     wire b_type = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save;
     wire rsb_type = r_type | s_type | b_type;
     wire i_type = ~rsb_type & ~nrs;
 
-    wire [1:0] rs_exist = valid_check(wb_q, rs1, rs2);
-    wire gpr_read_invalid = (rsb_type & (|rs_exist)) | (i_type & rs_exist[0]);   // 会读gpr且gpr存在io前后依赖问题
+    // gpr_read_valid = 没有 RAW 冒险(注意: 不读 GPR 的指令也必须为 1, 否则会卡死)
+    wire gpr_read_valid = !((rsb_type && (rd_list[rs1_save] || rd_list[rs2_save])) || (i_type && rd_list[rs1_save]));   // 会读gpr且gpr存在io前后依赖问题
+
+
+
+
+
+    // ------------------------ EX阶段的组合计算逻辑(EX)
+
+    wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;
 
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;
 
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
-    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1;
+    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_ul;
     wire [31:0] add2 = add_save ? rdata2 : imm_save;  
     wire [31:0] add_rst_w = add1 + add2;
-    wire [31:0] sub_rst  = rdata1 - rdata2;
-    wire [31:0] xor_rst  = rdata1 ^ rdata2;
-    wire [31:0] xori_rst = rdata1 ^ imm_save;
-    wire [31:0] or_rst   = rdata1 | rdata2;
-    wire [31:0] ori_rst  = rdata1 | imm_save;
-    wire [31:0] and_rst  = rdata1 & rdata2;
-    wire [31:0] andi_rst = rdata1 & imm_save;
+    wire [31:0] sub_rst  = rdata1_ul - rdata2;
+    wire [31:0] xor_rst  = rdata1_ul ^ rdata2;
+    wire [31:0] xori_rst = rdata1_ul ^ imm_save;
+    wire [31:0] or_rst   = rdata1_ul | rdata2;
+    wire [31:0] ori_rst  = rdata1_ul | imm_save;
+    wire [31:0] and_rst  = rdata1_ul & rdata2;
+    wire [31:0] andi_rst = rdata1_ul & imm_save;
 
-    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1) < $signed(rdata2))};
-    wire [31:0] sltu_rst  = {31'b0, (rdata1 < rdata2)};
-    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1) < $signed(imm_save))};
-    wire [31:0] sltiu_rst = {31'b0, (rdata1 < imm_save)};
+    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1_ul) < $signed(rdata2))};
+    wire [31:0] sltu_rst  = {31'b0, (rdata1_ul < rdata2)};
+    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1_ul) < $signed(imm_save))};
+    wire [31:0] sltiu_rst = {31'b0, (rdata1_ul < imm_save)};
 
 
-    wire [31:0] sll_rst   = rdata1 << shamt_r;
-    wire [31:0] slli_rst  = rdata1 << shamt_i;
-    wire [31:0] srl_rst   = rdata1 >> shamt_r;
-    wire [31:0] srli_rst  = rdata1 >> shamt_i;
-    wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
-    wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
+    wire [31:0] sll_rst   = rdata1_ul << shamt_r;
+    wire [31:0] slli_rst  = rdata1_ul << shamt_i;
+    wire [31:0] srl_rst   = rdata1_ul >> shamt_r;
+    wire [31:0] srli_rst  = rdata1_ul >> shamt_i;
+    wire [31:0] sra_rst   = $signed(rdata1_ul) >>> shamt_r;
+    wire [31:0] srai_rst  = $signed(rdata1_ul) >>> shamt_i;
     
     always @(*) begin
         if (lw_save || sw_save) begin
@@ -460,22 +518,22 @@ endfunction
             new_pc = add_rst_w;
         end
         else if(blt_save) begin
-            new_pc = ($signed(rdata1) < $signed(rdata2)) ? add_rst_w : pc_next_dft;
+            new_pc = ($signed(rdata1_ul) < $signed(rdata2)) ? add_rst_w : pc_next_dft;
         end
         else if(beq_save) begin
-            new_pc = (rdata1 == rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul == rdata2) ? add_rst_w : pc_next_dft;
         end
         else if(bne_save) begin
-            new_pc = (rdata1 != rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul != rdata2) ? add_rst_w : pc_next_dft;
         end
         else if(bge_save) begin
-            new_pc = ($signed(rdata1) >= $signed(rdata2)) ? add_rst_w : pc_next_dft;
+            new_pc = ($signed(rdata1_ul) >= $signed(rdata2)) ? add_rst_w : pc_next_dft;
         end
         else if(bltu_save) begin
-            new_pc = (rdata1 < rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul < rdata2) ? add_rst_w : pc_next_dft;
         end
         else if(bgeu_save) begin
-            new_pc = (rdata1 >= rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul >= rdata2) ? add_rst_w : pc_next_dft;
         end
 
         // system

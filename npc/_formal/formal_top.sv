@@ -7,8 +7,6 @@ module formal_top(
 );
 
     // dut_top 的输出
-    wire             compare;
-    wire [1:0]       jump;
     wire             d_new_instr;
     wire [31:0]      d_pc;
     wire [32*32-1:0] d_dbg_reg;
@@ -22,8 +20,6 @@ module formal_top(
         .clock(clock),
         .reset(reset),
         .ram(imem),          // 8 个 32bit 字 = 32 个 byte, 都是 256bit, 位序一致
-        .compare(compare),
-        .jump(jump),
         ._new_instr(d_new_instr),
         ._pc(d_pc),
         .dbg_reg(d_dbg_reg)

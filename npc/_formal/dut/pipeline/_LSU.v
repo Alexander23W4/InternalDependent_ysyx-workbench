@@ -20,40 +20,42 @@
 -> AXI的读写是分离的, 所以如果运行一个写命令, 可以不阻塞读命令, 如果检测到是read请求, 且读的不是现在正在写的addr, 则可以给valid
 */
 
+
 module ysyx_26040135_AXI_LSU (
     output logic [31:0] bus_araddr,
-    output logic [3:0] bus_arid,
-    output logic [7:0] bus_arlen,
-    output logic [2:0] bus_arsize,
-    output logic [1:0] bus_arburst,
+    output logic [3:0]  bus_arid,
+    output logic [7:0]  bus_arlen,
+    output logic [2:0]  bus_arsize,
+    output logic [1:0]  bus_arburst,
     output logic        bus_arvalid,
-    input         bus_arready,
-    input  [31:0] bus_rdata,
-    input  [3:0] bus_rid,
-    input  [1:0] bus_rresp,
-    input         bus_rlast,
-    input         bus_rvalid,
+    input  logic        bus_arready,
+    input  logic [31:0] bus_rdata,
+    input  logic [3:0]  bus_rid,
+    input  logic [1:0]  bus_rresp,
+    input  logic        bus_rlast,
+    input  logic        bus_rvalid,
     output logic        bus_rready,
     output logic [31:0] bus_awaddr,
-    output logic [3:0] bus_awid,
-    output logic [7:0] bus_awlen,
-    output logic [2:0] bus_awsize,
-    output logic [1:0] bus_awburst,
+    output logic [3:0]  bus_awid,
+    output logic [7:0]  bus_awlen,
+    output logic [2:0]  bus_awsize,
+    output logic [1:0]  bus_awburst,
     output logic        bus_awvalid,
-    input         bus_awready,
+    input  logic        bus_awready,
     output logic [31:0] bus_wdata,
-    output logic [3:0] bus_wstrb,
+    output logic [3:0]  bus_wstrb,
     output logic        bus_wlast,
     output logic        bus_wvalid,
-    input         bus_wready,
-    input  [3:0] bus_bid,
-    input  [1:0] bus_bresp,
-    input         bus_bvalid,
+    input  logic        bus_wready,
+    input  logic [3:0]  bus_bid,
+    input  logic [1:0]  bus_bresp,
+    input  logic        bus_bvalid,
     output logic        bus_bready,
     
     input clock,
     input reset,
 
+    input is_ls,   // 如果是ls, 则进入AW/AR, 如果不是则直接到WBU
     input io,
     input [1:0] io_type,
     input read_is_u,
@@ -70,11 +72,11 @@ module ysyx_26040135_AXI_LSU (
     
     output [1:0] __error,
 
-    output [31:0] wdata,
-    output [4:0] rd_out_lsu,
 
-    output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
-    output sw_avail,
+    output [31:0] wdata,  // 
+    output [4:0] rd_out,  //
+    output reg lsu_bypass_data_valid, 
+
 
     output reg [63:0] lsu_blockf_cyc,
     output reg [63:0] lsu_blcokb_cyc,
@@ -82,7 +84,9 @@ module ysyx_26040135_AXI_LSU (
 
     output reg lsu_blockf,
 
-    input flush
+    // ------------ 处理自修改代码的信号
+    output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
+    output sw_avail
 );
 
 
@@ -98,21 +102,20 @@ module ysyx_26040135_AXI_LSU (
     reg [31:0] ic_wb_wdata_save;
 
     assign __error = error_save;
-    assign rd_out_lsu = rd_save;
+    assign rd_out = rd_save;
     assign sw_addr = lsu_addr_save;
 
     reg rdata_out;
 
-    reg flush_save;
 
 // 状态
     typedef enum logic [2:0]{ 
-        IDLE, AR, R, AW, W, B
+        IDLE, AR, R, AW, W, B, NLS_OP
     } state_t;
     state_t state, next;
 
 
-    always_ff @( posedge clock or posedge reset ) begin
+    always_ff @(posedge clock or posedge reset) begin
         if(reset) begin
             state <= IDLE;
             rdata_out <= 32'b0;
@@ -134,7 +137,6 @@ module ysyx_26040135_AXI_LSU (
             lsu_work_cyc <= 0;
 
             lsu_blockf <= 1'b0;
-            flush_save <= 1'b0;
 
         end else begin
             state <= next;
@@ -148,7 +150,7 @@ module ysyx_26040135_AXI_LSU (
                 lsu_blcokb_cyc <= lsu_blcokb_cyc + 64'b1;
             end
 
-            if(state == IDLE && in_valid && in_ready) begin
+            if(state == IDLE && in_valid && in_ready) begin   // 接受并保存
                 in_ready <= 1'b0;
 
                 io_save <= io;
@@ -158,7 +160,10 @@ module ysyx_26040135_AXI_LSU (
                 lsu_data_save <= lsu_wdata;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
-                flush_save <= 1'b0;
+
+                if(!is_ls) begin
+                    out_valid <= 1'b1;
+                end
             end
 
             if(in_ready && !in_valid) begin
@@ -170,11 +175,7 @@ module ysyx_26040135_AXI_LSU (
 
             if(state == R && bus_rvalid && bus_rresp == 2'b00) begin
                 rdata_out <= bus_rdata;
-                if(flush_save || flush) begin
-                    in_ready <= 1'b1;
-                end else begin
-                    out_valid <= 1'b1;
-                end
+                out_valid <= 1'b1;
             end
             if(state == B && bus_bvalid && bus_bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
                 in_ready <= 1'b1;
@@ -190,16 +191,6 @@ module ysyx_26040135_AXI_LSU (
             if(state != IDLE) begin
                 lsu_work_cyc <= lsu_work_cyc + 64'b1;
             end
-
-            if(flush) begin
-                if(out_valid) begin
-                    out_valid <= 1'b0;
-                    in_ready <= 1'b1;
-                end else begin
-                    flush_save <= 1'b1;
-                end
-            end
-
         end
     end
 
@@ -207,6 +198,7 @@ module ysyx_26040135_AXI_LSU (
         bus_wstrb = 4'b0000;  
         bus_arsize = 3'b010;
         bus_awsize = 3'b010;
+
         if (io_save) begin
             case (io_type_save)
                 2'b10: begin
@@ -252,17 +244,22 @@ module ysyx_26040135_AXI_LSU (
 
         sw_avail = 1'b0;
 
+        lsu_bypass_data_valid = 1'b0;  
+
         next = state;
 
         case(state)
             IDLE: begin
                 if(in_valid && in_ready) begin   // 只有读写指令的时候才允许触发总线交互
-                    if(!io) begin
-                        next = AR;
-                    end else begin
-                        next = AW;
+                    if(is_ls) begin
+                        if(!io) begin
+                            next = AR;
+                        end else begin
+                            next = AW;
+                        end   
                     end
                 end
+                lsu_bypass_data_valid = out_valid;  // 只有在等wbu收数据的那几个周期是可以bypass的, wbu一收到数据, 数据立马就是通过wbu进行bypass
             end
 
             AR: begin
@@ -300,6 +297,7 @@ module ysyx_26040135_AXI_LSU (
                     sw_avail = 1'b1;
                 end
             end
+
 
         endcase
     end

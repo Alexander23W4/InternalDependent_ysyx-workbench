@@ -41,7 +41,7 @@ module ysyx_26040135_EXU (
 
 // 用于清除rd_list
     input wen,
-    input rd_wb,
+    input [4:0] rd_wb,
 
     output reg [31:0] _mstatus, _mtvec, _mepc, _mcause,
     output reg [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,

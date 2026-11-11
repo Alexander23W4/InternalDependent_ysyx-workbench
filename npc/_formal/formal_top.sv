@@ -167,13 +167,17 @@ module formal_top(
     reg clk_en;
 
 
-    always @(posedge clock or posedge reset) begin   // 收到新的instr之后, 先比较, 在驱动ref跳转
-        if(d_new_instr) begin   
+    always @(posedge clock or posedge reset) begin   // 收到新的instr之后, 先比较, 再驱动ref跳转
+        if(reset) begin
+            clk_en <= 1'b0;
+        end else begin
+            if(d_new_instr) begin   
                 assert(d_pc == r_pc);
                 clk_en <= 1'b1;   // 收到new_instr之后驱动一个周期
-        end
-        if(clk_en && !d_new_instr) begin
-            clk_en <= 1'b0;
+            end
+            if(clk_en && !d_new_instr) begin
+                clk_en <= 1'b0;
+            end
         end
     end
 

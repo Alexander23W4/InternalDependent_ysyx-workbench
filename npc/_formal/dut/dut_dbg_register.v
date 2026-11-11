@@ -19,7 +19,7 @@ module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     assign rdata1 = gpr[raddr1];
     assign rdata2 = gpr[raddr2];
 
-    always @(posedge clock) begin
+    always @(posedge clock or posedge reset) begin
         if(reset) begin
             for (int i = 0; i < 2**ADDR_WIDTH; i = i + 1) begin 
                 gpr[i] <= '0;

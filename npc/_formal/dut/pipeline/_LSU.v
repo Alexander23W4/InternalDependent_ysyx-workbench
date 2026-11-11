@@ -115,7 +115,7 @@ module ysyx_26040135_AXI_LSU (
     state_t state, next;
 
 
-    always_ff @(posedge clock or posedge reset) begin
+    always @(posedge clock or posedge reset) begin
         if(reset) begin
             state <= IDLE;
             rdata_out <= 32'b0;
@@ -194,7 +194,7 @@ module ysyx_26040135_AXI_LSU (
         end
     end
 
-    always_comb begin
+    always @(*) begin
         bus_wstrb = 4'b0000;  
         bus_arsize = 3'b010;
         bus_awsize = 3'b010;
@@ -213,17 +213,19 @@ module ysyx_26040135_AXI_LSU (
                     bus_wstrb  = 4'b0001 << lsu_addr_save[1:0];
                     bus_awsize = 3'b000;
                 end
+                default: ;
             endcase
         end else begin
             case(io_type_save)
                 2'b10: bus_arsize = 3'b010;
                 2'b01: bus_arsize = 3'b001;
                 2'b00: bus_arsize = 3'b000;
+                default: ;
             endcase
         end 
     end
 
-    always_comb begin
+    always @(*) begin
 
         bus_arvalid = 1'b0;
         bus_araddr = lsu_addr_save;
@@ -299,6 +301,7 @@ module ysyx_26040135_AXI_LSU (
             end
 
 
+            default: ;
         endcase
     end
 

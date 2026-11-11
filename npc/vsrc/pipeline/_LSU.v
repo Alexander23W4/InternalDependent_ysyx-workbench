@@ -185,12 +185,14 @@ module ysyx_26040135_AXI_LSU (
                     bus.wstrb  = 4'b0001 << lsu_addr_save[1:0];
                     bus.awsize = 3'b000;
                 end
+                default: ;
             endcase
         end else begin
             case(io_type_save)
                 2'b10: bus.arsize = 3'b010;
                 2'b01: bus.arsize = 3'b001;
                 2'b00: bus.arsize = 3'b000;
+                default: ;
             endcase
         end 
     end
@@ -271,6 +273,7 @@ module ysyx_26040135_AXI_LSU (
             end
 
 
+            default: ;
         endcase
     end
 

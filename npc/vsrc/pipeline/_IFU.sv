@@ -219,6 +219,7 @@ module ysyx_26040135_AXI_IFU (
                 end
             end
 
+            default: ;
         endcase
     end
 

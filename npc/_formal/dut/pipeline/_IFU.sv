@@ -233,6 +233,7 @@ module ysyx_26040135_AXI_IFU (
                 end
             end
 
+            default: ;
         endcase
     end
 
@@ -241,7 +242,6 @@ module ysyx_26040135_AXI_IFU (
 // assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
 `ifndef SYNTHESIS
-    // 原来这里是 SVA 的 assert property, yosys 不支持, 改成等价的立即 assert
     always @(posedge clock) begin
         assert((bus_awaddr  == 32'b0) &&
                (bus_awvalid == 1'b0) &&

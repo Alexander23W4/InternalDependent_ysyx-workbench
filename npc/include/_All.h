@@ -95,6 +95,11 @@ void main_loop();
 void exec_once();
 
 void tick();
+
+// DPI 作用域切换(实现见 csrc/items/tools.c)
+void scope_init(void);
+void scope_use_dut(void);
+void scope_use_ref(void);
 void error_handler();
 void prt_gprs();
 void final_check();

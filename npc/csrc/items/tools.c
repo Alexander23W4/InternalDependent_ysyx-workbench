@@ -151,3 +151,29 @@ void statistical_print(){
 }
 
 
+// dpi scope
+static svScope g_dut_scope = NULL;
+static svScope g_ref_scope = NULL;
+
+void scope_init(void) {
+    g_dut_scope = svGetScopeFromName("TOP.difftest_top.soc.asic.cpu.cpu");
+    g_ref_scope = svGetScopeFromName("TOP.difftest_top.u_ref");
+
+    printf("[DPI] dut scope = %s\n", g_dut_scope ? svGetNameFromScope(g_dut_scope) : "(NOT FOUND)");
+    printf("[DPI] ref scope = %s\n", g_ref_scope ? svGetNameFromScope(g_ref_scope) : "(NOT FOUND)");
+
+    if (g_dut_scope == NULL || g_ref_scope == NULL) {
+        printf("[DPI] ERROR: scope not found (顶层必须是 difftest_top, 实例名必须是 soc / u_ref)\n");
+        assert(0);
+    }
+
+    svSetScope(g_dut_scope);      // 默认作用域 = DUT
+}
+
+void scope_use_dut(void) {
+    svSetScope(g_dut_scope);
+}
+
+void scope_use_ref(void) {
+    svSetScope(g_ref_scope);
+}

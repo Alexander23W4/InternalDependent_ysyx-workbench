@@ -37,10 +37,7 @@ int main(int argc, char** argv) {
     top = new Vtop;
 
     // 设置DPI调用的scope
-    svScope cpu_scope = svGetScopeFromName("TOP.ysyxSoCFull.asic.cpu.cpu");
-    printf("[DPI] cpu scope = %s\n", cpu_scope ? svGetNameFromScope(cpu_scope) : "(NOT FOUND)");
-    assert(cpu_scope != NULL);
-    svSetScope(cpu_scope);
+    scope_init();
 
 // 在复位之前开启波形
     wave_init();

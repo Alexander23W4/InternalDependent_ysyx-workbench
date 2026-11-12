@@ -75,6 +75,7 @@ extern int diff_flag;
 
 
 extern CPU_state cpu;
+extern CPU_state d_status;
 
 // internal drawout signals
 extern int instr;

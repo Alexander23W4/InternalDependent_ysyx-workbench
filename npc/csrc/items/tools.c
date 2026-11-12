@@ -164,7 +164,9 @@ void prt_gprs() {
 void statistical_print(){
     printf("[CIRCLE] %d\n", cpu.mcycle);
     printf("[INSTR] %d\n", instr_amt);
-    printf("[CPI] %.2ld\n", cpu.mcycle / instr_amt);
+    if(instr_amt != 0){
+        printf("[CPI] %.2ld\n", cpu.mcycle / instr_amt);
+    }
 }
 
 

@@ -98,8 +98,8 @@ CROSS_COMPILE ?= riscv64-linux-gnu-
 # ⭐ 波形(make trace)相关
 
 WAVE_FILE  ?= wave.vcd
-WAVE_START ?= 148000
-WAVE_END   ?= 150000
+WAVE_START ?= 0
+WAVE_END   ?= 3000
 WAVE_HALF_PERIOD ?= 1
 
 GTKW_FILE  ?= wave.gtkw
@@ -209,5 +209,10 @@ endif
 
 
 # ⭐: find ./vsrc -type f \( -name "*.v" -o -name "*.sv" \) -print
+
+
+
+
+
 
 

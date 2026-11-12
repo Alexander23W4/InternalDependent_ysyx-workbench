@@ -129,7 +129,7 @@ module ysyx_26040135_AXI_IFU (
 
         end else begin
 
-            if(flush && (state == AR) || (state == R && !bus.rvalid)) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
+            if(flush && ((state == AR) || (state == R && !bus.rvalid))) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
                 flush_save <= 1'b1;
                 pc_flush_save <= pc_flush;
             end 

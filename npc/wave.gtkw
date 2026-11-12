@@ -18,6 +18,7 @@
 TOP.clock
 TOP.reset
 @22
+TOP.difftest_top.soc.asic.cpu.cpu.ifu.pc[31:0]
 TOP.difftest_top.soc.asic.cpu.cpu.pc[31:0]
 TOP.difftest_top.soc.asic.cpu.cpu.lsu.state[2:0]
 @28

@@ -104,7 +104,7 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
 
         if(wen){   // 这里进行difftest
             tick();  // 再下一个周期, 才能够写回
-            top->difftest_read_gpr(d_status.gpr, d_status.pc);   // 读入专属于difftest用途的 dut status
+            top->difftest_read_gpr((int *)d_status.gpr, (int *)&d_status.pc);   // DPI 的签名是 int* / int*, pc 要取地址
             pipeline_difftest_step();  // 驱动ref行进到位并且进行status的比较.  这里的ref不用nemu, 用单周期cpu
         }
 

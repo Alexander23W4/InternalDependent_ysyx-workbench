@@ -13,32 +13,18 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , vlSymsp{new Vtop__Syms(contextp(), _vcname__, this)}
     , clock{vlSymsp->TOP.clock}
     , reset{vlSymsp->TOP.reset}
-    , externalPins_gpio_seg_0{vlSymsp->TOP.externalPins_gpio_seg_0}
-    , externalPins_gpio_seg_1{vlSymsp->TOP.externalPins_gpio_seg_1}
-    , externalPins_gpio_seg_2{vlSymsp->TOP.externalPins_gpio_seg_2}
-    , externalPins_gpio_seg_3{vlSymsp->TOP.externalPins_gpio_seg_3}
-    , externalPins_gpio_seg_4{vlSymsp->TOP.externalPins_gpio_seg_4}
-    , externalPins_gpio_seg_5{vlSymsp->TOP.externalPins_gpio_seg_5}
-    , externalPins_gpio_seg_6{vlSymsp->TOP.externalPins_gpio_seg_6}
-    , externalPins_gpio_seg_7{vlSymsp->TOP.externalPins_gpio_seg_7}
-    , externalPins_ps2_clk{vlSymsp->TOP.externalPins_ps2_clk}
-    , externalPins_ps2_data{vlSymsp->TOP.externalPins_ps2_data}
-    , externalPins_vga_r{vlSymsp->TOP.externalPins_vga_r}
-    , externalPins_vga_g{vlSymsp->TOP.externalPins_vga_g}
-    , externalPins_vga_b{vlSymsp->TOP.externalPins_vga_b}
-    , externalPins_vga_hsync{vlSymsp->TOP.externalPins_vga_hsync}
-    , externalPins_vga_vsync{vlSymsp->TOP.externalPins_vga_vsync}
-    , externalPins_vga_valid{vlSymsp->TOP.externalPins_vga_valid}
-    , externalPins_uart_rx{vlSymsp->TOP.externalPins_uart_rx}
-    , externalPins_uart_tx{vlSymsp->TOP.externalPins_uart_tx}
-    , externalPins_gpio_out{vlSymsp->TOP.externalPins_gpio_out}
-    , externalPins_gpio_in{vlSymsp->TOP.externalPins_gpio_in}
+    , ref_clk{vlSymsp->TOP.ref_clk}
+    , ref_rst{vlSymsp->TOP.ref_rst}
+    , ref_wen{vlSymsp->TOP.ref_wen}
+    , ref_pc{vlSymsp->TOP.ref_pc}
+    , ref_gpr{vlSymsp->TOP.ref_gpr}
+    , ref_instr{vlSymsp->TOP.ref_instr}
     , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
-    , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu}
-    , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu}
-    , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master}
-    , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint}
-    , __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache{vlSymsp->TOP.__PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache}
+    , __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu{vlSymsp->TOP.__PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu}
+    , __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu{vlSymsp->TOP.__PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu}
+    , __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master{vlSymsp->TOP.__PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master}
+    , __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint{vlSymsp->TOP.__PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint}
+    , __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache{vlSymsp->TOP.__PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context

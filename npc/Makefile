@@ -82,7 +82,7 @@ DEFAULT_FLAGS += -DICACHE_LINE_BYTES=$(ICACHE_LINE_BYTES) -DICACHE_LINE_AMT=$(IC
 
 # ------------------------------------------------------------------------------------------------------
 
-DIFF_TEST_ENABLE=0
+DIFF_TEST_ENABLE=1
 TRACE_ENABLE=0
 
 # ------------------------------------------------------------------------------------------------------
@@ -116,11 +116,8 @@ USE_M=0
 # config macro generation
 -include $(NPC_HOME)/scripts/config.mk 
 
-# difftest 
-ifeq ($(DIFF_TEST_ENABLE),1)
-DIFF_REF_SO=$(NEMU_HOME)/build/riscv32-nemu-interpreter-so
-ARGS+=-d $(DIFF_REF_SO)
-endif
+
+DIFF_DEFINE = -DDIFFTEST=$(DIFF_TEST_ENABLE)
 
 # other args dilivery
 ARGS+=-b
@@ -153,7 +150,7 @@ trace: clean_obj
 	@echo "[TRACE] IMAGE = $(IMAGE)"
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) $(WAVE_GEN_FLAG) \
 	$(PERIP_SRC) $(MODE_VSRC) $(MODE_SOURCES) $(MODE_CPP_SRC) \
-	-CFLAGS "-DWAVE_TRACE=1 $(MODE_INC_DIRS)" \
+	-CFLAGS "-DWAVE_TRACE=1 $(DIFF_DEFINE) $(MODE_INC_DIRS)" \
 	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 	WAVE_FILE=$(WAVE_FILE) WAVE_START=$(WAVE_START) WAVE_END=$(WAVE_END) WAVE_HALF_PERIOD=$(WAVE_HALF_PERIOD) \
 	$(OBJ_DIR)/Vtop $(ARGS)
@@ -163,12 +160,12 @@ endif
 
 fasts:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) \
-	$(PERIP_SRC) $(MODE_VSRC) $(MODE_SOURCES) $(MODE_CPP_SRC) $(MODE_INC) \
+	$(PERIP_SRC) $(MODE_VSRC) $(MODE_SOURCES) $(MODE_CPP_SRC) $(MODE_INC) -CFLAGS "$(DIFF_DEFINE)" \
 	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 
 npc-gdb:
 	$(VERILATOR) $(CPP_FLAGS) $(DEFAULT_FLAGS) $(TOP_SEL) $(TOP_PREFIX) $(WARNING_IGNORE_FLAG) \
-	$(PERIP_SRC) $(MODE_VSRC) $(MODE_SOURCES) $(MODE_CPP_SRC) $(MODE_GDB_INC) \
+	$(PERIP_SRC) $(MODE_VSRC) $(MODE_SOURCES) $(MODE_CPP_SRC) $(MODE_GDB_INC) -CFLAGS "$(DIFF_DEFINE)" \
 	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 
 static:

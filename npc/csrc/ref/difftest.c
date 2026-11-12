@@ -41,7 +41,7 @@ void pipeline_difftest_step(){   // 专用于流水线处理器的difftest step,
 }
 
 void difftest_cmp(){
-  if (!difftest_checkregs()) {
+  if (!difftest_check_status()) {
     printf("Difftest Abort.\n");
     difftest_abort_print();
     Status = NPC_CRASH;

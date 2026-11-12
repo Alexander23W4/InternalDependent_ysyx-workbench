@@ -30,36 +30,22 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clock,0,0);
     VL_IN8(&reset,0,0);
-    VL_OUT8(&externalPins_gpio_seg_0,7,0);
-    VL_OUT8(&externalPins_gpio_seg_1,7,0);
-    VL_OUT8(&externalPins_gpio_seg_2,7,0);
-    VL_OUT8(&externalPins_gpio_seg_3,7,0);
-    VL_OUT8(&externalPins_gpio_seg_4,7,0);
-    VL_OUT8(&externalPins_gpio_seg_5,7,0);
-    VL_OUT8(&externalPins_gpio_seg_6,7,0);
-    VL_OUT8(&externalPins_gpio_seg_7,7,0);
-    VL_IN8(&externalPins_ps2_clk,0,0);
-    VL_IN8(&externalPins_ps2_data,0,0);
-    VL_OUT8(&externalPins_vga_r,7,0);
-    VL_OUT8(&externalPins_vga_g,7,0);
-    VL_OUT8(&externalPins_vga_b,7,0);
-    VL_OUT8(&externalPins_vga_hsync,0,0);
-    VL_OUT8(&externalPins_vga_vsync,0,0);
-    VL_OUT8(&externalPins_vga_valid,0,0);
-    VL_IN8(&externalPins_uart_rx,0,0);
-    VL_OUT8(&externalPins_uart_tx,0,0);
-    VL_OUT16(&externalPins_gpio_out,15,0);
-    VL_IN16(&externalPins_gpio_in,15,0);
+    VL_IN8(&ref_clk,0,0);
+    VL_IN8(&ref_rst,0,0);
+    VL_OUT8(&ref_wen,0,0);
+    VL_OUT(&ref_pc,31,0);
+    VL_OUTW(&ref_gpr,1023,0,32);
+    VL_OUT(&ref_instr,31,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
     // Otherwise the application code can consider these internals.
     Vtop___024unit* const __PVT____024unit;
-    Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu;
-    Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu;
-    Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master;
-    Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint;
-    Vtop_ysyx_26040135_AXI4* const __PVT__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache;
+    Vtop_ysyx_26040135_AXI4* const __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu;
+    Vtop_ysyx_26040135_AXI4* const __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu;
+    Vtop_ysyx_26040135_AXI4* const __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master;
+    Vtop_ysyx_26040135_AXI4* const __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint;
+    Vtop_ysyx_26040135_AXI4* const __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache;
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.

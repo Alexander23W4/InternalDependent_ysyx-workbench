@@ -37,23 +37,23 @@ class Vtop__Syms final : public VerilatedSyms {
     // MODULE INSTANCE STATE
     Vtop___024root                 TOP;
     Vtop___024unit                 TOP____024unit;
-    Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint;
-    Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache;
-    Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu;
-    Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu;
-    Vtop_ysyx_26040135_AXI4        TOP__ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master;
+    Vtop_ysyx_26040135_AXI4        TOP__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_clint;
+    Vtop_ysyx_26040135_AXI4        TOP__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_icache;
+    Vtop_ysyx_26040135_AXI4        TOP__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu;
+    Vtop_ysyx_26040135_AXI4        TOP__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu;
+    Vtop_ysyx_26040135_AXI4        TOP__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_master;
 
     // SCOPE NAMES
-    VerilatedScope __Vscope_ysyxSoCFull__asic__axi42apb;
-    VerilatedScope __Vscope_ysyxSoCFull__asic__axi4frag;
-    VerilatedScope __Vscope_ysyxSoCFull__asic__axi4xbar;
-    VerilatedScope __Vscope_ysyxSoCFull__asic__axi4xbar_1;
-    VerilatedScope __Vscope_ysyxSoCFull__asic__axi4yank;
-    VerilatedScope __Vscope_ysyxSoCFull__asic__axi4yank__unnamedblk1;
-    VerilatedScope __Vscope_ysyxSoCFull__asic__cpu__cpu;
-    VerilatedScope __Vscope_ysyxSoCFull__asic__lmrom;
-    VerilatedScope __Vscope_ysyxSoCFull__flash;
-    VerilatedScope __Vscope_ysyxSoCFull__flash__flash_cmd_i;
+    VerilatedScope __Vscope_difftest_top__soc__asic__axi42apb;
+    VerilatedScope __Vscope_difftest_top__soc__asic__axi4frag;
+    VerilatedScope __Vscope_difftest_top__soc__asic__axi4xbar;
+    VerilatedScope __Vscope_difftest_top__soc__asic__axi4xbar_1;
+    VerilatedScope __Vscope_difftest_top__soc__asic__axi4yank;
+    VerilatedScope __Vscope_difftest_top__soc__asic__axi4yank__unnamedblk1;
+    VerilatedScope __Vscope_difftest_top__soc__asic__cpu__cpu;
+    VerilatedScope __Vscope_difftest_top__soc__asic__lmrom;
+    VerilatedScope __Vscope_difftest_top__soc__flash;
+    VerilatedScope __Vscope_difftest_top__soc__flash__flash_cmd_i;
 
     // CONSTRUCTORS
     Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* modelp);

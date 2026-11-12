@@ -1,4 +1,4 @@
-dut.o: ../csrc/difftest/dut.c \
+mem.o: ../csrc/items/mem.c \
  /home/wang/InternalDependent_ysyx-workbench/npc/include/_All.h \
  /usr/local/share/verilator/include/verilated.h \
  /usr/local/share/verilator/include/verilatedos.h \

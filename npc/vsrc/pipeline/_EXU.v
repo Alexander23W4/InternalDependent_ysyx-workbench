@@ -289,7 +289,7 @@ module ysyx_26040135_EXU (
 
             if(state == BLOCK) begin
                 // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
-                if(gpr_read_valid && (next == EX) && !is_nlwb) begin
+                if((next == EX) && !is_nlwb) begin
                     out_valid <= 1'b1;  
                 end
             end

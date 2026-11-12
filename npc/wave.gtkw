@@ -20,7 +20,7 @@ TOP.reset
 @22
 TOP.difftest_top.soc.asic.cpu.cpu.ifu.pc[31:0]
 TOP.difftest_top.soc.asic.cpu.cpu.pc[31:0]
-TOP.difftest_top.soc.asic.cpu.cpu.lsu.state[2:0]
+TOP.difftest_top.soc.asic.cpu.cpu.exu.state[1:0]
 @28
 TOP.difftest_top.soc.asic.cpu.cpu.ifu.out_valid
 TOP.difftest_top.soc.asic.cpu.cpu.exu.in_ready

@@ -45,7 +45,8 @@ static uint8_t *mem_region(uint32_t addr, uint32_t *off, int *writable) {
 }
 
 extern "C" int32_t mem_read(int32_t addr) {
-    uint32_t a = (uint32_t)addr, off = 0;
+    uint32_t a = (uint32_t)addr;
+    uint32_t off = 0;
     int wr = 0;
     uint8_t *base = mem_region(a, &off, &wr);
     if (base == NULL) {

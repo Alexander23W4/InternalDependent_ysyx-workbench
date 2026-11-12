@@ -138,12 +138,11 @@ void pipeline_difftest_step();
 extern uint8_t mrom[MROM_SIZE];
 void load_mrom(const char *path);
 
-// 内存镜像都在 csrc/ref/ref_mem.c(见那里的注释); DUT 的 flash 模型也从这里取数据
-extern uint8_t ref_flash[FLASH_SIZE];
-extern uint8_t ref_sram[SRAM_SIZE];
-extern uint8_t ref_sdram[SDRAM_SIZE];
-void ref_load_flash(const char *path);
-void load_flash(const char *path);      // = ref_load_flash, 保留给 monitor.c 用
+// 内存镜像都在 csrc/items/mem.c; DUT 的 flash 模型也从这里取数据
+extern uint8_t flash[FLASH_SIZE];       // 程序镜像(DUT 和 ref 共用同一份)
+extern uint8_t sram[SRAM_SIZE];
+extern uint8_t sdram[SDRAM_SIZE];
+void load_flash(const char *path);      // 装载镜像到 flash
 
 
 

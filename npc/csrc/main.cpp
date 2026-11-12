@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 
     top = new Vtop;
 
-    // 设置DPI调用的scope
+// 设置DPI调用的scope
     scope_init();
 
 // 在复位之前开启波形
@@ -45,10 +45,8 @@ int main(int argc, char** argv) {
 //  init
     _init(argc, argv);
 
-
 //  exec
     main_loop();
-
 
 //  end
     end_process();

@@ -16,7 +16,7 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
 // 外接信号, 如果接到difftest_top顶层, 就可以直接用top->...访问, 不需要verilog->C 的 dpi-c访问
     assign _wen = wen;
 
-    wire [31:0] instr;
+    reg [31:0] instr;
     assign _instr = instr;
 
     reg [31:0] pc;   // reg
@@ -34,8 +34,13 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
     assign _marchid = marchid;
 
 // fetch:
-    
+    // always @(*) begin
+    //     if(!rst) begin
+    //         instr = mem_read(pc);
+    //     end
+    // end
     assign instr = mem_read(pc);
+    
 
 // decode:
     wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;

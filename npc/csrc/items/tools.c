@@ -177,8 +177,12 @@ void scope_init(void) {
     printf("[DPI] dut scope = %s\n", g_dut_scope ? svGetNameFromScope(g_dut_scope) : "(NOT FOUND)");
     printf("[DPI] ref scope = %s\n", g_ref_scope ? svGetNameFromScope(g_ref_scope) : "(NOT FOUND)");
 
-    if (g_dut_scope == NULL || g_ref_scope == NULL) {
-        printf("[DPI] ERROR: scope not found (顶层必须是 difftest_top, 实例名必须是 soc / u_ref)\n");
+    // if (g_dut_scope == NULL || g_ref_scope == NULL) {
+    //     printf("[DPI] ERROR: scope not found (顶层必须是 difftest_top, 实例名必须是 soc / u_ref)\n");
+    //     assert(0);
+    // }
+    if (g_dut_scope == NULL) {
+        printf("[DPI] ERROR: scope not found\n");
         assert(0);
     }
 

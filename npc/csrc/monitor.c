@@ -88,7 +88,7 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
 
         if(new_instr){
             // printf("PC: [0x%08x]\n", cpu.pc); 
-            prt_gprs();    // 截取exu, 能够输出每一个instr对应的instr, pc, 但是gpr不一定是该instr对应的
+            // prt_gprs();    // 截取exu, 能够输出每一个instr对应的instr, pc, 但是gpr不一定是该instr对应的
             instr_amt++;   // 截取exu的意义, 统计instr数.  
         }
         if(ifu_error || lsu_error || master_validation_error){

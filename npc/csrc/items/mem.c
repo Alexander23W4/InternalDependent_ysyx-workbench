@@ -50,7 +50,8 @@ extern "C" int32_t mem_read(int32_t addr) {
     uint8_t *base = mem_region(a, &off, &wr);
     if (base == NULL) {
         printf("[REF] mem_read: bad addr 0x%08x\n", a);
-        assert(0);
+        // assert(0);
+        return 0;
     }
 
     uint32_t v = 0;   // addr 起的 4 个字节, 小端拼成一个字

@@ -1,15 +1,21 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Tue Oct 27 08:45:18 2026
+[*] Thu Nov 12 13:08:30 2026
 [*]
 [dumpfile] "/home/wang/InternalDependent_ysyx-workbench/npc/wave.vcd"
-[dumpfile_mtime] "Tue Oct 27 08:42:45 2026"
-[dumpfile_size] 1938819
+[dumpfile_mtime] "Thu Nov 12 13:06:59 2026"
+[dumpfile_size] 4939436
 [savefile] "/home/wang/InternalDependent_ysyx-workbench/npc/wave.gtkw"
-[timestart] 0
+[timestart] 414654
 [size] 1600 1000
 [pos] -1 -1
-*0.000000 5 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*0.000000 414654 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[treeopen] TOP.difftest_top.
+[treeopen] TOP.difftest_top.soc.
+[treeopen] TOP.difftest_top.soc.asic.
+[treeopen] TOP.difftest_top.soc.asic.cpu.
+[treeopen] TOP.difftest_top.soc.asic.cpu.cpu.
 [sst_width] 300
 [signals_width] 240
 [sst_expanded] 1
@@ -28,8 +34,6 @@ TOP.difftest_top.soc.asic.cpu.cpu.exu.out_valid
 TOP.difftest_top.soc.asic.cpu.cpu.lsu.in_ready
 TOP.difftest_top.soc.asic.cpu.cpu.lsu.out_valid
 TOP.difftest_top.soc.asic.cpu.cpu.wbu.in_ready
+TOP.difftest_top.soc.asic.cpu.cpu.lsu.lb
 [pattern_trace] 1
 [pattern_trace] 0
-
-
-

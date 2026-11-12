@@ -154,7 +154,7 @@ trace: clean_obj
 	--LDFLAGS "-lcapstone -lreadline -lSDL2"
 	WAVE_FILE=$(WAVE_FILE) WAVE_START=$(WAVE_START) WAVE_END=$(WAVE_END) WAVE_HALF_PERIOD=$(WAVE_HALF_PERIOD) \
 	$(OBJ_DIR)/Vtop $(ARGS)
-	$(WAVE_GEN) $(WAVE_FILE) $(if $(wildcard $(GTKW_FILE)),$(GTKW_FILE),) $(RC_FILE)
+	$(WAVE_GEN) $(WAVE_FILE) $(if $(wildcard $(GTKW_FILE)),$(GTKW_FILE),) $(RC_FILE) -7   
 endif
 
 

@@ -67,7 +67,7 @@ module ysyx_26040135_AXI_LSU (
     reg [1:0] error_save;
 
     reg io_save;
-    reg [1:0] io_type_save;
+    reg [1:0] io_type_save;  
     reg read_is_u_save;
 
     reg [4:0] rd_save;

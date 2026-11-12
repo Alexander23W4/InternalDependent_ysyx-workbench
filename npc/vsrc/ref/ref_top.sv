@@ -33,7 +33,8 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
     assign _mvendorid = mvendorid;
     assign _marchid = marchid;
 
-
+// fetch:
+    instr = mem_read(pc);
 
 // decode:
     wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
@@ -265,7 +266,7 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
     // 这个时序always块用来更新pc
     always @(posedge clk or posedge rst) begin
         if(rst) begin
-            pc <= 32'h80000000;
+            pc <= 32'h30000000;
             mstatus <= 32'h00001800;   //
             mcause <= 0;
             mepc <= 0;

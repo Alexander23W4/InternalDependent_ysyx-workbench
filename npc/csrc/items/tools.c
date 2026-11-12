@@ -91,6 +91,21 @@ void tick() {
 #endif
 }
 
+void ref_tick(){
+    top->ref_clk = 0;
+    top->eval();
+#ifdef WAVE_TRACE
+    wave_dump();                       // ref_clk 低电平
+    Verilated::timeInc(wave_half);
+#endif
+    top->ref_clk = 1;                  // 上升沿: 单周期 CPU 执行一条指令
+    top->eval();
+#ifdef WAVE_TRACE
+    wave_dump();                       // ref_clk 高电平
+    Verilated::timeInc(wave_half);
+#endif
+}
+
 void error_handler(){
     // 出错时先把 CPU 状态读出来, 这样后面 final_check()/prt_gprs() 打出的
     // PC 和寄存器才是"出错那一刻"的值, 而不是上一次 exec_once 留下的旧值

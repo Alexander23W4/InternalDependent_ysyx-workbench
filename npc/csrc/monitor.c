@@ -56,11 +56,17 @@ void parse_args(int argc, char *argv[]) {
 }    
 
 
+
+
 void reset(){
     top->reset = 1;
+    top->ref_rst = 1;
+
     for (int i = 0; i < 20; i++) {
         tick();
+        ref_tick();
     }
+    top->ref_rst = 0;
     top->reset = 0;
     top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
                         (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
@@ -94,11 +100,16 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
             printf("%s", ANSI_FMT("Hit ebreak instr, program end.\n", ANSI_FG_YELLOW));
         }
 
+    #if DIFFTEST
+
         if(wen){   // 这里进行difftest
             tick();  // 再下一个周期, 才能够写回
             top->difftest_read_gpr(d_status.gpr, d_status.pc);   // 读入专属于difftest用途的 dut status
             pipeline_difftest_step();  // 驱动ref行进到位并且进行status的比较.  这里的ref不用nemu, 用单周期cpu
         }
+
+    #endif
+
 
     } while(!endprog);
 }

@@ -101,11 +101,13 @@ void main_loop();
 void exec_once();
 
 void tick();
+void ref_tick();    
 
-// DPI 作用域切换(实现见 csrc/items/tools.c)
+
 void scope_init(void);
 void scope_use_dut(void);
 void scope_use_ref(void);
+
 void error_handler();
 void prt_gprs();
 void final_check();
@@ -138,7 +140,7 @@ void pipeline_difftest_step();
 extern uint8_t mrom[MROM_SIZE];
 void load_mrom(const char *path);
 
-// 内存镜像都在 csrc/items/mem.c; DUT 的 flash 模型也从这里取数据
+
 extern uint8_t flash[FLASH_SIZE];       // 程序镜像(DUT 和 ref 共用同一份)
 extern uint8_t sram[SRAM_SIZE];
 extern uint8_t sdram[SDRAM_SIZE];

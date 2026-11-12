@@ -12,7 +12,7 @@ module difftest_top(
     ysyxSoCFull soc (
         .clock(clock), 
         .reset(reset)
-        // 暂时用不到io口
+        // 暂时用不到io口   做到不报错不影响仿真即可
     );
 
     ref_top u_ref (
@@ -22,4 +22,5 @@ module difftest_top(
         ._wen(ref_wen), 
         .dbg_reg(ref_gpr)
     );
+    
 endmodule

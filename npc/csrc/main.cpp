@@ -14,12 +14,19 @@ ram的访问除了 difftest 里面有一个 mem copy, 初始化的时候, 比较
 ⭐: 我需要把多周期的ysyxsoc移植过来, 包括verilator-C和RTL, 让makefile能够启动两种架构环境来 功能验证 & 性能统计
 */
 
+
+/*
+新版本的仿真环境为了兼容difftest的wrapper(difftest_top), 将difftest_top固定设置为TOP
+
+如果不用difftest, 可以不驱动ref_clk, 不影响dut仿真
+*/
+
 using namespace std;
 
 size_t img_size;
 int diff_flag = 0;
 
-Vtop* top;               // 只有clock 和 reset
+Vtop* top;               
 
 
 // diliver .bin -> argv[1] 
@@ -29,6 +36,7 @@ int main(int argc, char** argv) {
 
     top = new Vtop;
 
+    // 设置DPI调用的scope
     svScope cpu_scope = svGetScopeFromName("TOP.ysyxSoCFull.asic.cpu.cpu");
     printf("[DPI] cpu scope = %s\n", cpu_scope ? svGetNameFromScope(cpu_scope) : "(NOT FOUND)");
     assert(cpu_scope != NULL);

@@ -1,5 +1,7 @@
 
-V_SRC=../ysyxSoC/build/ysyxSoCFull.v
+# pipeline处理器为了兼容difftest, 固定设置difftest_top.v为顶层
+V_SRC = ./vsrc/difftest_top.v      
+V_SRC_M=../ysyxSoC/build/ysyxSoCFull.v
 
 
 SOURCES = \

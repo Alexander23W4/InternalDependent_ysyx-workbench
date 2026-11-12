@@ -228,7 +228,9 @@ module ysyx_26040135(
     wire [1:0]  __lsu_error;   
 
     wire __ebreak_end;
+    wire _wen;   // 用于确定difftest时机
 
+    assign _wen = wen;
 
 // 流水线级间连接
 

@@ -20,6 +20,11 @@ npc difftest 的实现逻辑
 
 */
 
+/*
+对于流水线处理器的difftest来说, 要能够让nemu在需要wb的instr停下来, 然后进行difftest比较.   
+当verilator收到一次wen之后, 驱动nemu到下一个需要wb的instr(这个要给nemu那边专门写一个函数), 再下一个周期, 调用dpi-c读取npc的gpr值和pc值, 然后进行比较. 
+*/
+
 const char *regs_name[] = {
   "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
   "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",

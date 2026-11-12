@@ -58,6 +58,12 @@ task check_new_instr(output int new_instr);
     end
 endtask
 
+export "DPI-C" task check_wen;
+task check_wen(output int wen);
+    begin
+       wen = {{31{1'b0}}, _wen}; 
+    end
+endtask
 
 
 

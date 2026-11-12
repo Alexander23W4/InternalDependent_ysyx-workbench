@@ -94,8 +94,10 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
         }
 
         if(wen){   // 这里进行difftest
-            
+            tick();  // 再下一个周期, 才能够写回
+            top->difftest_read_gpr()
         }
+
     } while(!endprog);
 }
 

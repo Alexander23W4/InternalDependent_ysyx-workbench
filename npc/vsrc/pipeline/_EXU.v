@@ -75,6 +75,7 @@ module ysyx_26040135_EXU (
     output reg [63:0] exu_work_cyc,
 
     output reg ebreak_end,
+    output reg [31:0] pc_out,
 
     // bypass
     input [31:0] bypass_wdata_lsu,  // 

@@ -65,5 +65,10 @@ task check_wen(output int wen);
     end
 endtask
 
+task difftest_read_gpr(output int gprs[32], output int pc);
+    begin
+        
+    end
+endtask
 
 

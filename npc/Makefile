@@ -1,14 +1,18 @@
 
 # pipeline处理器为了兼容difftest, 固定设置difftest_top.v为顶层
-V_SRC = ./vsrc/difftest_top.v      
-V_SRC_M=../ysyxSoC/build/ysyxSoCFull.v
 
+V_SRC   = ./vsrc/difftest_top.v
+SOC_SRC = ../ysyxSoC/build/ysyxSoCFull.v
 
+V_SRC_M = $(SOC_SRC)
+
+# pipeline: vsrc 下的全部(含 ref) —— 顶层 difftest_top.v 单独由 MODE_VSRC 传
 SOURCES = \
 		$(shell find ./vsrc/pipeline -type f \( -name "*.v" -o -name "*.sv" \)) \
+		$(shell find ./vsrc/ref      -type f \( -name "*.v" -o -name "*.sv" \)) \
+		$(shell find ./vsrc/compo    -type f \( -name "*.v" -o -name "*.sv" \)) \
 		./vsrc/ysyx_26040135.sv \
-		./vsrc/dbg_register.v \
-		$(shell find ./vsrc/compo -type f \( -name "*.v" -o -name "*.sv" \)) 
+		./vsrc/dbg_register.v
 
 SOURCES_M = \
 	./vsrc_m/axi/axi4.sv \
@@ -123,21 +127,23 @@ endif
 ARGS+=-b
 
 ifeq ($(USE_M),1)
-MODE_VSRC = $(V_SRC)
+MODE_VSRC     = $(V_SRC_M)
 MODE_SOURCES  = $(SOURCES_M)
 MODE_CPP_SRC  = $(CPP_SRC_M)
 MODE_INC      = $(INC_SOURCES_M)
 MODE_INC_DIRS = $(INC_DIRS_M)
 MODE_GDB_INC  = $(GDB_INC_SOURCES_M)
 MODE_VSRC_DIR = ./vsrc_m
+TOP_MODULE   := ysyxSoCFull
 else
-MODE_VSRC = $(V_SRC_M)
+MODE_VSRC     = $(V_SRC) $(SOC_SRC)
 MODE_SOURCES  = $(SOURCES)
 MODE_CPP_SRC  = $(CPP_SRC)
 MODE_INC      = $(INC_SOURCES)
 MODE_INC_DIRS = $(INC_DIRS)
 MODE_GDB_INC  = $(GDB_INC_SOURCES)
 MODE_VSRC_DIR = ./vsrc
+TOP_MODULE   := difftest_top
 endif
 
 # ------------------------------------------------------------------------------------------------------

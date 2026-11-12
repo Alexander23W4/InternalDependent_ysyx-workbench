@@ -46,6 +46,10 @@ void difftest_cmp(){
     difftest_abort_print();
     Status = NPC_CRASH;
     // assert(0);
+  } 
+  else {
+    printf("DIFFTEST SAME!!\n");
+    difftest_abort_print();
   }
 }
 

@@ -65,9 +65,14 @@ task check_wen(output int wen);
     end
 endtask
 
+
+export "DPI-C" task difftest_read_gpr;
 task difftest_read_gpr(output int gprs[32], output int pc);
     begin
-        
+        for (int i = 0; i < 32; i++) begin
+            gprs[i] = dbg_reg[i*32 +: 32];  // 提取第 i 个 GPR
+        end
+        pc = _wen_pc;
     end
 endtask
 

@@ -8,6 +8,7 @@ module ysyx_26040135_WBU(
 
     input [4:0] rd,
     input [31:0] wdata,
+    input [31:0] pc_in,
 
 
     output reg wen,    // 这个信号同时也承担 wb_bypass_data_valid 的作用
@@ -16,7 +17,9 @@ module ysyx_26040135_WBU(
 
     output reg [63:0] wbu_blockf_cyc,
     output reg [63:0] wbu_work_cyc,
-    output reg wbu_blockf
+    output reg wbu_blockf,
+
+    output reg [31:0] pc_out
 
 );
 
@@ -32,6 +35,7 @@ module ysyx_26040135_WBU(
             state <= IDLE;
             rd_wb <= 5'b0;
             wdata_wb <= 32'b0;
+            pc_out <= 32'b0;
 
             wbu_blockf_cyc <= 0;
             wbu_work_cyc <= 0;
@@ -43,6 +47,7 @@ module ysyx_26040135_WBU(
                 in_ready <= 1'b0;
                 rd_wb <= rd;
                 wdata_wb <= wdata;
+                pc_out <= pc_in;
             end
 
             if(in_ready && !in_valid) begin

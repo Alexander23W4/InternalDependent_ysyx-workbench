@@ -35,6 +35,7 @@ module ysyx_26040135_AXI_LSU (
     input [31:0] lsu_wdata,   // rdata2
     input [31:0] lsu_addr,    // add_rst
     input [31:0] ic_wb_wdata,
+    input [31:0] pc_in,
 
     input in_valid,
     output reg in_ready,
@@ -48,6 +49,7 @@ module ysyx_26040135_AXI_LSU (
     output [31:0] wdata,  // 
     output [4:0] rd_out,  //
     output reg lsu_bypass_data_valid, 
+    output reg [31:0] pc_out,
 
 
     output reg [63:0] lsu_blockf_cyc,
@@ -100,6 +102,7 @@ module ysyx_26040135_AXI_LSU (
             lsu_data_save <= 32'b0;
             lsu_addr_save <= 32'b0;
             ic_wb_wdata_save <= 32'b0;
+            pc_out <= 32'b0;
 
             in_ready <= 1'b1;
             out_valid <= 1'b0;
@@ -132,6 +135,7 @@ module ysyx_26040135_AXI_LSU (
                 lsu_data_save <= lsu_wdata;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
+                pc_out <= pc_in;
 
                 if(!is_ls) begin
                     out_valid <= 1'b1;

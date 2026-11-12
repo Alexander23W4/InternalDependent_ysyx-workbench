@@ -146,7 +146,7 @@ void difftest_step() {
   CPU_state ref_r;
 
   if (skip_dut_nr_inst > 0) {
-    ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+    ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);   // 通过ref的接口, 把ref的status复制过来进行比较
     if (ref_r.pc == cpu.pc) {    // 注: 顶层是 ysyxSoCFull, _pc 不再是顶层端口, 改用 debug_read_all 读出的 cpu.pc
       skip_dut_nr_inst = 0;
       checkregs(&ref_r);   //
@@ -168,6 +168,11 @@ void difftest_step() {
   ref_difftest_exec(1);
   ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
   checkregs(&ref_r);     //
+}
+
+
+void pipeline_difftest_step(){   // 专用于流水线处理器的difftest step, 只比较wb的instr, 在main_loop里面遇到wen调用一次这个即可
+  
 }
 
 

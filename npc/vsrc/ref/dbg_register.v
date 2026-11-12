@@ -2,7 +2,6 @@ module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     input clk,
     input rst,
     input wen,
-    input clk_en,
     
     input [ADDR_WIDTH-1:0] raddr1,   // rs1
     input [ADDR_WIDTH-1:0] raddr2,   // rs2
@@ -25,7 +24,7 @@ module dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
                 gpr[i] <= '0;
             end
         end 
-        else if(clk_en) begin
+        else begin
             if (wen && waddr != 0) gpr[waddr] <= wdata;
         end
     end

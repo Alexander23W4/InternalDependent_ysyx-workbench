@@ -34,7 +34,8 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
     assign _marchid = marchid;
 
 // fetch:
-    instr = mem_read(pc);
+    
+    assign instr = mem_read(pc);
 
 // decode:
     wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
@@ -134,7 +135,6 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
         .clk(clk),
         .rst(rst),
         .wen(wen),
-        .clk_en(clk_en),
         .raddr1(rs1),
         .raddr2(rs2),
         .waddr(rd),
@@ -276,7 +276,7 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
         end
-        else if (clk_en) begin
+        else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
             // pc update
             if(jalr) begin
@@ -319,17 +319,13 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
 
             // write mem
             if (sw) begin
-                for (int i = 0; i < 4; i++) begin
-                    mem_write(add_rst, rdata2, 4);
-                end
+                mem_write(add_rst, rdata2, 4);
             end
             else if (sb) begin
                 mem_write(add_rst, rdata2, 1);
             end
             else if (sh) begin
-                for (int i = 0; i < 2; i++) begin
-                    mem_write(add_rst, rdata2, 2);
-                end
+                mem_write(add_rst, rdata2, 2);
             end
             else if(csrrw) begin
                 case(immCSR)  // case CSR addr

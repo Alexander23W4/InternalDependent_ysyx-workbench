@@ -324,7 +324,7 @@ module ysyx_26040135_EXU (
                 mcause <= 32'h0000000b;
             end
 
-            if(state == BLOCK && i_type && !gpr_read_valid) begin
+            if(state == BLOCK && single_rs && !gpr_read_valid) begin
                 if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
                     if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
                         bypass_data <= bypass_wdata_lsu;
@@ -374,8 +374,8 @@ module ysyx_26040135_EXU (
                 if(gpr_read_valid) begin  // 没有RAW
                     next = EX;
                 end 
-                else begin  // 出现RAW, 看看能不能接受lsu或者wbu的bypass数据    这里暂时只处理i_type, 因为他只专注于rs1, 对关键时钟路径影响小
-                    if(i_type) begin   // 只要rs1 (i-type)
+                else begin  // 出现RAW, 看看能不能接受lsu或者wbu的bypass数据    这里暂时只处理single_rs, 因为他只专注于rs1, 对关键时钟路径影响小
+                    if(single_rs) begin   // 只要rs1 (i-type)
                         if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
                             if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
                                 next = EX;
@@ -407,15 +407,15 @@ module ysyx_26040135_EXU (
     assign is_ls = read | write;
     wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
 
-    wire nrs = jal_save | jalr_save | lui_save | auipc_save;  // 这几个不需要读取, 没有gpr依赖问题
+    wire nrs = jal_save | lui_save | auipc_save | fence_i_save | ecall_save | ebreak_save;  // 这几个不需要读取, 没有gpr依赖问题
     wire r_type = add_save | sub_save | sll_save | slt_save | sltu_save | xor_inst_save | srl_save | sra_save | or_inst_save | and_inst_save;
     wire s_type = sb_save | sh_save | sw_save;
     wire b_type = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save;
     wire rsb_type = r_type | s_type | b_type;
-    wire i_type = ~rsb_type & ~nrs;
+    wire single_rs = ~rsb_type & ~nrs;    // ⭐: 注意, 这个是会有变化的, 如果其他类型支持的instr增加, 就不一定对了
 
     // gpr_read_valid = 没有 RAW 冒险(注意: 不读 GPR 的指令也必须为 1, 否则会卡死)
-    wire gpr_read_valid = !((rsb_type && (rd_list[rs1_save] || rd_list[rs2_save])) || (i_type && rd_list[rs1_save]));   // 会读gpr且gpr存在io前后依赖问题
+    wire gpr_read_valid = !((rsb_type && (rd_list[rs1_save] || rd_list[rs2_save])) || (single_rs && rd_list[rs1_save]));   // 会读gpr且gpr存在io前后依赖问题
 
 
 

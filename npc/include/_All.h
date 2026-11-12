@@ -35,6 +35,12 @@
 #define FLASH_BASE 0x30000000
 #define FLASH_SIZE (16 * 1024 * 1024)
 
+#define SDRAM_BASE 0xa0000000
+#define SDRAM_SIZE (32 * 1024 * 1024)
+#define SRAM_BASE  0x0f000000
+#define SRAM_SIZE  (8 * 1024)
+
+
 typedef enum {
     NPC_NORM = 0,
     NPC_STOP,
@@ -132,8 +138,12 @@ void pipeline_difftest_step();
 extern uint8_t mrom[MROM_SIZE];
 void load_mrom(const char *path);
 
-extern uint8_t flash[FLASH_SIZE];
-void load_flash(const char *path);
+// 内存镜像都在 csrc/ref/ref_mem.c(见那里的注释); DUT 的 flash 模型也从这里取数据
+extern uint8_t ref_flash[FLASH_SIZE];
+extern uint8_t ref_sram[SRAM_SIZE];
+extern uint8_t ref_sdram[SDRAM_SIZE];
+void ref_load_flash(const char *path);
+void load_flash(const char *path);      // = ref_load_flash, 保留给 monitor.c 用
 
 
 

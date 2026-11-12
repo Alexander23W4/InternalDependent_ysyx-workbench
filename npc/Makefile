@@ -6,7 +6,6 @@ SOC_SRC = ../ysyxSoC/build/ysyxSoCFull.v
 
 V_SRC_M = $(SOC_SRC)
 
-# pipeline: vsrc 下的全部(含 ref) —— 顶层 difftest_top.v 单独由 MODE_VSRC 传
 SOURCES = \
 		$(shell find ./vsrc/pipeline -type f \( -name "*.v" -o -name "*.sv" \)) \
 		$(shell find ./vsrc/ref      -type f \( -name "*.v" -o -name "*.sv" \)) \

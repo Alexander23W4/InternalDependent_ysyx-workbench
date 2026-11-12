@@ -9,20 +9,10 @@ module ref_top(
     output _wen
 );
 
-    assign is_ls = lb | lh | lw | lbu | lhu | sw | sb | sh; 
-    assign ls_addr = add_rst;
-    assign io_type = is_ls ? ((sw | lw) ? 2'b10 : ((sh | lhu | lh) ? 2'b01 : 2'b00)) : 2'b11;
+// 外接信号, 如果接到difftest_top顶层, 就可以直接用top->...访问, 不需要verilog->C 的 dpi-c访问
     assign _wen = wen;
 
-
-    localparam BASE_ADDR = 32'h80000000;
-    logic [63:0][7:0] ram;
-
-    wire [31:0] fetch_addr;
-    assign fetch_addr = pc - BASE_ADDR;
-
     wire [31:0] instr;
-    assign instr = {ram[fetch_addr+3], ram[fetch_addr+2], ram[fetch_addr+1], ram[fetch_addr]};
     assign _instr = instr;
 
     reg [31:0] pc;   // reg
@@ -39,6 +29,9 @@ module ref_top(
     assign _mvendorid = mvendorid;
     assign _marchid = marchid;
 
+
+
+// decode:
     wire addi, slti, sltiu, xori, ori, andi, slli, srli, srai;
     wire add, sub, sll, slt, sltu, xor_inst, srl, sra, or_inst, and_inst;
     wire lb, lh, lw, lbu, lhu, sb, sh, sw;
@@ -236,12 +229,11 @@ module ref_top(
                    ({32{sltiu}} & sltiu_rst) |
                    {{32{csrrw | csrrs | csrrc}} & csrw_rst};
 
+
     // read ram
 
     reg [31:0] read_ram_rst;
     reg [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
-
-    wire [31:0] addr = add_rst - BASE_ADDR;
 
     always @(*) begin
         // 默认值
@@ -264,6 +256,8 @@ module ref_top(
             endcase
         end
     end
+
+
 
     // 这个时序always块用来更新pc
     always @(posedge clk or posedge rst) begin

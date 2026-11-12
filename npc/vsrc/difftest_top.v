@@ -6,8 +6,9 @@ module difftest_top(
     input  ref_clk,                 
     input  ref_rst,
     output [31:0]  ref_pc,
-    output         ref_wen,
-    output [1023:0] ref_gpr
+    output [1023:0] ref_gpr,
+    output  ref_wen,
+    output [31:0] ref_instr
 );
     ysyxSoCFull soc (
         .clock(clock), 
@@ -20,7 +21,8 @@ module difftest_top(
         .rst(ref_rst),
         ._pc(ref_pc), 
         ._wen(ref_wen), 
+        ._instr(ref_instr),
         .dbg_reg(ref_gpr)
     );
-    
+
 endmodule

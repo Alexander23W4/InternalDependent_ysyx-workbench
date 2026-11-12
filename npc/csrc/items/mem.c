@@ -44,7 +44,7 @@ static uint8_t *mem_region(uint32_t addr, uint32_t *off, int *writable) {
     return NULL;
 }
 
-extern "C" void mem_read(int32_t addr, int32_t *data) {
+extern "C" int32_t mem_read(int32_t addr) {
     uint32_t a = (uint32_t)addr, off = 0;
     int wr = 0;
     uint8_t *base = mem_region(a, &off, &wr);
@@ -53,12 +53,12 @@ extern "C" void mem_read(int32_t addr, int32_t *data) {
         assert(0);
     }
 
-    uint32_t v = 0;
+    uint32_t v = 0;   // addr 起的 4 个字节, 小端拼成一个字
     for (uint32_t i = 0; i < 4; i++) v |= (uint32_t)base[off + i] << (8 * i);
-    *data = (int32_t)v;
+    return (int32_t)v;
 }
 
-extern "C" void mem_write(int32_t addr, int32_t data, int type) {
+extern "C" void mem_write(int32_t addr, int32_t data, int32_t write_type) {
     uint32_t a = (uint32_t)addr, off = 0;
     int wr = 0;
     uint8_t *base = mem_region(a, &off, &wr);
@@ -71,7 +71,7 @@ extern "C" void mem_write(int32_t addr, int32_t data, int type) {
         assert(0);
     }
 
-    for (int i = 0; i < type; i++) base[off + i] = (uint8_t)(((uint32_t)data) >> (8 * i));
+    for (int i = 0; i < write_type; i++) base[off + i] = (uint8_t)(((uint32_t)data) >> (8 * i));
 }
 
 

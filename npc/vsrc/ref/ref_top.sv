@@ -9,6 +9,10 @@ module ref_top(
     output _wen
 );
 
+
+import "DPI-C" function int  mem_read (input int addr);   // 直接返回 addr 起的 4 个字节
+import "DPI-C" function void mem_write(input int addr, input int data, input int write_type);   // write_type = 4/2/1 (sw/sh/sb)
+
 // 外接信号, 如果接到difftest_top顶层, 就可以直接用top->...访问, 不需要verilog->C 的 dpi-c访问
     assign _wen = wen;
 
@@ -232,27 +236,26 @@ module ref_top(
 
     // read ram
 
-    reg [31:0] read_ram_rst;
+    reg [31:0] read_rst;
     reg [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
     always @(*) begin
         // 默认值
-        read_ram_rst = 0;
+        read_rst = 0;
         lw_rst  = 0;
         lbu_rst = 0;
         lhu_rst = 0;
         lb_rst  = 0;
         lh_rst  = 0;
 
-        // 只有在加载指令时才调用 ram_read
         if (lw | lb | lbu | lh | lhu) begin
-            read_ram_rst  = {ram[addr+3], ram[addr+2], ram[addr+1], ram[addr]};
+            read_rst  = mem_read(add_rst);
             case (1'b1)
-                lw:  lw_rst  = read_ram_rst;
-                lbu: lbu_rst = {24'b0, read_ram_rst[7:0]};
-                lhu: lhu_rst = {16'b0, read_ram_rst[15:0]};
-                lb:  lb_rst  = {{25{read_ram_rst[7]}}, read_ram_rst[6:0]};
-                lh:  lh_rst  = {{17{read_ram_rst[15]}}, read_ram_rst[14:0]};
+                lw:  lw_rst  = read_rst;
+                lbu: lbu_rst = {24'b0, read_rst[7:0]};
+                lhu: lhu_rst = {16'b0, read_rst[15:0]};
+                lb:  lb_rst  = {{25{read_rst[7]}}, read_rst[6:0]};
+                lh:  lh_rst  = {{17{read_rst[15]}}, read_rst[14:0]};
             endcase
         end
     end
@@ -271,13 +274,6 @@ module ref_top(
             mcycleh <= 0;
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
-
-            for (int i = 0; i < 32; i++) begin   // instr
-                ram[i] <= ram_instr[i];
-            end
-            for (int i = 32; i < 64; i++) begin   // data
-                ram[i] <= i[7:0] - 8'd32;
-            end
         end
         else if (clk_en) begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
@@ -320,18 +316,18 @@ module ref_top(
                 pc <= pc_next_dft;
             end
 
-            // write ram
+            // write mem
             if (sw) begin
                 for (int i = 0; i < 4; i++) begin
-                    ram[add_rst - BASE_ADDR + i] <= rdata2[i*8 +: 8];
+                    mem_write(add_rst, rdata2, 4);
                 end
             end
             else if (sb) begin
-                ram[add_rst - BASE_ADDR] <= rdata2[7:0];
+                mem_write(add_rst, rdata2, 1);
             end
             else if (sh) begin
                 for (int i = 0; i < 2; i++) begin
-                    ram[add_rst - BASE_ADDR + i] <= rdata2[i*8 +: 8];
+                    mem_write(add_rst, rdata2, 2);
                 end
             end
             else if(csrrw) begin

@@ -32,9 +32,9 @@ extern "C" {
     // DPI IMPORTS
     // DPI import at ../ysyxSoC/perip/flash/flash.v:85:30
     extern void flash_read(int addr, int* data);
-    // DPI import at vsrc/ref/ref_top.sv:13:30
-    extern int mem_read(int addr);
     // DPI import at vsrc/ref/ref_top.sv:14:30
+    extern int mem_read(int addr);
+    // DPI import at vsrc/ref/ref_top.sv:15:30
     extern void mem_write(int addr, int data, int write_type);
     // DPI import at ../ysyxSoC/build/ysyxSoCFull.v:6730:30
     extern void mrom_read(int raddr, int* rdata);

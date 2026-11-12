@@ -72,7 +72,7 @@ task difftest_read_gpr(output int gprs[32], output int pc);
         for (int i = 0; i < 32; i++) begin
             gprs[i] = dbg_reg[i*32 +: 32];  // 提取第 i 个 GPR
         end
-        pc = _wen_pc;
+        pc = _wbu_pc;
     end
 endtask
 

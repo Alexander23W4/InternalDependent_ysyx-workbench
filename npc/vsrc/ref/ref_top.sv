@@ -6,7 +6,8 @@ module ref_top(
     output [31:0] _pc,
     output [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid,  // 
     output [31:0] _instr,
-    output _wen
+    output _wen,
+    output [31:0] _last_pc
 );
 
 
@@ -21,6 +22,8 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
 
     reg [31:0] pc;   // reg
     assign _pc = pc;
+    reg [31:0] last_pc;
+    assign _last_pc = last_pc;
 
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;  // reg
 
@@ -272,6 +275,7 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
     always @(posedge clk or posedge rst) begin
         if(rst) begin
             pc <= 32'h30000000;
+            last_pc <= 32'h30000000;
             mstatus <= 32'h00001800;   //
             mcause <= 0;
             mepc <= 0;
@@ -282,6 +286,7 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
             marchid <= 32'h18d6687;   // id: ysyx_26040135
         end
         else begin
+            last_pc <= pc;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
             // pc update
             if(jalr) begin

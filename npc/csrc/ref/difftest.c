@@ -10,12 +10,12 @@ const char *regs_name[] = {
 
 
 static void difftest_abort_print() {
-  printf("pc: [DUT] 0x%08x, [REF] 0x%08x\n", d_status.pc, top->ref_pc);
+  printf("pc: [DUT] 0x%08x, [REF] 0x%08x\n", d_status.pc, top->ref_last_pc);
   
   for (int i = 0; i < 32; i++) {
     printf("reg %2d [%3s]: [DUT] 0x%08x, [REF] 0x%08x", i, regs_name[i], d_status.gpr[i], top->ref_gpr[i]);
     if (d_status.gpr[i] != top->ref_gpr[i]) {
-      printf("  <-- DIFF!");
+      printf("%s", ANSI_FMT("  <-- DIFF!", ANSI_FG_RED));
     }
     printf("\n");
   } 
@@ -42,7 +42,7 @@ void pipeline_difftest_step(){   // 专用于流水线处理器的difftest step,
 
 void difftest_cmp(){
   if (!difftest_check_status()) {
-    printf("Difftest Abort.\n");
+    printf("%s", ANSI_FMT("\nDifftest Abort\n", ANSI_FG_RED));
     difftest_abort_print();
     Status = NPC_CRASH;
     // assert(0);
@@ -52,7 +52,7 @@ void difftest_cmp(){
 
 bool difftest_check_status(){
   bool is_same = true;
-  if((top->ref_pc) != d_status.pc) is_same = false;
+  if((top->ref_last_pc) != d_status.pc) is_same = false;
   for (int i = 0; i < 32; i++)
   {
     if(is_same == false) break;

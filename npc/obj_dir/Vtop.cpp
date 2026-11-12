@@ -19,6 +19,7 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , ref_pc{vlSymsp->TOP.ref_pc}
     , ref_gpr{vlSymsp->TOP.ref_gpr}
     , ref_instr{vlSymsp->TOP.ref_instr}
+    , ref_last_pc{vlSymsp->TOP.ref_last_pc}
     , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
     , __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu{vlSymsp->TOP.__PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_ifu}
     , __PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu{vlSymsp->TOP.__PVT__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bus_lsu}

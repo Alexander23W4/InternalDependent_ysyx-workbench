@@ -1544,6 +1544,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf) 
     }
     if (vlSelf->ref_rst) {
         __Vdly__difftest_top__DOT__u_ref__DOT__pc = 0x30000000U;
+        vlSelf->difftest_top__DOT__u_ref__DOT__last_pc = 0x30000000U;
         vlSelf->difftest_top__DOT__u_ref__DOT__mstatus = 0x1800U;
         vlSelf->difftest_top__DOT__u_ref__DOT__mcause = 0U;
         __Vdly__difftest_top__DOT__u_ref__DOT__mepc = 0U;
@@ -1553,6 +1554,8 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf) 
         vlSelf->difftest_top__DOT__u_ref__DOT__mvendorid = 0x79737978U;
         vlSelf->difftest_top__DOT__u_ref__DOT__marchid = 0x18d6687U;
     } else {
+        vlSelf->difftest_top__DOT__u_ref__DOT__last_pc 
+            = vlSelf->difftest_top__DOT__u_ref__DOT__pc;
         __Vdly__difftest_top__DOT__u_ref__DOT__mcycleh 
             = (IData)(((1ULL + (((QData)((IData)(vlSelf->difftest_top__DOT__u_ref__DOT__mcycleh)) 
                                  << 0x20U) | (QData)((IData)(vlSelf->difftest_top__DOT__u_ref__DOT__mcycle)))) 
@@ -1830,6 +1833,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf) 
                                                                     vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
                                                                     [0x1eU]))) 
                                       >> 0x20U));
+    vlSelf->ref_last_pc = vlSelf->difftest_top__DOT__u_ref__DOT__last_pc;
     vlSelf->ref_pc = vlSelf->difftest_top__DOT__u_ref__DOT__pc;
     vlSelf->difftest_top__DOT__u_ref__DOT__pc_next_dft 
         = ((IData)(4U) + vlSelf->difftest_top__DOT__u_ref__DOT__pc);

@@ -229,10 +229,10 @@ module ysyx_26040135(
 
     wire __ebreak_end;
     wire _wen;   // 用于确定difftest时机
-    wire _wbu_pc;
+    wire [31:0] _wbu_pc;
 
     assign _wen = wen;
-    assign _wen_pc = wbu_pc_out;
+    assign _wbu_pc = wbu_pc_out;
 
 // 流水线级间连接
 

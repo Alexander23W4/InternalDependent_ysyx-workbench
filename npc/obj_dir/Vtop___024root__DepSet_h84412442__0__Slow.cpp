@@ -439,6 +439,7 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                       >> 0x20U));
     vlSelf->difftest_top__DOT__u_ref__DOT__pc_next_dft 
         = ((IData)(4U) + vlSelf->difftest_top__DOT__u_ref__DOT__pc);
+    vlSelf->ref_last_pc = vlSelf->difftest_top__DOT__u_ref__DOT__last_pc;
     vlSelf->difftest_top__DOT__soc__DOT__flash__DOT__data_bswap 
         = ((vlSelf->difftest_top__DOT__soc__DOT__flash__DOT__rdata 
             << 0x18U) | ((0xff0000U & (vlSelf->difftest_top__DOT__soc__DOT__flash__DOT__rdata 

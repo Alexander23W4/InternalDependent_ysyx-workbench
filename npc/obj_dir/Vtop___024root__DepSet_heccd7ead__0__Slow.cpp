@@ -287,6 +287,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     VL_RAND_RESET_W(1024, vlSelf->ref_gpr);
     vlSelf->ref_wen = VL_RAND_RESET_I(1);
     vlSelf->ref_instr = VL_RAND_RESET_I(32);
+    vlSelf->ref_last_pc = VL_RAND_RESET_I(32);
     vlSelf->difftest_top__DOT__soc__DOT__externalPins_gpio_in = VL_RAND_RESET_I(16);
     vlSelf->difftest_top__DOT__soc__DOT__externalPins_ps2_clk = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__externalPins_ps2_data = VL_RAND_RESET_I(1);
@@ -1452,6 +1453,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     }
     vlSelf->difftest_top__DOT__u_ref__DOT__instr = VL_RAND_RESET_I(32);
     vlSelf->difftest_top__DOT__u_ref__DOT__pc = VL_RAND_RESET_I(32);
+    vlSelf->difftest_top__DOT__u_ref__DOT__last_pc = VL_RAND_RESET_I(32);
     vlSelf->difftest_top__DOT__u_ref__DOT__mstatus = VL_RAND_RESET_I(32);
     vlSelf->difftest_top__DOT__u_ref__DOT__mepc = VL_RAND_RESET_I(32);
     vlSelf->difftest_top__DOT__u_ref__DOT__mcause = VL_RAND_RESET_I(32);

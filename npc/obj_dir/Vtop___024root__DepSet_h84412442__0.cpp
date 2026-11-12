@@ -120,7 +120,7 @@ void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT_
     gprs[0x1dU] = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1dU];
     gprs[0x1eU] = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1eU];
     gprs[0x1fU] = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1fU];
-    pc = (1U & vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__wbu_pc_out);
+    pc = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__wbu_pc_out;
 }
 
 extern "C" void mrom_read(int raddr, int* rdata);

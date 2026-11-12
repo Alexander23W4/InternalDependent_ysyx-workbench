@@ -1,0 +1,12 @@
+[DPI] dut scope = TOP.difftest_top.soc.asic.cpu.cpu
+[DPI] ref scope = (NOT FOUND)
+[WAVE] dump -> wave.vcd, CPU cycles [0, end], CPU period = 2 ps
+[1;36mARGS: 
+[0mArgument[0]: ./obj_dir/Vtop
+Argument[1]: ../am-kernels/tests/cpu-tests/build/bit-riscv32e-ysyxsoc.bin
+Argument[2]: -b
+[load_flash] loaded 896 byte(s) from ../am-kernels/tests/cpu-tests/build/bit-riscv32e-ysyxsoc.bin
+[REF] mem_read: bad addr 0x00000000
+[REF] mem_read: bad addr 0x00000000
+Reset Released. Starting execution...
+%Error: VerilatedVcd::bufferFlush: No space left on device

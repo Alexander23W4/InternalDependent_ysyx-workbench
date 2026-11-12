@@ -158,13 +158,7 @@ module ysyx_26040135_AXI_CLINT (
                 end
                 else if(bus.awvalid) begin
                     bus.awready = 1'b1;
-                    if(bus.wvalid) begin
-                        bus.wready = 1'b1;
-                        next = B;
-                    end
-                    else begin
-                        next = W;
-                    end
+                    next = W;
                 end
             end
 
@@ -201,3 +195,6 @@ module ysyx_26040135_AXI_CLINT (
     end
 
 endmodule
+
+
+

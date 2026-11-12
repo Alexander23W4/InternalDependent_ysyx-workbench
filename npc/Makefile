@@ -99,7 +99,7 @@ CROSS_COMPILE ?= riscv64-linux-gnu-
 
 WAVE_FILE  ?= wave.vcd
 WAVE_START ?= 0
-WAVE_END   ?= 10000
+WAVE_END   ?= 30000
 WAVE_HALF_PERIOD ?= 1
 
 GTKW_FILE  ?= wave.gtkw

@@ -18,8 +18,17 @@
 TOP.clock
 TOP.reset
 @22
-TOP.ysyxSoCFull.asic.cpu.cpu.pc[31:0]
-TOP.ysyxSoCFull.asic.cpu.cpu.exu.instr_save[31:0]
-TOP.ysyxSoCFull.asic.cpu.cpu.exu.mcycle[31:0]
+TOP.difftest_top.soc.asic.cpu.cpu.pc[31:0]
+TOP.difftest_top.soc.asic.cpu.cpu.lsu.state[2:0]
+@28
+TOP.difftest_top.soc.asic.cpu.cpu.ifu.out_valid
+TOP.difftest_top.soc.asic.cpu.cpu.exu.in_ready
+TOP.difftest_top.soc.asic.cpu.cpu.exu.out_valid
+TOP.difftest_top.soc.asic.cpu.cpu.lsu.in_ready
+TOP.difftest_top.soc.asic.cpu.cpu.lsu.out_valid
+TOP.difftest_top.soc.asic.cpu.cpu.wbu.in_ready
 [pattern_trace] 1
 [pattern_trace] 0
+
+
+

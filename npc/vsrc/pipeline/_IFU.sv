@@ -110,7 +110,7 @@ module ysyx_26040135_AXI_IFU (
 
 
 // 状态 及 反馈信号 更新
-    always_ff @( posedge clock or posedge reset ) begin
+    always_ff @( posedge clock or posedge reset) begin
         if(reset) begin
             state <= IDLE;
             pc <= 32'h30000000;
@@ -129,22 +129,15 @@ module ysyx_26040135_AXI_IFU (
 
         end else begin
 
-            if(flush) begin  // 分支预测失败, 冲刷
+            if(flush && (state == AR) || (state == R && !bus.rvalid)) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
                 flush_save <= 1'b1;
                 pc_flush_save <= pc_flush;
-
             end 
 
             state <= next;
             
-            if(state == IDLE && out_ready && out_valid) begin   //
+            if(state == IDLE && out_valid && (flush | out_ready)) begin   //
                 out_valid <= 1'b0;
-            end
-
-            if(state == IDLE && out_valid) begin
-                if(flush | flush_save) begin
-                    out_valid <= 1'b0;   
-                end
             end
 
             if(state == IDLE) begin
@@ -163,9 +156,12 @@ module ysyx_26040135_AXI_IFU (
 
 
             if(state == R && bus.rvalid) begin
-                if(flush_save | flush) begin  // 如果在访存期间收到flush, 必须完成这次fetch才能够正式冲刷
-                    pc <= pc_flush_save;  // 不给out_valid, 不读rdata, 废掉这次读取
+                if(flush_save) begin
+                    pc <= pc_flush_save;
                     flush_save <= 1'b0;
+                end 
+                else if(flush) begin
+                    pc <= pc_flush;
                 end else begin
                     if(bus.rresp == 2'b00) begin
                         out_instr  <= bus.rdata;
@@ -179,10 +175,12 @@ module ysyx_26040135_AXI_IFU (
                 end
             end
 
-            if(state == IDLE && (flush_save | flush)) begin
-                pc <= pc_flush_save;
-                flush_save <= 1'b0;
+            if(state == IDLE) begin  // 如果都到IDLE了, 不肯能还存有flush_save, 直接监视flush即可
+                if(flush) begin
+                    pc <= pc_flush;
+                end 
             end
+
         end
     end
 

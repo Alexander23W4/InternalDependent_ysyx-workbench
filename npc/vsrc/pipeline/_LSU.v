@@ -292,7 +292,7 @@ module ysyx_26040135_AXI_LSU (
     wire [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
 
     wire [31:0] lsu_rdata_shifted;
-    assign lsu_rdata_shifted = rdata_out >> {lsu_addr[1:0], 3'b000};
+    assign lsu_rdata_shifted = rdata_out >> {lsu_addr_save[1:0], 3'b000};
 
     assign lw_rst  = rdata_out;
     assign lbu_rst = {24'b0, lsu_rdata_shifted[7:0]};

@@ -20,7 +20,6 @@ class Vtop_ysyx_26040135_AXI4 final : public VerilatedModule {
     CData/*1:0*/ rresp;
     CData/*0:0*/ rvalid;
     CData/*0:0*/ rready;
-    CData/*3:0*/ rid;
     CData/*0:0*/ rlast;
     CData/*0:0*/ awvalid;
     CData/*0:0*/ awready;
@@ -28,11 +27,9 @@ class Vtop_ysyx_26040135_AXI4 final : public VerilatedModule {
     CData/*3:0*/ wstrb;
     CData/*0:0*/ wvalid;
     CData/*0:0*/ wready;
-    CData/*0:0*/ wlast;
     CData/*1:0*/ bresp;
     CData/*0:0*/ bvalid;
     CData/*0:0*/ bready;
-    CData/*3:0*/ bid;
     IData/*31:0*/ araddr;
     IData/*31:0*/ rdata;
     IData/*31:0*/ wdata;

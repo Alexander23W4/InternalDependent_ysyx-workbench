@@ -19,6 +19,7 @@ static void difftest_abort_print() {
     }
     printf("\n");
   } 
+  printf("mcycle: %" PRIu64 "\n", cpu.mcycle);
   // printf("--------------------- CSR State ---------------------\n");
   // printf("mtvec:   0x%08x\n", cpu.mtvec);
   // printf("mepc:    0x%08x\n", cpu.mepc);

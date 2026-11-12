@@ -10,7 +10,9 @@
 void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_error_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_error, IData/*31:0*/ &lsu_error, IData/*31:0*/ &master_validation_error);
 void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_halt_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_new_instr_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &new_instr);
+void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_wen_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &wen);
 void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__debug_read_all_TOP(Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &dbg_regs, IData/*31:0*/ &pc, IData/*31:0*/ &mstatus, IData/*31:0*/ &mepc, IData/*31:0*/ &mcause, IData/*31:0*/ &mtvec, QData/*63:0*/ &mcycle, IData/*31:0*/ &instr);
+void Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__difftest_read_gpr_TOP(Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &gprs, IData/*31:0*/ &pc);
 
 // FUNCTIONS
 Vtop__Syms::~Vtop__Syms()
@@ -64,6 +66,8 @@ Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* mode
         __Vscope_ysyxSoCFull__asic__cpu__cpu.exportInsert(__Vfinal, "check_error", (void*)(&Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_error_TOP));
         __Vscope_ysyxSoCFull__asic__cpu__cpu.exportInsert(__Vfinal, "check_halt", (void*)(&Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_halt_TOP));
         __Vscope_ysyxSoCFull__asic__cpu__cpu.exportInsert(__Vfinal, "check_new_instr", (void*)(&Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_new_instr_TOP));
+        __Vscope_ysyxSoCFull__asic__cpu__cpu.exportInsert(__Vfinal, "check_wen", (void*)(&Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_wen_TOP));
         __Vscope_ysyxSoCFull__asic__cpu__cpu.exportInsert(__Vfinal, "debug_read_all", (void*)(&Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__debug_read_all_TOP));
+        __Vscope_ysyxSoCFull__asic__cpu__cpu.exportInsert(__Vfinal, "difftest_read_gpr", (void*)(&Vtop___024root____Vdpiexp_ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__difftest_read_gpr_TOP));
     }
 }

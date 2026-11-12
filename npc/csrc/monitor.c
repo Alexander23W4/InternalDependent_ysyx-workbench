@@ -8,6 +8,7 @@ int new_instr = 0;
 int wen = 0;
 
 CPU_state cpu = {};
+CPU_state d_status = {};
 int ifu_error = 0;
 int lsu_error = 0;
 int master_validation_error = 0;
@@ -95,7 +96,8 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
 
         if(wen){   // 这里进行difftest
             tick();  // 再下一个周期, 才能够写回
-            top->difftest_read_gpr()
+            top->difftest_read_gpr(d_status.gpr, d_status.pc);   // 读入专属于difftest用途的 dut status
+            pipeline_difftest_step();
         }
 
     } while(!endprog);

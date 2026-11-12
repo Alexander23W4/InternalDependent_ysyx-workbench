@@ -38,11 +38,27 @@ void check_new_instr(int* new_instr) {
 }
 #endif
 
+#ifndef VL_DPIDECL_check_wen_
+#define VL_DPIDECL_check_wen_
+void check_wen(int* wen) {
+    // DPI export at vsrc/dpi-f.sv:62:6
+    return Vtop::check_wen(wen);
+}
+#endif
+
 #ifndef VL_DPIDECL_debug_read_all_
 #define VL_DPIDECL_debug_read_all_
 void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr) {
     // DPI export at vsrc/dpi-f.sv:15:15
     return Vtop::debug_read_all(dbg_regs, pc, mstatus, mepc, mcause, mtvec, mcycle, instr);
+}
+#endif
+
+#ifndef VL_DPIDECL_difftest_read_gpr_
+#define VL_DPIDECL_difftest_read_gpr_
+void difftest_read_gpr(int* gprs, int* pc) {
+    // DPI export at vsrc/dpi-f.sv:70:6
+    return Vtop::difftest_read_gpr(gprs, pc);
 }
 #endif
 

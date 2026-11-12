@@ -120,6 +120,7 @@ bool difftest_checkregs(CPU_state* ref_r);
 void difftest_state_print(CPU_state* ref);
 void difftest_skip_ref();
 void difftest_skip_dut(int nr_ref, int nr_dut);
+void pipeline_difftest_step();
 
 
 

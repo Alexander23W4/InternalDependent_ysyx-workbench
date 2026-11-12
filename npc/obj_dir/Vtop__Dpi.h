@@ -22,8 +22,12 @@ extern "C" {
     extern void check_halt(int* endprog);
     // DPI export at vsrc/dpi-f.sv:55:6
     extern void check_new_instr(int* new_instr);
+    // DPI export at vsrc/dpi-f.sv:62:6
+    extern void check_wen(int* wen);
     // DPI export at vsrc/dpi-f.sv:15:15
     extern void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr);
+    // DPI export at vsrc/dpi-f.sv:70:6
+    extern void difftest_read_gpr(int* gprs, int* pc);
 
     // DPI IMPORTS
     // DPI import at ../ysyxSoC/perip/flash/flash.v:85:30

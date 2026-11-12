@@ -22,15 +22,15 @@
 using Vtop__Vcb_check_error_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_error, IData/*31:0*/ &lsu_error, IData/*31:0*/ &master_validation_error);
 using Vtop__Vcb_check_halt_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 using Vtop__Vcb_check_new_instr_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &new_instr);
+using Vtop__Vcb_check_wen_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &wen);
 using Vtop__Vcb_debug_read_all_t = void (*) (Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &dbg_regs, IData/*31:0*/ &pc, IData/*31:0*/ &mstatus, IData/*31:0*/ &mepc, IData/*31:0*/ &mcause, IData/*31:0*/ &mtvec, QData/*63:0*/ &mcycle, IData/*31:0*/ &instr);
+using Vtop__Vcb_difftest_read_gpr_t = void (*) (Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &gprs, IData/*31:0*/ &pc);
 
 // SYMS CLASS (contains all model state)
 class Vtop__Syms final : public VerilatedSyms {
   public:
     // INTERNAL STATE
     Vtop* const __Vm_modelp;
-    bool __Vm_activity = false;  ///< Used by trace routines to determine change occurred
-    uint32_t __Vm_baseCode = 0;  ///< Used by trace routines when tracing multiple models
     VlDeleter __Vm_deleter;
     bool __Vm_didInit = false;
 

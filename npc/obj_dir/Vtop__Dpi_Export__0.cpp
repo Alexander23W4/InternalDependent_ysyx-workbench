@@ -90,3 +90,36 @@ void Vtop::check_new_instr(int* new_instr) {
     (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), new_instr__Vcvt);
     for (size_t new_instr__Vidx = 0; new_instr__Vidx < 1; ++new_instr__Vidx) *new_instr = new_instr__Vcvt;
 }
+
+void Vtop::check_wen(int* wen) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_wen\n"); );
+    // Init
+    IData/*31:0*/ wen__Vcvt;
+    wen__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_wen");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_check_wen_t __Vcb = (Vtop__Vcb_check_wen_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), wen__Vcvt);
+    for (size_t wen__Vidx = 0; wen__Vidx < 1; ++wen__Vidx) *wen = wen__Vcvt;
+}
+
+void Vtop::difftest_read_gpr(int* gprs, int* pc) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::difftest_read_gpr\n"); );
+    // Init
+    VlUnpacked<IData/*31:0*/, 32> gprs__Vcvt;
+    for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
+        gprs__Vcvt[__Vi0] = 0;
+    }
+    IData/*31:0*/ pc__Vcvt;
+    pc__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("difftest_read_gpr");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_difftest_read_gpr_t __Vcb = (Vtop__Vcb_difftest_read_gpr_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), gprs__Vcvt, pc__Vcvt);
+    for (size_t gprs__Vidx = 0; gprs__Vidx < 32; ++gprs__Vidx) gprs[gprs__Vidx] = (&gprs__Vcvt[0])[gprs__Vidx];
+    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) *pc = pc__Vcvt;
+}

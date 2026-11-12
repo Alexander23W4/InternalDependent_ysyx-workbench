@@ -199,9 +199,6 @@ module ysyx_26040135_AXI_LSU (
             end
 
             AW: begin
-                // ⭐ AW 和 W 一起发, 各自收下之前都不撤; 两个都收下了才去等 B.
-                //    不能等 awready 再发 wvalid: SoC 里 SRAM 的 awready 本身就依赖 wvalid,
-                //    那样会双向死锁.
                 if(!aw_done) bus.awvalid = 1'b1;
                 if(!w_done)  bus.wvalid  = 1'b1;
 

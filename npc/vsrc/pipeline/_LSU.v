@@ -87,11 +87,15 @@ module ysyx_26040135_AXI_LSU (
         IDLE, AR, R, AW, W, B
     } state_t;
     state_t state, next;
+    reg aw_done, w_done;              // AW / W 是否已被从设备收下(两者可能不同拍完成)
+    reg aw_done_next, w_done_next;    // 组合下一拍值(供 always_ff 打拍)
 
 
     always_ff @(posedge clock or posedge reset) begin
         if(reset) begin
             state <= IDLE;
+            aw_done <= 1'b0;
+            w_done  <= 1'b0;
             rdata_out <= 32'b0;
             error_save <= 2'b00;
 
@@ -115,6 +119,8 @@ module ysyx_26040135_AXI_LSU (
 
         end else begin
             state <= next;
+            aw_done <= aw_done_next;
+            w_done  <= w_done_next;
 
             if(state == IDLE && out_ready && out_valid) begin
                 in_ready <= 1'b1;
@@ -225,9 +231,13 @@ module ysyx_26040135_AXI_LSU (
         lsu_bypass_data_valid = 1'b0;  
 
         next = state;
+        aw_done_next = aw_done;
+        w_done_next  = w_done;
 
         case(state)
             IDLE: begin
+                aw_done_next = 1'b0;
+                w_done_next  = 1'b0;
                 if(in_valid && in_ready) begin   // 只有读写指令的时候才允许触发总线交互
                     if(is_ls) begin
                         if(!io) begin
@@ -255,15 +265,13 @@ module ysyx_26040135_AXI_LSU (
             end
 
             AW: begin
-                bus.awvalid = 1'b1;
-                if(bus.awready == 1'b1) begin
-                    next = W;
-                end
-            end
+                if(!aw_done) bus.awvalid = 1'b1;
+                if(!w_done)  bus.wvalid  = 1'b1;
 
-            W: begin
-                bus.wvalid = 1'b1;
-                if(bus.wready == 1'b1) begin
+                aw_done_next = aw_done | bus.awready;
+                w_done_next  = w_done  | bus.wready;
+
+                if(aw_done_next && w_done_next) begin
                     next = B;
                 end
             end

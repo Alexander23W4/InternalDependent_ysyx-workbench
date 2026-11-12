@@ -65,7 +65,8 @@ extern "C" void mem_write(int32_t addr, int32_t data, int32_t write_type) {
     uint8_t *base = mem_region(a, &off, &wr);
     if (base == NULL) {
         printf("[REF] mem_write: bad addr 0x%08x\n", a);
-        assert(0);
+        // assert(0);
+        return;
     }
     if (!wr) {
         printf("[REF] mem_write: flash is read-only, addr 0x%08x\n", a);

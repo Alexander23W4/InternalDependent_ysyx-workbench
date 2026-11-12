@@ -50,8 +50,8 @@ extern "C" int32_t mem_read(int32_t addr) {
     int wr = 0;
     uint8_t *base = mem_region(a, &off, &wr);
     if (base == NULL) {
-        printf("[REF] mem_read: bad addr 0x%08x\n", a);
-        // assert(0);
+        // printf("[REF] mem_read: bad addr 0x%08x\n", a);
+        // printf("[REF] mem_read: bad addr 0x%08x | ref_pc=0x%08x ref_instr=0x%08x\n", a, top->ref_pc, top->ref_instr);
         return 0;
     }
 

@@ -27,6 +27,11 @@ static void difftest_abort_print() {
   // printf("mstatus: 0x%08x\n", cpu.mstatus);
   // printf("mcycle: %" PRIu64 "\n", cpu.mcycle);
   // printf("-----------------------------------------------------\n");
+
+
+
+  printf("[REF] init: sram[0x1fe4]=0x%02x sram[0x1fe0..3]=%02x %02x %02x %02x\n",
+        sram[0x1fe4], sram[0x1fe0], sram[0x1fe1], sram[0x1fe2], sram[0x1fe3]);
 }
 
 

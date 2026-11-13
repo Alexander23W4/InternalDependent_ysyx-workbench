@@ -407,8 +407,8 @@ module ysyx_26040135_EXU (
     wire [31:0] and_rst  = rdata1_ul & rdata2;
     wire [31:0] andi_rst = rdata1_ul & imm_save;
 
-    wire [31:0] slt_rst   = {31'b0, ($signed(rdata1_ul) < $signed(rdata2))};
-    wire [31:0] sltu_rst  = {31'b0, (rdata1_ul < rdata2)};
+    wire [31:0] slt_rst   = {31'b0, cmp_lt};
+    wire [31:0] sltu_rst  = {31'b0, cmp_ltu};
     wire [31:0] slti_rst  = {31'b0, ($signed(rdata1_ul) < $signed(imm_save))};
     wire [31:0] sltiu_rst = {31'b0, (rdata1_ul < imm_save)};
 
@@ -462,8 +462,8 @@ module ysyx_26040135_EXU (
 
 
         ic_wb_wdata = ({32{lui_save}} & imm_save) |   //
-                ({32{add_save | addi_save | auipc_save}} & add_rst_w) |
-                ({32{jalr_save | jal_save}} & (pc_save + 32'd4)) |   //
+                ({32{add_save | addi_save | auipc_save}} & add_rst_w_save) |
+                ({32{jalr_save | jal_save}} & pc_next_dft) |
                 ({32{sub_save}} & sub_rst) |
                 ({32{xor_inst_save}} & xor_rst) |
                 ({32{xori_save}} & xori_rst) |

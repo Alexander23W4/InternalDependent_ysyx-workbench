@@ -50,7 +50,8 @@ cells_only = [l for l in sl[sstart:send + 1] if KEEP_TYPE.match(l)]
 tail_lines = [l for l in sl[sstart:send + 1] if "Chip area" in l or "of which used" in l]
 stats = cells_only + [""] + tail_lines
 
-entry = [f"## {ver}", ""] + timing + ["", ""] + power + ["", ""] + stats + ["", ""]
+# 每次附加前和上一节之间留 4 个空行
+entry = [""] * 4 + [f"## {ver}", ""] + timing + ["", ""] + power + ["", ""] + stats
 
 # 如果文件末尾已经有同版本的标题(上次只写了标题), 先把它去掉, 避免重复
 try:
@@ -58,12 +59,13 @@ try:
         old = f.read().split("\n")
 except FileNotFoundError:
     old = []
+# 去掉文件末尾的空行, 由 entry 自己带 4 个空行, 保证每次间隔一致
+while old and not old[-1].strip():
+    old.pop()
+last = [i for i, l in enumerate(old) if l.strip()]
 last = [i for i, l in enumerate(old) if l.strip()]
 if last and old[last[-1]].strip() == f"## {ver}":
     old = old[:last[-1]]
-    while old and not old[-1].strip():
-        old.pop()
-    old.append("")
 
 if out_path == "-":
     print("\n".join(entry))

@@ -461,14 +461,14 @@ module ysyx_26040135_EXU (
     wire [31:0] srai_rst  = $signed(rdata1_ul) >>> shamt_i;
     
 
-    always @(posedge clk or posedge reset) begin
+    always @(posedge clock or posedge reset) begin
         if(reset) begin
             add_rst_w_save <= 32'b0;
             pc_next_dft <= 32'b0;
         end else begin
             if(state == EX) begin
                 add_rst_w_save <= add_rst_w;
-                pc_next_dft = pc_save + 32'd4;
+                pc_next_dft <= pc_save + 32'd4;
             end
         end
     end

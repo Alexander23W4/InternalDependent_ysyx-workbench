@@ -98,3 +98,17 @@ grep -cE "DLATCH|DLH|LATCH" ysyx_26040135.netlist.v
 Internal Power：标准单元内部功耗。
 Switch Power：信号网络充放电产生的功耗。
 Leakage Power：晶体管即使没有发生逻辑切换，也会产生的静态漏电功耗。
+
++---------------+----------------+--------------+---------------+-------------+-----------+
+| Power Group   | Internal Power | Switch Power | Leakage Power | Total Power | (%)       |
++---------------+----------------+--------------+---------------+-------------+-----------+
+| combinational | 9.900e-03      | 0.000e+00    | 3.420e-04     | 1.024e-02   | (66.693%) |
+| sequential    | 4.900e-03      | 0.000e+00    | 2.142e-04     | 5.115e-03   | (33.307%) |
++---------------+----------------+--------------+---------------+-------------+-----------+
+Net Switch Power   ==    0.000e+00 (0.000%)
+Cell Internal Power   ==    1.480e-02 (96.378%)
+Cell Leakage Power   ==    5.562e-04 (3.622%)
+Total Power   ==  1.536e-02 W
+
+这里基本上可以认为combinational就是gate, sequential就是ff. Internal Power 就是 gate和ff内部产生的
+

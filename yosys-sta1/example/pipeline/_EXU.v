@@ -390,6 +390,9 @@ module ysyx_26040135_EXU (
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;
     reg [31:0] add_rst_w_save;
+    reg cmp_lt;
+    reg cmp_eq;
+    reg cmp_ltu;
 
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
@@ -421,10 +424,16 @@ module ysyx_26040135_EXU (
         if(reset) begin
             add_rst_w_save <= 32'b0;
             pc_next_dft <= 32'b0;
+            cmp_lt <= 1'b0;
+            cmp_eq <= 1'b0;
+            cmp_ltu <= 1'b0;
         end else begin
             if(state == EX) begin
                 add_rst_w_save <= add_rst_w;
                 pc_next_dft <= pc_save + 32'd4;
+                cmp_lt <= ($signed(rdata1_ul) < $signed(rdata2));
+                cmp_ltu <= (rdata1_ul < rdata2);
+                cmp_eq <= (rdata1_ul == rdata2);
             end
         end
     end
@@ -486,22 +495,22 @@ module ysyx_26040135_EXU (
             new_pc = add_rst_w_save;
         end
         else if(blt_save) begin
-            new_pc = ($signed(rdata1_ul) < $signed(rdata2)) ? add_rst_w_save : pc_next_dft;
+            new_pc = cmp_lt ? add_rst_w_save : pc_next_dft;
         end
         else if(beq_save) begin
-            new_pc = (rdata1_ul == rdata2) ? add_rst_w_save : pc_next_dft;
+            new_pc = cmp_eq ? add_rst_w_save : pc_next_dft;
         end
         else if(bne_save) begin
-            new_pc = (rdata1_ul != rdata2) ? add_rst_w_save : pc_next_dft;
+            new_pc = ~cmp_eq ? add_rst_w_save : pc_next_dft;
         end
         else if(bge_save) begin
-            new_pc = ($signed(rdata1_ul) >= $signed(rdata2)) ? add_rst_w_save : pc_next_dft;
+            new_pc = ~cmp_lt ? add_rst_w_save : pc_next_dft;
         end
         else if(bltu_save) begin
-            new_pc = (rdata1_ul < rdata2) ? add_rst_w_save : pc_next_dft;
+            new_pc = cmp_ltu ? add_rst_w_save : pc_next_dft;
         end
         else if(bgeu_save) begin
-            new_pc = (rdata1_ul >= rdata2) ? add_rst_w_save : pc_next_dft;
+            new_pc = ~cmp_ltu ? add_rst_w_save : pc_next_dft;
         end
 
         // system

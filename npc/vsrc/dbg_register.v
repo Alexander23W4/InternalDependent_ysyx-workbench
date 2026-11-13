@@ -2,6 +2,7 @@ module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
     input clock,
     input reset,
     input wen,
+    input ren,
     
     input [ADDR_WIDTH-1:0] raddr1,   // rs1
     input [ADDR_WIDTH-1:0] raddr2,   // rs2
@@ -20,14 +21,16 @@ module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
         if(reset) begin
             rdata1 <= '0;
             rdata2 <= '0;
-            
+
             for (int i = 0; i < 2**ADDR_WIDTH; i = i + 1) begin 
                 gpr[i] <= '0;
             end
         end else begin
-            if (wen && waddr != 0) gpr[waddr] <= wdata;
-            rdata1 <= gpr[raddr1];
-            rdata2 <= gpr[raddr2];
+            if(wen && waddr != 0) gpr[waddr] <= wdata;
+            if(ren) begin
+                rdata1 <= gpr[raddr1];
+                rdata2 <= gpr[raddr2];
+            end
         end
     end
 

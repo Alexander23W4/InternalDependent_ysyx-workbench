@@ -83,7 +83,9 @@ module ysyx_26040135_EXU (
 
     input [31:0] bypass_wdata_wbu,
     input [4:0] bypass_rd_wbu,
-    input wbu_bypass_data_valid
+    input wbu_bypass_data_valid,
+
+    output reg ren   // 使能读
 );
 
     // RAW
@@ -349,6 +351,7 @@ module ysyx_26040135_EXU (
         ebreak_end = 1'b0;
         flush = 1'b0;
         _new_instr = 1'b0;
+        ren = 1'b0;
         
         case (state)
             IDLE: begin
@@ -369,7 +372,6 @@ module ysyx_26040135_EXU (
                     ebreak_end = 1'b1;
                 end
             end
-
 
             BLOCK: begin   
                 if(gpr_read_valid) begin  // 没有RAW
@@ -403,8 +405,11 @@ module ysyx_26040135_EXU (
                 end
                 next = IDLE;
             end
-
         endcase
+
+        if(next == EX) begin
+            ren = 1'b1;
+        end
     end 
 
     // ------------------------ 控制RAW阻塞的相关信号  

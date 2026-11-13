@@ -344,17 +344,21 @@ ysyx_26040135_EXU exu (
     .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),
 
     .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
-    .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen)
+    .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen),
+
+    .ren(ren)
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
     wire lsu_bypass_data_valid;
+    wire ren;
 
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
         .clock(clock),
         .reset(reset),
         .wen(wen), // WB
+        .ren(ren),
         .raddr1(rs1_out),  // EX
         .raddr2(rs2_out), // EX
         .waddr(rd_wbu), // WB

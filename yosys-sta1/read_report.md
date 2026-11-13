@@ -5,7 +5,8 @@ Endpoint   关键时序路径时序终点
 Clock Group  该时序路径所属的时钟组
 Delay Type
 
-Path Delay      (ns)
+Path Delay      (ns)    
+    这个就是纯组合延迟
 
 Path Required   (ns)   
 
@@ -30,3 +31,12 @@ Path Required   (ns)
 
     Setup：Capture Register 不能等太久才收到新数据。
     Hold：Capture Register 不能太早收到下一份新数据。
+
+CPPR 
+    Common Path Pessimism Removal（公共时钟路径悲观量消除）
+
+Slack   时钟裕量
+
+Freq   (MHz)
+
+    T_{period,min} = T_{path} + T_{setup} + T_{uncertainty} + T_{other}      T-hold不参与频率的计算(最长路径)

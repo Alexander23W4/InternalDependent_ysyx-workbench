@@ -1,35 +1,6 @@
-// 注意, 给其他模块的控制信号并不是 拉高1周期 就完事了, 而是要等到 被控制模块 给一个反馈信号(被控制模块有这个义务), 
-//      代表知道了, 然后 控制模块 将控制信号及时清理(同样有义务)
-
-// 总之, 控制信号 和 反馈信号都是 外围给cpu提要求, 让cpu兼容外围
-
-// 后续还需补充 input __error_is_arranged, 我现在默认是只要error出现, __error就一直为0, 然后cpu处理__error的逻辑直接设置成崩溃报错 (NPC_CRASH)
-
-
-// ⭐: 因为接上总线的 master的 本质工作就是 访地址(访存+访外设), 所以我们把 PMA 就直接加到每一个总线 master 里面 (错误的尽早触发原则)
-
-// ⭐: 不要让状态机卡在 除了IDLE的其他状态, 卡在IDLE是可以的
-
-
-
-// Pipeline IFU:
-
-// ⭐: 级间总线信号 + 流水线阻塞信号
-// ⭐(对于流水线阻塞信号): 不阻塞上一级, 不阻塞系统总线
-
-/*
--> 设计:
-分支预测失败处理
-
--> 保证流水线的性能: 
-
-每一级都要确定 时钟边界 (时钟边界寄存器 组合逻辑长度, 最长组合逻辑长度)   有没有专门的工具(或者在综合报告里面)查看哪个组合路径最长
-
-所需时钟数
-*/
 
 module ysyx_26040135_AXI_IFU (
-        output logic [31:0] bus_araddr,
+    output logic [31:0] bus_araddr,
     output logic [3:0]  bus_arid,
     output logic [7:0]  bus_arlen,
     output logic [2:0]  bus_arsize,
@@ -73,14 +44,11 @@ module ysyx_26040135_AXI_IFU (
     output reg [31:0] out_pc,   
 
     input flush,
-    input [31:0] pc_flush,
-
-    output reg [63:0] ifu_work_cyc,
-    output reg [63:0] ifu_block_cyc
+    input [31:0] pc_flush
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-    // 综合版: 用 if 链代替 struct 数组初始化(部分工具不支持 '{...} 数组初始化)
+    // 用 if 链代替 struct 数组初始化
     function automatic reg is_executable(input [31:0] addr);
         begin
             is_executable = 1'b0;
@@ -98,8 +66,8 @@ module ysyx_26040135_AXI_IFU (
 
 
     // 外部控制信号与返回外部的信号:
-    reg [1:0] error_save;
-    reg master_validation_error_save;
+    reg [1:0] error_save;   // 储存器出现错误
+    reg master_validation_error_save;    // 访问不合法地址
     reg flush_save;
     reg [31:0] pc_flush_save;
 
@@ -135,8 +103,6 @@ module ysyx_26040135_AXI_IFU (
             flush_save <= 1'b0;
             pc_flush_save <= 32'b0;
 
-            ifu_work_cyc <= 64'b0;
-            ifu_block_cyc <= 64'b0;
 
         end else begin
 
@@ -156,14 +122,9 @@ module ysyx_26040135_AXI_IFU (
                     if(!is_executable(pc)) begin
                         master_validation_error_save <= 1'b1;
                     end    
-                end else begin
-                    ifu_block_cyc <= ifu_block_cyc + 64'b1; // 握手的周期是不算在里面的, 只算等待后级的周期
                 end
             end
 
-            if(state != IDLE) begin
-                ifu_work_cyc <= ifu_work_cyc + 64'b1;
-            end
 
 
             if(state == R && bus_rvalid) begin

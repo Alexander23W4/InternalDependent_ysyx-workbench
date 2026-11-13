@@ -1,129 +1,19 @@
-/* verilator lint_off UNUSEDSIGNAL */
+
 
 /*
-写verilog / SV之前, 要画好硬件框图: 组合逻辑块  寄存器  IP核  连线
+npc的综合版本要做的几个优化:
 
-硬件描述部分: 变量定义(wire reg logic)   连线   时序逻辑块  组合逻辑和组合逻辑块
-
-UVM部分
-
-// ⭐  打⭐标注的都是cpu的 流控制 信号, 流控制信号固定使用寄存器, 用时序逻辑赋值
+去掉不必要的debug和仿真信号, 性能计数器等
+仔细检查看有没有不一样, 和vsrc对比
+确定有没有综合器错误优化
+错误处理怎么办(访问不支持的地址等), 按理来说应该硬件触发exception handler, 如果弄不了, 那就只能卡死了, 然后手动重启
 */
-
-/*
-SRAM	              0x0f00_0000~0x0fff_ffff     0x0f000000~0x0f001fff (8KB)
-MROM	              0x2000_0000~0x2000_0fff
-
-UART16550	          0x1000_0000~0x1000_0fff
-
-Flash	              0x3000_0000~0x3fff_ffff     0x3000_0000 ~ 0x30ff_ffff (16MB)
-SPI master	          0x1000_1000~0x1000_1fff
-
-PSRAM	              0x8000_0000~0x9fff_ffff
-SDRAM	              0xa000_0000~0xbfff_ffff
-
-GPIO	              0x1000_2000~0x1000_200f
-
-CLINT	              0x0200_0000~0x0200_ffff
-
-PS2	                  0x1001_1000~0x1001_1007
-VGA	                  0x2100_0000~0x211f_ffff
-ChipLink MMIO	      0x4000_0000~0x7fff_ffff
-ChipLink MEM	      0xc000_0000~0xffff_ffff
-
-
-
-
-⭐: 实现流水线处理器
-
-先把npc拆成5级流水, 中间加握手信号     IF | ID | EX | LS | (EX2)WB
-
-流水线存在以下三种冒险, 为了避免冒险, 就会造成阻塞, 降低流水线的效率
-
-结构冒险: 寄存器读只有 EX 用, 寄存器写只有 WB 用, 不会冲突
-        存储器, IF 和 LS 的同时访问读通道会有结构冒险, Xbar采用LSU优先 (至于更复杂的调度策略先留着)
-
-数据冒险: RAW 
-    寄存器RAW[WB]: 存下还没写的寄存器, 每次读寄存器都遍历, 如果有还没写完(发生RAW)就阻塞  (只要把 in.ready 和 out.valid 置为无效即可)
-
-    存储器RAW: 现在只有EX会写, 而且暂时不考虑自修改代码, 先默认 IF 不会 fetch 的指令是不会被修改的, 不存在存储器 RAW
-
-控制冒险:
-    选择最简单的分支预测
-
-    冲刷操作:
-    -> 清理控制信号                例如, 通过将valid置为无效, 可以将大部分部件正在执行的指令直接冲刷掉.
-    -> 等待并消除影响控制信号的因素
-    -> 确认推测正确后再更新状态量        寄存器堆, 更新CSR, 写内存, 访问外设
-
-
-⭐:
-流水线的目的就是为了降低P
-为了降低C, 必须要拆分长组合路径, 在中间加reg
-
-流水线的性能瓶颈就是在于  两种指令: 访存 和 跳转 
-    io前后依赖带来的强制串行 & ram的有限带宽和处理速度慢    
-    访存问题带来的阻塞, 具体表现为IFU & LSU 阻塞其他级, 使得其他级空闲, 没有充分工作来降低P
-
-    跳转的问题就是分支预测带来的flush时间
-
-我能想到的解决方案有:
--> 优化分支预测算法
-静态分支预测     dsa核可以根据应用场景的统计规律设置统计上最优的分支预测算法
-动态分支预测
-
--> 减少访存时间:
-减少访存  
-分散访存(不要连续访存)[编译器]   
-使用cache
-
--> 不要让访存阻塞其他级
-旁路bypass     现在已经实现
-乱序多发射      如果一个指令因为各种原因被阻塞(io依赖, 访存..), 那么先进行后面的指令   (乱序可以尝试下, 多发射需要多个功能部件, 面积不允许)
-尽可能把存在io依赖的多个指令放得最开[编译器]
-
-
-设置性能计数器: 
-每一级的工作时长占比  被阻塞因素占比(EXU的 gpr依赖阻塞, 被LSU阻塞, 被WBU阻塞)
-每种指令的产生比例
-CPI(P)
-*/
-
-/*
-先明确流片的面积和时序要求    23000(25000)um2   
-    [yzh的参考设计在添加icache后面积为22730, 同时频率可以达到1081MHz, 运行microbench显示的Total time为4.49s.]
-
-改WBW, 完成初始版本的形式化验证
-做出来npc的可留片版本, 看懂面积, 时序, 最长路径(C)
-
-优化:
-
-⭐ pipeline: 
-lsu支持 sw 并行 (SS)
-将内存读口x2, 支持lsu和ifu同时读取 (SS)
-解决WBW, 将wbu算法改成简单阻塞, 不要列可能性. 或者尝试开发 register renaming  (DHS)
-分支预测算法 (CS)
-尝试乱序(DHS)
-
-⭐ Cache:
-cache的优化, 替换算法, block, set-associative, 大小
-
-⭐ C:
-最后优化时钟周期
-
-⭐ 错误处理, 比如bresp != 2'b00, 怎么处理    (纯硬件)
-
-优化RTL的写法, verilog的省A & PW的方法
-*/
-
 module ysyx_26040135(
     
-    // ⭐: 现在cpu的引脚已经完全符合要求
     input clock,
     input reset,
     input io_interrupt,   //
 
-    // 这种 普通的port 不能直接连到 interface modport, 应该先练到通用的interface port, 再连到 modport
     output        io_master_awvalid,   
     input         io_master_awready,
     output [3:0]  io_master_awid,
@@ -194,45 +84,6 @@ module ysyx_26040135(
 
 );
 
-/*
-让流水线寄存器先跑起来, verilator先跑起来
-
-通过形式化验证后, 我们的重点应该放在通过仿真和综合获取关键数据: 性能计数器(I,P), 面积, C(关键组合路径), 功耗
-
-跑通所有tb, 并且弄好verilator仿真环境所有debug-infra + 波形debug醇熟
-
-把rtl弄成可综合的, 然后看关键组合路径, 消减时钟频率
-
-研究节省PAP的rtl写法
-
-研究rocketchip的设计框图和rtl
-
-阅读计算的本质, 重新精度ysyx代码和riscv开放架构设计之道, 重点注意gcc-flag, 每个flag对IPC的作用
-
-形式化验证
-
-读CAAQ
-*/
-
-
-// 引出到verilator顶层的信号写在这里
-    wire [32*32-1:0] dbg_reg;   
-    wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
-    wire [31:0] _pc;
-    wire [31:0] _instr;
-    
-    wire _new_instr;
-
-    wire [1:0]  __ifu_error;     
-    wire        __ifu_master_validation_error;    
-    wire [1:0]  __lsu_error;   
-
-    wire __ebreak_end;
-    wire _wen;   // 用于确定difftest时机
-    wire [31:0] _wbu_pc;
-
-    assign _wen = wen;
-    assign _wbu_pc = wbu_pc_out;
 
 // 流水线级间连接
 
@@ -812,7 +663,6 @@ ysyx_26040135_AXI_CLINT u_clint (
 
 endmodule
 
-/* verilator lint_off UNUSEDSIGNAL */
 
 
 

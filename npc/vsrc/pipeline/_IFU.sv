@@ -117,7 +117,6 @@ module ysyx_26040135_AXI_IFU (
 
             out_instr <= '0;
             out_valid <= 1'b0;  
-            out_pc <= '0;
 
             error_save <= 2'b00;
             master_validation_error_save <= 1'b0;

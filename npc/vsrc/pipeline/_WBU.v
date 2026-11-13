@@ -33,9 +33,6 @@ module ysyx_26040135_WBU(
         if(reset) begin
             in_ready <= 1'b1;
             state <= IDLE;
-            rd_wb <= 5'b0;
-            wdata_wb <= 32'b0;
-            pc_out <= 32'b0;
 
             wbu_blockf_cyc <= 0;
             wbu_work_cyc <= 0;

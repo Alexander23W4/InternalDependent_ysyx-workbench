@@ -112,7 +112,7 @@ module ysyx_26040135_AXI_LSU (
             aw_done <= aw_done_next;
             w_done  <= w_done_next;
 
-            if(state == IDLE && out_ready && out_valid) begin
+            if(out_ready && out_valid) begin
                 in_ready <= 1'b1;
                 out_valid <= 1'b0;
             end
@@ -121,7 +121,7 @@ module ysyx_26040135_AXI_LSU (
                 lsu_blcokb_cyc <= lsu_blcokb_cyc + 64'b1;
             end
 
-            if(state == IDLE && in_valid && in_ready) begin   // 接受并保存
+            if(in_valid && in_ready) begin   // 接受并保存
                 in_ready <= 1'b0;
 
                 io_save <= io;
@@ -145,19 +145,21 @@ module ysyx_26040135_AXI_LSU (
                 lsu_blockf <= 1'b0;
             end
 
-            if(state == R && bus.rvalid && bus.rresp == 2'b00) begin
-                rdata_out <= bus.rdata;
-                out_valid <= 1'b1;
+            if (state == R && bus.rvalid) begin
+                if (bus.rresp == 2'b00) begin
+                    rdata_out <= bus.rdata;
+                    out_valid <= 1'b1;
+                end else begin
+                    error_save <= bus.rresp;
+                end
             end
-            if(state == B && bus.bvalid && bus.bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
-                in_ready <= 1'b1;
-            end
-
-            if(state == R && bus.rvalid && bus.rresp != 2'b00) begin
-                error_save <= bus.rresp; 
-            end
-            if(state == B && bus.bvalid && bus.bresp != 2'b00) begin
-                error_save <= bus.bresp;
+            
+            if (state == B && bus.bvalid) begin
+                if (bus.bresp == 2'b00) begin
+                    in_ready <= 1'b1;
+                end else begin
+                    error_save <= bus.bresp;
+                end
             end
 
             if(state != IDLE) begin

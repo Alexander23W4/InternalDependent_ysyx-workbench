@@ -40,7 +40,7 @@ module ysyx_26040135_WBU(
 
         end else begin  
             state <= next;
-            if(state == IDLE && in_ready && in_valid) begin
+            if(in_ready && in_valid) begin
                 in_ready <= 1'b0;
                 rd_wb <= rd;
                 wdata_wb <= wdata;

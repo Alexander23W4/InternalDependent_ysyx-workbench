@@ -175,7 +175,7 @@ module ysyx_26040135_EXU (
             state <= next;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
-            if(state == IDLE && in_valid && in_ready) begin
+            if(in_valid && in_ready) begin
                 in_ready <= 1'b0;
 
                 pc_save    <= pc;
@@ -295,36 +295,39 @@ module ysyx_26040135_EXU (
                 end
             end
 
+            if(state == EX) begin
+                if(csrrw_save) begin
+                    case(imm_save)  // case CSR addr
+                        32'h00000300: mstatus <= rdata1_ul;
+                        32'h00000305: mtvec <= rdata1_ul;
+                        32'h00000341: mepc <= rdata1_ul;
+                        32'h00000342: mcause <= rdata1_ul;
+                    endcase
+                end
+                else if (|{{5{csrrs_save}} & rs1_save}) begin
+                    case(imm_save) 
+                        32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
+                        32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
+                        32'h00000341: mepc <= rdata1_ul | csr_rst_save;
+                        32'h00000342: mcause <= rdata1_ul | csr_rst_save;
+                    endcase
+                end
+                else if (|{{5{csrrc_save}} & rs1_save}) begin
+                    case(imm_save) 
+                        32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
+                        32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
+                        32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
+                        32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
+                    endcase
+                end
 
-            if(csrrw_save && state == EX) begin
-                case(imm_save)  // case CSR addr
-                    32'h00000300: mstatus <= rdata1_ul;
-                    32'h00000305: mtvec <= rdata1_ul;
-                    32'h00000341: mepc <= rdata1_ul;
-                    32'h00000342: mcause <= rdata1_ul;
-                endcase
-            end
-            else if (|{{5{csrrs_save}} & rs1_save} && state == EX) begin
-                case(imm_save) 
-                    32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
-                    32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
-                    32'h00000341: mepc <= rdata1_ul | csr_rst_save;
-                    32'h00000342: mcause <= rdata1_ul | csr_rst_save;
-                endcase
-            end
-            else if (|{{5{csrrc_save}} & rs1_save} && state == EX) begin
-                case(imm_save) 
-                    32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
-                    32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
-                    32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
-                    32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
-                endcase
+                if(ecall_save) begin
+                    mepc <= pc_save;
+                    mcause <= 32'h0000000b;
+                end
             end
 
-            if(ecall_save && state == EX) begin
-                mepc <= pc_save;
-                mcause <= 32'h0000000b;
-            end
+
 
             if(state == BLOCK && single_rs && !gpr_read_valid) begin
                 if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发

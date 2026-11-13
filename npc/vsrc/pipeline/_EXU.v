@@ -139,8 +139,8 @@ module ysyx_26040135_EXU (
     end
 
 
-    localparam IDLE = 0, BLOCK = 1, WAIT_END = 2, EX = 3;
-    reg [2:0] state, next, last;
+    localparam IDLE = 0, BLOCK = 1, WAIT_END = 2, EX = 3, BRANCH = 4;
+    reg [2:0] state, next;
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
@@ -168,11 +168,9 @@ module ysyx_26040135_EXU (
             exu_work_cyc <= 0;
 
             state <= IDLE;
-            last <= IDLE;
 
         end else begin
             state <= next;
-            last <= state;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
             if(state == IDLE && in_valid && in_ready) begin
@@ -258,8 +256,13 @@ module ysyx_26040135_EXU (
                 in_ready <= 1'b1;
             end
  
-            if(state == EX && is_nlwb) begin
+            if(state == BRANCH && is_nlwb) begin
                 in_ready <= 1'b1;
+            end
+            
+            if(state == BRANCH && !is_nlwb) begin
+                // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
+                out_valid <= 1'b1;  
             end
 
             if(wen) begin
@@ -290,12 +293,6 @@ module ysyx_26040135_EXU (
                 end
             end
 
-            if(state == BLOCK) begin
-                // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
-                if((next == EX) && !is_nlwb) begin
-                    out_valid <= 1'b1;  
-                end
-            end
 
             if(csrrw_save && state == EX) begin
                 case(imm_save)  // case CSR addr
@@ -355,9 +352,6 @@ module ysyx_26040135_EXU (
         
         case (state)
             IDLE: begin
-                if((last == EX) && (new_pc != pc_next_dft)) begin
-                    flush = 1'b1;
-                end
 
                 if(in_valid && in_ready) begin
                     _new_instr = 1'b1;
@@ -400,6 +394,13 @@ module ysyx_26040135_EXU (
             end
 
             EX: begin   // 现在就是把EX固定成两个周期, 还是只有跳转部分弄成2个周期(控制分野)
+                next = BRANCH;
+            end
+
+            BRANCH: begin
+                if(new_pc != pc_next_dft) begin
+                    flush = 1'b1;
+                end
                 next = IDLE;
             end
 

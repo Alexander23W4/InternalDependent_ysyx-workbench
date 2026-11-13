@@ -417,7 +417,6 @@ ysyx_26040135_EXU exu (
     wire [4:0] rd_lsu;
     wire [63:0] wbu_blockf_cyc, wbu_work_cyc;
     wire wbu_blockf;
-    wire lsu_flush;
     wire [31:0] lsu_pc_out;
 
 
@@ -441,7 +440,6 @@ ysyx_26040135_EXU exu (
         .pc_out(wbu_pc_out)
     );
 
-    wire [4:0] rd_release;
     wire wen;
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;

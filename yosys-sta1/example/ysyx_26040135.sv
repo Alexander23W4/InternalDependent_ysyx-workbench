@@ -338,7 +338,6 @@ ysyx_26040135_EXU exu (
         .lsu_wdata(lsu_wdata),
         .lsu_addr(lsu_addr),
         .ic_wb_wdata(ic_wb_wdata),
-        .pc_in(_pc),
 
         .in_valid(valid_el),
         .in_ready(ready_el),
@@ -349,7 +348,6 @@ ysyx_26040135_EXU exu (
         .wdata(wdata_lw),
         .rd_out(rd_lsu),
         .lsu_bypass_data_valid(lsu_bypass_data_valid),
-        .pc_out(lsu_pc_out),
 
         .lsu_blockf_cyc(lsu_blockf_cyc),
         .lsu_blcokb_cyc(lsu_blcokb_cyc),
@@ -363,10 +361,7 @@ ysyx_26040135_EXU exu (
     wire valid_lw, ready_lw;
     wire [31:0] wdata_lw;
     wire [4:0] rd_lsu;
-    wire [63:0] wbu_blockf_cyc, wbu_work_cyc;
     wire wbu_blockf;
-    wire lsu_flush;
-    wire [31:0] lsu_pc_out;
 
 
     ysyx_26040135_WBU wbu (
@@ -377,23 +372,17 @@ ysyx_26040135_EXU exu (
         .in_ready(ready_lw),
         .rd(rd_lsu),
         .wdata(wdata_lw),
-        .pc_in(lsu_pc_out),
 
-        .wbu_blockf_cyc(wbu_blockf_cyc),
-        .wbu_work_cyc(wbu_work_cyc),
         .wbu_blockf(wbu_blockf),
 
         .wen(wen),
         .rd_wb(rd_wbu),
         .wdata_wb(wdata_wbu),
-        .pc_out(wbu_pc_out)
     );
 
-    wire [4:0] rd_release;
     wire wen;
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;
-    wire [31:0] wbu_pc_out;
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

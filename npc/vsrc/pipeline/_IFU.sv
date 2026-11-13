@@ -238,7 +238,6 @@ module ysyx_26040135_AXI_IFU (
 
 // assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
-`ifndef SYNTHESIS
     property p_write_channels_zero;
         @(posedge clock) 
         (bus.awaddr == 32'b0) &&
@@ -249,7 +248,6 @@ module ysyx_26040135_AXI_IFU (
         (bus.bready == 1'b0);
     endproperty
     assert property (p_write_channels_zero) else $error("IFU: Write channel signals must be 0");
-`endif
 
 // assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 

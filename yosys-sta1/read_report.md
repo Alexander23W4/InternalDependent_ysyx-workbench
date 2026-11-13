@@ -1,7 +1,7 @@
 ## 读综合报告
 
-# .rpt文件
-1. 时序报告:
+# .rpt文件   时序报告
+1. 关键路径总表:
 
 ⭐: 修正方法:
     setup 违例：真正的问题，要改 RTL（打拍、缩短关键路径）或降频
@@ -59,3 +59,29 @@
     理想时钟	clock network delay (ideal)，CPPR = 0	          CTS 后插入延迟/skew/OCV 还会再扣
     clock     uncertainty	SDC 里没设	                         实际板级/片上抖动要留 margin
     门控路径	clock_gating_default 组显示 NA，不参与 Fmax 统计	 它们的 slack 目前也健康（≥0.4），暂时不用管
+
+
+2. 路径细节表:
+
+列名	              含义	                      具体解释
+Point	            路径节点	              当前路径经过的端口、时钟网络、寄存器引脚或组合逻辑单元。例如 mtime_0__reg_p:QN 表示该触发器的 QN 输出引脚。
+Fanout	            扇出数量	              当前节点驱动的负载数量。通常表示该网络连接了多少个输入端。Fanout 越大，通常负载越重。
+Capacitance	        电容	                  当前节点或网络所承受的负载电容，通常以 pF 为单位。包括输入引脚电容和互连寄生电容等。
+Resistance	        电阻	                  当前网络或节点相关的电阻，通常以 Ω 为单位。主要用于描述互连寄生电阻。
+Transition	        信号转换时间	`          信号从低电平变高电平，或从高电平变低电平所需要的时间，也叫 ⭐[Slew]。数值越大，边沿越慢。
+Delta Delay	        增量延迟	              当前网络或节点相对于前一个节点引入的额外延迟，通常主要反映互连延迟。
+Incr	            增量延迟	              当前路径节点引入的延迟增量，通常是单元延迟或网络延迟，具体取决于当前行的类型。
+Path	            累积路径延迟	           从路径起点到当前节点为止的累计延迟。
+
+
+T_{cell} = f(T_{input_transition},C_{load})
+T_{net} = f(R_{wire},C_{wire},C_{load})
+T_{path} = sum T_{cell} + sum T_{net}
+
+
+
+# synth_check.txt & yosys.log 总体综合质量
+
+grep -E "^Warning: Latch inferred|^Latch inferred" yosys.log | wc -l       
+grep -i "latch inferred" yosys.log | grep -vc "^No latch"                 
+grep -cE "DLATCH|DLH|LATCH" ysyx_26040135.netlist.v                       

@@ -85,3 +85,8 @@ T_{path} = sum T_{cell} + sum T_{net}
 grep -E "^Warning: Latch inferred|^Latch inferred" yosys.log | wc -l       
 grep -i "latch inferred" yosys.log | grep -vc "^No latch"                 
 grep -cE "DLATCH|DLH|LATCH" ysyx_26040135.netlist.v                       
+
+
+# synth_stat.txt  组件使用报告 + 面积
+
+看每一种component使用了多少, 什么东西占面积大了

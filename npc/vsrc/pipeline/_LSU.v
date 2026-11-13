@@ -248,8 +248,8 @@ module ysyx_26040135_AXI_LSU (
             end
 
             R: begin
-                if(bus.rvalid == 1'b1) begin
-                    bus.rready = 1'b1;              
+                bus.rready = 1'b1;   
+                if(bus.rvalid == 1'b1) begin           
                     next = IDLE;
                 end
             end
@@ -267,8 +267,8 @@ module ysyx_26040135_AXI_LSU (
             end
 
             B: begin
+                bus.bready = 1'b1;
                 if(bus.bvalid == 1'b1) begin
-                    bus.bready = 1'b1;
                     next = IDLE;
                     sw_avail = 1'b1;
                 end

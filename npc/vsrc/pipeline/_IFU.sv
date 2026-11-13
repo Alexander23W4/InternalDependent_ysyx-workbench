@@ -223,8 +223,8 @@ module ysyx_26040135_AXI_IFU (
             end
 
             R: begin
-                if(bus.rvalid == 1'b1) begin
-                    bus.rready = 1'b1;  
+                bus.rready = 1'b1;   // 原来是等rvalid才给rready, 现在直接给, 断掉组合环
+                if(bus.rvalid == 1'b1) begin 
                     next = IDLE;
                 end
             end

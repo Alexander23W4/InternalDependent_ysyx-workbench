@@ -14,7 +14,7 @@ module ysyx_26040135_WBU(
     output reg [31:0] wdata_wb,
     output reg [4:0] rd_wb,
 
-    output reg wbu_blockf,
+    output reg wbu_blockf
 );
 
 // state: IDLE  WB

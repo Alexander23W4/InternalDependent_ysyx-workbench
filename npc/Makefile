@@ -6,22 +6,11 @@ SOC_SRC = ../ysyxSoC/build/ysyxSoCFull.v
 
 V_SRC_M = $(SOC_SRC)
 
-SOURCES = \
-		$(shell find ./vsrc/pipeline -type f \( -name "*.v" -o -name "*.sv" \)) \
-		$(shell find ./vsrc/ref      -type f \( -name "*.v" -o -name "*.sv" \)) \
-		$(shell find ./vsrc/compo    -type f \( -name "*.v" -o -name "*.sv" \)) \
-		./vsrc/ysyx_26040135.sv \
-		./vsrc/dbg_register.v
+SOURCES = $(filter-out ./vsrc/dpi-f.sv ./vsrc/difftest_top.v, \
+            $(shell find ./vsrc -type f \( -name "*.v" -o -name "*.sv" \) | sort))
 
-SOURCES_M = \
-	./vsrc_m/axi/axi4.sv \
-	./vsrc_m/axi/axi_ifu.sv \
-	./vsrc_m/axi/axi_lsu.sv \
-	./vsrc_m/axi/axi4_xbar.sv \
-	./vsrc_m/axi/axi_clint.sv \
-	./vsrc_m/axi/axi_icache.sv \
-	./vsrc_m/ysyx_26040135.sv \
-	$(shell find ./vsrc_m/compo -type f -name "*.v")
+SOURCES_M = $(filter-out ./vsrc_m/dpi-f.sv ./vsrc_m/ysyx_26040135.sv, \
+              $(shell find ./vsrc_m -type f \( -name "*.v" -o -name "*.sv" \) | sort))
 
 SOURCES += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 
 SOURCES_M += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 

@@ -84,6 +84,11 @@ module ysyx_26040135(
 
 );
 
+    wire [1:0]  __ifu_error;     
+    wire        __ifu_master_validation_error;    
+    wire [1:0]  __lsu_error;   
+
+    wire __ebreak_end;
 
 // 流水线级间连接
 
@@ -349,9 +354,6 @@ ysyx_26040135_EXU exu (
         .rd_out(rd_lsu),
         .lsu_bypass_data_valid(lsu_bypass_data_valid),
 
-        .lsu_blockf_cyc(lsu_blockf_cyc),
-        .lsu_blcokb_cyc(lsu_blcokb_cyc),
-        .lsu_work_cyc(lsu_work_cyc),
         .lsu_blockf(lsu_blockf),
 
         .sw_addr(sw_addr),
@@ -377,7 +379,7 @@ ysyx_26040135_EXU exu (
 
         .wen(wen),
         .rd_wb(rd_wbu),
-        .wdata_wb(wdata_wbu),
+        .wdata_wb(wdata_wbu)
     );
 
     wire wen;

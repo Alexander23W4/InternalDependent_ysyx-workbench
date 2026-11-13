@@ -10,6 +10,11 @@
 -> Endpoint   关键时序路径时序终点
 -> Clock Group  该时序路径所属的时钟组
 -> Delay Type
+    core clock   
+    clock-gating-default: 这个是综合器对于我的设计自己加的ICG, 把受控制信号约束的reg的时钟也加上对应的控制信号约束减少 dynamic power
+        en ───► CLKGATE_X1.E
+        clk ──► CLKGATE_X1.CK
+                └─► GCK ──► DFF.CK 
 
 -> Path Delay      (ns)    
     这个就是纯组合延迟
@@ -46,3 +51,11 @@
 -> Freq   (MHz)
 
     T_{period,min} = T_{path} + T_{setup} + T_{uncertainty} + T_{other}      T-hold不参与频率的计算(最长路径)
+
+    最小的Freq姑且可以当作当前cpu的C, 但是对于实际经过后端和流片的频率, 可以考虑以下项:
+
+    折扣项	     现在的情况	                                         后果
+    线延迟	   net delay 全是 0.000（综合阶段没有真实互连）	          布局布线后线延迟会加进来，通常吃掉 5~15%
+    理想时钟	clock network delay (ideal)，CPPR = 0	          CTS 后插入延迟/skew/OCV 还会再扣
+    clock     uncertainty	SDC 里没设	                         实际板级/片上抖动要留 margin
+    门控路径	clock_gating_default 组显示 NA，不参与 Fmax 统计	 它们的 slack 目前也健康（≥0.4），暂时不用管

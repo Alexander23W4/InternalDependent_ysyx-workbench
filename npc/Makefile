@@ -9,7 +9,7 @@ V_SRC_M = $(SOC_SRC)
 SOURCES = $(filter-out ./vsrc/dpi-f.sv ./vsrc/difftest_top.v, \
             $(shell find ./vsrc -type f \( -name "*.v" -o -name "*.sv" \) | sort))
 
-SOURCES_M = $(filter-out ./vsrc_m/dpi-f.sv ./vsrc_m/ysyx_26040135.sv, \
+SOURCES_M = $(filter-out ./vsrc_m/dpi-f.sv, \
               $(shell find ./vsrc_m -type f \( -name "*.v" -o -name "*.sv" \) | sort))
 
 SOURCES += $(shell find ../ysyxSoC/perip -name "*.v" -o -name "*.sv") 
@@ -71,7 +71,7 @@ DEFAULT_FLAGS += -DICACHE_LINE_BYTES=$(ICACHE_LINE_BYTES) -DICACHE_LINE_AMT=$(IC
 
 # ------------------------------------------------------------------------------------------------------
 
-DIFF_TEST_ENABLE=1
+DIFF_TEST_ENABLE=0
 TRACE_ENABLE=0
 
 # ------------------------------------------------------------------------------------------------------

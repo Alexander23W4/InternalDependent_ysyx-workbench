@@ -463,3 +463,20 @@ cache_line_amt: 128  cache_line_bytes: 32  hit_rate: 99.744%  ifu_cpi: 3.791
 cache_line_amt: 128  cache_line_bytes: 64  hit_rate: 99.896%  ifu_cpi: 3.589
 cache_line_amt: 128  cache_line_bytes: 128  hit_rate: 99.963%  ifu_cpi: 3.393
 
+
+
+
+pipeline npc 1.2
+[HIT GOOD TRAP]
+[CIRCLE] 15536306
+[INSTR] 591965
+[CPI] 26
+
+
+
+[HIT GOOD TRAP]
+[CYCLES] 16647610
+[INSTRS] 591829
+[CPI] 28.129
+
+

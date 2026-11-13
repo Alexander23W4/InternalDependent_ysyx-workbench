@@ -10,7 +10,7 @@
 VL_ATTR_COLD void Vtop_ysyx_26040135_AXI4___ctor_var_reset(Vtop_ysyx_26040135_AXI4* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+                    Vtop_ysyx_26040135_AXI4___ctor_var_reset\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+                Vtop_ysyx_26040135_AXI4___ctor_var_reset\n"); );
     // Body
     vlSelf->araddr = VL_RAND_RESET_I(32);
     vlSelf->arvalid = VL_RAND_RESET_I(1);

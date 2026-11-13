@@ -270,7 +270,7 @@ module ysyx_26040135_EXU (
             if(state == EX) begin
                 // 需要wb的instr  
                 if(!is_nlwb && !write && (|rd_save)) begin  // 不是0
-                    if(rd_list[rd_save]) begin // 已经有没有完成的同一个rd了
+                    if(rd_list[rd_save]) begin          // 已经有没有完成的同一个rd了
                         rd_amt[rd_save] <= 1'b1;
                     end else begin
                         rd_list[rd_save] <= 1'b1;
@@ -393,7 +393,7 @@ module ysyx_26040135_EXU (
                 end
             end
 
-            EX: begin   // 这时候取到的读取值才是正确的, 在这个周期进行正常的EX操作
+            EX: begin   // 现在就是把EX固定成两个周期, 还是只有跳转部分弄成2个周期(控制分野)
                 if(new_pc != pc_next_dft) begin
                     flush = 1'b1;
                 end
@@ -424,11 +424,11 @@ module ysyx_26040135_EXU (
 
     // ------------------------ EX阶段的组合计算逻辑(EX)
 
-    wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;
+    wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;   // EX阶段稳定
 
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;
-    reg [31:0] add_rst_w;
+    reg [31:0] add_rst_w_save;
 
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
@@ -456,6 +456,19 @@ module ysyx_26040135_EXU (
     wire [31:0] sra_rst   = $signed(rdata1_ul) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1_ul) >>> shamt_i;
     
+
+    always @(posedge clk or posedge reset) begin
+        if(reset) begin
+            add_rst_w_save <= 32'b0;
+            pc_next_dft <= 32'b0;
+        end else begin
+            if(state == EX) begin
+                add_rst_w_save <= add_rst_w;
+                pc_next_dft = pc_save + 32'd4;
+            end
+        end
+    end
+
     always @(*) begin
         if (lw_save || sw_save) begin
             io_type = 2'b10;
@@ -513,33 +526,32 @@ module ysyx_26040135_EXU (
 
     end
 
-// ⭐: pc_flush带来一个关键长路径, 以 add_rst_w 和 pc_next_dft为寄存器边界, 分成两段
+// ⭐: pc_flush带来一个关键长路径, 以 add_rst_w_save 和 pc_next_dft为寄存器边界, 分成两段
     always @(*) begin
-        pc_next_dft = pc_save + 32'd4;
 
         if(jalr_save) begin
-            new_pc = add_rst_w & ~32'h1;
+            new_pc = add_rst_w_save & ~32'h1;
         end
         else if(jal_save) begin
-            new_pc = add_rst_w;
+            new_pc = add_rst_w_save;
         end
         else if(blt_save) begin
-            new_pc = ($signed(rdata1_ul) < $signed(rdata2)) ? add_rst_w : pc_next_dft;
+            new_pc = ($signed(rdata1_ul) < $signed(rdata2)) ? add_rst_w_save : pc_next_dft;
         end
         else if(beq_save) begin
-            new_pc = (rdata1_ul == rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul == rdata2) ? add_rst_w_save : pc_next_dft;
         end
         else if(bne_save) begin
-            new_pc = (rdata1_ul != rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul != rdata2) ? add_rst_w_save : pc_next_dft;
         end
         else if(bge_save) begin
-            new_pc = ($signed(rdata1_ul) >= $signed(rdata2)) ? add_rst_w : pc_next_dft;
+            new_pc = ($signed(rdata1_ul) >= $signed(rdata2)) ? add_rst_w_save : pc_next_dft;
         end
         else if(bltu_save) begin
-            new_pc = (rdata1_ul < rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul < rdata2) ? add_rst_w_save : pc_next_dft;
         end
         else if(bgeu_save) begin
-            new_pc = (rdata1_ul >= rdata2) ? add_rst_w : pc_next_dft;
+            new_pc = (rdata1_ul >= rdata2) ? add_rst_w_save : pc_next_dft;
         end
 
         // system

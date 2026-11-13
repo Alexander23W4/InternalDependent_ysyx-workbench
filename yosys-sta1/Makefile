@@ -35,25 +35,20 @@ $(TIMING_RPT): $(SCRIPT_DIR)/sta.tcl $(SDC_FILE) $(NETLIST_SYN_V)
 clean:
 	-rm -rf result/
 
-.PHONY: init syn sta clean
-
-
-
 
 WARNING_IGNORE_FLAG=-Wno-UNUSEDSIGNAL -Wno-DECLFILENAME -Wno-VARHIDDEN -Wno-fatal -Wno-TIMESCALEMOD -Wno-MULTITOP
 STATIC_CHECK_FLAG=--lint-only
 DEFAULT_FLAGS=-Wall -j --timescale "1ns/1ns" --no-timing --autoflush
 
-SOURCES=$(shell find ./dut ./ref -type f \( -name "*.v" -o -name "*.sv" \) | sort) \
-		./formal_top.sv
+SOURCES=$(shell find ./example -type f \( -name "*.v" -o -name "*.sv" \) | sort)
 
-TEST_NAME=pipeline_test
-GTKW_FILE=./pipeline.gtkw
-RC_FILE=./trace.rc     # 让波形窗口字体大 4pt + 线更粗(行高更够, 数字看得清)
 
-run:
-	$(OSS_HOME)/bin/sby -f pipeline_test.sby
-
-# 加上--top-module之后，Verilator 只从 formal_top 往下走：只有真正被实例化到的模块才参与检查
 static:
-	verilator $(STATIC_CHECK_FLAG) --top-module formal_top $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(SOURCES)
+	verilator $(STATIC_CHECK_FLAG) --top-module ysyx_26040135 $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(SOURCES)
+
+
+
+.PHONY: init syn sta clean static
+
+
+

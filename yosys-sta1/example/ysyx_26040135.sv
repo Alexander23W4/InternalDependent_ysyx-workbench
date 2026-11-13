@@ -1,5 +1,4 @@
 
-
 /*
 npc的综合版本要做的几个优化:
 
@@ -8,6 +7,7 @@ npc的综合版本要做的几个优化:
 确定有没有综合器错误优化
 错误处理怎么办(访问不支持的地址等), 按理来说应该硬件触发exception handler, 如果弄不了, 那就只能卡死了, 然后手动重启
 */
+
 module ysyx_26040135(
     
     input clock,
@@ -195,12 +195,8 @@ module ysyx_26040135(
         .out_ready(ready_rd),
         .out_pc(pc),
         .flush(flush),
-        .pc_flush(pc_flush),
-        .ifu_work_cyc(ifu_work_cyc),
-        .ifu_block_cyc(ifu_block_cyc)
+        .pc_flush(pc_flush)
     ); 
-
-    wire [63:0] ifu_work_cyc, ifu_block_cyc;
 
     wire        flush;  
     wire [31:0] pc_flush;
@@ -221,8 +217,7 @@ module ysyx_26040135(
         .ebreak(ebreak), .ecall(ecall),
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc), .mret(mret),
         .fence_i(fence_i),
-        .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm),
-        .out_instr(instr_de)
+        .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm)
     );
 
     wire valid_de, ready_de;
@@ -236,11 +231,10 @@ module ysyx_26040135(
     wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
-    wire [31:0] instr_de;
 
 
 ysyx_26040135_EXU exu (
-    .clock(clock), .reset(reset), .pc(pc_d), .instr(instr_de),
+    .clock(clock), .reset(reset), .pc(pc_d),
     .rdata1(rdata1), .rdata2(rdata2), .imm(imm),
     .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
     .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst),
@@ -259,11 +253,6 @@ ysyx_26040135_EXU exu (
     .lsu_blockf(lsu_blockf), .wbu_blockf(wbu_blockf),
     .wen(wen), .rd_wb(rd_wbu),
 
-    ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
-    ._mcycle(_mcycle), ._mcycleh(_mcycleh),
-    ._mvendorid(_mvendorid), ._marchid(_marchid),
-    ._pc(_pc), ._instr(_instr), ._new_instr(_new_instr),
-
     .in_valid(valid_de), .in_ready(ready_de),
     .out_valid(valid_el),
     .out_ready(ready_el),
@@ -274,14 +263,11 @@ ysyx_26040135_EXU exu (
     .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
     .flush(flush), .pc_flush(pc_flush),
 
-    .exu_blockf_cyc(exu_blockf_cyc),
-    .exu_blcokbl_cyc(exu_blcokbl_cyc),
-    .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),
+    .ebreak_end(__ebreak_end),
 
     .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
     .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen)
 );
-    wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
     wire lsu_bypass_data_valid;
 
@@ -307,10 +293,7 @@ ysyx_26040135_EXU exu (
     wire read_is_u;
     wire [4:0] rd_out, rs1_out, rs2_out;
     wire [31:0] lsu_wdata, lsu_addr, ic_wb_wdata;
-    wire is_exu_rd, is_lsu_rd;
-    wire [4:0] rd_exu;
     wire [31:0] rdata1, rdata2;
-    wire [63:0] lsu_blockf_cyc, lsu_blcokb_cyc, lsu_work_cyc;
     wire lsu_blockf;
 
 

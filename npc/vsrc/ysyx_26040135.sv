@@ -372,8 +372,6 @@ ysyx_26040135_EXU exu (
     wire read_is_u;
     wire [4:0] rd_out, rs1_out, rs2_out;
     wire [31:0] lsu_wdata, lsu_addr, ic_wb_wdata;
-    wire is_exu_rd, is_lsu_rd;
-    wire [4:0] rd_exu;
     wire [31:0] rdata1, rdata2;
     wire [63:0] lsu_blockf_cyc, lsu_blcokb_cyc, lsu_work_cyc;
     wire lsu_blockf;

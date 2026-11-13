@@ -197,10 +197,9 @@ opt_clean -purge
 
 # split internal nets
 splitnets -format __v
-# rename DFFs from the driven signal
-yosys rename -wire -suffix _reg_p t:*DFF*_P*
-yosys rename -wire -suffix _reg_n t:*DFF*_N*
-# rename all other cells
+# 用 RTL 的 src 属性恢复触发器原始名字, 报告里的 endpoint 就是 RTL 里的寄存器名
+rename -src t:*DFF*
+# 没有 src 的(私有名)再用网线名兜底
 autoname t:*DFF* %n
 
 # technology mapping for clockgate

@@ -74,20 +74,15 @@ module ysyx_26040135_IDU(
 
 // oprands  
     output reg[4:0] rd,
-    // 这两个只给GPR传
+
     output reg[4:0] rs1,
     output reg[4:0] rs2,
 
-// ⭐ 一条指令只用一个立即数, 在这里就按指令类型选好
-    output reg[31:0] imm,
-
-    output [31:0] out_instr
+    output reg[31:0] imm
 );
 
     assign in_ready  = out_ready;
     assign out_valid = in_valid;
-
-    assign out_instr = in_instr;
 
 
     wire [6:0] opcode = in_instr[6:0];

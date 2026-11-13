@@ -1,28 +1,6 @@
 
-// 注意现阶段的npc只是一个多周期cpu, 不是一个多指令并行cpu, 不能够一次性执行多条指令. 
-// cpu必须判断所有反馈信号, 等到都完成了, 才可以更新pc
-
-// 现阶段cpu只有在 GPR IFU LSU 3个地方的操作上会有时序消耗, 其他全部是瞬时 组合逻辑
-
-// 所以cpu就是一大堆控制信号, 通过总线控制一堆时序模块, 控制他们的时序
-
-// ⭐: lsu先不加PMA
-
-/*
-仅ls指令进入本级
-
-实现:
-如果是个读指令, 读完后就打包wdata传给wbu
-如果是个写指令, 写完后恢复in_ready就行了
-
-⭐: 改进空间:
--> 现在暂没有支持自改代码的指令, 如果IFU读了LSU还没有写完的, 或者还没到LSU的, 就会出错
--> AXI的读写是分离的, 所以如果运行一个写命令, 可以不阻塞读命令, 如果检测到是read请求, 且读的不是现在正在写的addr, 则可以给valid
-*/
-
-
 module ysyx_26040135_AXI_LSU (
-        output logic [31:0] bus_araddr,
+    output logic [31:0] bus_araddr,
     output logic [3:0]  bus_arid,
     output logic [7:0]  bus_arlen,
     output logic [2:0]  bus_arsize,
@@ -63,7 +41,6 @@ module ysyx_26040135_AXI_LSU (
     input [31:0] lsu_wdata,   // rdata2
     input [31:0] lsu_addr,    // add_rst
     input [31:0] ic_wb_wdata,
-    input [31:0] pc_in,
 
     input in_valid,
     output reg in_ready,
@@ -71,18 +48,12 @@ module ysyx_26040135_AXI_LSU (
     output reg out_valid,
     input out_ready,
     
-    output [1:0] __error,
+    output [1:0] __error,   // 存储器出错
 
 
     output [31:0] wdata,  // 
     output [4:0] rd_out,  //
     output reg lsu_bypass_data_valid, 
-    output reg [31:0] pc_out,
-
-
-    output reg [63:0] lsu_blockf_cyc,
-    output reg [63:0] lsu_blcokb_cyc,
-    output reg [63:0] lsu_work_cyc,
 
     output reg lsu_blockf,
 
@@ -134,14 +105,9 @@ module ysyx_26040135_AXI_LSU (
             lsu_data_save <= 32'b0;
             lsu_addr_save <= 32'b0;
             ic_wb_wdata_save <= 32'b0;
-            pc_out <= 32'b0;
 
             in_ready <= 1'b1;
             out_valid <= 1'b0;
-
-            lsu_blockf_cyc <= 0;
-            lsu_blcokb_cyc <= 0;
-            lsu_work_cyc <= 0;
 
             lsu_blockf <= 1'b0;
 
@@ -155,10 +121,6 @@ module ysyx_26040135_AXI_LSU (
                 out_valid <= 1'b0;
             end
 
-            if(out_valid && !out_ready) begin
-                lsu_blcokb_cyc <= lsu_blcokb_cyc + 64'b1;
-            end
-
             if(state == IDLE && in_valid && in_ready) begin   // 接受并保存
                 in_ready <= 1'b0;
 
@@ -169,7 +131,6 @@ module ysyx_26040135_AXI_LSU (
                 lsu_data_save <= lsu_wdata;
                 lsu_addr_save <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
-                pc_out <= pc_in;
 
                 if(!is_ls) begin
                     out_valid <= 1'b1;
@@ -177,7 +138,6 @@ module ysyx_26040135_AXI_LSU (
             end
 
             if(in_ready && !in_valid) begin
-                lsu_blockf_cyc <= lsu_blockf_cyc + 64'b1;
                 lsu_blockf <= 1'b1;
             end else begin
                 lsu_blockf <= 1'b0;
@@ -198,9 +158,6 @@ module ysyx_26040135_AXI_LSU (
                 error_save <= bus_bresp;
             end
 
-            if(state != IDLE) begin
-                lsu_work_cyc <= lsu_work_cyc + 64'b1;
-            end
         end
     end
 
@@ -334,6 +291,7 @@ module ysyx_26040135_AXI_LSU (
     assign lhu = (io_type_save == 2'b01 && read_is_u_save);
     assign lbu = (io_type_save == 2'b00 && read_is_u_save);
     assign lb = (io_type_save == 2'b00 && !read_is_u_save);
+
 
     assign wdata = ic_wb_wdata_save |
             ({32{lw}} & lw_rst) |

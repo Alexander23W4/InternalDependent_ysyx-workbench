@@ -1,43 +1,3 @@
-/*
-根据上述流程, 实现一个简单的icache, 块大小为4B, 共16个cache块. 
-⭐: 本icache 只向 FLASH 和 SDRAM 提供缓存, 如果在其他空间, 则不调用缓存, 直接将指令沿着总线向下传递
-Flash	              0x3000_0000~0x3fff_ffff    
-SDRAM	              0xa000_0000~0xbfff_ffff
-
-⭐: 实现时, 建议将相关参数实现成可配置的, 以便于后续评估不同配置参数的性能表现. 实现后, 尝试评估其性能表现.
-
-IFU向icache发送取指请求
-
-icache获得取指请求的地址后, 根据index部分索引出一个cache块, 判断其tag与请求地址的tag是否相同, 并检查该cache块是否有效. 若同时满足上述条件, 则命中, 跳转到第5步
-
-通过总线在DRAM中读出请求所在的数据块
-
-将该数据块填入相应cache块中, 更新元数据
-
-向IFU返回取出的指令
-
-⭐: 增加有关icache的 perf counter:
-icache 的 hit数 和 miss数
-icache 的 hit的CPI 和 miss的CPI
-
-
-------------------------------------------------------------------------------------------------
-⭐ 支持任意块大小(2 的幂, >= 4 字节):
-    真正要调的参数只有 ICACHE_LINE_BYTES(块大小, 字节) 和 ICACHE_LINE_AMT(块数),
-    offset/index/tag 的位宽和"一行几个 32 位字"全部推出来 -> 换块大小只改一个参数。
-
-   块 > 4B 时:
-     - 取的是**整行**: 用突发读(arlen = 一行几个字 - 1, arburst = INCR), 一拍收一个 32 位字,
-       按拍号填进行里, 收到 rlast 才把 valid 置起来;
-     - 返回给 IFU 时, 用地址里的 offset 从行里**选出**它要的那 32 位。
-   块 = 4B 时这两件事都退化成原来的行为: arlen=0(单拍), 行里只有 1 个字, 选出来就是它本身。
-
-⭐: 支持burst传输
-2'b00 → FIXED
-2'b01 → INCR
-2'b10 → WRAP
-
-*/
 
 module ysyx_26040135_AXI_ICACHE (
         input  logic [31:0] bus_araddr,
@@ -126,8 +86,6 @@ module ysyx_26040135_AXI_ICACHE (
     localparam [7:0] ARLEN     = LINE_WORDS[7:0] - 8'd1;           // AXI 的 arlen = 拍数 - 1
 
 
-    // 可缓存区域的地址高位(见 ysyxsoc.h 的地址表)。两个区间都正好是从 0x?000_0000
-    // 开始的 256MB 对齐块, 所以直接看 addr[31:28] 就够了, 不用 32 位比较器。
     localparam [3:0] FLASH_TAG = 4'h3;                         // flash 0x3000_0000~0x3fff_ffff
     localparam [3:0] SDRAM_TAG0 = 4'hA, SDRAM_TAG1 = 4'hB;     // sdram 0xa000_0000~0xbfff_ffff
 
@@ -160,14 +118,6 @@ module ysyx_26040135_AXI_ICACHE (
     // 填入时用的位偏移
     wire [31:0] beat_bit  = beat * 32;
 
-    // ⭐ 哪些取指允许写进 icache: 只有 flash 和 SDRAM。
-    //    其他区域(SRAM / CLINT / MMIO ...)只是"借道访存": 照样发请求、照样把数据返回给
-    //    IFU, 但不填行、不置 valid, 下次还要重新访存。
-    //    ⭐ 判据必须用锁存下来的 araddr_save, 不能用 bus_araddr: 后者是 master 当前
-    //      驱动的地址, 只在请求那一拍保证等于本笔事务的地址(现在 IFU 恰好一直举着 pc,
-    //      所以碰巧也对), 事务后半段不保证还指着同一笔。
-    //    ⭐ 只看高 4 位: 一行 4 位比较器, 比两个 32 位比较器省很多面积/延迟,
-    //      而且它挂在 OPERATE 的组合路径上(命中判断要用)。
     wire [3:0] req_region = araddr_save[31:28];
     wire req_cacheable = (req_region == FLASH_TAG) ||
                          (req_region == SDRAM_TAG0) || (req_region == SDRAM_TAG1);
@@ -198,10 +148,7 @@ module ysyx_26040135_AXI_ICACHE (
         end else begin
             state <= next;
 
-            // ---- 收下取指请求(AR), 把地址锁起来 ----
-            // ⭐ 这里只能看 arvalid, 不能再 && arready: 拉 arready 的那一拍已经挪到
-            //    OPERATE 态了, 在 IDLE 拿 arready 当条件永远不成立 ->
-            //    araddr_save 一直是复位值 0, icache 会拿着地址 0x0 去访存 -> 挂死。
+
             if(state == IDLE && bus_arvalid) begin
                 araddr_save <= bus_araddr;
                 rresp_save  <= 2'b00;       // 清掉上一次留下的错误码
@@ -226,8 +173,6 @@ module ysyx_26040135_AXI_ICACHE (
                         tag[current_index]   <= current_tag;
                     end
                 end else begin
-                    // 不属于可缓存区域, 或者从设备报错: 不填行,
-                    // 数据/响应码直接存下来, RETURN 那拍原样交给 IFU
                     rresp_save <= mbus_rresp;
                     rdata_save <= mbus_rdata;
                 end
@@ -261,8 +206,7 @@ module ysyx_26040135_AXI_ICACHE (
         bus_bid     = 4'b0;
 
         mbus_arvalid = 1'b0;
-        // 可缓存区域: 按行对齐发突发读, 一次把整行取回来;
-        // 不可缓存区域: 只取需要的那一个字(单拍), 没必要多读
+
         mbus_araddr = req_cacheable ? line_addr : araddr_save;
         mbus_arid = 4'b0000;
         mbus_arlen = req_cacheable ? ARLEN : 8'h00;   // 一行几个字就发几拍; 4B 块时 = 0

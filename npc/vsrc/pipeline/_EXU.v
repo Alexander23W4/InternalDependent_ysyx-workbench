@@ -431,10 +431,6 @@ module ysyx_26040135_EXU (
 
     wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;   // EX阶段稳定
 
-    reg [31:0] new_pc;
-    reg [31:0] pc_next_dft;
-    reg [31:0] add_rst_w_save;
-
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
     wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_ul;
@@ -461,18 +457,6 @@ module ysyx_26040135_EXU (
     wire [31:0] sra_rst   = $signed(rdata1_ul) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1_ul) >>> shamt_i;
     
-
-    always @(posedge clock or posedge reset) begin
-        if(reset) begin
-            add_rst_w_save <= 32'b0;
-            pc_next_dft <= 32'b0;
-        end else begin
-            if(state == EX) begin
-                add_rst_w_save <= add_rst_w;
-                pc_next_dft <= pc_save + 32'd4;
-            end
-        end
-    end
 
     always @(*) begin
         if (lw_save || sw_save) begin
@@ -531,6 +515,31 @@ module ysyx_26040135_EXU (
 
     end
 
+    reg [31:0] new_pc;
+    reg [31:0] pc_next_dft;
+    reg [31:0] add_rst_w_save;
+    reg cmp_lt;
+    reg cmp_eq;
+    reg cmp_ltu;
+
+    always @(posedge clock or posedge reset) begin
+        if(reset) begin
+            add_rst_w_save <= 32'b0;
+            pc_next_dft <= 32'b0;
+            cmp_lt <= 1'b0;
+            cmp_eq <= 1'b0;
+            cmp_ltu <= 1'b0;
+        end else begin
+            if(state == EX) begin
+                add_rst_w_save <= add_rst_w;
+                pc_next_dft <= pc_save + 32'd4;
+                cmp_lt <= ($signed(rdata1_ul) < $signed(rdata2));
+                cmp_ltu <= (rdata1_ul < rdata2);
+                cmp_eq <= (rdata1_ul == rdata2);
+            end
+        end
+    end
+
 // ⭐: pc_flush带来一个关键长路径, 以 add_rst_w_save 和 pc_next_dft为寄存器边界, 分成两段
     always @(*) begin
 
@@ -541,22 +550,22 @@ module ysyx_26040135_EXU (
             new_pc = add_rst_w_save;
         end
         else if(blt_save) begin
-            new_pc = ($signed(rdata1_ul) < $signed(rdata2)) ? add_rst_w_save : pc_next_dft;
+            new_pc = cmp_lt ? add_rst_w_save : pc_next_dft;
         end
         else if(beq_save) begin
-            new_pc = (rdata1_ul == rdata2) ? add_rst_w_save : pc_next_dft;
+            new_pc = cmp_eq ? add_rst_w_save : pc_next_dft;
         end
         else if(bne_save) begin
-            new_pc = (rdata1_ul != rdata2) ? add_rst_w_save : pc_next_dft;
+            new_pc = ~cmp_eq ? add_rst_w_save : pc_next_dft;
         end
         else if(bge_save) begin
-            new_pc = ($signed(rdata1_ul) >= $signed(rdata2)) ? add_rst_w_save : pc_next_dft;
+            new_pc = ~cmp_lt ? add_rst_w_save : pc_next_dft;
         end
         else if(bltu_save) begin
-            new_pc = (rdata1_ul < rdata2) ? add_rst_w_save : pc_next_dft;
+            new_pc = cmp_ltu ? add_rst_w_save : pc_next_dft;
         end
         else if(bgeu_save) begin
-            new_pc = (rdata1_ul >= rdata2) ? add_rst_w_save : pc_next_dft;
+            new_pc = ~cmp_ltu ? add_rst_w_save : pc_next_dft;
         end
 
         // system

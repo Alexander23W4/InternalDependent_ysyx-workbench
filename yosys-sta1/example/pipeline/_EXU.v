@@ -1,11 +1,3 @@
-/*
-    新pc的判断要加在这里, 如果有跳转则要推翻分支预测, 洗刷流水线
-*/
-/*
-如果EX阶段未检测到RAW冒险, 则无需阻塞流水线, 这与上文的简单流水线一致
-如果EX阶段检测到了RAW冒险, 并且存在某个阶段满足转发条件, 则无需阻塞流水线, 同时将转发的数据作为ID阶段的输出    可以来源于LSU或者EXU或者WBU
-如果EX阶段检测到了RAW冒险, 但不存在满足转发条件的阶段, 则需要阻塞流水线
-*/
 
 module ysyx_26040135_EXU (
 
@@ -13,7 +5,6 @@ module ysyx_26040135_EXU (
     input reset,
 
     input  [31:0] pc,   //
-    input  [31:0] instr,
 
     input  [31:0] rdata1, 
     input  [31:0] rdata2,  ///
@@ -43,11 +34,6 @@ module ysyx_26040135_EXU (
     input wen,
     input [4:0] rd_wb,
 
-    output reg [31:0] _mstatus, _mtvec, _mepc, _mcause,
-    output reg [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
-    output reg [31:0] _pc,
-    output reg [31:0] _instr,
-    output reg _new_instr,
 
     input in_valid,
     output reg in_ready,
@@ -70,11 +56,7 @@ module ysyx_26040135_EXU (
     output reg flush,
     output reg [31:0] pc_flush,
 
-    output reg [63:0] exu_blockf_cyc,
-    output reg [63:0] exu_blcokbl_cyc,
-    output reg [63:0] exu_work_cyc,
-
-    output reg ebreak_end,
+    output reg ebreak_end,    // ⭐ 待优化, 遇到ebreak我硬件怎么办, 卡死在ebreak吗
 
     // bypass
     input [31:0] bypass_wdata_lsu,  // 
@@ -102,7 +84,6 @@ module ysyx_26040135_EXU (
 
     reg [31:0] pc_save;
     reg [31:0] imm_save;
-    reg [31:0] instr_save;
 
     reg add_save, addi_save, sub_save, lui_save, auipc_save;
     reg and_inst_save, or_inst_save, xor_inst_save, andi_save, ori_save, xori_save;
@@ -162,10 +143,6 @@ module ysyx_26040135_EXU (
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
 
-            exu_blockf_cyc <= 0;
-            exu_blcokbl_cyc <= 0;
-            exu_work_cyc <= 0;
-
             state <= IDLE;
 
         end else begin
@@ -176,7 +153,6 @@ module ysyx_26040135_EXU (
                 in_ready <= 1'b0;
 
                 pc_save    <= pc;
-                instr_save <= instr;
                 imm_save   <= imm;
 
                 rd_save    <= rd;
@@ -234,20 +210,6 @@ module ysyx_26040135_EXU (
                 bypass_data <= 32'b0;
                 
             end
-        // ------------------------------------------
-
-            if(in_ready && !in_valid) begin
-                exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
-            end
-
-            if(out_valid && !out_ready) begin
-                exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
-            end
-
-            if(state != IDLE) begin
-                exu_work_cyc <= exu_work_cyc + 64'b1;
-            end
-
         // ------------------------------------------
 
             if(out_ready && out_valid) begin
@@ -348,12 +310,10 @@ module ysyx_26040135_EXU (
         next = state;
         ebreak_end = 1'b0;
         flush = 1'b0;
-        _new_instr = 1'b0;
         
         case (state)
             IDLE: begin
                 if(in_valid && in_ready) begin
-                    _new_instr = 1'b1;
                     if(ebreak) begin
                         next = WAIT_END;
                     end
@@ -476,16 +436,6 @@ module ysyx_26040135_EXU (
         lsu_wdata = rdata2;
         lsu_addr = add_rst_w;
 
-        _mstatus = mstatus;
-        _mtvec = mtvec;
-        _mepc = mepc;
-        _mcause = mcause;
-        _mcycle = mcycle;
-        _mcycleh = mcycleh;
-        _mvendorid = mvendorid;
-        _marchid = marchid;
-        _pc = pc_save;
-        _instr = instr_save;
 
         ic_wb_wdata = ({32{lui_save}} & imm_save) |   //
                 ({32{add_save | addi_save | auipc_save}} & add_rst_w) |

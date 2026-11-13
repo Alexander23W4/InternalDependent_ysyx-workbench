@@ -1,300 +1,300 @@
-0xa0000150    0x0007a703    lw	a4, 0(a5)                                                                                                                                          
-0xa0000154    0x00b75463    bge	a4, a1, 0xa000015c                                                                                                                                
-0xa000015c    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa0000160    0x33870713    addi	a4, a4, 0x338                                                                                                                                    
-0xa0000164    0x00072783    lw	a5, 0(a4)                                                                                                                                          
-0xa0000168    0x00178793    addi	a5, a5, 1                                                                                                                                        
-0xa000016c    0x00f72023    sw	a5, 0(a4)                                                                                                                                          
-0xa0000170    0x00a05c63    blez	a0, 0xa0000188                                                                                                                                   
-0xa0000174    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0xa0000178    0xfff50513    addi	a0, a0, -1                                                                                                                                       
-0xa000017c    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa0000180    0x3007a783    lw	a5, 0x300(a5)                                                                                                                                      
-0xa0000184    0x00078067    jr	a5                         [CALL] PRE: f1, DST: f0                                                                                                 
-0xa00000dc    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa00000e0    0x3b470713    addi	a4, a4, 0x3b4                                                                                                                                    
-0xa00000e4    0x00072683    lw	a3, 0(a4)                                                                                                                                          
-0xa00000e8    0x00058793    mv	a5, a1                                                                                                                                             
-0xa00000ec    0x00b6d463    bge	a3, a1, 0xa00000f4                                                                                                                                
-0xa00000f4    0x00000697    auipc	a3, 0                                                                                                                                           
-0xa00000f8    0x3a068693    addi	a3, a3, 0x3a0                                                                                                                                    
-0xa00000fc    0x0006a703    lw	a4, 0(a3)                                                                                                                                          
-0xa0000100    0x00170713    addi	a4, a4, 1                                                                                                                                        
-0xa0000104    0x00e6a023    sw	a4, 0(a3)                                                                                                                                          
-0xa0000108    0x02a05c63    blez	a0, 0xa0000140                                                                                                                                   
-0xa000010c    0xff410113    addi	sp, sp, -0xc                                                                                                                                     
-0xa0000110    0x00300593    li	a1, 3                                                                                                                                              
-0xa0000114    0x00812223    sw	s0, 4(sp)                                                                                                                                          
-0xa0000118    0x00112423    sw	ra, 8(sp)                                                                                                                                          
-0xa000011c    0x00178413    addi	s0, a5, 1                                                                                                                                        
-0xa0000120    0x25c000ef    jal	0xa000037c                [CALL] PRE: f0, DST: __divsi3                                                                                           
-0xa000037c    0x06054063    bltz	a0, 0xa00003dc                                                                                                                                   
-0xa0000380    0x0605c663    bltz	a1, 0xa00003ec                                                                                                                                   
-0xa0000384    0x00058613    mv	a2, a1                                                                                                                                             
-0xa0000388    0x00050593    mv	a1, a0                                                                                                                                             
-0xa000038c    0xfff00513    li	a0, -1                                                                                                                                             
-0xa0000390    0x02060c63    beqz	a2, 0xa00003c8                                                                                                                                   
-0xa0000394    0x00100693    li	a3, 1                                                                                                                                              
-0xa0000398    0x00b67a63    bgeu	a2, a1, 0xa00003ac                                                                                                                               
-0xa000039c    0x00c05863    blez	a2, 0xa00003ac                                                                                                                                   
-0xa00003a0    0x00161613    slli	a2, a2, 1                                                                                                                                        
-0xa00003a4    0x00169693    slli	a3, a3, 1                                                                                                                                        
-0xa00003a8    0xfeb66ae3    bltu	a2, a1, 0xa000039c                                                                                                                               
-0xa000039c    0x00c05863    blez	a2, 0xa00003ac                                                                                                                                   
-0xa00003a0    0x00161613    slli	a2, a2, 1                                                                                                                                        
-0xa00003a4    0x00169693    slli	a3, a3, 1                                                                                                                                        
-0xa00003a8    0xfeb66ae3    bltu	a2, a1, 0xa000039c                                                                                                                               
-0xa00003ac    0x00000513    li	a0, 0                                                                                                                                              
-0xa00003b0    0x00c5e663    bltu	a1, a2, 0xa00003bc                                                                                                                               
-0xa00003bc    0x0016d693    srli	a3, a3, 1                                                                                                                                        
-0xa00003c0    0x00165613    srli	a2, a2, 1                                                                                                                                        
-0xa00003c4    0xfe0696e3    bnez	a3, 0xa00003b0                                                                                                                                   
-0xa00003b0    0x00c5e663    bltu	a1, a2, 0xa00003bc                                                                                                                               
-0xa00003b4    0x40c585b3    sub	a1, a1, a2                                                                                                                                        
-0xa00003b8    0x00d56533    or	a0, a0, a3                                                                                                                                         
-0xa00003bc    0x0016d693    srli	a3, a3, 1                                                                                                                                        
-0xa00003c0    0x00165613    srli	a2, a2, 1                                                                                                                                        
-0xa00003c4    0xfe0696e3    bnez	a3, 0xa00003b0                                                                                                                                   
-0xa00003b0    0x00c5e663    bltu	a1, a2, 0xa00003bc                                                                                                                               
-0xa00003b4    0x40c585b3    sub	a1, a1, a2                                                                                                                                        
-0xa00003b8    0x00d56533    or	a0, a0, a3                                                                                                                                         
-0xa00003bc    0x0016d693    srli	a3, a3, 1                                                                                                                                        
-0xa00003c0    0x00165613    srli	a2, a2, 1                                                                                                                                        
-0xa00003c4    0xfe0696e3    bnez	a3, 0xa00003b0                                                                                                                                   
-0xa00003c8    0x00008067    ret                           [RET] PRE: __divsi3, DST: f0                                                                                            
-0xa0000124    0x00040593    mv	a1, s0                                                                                                                                             
-0xa0000128    0x00412403    lw	s0, 4(sp)                                                                                                                                          
-0xa000012c    0x00812083    lw	ra, 8(sp)                                                                                                                                          
-0xa0000130    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa0000134    0x3587a783    lw	a5, 0x358(a5)                                                                                                                                      
-0xa0000138    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0xa000013c    0x00078067    jr	a5                         [CALL] PRE: f0, DST: f3                                                                                                 
-0xa00001f4    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa00001f8    0x29c70713    addi	a4, a4, 0x29c                                                                                                                                    
-0xa00001fc    0x00072683    lw	a3, 0(a4)                                                                                                                                          
-0xa0000200    0x00050793    mv	a5, a0                                                                                                                                             
-0xa0000204    0x00b6d463    bge	a3, a1, 0xa000020c                                                                                                                                
-0xa000020c    0x00000697    auipc	a3, 0                                                                                                                                           
-0xa0000210    0x28868693    addi	a3, a3, 0x288                                                                                                                                    
-0xa0000214    0x0006a703    lw	a4, 0(a3)                                                                                                                                          
-0xa0000218    0x00100513    li	a0, 1                                                                                                                                              
-0xa000021c    0x00170713    addi	a4, a4, 1                                                                                                                                        
-0xa0000220    0x00e6a023    sw	a4, 0(a3)                                                                                                                                          
-0xa0000224    0x06f05c63    blez	a5, 0xa000029c                                                                                                                                   
-0xa0000228    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa000022c    0x25470713    addi	a4, a4, 0x254                                                                                                                                    
-0xa0000230    0xff010113    addi	sp, sp, -0x10                                                                                                                                    
-0xa0000234    0x00872683    lw	a3, 8(a4)                                                                                                                                          
-0xa0000238    0x00812423    sw	s0, 8(sp)                                                                                                                                          
-0xa000023c    0x00912223    sw	s1, 4(sp)                                                                                                                                          
-0xa0000240    0x4017d413    srai	s0, a5, 1                                                                                                                                        
-0xa0000244    0x00158493    addi	s1, a1, 1                                                                                                                                        
-0xa0000248    0x00112623    sw	ra, 0xc(sp)                                                                                                                                        
-0xa000024c    0x00048593    mv	a1, s1                                                                                                                                             
-0xa0000250    0x00040513    mv	a0, s0                                                                                                                                             
-0xa0000254    0x000680e7    jalr	a3                       [CALL] PRE: f3, DST: f2                                                                                                 
-0xa0000190    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa0000194    0x30070713    addi	a4, a4, 0x300                                                                                                                                    
-0xa0000198    0x00072683    lw	a3, 0(a4)                                                                                                                                          
-0xa000019c    0x00050793    mv	a5, a0                                                                                                                                             
-0xa00001a0    0x00b6d463    bge	a3, a1, 0xa00001a8                                                                                                                                
-0xa00001a8    0x00000697    auipc	a3, 0                                                                                                                                           
-0xa00001ac    0x2ec68693    addi	a3, a3, 0x2ec                                                                                                                                    
-0xa00001b0    0x0006a703    lw	a4, 0(a3)                                                                                                                                          
-0xa00001b4    0x00100513    li	a0, 1                                                                                                                                              
-0xa00001b8    0x00170713    addi	a4, a4, 1                                                                                                                                        
-0xa00001bc    0x00e6a023    sw	a4, 0(a3)                                                                                                                                          
-0xa00001c0    0x02f05863    blez	a5, 0xa00001f0                                                                                                                                   
-0xa00001c4    0xff410113    addi	sp, sp, -0xc                                                                                                                                     
-0xa00001c8    0x00112423    sw	ra, 8(sp)                                                                                                                                          
-0xa00001cc    0x00078513    mv	a0, a5                                                                                                                                             
-0xa00001d0    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0xa00001d4    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa00001d8    0x2ac7a783    lw	a5, 0x2ac(a5)                                                                                                                                      
-0xa00001dc    0x000780e7    jalr	a5                       [CALL] PRE: f2, DST: f1                                                                                                 
-0xa0000148    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa000014c    0x34878793    addi	a5, a5, 0x348                                                                                                                                    
-0xa0000150    0x0007a703    lw	a4, 0(a5)                                                                                                                                          
-0xa0000154    0x00b75463    bge	a4, a1, 0xa000015c                                                                                                                                
-0xa000015c    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa0000160    0x33870713    addi	a4, a4, 0x338                                                                                                                                    
-0xa0000164    0x00072783    lw	a5, 0(a4)                                                                                                                                          
-0xa0000168    0x00178793    addi	a5, a5, 1                                                                                                                                        
-0xa000016c    0x00f72023    sw	a5, 0(a4)                                                                                                                                          
-0xa0000170    0x00a05c63    blez	a0, 0xa0000188                                                                                                                                   
-0xa0000174    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0xa0000178    0xfff50513    addi	a0, a0, -1                                                                                                                                       
-0xa000017c    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa0000180    0x3007a783    lw	a5, 0x300(a5)                                                                                                                                      
-0xa0000184    0x00078067    jr	a5                         [CALL] PRE: f1, DST: f0                                                                                                 
-0xa00000dc    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa00000e0    0x3b470713    addi	a4, a4, 0x3b4                                                                                                                                    
-0xa00000e4    0x00072683    lw	a3, 0(a4)                                                                                                                                          
-0xa00000e8    0x00058793    mv	a5, a1                                                                                                                                             
-0xa00000ec    0x00b6d463    bge	a3, a1, 0xa00000f4                                                                                                                                
-0xa00000f4    0x00000697    auipc	a3, 0                                                                                                                                           
-0xa00000f8    0x3a068693    addi	a3, a3, 0x3a0                                                                                                                                    
-0xa00000fc    0x0006a703    lw	a4, 0(a3)                                                                                                                                          
-0xa0000100    0x00170713    addi	a4, a4, 1                                                                                                                                        
-0xa0000104    0x00e6a023    sw	a4, 0(a3)                                                                                                                                          
-0xa0000108    0x02a05c63    blez	a0, 0xa0000140                                                                                                                                   
-0xa0000140    0x00100513    li	a0, 1                                                                                                                                              
-0xa0000144    0x00008067    ret                           [RET] PRE: f0, DST: f2                                                                                                  
-0xa00001e0    0x00812083    lw	ra, 8(sp)                                                                                                                                          
-0xa00001e4    0x00950513    addi	a0, a0, 9                                                                                                                                        
-0xa00001e8    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0xa00001ec    0x00008067    ret                           [RET] PRE: f2, DST: f3                                                                                                  
-0xa0000258    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa000025c    0x22470713    addi	a4, a4, 0x224                                                                                                                                    
-0xa0000260    0x00872783    lw	a5, 8(a4)                                                                                                                                          
-0xa0000264    0x00a12023    sw	a0, 0(sp)                                                                                                                                          
-0xa0000268    0x00048593    mv	a1, s1                                                                                                                                             
-0xa000026c    0x00040513    mv	a0, s0                                                                                                                                             
-0xa0000270    0x000780e7    jalr	a5                       [CALL] PRE: f3, DST: f2                                                                                                 
-0xa0000190    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa0000194    0x30070713    addi	a4, a4, 0x300                                                                                                                                    
-0xa0000198    0x00072683    lw	a3, 0(a4)                                                                                                                                          
-0xa000019c    0x00050793    mv	a5, a0                                                                                                                                             
-0xa00001a0    0x00b6d463    bge	a3, a1, 0xa00001a8                                                                                                                                
-0xa00001a8    0x00000697    auipc	a3, 0                                                                                                                                           
-0xa00001ac    0x2ec68693    addi	a3, a3, 0x2ec                                                                                                                                    
-0xa00001b0    0x0006a703    lw	a4, 0(a3)                                                                                                                                          
-0xa00001b4    0x00100513    li	a0, 1                                                                                                                                              
-0xa00001b8    0x00170713    addi	a4, a4, 1                                                                                                                                        
-0xa00001bc    0x00e6a023    sw	a4, 0(a3)                                                                                                                                          
-0xa00001c0    0x02f05863    blez	a5, 0xa00001f0                                                                                                                                   
-0xa00001c4    0xff410113    addi	sp, sp, -0xc                                                                                                                                     
-0xa00001c8    0x00112423    sw	ra, 8(sp)                                                                                                                                          
-0xa00001cc    0x00078513    mv	a0, a5                                                                                                                                             
-0xa00001d0    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0xa00001d4    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa00001d8    0x2ac7a783    lw	a5, 0x2ac(a5)                                                                                                                                      
-0xa00001dc    0x000780e7    jalr	a5                       [CALL] PRE: f2, DST: f1                                                                                                 
-0xa0000148    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa000014c    0x34878793    addi	a5, a5, 0x348                                                                                                                                    
-0xa0000150    0x0007a703    lw	a4, 0(a5)                                                                                                                                          
-0xa0000154    0x00b75463    bge	a4, a1, 0xa000015c                                                                                                                                
-0xa000015c    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa0000160    0x33870713    addi	a4, a4, 0x338                                                                                                                                    
-0xa0000164    0x00072783    lw	a5, 0(a4)                                                                                                                                          
-0xa0000168    0x00178793    addi	a5, a5, 1                                                                                                                                        
-0xa000016c    0x00f72023    sw	a5, 0(a4)                                                                                                                                          
-0xa0000170    0x00a05c63    blez	a0, 0xa0000188                                                                                                                                   
-0xa0000174    0x00158593    addi	a1, a1, 1                                                                                                                                        
-0xa0000178    0xfff50513    addi	a0, a0, -1                                                                                                                                       
-0xa000017c    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa0000180    0x3007a783    lw	a5, 0x300(a5)                                                                                                                                      
-0xa0000184    0x00078067    jr	a5                         [CALL] PRE: f1, DST: f0                                                                                                 
-0xa00000dc    0x00000717    auipc	a4, 0                                                                                                                                           
-0xa00000e0    0x3b470713    addi	a4, a4, 0x3b4                                                                                                                                    
-0xa00000e4    0x00072683    lw	a3, 0(a4)                                                                                                                                          
-0xa00000e8    0x00058793    mv	a5, a1                                                                                                                                             
-0xa00000ec    0x00b6d463    bge	a3, a1, 0xa00000f4                                                                                                                                
-0xa00000f4    0x00000697    auipc	a3, 0                                                                                                                                           
-0xa00000f8    0x3a068693    addi	a3, a3, 0x3a0                                                                                                                                    
-0xa00000fc    0x0006a703    lw	a4, 0(a3)                                                                                                                                          
-0xa0000100    0x00170713    addi	a4, a4, 1                                                                                                                                        
-0xa0000104    0x00e6a023    sw	a4, 0(a3)                                                                                                                                          
-0xa0000108    0x02a05c63    blez	a0, 0xa0000140                                                                                                                                   
-0xa0000140    0x00100513    li	a0, 1                                                                                                                                              
-0xa0000144    0x00008067    ret                           [RET] PRE: f0, DST: f2                                                                                                  
-0xa00001e0    0x00812083    lw	ra, 8(sp)                                                                                                                                          
-0xa00001e4    0x00950513    addi	a0, a0, 9                                                                                                                                        
-0xa00001e8    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0xa00001ec    0x00008067    ret                           [RET] PRE: f2, DST: f3                                                                                                  
-0xa0000274    0x00012703    lw	a4, 0(sp)                                                                                                                                          
-0xa0000278    0x00c12083    lw	ra, 0xc(sp)                                                                                                                                        
-0xa000027c    0x00812403    lw	s0, 8(sp)                                                                                                                                          
-0xa0000280    0x00171793    slli	a5, a4, 1                                                                                                                                        
-0xa0000284    0x00e787b3    add	a5, a5, a4                                                                                                                                        
-0xa0000288    0x00151513    slli	a0, a0, 1                                                                                                                                        
-0xa000028c    0x00412483    lw	s1, 4(sp)                                                                                                                                          
-0xa0000290    0x00a78533    add	a0, a5, a0                                                                                                                                        
-0xa0000294    0x01010113    addi	sp, sp, 0x10                                                                                                                                     
-0xa0000298    0x00008067    ret                           [RET] PRE: f3, DST: f2                                                                                                  
-0xa00001e0    0x00812083    lw	ra, 8(sp)                                                                                                                                          
-0xa00001e4    0x00950513    addi	a0, a0, 9                                                                                                                                        
-0xa00001e8    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0xa00001ec    0x00008067    ret                           [RET] PRE: f2, DST: f3                                                                                                  
-0xa0000274    0x00012703    lw	a4, 0(sp)                                                                                                                                          
-0xa0000278    0x00c12083    lw	ra, 0xc(sp)                                                                                                                                        
-0xa000027c    0x00812403    lw	s0, 8(sp)                                                                                                                                          
-0xa0000280    0x00171793    slli	a5, a4, 1                                                                                                                                        
-0xa0000284    0x00e787b3    add	a5, a5, a4                                                                                                                                        
-0xa0000288    0x00151513    slli	a0, a0, 1                                                                                                                                        
-0xa000028c    0x00412483    lw	s1, 4(sp)                                                                                                                                          
-0xa0000290    0x00a78533    add	a0, a5, a0                                                                                                                                        
-0xa0000294    0x01010113    addi	sp, sp, 0x10                                                                                                                                     
-0xa0000298    0x00008067    ret                           [RET] PRE: f3, DST: f2                                                                                                  
-0xa00001e0    0x00812083    lw	ra, 8(sp)                                                                                                                                          
-0xa00001e4    0x00950513    addi	a0, a0, 9                                                                                                                                        
-0xa00001e8    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0xa00001ec    0x00008067    ret                           [RET] PRE: f2, DST: f3                                                                                                  
-0xa0000274    0x00012703    lw	a4, 0(sp)                                                                                                                                          
-0xa0000278    0x00c12083    lw	ra, 0xc(sp)                                                                                                                                        
-0xa000027c    0x00812403    lw	s0, 8(sp)                                                                                                                                          
-0xa0000280    0x00171793    slli	a5, a4, 1                                                                                                                                        
-0xa0000284    0x00e787b3    add	a5, a5, a4                                                                                                                                        
-0xa0000288    0x00151513    slli	a0, a0, 1                                                                                                                                        
-0xa000028c    0x00412483    lw	s1, 4(sp)                                                                                                                                          
-0xa0000290    0x00a78533    add	a0, a5, a0                                                                                                                                        
-0xa0000294    0x01010113    addi	sp, sp, 0x10                                                                                                                                     
-0xa0000298    0x00008067    ret                           [RET] PRE: f3, DST: f2                                                                                                  
-0xa00001e0    0x00812083    lw	ra, 8(sp)                                                                                                                                          
-0xa00001e4    0x00950513    addi	a0, a0, 9                                                                                                                                        
-0xa00001e8    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0xa00001ec    0x00008067    ret                           [RET] PRE: f2, DST: f3                                                                                                  
-0xa0000274    0x00012703    lw	a4, 0(sp)                                                                                                                                          
-0xa0000278    0x00c12083    lw	ra, 0xc(sp)                                                                                                                                        
-0xa000027c    0x00812403    lw	s0, 8(sp)                                                                                                                                          
-0xa0000280    0x00171793    slli	a5, a4, 1                                                                                                                                        
-0xa0000284    0x00e787b3    add	a5, a5, a4                                                                                                                                        
-0xa0000288    0x00151513    slli	a0, a0, 1                                                                                                                                        
-0xa000028c    0x00412483    lw	s1, 4(sp)                                                                                                                                          
-0xa0000290    0x00a78533    add	a0, a5, a0                                                                                                                                        
-0xa0000294    0x01010113    addi	sp, sp, 0x10                                                                                                                                     
-0xa0000298    0x00008067    ret                           [RET] PRE: f3, DST: f2                                                                                                  
-0xa00001e0    0x00812083    lw	ra, 8(sp)                                                                                                                                          
-0xa00001e4    0x00950513    addi	a0, a0, 9                                                                                                                                        
-0xa00001e8    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0xa00001ec    0x00008067    ret                           [RET] PRE: f2, DST: f3                                                                                                  
-0xa0000274    0x00012703    lw	a4, 0(sp)                                                                                                                                          
-0xa0000278    0x00c12083    lw	ra, 0xc(sp)                                                                                                                                        
-0xa000027c    0x00812403    lw	s0, 8(sp)                                                                                                                                          
-0xa0000280    0x00171793    slli	a5, a4, 1                                                                                                                                        
-0xa0000284    0x00e787b3    add	a5, a5, a4                                                                                                                                        
-0xa0000288    0x00151513    slli	a0, a0, 1                                                                                                                                        
-0xa000028c    0x00412483    lw	s1, 4(sp)                                                                                                                                          
-0xa0000290    0x00a78533    add	a0, a5, a0                                                                                                                                        
-0xa0000294    0x01010113    addi	sp, sp, 0x10                                                                                                                                     
-0xa0000298    0x00008067    ret                           [RET] PRE: f3, DST: main                                                                                                
-0xa00002dc    0x00000417    auipc	s0, 0                                                                                                                                           
-0xa00002e0    0x19440413    addi	s0, s0, 0x194                                                                                                                                    
-0xa00002e4    0x00042783    lw	a5, 0(s0)                                                                                                                                          
-0xa00002e8    0x40a78533    sub	a0, a5, a0                                                                                                                                        
-0xa00002ec    0x00153513    seqz	a0, a0                                                                                                                                           
-0xa00002f0    0xfb1ff0ef    jal	0xa00002a0                [CALL] PRE: main, DST: check                                                                                            
-0xa00002a0    0x00050463    beqz	a0, 0xa00002a8                                                                                                                                   
-0xa00002a4    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0xa00002f4    0x00442503    lw	a0, 4(s0)                                                                                                                                          
-0xa00002f8    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa00002fc    0x19c7a783    lw	a5, 0x19c(a5)                                                                                                                                      
-0xa0000300    0x40f50533    sub	a0, a0, a5                                                                                                                                        
-0xa0000304    0x00153513    seqz	a0, a0                                                                                                                                           
-0xa0000308    0xf99ff0ef    jal	0xa00002a0                [CALL] PRE: main, DST: check                                                                                            
-0xa00002a0    0x00050463    beqz	a0, 0xa00002a8                                                                                                                                   
-0xa00002a4    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0xa000030c    0x00842503    lw	a0, 8(s0)                                                                                                                                          
-0xa0000310    0x00000797    auipc	a5, 0                                                                                                                                           
-0xa0000314    0x1807a783    lw	a5, 0x180(a5)                                                                                                                                      
-0xa0000318    0x40f50533    sub	a0, a0, a5                                                                                                                                        
-0xa000031c    0x00153513    seqz	a0, a0                                                                                                                                           
-0xa0000320    0xf81ff0ef    jal	0xa00002a0                [CALL] PRE: main, DST: check                                                                                            
-0xa00002a0    0x00050463    beqz	a0, 0xa00002a8                                                                                                                                   
-0xa00002a4    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
-0xa0000324    0x00812083    lw	ra, 8(sp)                                                                                                                                          
-0xa0000328    0x00412403    lw	s0, 4(sp)                                                                                                                                          
-0xa000032c    0x00000513    li	a0, 0                                                                                                                                              
-0xa0000330    0x00c10113    addi	sp, sp, 0xc                                                                                                                                      
-0xa0000334    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                                                                                         
-0xa0000374    0x00100073    ebreak                                                                                                                                                
+0xa00001f8    0x1ef45463    bge	s0, a5, 0xa00003e0                                                                                                                                
+0xa00003e0    0x02c12783    lw	a5, 0x2c(sp)                                                                                                                                       
+0xa00003e4    0x00178413    addi	s0, a5, 1                                                                                                                                        
+0xa00003e8    0x02812783    lw	a5, 0x28(sp)                                                                                                                                       
+0xa00003ec    0xdef448e3    blt	s0, a5, 0xa00001dc                                                                                                                                
+0xa00001dc    0x02812603    lw	a2, 0x28(sp)                                                                                                                                       
+0xa00001e0    0x00040593    mv	a1, s0                                                                                                                                             
+0xa00001e4    0x00048513    mv	a0, s1                                                                                                                                             
+0xa00001e8    0xf0dff0ef    jal	0xa00000f4                [CALL] PRE: quick_sort, DST: partition                                                                                  
+0xa00000f4    0x00259693    slli	a3, a1, 2                                                                                                                                        
+0xa00000f8    0x00d503b3    add	t2, a0, a3                                                                                                                                        
+0xa00000fc    0x00050313    mv	t1, a0                                                                                                                                             
+0xa0000100    0x0003a283    lw	t0, 0(t2)                                                                                                                                          
+0xa0000104    0x00060513    mv	a0, a2                                                                                                                                             
+0xa0000108    0x08c5d863    bge	a1, a2, 0xa0000198                                                                                                                                
+0xa000010c    0x00261793    slli	a5, a2, 2                                                                                                                                        
+0xa0000110    0x00f307b3    add	a5, t1, a5                                                                                                                                        
+0xa0000114    0x0007a783    lw	a5, 0(a5)                                                                                                                                          
+0xa0000118    0xfff50713    addi	a4, a0, -1                                                                                                                                       
+0xa000011c    0x00271713    slli	a4, a4, 2                                                                                                                                        
+0xa0000120    0x00e30733    add	a4, t1, a4                                                                                                                                        
+0xa0000124    0x00070613    mv	a2, a4                                                                                                                                             
+0xa0000128    0xffc70713    addi	a4, a4, -4                                                                                                                                       
+0xa000012c    0x02f2d463    bge	t0, a5, 0xa0000154                                                                                                                                
+0xa0000130    0xfff50513    addi	a0, a0, -1                                                                                                                                       
+0xa0000134    0x00472783    lw	a5, 4(a4)                                                                                                                                          
+0xa0000138    0xfea5c6e3    blt	a1, a0, 0xa0000124                                                                                                                                
+0xa0000124    0x00070613    mv	a2, a4                                                                                                                                             
+0xa0000128    0xffc70713    addi	a4, a4, -4                                                                                                                                       
+0xa000012c    0x02f2d463    bge	t0, a5, 0xa0000154                                                                                                                                
+0xa0000130    0xfff50513    addi	a0, a0, -1                                                                                                                                       
+0xa0000134    0x00472783    lw	a5, 4(a4)                                                                                                                                          
+0xa0000138    0xfea5c6e3    blt	a1, a0, 0xa0000124                                                                                                                                
+0xa000013c    0x00d303b3    add	t2, t1, a3                                                                                                                                        
+0xa0000140    0x00f3a023    sw	a5, 0(t2)                                                                                                                                          
+0xa0000144    0x00058513    mv	a0, a1                                                                                                                                             
+0xa0000148    0x00f62023    sw	a5, 0(a2)                                                                                                                                          
+0xa000014c    0x0053a023    sw	t0, 0(t2)                                                                                                                                          
+0xa0000150    0x00008067    ret                           [RET] PRE: partition, DST: quick_sort                                                                                   
+0xa00001ec    0xfff50793    addi	a5, a0, -1                                                                                                                                       
+0xa00001f0    0x02a12623    sw	a0, 0x2c(sp)                                                                                                                                       
+0xa00001f4    0x00f12e23    sw	a5, 0x1c(sp)                                                                                                                                       
+0xa00001f8    0x1ef45463    bge	s0, a5, 0xa00003e0                                                                                                                                
+0xa00003e0    0x02c12783    lw	a5, 0x2c(sp)                                                                                                                                       
+0xa00003e4    0x00178413    addi	s0, a5, 1                                                                                                                                        
+0xa00003e8    0x02812783    lw	a5, 0x28(sp)                                                                                                                                       
+0xa00003ec    0xdef448e3    blt	s0, a5, 0xa00001dc                                                                                                                                
+0xa00001dc    0x02812603    lw	a2, 0x28(sp)                                                                                                                                       
+0xa00001e0    0x00040593    mv	a1, s0                                                                                                                                             
+0xa00001e4    0x00048513    mv	a0, s1                                                                                                                                             
+0xa00001e8    0xf0dff0ef    jal	0xa00000f4                [CALL] PRE: quick_sort, DST: partition                                                                                  
+0xa00000f4    0x00259693    slli	a3, a1, 2                                                                                                                                        
+0xa00000f8    0x00d503b3    add	t2, a0, a3                                                                                                                                        
+0xa00000fc    0x00050313    mv	t1, a0                                                                                                                                             
+0xa0000100    0x0003a283    lw	t0, 0(t2)                                                                                                                                          
+0xa0000104    0x00060513    mv	a0, a2                                                                                                                                             
+0xa0000108    0x08c5d863    bge	a1, a2, 0xa0000198                                                                                                                                
+0xa000010c    0x00261793    slli	a5, a2, 2                                                                                                                                        
+0xa0000110    0x00f307b3    add	a5, t1, a5                                                                                                                                        
+0xa0000114    0x0007a783    lw	a5, 0(a5)                                                                                                                                          
+0xa0000118    0xfff50713    addi	a4, a0, -1                                                                                                                                       
+0xa000011c    0x00271713    slli	a4, a4, 2                                                                                                                                        
+0xa0000120    0x00e30733    add	a4, t1, a4                                                                                                                                        
+0xa0000124    0x00070613    mv	a2, a4                                                                                                                                             
+0xa0000128    0xffc70713    addi	a4, a4, -4                                                                                                                                       
+0xa000012c    0x02f2d463    bge	t0, a5, 0xa0000154                                                                                                                                
+0xa0000130    0xfff50513    addi	a0, a0, -1                                                                                                                                       
+0xa0000134    0x00472783    lw	a5, 4(a4)                                                                                                                                          
+0xa0000138    0xfea5c6e3    blt	a1, a0, 0xa0000124                                                                                                                                
+0xa000013c    0x00d303b3    add	t2, t1, a3                                                                                                                                        
+0xa0000140    0x00f3a023    sw	a5, 0(t2)                                                                                                                                          
+0xa0000144    0x00058513    mv	a0, a1                                                                                                                                             
+0xa0000148    0x00f62023    sw	a5, 0(a2)                                                                                                                                          
+0xa000014c    0x0053a023    sw	t0, 0(t2)                                                                                                                                          
+0xa0000150    0x00008067    ret                           [RET] PRE: partition, DST: quick_sort                                                                                   
+0xa00001ec    0xfff50793    addi	a5, a0, -1                                                                                                                                       
+0xa00001f0    0x02a12623    sw	a0, 0x2c(sp)                                                                                                                                       
+0xa00001f4    0x00f12e23    sw	a5, 0x1c(sp)                                                                                                                                       
+0xa00001f8    0x1ef45463    bge	s0, a5, 0xa00003e0                                                                                                                                
+0xa00003e0    0x02c12783    lw	a5, 0x2c(sp)                                                                                                                                       
+0xa00003e4    0x00178413    addi	s0, a5, 1                                                                                                                                        
+0xa00003e8    0x02812783    lw	a5, 0x28(sp)                                                                                                                                       
+0xa00003ec    0xdef448e3    blt	s0, a5, 0xa00001dc                                                                                                                                
+0xa00003f0    0x04c12083    lw	ra, 0x4c(sp)                                                                                                                                       
+0xa00003f4    0x04812403    lw	s0, 0x48(sp)                                                                                                                                       
+0xa00003f8    0x04412483    lw	s1, 0x44(sp)                                                                                                                                       
+0xa00003fc    0x05010113    addi	sp, sp, 0x50                                                                                                                                     
+0xa0000400    0x00008067    ret                           [RET] PRE: quick_sort, DST: main                                                                                        
+0xa0000478    0x00000493    li	s1, 0                                                                                                                                              
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000047c    0x00042503    lw	a0, 0(s0)                                                                                                                                          
+0xa0000480    0x00440413    addi	s0, s0, 4                                                                                                                                        
+0xa0000484    0x40950533    sub	a0, a0, s1                                                                                                                                        
+0xa0000488    0x00153513    seqz	a0, a0                                                                                                                                           
+0xa000048c    0xc51ff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa0000490    0x00148493    addi	s1, s1, 1                                                                                                                                        
+0xa0000494    0x01400793    li	a5, 0x14                                                                                                                                           
+0xa0000498    0xfef492e3    bne	s1, a5, 0xa000047c                                                                                                                                
+0xa000049c    0x00100513    li	a0, 1                                                                                                                                              
+0xa00004a0    0xc3dff0ef    jal	0xa00000dc                [CALL] PRE: main, DST: check                                                                                            
+0xa00000dc    0x00050463    beqz	a0, 0xa00000e4                                                                                                                                   
+0xa00000e0    0x00008067    ret                           [RET] PRE: check, DST: main                                                                                             
+0xa00004a4    0x00c12083    lw	ra, 0xc(sp)                                                                                                                                        
+0xa00004a8    0x00812403    lw	s0, 8(sp)                                                                                                                                          
+0xa00004ac    0x00412483    lw	s1, 4(sp)                                                                                                                                          
+0xa00004b0    0x00000513    li	a0, 0                                                                                                                                              
+0xa00004b4    0x01010113    addi	sp, sp, 0x10                                                                                                                                     
+0xa00004b8    0x00008067    ret                           [RET] PRE: main, DST: _trm_init                                                                                         
+0xa00004f8    0x00100073    ebreak                                                                                                                                                

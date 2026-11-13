@@ -281,30 +281,23 @@ module ysyx_26040135_AXI_LSU (
         endcase
     end
 
-    wire [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
-
     wire [31:0] lsu_rdata_shifted;
     assign lsu_rdata_shifted = rdata_out >> {lsu_addr_save[1:0], 3'b000};
 
-    assign lw_rst  = rdata_out;
-    assign lbu_rst = {24'b0, lsu_rdata_shifted[7:0]};
-    assign lhu_rst = {16'b0, lsu_rdata_shifted[15:0]};
-    assign lb_rst  = {{24{lsu_rdata_shifted[7]}}, lsu_rdata_shifted[7:0]};
-    assign lh_rst  = {{16{lsu_rdata_shifted[15]}}, lsu_rdata_shifted[15:0]};
+    // 读出数据: 先按宽度选择, 再按有无符号做扩展(不用为 lb/lbu、lh/lhu 各做一份 AND-OR)
+    wire is_word = (io_type_save == 2'b10);
+    wire is_half = (io_type_save == 2'b01);
+    wire is_byte = (io_type_save == 2'b00);
 
-    wire lw, lh, lhu, lbu, lb;
-    assign lw = (io_type_save == 2'b10);
-    assign lh = (io_type_save == 2'b01 && !read_is_u_save);
-    assign lhu = (io_type_save == 2'b01 && read_is_u_save);
-    assign lbu = (io_type_save == 2'b00 && read_is_u_save);
-    assign lb = (io_type_save == 2'b00 && !read_is_u_save);
+    wire [31:0] load_data =
+        is_word ? rdata_out :
+        is_half ? {{16{read_is_u_save ? 1'b0 : lsu_rdata_shifted[15]}},
+                   lsu_rdata_shifted[15:0]} :
+        is_byte ? {{24{read_is_u_save ? 1'b0 : lsu_rdata_shifted[7]}},
+                   lsu_rdata_shifted[7:0]} : 32'b0;
 
-    assign wdata = ic_wb_wdata_save |
-            ({32{lw}} & lw_rst) |
-            ({32{lbu}} & lbu_rst) |
-            ({32{lhu}} & lhu_rst) |
-            ({32{lb}} & lb_rst) |
-            ({32{lh}} & lh_rst);
-
+    // io_type_save == 2'b11 表示非访存指令: 直接转发 ALU 结果
+    assign wdata = (io_type_save == 2'b11) ? ic_wb_wdata_save : load_data;
+            
 endmodule
 

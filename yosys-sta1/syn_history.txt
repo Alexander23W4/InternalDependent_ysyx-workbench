@@ -185,5 +185,59 @@ Total Power   ==  1.485e-02 W
    Chip area for module '\ysyx_26040135': 28317.562000
      of which used for sequential elements: 15612.604000 (55.13%)
 
-
 ## 1.2.4
+这次把寄存器读改成了 unblocking assignment, 频率提升明显
+
++-------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| Endpoint                                                                                  | Clock Group              | Delay Type | Path Delay | Path Required | CPPR  | Slack | Freq(MHz) |
++-------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| lsu.ic_wb_wdata_save_0__reg_p:D                                                           | core_clock               | max        | 0.830f     | 1.956         | 0.000 | 1.126 | 1144.728  |
+| lsu.ic_wb_wdata_save_0__reg_p:D                                                           | core_clock               | max        | 0.830f     | 1.956         | 0.000 | 1.126 | 1144.728  |
+| lsu.ic_wb_wdata_save_31__reg_p:D                                                          | core_clock               | max        | 0.818f     | 1.953         | 0.000 | 1.136 | 1156.788  |
+| lsu.ic_wb_wdata_save_31__reg_p:D                                                          | core_clock               | max        | 0.818f     | 1.953         | 0.000 | 1.136 | 1156.788  |
+| icache.icache[12]_30__reg_p:D                                                             | core_clock               | max        | 0.815r     | 1.951         | 0.000 | 1.136 | 1157.043  |
+| bus_ifu_rready_$_AND__A_Y_$_AND__A_Y_CLKGATE_X1_E:E                                       | **clock_gating_default** | max        | 0.779r     | 1.947         | 0.000 | 1.169 | NA        |
+| ifu.state_1__reg_p_D_$_OR__Y_A_$_OR__B_Y_$_AND__B_Y_CLKGATE_X1_E:E                        | **clock_gating_default** | max        | 0.767f     | 1.956         | 0.000 | 1.189 | NA        |
+| bus_ifu_rready_$_ANDNOT__A_Y_$_AND__B_Y_CLKGATE_X1_E:E                                    | **clock_gating_default** | max        | 0.759r     | 1.949         | 0.000 | 1.190 | NA        |
+| ifu.state_1__reg_p_D_$_OR__Y_A_$_OR__B_Y_$_AND__B_Y_CLKGATE_X1_E:E                        | **clock_gating_default** | max        | 0.760r     | 1.951         | 0.000 | 1.191 | NA        |
+| bus_ifu_rready_$_AND__A_Y_$_AND__A_Y_CLKGATE_X1_E:E                                       | **clock_gating_default** | max        | 0.738f     | 1.955         | 0.000 | 1.216 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                | core_clock               | min        | 0.066r     | 0.007         | 0.000 | 0.059 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                | core_clock               | min        | 0.066r     | 0.007         | 0.000 | 0.059 | NA        |
+| u_clint.mtime_0__reg_p:D                                                                  | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.mcycle_0__reg_p:D                                                                     | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.mcycle_0__reg_p:D                                                                     | core_clock               | min        | 0.065f     | 0.003         | 0.000 | 0.062 | NA        |
+| exu.state_4__CLKGATE_X1_E:E                                                               | **clock_gating_default** | min        | 0.093f     | -0.015        | 0.000 | 0.108 | NA        |
+| exu.state_4__CLKGATE_X1_E:E                                                               | **clock_gating_default** | min        | 0.112r     | 0.000         | 0.000 | 0.111 | NA        |
+| exu.rd_wb_save_4__$_MUX__S_Y_$_ORNOT__B_Y_$_AND__A_Y_$_AND__B_Y_CLKGATE_X1_E:E            | **clock_gating_default** | min        | 0.097f     | -0.016        | 0.000 | 0.112 | NA        |
+| u_xbar.w_clint_reg_p_E_CLKGATE_X1_E:E                                                     | **clock_gating_default** | min        | 0.112r     | -0.001        | 0.000 | 0.113 | NA        |
+| exu.rd_wb_save_4__$_MUX__S_Y_$_ORNOT__B_Y_$_AND__A_Y_$_AND__B_A_$_AND__A_Y_CLKGATE_X1_E:E | **clock_gating_default** | min        | 0.112r     | -0.001        | 0.000 | 0.113 | NA        |
++-------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+
+
++---------------+----------------+--------------+---------------+-------------+-----------+
+| combinational | 8.325e-03      | 0.000e+00    | 2.774e-04     | 8.602e-03   | (59.814%) |
+| sequential    | 5.566e-03      | 0.000e+00    | 2.134e-04     | 5.779e-03   | (40.186%) |
++---------------+----------------+--------------+---------------+-------------+-----------+
+Net Switch Power   ==    0.000e+00 (0.000%)
+Cell Internal Power   ==    1.389e-02 (96.588%)
+Cell Leakage Power   ==    4.907e-04 (3.412%)
+Total Power   ==  1.438e-02 W
+
+
+      216  172.368   BUF_X1
+        2     13.3   BUF_X16
+       82   87.248   BUF_X2
+        1   13.034   BUF_X32
+       18   33.516   BUF_X4
+        5    17.29   BUF_X8
+        3    2.394   CLKBUF_X1
+        9    11.97   CLKBUF_X3
+       91  314.678   CLKGATE_X1
+     2678 1.42E+04   DFFR_X1
+       13    69.16   DFFS_X1
+      362 1.64E+03   DFF_X1
+
+   Chip area for module '\ysyx_26040135': 27449.072000
+     of which used for sequential elements: 15953.084000 (58.12%)
+
+

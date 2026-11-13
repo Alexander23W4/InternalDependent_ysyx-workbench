@@ -43,12 +43,18 @@ DEFAULT_FLAGS=-Wall -j --timescale "1ns/1ns" --no-timing --autoflush
 SOURCES=$(shell find ./example -type f \( -name "*.v" -o -name "*.sv" \) | sort)
 
 
+VERSION ?=
+
+
+record:
+	@test -n "$(VERSION)" || { echo "用法: make record VERSION=<版本号>  (例如 VERSION=1.2.4)"; exit 1; }
+	python3 $(SCRIPT_DIR)/record.py "$(VERSION)" $(RESULT_DIR)/$(DESIGN).rpt $(RESULT_DIR)/$(DESIGN).pwr $(RESULT_DIR)/synth_stat.txt $(PROJ_PATH)/syn_history.txt
+
 static:
 	verilator $(STATIC_CHECK_FLAG) --top-module ysyx_26040135 $(DEFAULT_FLAGS) $(WARNING_IGNORE_FLAG) $(SOURCES)
 
 
-
-.PHONY: init syn sta clean static
+.PHONY: init syn sta clean static record
 
 
 

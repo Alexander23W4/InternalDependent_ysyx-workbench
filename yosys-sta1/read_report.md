@@ -1,4 +1,5 @@
 ## 读综合报告
+总的来说:  Freq Area Power (PPA)
 
 # .rpt文件   时序报告
 1. 关键路径总表:
@@ -90,3 +91,10 @@ grep -cE "DLATCH|DLH|LATCH" ysyx_26040135.netlist.v
 # synth_stat.txt  组件使用报告 + 面积
 
 看每一种component使用了多少, 什么东西占面积大了
+
+
+# .pwr 功耗分析报告
+
+Internal Power：标准单元内部功耗。
+Switch Power：信号网络充放电产生的功耗。
+Leakage Power：晶体管即使没有发生逻辑切换，也会产生的静态漏电功耗。

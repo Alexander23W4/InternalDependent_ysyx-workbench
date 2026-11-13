@@ -164,9 +164,9 @@ module ysyx_26040135_AXI_IFU (
                     pc <= pc_flush;
                 end else begin
                     if(bus.rresp == 2'b00) begin
-                        out_instr  <= bus.rdata;
+                        out_instr <= bus.rdata;
                         out_pc <= pc;
-                        out_valid  <= 1'b1;
+                        out_valid <= 1'b1;
                         error_save <= 2'b00;
                         pc <= pc + 32'd4;   // 默认分支预测
                     end else begin

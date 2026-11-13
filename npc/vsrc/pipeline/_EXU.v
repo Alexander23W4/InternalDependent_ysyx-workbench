@@ -123,7 +123,8 @@ module ysyx_26040135_EXU (
     reg [31:0] csrw_rst;
 
 
-    always @(*) begin
+
+    always @(*) begin   // 这个在没in握手的时候就完成, 握手时用csr_rst_save锁存
         case(imm)
             32'h00000300: csrw_rst = mstatus;
             32'h00000305: csrw_rst = mtvec;
@@ -427,12 +428,13 @@ module ysyx_26040135_EXU (
 
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;
+    reg [31:0] add_rst_w;
 
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
     wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_ul;
     wire [31:0] add2 = add_save ? rdata2 : imm_save;  
-    wire [31:0] add_rst_w = add1 + add2;
+    wire [31:0] add_rst_w = add1 + add2;      // ⭐
     wire [31:0] sub_rst  = rdata1_ul - rdata2;
     wire [31:0] xor_rst  = rdata1_ul ^ rdata2;
     wire [31:0] xori_rst = rdata1_ul ^ imm_save;
@@ -509,7 +511,10 @@ module ysyx_26040135_EXU (
                 ({32{sltiu_save}} & sltiu_rst) |
                 ({32{csrrw_save | csrrs_save | csrrc_save}} & csr_rst_save);
 
+    end
 
+// ⭐: pc_flush带来一个关键长路径, 以 add_rst_w 和 pc_next_dft为寄存器边界, 分成两段
+    always @(*) begin
         pc_next_dft = pc_save + 32'd4;
 
         if(jalr_save) begin
@@ -550,7 +555,6 @@ module ysyx_26040135_EXU (
 
         pc_flush = new_pc;
     end
-
 
 
 endmodule

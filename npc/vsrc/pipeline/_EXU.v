@@ -140,7 +140,7 @@ module ysyx_26040135_EXU (
 
 
     localparam IDLE = 0, BLOCK = 1, WAIT_END = 2, EX = 3;
-    reg [1:0] state, next;
+    reg [2:0] state, next, last;
 
     always @(posedge clock or posedge reset) begin
         if(reset) begin
@@ -168,9 +168,11 @@ module ysyx_26040135_EXU (
             exu_work_cyc <= 0;
 
             state <= IDLE;
+            last <= IDLE;
 
         end else begin
             state <= next;
+            last <= state;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
             if(state == IDLE && in_valid && in_ready) begin
@@ -353,6 +355,10 @@ module ysyx_26040135_EXU (
         
         case (state)
             IDLE: begin
+                if((last == EX) && (new_pc != pc_next_dft)) begin
+                    flush = 1'b1;
+                end
+
                 if(in_valid && in_ready) begin
                     _new_instr = 1'b1;
                     if(ebreak) begin
@@ -394,11 +400,9 @@ module ysyx_26040135_EXU (
             end
 
             EX: begin   // 现在就是把EX固定成两个周期, 还是只有跳转部分弄成2个周期(控制分野)
-                if(new_pc != pc_next_dft) begin
-                    flush = 1'b1;
-                end
                 next = IDLE;
             end
+
         endcase
     end 
 

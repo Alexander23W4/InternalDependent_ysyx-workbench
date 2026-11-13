@@ -9,9 +9,7 @@ module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
 
     input [DATA_WIDTH-1:0] wdata, 
     output [DATA_WIDTH-1:0] rdata1,  
-    output [DATA_WIDTH-1:0] rdata2,
-
-    output [(DATA_WIDTH * (2**ADDR_WIDTH)) - 1 : 0] dbg_regs
+    output [DATA_WIDTH-1:0] rdata2
 );
 
     reg [DATA_WIDTH-1:0] gpr [2**ADDR_WIDTH-1:0];
@@ -28,14 +26,6 @@ module ysyx_26040135_dbg_register #(ADDR_WIDTH = 5, DATA_WIDTH = 32) (
             if (wen && waddr != 0) gpr[waddr] <= wdata;
         end
     end
-
-
-    genvar i;
-    generate
-        for (i = 0; i < 2**ADDR_WIDTH; i = i + 1) begin : gen_dbg
-            assign dbg_regs[DATA_WIDTH*i +: DATA_WIDTH] = gpr[i];
-        end
-    endgenerate
 
 endmodule
 

@@ -287,8 +287,7 @@ ysyx_26040135_EXU exu (
         .wdata(wdata_wbu), // WB
 
         .rdata1(rdata1),  // EX
-        .rdata2(rdata2),  // EX
-        .dbg_regs(dbg_reg)
+        .rdata2(rdata2)  // EX
     );
 
     wire valid_el;

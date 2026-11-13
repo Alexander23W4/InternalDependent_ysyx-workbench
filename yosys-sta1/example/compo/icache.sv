@@ -1,67 +1,103 @@
+/*
+根据上述流程, 实现一个简单的icache, 块大小为4B, 共16个cache块. 
+⭐: 本icache 只向 FLASH 和 SDRAM 提供缓存, 如果在其他空间, 则不调用缓存, 直接将指令沿着总线向下传递
+Flash	              0x3000_0000~0x3fff_ffff    
+SDRAM	              0xa000_0000~0xbfff_ffff
+
+⭐: 实现时, 建议将相关参数实现成可配置的, 以便于后续评估不同配置参数的性能表现. 实现后, 尝试评估其性能表现.
+
+IFU向icache发送取指请求
+
+icache获得取指请求的地址后, 根据index部分索引出一个cache块, 判断其tag与请求地址的tag是否相同, 并检查该cache块是否有效. 若同时满足上述条件, 则命中, 跳转到第5步
+
+通过总线在DRAM中读出请求所在的数据块
+
+将该数据块填入相应cache块中, 更新元数据
+
+向IFU返回取出的指令
+
+⭐: 增加有关icache的 perf counter:
+icache 的 hit数 和 miss数
+icache 的 hit的CPI 和 miss的CPI
+
+
+------------------------------------------------------------------------------------------------
+⭐ 支持任意块大小(2 的幂, >= 4 字节):
+    真正要调的参数只有 ICACHE_LINE_BYTES(块大小, 字节) 和 ICACHE_LINE_AMT(块数),
+    offset/index/tag 的位宽和"一行几个 32 位字"全部推出来 -> 换块大小只改一个参数。
+
+   块 > 4B 时:
+     - 取的是**整行**: 用突发读(arlen = 一行几个字 - 1, arburst = INCR), 一拍收一个 32 位字,
+       按拍号填进行里, 收到 rlast 才把 valid 置起来;
+     - 返回给 IFU 时, 用地址里的 offset 从行里**选出**它要的那 32 位。
+   块 = 4B 时这两件事都退化成原来的行为: arlen=0(单拍), 行里只有 1 个字, 选出来就是它本身。
+
+⭐: 支持burst传输
+2'b00 → FIXED
+2'b01 → INCR
+2'b10 → WRAP
+
+*/
 
 module ysyx_26040135_AXI_ICACHE (
-    input  logic [31:0] bus_araddr,
-    input  logic        bus_arvalid,
-    output logic        bus_arready,
+        input  logic [31:0] bus_araddr,
     input  logic [3:0]  bus_arid,
     input  logic [7:0]  bus_arlen,
     input  logic [2:0]  bus_arsize,
     input  logic [1:0]  bus_arburst,
+    input  logic        bus_arvalid,
+    output logic        bus_arready,
     output logic [31:0] bus_rdata,
+    output logic [3:0]  bus_rid,
     output logic [1:0]  bus_rresp,
+    output logic        bus_rlast,
     output logic        bus_rvalid,
     input  logic        bus_rready,
-    output logic [3:0]  bus_rid,
-    output logic        bus_rlast,
-
     input  logic [31:0] bus_awaddr,
-    input  logic        bus_awvalid,
-    output logic        bus_awready,
     input  logic [3:0]  bus_awid,
     input  logic [7:0]  bus_awlen,
     input  logic [2:0]  bus_awsize,
     input  logic [1:0]  bus_awburst,
+    input  logic        bus_awvalid,
+    output logic        bus_awready,
     input  logic [31:0] bus_wdata,
     input  logic [3:0]  bus_wstrb,
-    input  logic        bus_wvalid,
     input  logic        bus_wlast,
+    input  logic        bus_wvalid,
     output logic        bus_wready,
     output logic [3:0]  bus_bid,
     output logic [1:0]  bus_bresp,
     output logic        bus_bvalid,
     input  logic        bus_bready,
-
-    output logic [31:0] mbus_araddr,
-    output logic        mbus_arvalid,
-    input  logic        mbus_arready,
+        output logic [31:0] mbus_araddr,
     output logic [3:0]  mbus_arid,
     output logic [7:0]  mbus_arlen,
     output logic [2:0]  mbus_arsize,
     output logic [1:0]  mbus_arburst,
+    output logic        mbus_arvalid,
+    input  logic        mbus_arready,
     input  logic [31:0] mbus_rdata,
+    input  logic [3:0]  mbus_rid,
     input  logic [1:0]  mbus_rresp,
+    input  logic        mbus_rlast,
     input  logic        mbus_rvalid,
     output logic        mbus_rready,
-    input  logic [3:0]  mbus_rid,
-    input  logic        mbus_rlast,
-
     output logic [31:0] mbus_awaddr,
-    output logic        mbus_awvalid,
-    input  logic        mbus_awready,
     output logic [3:0]  mbus_awid,
     output logic [7:0]  mbus_awlen,
     output logic [2:0]  mbus_awsize,
     output logic [1:0]  mbus_awburst,
+    output logic        mbus_awvalid,
+    input  logic        mbus_awready,
     output logic [31:0] mbus_wdata,
     output logic [3:0]  mbus_wstrb,
-    output logic        mbus_wvalid,
     output logic        mbus_wlast,
+    output logic        mbus_wvalid,
     input  logic        mbus_wready,
     input  logic [3:0]  mbus_bid,
     input  logic [1:0]  mbus_bresp,
     input  logic        mbus_bvalid,
     output logic        mbus_bready,
-
     input clock, 
     input reset,
 
@@ -87,7 +123,7 @@ module ysyx_26040135_AXI_ICACHE (
     localparam CACHE_LINE_BITS = ICACHE_LINE_BYTES * 8;         // 一行多少位
     localparam LINE_WORDS      = ICACHE_LINE_BYTES / 4;         // 一行几个 32 位字 = 突发拍数
     localparam BEAT_LEN        = (LINE_WORDS > 1) ? $clog2(LINE_WORDS) : 1;
-    localparam [7:0] ARLEN     = (LINE_WORDS > 0) ? (LINE_WORDS - 1) : 8'd0; // AXI 的 arlen = 拍数 - 1
+    localparam [7:0] ARLEN     = LINE_WORDS[7:0] - 8'd1;           // AXI 的 arlen = 拍数 - 1
 
 
     // 可缓存区域的地址高位(见 ysyxsoc.h 的地址表)。两个区间都正好是从 0x?000_0000
@@ -117,7 +153,7 @@ module ysyx_26040135_AXI_ICACHE (
     assign current_tag   = araddr_save[31:INDEX_LEN+OFFSET_LEN];
     assign current_index = araddr_save[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
     // 字序号 = 偏移 >> 2; 块 = 4B 时 offset 只有 2 位, 右移完恒为 0
-    assign current_word  = araddr_save[OFFSET_LEN-1:0] >> 2;   // 直接按 32 位目标变量做零扩展
+    assign current_word  = {{(32-OFFSET_LEN){1'b0}}, araddr_save[OFFSET_LEN-1:0]} >> 2;   // 显式零扩展到 32 位再移位
 
     // 突发读的起始地址: 对齐到这一行的开头
     wire [31:0] line_addr = {araddr_save[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
@@ -137,15 +173,12 @@ module ysyx_26040135_AXI_ICACHE (
                          (req_region == SDRAM_TAG0) || (req_region == SDRAM_TAG1);
 
 
-    localparam [2:0] IDLE     = 3'd0,
-                     OPERATE  = 3'd1,
-                     DRAM_AR  = 3'd2,
-                     DRAM_R   = 3'd3,
-                     RETURN   = 3'd4,
-                     WRITE_W  = 3'd5,
-                     WRITE_B  = 3'd6;
-    reg [2:0] state, next;
-    integer i;
+    typedef enum logic [2:0]{ 
+        IDLE, OPERATE, DRAM_AR, DRAM_R, RETURN, WRITE_W, WRITE_B
+    } state_t;
+    state_t state, next;
+
+
 
 
     always @( posedge clock or posedge reset ) begin
@@ -157,7 +190,7 @@ module ysyx_26040135_AXI_ICACHE (
             beat       <= '0;
             rdata_save <= '0;
 
-            for (i = 0; i < ICACHE_LINE_AMT; i = i + 1) begin
+            for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
                 icache[i] <= '0;
                 tag[i]    <= '0;
                 valid[i]  <= 1'b0;
@@ -325,5 +358,8 @@ module ysyx_26040135_AXI_ICACHE (
             default: next = IDLE;
         endcase
     end
+
+    // icache 的 master 只发读, W 通道不用, wlast 固定 0(vsrc 里本来悬空)
+    assign mbus_wlast = 1'b0;
 
 endmodule

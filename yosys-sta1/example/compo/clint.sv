@@ -42,38 +42,37 @@ mtime是一个64位寄存器, 运行在32位NPC上的软件需要依次读出mti
 */
 
 module ysyx_26040135_AXI_CLINT (
-    input  logic [31:0] bus_araddr,
-    input  logic        bus_arvalid,
-    output logic        bus_arready,
+        input  logic [31:0] bus_araddr,
     input  logic [3:0]  bus_arid,
     input  logic [7:0]  bus_arlen,
     input  logic [2:0]  bus_arsize,
     input  logic [1:0]  bus_arburst,
+    input  logic        bus_arvalid,
+    output logic        bus_arready,
     output logic [31:0] bus_rdata,
+    output logic [3:0]  bus_rid,
     output logic [1:0]  bus_rresp,
+    output logic        bus_rlast,
     output logic        bus_rvalid,
     input  logic        bus_rready,
-    output logic [3:0]  bus_rid,
-    output logic        bus_rlast,
-
     input  logic [31:0] bus_awaddr,
-    input  logic        bus_awvalid,
-    output logic        bus_awready,
     input  logic [3:0]  bus_awid,
     input  logic [7:0]  bus_awlen,
     input  logic [2:0]  bus_awsize,
     input  logic [1:0]  bus_awburst,
+    input  logic        bus_awvalid,
+    output logic        bus_awready,
     input  logic [31:0] bus_wdata,
     input  logic [3:0]  bus_wstrb,
-    input  logic        bus_wvalid,
     input  logic        bus_wlast,
+    input  logic        bus_wvalid,
     output logic        bus_wready,
     output logic [3:0]  bus_bid,
     output logic [1:0]  bus_bresp,
     output logic        bus_bvalid,
     input  logic        bus_bready,
 
-    input clock,
+    input clock, 
     input reset
 );
 
@@ -102,11 +101,10 @@ module ysyx_26040135_AXI_CLINT (
     //   W   : AW 已收下, 等 W 通道的写数据
     //   B   : 回写响应, 等 bready
     // ------------------------------------------------------------------
-    localparam [1:0] IDLE = 2'b00,
-                     R    = 2'b01,
-                     W    = 2'b10,
-                     B    = 2'b11;
-    reg [1:0] state, next;
+    typedef enum logic [1:0] {
+        IDLE, R, W, B
+    } state_t;
+    state_t state, next;
 
     // 事务信息锁存. 地址/ID 要在收到请求那一拍就记下来: master 离开 AR/AW 态之后
     // 这两个信号就可能变, 而响应要晚一拍才发.
@@ -188,13 +186,7 @@ module ysyx_26040135_AXI_CLINT (
                 end
                 else if(bus_awvalid) begin
                     bus_awready = 1'b1;
-                    if(bus_wvalid) begin
-                        bus_wready = 1'b1;
-                        next = B;
-                    end
-                    else begin
-                        next = W;
-                    end
+                    next = W;
                 end
             end
 
@@ -231,3 +223,6 @@ module ysyx_26040135_AXI_CLINT (
     end
 
 endmodule
+
+
+

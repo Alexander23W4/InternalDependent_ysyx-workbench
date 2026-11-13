@@ -1,11 +1,124 @@
 /* verilator lint_off UNUSEDSIGNAL */
 
-`ifndef WB_Q_LEN
-`define WB_Q_LEN 3
-`endif
+/*
+写verilog / SV之前, 要画好硬件框图: 组合逻辑块  寄存器  IP核  连线
+
+硬件描述部分: 变量定义(wire reg logic)   连线   时序逻辑块  组合逻辑和组合逻辑块
+
+UVM部分
+
+// ⭐  打⭐标注的都是cpu的 流控制 信号, 流控制信号固定使用寄存器, 用时序逻辑赋值
+*/
+
+/*
+SRAM	              0x0f00_0000~0x0fff_ffff     0x0f000000~0x0f001fff (8KB)
+MROM	              0x2000_0000~0x2000_0fff
+
+UART16550	          0x1000_0000~0x1000_0fff
+
+Flash	              0x3000_0000~0x3fff_ffff     0x3000_0000 ~ 0x30ff_ffff (16MB)
+SPI master	          0x1000_1000~0x1000_1fff
+
+PSRAM	              0x8000_0000~0x9fff_ffff
+SDRAM	              0xa000_0000~0xbfff_ffff
+
+GPIO	              0x1000_2000~0x1000_200f
+
+CLINT	              0x0200_0000~0x0200_ffff
+
+PS2	                  0x1001_1000~0x1001_1007
+VGA	                  0x2100_0000~0x211f_ffff
+ChipLink MMIO	      0x4000_0000~0x7fff_ffff
+ChipLink MEM	      0xc000_0000~0xffff_ffff
+
+
+
+
+⭐: 实现流水线处理器
+
+先把npc拆成5级流水, 中间加握手信号     IF | ID | EX | LS | (EX2)WB
+
+流水线存在以下三种冒险, 为了避免冒险, 就会造成阻塞, 降低流水线的效率
+
+结构冒险: 寄存器读只有 EX 用, 寄存器写只有 WB 用, 不会冲突
+        存储器, IF 和 LS 的同时访问读通道会有结构冒险, Xbar采用LSU优先 (至于更复杂的调度策略先留着)
+
+数据冒险: RAW 
+    寄存器RAW[WB]: 存下还没写的寄存器, 每次读寄存器都遍历, 如果有还没写完(发生RAW)就阻塞  (只要把 in.ready 和 out.valid 置为无效即可)
+
+    存储器RAW: 现在只有EX会写, 而且暂时不考虑自修改代码, 先默认 IF 不会 fetch 的指令是不会被修改的, 不存在存储器 RAW
+
+控制冒险:
+    选择最简单的分支预测
+
+    冲刷操作:
+    -> 清理控制信号                例如, 通过将valid置为无效, 可以将大部分部件正在执行的指令直接冲刷掉.
+    -> 等待并消除影响控制信号的因素
+    -> 确认推测正确后再更新状态量        寄存器堆, 更新CSR, 写内存, 访问外设
+
+
+⭐:
+流水线的目的就是为了降低P
+为了降低C, 必须要拆分长组合路径, 在中间加reg
+
+流水线的性能瓶颈就是在于  两种指令: 访存 和 跳转 
+    io前后依赖带来的强制串行 & ram的有限带宽和处理速度慢    
+    访存问题带来的阻塞, 具体表现为IFU & LSU 阻塞其他级, 使得其他级空闲, 没有充分工作来降低P
+
+    跳转的问题就是分支预测带来的flush时间
+
+我能想到的解决方案有:
+-> 优化分支预测算法
+静态分支预测     dsa核可以根据应用场景的统计规律设置统计上最优的分支预测算法
+动态分支预测
+
+-> 减少访存时间:
+减少访存  
+分散访存(不要连续访存)[编译器]   
+使用cache
+
+-> 不要让访存阻塞其他级
+旁路bypass     现在已经实现
+乱序多发射      如果一个指令因为各种原因被阻塞(io依赖, 访存..), 那么先进行后面的指令   (乱序可以尝试下, 多发射需要多个功能部件, 面积不允许)
+尽可能把存在io依赖的多个指令放得最开[编译器]
+
+
+设置性能计数器: 
+每一级的工作时长占比  被阻塞因素占比(EXU的 gpr依赖阻塞, 被LSU阻塞, 被WBU阻塞)
+每种指令的产生比例
+CPI(P)
+*/
+
+/*
+先明确流片的面积和时序要求    23000(25000)um2   
+    [yzh的参考设计在添加icache后面积为22730, 同时频率可以达到1081MHz, 运行microbench显示的Total time为4.49s.]
+
+改WBW, 完成初始版本的形式化验证
+做出来npc的可留片版本, 看懂面积, 时序, 最长路径(C)
+
+优化:
+
+⭐ pipeline: 
+lsu支持 sw 并行 (SS)
+将内存读口x2, 支持lsu和ifu同时读取 (SS)
+解决WBW, 将wbu算法改成简单阻塞, 不要列可能性. 或者尝试开发 register renaming  (DHS)
+分支预测算法 (CS)
+尝试乱序(DHS)
+
+⭐ Cache:
+cache的优化, 替换算法, block, set-associative, 大小
+
+⭐ C:
+最后优化时钟周期
+
+⭐ 错误处理, 比如bresp != 2'b00, 怎么处理    (纯硬件)
+
+优化RTL的写法, verilog的省A & PW的方法
+*/
 
 module ysyx_26040135(
     
+    // ⭐: 现在cpu的引脚已经完全符合要求
     input clock,
     input reset,
     input io_interrupt,   //
@@ -81,126 +194,162 @@ module ysyx_26040135(
 
 );
 
-    function automatic [`WB_Q_LEN*6-1:0] wb_q_enqueue;
-        input [5:0] new_data;
-        input [`WB_Q_LEN*6-1:0] queue;
+/*
+让流水线寄存器先跑起来, verilator先跑起来
 
-        reg [`WB_Q_LEN*6-1:0] result;
-        reg found;
-        integer i;
+通过形式化验证后, 我们的重点应该放在通过仿真和综合获取关键数据: 性能计数器(I,P), 面积, C(关键组合路径), 功耗
 
-        begin
-            result = queue;
-            found = 1'b0;
+跑通所有tb, 并且弄好verilator仿真环境所有debug-infra + 波形debug醇熟
 
-            for (i = 0; i < `WB_Q_LEN; i = i + 1) begin
-                if (!found && (queue[(i*6) +: 6] == 6'b0)) begin
-                    result[(i*6) +: 6] = new_data;
-                    found = 1'b1;
-                end
-            end
+把rtl弄成可综合的, 然后看关键组合路径, 消减时钟频率
 
-            wb_q_enqueue = result;
-        end
-    endfunction
+研究节省PAP的rtl写法
+
+研究rocketchip的设计框图和rtl
+
+阅读计算的本质, 重新精度ysyx代码和riscv开放架构设计之道, 重点注意gcc-flag, 每个flag对IPC的作用
+
+形式化验证
+
+读CAAQ
+*/
+
+
+// 引出到verilator顶层的信号写在这里
+    wire [32*32-1:0] dbg_reg;   
+    wire [31:0] _mstatus, _mepc, _mcause, _mtvec, _mcycle, _mcycleh, _mvendorid, _marchid; 
+    wire [31:0] _pc;
+    wire [31:0] _instr;
+    
+    wire _new_instr;
+
+    wire [1:0]  __ifu_error;     
+    wire        __ifu_master_validation_error;    
+    wire [1:0]  __lsu_error;   
+
     wire __ebreak_end;
+    wire _wen;   // 用于确定difftest时机
+    wire [31:0] _wbu_pc;
 
-    // Plain Verilog AXI signal bundles instead of SystemVerilog interface/modport.
-    wire [31:0] bus_ifu_araddr, bus_ifu_awaddr, bus_ifu_wdata, bus_ifu_rdata;
-    wire        bus_ifu_arvalid, bus_ifu_arready, bus_ifu_rvalid, bus_ifu_rready, bus_ifu_rlast;
-    wire        bus_ifu_awvalid, bus_ifu_awready, bus_ifu_wvalid, bus_ifu_wready, bus_ifu_wlast, bus_ifu_bvalid, bus_ifu_bready;
-    wire [3:0]  bus_ifu_arid, bus_ifu_rid, bus_ifu_awid, bus_ifu_wstrb, bus_ifu_bid;
-    wire [7:0]  bus_ifu_arlen, bus_ifu_awlen;
-    wire [2:0]  bus_ifu_arsize, bus_ifu_awsize;
-    wire [1:0]  bus_ifu_arburst, bus_ifu_awburst, bus_ifu_rresp, bus_ifu_bresp;
-
-    wire [31:0] bus_lsu_araddr, bus_lsu_awaddr, bus_lsu_wdata, bus_lsu_rdata;
-    wire        bus_lsu_arvalid, bus_lsu_arready, bus_lsu_rvalid, bus_lsu_rready, bus_lsu_rlast;
-    wire        bus_lsu_awvalid, bus_lsu_awready, bus_lsu_wvalid, bus_lsu_wready, bus_lsu_wlast, bus_lsu_bvalid, bus_lsu_bready;
-    wire [3:0]  bus_lsu_arid, bus_lsu_rid, bus_lsu_awid, bus_lsu_wstrb, bus_lsu_bid;
-    wire [7:0]  bus_lsu_arlen, bus_lsu_awlen;
-    wire [2:0]  bus_lsu_arsize, bus_lsu_awsize;
-    wire [1:0]  bus_lsu_arburst, bus_lsu_awburst, bus_lsu_rresp, bus_lsu_bresp;
-
-    wire [31:0] bus_icache_araddr, bus_icache_awaddr, bus_icache_wdata, bus_icache_rdata;
-    wire        bus_icache_arvalid, bus_icache_arready, bus_icache_rvalid, bus_icache_rready, bus_icache_rlast;
-    wire        bus_icache_awvalid, bus_icache_awready, bus_icache_wvalid, bus_icache_wready, bus_icache_wlast, bus_icache_bvalid, bus_icache_bready;
-    wire [3:0]  bus_icache_arid, bus_icache_rid, bus_icache_awid, bus_icache_wstrb, bus_icache_bid;
-    wire [7:0]  bus_icache_arlen, bus_icache_awlen;
-    wire [2:0]  bus_icache_arsize, bus_icache_awsize;
-    wire [1:0]  bus_icache_arburst, bus_icache_awburst, bus_icache_rresp, bus_icache_bresp;
-
-    wire [31:0] bus_master_araddr, bus_master_awaddr, bus_master_wdata, bus_master_rdata;
-    wire        bus_master_arvalid, bus_master_arready, bus_master_rvalid, bus_master_rready, bus_master_rlast;
-    wire        bus_master_awvalid, bus_master_awready, bus_master_wvalid, bus_master_wready, bus_master_wlast, bus_master_bvalid, bus_master_bready;
-    wire [3:0]  bus_master_arid, bus_master_rid, bus_master_awid, bus_master_wstrb, bus_master_bid;
-    wire [7:0]  bus_master_arlen, bus_master_awlen;
-    wire [2:0]  bus_master_arsize, bus_master_awsize;
-    wire [1:0]  bus_master_arburst, bus_master_awburst, bus_master_rresp, bus_master_bresp;
-
-    wire [31:0] bus_clint_araddr, bus_clint_awaddr, bus_clint_wdata, bus_clint_rdata;
-    wire        bus_clint_arvalid, bus_clint_arready, bus_clint_rvalid, bus_clint_rready, bus_clint_rlast;
-    wire        bus_clint_awvalid, bus_clint_awready, bus_clint_wvalid, bus_clint_wready, bus_clint_wlast, bus_clint_bvalid, bus_clint_bready;
-    wire [3:0]  bus_clint_arid, bus_clint_rid, bus_clint_awid, bus_clint_wstrb, bus_clint_bid;
-    wire [7:0]  bus_clint_arlen, bus_clint_awlen;
-    wire [2:0]  bus_clint_arsize, bus_clint_awsize;
-    wire [1:0]  bus_clint_arburst, bus_clint_awburst, bus_clint_rresp, bus_clint_bresp;
-
-
-// 流水线控制功能型寄存器
-
-    reg [(`WB_Q_LEN*6)-1:0] wb_q;    // write back queue   编码 xxxxx(写入的寄存器) x(rd的来源l/s)   这里留4个空, 认为最多不会超过4个在途rd
+    assign _wen = wen;
+    assign _wbu_pc = wbu_pc_out;
 
 // 流水线级间连接
 
     wire sw_avail;
-    wire sw_addr;
+    wire [31:0] sw_addr;   
 
     ysyx_26040135_AXI_ICACHE icache (
-        .bus_araddr(bus_ifu_araddr), .bus_arvalid(bus_ifu_arvalid), .bus_arready(bus_ifu_arready),
-        .bus_arid(bus_ifu_arid), .bus_arlen(bus_ifu_arlen), .bus_arsize(bus_ifu_arsize), .bus_arburst(bus_ifu_arburst),
-        .bus_rdata(bus_ifu_rdata), .bus_rresp(bus_ifu_rresp), .bus_rvalid(bus_ifu_rvalid), .bus_rready(bus_ifu_rready),
-        .bus_rid(bus_ifu_rid), .bus_rlast(bus_ifu_rlast),
-        .bus_awaddr(bus_ifu_awaddr), .bus_awvalid(bus_ifu_awvalid), .bus_awready(bus_ifu_awready),
-        .bus_awid(bus_ifu_awid), .bus_awlen(bus_ifu_awlen), .bus_awsize(bus_ifu_awsize), .bus_awburst(bus_ifu_awburst),
-        .bus_wdata(bus_ifu_wdata), .bus_wstrb(bus_ifu_wstrb), .bus_wvalid(bus_ifu_wvalid), .bus_wlast(bus_ifu_wlast),
-        .bus_wready(bus_ifu_wready), .bus_bid(bus_ifu_bid), .bus_bresp(bus_ifu_bresp), .bus_bvalid(bus_ifu_bvalid),
-        .bus_bready(bus_ifu_bready),
-        .mbus_araddr(bus_icache_araddr), .mbus_arvalid(bus_icache_arvalid), .mbus_arready(bus_icache_arready),
-        .mbus_arid(bus_icache_arid), .mbus_arlen(bus_icache_arlen), .mbus_arsize(bus_icache_arsize), .mbus_arburst(bus_icache_arburst),
-        .mbus_rdata(bus_icache_rdata), .mbus_rresp(bus_icache_rresp), .mbus_rvalid(bus_icache_rvalid), .mbus_rready(bus_icache_rready),
-        .mbus_rid(bus_icache_rid), .mbus_rlast(bus_icache_rlast),
-        .mbus_awaddr(bus_icache_awaddr), .mbus_awvalid(bus_icache_awvalid), .mbus_awready(bus_icache_awready),
-        .mbus_awid(bus_icache_awid), .mbus_awlen(bus_icache_awlen), .mbus_awsize(bus_icache_awsize), .mbus_awburst(bus_icache_awburst),
-        .mbus_wdata(bus_icache_wdata), .mbus_wstrb(bus_icache_wstrb), .mbus_wvalid(bus_icache_wvalid), .mbus_wlast(bus_icache_wlast),
-        .mbus_wready(bus_icache_wready), .mbus_bid(bus_icache_bid), .mbus_bresp(bus_icache_bresp), .mbus_bvalid(bus_icache_bvalid),
-        .mbus_bready(bus_icache_bready),
-        .clock(clock),
-        .reset(reset),
+        .bus_araddr (bus_ifu_araddr),
+        .bus_arid (bus_ifu_arid),
+        .bus_arlen (bus_ifu_arlen),
+        .bus_arsize (bus_ifu_arsize),
+        .bus_arburst (bus_ifu_arburst),
+        .bus_arvalid (bus_ifu_arvalid),
+        .bus_arready (bus_ifu_arready),
+        .bus_rdata (bus_ifu_rdata),
+        .bus_rid (bus_ifu_rid),
+        .bus_rresp (bus_ifu_rresp),
+        .bus_rlast (bus_ifu_rlast),
+        .bus_rvalid (bus_ifu_rvalid),
+        .bus_rready (bus_ifu_rready),
+        .bus_awaddr (bus_ifu_awaddr),
+        .bus_awid (bus_ifu_awid),
+        .bus_awlen (bus_ifu_awlen),
+        .bus_awsize (bus_ifu_awsize),
+        .bus_awburst (bus_ifu_awburst),
+        .bus_awvalid (bus_ifu_awvalid),
+        .bus_awready (bus_ifu_awready),
+        .bus_wdata (bus_ifu_wdata),
+        .bus_wstrb (bus_ifu_wstrb),
+        .bus_wlast (bus_ifu_wlast),
+        .bus_wvalid (bus_ifu_wvalid),
+        .bus_wready (bus_ifu_wready),
+        .bus_bid (bus_ifu_bid),
+        .bus_bresp (bus_ifu_bresp),
+        .bus_bvalid (bus_ifu_bvalid),
+        .bus_bready (bus_ifu_bready),
+        .mbus_araddr (bus_icache_araddr),
+        .mbus_arid (bus_icache_arid),
+        .mbus_arlen (bus_icache_arlen),
+        .mbus_arsize (bus_icache_arsize),
+        .mbus_arburst (bus_icache_arburst),
+        .mbus_arvalid (bus_icache_arvalid),
+        .mbus_arready (bus_icache_arready),
+        .mbus_rdata (bus_icache_rdata),
+        .mbus_rid (bus_icache_rid),
+        .mbus_rresp (bus_icache_rresp),
+        .mbus_rlast (bus_icache_rlast),
+        .mbus_rvalid (bus_icache_rvalid),
+        .mbus_rready (bus_icache_rready),
+        .mbus_awaddr (bus_icache_awaddr),
+        .mbus_awid (bus_icache_awid),
+        .mbus_awlen (bus_icache_awlen),
+        .mbus_awsize (bus_icache_awsize),
+        .mbus_awburst (bus_icache_awburst),
+        .mbus_awvalid (bus_icache_awvalid),
+        .mbus_awready (bus_icache_awready),
+        .mbus_wdata (bus_icache_wdata),
+        .mbus_wstrb (bus_icache_wstrb),
+        .mbus_wlast (bus_icache_wlast),
+        .mbus_wvalid (bus_icache_wvalid),
+        .mbus_wready (bus_icache_wready),
+        .mbus_bid (bus_icache_bid),
+        .mbus_bresp (bus_icache_bresp),
+        .mbus_bvalid (bus_icache_bvalid),
+        .mbus_bready (bus_icache_bready),
+        .clock                          (clock),
+        .reset                          (reset),
 
-        .sw_addr(sw_addr),
-        .sw_avail(sw_avail)
+        .sw_addr                        (sw_addr),
+        .sw_avail                       (sw_avail)
     );
 
     ysyx_26040135_AXI_IFU ifu (
-        .bus_araddr(bus_ifu_araddr), .bus_arvalid(bus_ifu_arvalid), .bus_arready(bus_ifu_arready),
-        .bus_arid(bus_ifu_arid), .bus_arlen(bus_ifu_arlen), .bus_arsize(bus_ifu_arsize), .bus_arburst(bus_ifu_arburst),
-        .bus_rdata(bus_ifu_rdata), .bus_rresp(bus_ifu_rresp), .bus_rvalid(bus_ifu_rvalid), .bus_rready(bus_ifu_rready),
-        .bus_rid(bus_ifu_rid), .bus_rlast(bus_ifu_rlast),
-        .bus_awaddr(bus_ifu_awaddr), .bus_awvalid(bus_ifu_awvalid), .bus_awready(bus_ifu_awready),
-        .bus_awid(bus_ifu_awid), .bus_awlen(bus_ifu_awlen), .bus_awsize(bus_ifu_awsize), .bus_awburst(bus_ifu_awburst),
-        .bus_wdata(bus_ifu_wdata), .bus_wstrb(bus_ifu_wstrb), .bus_wvalid(bus_ifu_wvalid), .bus_wlast(bus_ifu_wlast),
-        .bus_wready(bus_ifu_wready), .bus_bid(bus_ifu_bid), .bus_bresp(bus_ifu_bresp), .bus_bvalid(bus_ifu_bvalid),
-        .bus_bready(bus_ifu_bready),
+        .bus_araddr (bus_ifu_araddr),
+        .bus_arid (bus_ifu_arid),
+        .bus_arlen (bus_ifu_arlen),
+        .bus_arsize (bus_ifu_arsize),
+        .bus_arburst (bus_ifu_arburst),
+        .bus_arvalid (bus_ifu_arvalid),
+        .bus_arready (bus_ifu_arready),
+        .bus_rdata (bus_ifu_rdata),
+        .bus_rid (bus_ifu_rid),
+        .bus_rresp (bus_ifu_rresp),
+        .bus_rlast (bus_ifu_rlast),
+        .bus_rvalid (bus_ifu_rvalid),
+        .bus_rready (bus_ifu_rready),
+        .bus_awaddr (bus_ifu_awaddr),
+        .bus_awid (bus_ifu_awid),
+        .bus_awlen (bus_ifu_awlen),
+        .bus_awsize (bus_ifu_awsize),
+        .bus_awburst (bus_ifu_awburst),
+        .bus_awvalid (bus_ifu_awvalid),
+        .bus_awready (bus_ifu_awready),
+        .bus_wdata (bus_ifu_wdata),
+        .bus_wstrb (bus_ifu_wstrb),
+        .bus_wlast (bus_ifu_wlast),
+        .bus_wvalid (bus_ifu_wvalid),
+        .bus_wready (bus_ifu_wready),
+        .bus_bid (bus_ifu_bid),
+        .bus_bresp (bus_ifu_bresp),
+        .bus_bvalid (bus_ifu_bvalid),
+        .bus_bready (bus_ifu_bready),
         .clock(clock),
         .reset(reset),
+        .__error(__ifu_error),
+        .__master_validation_error(__ifu_master_validation_error),
         .out_instr(instr),
         .out_valid(valid_fd),
         .out_ready(ready_rd),
         .out_pc(pc),
         .flush(flush),
-        .pc_flush(pc_flush)
+        .pc_flush(pc_flush),
+        .ifu_work_cyc(ifu_work_cyc),
+        .ifu_block_cyc(ifu_block_cyc)
     ); 
+
+    wire [63:0] ifu_work_cyc, ifu_block_cyc;
 
     wire        flush;  
     wire [31:0] pc_flush;
@@ -237,37 +386,54 @@ module ysyx_26040135(
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
     wire [31:0] instr_de;
-    wire exu_new_wbt;
-    wire [5:0] exu_new_wbd;
 
 
-    ysyx_26040135_EXU exu (
-        .clock(clock), .reset(reset), .pc(pc_d), .instr(instr_de),
-        .rdata1(rdata1), .rdata2(rdata2), .imm(imm),
-        .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
-        .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst),
-        .andi(andi), .ori(ori), .xori(xori),
-        .sll(sll), .srl(srl), .sra(sra), .slli(slli), .srli(srli), .srai(srai),
-        .slt(slt), .sltu(sltu), .slti(slti), .sltiu(sltiu),
-        .jal(jal), .jalr(jalr),
-        .lb(lb), .lh(lh), .lw(lw), .lbu(lbu), .lhu(lhu),
-        .sb(sb), .sh(sh), .sw(sw),
-        .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
-        .ebreak(ebreak), .ecall(ecall), .mret(mret), .fence_i(fence_i),
-        .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
-        .rd(rd), .rs1(rs1), .rs2(rs2),
-        .lsu_blockf(lsu_blockf), .wbu_blockf(wbu_blockf),
-        .in_valid(valid_de), .in_ready(ready_de),
-        .out_valid_lsu(valid_el), .out_valid_wbu(valid_ew),
-        .out_ready_lsu(ready_el), .out_ready_wbu(ready_ew),
-        .io(io), .io_type(io_type), .read_is_u(read_is_u),
-        .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr),
-        .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
-        .flush(flush), .pc_flush(pc_flush),
-        .ebreak_end(__ebreak_end),
-        .wb_q(wb_q), .exu_new_wbd(exu_new_wbd), .exu_new_wbt(exu_new_wbt)
+ysyx_26040135_EXU exu (
+    .clock(clock), .reset(reset), .pc(pc_d), .instr(instr_de),
+    .rdata1(rdata1), .rdata2(rdata2), .imm(imm),
+    .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
+    .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst),
+    .andi(andi), .ori(ori), .xori(xori),
+    .sll(sll), .srl(srl), .sra(sra), .slli(slli), .srli(srli), .srai(srai),
+    .slt(slt), .sltu(sltu), .slti(slti), .sltiu(sltiu),
+    .jal(jal), .jalr(jalr),
+    .lb(lb), .lh(lh), .lw(lw), .lbu(lbu), .lhu(lhu),
+    .sb(sb), .sh(sh), .sw(sw),
+    .beq(beq), .bne(bne), .blt(blt), .bge(bge), .bltu(bltu), .bgeu(bgeu),
+    .ebreak(ebreak), .ecall(ecall), .mret(mret), .fence_i(fence_i),
+    .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
 
-    );
+    .rd(rd), .rs1(rs1), .rs2(rs2),
+
+    .lsu_blockf(lsu_blockf), .wbu_blockf(wbu_blockf),
+    .wen(wen), .rd_wb(rd_wbu),
+
+    ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
+    ._mcycle(_mcycle), ._mcycleh(_mcycleh),
+    ._mvendorid(_mvendorid), ._marchid(_marchid),
+    ._pc(_pc), ._instr(_instr), ._new_instr(_new_instr),
+
+    .in_valid(valid_de), .in_ready(ready_de),
+    .out_valid(valid_el),
+    .out_ready(ready_el),
+
+    .is_ls(is_ls),
+    .io(io), .io_type(io_type), .read_is_u(read_is_u),
+    .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr),
+    .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
+    .flush(flush), .pc_flush(pc_flush),
+
+    .exu_blockf_cyc(exu_blockf_cyc),
+    .exu_blcokbl_cyc(exu_blcokbl_cyc),
+    .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),
+
+    .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
+    .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen)
+);
+    wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
+    wire is_ls;
+    wire lsu_bypass_data_valid;
+
 
     ysyx_26040135_dbg_register #(5, 32) GPR (
         .clock(clock),
@@ -279,11 +445,12 @@ module ysyx_26040135(
         .wdata(wdata_wbu), // WB
 
         .rdata1(rdata1),  // EX
-        .rdata2(rdata2)   // EX
+        .rdata2(rdata2),  // EX
+        .dbg_regs(dbg_reg)
     );
 
-    wire valid_el, valid_ew;
-    wire ready_el, ready_ew;
+    wire valid_el;
+    wire ready_el;
     wire io;
     wire [1:0] io_type;
     wire read_is_u;
@@ -292,22 +459,44 @@ module ysyx_26040135(
     wire is_exu_rd, is_lsu_rd;
     wire [4:0] rd_exu;
     wire [31:0] rdata1, rdata2;
+    wire [63:0] lsu_blockf_cyc, lsu_blcokb_cyc, lsu_work_cyc;
     wire lsu_blockf;
 
 
     ysyx_26040135_AXI_LSU lsu (
-        .bus_araddr(bus_lsu_araddr), .bus_arvalid(bus_lsu_arvalid), .bus_arready(bus_lsu_arready),
-        .bus_arid(bus_lsu_arid), .bus_arlen(bus_lsu_arlen), .bus_arsize(bus_lsu_arsize), .bus_arburst(bus_lsu_arburst),
-        .bus_rdata(bus_lsu_rdata), .bus_rresp(bus_lsu_rresp), .bus_rvalid(bus_lsu_rvalid), .bus_rready(bus_lsu_rready),
-        .bus_rid(bus_lsu_rid), .bus_rlast(bus_lsu_rlast),
-        .bus_awaddr(bus_lsu_awaddr), .bus_awvalid(bus_lsu_awvalid), .bus_awready(bus_lsu_awready),
-        .bus_awid(bus_lsu_awid), .bus_awlen(bus_lsu_awlen), .bus_awsize(bus_lsu_awsize), .bus_awburst(bus_lsu_awburst),
-        .bus_wdata(bus_lsu_wdata), .bus_wstrb(bus_lsu_wstrb), .bus_wvalid(bus_lsu_wvalid), .bus_wlast(bus_lsu_wlast),
-        .bus_wready(bus_lsu_wready), .bus_bid(bus_lsu_bid), .bus_bresp(bus_lsu_bresp), .bus_bvalid(bus_lsu_bvalid),
-        .bus_bready(bus_lsu_bready),
+        .bus_araddr (bus_lsu_araddr),
+        .bus_arid (bus_lsu_arid),
+        .bus_arlen (bus_lsu_arlen),
+        .bus_arsize (bus_lsu_arsize),
+        .bus_arburst (bus_lsu_arburst),
+        .bus_arvalid (bus_lsu_arvalid),
+        .bus_arready (bus_lsu_arready),
+        .bus_rdata (bus_lsu_rdata),
+        .bus_rid (bus_lsu_rid),
+        .bus_rresp (bus_lsu_rresp),
+        .bus_rlast (bus_lsu_rlast),
+        .bus_rvalid (bus_lsu_rvalid),
+        .bus_rready (bus_lsu_rready),
+        .bus_awaddr (bus_lsu_awaddr),
+        .bus_awid (bus_lsu_awid),
+        .bus_awlen (bus_lsu_awlen),
+        .bus_awsize (bus_lsu_awsize),
+        .bus_awburst (bus_lsu_awburst),
+        .bus_awvalid (bus_lsu_awvalid),
+        .bus_awready (bus_lsu_awready),
+        .bus_wdata (bus_lsu_wdata),
+        .bus_wstrb (bus_lsu_wstrb),
+        .bus_wlast (bus_lsu_wlast),
+        .bus_wvalid (bus_lsu_wvalid),
+        .bus_wready (bus_lsu_wready),
+        .bus_bid (bus_lsu_bid),
+        .bus_bresp (bus_lsu_bresp),
+        .bus_bvalid (bus_lsu_bvalid),
+        .bus_bready (bus_lsu_bready),
         .clock(clock),
         .reset(reset),
 
+        .is_ls(is_ls),
         .io(io),
         .io_type(io_type),
         .read_is_u(read_is_u),
@@ -315,66 +504,104 @@ module ysyx_26040135(
         .lsu_wdata(lsu_wdata),
         .lsu_addr(lsu_addr),
         .ic_wb_wdata(ic_wb_wdata),
+        .pc_in(_pc),
 
         .in_valid(valid_el),
         .in_ready(ready_el),
         .out_valid(valid_lw),
         .out_ready(ready_lw),
 
+        .__error(__lsu_error),
         .wdata(wdata_lw),
-        .rd_out_lsu(rd_lsu),
+        .rd_out(rd_lsu),
+        .lsu_bypass_data_valid(lsu_bypass_data_valid),
+        .pc_out(lsu_pc_out),
+
+        .lsu_blockf_cyc(lsu_blockf_cyc),
+        .lsu_blcokb_cyc(lsu_blcokb_cyc),
+        .lsu_work_cyc(lsu_work_cyc),
         .lsu_blockf(lsu_blockf),
 
         .sw_addr(sw_addr),
-        .sw_avail(sw_avail),
-        .flush(lsu_flush)
+        .sw_avail(sw_avail)
     );
 
     wire valid_lw, ready_lw;
     wire [31:0] wdata_lw;
     wire [4:0] rd_lsu;
+    wire [63:0] wbu_blockf_cyc, wbu_work_cyc;
     wire wbu_blockf;
     wire lsu_flush;
+    wire [31:0] lsu_pc_out;
 
 
     ysyx_26040135_WBU wbu (
         .clock(clock),
         .reset(reset),
 
-        .in_valid_exu(valid_ew),
-        .in_ready_exu(ready_ew),
-        .rd_exu(rd_out),
-        .wdata_exu(ic_wb_wdata),
+        .in_valid(valid_lw),
+        .in_ready(ready_lw),
+        .rd(rd_lsu),
+        .wdata(wdata_lw),
+        .pc_in(lsu_pc_out),
 
-        .in_valid_lsu(valid_lw),
-        .in_ready_lsu(ready_lw),
-        .rd_lsu(rd_lsu),
-        .wdata_lsu(wdata_lw),
-
+        .wbu_blockf_cyc(wbu_blockf_cyc),
+        .wbu_work_cyc(wbu_work_cyc),
         .wbu_blockf(wbu_blockf),
 
         .wen(wen),
-        .rd(rd_wbu),
-        .wdata(wdata_wbu),
-
-        .wb_q(wb_q),
-        .exu_new_wbd(exu_new_wbd),
-        .exu_new_wbt(exu_new_wbt),
-        .flush(lsu_flush),
-        .wb_q_update(wb_q_update)
+        .rd_wb(rd_wbu),
+        .wdata_wb(wdata_wbu),
+        .pc_out(wbu_pc_out)
     );
 
     wire [4:0] rd_release;
     wire wen;
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;
-    wire [(`WB_Q_LEN*6)-1:0] wb_q_update;
+    wire [31:0] wbu_pc_out;
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 
 // ⭐: BUS 总线相关
+    wire [31:0] bus_ifu_araddr, bus_ifu_awaddr, bus_ifu_wdata, bus_ifu_rdata;
+    wire        bus_ifu_arvalid, bus_ifu_arready, bus_ifu_rvalid, bus_ifu_rready, bus_ifu_rlast;
+    wire        bus_ifu_awvalid, bus_ifu_awready, bus_ifu_wvalid, bus_ifu_wready, bus_ifu_wlast, bus_ifu_bvalid, bus_ifu_bready;
+    wire [3:0]  bus_ifu_arid, bus_ifu_rid, bus_ifu_awid, bus_ifu_wstrb, bus_ifu_bid;
+    wire [7:0]  bus_ifu_arlen, bus_ifu_awlen;
+    wire [2:0]  bus_ifu_arsize, bus_ifu_awsize;
+    wire [1:0]  bus_ifu_arburst, bus_ifu_awburst, bus_ifu_rresp, bus_ifu_bresp;
+    wire [31:0] bus_lsu_araddr, bus_lsu_awaddr, bus_lsu_wdata, bus_lsu_rdata;
+    wire        bus_lsu_arvalid, bus_lsu_arready, bus_lsu_rvalid, bus_lsu_rready, bus_lsu_rlast;
+    wire        bus_lsu_awvalid, bus_lsu_awready, bus_lsu_wvalid, bus_lsu_wready, bus_lsu_wlast, bus_lsu_bvalid, bus_lsu_bready;
+    wire [3:0]  bus_lsu_arid, bus_lsu_rid, bus_lsu_awid, bus_lsu_wstrb, bus_lsu_bid;
+    wire [7:0]  bus_lsu_arlen, bus_lsu_awlen;
+    wire [2:0]  bus_lsu_arsize, bus_lsu_awsize;
+    wire [1:0]  bus_lsu_arburst, bus_lsu_awburst, bus_lsu_rresp, bus_lsu_bresp;
+    wire [31:0] bus_master_araddr, bus_master_awaddr, bus_master_wdata, bus_master_rdata;
+    wire        bus_master_arvalid, bus_master_arready, bus_master_rvalid, bus_master_rready, bus_master_rlast;
+    wire        bus_master_awvalid, bus_master_awready, bus_master_wvalid, bus_master_wready, bus_master_wlast, bus_master_bvalid, bus_master_bready;
+    wire [3:0]  bus_master_arid, bus_master_rid, bus_master_awid, bus_master_wstrb, bus_master_bid;
+    wire [7:0]  bus_master_arlen, bus_master_awlen;
+    wire [2:0]  bus_master_arsize, bus_master_awsize;
+    wire [1:0]  bus_master_arburst, bus_master_awburst, bus_master_rresp, bus_master_bresp;
+    wire [31:0] bus_clint_araddr, bus_clint_awaddr, bus_clint_wdata, bus_clint_rdata;
+    wire        bus_clint_arvalid, bus_clint_arready, bus_clint_rvalid, bus_clint_rready, bus_clint_rlast;
+    wire        bus_clint_awvalid, bus_clint_awready, bus_clint_wvalid, bus_clint_wready, bus_clint_wlast, bus_clint_bvalid, bus_clint_bready;
+    wire [3:0]  bus_clint_arid, bus_clint_rid, bus_clint_awid, bus_clint_wstrb, bus_clint_bid;
+    wire [7:0]  bus_clint_arlen, bus_clint_awlen;
+    wire [2:0]  bus_clint_arsize, bus_clint_awsize;
+    wire [1:0]  bus_clint_arburst, bus_clint_awburst, bus_clint_rresp, bus_clint_bresp;
+    wire [31:0] bus_icache_araddr, bus_icache_awaddr, bus_icache_wdata, bus_icache_rdata;
+    wire        bus_icache_arvalid, bus_icache_arready, bus_icache_rvalid, bus_icache_rready, bus_icache_rlast;
+    wire        bus_icache_awvalid, bus_icache_awready, bus_icache_wvalid, bus_icache_wready, bus_icache_wlast, bus_icache_bvalid, bus_icache_bready;
+    wire [3:0]  bus_icache_arid, bus_icache_rid, bus_icache_awid, bus_icache_wstrb, bus_icache_bid;
+    wire [7:0]  bus_icache_arlen, bus_icache_awlen;
+    wire [2:0]  bus_icache_arsize, bus_icache_awsize;
+    wire [1:0]  bus_icache_arburst, bus_icache_awburst, bus_icache_rresp, bus_icache_bresp;
+
     assign io_master_awvalid = bus_master_awvalid;
     assign io_master_awid    = bus_master_awid;
     assign io_master_awaddr  = bus_master_awaddr;
@@ -388,10 +615,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     assign io_master_wstrb  = bus_master_wstrb;
     assign io_master_wlast  = bus_master_wlast;
 
+
     assign bus_master_wready = io_master_wready;
     assign bus_master_bvalid = io_master_bvalid;
     assign bus_master_bid    = io_master_bid;
     assign bus_master_bresp  = io_master_bresp;
+
 
     assign io_master_bready = bus_master_bready;
     assign io_master_arvalid = bus_master_arvalid;
@@ -409,60 +638,163 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     assign bus_master_rlast  = io_master_rlast;
     assign io_master_rready = bus_master_rready;
 
-    ysyx_26040135_AXI4_Xbar u_xbar (
-        .clock   (clock),
-        .reset   (reset),
-        .ifu_s_araddr(bus_icache_araddr), .ifu_s_arvalid(bus_icache_arvalid), .ifu_s_arready(bus_icache_arready),
-        .ifu_s_arid(bus_icache_arid), .ifu_s_arlen(bus_icache_arlen), .ifu_s_arsize(bus_icache_arsize), .ifu_s_arburst(bus_icache_arburst),
-        .ifu_s_rdata(bus_icache_rdata), .ifu_s_rresp(bus_icache_rresp), .ifu_s_rvalid(bus_icache_rvalid), .ifu_s_rready(bus_icache_rready),
-        .ifu_s_rid(bus_icache_rid), .ifu_s_rlast(bus_icache_rlast),
-        .ifu_s_awaddr(bus_icache_awaddr), .ifu_s_awvalid(bus_icache_awvalid), .ifu_s_awready(bus_icache_awready),
-        .ifu_s_awid(bus_icache_awid), .ifu_s_awlen(bus_icache_awlen), .ifu_s_awsize(bus_icache_awsize), .ifu_s_awburst(bus_icache_awburst),
-        .ifu_s_wdata(bus_icache_wdata), .ifu_s_wstrb(bus_icache_wstrb), .ifu_s_wvalid(bus_icache_wvalid), .ifu_s_wlast(bus_icache_wlast),
-        .ifu_s_wready(bus_icache_wready), .ifu_s_bid(bus_icache_bid), .ifu_s_bresp(bus_icache_bresp), .ifu_s_bvalid(bus_icache_bvalid),
-        .ifu_s_bready(bus_icache_bready),
-        .lsu_s_araddr(bus_lsu_araddr), .lsu_s_arvalid(bus_lsu_arvalid), .lsu_s_arready(bus_lsu_arready),
-        .lsu_s_arid(bus_lsu_arid), .lsu_s_arlen(bus_lsu_arlen), .lsu_s_arsize(bus_lsu_arsize), .lsu_s_arburst(bus_lsu_arburst),
-        .lsu_s_rdata(bus_lsu_rdata), .lsu_s_rresp(bus_lsu_rresp), .lsu_s_rvalid(bus_lsu_rvalid), .lsu_s_rready(bus_lsu_rready),
-        .lsu_s_rid(bus_lsu_rid), .lsu_s_rlast(bus_lsu_rlast),
-        .lsu_s_awaddr(bus_lsu_awaddr), .lsu_s_awvalid(bus_lsu_awvalid), .lsu_s_awready(bus_lsu_awready),
-        .lsu_s_awid(bus_lsu_awid), .lsu_s_awlen(bus_lsu_awlen), .lsu_s_awsize(bus_lsu_awsize), .lsu_s_awburst(bus_lsu_awburst),
-        .lsu_s_wdata(bus_lsu_wdata), .lsu_s_wstrb(bus_lsu_wstrb), .lsu_s_wvalid(bus_lsu_wvalid), .lsu_s_wlast(bus_lsu_wlast),
-        .lsu_s_wready(bus_lsu_wready), .lsu_s_bid(bus_lsu_bid), .lsu_s_bresp(bus_lsu_bresp), .lsu_s_bvalid(bus_lsu_bvalid),
-        .lsu_s_bready(bus_lsu_bready),
-        .m_m_araddr(bus_master_araddr), .m_m_arvalid(bus_master_arvalid), .m_m_arready(bus_master_arready),
-        .m_m_arid(bus_master_arid), .m_m_arlen(bus_master_arlen), .m_m_arsize(bus_master_arsize), .m_m_arburst(bus_master_arburst),
-        .m_m_rdata(bus_master_rdata), .m_m_rresp(bus_master_rresp), .m_m_rvalid(bus_master_rvalid), .m_m_rready(bus_master_rready),
-        .m_m_rid(bus_master_rid), .m_m_rlast(bus_master_rlast),
-        .m_m_awaddr(bus_master_awaddr), .m_m_awvalid(bus_master_awvalid), .m_m_awready(bus_master_awready),
-        .m_m_awid(bus_master_awid), .m_m_awlen(bus_master_awlen), .m_m_awsize(bus_master_awsize), .m_m_awburst(bus_master_awburst),
-        .m_m_wdata(bus_master_wdata), .m_m_wstrb(bus_master_wstrb), .m_m_wvalid(bus_master_wvalid), .m_m_wlast(bus_master_wlast),
-        .m_m_wready(bus_master_wready), .m_m_bid(bus_master_bid), .m_m_bresp(bus_master_bresp), .m_m_bvalid(bus_master_bvalid),
-        .m_m_bready(bus_master_bready),
-        .clint_m_araddr(bus_clint_araddr), .clint_m_arvalid(bus_clint_arvalid), .clint_m_arready(bus_clint_arready),
-        .clint_m_arid(bus_clint_arid), .clint_m_arlen(bus_clint_arlen), .clint_m_arsize(bus_clint_arsize), .clint_m_arburst(bus_clint_arburst),
-        .clint_m_rdata(bus_clint_rdata), .clint_m_rresp(bus_clint_rresp), .clint_m_rvalid(bus_clint_rvalid), .clint_m_rready(bus_clint_rready),
-        .clint_m_rid(bus_clint_rid), .clint_m_rlast(bus_clint_rlast),
-        .clint_m_awaddr(bus_clint_awaddr), .clint_m_awvalid(bus_clint_awvalid), .clint_m_awready(bus_clint_awready),
-        .clint_m_awid(bus_clint_awid), .clint_m_awlen(bus_clint_awlen), .clint_m_awsize(bus_clint_awsize), .clint_m_awburst(bus_clint_awburst),
-        .clint_m_wdata(bus_clint_wdata), .clint_m_wstrb(bus_clint_wstrb), .clint_m_wvalid(bus_clint_wvalid), .clint_m_wlast(bus_clint_wlast),
-        .clint_m_wready(bus_clint_wready), .clint_m_bid(bus_clint_bid), .clint_m_bresp(bus_clint_bresp), .clint_m_bvalid(bus_clint_bvalid),
-        .clint_m_bready(bus_clint_bready)
-    );
 
-    ysyx_26040135_AXI_CLINT u_clint (
-        .bus_araddr(bus_clint_araddr), .bus_arvalid(bus_clint_arvalid), .bus_arready(bus_clint_arready),
-        .bus_arid(bus_clint_arid), .bus_arlen(bus_clint_arlen), .bus_arsize(bus_clint_arsize), .bus_arburst(bus_clint_arburst),
-        .bus_rdata(bus_clint_rdata), .bus_rresp(bus_clint_rresp), .bus_rvalid(bus_clint_rvalid), .bus_rready(bus_clint_rready),
-        .bus_rid(bus_clint_rid), .bus_rlast(bus_clint_rlast),
-        .bus_awaddr(bus_clint_awaddr), .bus_awvalid(bus_clint_awvalid), .bus_awready(bus_clint_awready),
-        .bus_awid(bus_clint_awid), .bus_awlen(bus_clint_awlen), .bus_awsize(bus_clint_awsize), .bus_awburst(bus_clint_awburst),
-        .bus_wdata(bus_clint_wdata), .bus_wstrb(bus_clint_wstrb), .bus_wvalid(bus_clint_wvalid), .bus_wlast(bus_clint_wlast),
-        .bus_wready(bus_clint_wready), .bus_bid(bus_clint_bid), .bus_bresp(bus_clint_bresp), .bus_bvalid(bus_clint_bvalid),
-        .bus_bready(bus_clint_bready),
-        .clock(clock),
-        .reset(reset)
-    );
+
+ysyx_26040135_AXI4_Xbar u_xbar (
+    .clock   (clock),
+    .reset   (reset),
+    .ifu_s_araddr (bus_icache_araddr),
+    .ifu_s_arid (bus_icache_arid),
+    .ifu_s_arlen (bus_icache_arlen),
+    .ifu_s_arsize (bus_icache_arsize),
+    .ifu_s_arburst (bus_icache_arburst),
+    .ifu_s_arvalid (bus_icache_arvalid),
+    .ifu_s_arready (bus_icache_arready),
+    .ifu_s_rdata (bus_icache_rdata),
+    .ifu_s_rid (bus_icache_rid),
+    .ifu_s_rresp (bus_icache_rresp),
+    .ifu_s_rlast (bus_icache_rlast),
+    .ifu_s_rvalid (bus_icache_rvalid),
+    .ifu_s_rready (bus_icache_rready),
+    .ifu_s_awaddr (bus_icache_awaddr),
+    .ifu_s_awid (bus_icache_awid),
+    .ifu_s_awlen (bus_icache_awlen),
+    .ifu_s_awsize (bus_icache_awsize),
+    .ifu_s_awburst (bus_icache_awburst),
+    .ifu_s_awvalid (bus_icache_awvalid),
+    .ifu_s_awready (bus_icache_awready),
+    .ifu_s_wdata (bus_icache_wdata),
+    .ifu_s_wstrb (bus_icache_wstrb),
+    .ifu_s_wlast (bus_icache_wlast),
+    .ifu_s_wvalid (bus_icache_wvalid),
+    .ifu_s_wready (bus_icache_wready),
+    .ifu_s_bid (bus_icache_bid),
+    .ifu_s_bresp (bus_icache_bresp),
+    .ifu_s_bvalid (bus_icache_bvalid),
+    .ifu_s_bready (bus_icache_bready),
+    .lsu_s_araddr (bus_lsu_araddr),
+    .lsu_s_arid (bus_lsu_arid),
+    .lsu_s_arlen (bus_lsu_arlen),
+    .lsu_s_arsize (bus_lsu_arsize),
+    .lsu_s_arburst (bus_lsu_arburst),
+    .lsu_s_arvalid (bus_lsu_arvalid),
+    .lsu_s_arready (bus_lsu_arready),
+    .lsu_s_rdata (bus_lsu_rdata),
+    .lsu_s_rid (bus_lsu_rid),
+    .lsu_s_rresp (bus_lsu_rresp),
+    .lsu_s_rlast (bus_lsu_rlast),
+    .lsu_s_rvalid (bus_lsu_rvalid),
+    .lsu_s_rready (bus_lsu_rready),
+    .lsu_s_awaddr (bus_lsu_awaddr),
+    .lsu_s_awid (bus_lsu_awid),
+    .lsu_s_awlen (bus_lsu_awlen),
+    .lsu_s_awsize (bus_lsu_awsize),
+    .lsu_s_awburst (bus_lsu_awburst),
+    .lsu_s_awvalid (bus_lsu_awvalid),
+    .lsu_s_awready (bus_lsu_awready),
+    .lsu_s_wdata (bus_lsu_wdata),
+    .lsu_s_wstrb (bus_lsu_wstrb),
+    .lsu_s_wlast (bus_lsu_wlast),
+    .lsu_s_wvalid (bus_lsu_wvalid),
+    .lsu_s_wready (bus_lsu_wready),
+    .lsu_s_bid (bus_lsu_bid),
+    .lsu_s_bresp (bus_lsu_bresp),
+    .lsu_s_bvalid (bus_lsu_bvalid),
+    .lsu_s_bready (bus_lsu_bready),
+    .m_m_araddr (bus_master_araddr),
+    .m_m_arid (bus_master_arid),
+    .m_m_arlen (bus_master_arlen),
+    .m_m_arsize (bus_master_arsize),
+    .m_m_arburst (bus_master_arburst),
+    .m_m_arvalid (bus_master_arvalid),
+    .m_m_arready (bus_master_arready),
+    .m_m_rdata (bus_master_rdata),
+    .m_m_rid (bus_master_rid),
+    .m_m_rresp (bus_master_rresp),
+    .m_m_rlast (bus_master_rlast),
+    .m_m_rvalid (bus_master_rvalid),
+    .m_m_rready (bus_master_rready),
+    .m_m_awaddr (bus_master_awaddr),
+    .m_m_awid (bus_master_awid),
+    .m_m_awlen (bus_master_awlen),
+    .m_m_awsize (bus_master_awsize),
+    .m_m_awburst (bus_master_awburst),
+    .m_m_awvalid (bus_master_awvalid),
+    .m_m_awready (bus_master_awready),
+    .m_m_wdata (bus_master_wdata),
+    .m_m_wstrb (bus_master_wstrb),
+    .m_m_wlast (bus_master_wlast),
+    .m_m_wvalid (bus_master_wvalid),
+    .m_m_wready (bus_master_wready),
+    .m_m_bid (bus_master_bid),
+    .m_m_bresp (bus_master_bresp),
+    .m_m_bvalid (bus_master_bvalid),
+    .m_m_bready (bus_master_bready),
+    .clint_m_araddr (bus_clint_araddr),
+    .clint_m_arid (bus_clint_arid),
+    .clint_m_arlen (bus_clint_arlen),
+    .clint_m_arsize (bus_clint_arsize),
+    .clint_m_arburst (bus_clint_arburst),
+    .clint_m_arvalid (bus_clint_arvalid),
+    .clint_m_arready (bus_clint_arready),
+    .clint_m_rdata (bus_clint_rdata),
+    .clint_m_rid (bus_clint_rid),
+    .clint_m_rresp (bus_clint_rresp),
+    .clint_m_rlast (bus_clint_rlast),
+    .clint_m_rvalid (bus_clint_rvalid),
+    .clint_m_rready (bus_clint_rready),
+    .clint_m_awaddr (bus_clint_awaddr),
+    .clint_m_awid (bus_clint_awid),
+    .clint_m_awlen (bus_clint_awlen),
+    .clint_m_awsize (bus_clint_awsize),
+    .clint_m_awburst (bus_clint_awburst),
+    .clint_m_awvalid (bus_clint_awvalid),
+    .clint_m_awready (bus_clint_awready),
+    .clint_m_wdata (bus_clint_wdata),
+    .clint_m_wstrb (bus_clint_wstrb),
+    .clint_m_wlast (bus_clint_wlast),
+    .clint_m_wvalid (bus_clint_wvalid),
+    .clint_m_wready (bus_clint_wready),
+    .clint_m_bid (bus_clint_bid),
+    .clint_m_bresp (bus_clint_bresp),
+    .clint_m_bvalid (bus_clint_bvalid),
+    .clint_m_bready (bus_clint_bready)
+);
+
+
+ysyx_26040135_AXI_CLINT u_clint (
+    .bus_araddr (bus_clint_araddr),
+    .bus_arid (bus_clint_arid),
+    .bus_arlen (bus_clint_arlen),
+    .bus_arsize (bus_clint_arsize),
+    .bus_arburst (bus_clint_arburst),
+    .bus_arvalid (bus_clint_arvalid),
+    .bus_arready (bus_clint_arready),
+    .bus_rdata (bus_clint_rdata),
+    .bus_rid (bus_clint_rid),
+    .bus_rresp (bus_clint_rresp),
+    .bus_rlast (bus_clint_rlast),
+    .bus_rvalid (bus_clint_rvalid),
+    .bus_rready (bus_clint_rready),
+    .bus_awaddr (bus_clint_awaddr),
+    .bus_awid (bus_clint_awid),
+    .bus_awlen (bus_clint_awlen),
+    .bus_awsize (bus_clint_awsize),
+    .bus_awburst (bus_clint_awburst),
+    .bus_awvalid (bus_clint_awvalid),
+    .bus_awready (bus_clint_awready),
+    .bus_wdata (bus_clint_wdata),
+    .bus_wstrb (bus_clint_wstrb),
+    .bus_wlast (bus_clint_wlast),
+    .bus_wvalid (bus_clint_wvalid),
+    .bus_wready (bus_clint_wready),
+    .bus_bid (bus_clint_bid),
+    .bus_bresp (bus_clint_bresp),
+    .bus_bvalid (bus_clint_bvalid),
+    .bus_bready (bus_clint_bready),
+    .clock (clock),
+    .reset (reset)
+);
 
     assign io_slave_awready = 1'b0;
     assign io_slave_wready  = 1'b0;
@@ -477,33 +809,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     assign io_slave_rlast   = 1'b0;
 
 
-/*------------------------------------------------------------------------------------------------------------
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
--------------------------------------------------------------------------------------------------------------*/
-/*
-需要顶层维护的流水线控制逻辑
-*/
-
-// 应对数字冒险的寄存器io前后依赖记录
-    always @(posedge clock or posedge reset) begin
-        if(reset) begin
-            wb_q <= 0;
-        end else begin
-            if(wen) begin
-                wb_q <= wb_q_update;
-            end else begin
-                if(exu_new_wbt) begin
-                    wb_q <= wb_q_enqueue(exu_new_wbd, wb_q);
-                end
-            end
-        end
-    end
-
-
-
 
 endmodule
-
 
 /* verilator lint_off UNUSEDSIGNAL */
 

@@ -95,16 +95,7 @@ module ysyx_26040135_AXI_LSU (
             state <= IDLE;
             aw_done <= 1'b0;
             w_done  <= 1'b0;
-            rdata_out <= 32'b0;
             error_save <= 2'b00;
-
-            io_save <= 1'b0;
-            io_type_save <= 2'b00;
-            read_is_u_save <= 1'b0;
-            rd_save <= 5'b00000;
-            lsu_data_save <= 32'b0;
-            lsu_addr_save <= 32'b0;
-            ic_wb_wdata_save <= 32'b0;
 
             in_ready <= 1'b1;
             out_valid <= 1'b0;

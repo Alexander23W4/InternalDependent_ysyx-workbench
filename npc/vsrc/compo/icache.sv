@@ -139,7 +139,7 @@ module ysyx_26040135_AXI_ICACHE (
             // burst每一拍
             if(state == MISS_R && mbus.rvalid) begin
                 if(mbus.rresp == 2'b00) begin
-                    icache[current_index][beat*32+31: beat*32] <= mbus.rdata;
+                    icache[current_index][beat*32 +: 32] <= mbus.rdata;     // ⭐
 
                     if(mbus.rlast) begin
                         valid[current_index] <= 1'b1;   // 整行收齐了才算有效
@@ -229,7 +229,7 @@ module ysyx_26040135_AXI_ICACHE (
 
             RETURN: begin
                 bus.rvalid = 1'b1;
-                bus.rdata = icache[current_index][current_word*32+31: current_word * 32];
+                bus.rdata = icache[current_index][current_word*32 +: 32];    // ⭐
                 bus.rresp = rresp_save;           // 把存储器(如果有)的rresp带过来
                 if(bus.rready) begin
                     next = IDLE;

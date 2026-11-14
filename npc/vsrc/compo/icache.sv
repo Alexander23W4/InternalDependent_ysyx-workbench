@@ -49,8 +49,8 @@ cache一定是关键路径
 */
 
 module ysyx_26040135_AXI_ICACHE (
-    ysyx_26040135_AXI4.slave bus,
-    ysyx_26040135_AXI4.master mbus,
+    ysyx_26040135_AXI4.slave bus,    // 接收IFU的请求
+    ysyx_26040135_AXI4.master mbus,   // ->系统总线
     input clock, 
     input reset,
 
@@ -116,7 +116,7 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     typedef enum logic [2:0]{ 
-        IDLE, OPERATE, DRAM_AR, DRAM_R, RETURN, WRITE_W, WRITE_B
+        IDLE, OPERATE, DRAM_AR, DRAM_R, RETURN
     } state_t;
     state_t state, next;
 
@@ -137,13 +137,10 @@ module ysyx_26040135_AXI_ICACHE (
                 tag[i]    <= '0;
                 valid[i]  <= 1'b0;
             end
+
         end else begin
             state <= next;
 
-            // ---- 收下取指请求(AR), 把地址锁起来 ----
-            // ⭐ 这里只能看 arvalid, 不能再 && arready: 拉 arready 的那一拍已经挪到
-            //    OPERATE 态了, 在 IDLE 拿 arready 当条件永远不成立 ->
-            //    araddr_save 一直是复位值 0, icache 会拿着地址 0x0 去访存 -> 挂死。
             if(state == IDLE && bus.arvalid) begin
                 araddr_save <= bus.araddr;
                 rresp_save  <= 2'b00;       // 清掉上一次留下的错误码
@@ -203,13 +200,11 @@ module ysyx_26040135_AXI_ICACHE (
         bus.bid     = 4'b0;
 
         mbus.arvalid = 1'b0;
-        // 可缓存区域: 按行对齐发突发读, 一次把整行取回来;
-        // 不可缓存区域: 只取需要的那一个字(单拍), 没必要多读
         mbus.araddr = line_addr;
         mbus.arid = 4'b0000;
-        mbus.arlen = ARLEN;   // 一行几个字就发几拍; 4B 块时 = 0
-        mbus.arsize = 3'b010;           // 每拍 4 字节
-        mbus.arburst = 2'b01;           // INCR: 多拍时地址要递增
+        mbus.arlen = ARLEN;   // burst拍
+        mbus.arsize = 3'b010;    // 每拍 4 字节
+        mbus.arburst = 2'b01;   // INCR: 地址递增突发  
         mbus.rready = 1'b0;
 
         mbus.awvalid = 1'b0;
@@ -223,22 +218,12 @@ module ysyx_26040135_AXI_ICACHE (
         mbus.wvalid = 1'b0;
         mbus.bready = 1'b0;
 
+        next = IDLE;
+
         case (state)
             IDLE: begin
-                // 取指优先: icache 的正事就是给 IFU 取指
                 if(bus.arvalid) begin
                     next = OPERATE;
-                end
-                else if(bus.awvalid) begin
-                    // 本模块不支持写, 但按讲义要求也要把事务走完, 最后用 bresp=SLVERR 报错
-                    bus.awready = 1'b1;
-                    if(bus.wvalid) begin
-                        bus.wready = 1'b1;      // AW/W 同一拍来了就一起收下
-                        next = WRITE_B;
-                    end
-                    else begin
-                        next = WRITE_W;         // 只来了 AW, 去等写数据
-                    end
                 end
             end
 
@@ -279,24 +264,6 @@ module ysyx_26040135_AXI_ICACHE (
                 end
             end
 
-            WRITE_W: begin
-                // AW 已经收下了, 这里只等写数据(收下就丢)
-                if(bus.wvalid) begin
-                    bus.wready = 1'b1;
-                    next = WRITE_B;
-                end
-            end
-
-            WRITE_B: begin
-                bus.bvalid = 1'b1;
-                bus.bresp  = 2'b10;             // SLVERR: icache 只读, 不支持写
-                bus.bid    = bid_save;
-                if(bus.bready) begin
-                    next = IDLE;
-                end
-            end
-
-            default: next = IDLE;
         endcase
     end
 

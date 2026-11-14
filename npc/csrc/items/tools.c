@@ -163,15 +163,18 @@ void prt_gprs() {
 
 
 void statistical_print(){
-    printf("[CIRCLE] %d\n", cpu.mcycle);
+    printf("[CIRCLE] %" PRIu64 "\n", cpu.mcycle);
     printf("[INSTR] %d\n", instr_amt);
     if(instr_amt != 0){
-        printf("[CPI] %.2ld\n", cpu.mcycle / instr_amt);
+        printf("[CPI] %.2f\n", (double)cpu.mcycle / (double)instr_amt);
     }
-    printf("[IFU_STALL] %u\n", ifu_stall);
-    printf("[EXU_STALL] %u\n", exu_stall);
-    printf("[LSU_STALL] %u\n", lsu_stall);
-    printf("[WBU_STALL] %u\n", wbu_stall);
+    // 各级 stall 占总周期数的比例
+    double total_cyc = (double)cpu.mcycle;
+    double pct = (total_cyc > 0.0) ? 100.0 / total_cyc : 0.0;
+    printf("[IFU_STALL] %u (%.2f%%)\n", ifu_stall, (double)ifu_stall * pct);
+    printf("[EXU_STALL] %u (%.2f%%)\n", exu_stall, (double)exu_stall * pct);
+    printf("[LSU_STALL] %u (%.2f%%)\n", lsu_stall, (double)lsu_stall * pct);
+    printf("[WBU_STALL] %u (%.2f%%)\n", wbu_stall, (double)wbu_stall * pct);
 }
 
 

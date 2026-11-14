@@ -34,11 +34,11 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     `ifndef ICACHE_LINE_BYTES   // 这个cache_line 是要整体传输的, 所以最好设置成总线带宽的倍数, 这样方便burst传输
-        `define ICACHE_LINE_BYTES 8    // 对应 OFFSET
+        `define ICACHE_LINE_BYTES 16    // 对应 OFFSET
     `endif
 
     `ifndef ICACHE_LINE_AMT
-        `define ICACHE_LINE_AMT 8    // 对应 INDEX
+        `define ICACHE_LINE_AMT 4    // 对应 INDEX
     `endif
 
     parameter ICACHE_LINE_BYTES = `ICACHE_LINE_BYTES;

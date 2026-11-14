@@ -171,6 +171,7 @@ void statistical_print(){
     printf("[IFU_STALL] %u\n", ifu_stall);
     printf("[EXU_STALL] %u\n", exu_stall);
     printf("[LSU_STALL] %u\n", lsu_stall);
+    printf("[WBU_STALL] %u\n", wbu_stall);
 }
 
 
@@ -214,6 +215,9 @@ void check_stall(){
     }
     if(ifu_out_valid && !exu_in_ready && !exu_out_valid && lsu_in_ready && !lsu_out_valid && wbu_in_ready){
         exu_stall++;
+    }
+    if(ifu_out_valid && !exu_in_ready && exu_out_valid && !lsu_in_ready && lsu_out_valid && !wbu_in_ready){
+        wbu_stall++;
     }
 }
 

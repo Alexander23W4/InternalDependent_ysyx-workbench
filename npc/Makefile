@@ -62,7 +62,7 @@ INCLUDE_PATHS=-I./vsrc -I../ysyxSoC/perip/uart16550/rtl -I../ysyxSoC/perip/spi/r
 
 # ------------------------------------------------------------------------------------------------------
 
-ICACHE_LINE_BYTES ?= 16
+ICACHE_LINE_BYTES ?= 4
 ICACHE_LINE_AMT   ?= 16
 
 # 传进verilator

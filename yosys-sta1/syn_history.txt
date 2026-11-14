@@ -415,7 +415,7 @@ Total Power   ==  1.381e-02 W
 
 
 
-## 1.3.1
+## 1.3.1 icache(4, 16)
 这次是用大砍刀改了icache的写法, 原来的写法冗余, 没有涉及架构的优化
 +-----------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
 | Endpoint                                                                                                                                      | Clock Group              | Delay Type | Path Delay | Path Required | CPPR  | Slack | Freq(MHz) |
@@ -466,3 +466,58 @@ Total Power   ==  1.332e-02 W
 
    Chip area for module '\ysyx_26040135': 26330.808000
      of which used for sequential elements: 14868.868000 (56.47%)
+
+
+
+
+## 这次是把icache调到了(16, 16), 直接功耗和面积飙升.  证明cache的PPA权衡是非常关键的.  我们需要icache大幅降低流水线阻塞, 但是他的成本很高, 要找到一个平衡点
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| Endpoint                                                                                                                                                            | Clock Group              | Delay Type | Path Delay | Path Required | CPPR  | Slack | Freq(MHz) |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| icache.icache[8]_86__reg_p:D                                                                                                                                        | core_clock               | max        | 0.845r     | 1.953         | 0.000 | 1.108 | 1120.529  |
+| icache.icache[6]_86__reg_p:D                                                                                                                                        | core_clock               | max        | 0.845r     | 1.953         | 0.000 | 1.108 | 1120.529  |
+| icache.icache[11]_86__reg_p:D                                                                                                                                       | core_clock               | max        | 0.845r     | 1.953         | 0.000 | 1.108 | 1120.529  |
+| icache.icache[0]_86__reg_p:D                                                                                                                                        | core_clock               | max        | 0.845r     | 1.953         | 0.000 | 1.108 | 1120.529  |
+| icache.icache[0]_86__reg_p:D                                                                                                                                        | core_clock               | max        | 0.845r     | 1.953         | 0.000 | 1.108 | 1120.529  |
+| exu.flush_$_ANDNOT__B_Y_$_AND__B_Y_$_AND__A_Y_CLKGATE_X1_E:E                                                                                                        | **clock_gating_default** | max        | 0.794r     | 1.950         | 0.000 | 1.156 | NA        |
+| exu.flush_$_ANDNOT__B_Y_$_AND__A_Y_CLKGATE_X1_E:E                                                                                                                   | **clock_gating_default** | max        | 0.779r     | 1.951         | 0.000 | 1.171 | NA        |
+| bus_ifu_rready_reg_p_D_$_OR__Y_B_$_OR__B_Y_$_AND__B_Y_CLKGATE_X1_E:E                                                                                                | **clock_gating_default** | max        | 0.745f     | 1.955         | 0.000 | 1.210 | NA        |
+| icache.valid[0]_0__reg_p_D_$_AND__Y_A_$_OR__Y_B_$_AND__Y_B_$_AND__Y_A_$_OR__A_B_$_OR__Y_A_$_NOR__A_Y_$_AND__B_A_$_ANDNOT__Y_A_$_NAND__B_Y_$_NOR__B_Y_CLKGATE_X1_E:E | **clock_gating_default** | max        | 0.686r     | 1.948         | 0.000 | 1.263 | NA        |
+| icache.valid[0]_0__reg_p_D_$_AND__Y_A_$_OR__Y_B_$_AND__Y_B_$_AND__Y_A_$_OR__A_B_$_OR__Y_A_$_NOR__A_Y_$_AND__B_Y_CLKGATE_X1_E:E                                      | **clock_gating_default** | max        | 0.686r     | 1.948         | 0.000 | 1.263 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                                                                                          | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                                                                                          | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| u_clint.mtime_0__reg_p:D                                                                                                                                            | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.mcycle_0__reg_p:D                                                                                                                                               | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                                                                                          | core_clock               | min        | 0.064f     | 0.003         | 0.000 | 0.061 | NA        |
+| bus_icache_rlast_$_AND__A_2_Y_$_AND__A_Y_CLKGATE_X1_E:E                                                                                                             | **clock_gating_default** | min        | 0.079f     | -0.016        | 0.000 | 0.094 | NA        |
+| bus_icache_rlast_$_AND__A_2_Y_$_AND__A_Y_CLKGATE_X1_E:E                                                                                                             | **clock_gating_default** | min        | 0.108r     | 0.003         | 0.000 | 0.105 | NA        |
+| exu.rd_wb_save_4__$_MUX__S_Y_$_ORNOT__B_Y_$_ANDNOT__A_Y_$_AND__B_Y_CLKGATE_X1_E:E                                                                                   | **clock_gating_default** | min        | 0.112r     | 0.000         | 0.000 | 0.111 | NA        |
+| u_xbar.w_clint_reg_p_E_CLKGATE_X1_E:E                                                                                                                               | **clock_gating_default** | min        | 0.114r     | -0.001        | 0.000 | 0.116 | NA        |
+| u_xbar.w_clint_reg_p_E_CLKGATE_X1_E:E                                                                                                                               | **clock_gating_default** | min        | 0.104f     | -0.016        | 0.000 | 0.119 | NA        |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+
+
++---------------+----------------+--------------+---------------+-------------+-----------+
+| combinational | 1.035e-02      | 0.000e+00    | 3.652e-04     | 1.071e-02   | (53.197%) |
+| sequential    | 9.186e-03      | 0.000e+00    | 2.404e-04     | 9.426e-03   | (46.803%) |
++---------------+----------------+--------------+---------------+-------------+-----------+
+Net Switch Power   ==    0.000e+00 (0.000%)
+Cell Internal Power   ==    1.953e-02 (96.993%)
+Cell Leakage Power   ==    6.056e-04 (3.007%)
+Total Power   ==  2.014e-02 W
+
+
+      365   291.27   BUF_X1
+      111  118.104   BUF_X2
+       25    46.55   BUF_X4
+       12   41.496   BUF_X8
+       20    15.96   CLKBUF_X1
+        1     1.33   CLKBUF_X3
+       90   311.22   CLKGATE_X1
+     1682  8948.24   DFFR_X1
+       13    69.16   DFFS_X1
+     2799 1.27E+04   DFF_X1
+
+   Chip area for module '\ysyx_26040135': 36765.988000
+     of which used for sequential elements: 21674.478000 (58.95%)

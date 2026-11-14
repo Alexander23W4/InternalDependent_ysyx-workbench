@@ -53,33 +53,15 @@ module ysyx_26040135_AXI_IFU (
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
-    localparam PMA_ENTRIES = 6;
-
-    typedef struct packed {
-        logic [31:0] base;
-        logic [31:0] size;
-        logic        executable;
-        logic        readable;
-        logic        writable;
-    } pma_entry_t;
-
-    pma_entry_t pma_table [PMA_ENTRIES] = '{
-        '{base: 32'h30000000, size: 32'h10000000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // Flash (16MB 窗口, 和 flash_read 的偏移一致)
-        '{base: 32'ha0000000, size: 32'h08000000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SDRAM (字扩展后 128MB)
-        '{base: 32'h0f000000, size: 32'h00002000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // SRAM
-        '{base: 32'h80000000, size: 32'h00400000, executable: 1'b1, readable: 1'b1, writable: 1'b1},  // PSRAM
-        '{base: 32'h20000000, size: 32'h00001000, executable: 1'b1, readable: 1'b1, writable: 1'b0},  // MROM
-        '{base: 32'h10000000, size: 32'h00001000, executable: 1'b0, readable: 1'b1, writable: 1'b1}   // UART16550
-    };
-
     function automatic reg is_executable(input [31:0] addr);
-        for (int i = 0; i < PMA_ENTRIES; i++) begin
-            if (addr >= pma_table[i].base && 
-                addr < pma_table[i].base + pma_table[i].size) begin
-                return pma_table[i].executable;
-            end
+        begin
+            is_executable = 1'b0;
+            if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
+            else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
+            else if (addr[31:13] == 19'h07800) is_executable = 1'b1;   // SRAM
+            else if (addr[31:22] == 10'h200)   is_executable = 1'b1;   // PSRAM
+            else if (addr[31:12] == 20'h20000) is_executable = 1'b1;   // MROM
         end
-        return 1'b0;  // 默认不可执行
     endfunction
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-

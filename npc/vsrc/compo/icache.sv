@@ -54,9 +54,9 @@ module ysyx_26040135_AXI_ICACHE (
     input reset,
 
     input fetch_valid,
-    output instr_valid,   // icache固定给一个周期
-    output [31:0] instr,
-    output [1:0] fetch_error,
+    output logic instr_valid,   // icache固定给一个周期
+    output logic [31:0] instr,
+    output logic [1:0] fetch_error,
     input [31:0] fetch_addr,
 
     ysyx_26040135_AXI4.master mbus,   // ->系统总线

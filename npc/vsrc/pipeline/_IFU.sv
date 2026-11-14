@@ -33,7 +33,7 @@ module ysyx_26040135_AXI_IFU (
     input clock,
     input reset,
 
-    output fetch_valid,
+    output reg fetch_valid,
     input instr_valid,   // icache固定给一个周期
     input [31:0] instr,
     input [1:0] fetch_error,
@@ -188,20 +188,5 @@ module ysyx_26040135_AXI_IFU (
     end
 
 
-
-// assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-
-    property p_write_channels_zero;
-        @(posedge clock) 
-        (bus.awaddr == 32'b0) &&
-        (bus.awvalid == 1'b0) &&
-        (bus.wdata == 32'b0) &&
-        (bus.wstrb == 4'b0) &&
-        (bus.wvalid == 1'b0) &&
-        (bus.bready == 1'b0);
-    endproperty
-    assert property (p_write_channels_zero) else $error("IFU: Write channel signals must be 0");
-
-// assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
 endmodule

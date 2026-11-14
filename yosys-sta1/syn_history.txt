@@ -858,3 +858,60 @@ Total Power   ==  1.246e-02 W
 
    Chip area for module '\ysyx_26040135': 24325.434000
      of which used for sequential elements: 14007.028000 (57.58%)
+
+
+
+
+## 1.4.4
+这次是把上一次的最长路径又切了, 结果就是从1.4.2->1.4.4 PPA一直在变差, P的话还由于我为了拆路径增加icache和exu的级内流水线级数有小幅增加
+证明基于关键路径critical path的基于C的优化基本上已经到头了, 最高频率差不多就是1.2GHz了
++--------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| Endpoint                                                                 | Clock Group              | Delay Type | Path Delay | Path Required | CPPR  | Slack | Freq(MHz) |
++--------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| bus_icache_araddr_31__reg_p:D                                            | core_clock               | max        | 0.877r     | 1.966         | 0.000 | 1.089 | 1097.644  |
+| bus_icache_araddr_31__reg_p:D                                            | core_clock               | max        | 0.877r     | 1.966         | 0.000 | 1.089 | 1097.644  |
+| bus_icache_araddr_5__reg_p:D                                             | core_clock               | max        | 0.874r     | 1.966         | 0.000 | 1.092 | 1101.540  |
+| bus_icache_araddr_5__reg_p:D                                             | core_clock               | max        | 0.874r     | 1.966         | 0.000 | 1.092 | 1101.540  |
+| bus_icache_araddr_28__reg_p:D                                            | core_clock               | max        | 0.867f     | 1.959         | 0.000 | 1.092 | 1101.607  |
+| exu.in_valid_reg_p_D_$_NAND__Y_B_$_NAND__Y_B_$_AND__A_1_Y_CLKGATE_X1_E:E | **clock_gating_default** | max        | 0.829r     | 1.949         | 0.000 | 1.120 | NA        |
+| fetch_valid_reg_p_D_$_OR__Y_B_$_AND__B_Y_CLKGATE_X1_E:E                  | **clock_gating_default** | max        | 0.828f     | 1.955         | 0.000 | 1.127 | NA        |
+| ifu.state_0__$_OR__A_Y_$_AND__A_Y_CLKGATE_X1_E:E                         | **clock_gating_default** | max        | 0.820r     | 1.948         | 0.000 | 1.128 | NA        |
+| exu.in_valid_reg_p_D_$_NAND__Y_B_$_NAND__Y_B_$_AND__A_Y_CLKGATE_X1_E:E   | **clock_gating_default** | max        | 0.815r     | 1.950         | 0.000 | 1.136 | NA        |
+| fetch_valid_reg_p_D_$_OR__Y_B_$_AND__B_Y_CLKGATE_X1_E:E                  | **clock_gating_default** | max        | 0.697r     | 1.950         | 0.000 | 1.253 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                               | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                               | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| u_clint.mtime_0__reg_p:D                                                 | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.mcycle_0__reg_p:D                                                    | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                               | core_clock               | min        | 0.064f     | 0.003         | 0.000 | 0.061 | NA        |
+| exu.state_1__CLKGATE_X1_E:E                                              | **clock_gating_default** | min        | 0.085f     | -0.015        | 0.000 | 0.100 | NA        |
+| exu.state_1__CLKGATE_X1_E:E                                              | **clock_gating_default** | min        | 0.100r     | -0.001        | 0.000 | 0.101 | NA        |
+| exu.rd_wb_save_4__$_MUX__S_Y_$_OR__B_Y_$_AND__B_Y_CLKGATE_X1_E:E         | **clock_gating_default** | min        | 0.112r     | -0.001        | 0.000 | 0.113 | NA        |
+| u_xbar.w_clint_reg_p_E_CLKGATE_X1_E:E                                    | **clock_gating_default** | min        | 0.114r     | -0.001        | 0.000 | 0.116 | NA        |
+| u_xbar.w_busy_reg_p_E_CLKGATE_X1_E:E                                     | **clock_gating_default** | min        | 0.116r     | -0.001        | 0.000 | 0.118 | NA        |
++--------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+
+
++---------------+----------------+--------------+---------------+-------------+-----------+
+| combinational | 7.494e-03      | 0.000e+00    | 2.403e-04     | 7.734e-03   | (59.532%) |
+| sequential    | 5.083e-03      | 0.000e+00    | 1.748e-04     | 5.257e-03   | (40.468%) |
++---------------+----------------+--------------+---------------+-------------+-----------+
+Net Switch Power   ==    0.000e+00 (0.000%)
+Cell Internal Power   ==    1.258e-02 (96.805%)
+Cell Leakage Power   ==    4.151e-04 (3.195%)
+Total Power   ==  1.299e-02 W
+
+
+      201  160.398   BUF_X1
+        4     26.6   BUF_X16
+       68   72.352   BUF_X2
+       18   33.516   BUF_X4
+        6   20.748   BUF_X8
+        8    6.384   CLKBUF_X1
+        1    1.064   CLKBUF_X2
+       76  262.808   CLKGATE_X1
+     1674  8905.68   DFFR_X1
+       13    69.16   DFFS_X1
+     1178 5.33E+03   DFF_X1
+
+   Chip area for module '\ysyx_26040135': 24462.690000
+     of which used for sequential elements: 14301.756000 (58.46%)

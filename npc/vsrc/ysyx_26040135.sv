@@ -107,6 +107,7 @@ lsu支持 sw 并行 (SS)
 
 ⭐ Cache:
 cache的优化, 替换算法, block, set-associative, 大小
+icache可以考虑弄成多口的, 可以同时读取多个目标
 
 ⭐ C:
 最后优化时钟周期

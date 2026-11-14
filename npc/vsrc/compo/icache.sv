@@ -88,7 +88,7 @@ module ysyx_26040135_AXI_ICACHE (
     logic [TAG_LEN-1:0]         tag    [0:ICACHE_LINE_AMT-1];
     logic                       valid  [0:ICACHE_LINE_AMT-1];
 
-    logic [31:0] araddr_save;
+
     logic [1:0]  rresp_save;
     logic [3:0]  bid_save;                  // 写通道要回同一个 awid
     logic [31:0] rdata_save;
@@ -97,18 +97,19 @@ module ysyx_26040135_AXI_ICACHE (
 
 
 
-    // 从锁存下来的地址算出的三段(给"发起访存/填入/返回"这些晚于请求拍的动作用)
+// 下面的这些都是从bus.araddr开始的, bus.araddr是连着pc(reg)的, bus,araddr在ifu访存(icache)期间不会改变
+
     logic [TAG_LEN-1:0]   current_tag;
     logic [INDEX_LEN-1:0] current_index;
     logic [31:0]          current_word;     // 行内第几个 32 位字
 
-    assign current_tag   = araddr_save[31:INDEX_LEN+OFFSET_LEN];
-    assign current_index = araddr_save[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
+    assign current_tag   = bus.araddr[31:INDEX_LEN+OFFSET_LEN];
+    assign current_index = bus.araddr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
     // 字序号 = 偏移 >> 2; 块 = 4B 时 offset 只有 2 位, 右移完恒为 0
-    assign current_word  = 32'(araddr_save[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
+    assign current_word  = 32'(bus.araddr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
 
     // 突发读的起始地址: 对齐到这一行的开头
-    wire [31:0] line_addr = {araddr_save[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
+    wire [31:0] line_addr = {bus.araddr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
     // 填入时用的位偏移
     wire [31:0] beat_bit  = beat * 32;
 
@@ -116,7 +117,7 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     typedef enum logic [2:0]{ 
-        IDLE, OPERATE, DRAM_AR, DRAM_R, RETURN
+        IDLE, DRAM_AR, DRAM_R, RETURN
     } state_t;
     state_t state, next;
 
@@ -126,7 +127,6 @@ module ysyx_26040135_AXI_ICACHE (
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            araddr_save <= '0;
             rresp_save <= '0;
             bid_save   <= '0;
             beat       <= '0;
@@ -142,14 +142,9 @@ module ysyx_26040135_AXI_ICACHE (
             state <= next;
 
             if(state == IDLE && bus.arvalid) begin
-                araddr_save <= bus.araddr;
                 rresp_save  <= 2'b00;       // 清掉上一次留下的错误码
             end
 
-            // ---- 收下写地址(AW): 本模块不支持写, 只记 awid 用来回 bresp ----
-            if(state == IDLE && bus.awvalid) begin
-                bid_save <= bus.awid;
-            end
 
             // ---- 突发读刚发出去, 拍号清零 ----
             if(state == DRAM_AR && mbus.arvalid && mbus.arready) begin
@@ -223,19 +218,15 @@ module ysyx_26040135_AXI_ICACHE (
         case (state)
             IDLE: begin
                 if(bus.arvalid) begin
-                    next = OPERATE;
+                    bus.arready = 1'b1;     
+                    if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin
+                        next = RETURN;      // cache hit
+                    end else begin
+                        next = DRAM_AR;     // cache miss(或者不在可缓存区域)
+                    end
                 end
             end
 
-            OPERATE: begin
-                bus.arready = 1'b1;     
-                // 只有可缓存区域才去查 tag/valid; 其他区域一律当 miss(而且也不会填行)
-                if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin
-                    next = RETURN;      // cache hit
-                end else begin
-                    next = DRAM_AR;     // cache miss(或者不在可缓存区域)
-                end
-            end
 
             DRAM_AR: begin
                 mbus.arvalid = 1'b1;

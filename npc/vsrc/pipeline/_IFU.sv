@@ -29,13 +29,14 @@
 */
 
 module ysyx_26040135_AXI_IFU (
-    
+
     input clock,
     input reset,
 
     output fetch_valid,
     input instr_valid,   // icache固定给一个周期
     input [31:0] instr,
+    input [1:0] fetch_error,
     
     output [1:0] __error,   //  普通错误号
     output __master_validation_error,   // 该 master 非法访问
@@ -69,13 +70,12 @@ module ysyx_26040135_AXI_IFU (
 
 
     // 外部控制信号与返回外部的信号:
-    reg [1:0] error_save;
     reg master_validation_error_save;
     reg flush_save;
     reg [31:0] pc_flush_save;
 
 
-    assign __error = error_save;   
+    assign __error = fetch_error;   
     assign __master_validation_error = master_validation_error_save;
 
 
@@ -99,7 +99,6 @@ module ysyx_26040135_AXI_IFU (
             out_instr <= '0;
             out_valid <= 1'b0;  
 
-            error_save <= 2'b00;
             master_validation_error_save <= 1'b0;
             flush_save <= 1'b0;
             pc_flush_save <= 32'b0;

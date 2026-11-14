@@ -29,14 +29,11 @@
 */
 
 module ysyx_26040135_AXI_IFU (
+    ysyx_26040135_AXI4.master bus,
     
     input clock,
     input reset,
 
-    output fetch_valid,
-    input instr_valid,   // icache固定给一个周期
-    input [31:0] instr,
-    
     output [1:0] __error,   //  普通错误号
     output __master_validation_error,   // 该 master 非法访问
 
@@ -61,6 +58,9 @@ module ysyx_26040135_AXI_IFU (
             is_executable = 1'b0;
             if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
             else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
+            // else if (addr[31:13] == 19'h07800) is_executable = 1'b1;   // SRAM
+            // else if (addr[31:22] == 10'h200)   is_executable = 1'b1;   // PSRAM
+            // else if (addr[31:12] == 20'h20000) is_executable = 1'b1;   // MROM
         end
     endfunction
 
@@ -80,11 +80,12 @@ module ysyx_26040135_AXI_IFU (
 
 
     // 内部寄存器
-    reg [31:0] pc;       
+    reg [31:0] pc;       // pc完全由IFU控制
+
 
     // 状态
     typedef enum logic [1:0]{ 
-        IDLE, FETCH
+        IDLE, AR, R
     } state_t;
     state_t state, next;
 
@@ -109,14 +110,14 @@ module ysyx_26040135_AXI_IFU (
 
         end else begin
 
-            state <= next;
-
-            if(flush && (state == FETCH && !instr_valid)) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
+            if(flush && ((state == AR) || (state == R && !bus.rvalid))) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
                 flush_save <= 1'b1;
                 pc_flush_save <= pc_flush;
             end 
+
+            state <= next;
             
-            if(state == IDLE && out_valid && (flush | out_ready)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
+            if(state == IDLE && out_valid && (flush | out_ready)) begin   //
                 out_valid <= 1'b0;
             end
 
@@ -135,26 +136,30 @@ module ysyx_26040135_AXI_IFU (
             end
 
 
-            if(state == IDLE) begin  // 如果都到IDLE了, 不可能还存有flush_save, 直接监视flush即可
+            if(state == R && bus.rvalid) begin
+                if(flush_save) begin
+                    pc <= pc_flush_save;
+                    flush_save <= 1'b0;
+                end 
+                else if(flush) begin
+                    pc <= pc_flush;
+                end else begin
+                    if(bus.rresp == 2'b00) begin
+                        out_instr <= bus.rdata;
+                        out_pc <= pc;
+                        out_valid <= 1'b1;
+                        error_save <= 2'b00;
+                        pc <= pc + 32'd4;   // 默认分支预测
+                    end else begin
+                        error_save <= bus.rresp;    // 取指出错: 不产出指令, 只记错误
+                    end 
+                end
+            end
+
+            if(state == IDLE) begin  // 如果都到IDLE了, 不肯能还存有flush_save, 直接监视flush即可
                 if(flush) begin
                     pc <= pc_flush;
                 end 
-            end
-
-            if(instr_valid) begin   // 下个周期就是IDLE, 可以握手, 在这里判断是否冲刷, 给不给握手
-               if(flush_save) begin
-                    pc <= pc_flush_save;
-                    flush_save <= 1'b0;
-               end
-               else if(flush) begin
-                    pc <= pc_flush;
-               end 
-               else begin
-                    out_valid <= 1'b1; 
-                    pc <= pc + 32'd4;
-                    out_pc <= pc;
-                    out_instr <= instr;
-               end
             end
 
         end
@@ -165,18 +170,44 @@ module ysyx_26040135_AXI_IFU (
     always_comb begin
 
         next = state;
-        fetch_valid = 1'b0;
+        
+        bus.arvalid = 1'b0;
+        bus.araddr = pc;       
+        bus.arid = 4'b0000;
+        bus.arlen = 8'h00;    // 每次传输一个beat
+        bus.arsize = 3'b010;
+        bus.arburst = 2'b00;   // 每个beat使用相同地址   01递增 10回绕
+        bus.rready = 1'b0;
+
+        bus.awvalid = 1'b0;
+        bus.awaddr = '0;
+        bus.wdata = '0;
+        bus.wstrb = '0;
+        bus.awid = 4'b0000;
+        bus.awsize = 3'b010;
+        bus.awlen = 8'h00;
+        bus.awburst = 2'b00;
+        bus.wvalid = 1'b0;
+        bus.wlast  = 1'b0;   // IFU 只读不写, 写通道的 wlast 恒 0
+        bus.bready = 1'b0;
             
         case(state)
             IDLE: begin  // IFU的 IDLE的作用就是等ready握手
                 if(out_ready) begin   // 可以阻塞到IDLE, 但是不能阻塞系统总线, 所以必须在这里等out_ready
-                    next = FETCH;
+                    next = AR;
                 end
             end
 
-            FETCH: begin
-                fetch_valid = 1'b1;
-                if(instr_valid) begin
+            AR: begin
+                bus.arvalid = 1'b1;
+                if(bus.arready == 1'b1) begin
+                    next = R;
+                end
+            end
+
+            R: begin
+                bus.rready = 1'b1;   // 原来是等rvalid才给rready, 现在直接给, 断掉组合环
+                if(bus.rvalid == 1'b1) begin 
                     next = IDLE;
                 end
             end

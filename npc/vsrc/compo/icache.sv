@@ -49,10 +49,16 @@ cache一定是关键路径
 */
 
 module ysyx_26040135_AXI_ICACHE (
-    ysyx_26040135_AXI4.slave bus,    // 接收IFU的请求
-    ysyx_26040135_AXI4.master mbus,   // ->系统总线
+
     input clock, 
     input reset,
+
+    input fetch_valid,
+    output instr_valid,   // icache固定给一个周期
+    output [31:0] instr,
+    output fetch_error,
+
+    ysyx_26040135_AXI4.master mbus,   // ->系统总线
 
     input [31:0] sw_addr,
     input sw_avail
@@ -109,10 +115,8 @@ module ysyx_26040135_AXI_ICACHE (
 
 
 
-
-
     typedef enum logic [1:0]{ 
-        IDLE, MISS_AR, MISS_R, RETURN
+        IDLE, MISS_AR, MISS_R
     } state_t;
     state_t state, next;
 
@@ -130,7 +134,7 @@ module ysyx_26040135_AXI_ICACHE (
         end else begin
             state <= next;
 
-            if(state == IDLE && bus.arvalid) begin   // 清掉上一次访存的残留状态
+            if(state == MISS_AR) begin   // 清掉上一次访存的残留状态
                 rresp_save  <= 2'b00;       
                 beat <= '0;
             end
@@ -162,20 +166,6 @@ module ysyx_26040135_AXI_ICACHE (
 
     always_comb begin
         next = state;
-        bus.arready = 1'b0;
-
-        bus.rvalid  = 1'b0;
-        bus.rdata   = 32'b0;
-        bus.rresp   = 2'b00;
-        bus.rid     = 4'b0;
-        bus.rlast   = 1'b0;
-
-        bus.awready = 1'b0;
-        bus.wready  = 1'b0;
-
-        bus.bvalid  = 1'b0;
-        bus.bresp   = 2'b00;
-        bus.bid     = 4'b0;
 
         mbus.arvalid = 1'b0;
         mbus.araddr = line_addr;
@@ -196,14 +186,19 @@ module ysyx_26040135_AXI_ICACHE (
         mbus.wvalid = 1'b0;
         mbus.bready = 1'b0;
 
-        next = state;
+        instr_valid = 1'b0;
+        fetch_error = 1'b0;
+        instr = 32'b0;
 
         case (state)
             IDLE: begin
-                if(bus.arvalid) begin
-                    bus.arready = 1'b1;      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
-                    if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin 
-                        next = RETURN;      // cache hit
+                if(fetch_valid) begin      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
+                    if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
+                        instr_valid = 1'b1;
+                        instr = icache[current_index][current_word*32 +: 32]; 
+                        if(rresp_save != 2'b00) begin
+                            fetch_error = 1'b1;
+                        end
                     end else begin
                         next = MISS_AR;     // cache miss
                     end
@@ -222,17 +217,8 @@ module ysyx_26040135_AXI_ICACHE (
                 if(mbus.rvalid) begin
                     mbus.rready = 1'b1;
                     if(mbus.rlast) begin
-                        next = RETURN;
-                    end
-                end
-            end
-
-            RETURN: begin
-                bus.rvalid = 1'b1;
-                bus.rdata = icache[current_index][current_word*32 +: 32];    // ⭐
-                bus.rresp = rresp_save;           // 把存储器(如果有)的rresp带过来
-                if(bus.rready) begin
-                    next = IDLE;
+                        next = IDLE;   // 这里icache处理完cache miss, 直接回到IDLE去读一遍给IFU
+                    end 
                 end
             end
 

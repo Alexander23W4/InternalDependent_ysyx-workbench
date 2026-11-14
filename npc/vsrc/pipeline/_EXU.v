@@ -435,7 +435,7 @@ module ysyx_26040135_EXU (
 
 
 
-    // ------------------------ EX阶段的组合计算逻辑(EX)
+    // ------------------------ EX阶段的组合计算逻辑(EX)    ⭐: 这里用来计算的信号已经全部是寄存器信号了, 所以不会有向前的组合路径延伸
 
     wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;   // EX阶段稳定
 
@@ -486,7 +486,7 @@ module ysyx_26040135_EXU (
         rd_out = rd_save;
 
         lsu_wdata = rdata2;
-        lsu_addr = add_rst_w;
+        lsu_addr = add_rst_w_save;
 
         _mstatus = mstatus;
         _mtvec = mtvec;
@@ -499,6 +499,7 @@ module ysyx_26040135_EXU (
         _pc = pc_save;
         _instr = instr_save;
 
+// ⭐: 大MUX, 待优化  and->or阵列(选并阵列)
         ic_wb_wdata = ({32{lui_save}} & imm_save) |   //
                 ({32{add_save | addi_save | auipc_save}} & add_rst_w_save) |
                 ({32{jalr_save | jal_save}} & pc_next_dft) |   //
@@ -551,6 +552,7 @@ module ysyx_26040135_EXU (
 // ⭐: pc_flush带来一个关键长路径, 以 add_rst_w_save 和 pc_next_dft为寄存器边界, 分成两段
     always @(*) begin
 
+// ⭐: 大MUX, 待优化
         if(jalr_save) begin
             new_pc = add_rst_w_save & ~32'h1;
         end

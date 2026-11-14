@@ -101,15 +101,11 @@ module ysyx_26040135_AXI_ICACHE (
 
 
 
-// 下面的这些都是从fetch_addr开始的, fetch_addr是连着pc(reg)的, bus,araddr在ifu访存(icache)期间不会改变
 
     logic [TAG_LEN-1:0]   current_tag;
     logic [INDEX_LEN-1:0] current_index;
     logic [31:0]          current_word;     // 行内第几个 32 位字
 
-    assign current_tag   = fetch_addr[31:INDEX_LEN+OFFSET_LEN];
-    assign current_index = fetch_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
-    assign current_word  = 32'(fetch_addr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
 
     // 突发读的起始地址
     wire [31:0] line_addr = {fetch_addr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
@@ -117,7 +113,7 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     typedef enum logic [1:0]{ 
-        IDLE, MISS_AR, MISS_R
+        IDLE, HIT, MISS_AR, MISS_R
     } state_t;
     state_t state, next;
 
@@ -134,6 +130,12 @@ module ysyx_26040135_AXI_ICACHE (
 
         end else begin
             state <= next;
+
+            if(state == IDLE && fetch_valid) begin
+                current_tag <= fetch_addr[31:INDEX_LEN+OFFSET_LEN];
+                current_index <= fetch_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
+                current_word <= 32'(fetch_addr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
+            end
 
             if(state == MISS_AR) begin   // 清掉上一次访存的残留状态
                 rresp_save  <= 2'b00;       
@@ -194,14 +196,18 @@ module ysyx_26040135_AXI_ICACHE (
         case (state)
             IDLE: begin
                 if(fetch_valid) begin      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
-                    if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
-                        instr_valid = 1'b1;
-                        instr = icache[current_index][current_word*32 +: 32]; 
-                        fetch_error = rresp_save;
-                    end else begin
-                        next = MISS_AR;     // cache miss
-                    end
+                    next = HIT;
                 end
+            end
+
+            HIT: begin
+                if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
+                    instr_valid = 1'b1;
+                    instr = icache[current_index][current_word*32 +: 32]; 
+                    fetch_error = rresp_save;
+                end else begin
+                    next = MISS_AR;     // cache miss
+                end  
             end
 
 

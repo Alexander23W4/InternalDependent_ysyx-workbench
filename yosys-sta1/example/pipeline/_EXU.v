@@ -355,9 +355,7 @@ module ysyx_26040135_EXU (
             end
 
             BRANCH: begin
-                if(new_pc != pc_next_dft) begin
-                    flush = 1'b1;
-                end
+                flush = sel_jalr | sel_jal | sel_br | sel_ecall | sel_mret;
                 next = IDLE;
             end
         endcase
@@ -485,45 +483,28 @@ module ysyx_26040135_EXU (
 
     end
 
-// ⭐: pc_flush带来一个关键长路径, 以 add_rst_w_save 和 pc_next_dft为寄存器边界, 分成两段
+    // ⭐: new_pc 用 one-hot + 单级 AND-OR 代替 9 级优先级 MUX 链
+    //     候选值全部来自寄存器(add_rst_w_save/pc_next_dft/mtvec/mepc), 条件与数据并行
+    wire br_taken = (blt_save  &  cmp_lt) |
+                    (beq_save  &  cmp_eq) |
+                    (bne_save  & ~cmp_eq) |
+                    (bge_save  & ~cmp_lt) |
+                    (bltu_save &  cmp_ltu)|
+                    (bgeu_save & ~cmp_ltu);
+
+    wire sel_jalr  = jalr_save;
+    wire sel_jal   = jal_save;
+    wire sel_br    = br_taken;
+    wire sel_ecall = ecall_save;
+    wire sel_mret  = mret_save;
+    wire sel_other = ~(sel_jalr | sel_jal | sel_br | sel_ecall | sel_mret);
+
     always @(*) begin
-
-        if(jalr_save) begin
-            new_pc = add_rst_w_save & ~32'h1;
-        end
-        else if(jal_save) begin
-            new_pc = add_rst_w_save;
-        end
-        else if(blt_save) begin
-            new_pc = cmp_lt ? add_rst_w_save : pc_next_dft;
-        end
-        else if(beq_save) begin
-            new_pc = cmp_eq ? add_rst_w_save : pc_next_dft;
-        end
-        else if(bne_save) begin
-            new_pc = ~cmp_eq ? add_rst_w_save : pc_next_dft;
-        end
-        else if(bge_save) begin
-            new_pc = ~cmp_lt ? add_rst_w_save : pc_next_dft;
-        end
-        else if(bltu_save) begin
-            new_pc = cmp_ltu ? add_rst_w_save : pc_next_dft;
-        end
-        else if(bgeu_save) begin
-            new_pc = ~cmp_ltu ? add_rst_w_save : pc_next_dft;
-        end
-
-        // system
-        else if(ecall_save) begin    
-            new_pc = mtvec;
-        end
-        else if(mret_save) begin     
-            new_pc = mepc;
-        end
-        else begin
-            new_pc = pc_next_dft;
-        end
-
+        new_pc = ({32{sel_jalr }} & (add_rst_w_save & ~32'h1)) |
+                 ({32{sel_jal | sel_br}} & add_rst_w_save) |
+                 ({32{sel_ecall}} & mtvec) |
+                 ({32{sel_mret }} & mepc) |
+                 ({32{sel_other}} & pc_next_dft);
         pc_flush = new_pc;
     end
 

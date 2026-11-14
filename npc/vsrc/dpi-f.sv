@@ -77,3 +77,22 @@ task difftest_read_gpr(output int gprs[32], output int pc);
 endtask
 
 
+export "DPI-C" task check_pipeline_bottleneck;
+task check_pipeline_bottleneck(
+    output int ifu_out_valid,
+    output int exu_in_ready,
+    output int exu_out_valid,
+    output int lsu_in_ready,
+    output int lsu_out_valid,
+    output int wbu_in_ready
+);
+    begin
+        ifu_out_valid = {{31{1'b0}}, _ifu_out_valid};
+        exu_in_ready  = {{31{1'b0}}, _exu_in_ready};
+        exu_out_valid = {{31{1'b0}}, _exu_out_valid};
+        lsu_in_ready  = {{31{1'b0}}, _lsu_in_ready};
+        lsu_out_valid = {{31{1'b0}}, _lsu_out_valid};
+        wbu_in_ready  = {{31{1'b0}}, _wbu_in_ready};
+    end
+endtask
+

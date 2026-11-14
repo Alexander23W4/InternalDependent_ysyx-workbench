@@ -1,5 +1,6 @@
 
 module ysyx_26040135_AXI_ICACHE (
+    
     input   logic [31:0] bus_araddr,
     input   logic        bus_arvalid,
     output  logic        bus_arready,
@@ -81,15 +82,10 @@ module ysyx_26040135_AXI_ICACHE (
     wire [31:0] line_addr = {bus_araddr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
 
 
-
-
-
     typedef enum logic [1:0]{ 
         IDLE, MISS_AR, MISS_R, RETURN
     } state_t;
     state_t state, next;
-
-
 
 
     always @( posedge clock or posedge reset ) begin

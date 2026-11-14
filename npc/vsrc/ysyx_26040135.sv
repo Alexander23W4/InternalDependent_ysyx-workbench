@@ -234,6 +234,20 @@ module ysyx_26040135(
     assign _wen = wen;
     assign _wbu_pc = wbu_pc_out;
 
+    wire _ifu_out_valid;
+    wire _exu_in_ready;
+    wire _exu_out_valid;
+    wire _lsu_in_ready;
+    wire _lsu_out_valid;
+    wire _wbu_in_ready;
+
+    assign _ifu_out_valid = valid_fd;
+    assign _exu_in_ready = ready_de;
+    assign _exu_out_valid = valid_el;
+    assign _lsu_in_ready = ready_el;
+    assign _lsu_out_valid = valid_lw;
+    assign _wbu_in_ready = ready_lw;
+
 // 流水线级间连接
 
     wire sw_avail;

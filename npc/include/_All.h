@@ -91,6 +91,20 @@ extern int new_instr;
 extern uint64_t instr_amt;
 
 
+extern int ifu_out_valid;
+extern int exu_in_ready;
+extern int exu_out_valid;
+extern int lsu_in_ready;
+extern int lsu_out_valid;
+extern int wbu_in_ready;
+
+
+extern uint32_t ifu_stall;
+extern uint32_t exu_stall;
+extern uint32_t lsu_stall;
+extern uint32_t wbu_stall;
+
+
 void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);
 void reset();

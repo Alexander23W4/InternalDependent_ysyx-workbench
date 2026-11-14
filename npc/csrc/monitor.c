@@ -15,68 +15,28 @@ int master_validation_error = 0;
 int endprog = 0; 
 int instr = 0;
 
+int ifu_out_valid = 0;
+int exu_in_ready = 0;
+int exu_out_valid = 0;
+int lsu_in_ready = 0;
+int lsu_out_valid = 0;
+int wbu_in_ready = 0;
+
+uint32_t ifu_stall = 0;
+uint32_t exu_stall = 0;
+uint32_t lsu_stall = 0;
+uint32_t wbu_stall = 0;
+
 void _init(int argc, char** argv){
     parse_args(argc, argv);  
-
     load_flash(image_path); 
-
     reset();   
-
-}
-
-
-// ------------------------------------------------------------------------------------
-
-void parse_args(int argc, char *argv[]) {
-    assert(argc >= 2);
-    printf("%s", ANSI_FMT("ARGS: \n", ANSI_FG_CYAN));
-    for (int i = 0; i < argc; i++)
-    {
-        printf("Argument[%d]: %s\n", i, argv[i]);
-    }
-
-    static struct option last_options[] = {
-        {"diff",     required_argument, NULL, 'd'},
-        {0,          0,                 NULL,  0 }
-    };
-
-    int o;
-    while ((o = getopt_long(argc, argv, "-bd:h", last_options, NULL)) != -1) {
-        switch (o) {
-            case 'd':
-                diff_so_file = optarg;
-                printf("%s", ANSI_FMT("[NPC] Using Difftest REF: ", ANSI_FG_CYAN));
-                printf("%s\n", diff_so_file);
-                break;
-            case 1:                          // ⭐ 非选项参数: AM 生成的 .bin 路径
-                image_path = optarg;         // (getopt 用了前导 '-', 非选项会以 o==1 返回)
-                break;
-        }
-    }
-}    
-
-
-
-
-void reset(){
-    top->reset = 1;
-    top->ref_rst = 1;
-
-    for (int i = 0; i < 20; i++) {
-        tick();
-        ref_tick();
-    }
-    top->ref_rst = 0;
-    top->reset = 0;
-    top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
-                        (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
-
-    printf("Reset Released. Starting execution...\n");
 }
 
 void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出去
     do{
         tick();
+        top->check_pipeline_bottleneck(&ifu_out_valid, &exu_in_ready, &exu_out_valid, &lsu_in_ready, &lsu_out_valid, &wbu_in_ready);
         top->check_halt(&endprog);
         // 取EXU的
         top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
@@ -110,10 +70,55 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
 
     #endif
 
-
     } while(!endprog);
 }
 
+
+// ------------------------------------------------------------------------------------
+
+void parse_args(int argc, char *argv[]) {
+    assert(argc >= 2);
+    printf("%s", ANSI_FMT("ARGS: \n", ANSI_FG_CYAN));
+    for (int i = 0; i < argc; i++)
+    {
+        printf("Argument[%d]: %s\n", i, argv[i]);
+    }
+
+    static struct option last_options[] = {
+        {"diff",     required_argument, NULL, 'd'},
+        {0,          0,                 NULL,  0 }
+    };
+
+    int o;
+    while ((o = getopt_long(argc, argv, "-bd:h", last_options, NULL)) != -1) {
+        switch (o) {
+            case 'd':
+                diff_so_file = optarg;
+                printf("%s", ANSI_FMT("[NPC] Using Difftest REF: ", ANSI_FG_CYAN));
+                printf("%s\n", diff_so_file);
+                break;
+            case 1:                          // ⭐ 非选项参数: AM 生成的 .bin 路径
+                image_path = optarg;         // (getopt 用了前导 '-', 非选项会以 o==1 返回)
+                break;
+        }
+    }
+}    
+
+void reset(){
+    top->reset = 1;
+    top->ref_rst = 1;
+
+    for (int i = 0; i < 20; i++) {
+        tick();
+        ref_tick();
+    }
+    top->ref_rst = 0;
+    top->reset = 0;
+    top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
+                        (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);
+
+    printf("Reset Released. Starting execution...\n");
+}
 
 void end_process(){
     final_check();

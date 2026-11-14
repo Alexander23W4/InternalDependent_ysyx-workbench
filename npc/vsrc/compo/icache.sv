@@ -60,11 +60,11 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     `ifndef ICACHE_LINE_BYTES   // 这个cache_line 是要整体传输的, 所以最好设置成总线带宽的倍数, 这样方便burst传输
-        `define ICACHE_LINE_BYTES 4    
+        `define ICACHE_LINE_BYTES 4    // 对应 OFFSET
     `endif
 
     `ifndef ICACHE_LINE_AMT
-        `define ICACHE_LINE_AMT 16
+        `define ICACHE_LINE_AMT 16    // 对应 INDEX
     `endif
 
     parameter ICACHE_LINE_BYTES = `ICACHE_LINE_BYTES;
@@ -108,8 +108,9 @@ module ysyx_26040135_AXI_ICACHE (
     // 字序号 = 偏移 >> 2; 块 = 4B 时 offset 只有 2 位, 右移完恒为 0
     assign current_word  = 32'(bus.araddr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
 
-    // 突发读的起始地址: 对齐到这一行的开头
+    // 突发读的起始地址
     wire [31:0] line_addr = {bus.araddr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
+
     // 填入时用的位偏移
     wire [31:0] beat_bit  = beat * 32;
 
@@ -117,7 +118,7 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     typedef enum logic [2:0]{ 
-        IDLE, DRAM_AR, DRAM_R, RETURN
+        IDLE, MISS_AR, MISS_R, RETURN
     } state_t;
     state_t state, next;
 
@@ -147,12 +148,12 @@ module ysyx_26040135_AXI_ICACHE (
 
 
             // ---- 突发读刚发出去, 拍号清零 ----
-            if(state == DRAM_AR && mbus.arvalid && mbus.arready) begin
+            if(state == MISS_AR && mbus.arvalid && mbus.arready) begin
                 beat <= '0;
             end
 
             // ---- 突发读每一拍: 可缓存区域才按拍号填进这一行; 其他区域只把数据带回去 ----
-            if(state == DRAM_R && mbus.rvalid) begin
+            if(state == MISS_R && mbus.rvalid) begin
                 if(mbus.rresp == 2'b00) begin
                     icache[current_index][beat_bit +: 32] <= mbus.rdata;
                     if(mbus.rlast) begin
@@ -218,24 +219,24 @@ module ysyx_26040135_AXI_ICACHE (
         case (state)
             IDLE: begin
                 if(bus.arvalid) begin
-                    bus.arready = 1'b1;     
-                    if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin
+                    bus.arready = 1'b1;      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
+                    if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin 
                         next = RETURN;      // cache hit
                     end else begin
-                        next = DRAM_AR;     // cache miss(或者不在可缓存区域)
+                        next = MISS_AR;     // cache miss
                     end
                 end
             end
 
 
-            DRAM_AR: begin
+            MISS_AR: begin
                 mbus.arvalid = 1'b1;
                 if(mbus.arready) begin
-                    next = DRAM_R;
+                    next = MISS_R;
                 end
             end
 
-            DRAM_R: begin
+            MISS_R: begin
                 if(mbus.rvalid) begin
                     mbus.rready = 1'b1;
                     if(mbus.rlast) begin
@@ -246,10 +247,8 @@ module ysyx_26040135_AXI_ICACHE (
 
             RETURN: begin
                 bus.rvalid = 1'b1;
-                // 可缓存的从 cache 行里按 offset 选字; 不可缓存的用访存直接带回来的数据
-                bus.rdata = icache[current_index][current_word*32 +: 32];
-                bus.rresp = rresp_save;
-                bus.rlast = 1'b1;               // 单拍返回: 这一拍就是最后一拍
+                bus.rdata = icache[current_index][current_word*32+31: current_word * 32];
+                bus.rresp = rresp_save;           // 把存储器(如果有)的rresp带过来
                 if(bus.rready) begin
                     next = IDLE;
                 end

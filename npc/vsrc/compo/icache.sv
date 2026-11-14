@@ -205,6 +205,7 @@ module ysyx_26040135_AXI_ICACHE (
                     instr_valid = 1'b1;
                     instr = icache[current_index][current_word*32 +: 32]; 
                     fetch_error = rresp_save;
+                    next = IDLE;
                 end else begin
                     next = MISS_AR;     // cache miss
                 end  

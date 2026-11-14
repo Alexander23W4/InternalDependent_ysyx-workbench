@@ -168,6 +168,9 @@ module ysyx_26040135_AXI_IFU (
 
 // 状态 及 总线信号 赋值
     always_comb begin
+
+        next = state;
+        
         bus.arvalid = 1'b0;
         bus.araddr = pc;       
         bus.arid = 4'b0000;
@@ -187,8 +190,6 @@ module ysyx_26040135_AXI_IFU (
         bus.wvalid = 1'b0;
         bus.wlast  = 1'b0;   // IFU 只读不写, 写通道的 wlast 恒 0
         bus.bready = 1'b0;
-
-        next = state;
             
         case(state)
             IDLE: begin  // IFU的 IDLE的作用就是等ready握手

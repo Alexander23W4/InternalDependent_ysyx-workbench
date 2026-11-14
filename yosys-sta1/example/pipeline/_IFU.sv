@@ -1,34 +1,13 @@
 
 module ysyx_26040135_AXI_IFU (
     output logic [31:0] bus_araddr,
-    output logic [3:0]  bus_arid,
-    output logic [7:0]  bus_arlen,
-    output logic [2:0]  bus_arsize,
-    output logic [1:0]  bus_arburst,
     output logic        bus_arvalid,
     input  logic        bus_arready,
     input  logic [31:0] bus_rdata,
-    input  logic [3:0]  bus_rid,
     input  logic [1:0]  bus_rresp,
-    input  logic        bus_rlast,
     input  logic        bus_rvalid,
     output logic        bus_rready,
-    output logic [31:0] bus_awaddr,
-    output logic [3:0]  bus_awid,
-    output logic [7:0]  bus_awlen,
-    output logic [2:0]  bus_awsize,
-    output logic [1:0]  bus_awburst,
-    output logic        bus_awvalid,
-    input  logic        bus_awready,
-    output logic [31:0] bus_wdata,
-    output logic [3:0]  bus_wstrb,
-    output logic        bus_wlast,
-    output logic        bus_wvalid,
-    input  logic        bus_wready,
-    input  logic [3:0]  bus_bid,
-    input  logic [1:0]  bus_bresp,
-    input  logic        bus_bvalid,
-    output logic        bus_bready,
+
     
     input clock,
     input reset,
@@ -48,15 +27,12 @@ module ysyx_26040135_AXI_IFU (
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-    
+
     function automatic reg is_executable(input [31:0] addr);
         begin
             is_executable = 1'b0;
             if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
             else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
-            else if (addr[31:13] == 19'h07800) is_executable = 1'b1;   // SRAM
-            else if (addr[31:22] == 10'h200)   is_executable = 1'b1;   // PSRAM
-            else if (addr[31:12] == 20'h20000) is_executable = 1'b1;   // MROM
         end
     endfunction
 
@@ -159,23 +135,7 @@ module ysyx_26040135_AXI_IFU (
     always_comb begin
         bus_arvalid = 1'b0;
         bus_araddr = pc;       
-        bus_arid = 4'b0000;
-        bus_arlen = 8'h00;    // 每次传输一个beat
-        bus_arsize = 3'b010;
-        bus_arburst = 2'b00;   // 每个beat使用相同地址   01递增 10回绕
         bus_rready = 1'b0;
-
-        bus_awvalid = 1'b0;
-        bus_awaddr = '0;
-        bus_wdata = '0;
-        bus_wstrb = '0;
-        bus_awid = 4'b0000;
-        bus_awsize = 3'b010;
-        bus_awlen = 8'h00;
-        bus_awburst = 2'b00;
-        bus_wvalid = 1'b0;
-        bus_wlast  = 1'b0;   // IFU 只读不写, 写通道的 wlast 恒 0
-        bus_bready = 1'b0;
 
         next = state;
             

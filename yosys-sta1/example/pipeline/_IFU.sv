@@ -21,7 +21,7 @@ module ysyx_26040135_AXI_IFU (
     output reg [31:0] out_pc,   
 
     input flush,
-    input [31:0] pc_flush,
+    input [31:0] pc_flush
 
 );
 

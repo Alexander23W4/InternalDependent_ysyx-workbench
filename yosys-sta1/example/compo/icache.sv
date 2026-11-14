@@ -24,22 +24,6 @@ module ysyx_26040135_AXI_ICACHE (
     input   logic        mbus_rlast,
     input   logic        mbus_rvalid,
     output  logic        mbus_rready,
-    output  logic [31:0] mbus_awaddr,
-    output  logic [3:0] mbus_awid,
-    output  logic [7:0] mbus_awlen,
-    output  logic [2:0] mbus_awsize,
-    output  logic [1:0] mbus_awburst,
-    output  logic        mbus_awvalid,
-    input   logic        mbus_awready,
-    output  logic [31:0] mbus_wdata,
-    output  logic [3:0] mbus_wstrb,
-    output  logic        mbus_wlast,
-    output  logic        mbus_wvalid,
-    input   logic        mbus_wready,
-    input   logic [3:0] mbus_bid,
-    input   logic [1:0] mbus_bresp,
-    input   logic        mbus_bvalid,
-    output  logic        mbus_bready,
 
     input [31:0] sw_addr,
     input sw_avail
@@ -168,7 +152,7 @@ module ysyx_26040135_AXI_ICACHE (
         mbus_bready = 1'b0;
 
         instr_valid = 1'b0;
-        fetch_error = 1'b0;
+        fetch_error = 2'b00;
         instr = 32'b0;
 
         case (state)
@@ -200,6 +184,8 @@ module ysyx_26040135_AXI_ICACHE (
                     end 
                 end
             end
+
+            default: ;
 
         endcase
     end

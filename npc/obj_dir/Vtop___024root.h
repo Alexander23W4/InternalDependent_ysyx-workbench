@@ -376,7 +376,7 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__wen;
         CData/*4:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__rd_wbu;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__rresp_save;
-        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat;
+        CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__beat;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__state;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__next;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__error_save;
@@ -1233,8 +1233,8 @@ class Vtop___024root final : public VerilatedModule {
         QData/*32:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4delay_delayer__DOT__write_counter;
         VlUnpacked<CData/*1:0*/, 2> difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar__DOT__awIn_0__DOT__ram_ext__DOT__Memory;
         VlUnpacked<CData/*2:0*/, 2> difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar_1__DOT__awIn_0__DOT__ram_ext__DOT__Memory;
-        VlUnpacked<IData/*31:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache;
-        VlUnpacked<IData/*25:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag;
+        VlUnpacked<VlWide<4>/*127:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache;
+        VlUnpacked<IData/*23:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag;
         VlUnpacked<CData/*0:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid;
         VlUnpacked<IData/*31:0*/, 32> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr;
         VlUnpacked<CData/*7:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__transmitter__DOT__fifo_tx__DOT__tfifo__DOT__ram;

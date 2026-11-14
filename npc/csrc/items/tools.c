@@ -168,6 +168,9 @@ void statistical_print(){
     if(instr_amt != 0){
         printf("[CPI] %.2ld\n", cpu.mcycle / instr_amt);
     }
+    printf("[IFU_STALL] %u\n", ifu_stall);
+    printf("[EXU_STALL] %u\n", exu_stall);
+    printf("[LSU_STALL] %u\n", lsu_stall);
 }
 
 
@@ -201,3 +204,16 @@ void scope_use_dut(void) {
 void scope_use_ref(void) {
     svSetScope(g_ref_scope);
 }
+
+void check_stall{
+    if(!ifu_out_valid && exu_in_ready && !exu_out_valid && lsu_in_ready && !lsu_out_valid && wbu_in_ready){
+        ifu_stall++;
+    }
+    if(ifu_out_valid && !exu_in_ready && exu_out_valid && !lsu_in_ready && !lsu_out_valid && wbu_in_ready){
+        lsu_stall++;
+    }
+    if(ifu_out_valid && !exu_in_ready && !exu_out_valid && lsu_in_ready && !lsu_out_valid && wbu_in_ready){
+        exu_stall++;
+    }
+}
+

@@ -86,6 +86,7 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     static void check_error(int* ifu_error, int* lsu_error, int* master_validation_error);
     static void check_halt(int* endprog);
     static void check_new_instr(int* new_instr);
+    static void check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready);
     static void check_wen(int* wen);
     static void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr);
     static void difftest_read_gpr(int* gprs, int* pc);

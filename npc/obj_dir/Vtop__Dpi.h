@@ -22,6 +22,8 @@ extern "C" {
     extern void check_halt(int* endprog);
     // DPI export at vsrc/dpi-f.sv:55:6
     extern void check_new_instr(int* new_instr);
+    // DPI export at vsrc/dpi-f.sv:81:6
+    extern void check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready);
     // DPI export at vsrc/dpi-f.sv:62:6
     extern void check_wen(int* wen);
     // DPI export at vsrc/dpi-f.sv:15:15

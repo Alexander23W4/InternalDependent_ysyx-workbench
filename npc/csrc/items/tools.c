@@ -205,7 +205,7 @@ void scope_use_ref(void) {
     svSetScope(g_ref_scope);
 }
 
-void check_stall{
+void check_stall(){
     if(!ifu_out_valid && exu_in_ready && !exu_out_valid && lsu_in_ready && !lsu_out_valid && wbu_in_ready){
         ifu_stall++;
     }

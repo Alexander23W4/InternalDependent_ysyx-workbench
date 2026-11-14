@@ -38,6 +38,14 @@ void check_new_instr(int* new_instr) {
 }
 #endif
 
+#ifndef VL_DPIDECL_check_pipeline_bottleneck_
+#define VL_DPIDECL_check_pipeline_bottleneck_
+void check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready) {
+    // DPI export at vsrc/dpi-f.sv:81:6
+    return Vtop::check_pipeline_bottleneck(ifu_out_valid, exu_in_ready, exu_out_valid, lsu_in_ready, lsu_out_valid, wbu_in_ready);
+}
+#endif
+
 #ifndef VL_DPIDECL_check_wen_
 #define VL_DPIDECL_check_wen_
 void check_wen(int* wen) {

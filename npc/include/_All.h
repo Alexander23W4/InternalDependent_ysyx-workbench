@@ -127,6 +127,7 @@ void error_handler();
 void prt_gprs();
 void final_check();
 void statistical_print();
+void check_stall();
 
 // ⭐ 波形(VCD): 实现见 csrc/tools.c. make trace 用 -DWAVE_TRACE=1 打开,
 //    不带这个宏时它们是空函数, 不产生任何开销.

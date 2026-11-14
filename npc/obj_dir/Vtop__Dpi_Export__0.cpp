@@ -123,3 +123,32 @@ void Vtop::difftest_read_gpr(int* gprs, int* pc) {
     for (size_t gprs__Vidx = 0; gprs__Vidx < 32; ++gprs__Vidx) gprs[gprs__Vidx] = (&gprs__Vcvt[0])[gprs__Vidx];
     for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) *pc = pc__Vcvt;
 }
+
+void Vtop::check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_pipeline_bottleneck\n"); );
+    // Init
+    IData/*31:0*/ ifu_out_valid__Vcvt;
+    ifu_out_valid__Vcvt = 0;
+    IData/*31:0*/ exu_in_ready__Vcvt;
+    exu_in_ready__Vcvt = 0;
+    IData/*31:0*/ exu_out_valid__Vcvt;
+    exu_out_valid__Vcvt = 0;
+    IData/*31:0*/ lsu_in_ready__Vcvt;
+    lsu_in_ready__Vcvt = 0;
+    IData/*31:0*/ lsu_out_valid__Vcvt;
+    lsu_out_valid__Vcvt = 0;
+    IData/*31:0*/ wbu_in_ready__Vcvt;
+    wbu_in_ready__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_pipeline_bottleneck");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_check_pipeline_bottleneck_t __Vcb = (Vtop__Vcb_check_pipeline_bottleneck_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), ifu_out_valid__Vcvt, exu_in_ready__Vcvt, exu_out_valid__Vcvt, lsu_in_ready__Vcvt, lsu_out_valid__Vcvt, wbu_in_ready__Vcvt);
+    for (size_t ifu_out_valid__Vidx = 0; ifu_out_valid__Vidx < 1; ++ifu_out_valid__Vidx) *ifu_out_valid = ifu_out_valid__Vcvt;
+    for (size_t exu_in_ready__Vidx = 0; exu_in_ready__Vidx < 1; ++exu_in_ready__Vidx) *exu_in_ready = exu_in_ready__Vcvt;
+    for (size_t exu_out_valid__Vidx = 0; exu_out_valid__Vidx < 1; ++exu_out_valid__Vidx) *exu_out_valid = exu_out_valid__Vcvt;
+    for (size_t lsu_in_ready__Vidx = 0; lsu_in_ready__Vidx < 1; ++lsu_in_ready__Vidx) *lsu_in_ready = lsu_in_ready__Vcvt;
+    for (size_t lsu_out_valid__Vidx = 0; lsu_out_valid__Vidx < 1; ++lsu_out_valid__Vidx) *lsu_out_valid = lsu_out_valid__Vcvt;
+    for (size_t wbu_in_ready__Vidx = 0; wbu_in_ready__Vidx < 1; ++wbu_in_ready__Vidx) *wbu_in_ready = wbu_in_ready__Vcvt;
+}

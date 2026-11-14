@@ -176,6 +176,16 @@ module ysyx_26040135_AXI_ICACHE (
         mbus.arburst = 2'b01;   // INCR: 地址递增突发  
         mbus.rready = 1'b0;
 
+        mbus.awvalid = 1'b0;
+        mbus.awaddr = '0;
+        mbus.wdata = '0;
+        mbus.wstrb = '0;
+        mbus.awid = 4'b0000;
+        mbus.awsize = 3'b010;
+        mbus.awlen = 8'h00;
+        mbus.awburst = 2'b00;
+        mbus.wvalid = 1'b0;
+        mbus.bready = 1'b0;
 
         instr_valid = 1'b0;
         fetch_error = 2'b00;

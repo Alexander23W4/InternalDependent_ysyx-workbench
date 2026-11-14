@@ -116,6 +116,7 @@ module ysyx_26040135(
         .mbus_rlast (bus_icache_rlast),
         .mbus_rvalid (bus_icache_rvalid),
         .mbus_rready (bus_icache_rready),
+
         .clock                          (clock),
         .reset                          (reset),
 
@@ -364,6 +365,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire [7:0]  bus_icache_arlen;
     wire [2:0]  bus_icache_arsize;
     wire [1:0]  bus_icache_arburst, bus_icache_rresp;
+    wire [31:0] bus_icache_awaddr, bus_icache_wdata;
+    wire        bus_icache_awvalid, bus_icache_awready, bus_icache_wlast, bus_icache_wvalid, bus_icache_wready, bus_icache_bvalid, bus_icache_bready;
+    wire [3:0]  bus_icache_awid, bus_icache_wstrb, bus_icache_bid;
+    wire [7:0]  bus_icache_awlen;
+    wire [2:0]  bus_icache_awsize;
+    wire [1:0]  bus_icache_awburst, bus_icache_bresp;
 
     assign io_master_awvalid = bus_master_awvalid;
     assign io_master_awid    = bus_master_awid;

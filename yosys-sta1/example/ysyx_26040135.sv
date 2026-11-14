@@ -97,34 +97,12 @@ module ysyx_26040135(
 
     ysyx_26040135_AXI_ICACHE icache (
         .bus_araddr (bus_ifu_araddr),
-        .bus_arid (bus_ifu_arid),
-        .bus_arlen (bus_ifu_arlen),
-        .bus_arsize (bus_ifu_arsize),
-        .bus_arburst (bus_ifu_arburst),
         .bus_arvalid (bus_ifu_arvalid),
         .bus_arready (bus_ifu_arready),
         .bus_rdata (bus_ifu_rdata),
-        .bus_rid (bus_ifu_rid),
         .bus_rresp (bus_ifu_rresp),
-        .bus_rlast (bus_ifu_rlast),
         .bus_rvalid (bus_ifu_rvalid),
         .bus_rready (bus_ifu_rready),
-        .bus_awaddr (bus_ifu_awaddr),
-        .bus_awid (bus_ifu_awid),
-        .bus_awlen (bus_ifu_awlen),
-        .bus_awsize (bus_ifu_awsize),
-        .bus_awburst (bus_ifu_awburst),
-        .bus_awvalid (bus_ifu_awvalid),
-        .bus_awready (bus_ifu_awready),
-        .bus_wdata (bus_ifu_wdata),
-        .bus_wstrb (bus_ifu_wstrb),
-        .bus_wlast (bus_ifu_wlast),
-        .bus_wvalid (bus_ifu_wvalid),
-        .bus_wready (bus_ifu_wready),
-        .bus_bid (bus_ifu_bid),
-        .bus_bresp (bus_ifu_bresp),
-        .bus_bvalid (bus_ifu_bvalid),
-        .bus_bready (bus_ifu_bready),
         .mbus_araddr (bus_icache_araddr),
         .mbus_arid (bus_icache_arid),
         .mbus_arlen (bus_icache_arlen),
@@ -138,22 +116,6 @@ module ysyx_26040135(
         .mbus_rlast (bus_icache_rlast),
         .mbus_rvalid (bus_icache_rvalid),
         .mbus_rready (bus_icache_rready),
-        .mbus_awaddr (bus_icache_awaddr),
-        .mbus_awid (bus_icache_awid),
-        .mbus_awlen (bus_icache_awlen),
-        .mbus_awsize (bus_icache_awsize),
-        .mbus_awburst (bus_icache_awburst),
-        .mbus_awvalid (bus_icache_awvalid),
-        .mbus_awready (bus_icache_awready),
-        .mbus_wdata (bus_icache_wdata),
-        .mbus_wstrb (bus_icache_wstrb),
-        .mbus_wlast (bus_icache_wlast),
-        .mbus_wvalid (bus_icache_wvalid),
-        .mbus_wready (bus_icache_wready),
-        .mbus_bid (bus_icache_bid),
-        .mbus_bresp (bus_icache_bresp),
-        .mbus_bvalid (bus_icache_bvalid),
-        .mbus_bready (bus_icache_bready),
         .clock                          (clock),
         .reset                          (reset),
 
@@ -163,34 +125,12 @@ module ysyx_26040135(
 
     ysyx_26040135_AXI_IFU ifu (
         .bus_araddr (bus_ifu_araddr),
-        .bus_arid (bus_ifu_arid),
-        .bus_arlen (bus_ifu_arlen),
-        .bus_arsize (bus_ifu_arsize),
-        .bus_arburst (bus_ifu_arburst),
         .bus_arvalid (bus_ifu_arvalid),
         .bus_arready (bus_ifu_arready),
         .bus_rdata (bus_ifu_rdata),
-        .bus_rid (bus_ifu_rid),
         .bus_rresp (bus_ifu_rresp),
-        .bus_rlast (bus_ifu_rlast),
         .bus_rvalid (bus_ifu_rvalid),
         .bus_rready (bus_ifu_rready),
-        .bus_awaddr (bus_ifu_awaddr),
-        .bus_awid (bus_ifu_awid),
-        .bus_awlen (bus_ifu_awlen),
-        .bus_awsize (bus_ifu_awsize),
-        .bus_awburst (bus_ifu_awburst),
-        .bus_awvalid (bus_ifu_awvalid),
-        .bus_awready (bus_ifu_awready),
-        .bus_wdata (bus_ifu_wdata),
-        .bus_wstrb (bus_ifu_wstrb),
-        .bus_wlast (bus_ifu_wlast),
-        .bus_wvalid (bus_ifu_wvalid),
-        .bus_wready (bus_ifu_wready),
-        .bus_bid (bus_ifu_bid),
-        .bus_bresp (bus_ifu_bresp),
-        .bus_bvalid (bus_ifu_bvalid),
-        .bus_bready (bus_ifu_bready),
         .clock(clock),
         .reset(reset),
         .__error(__ifu_error),
@@ -390,13 +330,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 
 // ⭐: BUS 总线相关
-    wire [31:0] bus_ifu_araddr, bus_ifu_awaddr, bus_ifu_wdata, bus_ifu_rdata;
-    wire        bus_ifu_arvalid, bus_ifu_arready, bus_ifu_rvalid, bus_ifu_rready, bus_ifu_rlast;
-    wire        bus_ifu_awvalid, bus_ifu_awready, bus_ifu_wvalid, bus_ifu_wready, bus_ifu_wlast, bus_ifu_bvalid, bus_ifu_bready;
-    wire [3:0]  bus_ifu_arid, bus_ifu_rid, bus_ifu_awid, bus_ifu_wstrb, bus_ifu_bid;
-    wire [7:0]  bus_ifu_arlen, bus_ifu_awlen;
-    wire [2:0]  bus_ifu_arsize, bus_ifu_awsize;
-    wire [1:0]  bus_ifu_arburst, bus_ifu_awburst, bus_ifu_rresp, bus_ifu_bresp;
+    wire [31:0] bus_ifu_araddr, bus_ifu_rdata;
+    wire        bus_ifu_arvalid, bus_ifu_arready, bus_ifu_rvalid, bus_ifu_rready;
+    wire [1:0]  bus_ifu_rresp;
     wire [31:0] bus_lsu_araddr, bus_lsu_awaddr, bus_lsu_wdata, bus_lsu_rdata;
     wire        bus_lsu_arvalid, bus_lsu_arready, bus_lsu_rvalid, bus_lsu_rready, bus_lsu_rlast;
     wire        bus_lsu_awvalid, bus_lsu_awready, bus_lsu_wvalid, bus_lsu_wready, bus_lsu_wlast, bus_lsu_bvalid, bus_lsu_bready;
@@ -418,13 +354,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire [7:0]  bus_clint_arlen, bus_clint_awlen;
     wire [2:0]  bus_clint_arsize, bus_clint_awsize;
     wire [1:0]  bus_clint_arburst, bus_clint_awburst, bus_clint_rresp, bus_clint_bresp;
-    wire [31:0] bus_icache_araddr, bus_icache_awaddr, bus_icache_wdata, bus_icache_rdata;
+    wire [31:0] bus_icache_araddr, bus_icache_rdata;
     wire        bus_icache_arvalid, bus_icache_arready, bus_icache_rvalid, bus_icache_rready, bus_icache_rlast;
-    wire        bus_icache_awvalid, bus_icache_awready, bus_icache_wvalid, bus_icache_wready, bus_icache_wlast, bus_icache_bvalid, bus_icache_bready;
-    wire [3:0]  bus_icache_arid, bus_icache_rid, bus_icache_awid, bus_icache_wstrb, bus_icache_bid;
-    wire [7:0]  bus_icache_arlen, bus_icache_awlen;
-    wire [2:0]  bus_icache_arsize, bus_icache_awsize;
-    wire [1:0]  bus_icache_arburst, bus_icache_awburst, bus_icache_rresp, bus_icache_bresp;
+    wire [3:0]  bus_icache_arid, bus_icache_rid;
+    wire [7:0]  bus_icache_arlen;
+    wire [2:0]  bus_icache_arsize;
+    wire [1:0]  bus_icache_arburst, bus_icache_rresp;
 
     assign io_master_awvalid = bus_master_awvalid;
     assign io_master_awid    = bus_master_awid;
@@ -480,22 +415,6 @@ ysyx_26040135_AXI4_Xbar u_xbar (
     .ifu_s_rlast (bus_icache_rlast),
     .ifu_s_rvalid (bus_icache_rvalid),
     .ifu_s_rready (bus_icache_rready),
-    .ifu_s_awaddr (bus_icache_awaddr),
-    .ifu_s_awid (bus_icache_awid),
-    .ifu_s_awlen (bus_icache_awlen),
-    .ifu_s_awsize (bus_icache_awsize),
-    .ifu_s_awburst (bus_icache_awburst),
-    .ifu_s_awvalid (bus_icache_awvalid),
-    .ifu_s_awready (bus_icache_awready),
-    .ifu_s_wdata (bus_icache_wdata),
-    .ifu_s_wstrb (bus_icache_wstrb),
-    .ifu_s_wlast (bus_icache_wlast),
-    .ifu_s_wvalid (bus_icache_wvalid),
-    .ifu_s_wready (bus_icache_wready),
-    .ifu_s_bid (bus_icache_bid),
-    .ifu_s_bresp (bus_icache_bresp),
-    .ifu_s_bvalid (bus_icache_bvalid),
-    .ifu_s_bready (bus_icache_bready),
     .lsu_s_araddr (bus_lsu_araddr),
     .lsu_s_arid (bus_lsu_arid),
     .lsu_s_arlen (bus_lsu_arlen),

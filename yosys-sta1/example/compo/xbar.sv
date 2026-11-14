@@ -17,7 +17,7 @@ module ysyx_26040135_AXI4_Xbar (
     input  logic reset,
 
     // 1. IFU Master 接口 (来自 CPU 内部取指单元，使用 slave modport 接收)
-        input  logic [31:0] ifu_s_araddr,
+    input  logic [31:0] ifu_s_araddr,
     input  logic [3:0]  ifu_s_arid,
     input  logic [7:0]  ifu_s_arlen,
     input  logic [2:0]  ifu_s_arsize,
@@ -30,23 +30,6 @@ module ysyx_26040135_AXI4_Xbar (
     output logic        ifu_s_rlast,
     output logic        ifu_s_rvalid,
     input  logic        ifu_s_rready,
-    input  logic [31:0] ifu_s_awaddr,
-    input  logic [3:0]  ifu_s_awid,
-    input  logic [7:0]  ifu_s_awlen,
-    input  logic [2:0]  ifu_s_awsize,
-    input  logic [1:0]  ifu_s_awburst,
-    input  logic        ifu_s_awvalid,
-    output logic        ifu_s_awready,
-    input  logic [31:0] ifu_s_wdata,
-    input  logic [3:0]  ifu_s_wstrb,
-    input  logic        ifu_s_wlast,
-    input  logic        ifu_s_wvalid,
-    output logic        ifu_s_wready,
-    output logic [3:0]  ifu_s_bid,
-    output logic [1:0]  ifu_s_bresp,
-    output logic        ifu_s_bvalid,
-    input  logic        ifu_s_bready,
-
     // 2. LSU Master 接口 (来自 CPU 内部访存单元，使用 slave modport 接收)
         input  logic [31:0] lsu_s_araddr,
     input  logic [3:0]  lsu_s_arid,
@@ -333,10 +316,4 @@ module ysyx_26040135_AXI4_Xbar (
                         (!r_sel_clint && sel_ifu) ? ifu_s_rready : 1'b0;
 
     // IFU 只读: 写通道的响应恒 0(vsrc 里这几根本来悬空, 综合前必须给驱动)
-    assign ifu_s_awready = 1'b0;
-    assign ifu_s_wready  = 1'b0;
-    assign ifu_s_bvalid  = 1'b0;
-    assign ifu_s_bid     = 4'b0;
-    assign ifu_s_bresp   = 2'b0;
-
 endmodule

@@ -254,19 +254,36 @@ module ysyx_26040135(
     wire [31:0] sw_addr;   
 
     ysyx_26040135_AXI_ICACHE icache (
-        .bus                            (bus_ifu.slave),
-        .mbus                           (bus_icache.master),
-        .clock                          (clock),
-        .reset                          (reset),
-
-        .sw_addr                        (sw_addr),
-        .sw_avail                       (sw_avail)
-    );
-
-    ysyx_26040135_AXI_IFU ifu (
-        .bus(bus_ifu.master),
+        .mbus(bus_icache.master),
         .clock(clock),
         .reset(reset),
+
+        .fetch_valid(fetch_valid),
+        .instr_valid(instr_valid),
+        .instr(instr_icache),
+        .fetch_error(fetch_error),
+        .fetch_addr(fetch_addr),
+
+        .sw_addr(sw_addr),
+        .sw_avail(sw_avail)
+    );
+
+    wire fetch_valid;
+    wire instr_valid;
+    wire [31:0] instr_icache;
+    wire [1:0] fetch_error;
+    wire [31:0] fetch_addr;
+
+    ysyx_26040135_AXI_IFU ifu (
+        .clock(clock),
+        .reset(reset),
+
+        .fetch_valid(fetch_valid),
+        .instr_valid(instr_valid),
+        .instr(instr_icache),
+        .fetch_error(fetch_error),
+        .fetch_addr(fetch_addr),
+
         .__error(__ifu_error),
         .__master_validation_error(__ifu_master_validation_error),
         .out_instr(instr),
@@ -468,7 +485,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 
 // ⭐: BUS 总线相关
-    ysyx_26040135_AXI4 bus_ifu ();
     ysyx_26040135_AXI4 bus_lsu ();
     ysyx_26040135_AXI4 bus_master();
     ysyx_26040135_AXI4 bus_clint ();     // Xbar <-> CLINT (0x0200_0000~0x0200_ffff)

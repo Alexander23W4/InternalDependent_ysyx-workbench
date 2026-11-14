@@ -57,6 +57,7 @@ module ysyx_26040135_AXI_ICACHE (
     output instr_valid,   // icache固定给一个周期
     output [31:0] instr,
     output [1:0] fetch_error,
+    input [31:0] fetch_addr,
 
     ysyx_26040135_AXI4.master mbus,   // ->系统总线
 
@@ -100,18 +101,18 @@ module ysyx_26040135_AXI_ICACHE (
 
 
 
-// 下面的这些都是从bus.araddr开始的, bus.araddr是连着pc(reg)的, bus,araddr在ifu访存(icache)期间不会改变
+// 下面的这些都是从fetch_addr开始的, fetch_addr是连着pc(reg)的, bus,araddr在ifu访存(icache)期间不会改变
 
     logic [TAG_LEN-1:0]   current_tag;
     logic [INDEX_LEN-1:0] current_index;
     logic [31:0]          current_word;     // 行内第几个 32 位字
 
-    assign current_tag   = bus.araddr[31:INDEX_LEN+OFFSET_LEN];
-    assign current_index = bus.araddr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
-    assign current_word  = 32'(bus.araddr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
+    assign current_tag   = fetch_addr[31:INDEX_LEN+OFFSET_LEN];
+    assign current_index = fetch_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
+    assign current_word  = 32'(fetch_addr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
 
     // 突发读的起始地址
-    wire [31:0] line_addr = {bus.araddr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
+    wire [31:0] line_addr = {fetch_addr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
 
 
 

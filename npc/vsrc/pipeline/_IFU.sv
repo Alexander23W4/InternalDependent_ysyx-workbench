@@ -37,6 +37,7 @@ module ysyx_26040135_AXI_IFU (
     input instr_valid,   // icache固定给一个周期
     input [31:0] instr,
     input [1:0] fetch_error,
+    output [31:0] fetch_addr,
     
     output [1:0] __error,   //  普通错误号
     output __master_validation_error,   // 该 master 非法访问
@@ -81,6 +82,8 @@ module ysyx_26040135_AXI_IFU (
 
     // 内部寄存器
     reg [31:0] pc;       
+
+    assign fetch_addr = pc;
 
     // 状态
     typedef enum logic [1:0]{ 

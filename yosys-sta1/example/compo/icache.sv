@@ -1,14 +1,15 @@
 
+
 module ysyx_26040135_AXI_ICACHE (
 
-    input   logic [31:0] bus_araddr,
-    input   logic        bus_arvalid,
-    output  logic        bus_arready,
-    output  logic [31:0] bus_rdata,
-    output  logic [1:0] bus_rresp,
-    output  logic        bus_rvalid,
-    input   logic        bus_rready,
+    input clock, 
+    input reset,
 
+    input fetch_valid,
+    output logic instr_valid,   // icache固定给一个周期
+    output logic [31:0] instr,
+    output logic [1:0] fetch_error,
+    input [31:0] fetch_addr,
 
     output  logic [31:0] mbus_araddr,
     output  logic [3:0] mbus_arid,
@@ -23,10 +24,22 @@ module ysyx_26040135_AXI_ICACHE (
     input   logic        mbus_rlast,
     input   logic        mbus_rvalid,
     output  logic        mbus_rready,
-
-
-    input clock, 
-    input reset,
+    output  logic [31:0] mbus_awaddr,
+    output  logic [3:0] mbus_awid,
+    output  logic [7:0] mbus_awlen,
+    output  logic [2:0] mbus_awsize,
+    output  logic [1:0] mbus_awburst,
+    output  logic        mbus_awvalid,
+    input   logic        mbus_awready,
+    output  logic [31:0] mbus_wdata,
+    output  logic [3:0] mbus_wstrb,
+    output  logic        mbus_wlast,
+    output  logic        mbus_wvalid,
+    input   logic        mbus_wready,
+    input   logic [3:0] mbus_bid,
+    input   logic [1:0] mbus_bresp,
+    input   logic        mbus_bvalid,
+    output  logic        mbus_bready,
 
     input [31:0] sw_addr,
     input sw_avail
@@ -34,11 +47,11 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     `ifndef ICACHE_LINE_BYTES   // 这个cache_line 是要整体传输的, 所以最好设置成总线带宽的倍数, 这样方便burst传输
-        `define ICACHE_LINE_BYTES 16    // 对应 OFFSET
+        `define ICACHE_LINE_BYTES 8    // 对应 OFFSET
     `endif
 
     `ifndef ICACHE_LINE_AMT
-        `define ICACHE_LINE_AMT 4    // 对应 INDEX
+        `define ICACHE_LINE_AMT 8    // 对应 INDEX
     `endif
 
     parameter ICACHE_LINE_BYTES = `ICACHE_LINE_BYTES;
@@ -68,24 +81,27 @@ module ysyx_26040135_AXI_ICACHE (
 
 
 
-// 下面的这些都是从bus.araddr开始的, bus_araddr是连着pc(reg)的, bus,araddr在ifu访存(icache)期间不会改变
+// 下面的这些都是从fetch_addr开始的, fetch_addr是连着pc(reg)的, bus,araddr在ifu访存(icache)期间不会改变
 
     logic [TAG_LEN-1:0]   current_tag;
     logic [INDEX_LEN-1:0] current_index;
     logic [31:0]          current_word;     // 行内第几个 32 位字
 
-    assign current_tag   = bus_araddr[31:INDEX_LEN+OFFSET_LEN];
-    assign current_index = bus_araddr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
-    assign current_word  = {{(32-OFFSET_LEN){1'b0}}, bus_araddr[OFFSET_LEN-1:0]} >> 2;   // 显式零扩展到 32 位再移位
+    assign current_tag   = fetch_addr[31:INDEX_LEN+OFFSET_LEN];
+    assign current_index = fetch_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
+    assign current_word  = {{(32-OFFSET_LEN){1'b0}}, fetch_addr[OFFSET_LEN-1:0]} >> 2;   // 显式零扩展到 32 位再移位
 
     // 突发读的起始地址
-    wire [31:0] line_addr = {bus_araddr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
+    wire [31:0] line_addr = {fetch_addr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
+
 
 
     typedef enum logic [1:0]{ 
-        IDLE, MISS_AR, MISS_R, RETURN
+        IDLE, MISS_AR, MISS_R
     } state_t;
     state_t state, next;
+
+
 
 
     always @( posedge clock or posedge reset ) begin
@@ -99,7 +115,7 @@ module ysyx_26040135_AXI_ICACHE (
         end else begin
             state <= next;
 
-            if(state == IDLE && bus_arvalid) begin   // 清掉上一次访存的残留状态
+            if(state == MISS_AR) begin   // 清掉上一次访存的残留状态
                 rresp_save  <= 2'b00;       
                 beat <= '0;
             end
@@ -132,12 +148,6 @@ module ysyx_26040135_AXI_ICACHE (
     always_comb begin
         next = state;
 
-        bus_arready = 1'b0;
-        bus_rvalid  = 1'b0;
-        bus_rdata   = 32'b0;
-        bus_rresp   = 2'b00;
-
-
         mbus_arvalid = 1'b0;
         mbus_araddr = line_addr;
         mbus_arid = 4'b0000;
@@ -146,14 +156,28 @@ module ysyx_26040135_AXI_ICACHE (
         mbus_arburst = 2'b01;   // INCR: 地址递增突发  
         mbus_rready = 1'b0;
 
-        next = state;
+        mbus_awvalid = 1'b0;
+        mbus_awaddr = '0;
+        mbus_wdata = '0;
+        mbus_wstrb = '0;
+        mbus_awid = 4'b0000;
+        mbus_awsize = 3'b010;
+        mbus_awlen = 8'h00;
+        mbus_awburst = 2'b00;
+        mbus_wvalid = 1'b0;
+        mbus_bready = 1'b0;
+
+        instr_valid = 1'b0;
+        fetch_error = 1'b0;
+        instr = 32'b0;
 
         case (state)
             IDLE: begin
-                if(bus_arvalid) begin
-                    bus_arready = 1'b1;      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
-                    if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin 
-                        next = RETURN;      // cache hit
+                if(fetch_valid) begin      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
+                    if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
+                        instr_valid = 1'b1;
+                        instr = icache[current_index][current_word*32 +: 32]; 
+                        fetch_error = rresp_save;
                     end else begin
                         next = MISS_AR;     // cache miss
                     end
@@ -172,21 +196,15 @@ module ysyx_26040135_AXI_ICACHE (
                 if(mbus_rvalid) begin
                     mbus_rready = 1'b1;
                     if(mbus_rlast) begin
-                        next = RETURN;
-                    end
-                end
-            end
-
-            RETURN: begin
-                bus_rvalid = 1'b1;
-                bus_rdata = icache[current_index][current_word*32 +: 32];    // ⭐
-                bus_rresp = rresp_save;           // 把存储器(如果有)的rresp带过来
-                if(bus_rready) begin
-                    next = IDLE;
+                        next = IDLE;   // 这里icache处理完cache miss, 直接回到IDLE去读一遍给IFU
+                    end 
                 end
             end
 
         endcase
     end
+
+    // icache 的 master 只发读, W 通道不用, wlast 固定 0
+    assign mbus_wlast = 1'b0;
 
 endmodule

@@ -96,13 +96,13 @@ module ysyx_26040135(
     wire [31:0] sw_addr;   
 
     ysyx_26040135_AXI_ICACHE icache (
-        .bus_araddr (bus_ifu_araddr),
-        .bus_arvalid (bus_ifu_arvalid),
-        .bus_arready (bus_ifu_arready),
-        .bus_rdata (bus_ifu_rdata),
-        .bus_rresp (bus_ifu_rresp),
-        .bus_rvalid (bus_ifu_rvalid),
-        .bus_rready (bus_ifu_rready),
+        
+        .fetch_valid(fetch_valid),
+        .instr_valid(instr_valid),
+        .instr(instr_icache),
+        .fetch_error(fetch_error),
+        .fetch_addr(fetch_addr),
+
         .mbus_araddr (bus_icache_araddr),
         .mbus_arid (bus_icache_arid),
         .mbus_arlen (bus_icache_arlen),
@@ -124,15 +124,15 @@ module ysyx_26040135(
     );
 
     ysyx_26040135_AXI_IFU ifu (
-        .bus_araddr (bus_ifu_araddr),
-        .bus_arvalid (bus_ifu_arvalid),
-        .bus_arready (bus_ifu_arready),
-        .bus_rdata (bus_ifu_rdata),
-        .bus_rresp (bus_ifu_rresp),
-        .bus_rvalid (bus_ifu_rvalid),
-        .bus_rready (bus_ifu_rready),
         .clock(clock),
         .reset(reset),
+
+        .fetch_valid(fetch_valid),
+        .instr_valid(instr_valid),
+        .instr(instr_icache),
+        .fetch_error(fetch_error),
+        .fetch_addr(fetch_addr),
+
         .__error(__ifu_error),
         .__master_validation_error(__ifu_master_validation_error),
         .out_instr(instr),
@@ -330,9 +330,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -------------------------------------------------------------------------------------------------------------*/
 
 // ⭐: BUS 总线相关
-    wire [31:0] bus_ifu_araddr, bus_ifu_rdata;
-    wire        bus_ifu_arvalid, bus_ifu_arready, bus_ifu_rvalid, bus_ifu_rready;
-    wire [1:0]  bus_ifu_rresp;
     wire [31:0] bus_lsu_araddr, bus_lsu_awaddr, bus_lsu_wdata, bus_lsu_rdata;
     wire        bus_lsu_arvalid, bus_lsu_arready, bus_lsu_rvalid, bus_lsu_rready, bus_lsu_rlast;
     wire        bus_lsu_awvalid, bus_lsu_awready, bus_lsu_wvalid, bus_lsu_wready, bus_lsu_wlast, bus_lsu_bvalid, bus_lsu_bready;
@@ -354,6 +351,13 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire [7:0]  bus_clint_arlen, bus_clint_awlen;
     wire [2:0]  bus_clint_arsize, bus_clint_awsize;
     wire [1:0]  bus_clint_arburst, bus_clint_awburst, bus_clint_rresp, bus_clint_bresp;
+
+    wire        fetch_valid;
+    wire        instr_valid;
+    wire [31:0] instr_icache;
+    wire [1:0]  fetch_error;
+    wire [31:0] fetch_addr;
+
     wire [31:0] bus_icache_araddr, bus_icache_rdata;
     wire        bus_icache_arvalid, bus_icache_arready, bus_icache_rvalid, bus_icache_rready, bus_icache_rlast;
     wire [3:0]  bus_icache_arid, bus_icache_rid;

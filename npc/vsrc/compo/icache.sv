@@ -111,7 +111,7 @@ module ysyx_26040135_AXI_ICACHE (
 
 
 
-    typedef enum logic [2:0]{ 
+    typedef enum logic [1:0]{ 
         IDLE, MISS_AR, MISS_R, RETURN
     } state_t;
     state_t state, next;
@@ -196,7 +196,7 @@ module ysyx_26040135_AXI_ICACHE (
         mbus.wvalid = 1'b0;
         mbus.bready = 1'b0;
 
-        next = IDLE;
+        next = state;
 
         case (state)
             IDLE: begin

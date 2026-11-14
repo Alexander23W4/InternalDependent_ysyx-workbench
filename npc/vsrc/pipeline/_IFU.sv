@@ -58,9 +58,9 @@ module ysyx_26040135_AXI_IFU (
             is_executable = 1'b0;
             if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
             else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
-            else if (addr[31:13] == 19'h07800) is_executable = 1'b1;   // SRAM
-            else if (addr[31:22] == 10'h200)   is_executable = 1'b1;   // PSRAM
-            else if (addr[31:12] == 20'h20000) is_executable = 1'b1;   // MROM
+            // else if (addr[31:13] == 19'h07800) is_executable = 1'b1;   // SRAM
+            // else if (addr[31:22] == 10'h200)   is_executable = 1'b1;   // PSRAM
+            // else if (addr[31:12] == 20'h20000) is_executable = 1'b1;   // MROM
         end
     endfunction
 

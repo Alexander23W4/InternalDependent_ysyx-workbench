@@ -48,14 +48,7 @@ module ysyx_26040135_AXI_IFU (
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-    // 用 if 链代替 struct 数组初始化
-    // 只需要 executable, 用高位比较代替 32 位范围比较(省掉比较器级联)
-    //   Flash  0x3000_0000 + 256MB  -> addr[31:28] == 4'h3
-    //   SDRAM  0xa000_0000 + 128MB  -> addr[31:27] == 5'b10100
-    //   SRAM   0x0f00_0000 + 8KB    -> addr[31:13] == 19'h07800
-    //   PSRAM  0x8000_0000 + 4MB    -> addr[31:22] == 10'h200
-    //   MROM   0x2000_0000 + 4KB    -> addr[31:12] == 20'h20000
-    //   UART   0x1000_0000 + 4KB    -> 不可执行, 落到 default(0)
+    
     function automatic reg is_executable(input [31:0] addr);
         begin
             is_executable = 1'b0;
@@ -152,7 +145,7 @@ module ysyx_26040135_AXI_IFU (
                 end
             end
 
-            if(state == IDLE) begin  // 如果都到IDLE了, 不肯能还存有flush_save, 直接监视flush即可
+            if(state == IDLE) begin  // 如果都到IDLE了, 不可能还存有flush_save, 直接监视flush即可
                 if(flush) begin
                     pc <= pc_flush;
                 end 
@@ -211,12 +204,5 @@ module ysyx_26040135_AXI_IFU (
         endcase
     end
 
-
-
-// assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-
-// (SVA 断言在综合版里去掉)
-
-// assert +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
 endmodule

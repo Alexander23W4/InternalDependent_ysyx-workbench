@@ -39,6 +39,15 @@ icache 的 hit的CPI 和 miss的CPI
 
 */
 
+/*
+一定要把cache的优化流程弄的非常熟, 做基于统计的优化, 
+cache这里的 block, set-associative, agorithm(替换算法), 时序优化减少hit-time, multi_level, write_buf, 总面积 的 优化永远都是重点
+cache一定是关键路径
+
+一定要熟用cachesim
+烂熟 统计->优化->统计->优化 的流程
+*/
+
 module ysyx_26040135_AXI_ICACHE (
     ysyx_26040135_AXI4.slave bus,
     ysyx_26040135_AXI4.master mbus,
@@ -50,8 +59,8 @@ module ysyx_26040135_AXI_ICACHE (
 );
 
 
-    `ifndef ICACHE_LINE_BYTES
-        `define ICACHE_LINE_BYTES 4
+    `ifndef ICACHE_LINE_BYTES   // 这个cache_line 是要整体传输的, 所以最好设置成总线带宽的倍数, 这样方便burst传输
+        `define ICACHE_LINE_BYTES 4    
     `endif
 
     `ifndef ICACHE_LINE_AMT
@@ -64,19 +73,18 @@ module ysyx_26040135_AXI_ICACHE (
     localparam OFFSET_LEN      = $clog2(ICACHE_LINE_BYTES);     // 块内偏移位数
     localparam INDEX_LEN       = $clog2(ICACHE_LINE_AMT);       // 块索引位数
     localparam TAG_LEN         = 32 - INDEX_LEN - OFFSET_LEN;  // 标签位数
+
     localparam CACHE_LINE_BITS = ICACHE_LINE_BYTES * 8;         // 一行多少位
     localparam LINE_WORDS      = ICACHE_LINE_BYTES / 4;         // 一行几个 32 位字 = 突发拍数
-    localparam BEAT_LEN        = (LINE_WORDS > 1) ? $clog2(LINE_WORDS) : 1;
+
+    localparam BEAT_LEN        = (LINE_WORDS > 1) ? $clog2(LINE_WORDS) : 1;   // 表示突发拍数counter的位数
+
     localparam [7:0] ARLEN     = 8'(LINE_WORDS - 1);           // AXI 的 arlen = 拍数 - 1
 
 
-    // 可缓存区域的地址高位(见 ysyxsoc.h 的地址表)。两个区间都正好是从 0x?000_0000
-    // 开始的 256MB 对齐块, 所以直接看 addr[31:28] 就够了, 不用 32 位比较器。
-    localparam [3:0] FLASH_TAG = 4'h3;                         // flash 0x3000_0000~0x3fff_ffff
-    localparam [3:0] SDRAM_TAG0 = 4'hA, SDRAM_TAG1 = 4'hB;     // sdram 0xa000_0000~0xbfff_ffff
 
+    logic [CACHE_LINE_BITS-1:0] icache [0:ICACHE_LINE_AMT-1];     // icache
 
-    logic [CACHE_LINE_BITS-1:0] icache [0:ICACHE_LINE_AMT-1];
     logic [TAG_LEN-1:0]         tag    [0:ICACHE_LINE_AMT-1];
     logic                       valid  [0:ICACHE_LINE_AMT-1];
 
@@ -85,7 +93,7 @@ module ysyx_26040135_AXI_ICACHE (
     logic [3:0]  bid_save;                  // 写通道要回同一个 awid
     logic [31:0] rdata_save;
 
-    logic [BEAT_LEN-1:0] beat;              // 突发读收到第几拍了
+    logic [BEAT_LEN-1:0] beat;              // 突发读收counter
 
 
 
@@ -104,17 +112,7 @@ module ysyx_26040135_AXI_ICACHE (
     // 填入时用的位偏移
     wire [31:0] beat_bit  = beat * 32;
 
-    // ⭐ 哪些取指允许写进 icache: 只有 flash 和 SDRAM。
-    //    其他区域(SRAM / CLINT / MMIO ...)只是"借道访存": 照样发请求、照样把数据返回给
-    //    IFU, 但不填行、不置 valid, 下次还要重新访存。
-    //    ⭐ 判据必须用锁存下来的 araddr_save, 不能用 bus.araddr: 后者是 master 当前
-    //      驱动的地址, 只在请求那一拍保证等于本笔事务的地址(现在 IFU 恰好一直举着 pc,
-    //      所以碰巧也对), 事务后半段不保证还指着同一笔。
-    //    ⭐ 只看高 4 位: 一行 4 位比较器, 比两个 32 位比较器省很多面积/延迟,
-    //      而且它挂在 OPERATE 的组合路径上(命中判断要用)。
-    wire [3:0] req_region = araddr_save[31:28];
-    wire req_cacheable = (req_region == FLASH_TAG) ||
-                         (req_region == SDRAM_TAG0) || (req_region == SDRAM_TAG1);
+
 
 
     typedef enum logic [2:0]{ 
@@ -163,7 +161,7 @@ module ysyx_26040135_AXI_ICACHE (
 
             // ---- 突发读每一拍: 可缓存区域才按拍号填进这一行; 其他区域只把数据带回去 ----
             if(state == DRAM_R && mbus.rvalid) begin
-                if(req_cacheable && mbus.rresp == 2'b00) begin
+                if(mbus.rresp == 2'b00) begin
                     icache[current_index][beat_bit +: 32] <= mbus.rdata;
                     if(mbus.rlast) begin
                         valid[current_index] <= 1'b1;   // 整行收齐了才算有效
@@ -207,9 +205,9 @@ module ysyx_26040135_AXI_ICACHE (
         mbus.arvalid = 1'b0;
         // 可缓存区域: 按行对齐发突发读, 一次把整行取回来;
         // 不可缓存区域: 只取需要的那一个字(单拍), 没必要多读
-        mbus.araddr = req_cacheable ? line_addr : araddr_save;
+        mbus.araddr = line_addr;
         mbus.arid = 4'b0000;
-        mbus.arlen = req_cacheable ? ARLEN : 8'h00;   // 一行几个字就发几拍; 4B 块时 = 0
+        mbus.arlen = ARLEN;   // 一行几个字就发几拍; 4B 块时 = 0
         mbus.arsize = 3'b010;           // 每拍 4 字节
         mbus.arburst = 2'b01;           // INCR: 多拍时地址要递增
         mbus.rready = 1'b0;
@@ -247,7 +245,7 @@ module ysyx_26040135_AXI_ICACHE (
             OPERATE: begin
                 bus.arready = 1'b1;     
                 // 只有可缓存区域才去查 tag/valid; 其他区域一律当 miss(而且也不会填行)
-                if(req_cacheable && valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin
+                if(valid[current_index] == 1'b1 && current_tag == tag[current_index]) begin
                     next = RETURN;      // cache hit
                 end else begin
                     next = DRAM_AR;     // cache miss(或者不在可缓存区域)
@@ -273,8 +271,7 @@ module ysyx_26040135_AXI_ICACHE (
             RETURN: begin
                 bus.rvalid = 1'b1;
                 // 可缓存的从 cache 行里按 offset 选字; 不可缓存的用访存直接带回来的数据
-                bus.rdata = req_cacheable ? icache[current_index][current_word*32 +: 32]
-                                          : rdata_save;
+                bus.rdata = icache[current_index][current_word*32 +: 32];
                 bus.rresp = rresp_save;
                 bus.rlast = 1'b1;               // 单拍返回: 这一拍就是最后一拍
                 if(bus.rready) begin

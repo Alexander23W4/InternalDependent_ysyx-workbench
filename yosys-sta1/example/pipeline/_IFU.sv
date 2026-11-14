@@ -49,15 +49,21 @@ module ysyx_26040135_AXI_IFU (
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
     // 用 if 链代替 struct 数组初始化
+    // 只需要 executable, 用高位比较代替 32 位范围比较(省掉比较器级联)
+    //   Flash  0x3000_0000 + 256MB  -> addr[31:28] == 4'h3
+    //   SDRAM  0xa000_0000 + 128MB  -> addr[31:27] == 5'b10100
+    //   SRAM   0x0f00_0000 + 8KB    -> addr[31:13] == 19'h07800
+    //   PSRAM  0x8000_0000 + 4MB    -> addr[31:22] == 10'h200
+    //   MROM   0x2000_0000 + 4KB    -> addr[31:12] == 20'h20000
+    //   UART   0x1000_0000 + 4KB    -> 不可执行, 落到 default(0)
     function automatic reg is_executable(input [31:0] addr);
         begin
             is_executable = 1'b0;
-            if      (addr >= 32'h30000000 && addr < 32'h40000000) is_executable = 1'b1;  // Flash
-            else if (addr >= 32'ha0000000 && addr < 32'ha8000000) is_executable = 1'b1;  // SDRAM
-            else if (addr >= 32'h0f000000 && addr < 32'h0f002000) is_executable = 1'b1;  // SRAM
-            else if (addr >= 32'h80000000 && addr < 32'h80400000) is_executable = 1'b1;  // PSRAM
-            else if (addr >= 32'h20000000 && addr < 32'h20001000) is_executable = 1'b0;  // MROM
-            else if (addr >= 32'h10000000 && addr < 32'h10001000) is_executable = 1'b0;  // UART
+            if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
+            else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
+            else if (addr[31:13] == 19'h07800) is_executable = 1'b1;   // SRAM
+            else if (addr[31:22] == 10'h200)   is_executable = 1'b1;   // PSRAM
+            else if (addr[31:12] == 20'h20000) is_executable = 1'b1;   // MROM
         end
     endfunction
 

@@ -355,3 +355,59 @@ Total Power   ==  1.359e-02 W
 
    Chip area for module '\ysyx_26040135': 27795.138000
      of which used for sequential elements: 15953.084000 (57.40%)
+
+
+
+
+## 1.2.7
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| Endpoint                                                                                                                                                        | Clock Group              | Delay Type | Path Delay | Path Required | CPPR  | Slack | Freq(MHz) |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| icache.icache[13]_15__reg_p:D                                                                                                                                   | core_clock               | max        | 0.891r     | 1.951         | 0.000 | 1.060 | 1063.672  |
+| icache.icache[13]_15__reg_p:D                                                                                                                                   | core_clock               | max        | 0.891r     | 1.951         | 0.000 | 1.060 | 1063.672  |
+| icache.icache[14]_15__reg_p:D                                                                                                                                   | core_clock               | max        | 0.891r     | 1.951         | 0.000 | 1.060 | 1063.672  |
+| icache.icache[14]_15__reg_p:D                                                                                                                                   | core_clock               | max        | 0.891r     | 1.951         | 0.000 | 1.060 | 1063.672  |
+| icache.icache[5]_3__reg_p:D                                                                                                                                     | core_clock               | max        | 0.891r     | 1.951         | 0.000 | 1.060 | 1063.672  |
+| bus_ifu_araddr_2__reg_p_D_$_NAND__Y_A_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_MUX__Y_B_$_ANDNOT__B_A_$_AND__A_Y_$_AND__A_Y_CLKGATE_X1_E:E | **clock_gating_default** | max        | 0.779r     | 1.951         | 0.000 | 1.173 | NA        |
+| bus_ifu_araddr_2__reg_p_D_$_NAND__Y_A_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_MUX__Y_B_$_ANDNOT__B_Y_$_AND__B_Y_CLKGATE_X1_E:E            | **clock_gating_default** | max        | 0.749r     | 1.950         | 0.000 | 1.201 | NA        |
+| bus_ifu_rready_reg_p_D_$_OR__Y_A_$_OR__B_Y_$_AND__B_Y_CLKGATE_X1_E:E                                                                                            | **clock_gating_default** | max        | 0.711f     | 1.955         | 0.000 | 1.244 | NA        |
+| icache.valid[0]_0__reg_p_D_$_AND__Y_A_$_OR__Y_B_$_AND__Y_A_$_OR__B_A_$_NOR__B_Y_$_ANDNOT__A_Y_$_NAND__B_Y_$_NOR__B_Y_CLKGATE_X1_E:E                             | **clock_gating_default** | max        | 0.694r     | 1.947         | 0.000 | 1.253 | NA        |
+| bus_ifu_araddr_2__reg_p_D_$_NAND__Y_A_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_NAND__Y_B_$_MUX__Y_B_$_ANDNOT__B_A_$_AND__A_Y_$_AND__A_Y_CLKGATE_X1_E:E | **clock_gating_default** | max        | 0.684f     | 1.956         | 0.000 | 1.272 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                                                                                      | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                                                                                      | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| u_clint.mtime_0__reg_p:D                                                                                                                                        | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.mcycle_0__reg_p:D                                                                                                                                           | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                                                                                      | core_clock               | min        | 0.064f     | 0.003         | 0.000 | 0.061 | NA        |
+| exu.state_4__CLKGATE_X1_E:E                                                                                                                                     | **clock_gating_default** | min        | 0.089f     | -0.015        | 0.000 | 0.104 | NA        |
+| exu.state_4__CLKGATE_X1_E:E                                                                                                                                     | **clock_gating_default** | min        | 0.105r     | -0.000        | 0.000 | 0.105 | NA        |
+| u_xbar.w_clint_reg_p_E_CLKGATE_X1_E:E                                                                                                                           | **clock_gating_default** | min        | 0.110f     | -0.016        | 0.000 | 0.126 | NA        |
+| exu.wen_save_$_OR__A_Y_$_AND__A_Y_$_AND__A_Y_CLKGATE_X1_E:E                                                                                                     | **clock_gating_default** | min        | 0.127r     | -0.001        | 0.000 | 0.127 | NA        |
+| exu.out_valid_reg_p_E_CLKGATE_X1_E:E                                                                                                                            | **clock_gating_default** | min        | 0.128r     | -0.001        | 0.000 | 0.129 | NA        |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+
+
++---------------+----------------+--------------+---------------+-------------+-----------+
+| combinational | 7.483e-03      | 0.000e+00    | 2.715e-04     | 7.755e-03   | (56.143%) |
+| sequential    | 5.839e-03      | 0.000e+00    | 2.185e-04     | 6.058e-03   | (43.857%) |
++---------------+----------------+--------------+---------------+-------------+-----------+
+Net Switch Power   ==    0.000e+00 (0.000%)
+Cell Internal Power   ==    1.332e-02 (96.453%)
+Cell Leakage Power   ==    4.899e-04 (3.547%)
+Total Power   ==  1.381e-02 W
+
+
+      239  190.722   BUF_X1
+        1     6.65   BUF_X16
+       74   78.736   BUF_X2
+       17   31.654   BUF_X4
+        6   20.748   BUF_X8
+       10     7.98   CLKBUF_X1
+        3     3.99   CLKBUF_X3
+       91  314.678   CLKGATE_X1
+     2678 1.42E+04   DFFR_X1
+       13    69.16   DFFS_X1
+      363 1.64E+03   DFF_X1
+
+   Chip area for module '\ysyx_26040135': 27380.444000
+     of which used for sequential elements: 15957.606000 (58.28%)

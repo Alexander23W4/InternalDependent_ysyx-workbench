@@ -276,7 +276,6 @@ module ysyx_26040135_AXI_LSU (
                 end
             end
 
-
             default: ;
         endcase
     end
@@ -300,4 +299,7 @@ module ysyx_26040135_AXI_LSU (
     assign wdata = (io_type_save == 2'b11) ? ic_wb_wdata_save : load_data;
             
 endmodule
+
+
+
 

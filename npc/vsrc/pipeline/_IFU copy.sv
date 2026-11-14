@@ -34,7 +34,6 @@ module ysyx_26040135_AXI_IFU (
     input reset,
 
     output fetch_valid,
-    input fetch_ready,
     input instr_valid,   // icache固定给一个周期
     input [31:0] instr,
     
@@ -166,6 +165,7 @@ module ysyx_26040135_AXI_IFU (
     always_comb begin
 
         next = state;
+        fetch_valid = 1'b0;
             
         case(state)
             IDLE: begin  // IFU的 IDLE的作用就是等ready握手
@@ -175,6 +175,7 @@ module ysyx_26040135_AXI_IFU (
             end
 
             FETCH: begin
+                fetch_valid = 1'b1;
                 if(instr_valid) begin
                     next = IDLE;
                 end

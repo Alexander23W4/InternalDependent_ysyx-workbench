@@ -90,9 +90,6 @@ module ysyx_26040135_AXI_ICACHE (
 
 
     logic [1:0]  rresp_save;
-    logic [3:0]  bid_save;                  // 写通道要回同一个 awid
-    logic [31:0] rdata_save;
-
     logic [BEAT_LEN-1:0] beat;              // 突发读收counter
 
 
@@ -105,14 +102,11 @@ module ysyx_26040135_AXI_ICACHE (
 
     assign current_tag   = bus.araddr[31:INDEX_LEN+OFFSET_LEN];
     assign current_index = bus.araddr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
-    // 字序号 = 偏移 >> 2; 块 = 4B 时 offset 只有 2 位, 右移完恒为 0
     assign current_word  = 32'(bus.araddr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
 
     // 突发读的起始地址
     wire [31:0] line_addr = {bus.araddr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
 
-    // 填入时用的位偏移
-    wire [31:0] beat_bit  = beat * 32;
 
 
 
@@ -128,48 +122,36 @@ module ysyx_26040135_AXI_ICACHE (
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
-            rresp_save <= '0;
-            bid_save   <= '0;
-            beat       <= '0;
-            rdata_save <= '0;
 
             for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
-                icache[i] <= '0;
-                tag[i]    <= '0;
-                valid[i]  <= 1'b0;
+                valid[i]  <= 1'b0;   // 只需给valid请零即可, 全部设置成脏数据
             end
 
         end else begin
             state <= next;
 
-            if(state == IDLE && bus.arvalid) begin
-                rresp_save  <= 2'b00;       // 清掉上一次留下的错误码
-            end
-
-
-            // ---- 突发读刚发出去, 拍号清零 ----
-            if(state == MISS_AR && mbus.arvalid && mbus.arready) begin
+            if(state == IDLE && bus.arvalid) begin   // 清掉上一次访存的残留状态
+                rresp_save  <= 2'b00;       
                 beat <= '0;
             end
 
-            // ---- 突发读每一拍: 可缓存区域才按拍号填进这一行; 其他区域只把数据带回去 ----
+
+            // burst每一拍
             if(state == MISS_R && mbus.rvalid) begin
                 if(mbus.rresp == 2'b00) begin
-                    icache[current_index][beat_bit +: 32] <= mbus.rdata;
+                    icache[current_index][beat*32+31: beat*32] <= mbus.rdata;
+
                     if(mbus.rlast) begin
                         valid[current_index] <= 1'b1;   // 整行收齐了才算有效
                         tag[current_index]   <= current_tag;
                     end
                 end else begin
-                    // 不属于可缓存区域, 或者从设备报错: 不填行,
-                    // 数据/响应码直接存下来, RETURN 那拍原样交给 IFU
                     rresp_save <= mbus.rresp;
-                    rdata_save <= mbus.rdata;
                 end
                 beat <= mbus.rlast ? '0 : beat + 1'b1;
             end
 
-
+            // 设置脏数据(某些需要取值的地址被写了)
             if(sw_avail) begin
                 if(tag[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] == sw_addr[31:INDEX_LEN+OFFSET_LEN] && valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]]) begin
                     valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] <= 1'b0;

@@ -915,3 +915,4 @@ Total Power   ==  1.299e-02 W
 
    Chip area for module '\ysyx_26040135': 24462.690000
      of which used for sequential elements: 14301.756000 (58.46%)
+

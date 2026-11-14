@@ -141,7 +141,7 @@ module ysyx_26040135_EXU (
     end
 
 
-    localparam IDLE = 0, BLOCK = 1, WAIT_END = 2, EX = 3, BRANCH = 4;
+    localparam IDLE = 0, BLOCK = 1, WAIT_END = 2, EX1 = 3, EX2 = 4, BRANCH = 5;
     reg [2:0] state, next;
 
     always @(posedge clock or posedge reset) begin
@@ -274,7 +274,7 @@ module ysyx_26040135_EXU (
                 end
             end
 
-            if(state == EX) begin
+            if(state == EX1) begin
                 // 需要wb的instr  
                 if(!is_nlwb && !write && (|rd_save)) begin  // 不是0
                     if(rd_list[rd_save]) begin          // 已经有没有完成的同一个rd了
@@ -295,7 +295,7 @@ module ysyx_26040135_EXU (
                 end
             end
 
-            if(state == EX) begin
+            if(state == EX1) begin
                 if(csrrw_save) begin
                     case(imm_save)  // case CSR addr
                         32'h00000300: mstatus <= rdata1_ul;
@@ -346,6 +346,11 @@ module ysyx_26040135_EXU (
                     end
                 end
             end
+
+            if(state == EX1) begin
+                add1 <= (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_ul;
+                add2 <= add_save ? rdata2 : imm_save;  
+            end
         end
     end
 
@@ -378,27 +383,31 @@ module ysyx_26040135_EXU (
 
             BLOCK: begin   
                 if(gpr_read_valid) begin  // 没有RAW
-                    next = EX;
+                    next = EX1;
                 end 
                 else begin  // 出现RAW, 看看能不能接受lsu或者wbu的bypass数据    这里暂时只处理single_rs, 因为他只专注于rs1, 对关键时钟路径影响小
                     if(single_rs) begin   // 只要rs1 (i-type)
                         if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
                             if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
-                                next = EX;
+                                next = EX1;
                             end 
                         end else begin  // 一个的情况
                             if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
-                                next = EX;
+                                next = EX1;
                             end 
                             else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
-                                next = EX;
+                                next = EX1;
                             end
                         end
                     end
                 end
             end
 
-            EX: begin   // 现在就是把EX固定成两个周期, 还是只有跳转部分弄成2个周期(控制分野)
+            EX1: begin   // 现在就是把EX固定成两个周期, 还是只有跳转部分弄成2个周期(控制分野)
+                next = EX2;
+            end
+
+            EX2: begin
                 next = BRANCH;
             end
 
@@ -408,7 +417,7 @@ module ysyx_26040135_EXU (
             end
         endcase
 
-        if(next == EX) begin
+        if(next == EX1) begin
             ren = 1'b1;
         end
     end 
@@ -435,12 +444,13 @@ module ysyx_26040135_EXU (
 
     // ------------------------ EX阶段的组合计算逻辑(EX)    ⭐: 这里用来计算的信号已经全部是寄存器信号了, 所以不会有向前的组合路径延伸
 
+    reg [31:0] add1;
+    reg [31:0] add2;
+
     wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;   // EX阶段稳定
 
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
-    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_ul;
-    wire [31:0] add2 = add_save ? rdata2 : imm_save;  
     wire [31:0] add_rst_w = add1 + add2;      // ⭐
     wire [31:0] sub_rst  = rdata1_ul - rdata2;
     wire [31:0] xor_rst  = rdata1_ul ^ rdata2;
@@ -537,7 +547,7 @@ module ysyx_26040135_EXU (
             cmp_eq <= 1'b0;
             cmp_ltu <= 1'b0;
         end else begin
-            if(state == EX) begin
+            if(state == EX2) begin
                 add_rst_w_save <= add_rst_w;
                 pc_next_dft <= pc_save + 32'd4;
                 cmp_lt <= ($signed(rdata1_ul) < $signed(rdata2));

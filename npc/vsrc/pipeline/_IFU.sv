@@ -54,7 +54,9 @@ module ysyx_26040135_AXI_IFU (
 
     input bt_valid,
     input [31:0] b_pc,
-    input [31:0] b_target
+    input [31:0] b_target,
+
+    output reg taken
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -180,7 +182,17 @@ module ysyx_26040135_AXI_IFU (
                end 
                else begin
                     out_valid <= 1'b1; 
-                    pc <= pc + 32'd4;
+
+                    if(pc == btb[pc[2]] && valid[pc[2]]) begin   // btb 命中
+                        if(pc > btb_target[pc[2]]) begin
+                            pc <= btb_target[pc[2]];   // BT
+                            taken <= 1'b1;
+                        end
+                    end else begin
+                        pc <= pc + 32'd4;  // FN & default
+                        taken <= 1'b0;
+                    end
+
                     out_pc <= pc;
                     out_instr <= instr;
                end

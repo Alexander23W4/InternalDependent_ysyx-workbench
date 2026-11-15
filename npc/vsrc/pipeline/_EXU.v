@@ -85,7 +85,13 @@ module ysyx_26040135_EXU (
     input [4:0] bypass_rd_wbu,
     input wbu_bypass_data_valid,
 
-    output reg ren   // 使能读
+    output reg ren,   // 使能读
+
+    output reg bt_valid,
+    output reg [31:0] b_pc,
+    output reg [31:0] b_target,
+
+    input taken
 
 );
     reg  _possible_branch_instr;
@@ -127,6 +133,8 @@ module ysyx_26040135_EXU (
     reg [31:0] csr_rst_save;
 
     reg [31:0] csrw_rst;
+
+    reg taken_save;
 
 
 
@@ -239,6 +247,8 @@ module ysyx_26040135_EXU (
 
                 bypass_active <= 1'b0;
                 bypass_data <= 32'b0;
+
+                taken_save <= taken;
                 
             end
         // ------------------------------------------
@@ -363,6 +373,10 @@ module ysyx_26040135_EXU (
         _possible_branch_instr = 1'b0;
         _optimisible_branch = 1'b0;
         _compulsory_branch = 1'b0;
+
+        bt_valid = 1'b0;
+        b_pc = 32'b0;
+        b_target = 32'b0;
         
         case (state)
             IDLE: begin
@@ -411,7 +425,12 @@ module ysyx_26040135_EXU (
             end
 
             BRANCH: begin
-                flush = jalr_save | jal_save | br_taken | ecall_save | mret_save;
+                if(b_type) begin
+                    bt_valid = 1'b1;
+                    b_pc = pc_save;
+                    b_target = add_rst_w_save;
+                end
+                flush = jalr_save | jal_save | ecall_save | mret_save | (b_type & (br_taken != taken_save))
                 next = IDLE;
             end
         endcase

@@ -15,6 +15,9 @@ module ysyx_26040135_IDU(
     output out_valid,
     input out_ready,
     output reg [31:0] out_pc,
+
+    input taken,
+    output taken_out,
     
 
 // opcodes  
@@ -95,6 +98,7 @@ module ysyx_26040135_IDU(
     assign out_valid = in_valid;
 
     assign out_instr = in_instr;
+    assign taken_out = taken;
 
 
     wire [6:0] opcode = in_instr[6:0];

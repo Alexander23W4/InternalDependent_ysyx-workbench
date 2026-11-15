@@ -234,5 +234,20 @@ void cal_flush(){
     if(fetch_done){
         fetch_amt++;
     }
+    if(flush_ifu_blk){
+        flush_ifu_blk_amt++;
+    }
+    if(flush_ifu_blk_flg){
+        flush_ifu_blk_flg_amt++;
+    }
+    if(possible_branch_instr){
+        possible_branch_instr_amt++;
+    }
+    if(compulsory_branch){
+        compulsory_branch_amt++;
+    }
+    if(optimisible_branch){
+        optimisible_branch_amt++;
+    }
 }
 

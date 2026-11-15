@@ -99,11 +99,21 @@ endtask
 export "DPI-C" task check_flush;
 task check_flush(
     output int flush,
-    output int fetch_done
+    output int fetch_done,
+    output int flush_ifu_blk,
+    output int flush_ifu_blk_flg,
+    output int possible_branch_instr,
+    output int compulsory_branch,
+    output int optimisible_branch
 );
     begin
-        flush = {{31{1'b0}}, _flush};
-        fetch_done  = {{31{1'b0}}, _fetch_done};
+        flush = {{31{1'b0}}, ifu._flush};
+        fetch_done = {{31{1'b0}}, ifu._fetch_done};
+        flush_ifu_blk = {{31{1'b0}}, ifu._flush_ifu_blk};
+        flush_ifu_blk_flg = {{31{1'b0}}, ifu._flush_ifu_blk_flg};
+        possible_branch_instr = {{31{1'b0}}, exu._possible_branch_instr};
+        compulsory_branch = {{31{1'b0}}, exu._compulsory_branch};
+        optimisible_branch = {{31{1'b0}}, exu._optimisible_branch};
     end
 endtask
 

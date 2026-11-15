@@ -299,7 +299,9 @@ module ysyx_26040135(
         .flush(flush),
         .pc_flush(pc_flush),
         .ifu_work_cyc(ifu_work_cyc),
-        .ifu_block_cyc(ifu_block_cyc)
+        .ifu_block_cyc(ifu_block_cyc),
+
+        .cbi(compulsory_branch_instrs)
     ); 
 
     wire [63:0] ifu_work_cyc, ifu_block_cyc;
@@ -310,6 +312,7 @@ module ysyx_26040135(
     wire [31:0] instr;
     wire valid_fd;
     wire ready_rd;
+    wire compulsory_branch_instrs = jalr | jal | ecall | mret;
 
     ysyx_26040135_IDU idu (
         .in_pc(pc), .in_instr(instr), .in_valid(valid_fd), .in_ready(ready_rd),

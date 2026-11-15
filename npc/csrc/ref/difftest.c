@@ -12,7 +12,7 @@ const char *regs_name[] = {
 static void difftest_abort_print() {
   printf("pc: [DUT] 0x%08x, [REF] 0x%08x\n", d_status.pc, top->ref_last_pc);
   
-  for (int i = 0; i < 32; i++) {
+  for (int i = 0; i < 16; i++) {
     printf("reg %2d [%3s]: [DUT] 0x%08x, [REF] 0x%08x", i, regs_name[i], d_status.gpr[i], top->ref_gpr[i]);
     if (d_status.gpr[i] != top->ref_gpr[i]) {
       printf("%s", ANSI_FMT("  <-- DIFF!", ANSI_FG_RED));
@@ -59,7 +59,7 @@ void difftest_cmp(){
 bool difftest_check_status(){
   bool is_same = true;
   if((top->ref_last_pc) != d_status.pc) is_same = false;
-  for (int i = 0; i < 32; i++)
+  for (int i = 0; i < 16; i++)
   {
     if(is_same == false) break;
     if(top->ref_gpr[i] != d_status.gpr[i]){

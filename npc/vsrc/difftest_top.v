@@ -6,7 +6,7 @@ module difftest_top(
     input  ref_clk,                 
     input  ref_rst,
     output [31:0]  ref_pc,
-    output [1023:0] ref_gpr,
+    output [32*16-1:0] ref_gpr,
     output  ref_wen,
     output [31:0] ref_instr,
     output [31:0] ref_last_pc

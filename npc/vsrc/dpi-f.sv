@@ -13,7 +13,7 @@ endtask
 // ⭐: 引到顶层
 export "DPI-C" function debug_read_all;
 function void debug_read_all(
-    output int dbg_regs[32],  // 数组，32个寄存器
+    output int dbg_regs[16],  // 数组，32个寄存器
     output int pc,
     output int mstatus,
     output int mepc,
@@ -23,7 +23,7 @@ function void debug_read_all(
     output int instr
 );
     instr = _instr;
-    for (int i = 0; i < 32; i++) begin
+    for (int i = 0; i < 16; i++) begin
         dbg_regs[i] = dbg_reg[i*32 +: 32];  // 提取第 i 个 GPR
     end
     pc = _pc;
@@ -67,9 +67,9 @@ endtask
 
 
 export "DPI-C" task difftest_read_gpr;
-task difftest_read_gpr(output int gprs[32], output int pc);
+task difftest_read_gpr(output int gprs[16], output int pc);
     begin
-        for (int i = 0; i < 32; i++) begin
+        for (int i = 0; i < 16; i++) begin
             gprs[i] = dbg_reg[i*32 +: 32];  // 提取第 i 个 GPR
         end
         pc = _wbu_pc;

@@ -360,7 +360,7 @@ module ysyx_26040135_EXU (
             end
 
             BRANCH: begin
-                flush = sel_jalr | sel_jal | sel_br | sel_ecall | sel_mret;
+                flush = jalr_save | jal_save | br_taken | ecall_save | mret_save;
                 next = IDLE;
             end
         endcase

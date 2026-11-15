@@ -62,8 +62,8 @@ INCLUDE_PATHS=-I./vsrc -I../ysyxSoC/perip/uart16550/rtl -I../ysyxSoC/perip/spi/r
 
 # ------------------------------------------------------------------------------------------------------
 
-ICACHE_LINE_BYTES ?= 8
-ICACHE_LINE_AMT   ?= 16
+ICACHE_LINE_BYTES ?= 32
+ICACHE_LINE_AMT   ?= 4
 
 # 传进verilator
 DEFAULT_FLAGS += -DICACHE_LINE_BYTES=$(ICACHE_LINE_BYTES) -DICACHE_LINE_AMT=$(ICACHE_LINE_AMT)
@@ -100,7 +100,7 @@ IMAGE ?= ../am-kernels/kernels/hello/build/hello-riscv32e-ysyxsoc
 
 # Features
 # 选择用多周期cpu还是架构cpu
-USE_M=1
+USE_M=0
 
 # config macro generation
 -include $(NPC_HOME)/scripts/config.mk 

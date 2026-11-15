@@ -23,7 +23,13 @@ module ysyx_26040135_AXI_IFU (
     input flush,
     input [31:0] pc_flush,
 
-    input cbi
+    input cbi,
+
+    input bt_valid,
+    input [31:0] b_pc,
+    input [31:0] b_target,
+
+    output reg taken
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -39,6 +45,27 @@ module ysyx_26040135_AXI_IFU (
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
 
+
+    // BTB +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+    // BTFN(Backward Taken, Forward Not-taken): 2 项直接映射 BTB, pc[2] 选表项
+
+    reg [31:0] btb_pc [1:0];
+    reg [31:0] btb_target [1:0];
+    reg [1:0]  valid;
+
+    always @(posedge clock or posedge reset) begin
+        if(reset) begin
+            valid <= 2'b00;
+        end else begin
+            if(bt_valid) begin
+                btb_pc[b_pc[2]]     <= b_pc;
+                btb_target[b_pc[2]] <= b_target;
+                valid[b_pc[2]]      <= 1'b1;
+            end
+        end
+    end
+
+    // BTB +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
     // 外部控制信号与返回外部的信号:
     reg master_validation_error_save;
@@ -114,7 +141,13 @@ module ysyx_26040135_AXI_IFU (
                end 
                else begin
                     out_valid <= 1'b1; 
-                    pc <= pc + 32'd4;
+                    if(pc == btb_pc[pc[2]] && valid[pc[2]] && (pc > btb_target[pc[2]])) begin
+                        pc    <= btb_target[pc[2]];   // BT
+                        taken <= 1'b1;
+                    end else begin
+                        pc    <= pc + 32'd4;          // FN & default
+                        taken <= 1'b0;
+                    end
                     out_pc <= pc;
                     out_instr <= instr;
                end

@@ -143,7 +143,13 @@ module ysyx_26040135(
         .flush(flush),
         .pc_flush(pc_flush),
 
-        .cbi(compulsory_branch_instrs)
+        .cbi(compulsory_branch_instrs),
+
+        .bt_valid(bt_valid),
+        .b_pc(b_pc),
+        .b_target(b_target),
+
+        .taken(taken)
     ); 
 
     wire        flush;  
@@ -165,7 +171,9 @@ module ysyx_26040135(
         .ebreak(ebreak), .ecall(ecall),
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc), .mret(mret),
         .fence_i(fence_i),
-        .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm)
+        .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm),
+
+        .taken(taken), .taken_out(taken_de)
     );
 
     wire valid_de, ready_de;
@@ -178,6 +186,8 @@ module ysyx_26040135(
     wire lui, auipc;
     wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
     wire compulsory_branch_instrs = jalr | jal | ecall | mret;
+    wire taken, taken_de, bt_valid;         
+    wire [31:0] b_pc, b_target;               
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
 
@@ -217,7 +227,12 @@ ysyx_26040135_EXU exu (
     .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
     .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen),
 
-    .ren(ren)
+    .ren(ren),
+
+    .taken(taken_de),
+    .bt_valid(bt_valid),
+    .b_pc(b_pc),
+    .b_target(b_target)
 );
     wire is_ls;
     wire lsu_bypass_data_valid;

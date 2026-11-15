@@ -78,12 +78,15 @@ module ysyx_26040135_IDU(
     output reg[4:0] rs1,
     output reg[4:0] rs2,
 
-    output reg[31:0] imm
+    output reg[31:0] imm,
+
+    input taken,
+    output taken_out
 );
 
     assign in_ready  = out_ready;
     assign out_valid = in_valid;
-
+    assign taken_out = taken;
 
     wire [6:0] opcode = in_instr[6:0];
     wire [2:0] funct3 = in_instr[14:12];
@@ -269,7 +272,6 @@ module ysyx_26040135_IDU(
             default: ;
         endcase
     end
-
 
 endmodule
 

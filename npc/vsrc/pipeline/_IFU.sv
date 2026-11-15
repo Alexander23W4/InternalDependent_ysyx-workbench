@@ -183,11 +183,9 @@ module ysyx_26040135_AXI_IFU (
                else begin
                     out_valid <= 1'b1; 
 
-                    if(pc == btb_pc[pc[2]] && valid[pc[2]]) begin   // btb 命中
-                        if(pc > btb_target[pc[2]]) begin
-                            pc <= btb_target[pc[2]];   // BT
-                            taken <= 1'b1;
-                        end
+                    if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT
+                        pc <= btb_target[pc[2]];   
+                        taken <= 1'b1;
                     end else begin
                         pc <= pc + 32'd4;  // FN & default
                         taken <= 1'b0;
@@ -240,3 +238,5 @@ module ysyx_26040135_AXI_IFU (
 
 
 endmodule
+
+

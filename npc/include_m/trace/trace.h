@@ -60,8 +60,6 @@ void fill_symbols(Elf32_Ehdr *ehdr);
 
 void print_func_syms(void);
 
-
-
-
-
-
+// btrace (分支预测): 每遇到一条 b-type 指令写一行
+void btrace_record(uint32_t pc_val, uint32_t instr_val);
+void btrace_finish(void);

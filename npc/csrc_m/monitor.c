@@ -79,6 +79,7 @@ void end_process(){
     final_print();
 
     pc_itrace_finish();   // ⭐ 把 pc_itrace 里不足 1000 条的尾巴也刷到 pc_itrace.txt
+    btrace_finish();      // ⭐ 把 btrace 里不足一批的尾巴刷到 btrace.txt
 
     wave_close();      // ⭐ 关波形文件: 不 close 的话 vcd 没写尾巴, gtkwave 可能读不全
 

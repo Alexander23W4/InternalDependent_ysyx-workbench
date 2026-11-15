@@ -15,6 +15,8 @@
 
     etrace:
 
+    btrace:
+
     最终打开 ring_log.txt, 填入
 
 
@@ -35,17 +37,8 @@ uint32_t mem_addr;
 int32_t content;
 int mtrace_flag = 0;
 
-
-/* ==========================================================================================
-   ⭐ pc_itrace: 只记录"指令流的 PC 序列"(简化版 itrace), 给 cachesim 用
-      - trace() 每执行一条指令就调一次 pc_itrace_record(pc)
-      - 攒够 PC_ITRACE_BATCH 个才 fopen 一次追加写: 既不用开超大数组,
-        也不用每条指令都开关一次文件
-      - 一行 10 个, 形如:   0x80000000 0x80000004 0x80000008 ...
-      - 第一次落盘用 "w" 把上一次跑的结果清掉, 之后都用 "a" 追加
-      - 程序结束由 end_process() 调 pc_itrace_finish() 把不足一批的尾巴也写出去
-      - 文件写在进程的工作目录下(从 AM 目录 make run 就在那个目录里)
-   ========================================================================================== */
+// ----------------------------------------------------------------------------
+// for pc_itrace.txt   cachesim
 #define PC_ITRACE_BATCH 1000
 
 static uint32_t pc_buf[PC_ITRACE_BATCH];
@@ -83,7 +76,7 @@ void pc_itrace_finish(void) {
         FILE *fp = fopen(PC_ITRACE_FILE, "w");
         if (fp != NULL) fclose(fp);
     } else if ((pc_total_cnt % 10) != 0) {
-        FILE *fp = fopen(PC_ITRACE_FILE, "a");   // 最后一行没满 10 个, 补个换行
+        FILE *fp = fopen(PC_ITRACE_FILE, "a");   
         if (fp != NULL) { fprintf(fp, "\n"); fclose(fp); }
     }
 
@@ -91,10 +84,91 @@ void pc_itrace_finish(void) {
            (unsigned long)pc_total_cnt, PC_ITRACE_FILE);
 }
 
+// ----------------------------------------------------------------------------
+// btrace   for branch prediction 分支预测      (多周期 CPU / vsrc_m 环境)
+// 只要遇到 b-type 的指令, 就写入, 每行一个: 当前pc, instr(16进制), next_pc(下一跳), 是否跳转(0/1)
+
+#define BTRACE_BATCH 1000
+
+typedef struct {
+    uint32_t pc;
+    uint32_t instr;
+    uint32_t next_pc;
+    int      taken;
+} btrace_rec_t;
+
+static btrace_rec_t bt_buf[BTRACE_BATCH];
+static int      bt_buf_cnt   = 0;
+static uint64_t bt_total_cnt = 0;
+static int      bt_opened    = 0;
+
+static uint32_t bt_cur_pc    = 0xFFFFFFFFu;   // 当前正在执行的指令的 pc / instr
+static uint32_t bt_cur_instr = 0;
+static int      bt_started   = 0;             // 第一次调用只做初始化
+
+static int is_btype(uint32_t ins) { return (ins & 0x7Fu) == 0x63u; }   // opcode = 1100011
+
+static void btrace_flush(void) {
+    if (bt_buf_cnt == 0) return;
+
+    FILE *fp = fopen(BTRACE_FILE, bt_opened ? "a" : "w");
+    if (fp == NULL) return;
+    bt_opened = 1;
+
+    for (int i = 0; i < bt_buf_cnt; i++) {
+        fprintf(fp, "0x%08x   0x%08x   0x%08x   %d\n",
+                bt_buf[i].pc, bt_buf[i].instr, bt_buf[i].next_pc, bt_buf[i].taken);
+        bt_total_cnt++;
+    }
+    fclose(fp);
+    bt_buf_cnt = 0;
+}
+
+static void btrace_emit(uint32_t pc_val, uint32_t instr_val, uint32_t next_val, int taken) {
+    if (bt_buf_cnt == BTRACE_BATCH) btrace_flush();
+    bt_buf[bt_buf_cnt].pc      = pc_val;
+    bt_buf[bt_buf_cnt].instr   = instr_val;
+    bt_buf[bt_buf_cnt].next_pc = next_val;
+    bt_buf[bt_buf_cnt].taken   = taken;
+    bt_buf_cnt++;
+}
+
+void btrace_record(uint32_t pc_val, uint32_t instr_val) {
+    if (!bt_started) {                       // 第一条: 只记下来, 等它退役时再结算
+        bt_started   = 1;
+        bt_cur_pc    = pc_val;
+        bt_cur_instr = instr_val;
+        return;
+    }
+
+    if (pc_val != bt_cur_pc) {               // pc 变了: 上一条指令退役
+        if (is_btype(bt_cur_instr)) {
+            btrace_emit(bt_cur_pc, bt_cur_instr, pc_val,
+                        (pc_val != bt_cur_pc + 4u) ? 1 : 0);
+        }
+        bt_cur_pc = pc_val;
+    }
+
+    bt_cur_instr = instr_val;                // 每拍更新: 取指完成后就是当前指令
+}
+
+void btrace_finish(void) {
+    btrace_flush();                          // 不足一批的尾巴
+
+    if (!bt_opened) {                        // 一条都没记到: 至少建个空文件
+        FILE *fp = fopen(BTRACE_FILE, "w");
+        if (fp != NULL) fclose(fp);
+    }
+
+    printf("[BTRACE] %lu 条 b-type -> %s\n",
+           (unsigned long)bt_total_cnt, BTRACE_FILE);
+}
+
+// ----------------------------------------------------------------------------
 
 void trace(){
-    // ⭐ 顺便把这条指令的 PC 记进 pc_itrace(cachesim 的输入)
     pc_itrace_record(pc);
+    btrace_record(cpu.pc, (uint32_t)instr);   // b-type 记录: 用同一次 debug_read_all 读到的 pc/instr
 
     // 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
 

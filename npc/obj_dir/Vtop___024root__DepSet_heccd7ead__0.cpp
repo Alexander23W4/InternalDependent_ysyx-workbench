@@ -57,38 +57,43 @@ void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {
     }
 }
 
-extern const VlUnpacked<CData/*1:0*/, 64> Vtop__ConstPool__TABLE_h61afe27f_0;
-extern const VlUnpacked<CData/*0:0*/, 64> Vtop__ConstPool__TABLE_hc4e1d8b5_0;
-extern const VlUnpacked<CData/*0:0*/, 64> Vtop__ConstPool__TABLE_h3a2d361b_0;
-extern const VlUnpacked<CData/*0:0*/, 64> Vtop__ConstPool__TABLE_h4d6d9e88_0;
-extern const VlUnpacked<CData/*0:0*/, 64> Vtop__ConstPool__TABLE_h31902efd_0;
+extern const VlUnpacked<CData/*1:0*/, 128> Vtop__ConstPool__TABLE_h8bb8ba0e_0;
+extern const VlUnpacked<CData/*0:0*/, 128> Vtop__ConstPool__TABLE_hc78c3a64_0;
+extern const VlUnpacked<CData/*0:0*/, 128> Vtop__ConstPool__TABLE_h8d3591df_0;
+extern const VlUnpacked<CData/*0:0*/, 128> Vtop__ConstPool__TABLE_h077460d3_0;
+extern const VlUnpacked<CData/*0:0*/, 128> Vtop__ConstPool__TABLE_hcd557731_0;
 
 VL_INLINE_OPT void Vtop___024root___act_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___act_sequent__TOP__0\n"); );
     // Init
-    CData/*5:0*/ __Vtableidx1;
+    CData/*6:0*/ __Vtableidx1;
     __Vtableidx1 = 0;
     VlWide<4>/*127:0*/ __Vtemp_h3c012adc__0;
     // Body
     __Vtableidx1 = (((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__flush_save) 
-                     << 5U) | (((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__flush) 
-                                << 4U) | (((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_valid) 
-                                           << 3U) | 
-                                          (((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ready_de) 
-                                            << 2U) 
-                                           | (IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__state)))));
+                     << 6U) | (((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_valid) 
+                                << 5U) | (((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__flush) 
+                                           << 4U) | 
+                                          ((((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__jalr) 
+                                             | ((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__jal) 
+                                                | ((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ecall) 
+                                                   | (IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__mret)))) 
+                                            << 3U) 
+                                           | (((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ready_de) 
+                                               << 2U) 
+                                              | (IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__state))))));
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__next 
-        = Vtop__ConstPool__TABLE_h61afe27f_0[__Vtableidx1];
+        = Vtop__ConstPool__TABLE_h8bb8ba0e_0[__Vtableidx1];
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__fetch_valid 
-        = Vtop__ConstPool__TABLE_hc4e1d8b5_0[__Vtableidx1];
+        = Vtop__ConstPool__TABLE_hc78c3a64_0[__Vtableidx1];
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___fetch_done 
-        = Vtop__ConstPool__TABLE_h3a2d361b_0[__Vtableidx1];
+        = Vtop__ConstPool__TABLE_h8d3591df_0[__Vtableidx1];
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___flush_ifu_blk 
-        = Vtop__ConstPool__TABLE_h4d6d9e88_0[__Vtableidx1];
+        = Vtop__ConstPool__TABLE_h077460d3_0[__Vtableidx1];
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___flush_ifu_blk_flg 
-        = Vtop__ConstPool__TABLE_h31902efd_0[__Vtableidx1];
+        = Vtop__ConstPool__TABLE_hcd557731_0[__Vtableidx1];
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_valid = 0U;
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__fetch_error = 0U;
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_icache = 0U;

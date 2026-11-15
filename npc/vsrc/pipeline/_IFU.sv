@@ -184,7 +184,7 @@ module ysyx_26040135_AXI_IFU (
             
         case(state)
             IDLE: begin  // IFU 的 IDLE的作用就是等ready握手
-                if(out_ready && !cbi) begin   
+                if((out_ready && !cbi) || (flush && cbi)) begin   
                     next = FETCH;
                 end
             end

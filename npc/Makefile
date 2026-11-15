@@ -63,7 +63,7 @@ INCLUDE_PATHS=-I./vsrc -I../ysyxSoC/perip/uart16550/rtl -I../ysyxSoC/perip/spi/r
 # ------------------------------------------------------------------------------------------------------
 
 ICACHE_LINE_BYTES ?= 16
-ICACHE_LINE_AMT   ?= 16
+ICACHE_LINE_AMT   ?= 8
 
 # 传进verilator
 DEFAULT_FLAGS += -DICACHE_LINE_BYTES=$(ICACHE_LINE_BYTES) -DICACHE_LINE_AMT=$(ICACHE_LINE_AMT)
@@ -87,8 +87,8 @@ CROSS_COMPILE ?= riscv64-linux-gnu-
 # ⭐ 波形(make trace)相关
 
 WAVE_FILE  ?= wave.vcd
-WAVE_START ?= 0
-WAVE_END   ?= 590
+WAVE_START ?= 68000
+WAVE_END   ?= 70000
 WAVE_HALF_PERIOD ?= 1
 
 GTKW_FILE  ?= wave.gtkw

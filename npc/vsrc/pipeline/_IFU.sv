@@ -56,7 +56,10 @@ module ysyx_26040135_AXI_IFU (
     output reg [63:0] ifu_block_cyc,
 
     output _flush,
-    output _fetch_done    // 代表IFU 完成了一次fetch
+    output _fetch_done,    // 代表IFU 完成了一次fetch
+    output _flush_ifu_blk,
+    output _flush_ifu_blk_flg,
+
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -192,6 +195,13 @@ module ysyx_26040135_AXI_IFU (
 
             default: ;
         endcase
+
+        if(flush && (state == FETCH && !instr_valid)) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
+            _flush_ifu_blk = 1'b1;
+        end 
+        if(flush_save) begin
+            _flush_ifu_blk_flg = 1'b1;    
+        end
     end
 
 

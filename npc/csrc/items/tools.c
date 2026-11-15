@@ -171,10 +171,13 @@ void statistical_print(){
     // 各级 stall 占总周期数的比例
     double total_cyc = (double)cpu.mcycle;
     double pct = (total_cyc > 0.0) ? 100.0 / total_cyc : 0.0;
+    
     printf("[IFU_STALL] %u (%.2f%%)\n", ifu_stall, (double)ifu_stall * pct);
     printf("[EXU_STALL] %u (%.2f%%)\n", exu_stall, (double)exu_stall * pct);
     printf("[LSU_STALL] %u (%.2f%%)\n", lsu_stall, (double)lsu_stall * pct);
     printf("[WBU_STALL] %u (%.2f%%)\n", wbu_stall, (double)wbu_stall * pct);
+    printf("[FETCH_DONE] %u (%.2f%%)\n", fetch_amt, (double)fetch_amt * pct);
+    printf("[FLUSH] %u (%.2f%%)\n", flush_amt, (double)flush_amt * pct);
 }
 
 

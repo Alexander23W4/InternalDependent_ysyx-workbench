@@ -27,6 +27,12 @@ uint32_t exu_stall = 0;
 uint32_t lsu_stall = 0;
 uint32_t wbu_stall = 0;
 
+/*
+多少比例的已经fetch的instr会被flush
+多少比例的flush在到来的时候, 还要受ifu阻挡, 变成flush_save, 也可以统计flush_save存在的时间, 看flush_save被阻挡多长时间, 那么如果flush数量变少, 有多少提高
+看现在可能产生flush的指令有多少, 最终产生flush的比例有多少, flush占比有多少, 改善branch-prediction算法可能带来多少提升
+
+*/
 int fetch_done = 0;
 int flush = 0;
 

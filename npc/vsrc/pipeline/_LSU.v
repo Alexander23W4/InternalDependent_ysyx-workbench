@@ -100,7 +100,7 @@ module ysyx_26040135_AXI_LSU (
             lsu_blcokb_cyc <= 0;
             lsu_work_cyc <= 0;
 
-            lsu_blockf <= 1'b0;
+            lsu_blockfs <= 1'b0;
 
         end else begin
             state <= next;
@@ -135,9 +135,9 @@ module ysyx_26040135_AXI_LSU (
 
             if(in_ready && !in_valid) begin
                 lsu_blockf_cyc <= lsu_blockf_cyc + 64'b1;
-                lsu_blockf <= 1'b1;
+                lsu_blockfs <= 1'b1;
             end else begin
-                lsu_blockf <= 1'b0;
+                lsu_blockfs <= 1'b0;
             end
 
             if (state == R && bus.rvalid) begin

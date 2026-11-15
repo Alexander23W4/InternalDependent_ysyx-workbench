@@ -394,7 +394,6 @@ ysyx_26040135_EXU exu (
 
     .ren(ren),
 
-    .cbi(compulsory_branch_instrs),
     .bt_valid(bt_valid),
     .b_pc(b_pc),
     .b_target(b_target),
@@ -462,7 +461,7 @@ ysyx_26040135_EXU exu (
         .lsu_blockf_cyc(lsu_blockf_cyc),
         .lsu_blcokb_cyc(lsu_blcokb_cyc),
         .lsu_work_cyc(lsu_work_cyc),
-        .lsu_blockf(lsu_blockf)
+        .lsu_blockfs(lsu_blockf)
     );
 
     wire valid_lw, ready_lw;

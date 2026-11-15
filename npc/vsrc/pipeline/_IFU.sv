@@ -82,9 +82,9 @@ module ysyx_26040135_AXI_IFU (
             valid <= 2'b00;
         end else begin
             if(bt_valid) begin
-                btb_pc[b_pc[2]] = b_pc;
-                btb_target[b_pc[2]] = b_target;
-                valid[b_pc[2]] = 1'b1;
+                btb_pc[b_pc[2]] <= b_pc;
+                btb_target[b_pc[2]] <= b_target;
+                valid[b_pc[2]] <= 1'b1;
             end
         end
     end
@@ -183,7 +183,7 @@ module ysyx_26040135_AXI_IFU (
                else begin
                     out_valid <= 1'b1; 
 
-                    if(pc == btb[pc[2]] && valid[pc[2]]) begin   // btb 命中
+                    if(pc == btb_pc[pc[2]] && valid[pc[2]]) begin   // btb 命中
                         if(pc > btb_target[pc[2]]) begin
                             pc <= btb_target[pc[2]];   // BT
                             taken <= 1'b1;

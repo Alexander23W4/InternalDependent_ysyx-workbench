@@ -139,11 +139,9 @@ module ysyx_26040135_AXI_IFU (
             ifu_work_cyc <= 64'b0;
             ifu_block_cyc <= 64'b0;
 
-            _btb_hit = 1'b0;
-
         end else begin
 
-            state <= next;
+            state <= next;             
 
             if(flush && (state == FETCH && !instr_valid)) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
                 flush_save <= 1'b1;
@@ -185,14 +183,9 @@ module ysyx_26040135_AXI_IFU (
                end 
                else begin
                     out_valid <= 1'b1; 
-                    if(pc == btb_pc[pc[2]] && valid[pc[2]]) begin   // BT
-                        _btb_hit = 1'b1;
-                        if(pc > btb_target[pc[2]]) begin
-                            pc <= btb_target[pc[2]];   
-                            taken <= 1'b1;
-                        end else begin
-                            pc <= pc + 32'd4;
-                        end
+                    if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT
+                        pc <= btb_target[pc[2]];   
+                        taken <= 1'b1;
                     end else begin
                         pc <= pc + 32'd4;  // FN & default
                         taken <= 1'b0;
@@ -215,6 +208,7 @@ module ysyx_26040135_AXI_IFU (
         _fetch_done = 1'b0;
         _flush_ifu_blk = 1'b0;
         _flush_ifu_blk_flg = 1'b0;
+        _btb_hit = 1'b0;
             
         case(state)
             IDLE: begin  // IFU 的 IDLE的作用就是等ready握手
@@ -240,6 +234,9 @@ module ysyx_26040135_AXI_IFU (
         if(flush_save) begin
             _flush_ifu_blk_flg = 1'b1;    
         end
+         if(instr_valid && !flush && !flush_save && pc == btb_pc[pc[2]] && valid[pc[2]]) begin
+            _btb_hit = 1'b1;
+         end
     end
 
 

@@ -38,8 +38,6 @@ VL_ATTR_COLD void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial\n"); );
     // Body
     Vtop___024root___eval_initial__TOP(vlSelf);
-    vlSelf->__Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_valid 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_valid;
     vlSelf->__Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT___axi4delay_delayer_in_bvalid 
         = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT___axi4delay_delayer_in_bvalid;
     vlSelf->__Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT___axi4delay_delayer_in_rvalid 
@@ -126,13 +124,10 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         'stl' region trigger index 0 is active: Internal 'stl' trigger - first iteration\n");
     }
     if (vlSelf->__VstlTriggered.at(1U)) {
-        VL_DBG_MSGF("         'stl' region trigger index 1 is active: @([hybrid] difftest_top.soc.asic.cpu.cpu.instr_valid)\n");
+        VL_DBG_MSGF("         'stl' region trigger index 1 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_bvalid)\n");
     }
     if (vlSelf->__VstlTriggered.at(2U)) {
-        VL_DBG_MSGF("         'stl' region trigger index 2 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_bvalid)\n");
-    }
-    if (vlSelf->__VstlTriggered.at(3U)) {
-        VL_DBG_MSGF("         'stl' region trigger index 3 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_rvalid)\n");
+        VL_DBG_MSGF("         'stl' region trigger index 2 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_rvalid)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -140,9 +135,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf);
 void Vtop___024root___act_sequent__TOP__0(Vtop___024root* vlSelf);
 void Vtop___024root___act_sequent__TOP__1(Vtop___024root* vlSelf);
-void Vtop___024root___act_sequent__TOP__2(Vtop___024root* vlSelf);
 void Vtop___024root___act_comb__TOP__0(Vtop___024root* vlSelf);
-void Vtop___024root___act_comb__TOP__1(Vtop___024root* vlSelf);
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -152,22 +145,15 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     if (vlSelf->__VstlTriggered.at(0U)) {
         Vtop___024root___stl_sequent__TOP__0(vlSelf);
     }
-    if ((vlSelf->__VstlTriggered.at(0U) | vlSelf->__VstlTriggered.at(1U))) {
+    if ((vlSelf->__VstlTriggered.at(0U) | vlSelf->__VstlTriggered.at(2U))) {
         Vtop___024root___act_sequent__TOP__0(vlSelf);
     }
-    if ((vlSelf->__VstlTriggered.at(0U) | vlSelf->__VstlTriggered.at(3U))) {
+    if ((vlSelf->__VstlTriggered.at(0U) | vlSelf->__VstlTriggered.at(1U))) {
         Vtop___024root___act_sequent__TOP__1(vlSelf);
     }
-    if ((vlSelf->__VstlTriggered.at(0U) | vlSelf->__VstlTriggered.at(2U))) {
-        Vtop___024root___act_sequent__TOP__2(vlSelf);
-    }
     if (((vlSelf->__VstlTriggered.at(0U) | vlSelf->__VstlTriggered.at(1U)) 
-         | vlSelf->__VstlTriggered.at(3U))) {
+         | vlSelf->__VstlTriggered.at(2U))) {
         Vtop___024root___act_comb__TOP__0(vlSelf);
-    }
-    if (((vlSelf->__VstlTriggered.at(0U) | vlSelf->__VstlTriggered.at(2U)) 
-         | vlSelf->__VstlTriggered.at(3U))) {
-        Vtop___024root___act_comb__TOP__1(vlSelf);
     }
 }
 
@@ -196,37 +182,34 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if (vlSelf->__VactTriggered.at(0U)) {
-        VL_DBG_MSGF("         'act' region trigger index 0 is active: @([hybrid] difftest_top.soc.asic.cpu.cpu.instr_valid)\n");
+        VL_DBG_MSGF("         'act' region trigger index 0 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_bvalid)\n");
     }
     if (vlSelf->__VactTriggered.at(1U)) {
-        VL_DBG_MSGF("         'act' region trigger index 1 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_bvalid)\n");
+        VL_DBG_MSGF("         'act' region trigger index 1 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_rvalid)\n");
     }
     if (vlSelf->__VactTriggered.at(2U)) {
-        VL_DBG_MSGF("         'act' region trigger index 2 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_rvalid)\n");
+        VL_DBG_MSGF("         'act' region trigger index 2 is active: @(posedge clock)\n");
     }
     if (vlSelf->__VactTriggered.at(3U)) {
-        VL_DBG_MSGF("         'act' region trigger index 3 is active: @(posedge clock)\n");
+        VL_DBG_MSGF("         'act' region trigger index 3 is active: @(posedge clock or posedge difftest_top.soc.asic.__Vcellinp__cpu__reset)\n");
     }
     if (vlSelf->__VactTriggered.at(4U)) {
-        VL_DBG_MSGF("         'act' region trigger index 4 is active: @(posedge clock or posedge difftest_top.soc.asic.__Vcellinp__cpu__reset)\n");
+        VL_DBG_MSGF("         'act' region trigger index 4 is active: @(posedge clock or posedge reset)\n");
     }
     if (vlSelf->__VactTriggered.at(5U)) {
-        VL_DBG_MSGF("         'act' region trigger index 5 is active: @(posedge clock or posedge reset)\n");
+        VL_DBG_MSGF("         'act' region trigger index 5 is active: @(posedge difftest_top.soc.__Vcellinp__flash__ss or posedge difftest_top.soc._asic_spi_sck)\n");
     }
     if (vlSelf->__VactTriggered.at(6U)) {
-        VL_DBG_MSGF("         'act' region trigger index 6 is active: @(posedge difftest_top.soc.__Vcellinp__flash__ss or posedge difftest_top.soc._asic_spi_sck)\n");
+        VL_DBG_MSGF("         'act' region trigger index 6 is active: @(posedge difftest_top.soc._asic_spi_sck)\n");
     }
     if (vlSelf->__VactTriggered.at(7U)) {
-        VL_DBG_MSGF("         'act' region trigger index 7 is active: @(posedge difftest_top.soc._asic_spi_sck)\n");
+        VL_DBG_MSGF("         'act' region trigger index 7 is active: @(posedge difftest_top.soc._asic_psram_ce_n or posedge difftest_top.soc._asic_psram_sck)\n");
     }
     if (vlSelf->__VactTriggered.at(8U)) {
-        VL_DBG_MSGF("         'act' region trigger index 8 is active: @(posedge difftest_top.soc._asic_psram_ce_n or posedge difftest_top.soc._asic_psram_sck)\n");
+        VL_DBG_MSGF("         'act' region trigger index 8 is active: @(negedge clock)\n");
     }
     if (vlSelf->__VactTriggered.at(9U)) {
-        VL_DBG_MSGF("         'act' region trigger index 9 is active: @(negedge clock)\n");
-    }
-    if (vlSelf->__VactTriggered.at(0xaU)) {
-        VL_DBG_MSGF("         'act' region trigger index 10 is active: @(posedge ref_clk or posedge ref_rst)\n");
+        VL_DBG_MSGF("         'act' region trigger index 9 is active: @(posedge ref_clk or posedge ref_rst)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -241,37 +224,34 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__nba(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if (vlSelf->__VnbaTriggered.at(0U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 0 is active: @([hybrid] difftest_top.soc.asic.cpu.cpu.instr_valid)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 0 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_bvalid)\n");
     }
     if (vlSelf->__VnbaTriggered.at(1U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 1 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_bvalid)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 1 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_rvalid)\n");
     }
     if (vlSelf->__VnbaTriggered.at(2U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 2 is active: @([hybrid] difftest_top.soc.asic._axi4delay_delayer_in_rvalid)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 2 is active: @(posedge clock)\n");
     }
     if (vlSelf->__VnbaTriggered.at(3U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 3 is active: @(posedge clock)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 3 is active: @(posedge clock or posedge difftest_top.soc.asic.__Vcellinp__cpu__reset)\n");
     }
     if (vlSelf->__VnbaTriggered.at(4U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 4 is active: @(posedge clock or posedge difftest_top.soc.asic.__Vcellinp__cpu__reset)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 4 is active: @(posedge clock or posedge reset)\n");
     }
     if (vlSelf->__VnbaTriggered.at(5U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 5 is active: @(posedge clock or posedge reset)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 5 is active: @(posedge difftest_top.soc.__Vcellinp__flash__ss or posedge difftest_top.soc._asic_spi_sck)\n");
     }
     if (vlSelf->__VnbaTriggered.at(6U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 6 is active: @(posedge difftest_top.soc.__Vcellinp__flash__ss or posedge difftest_top.soc._asic_spi_sck)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 6 is active: @(posedge difftest_top.soc._asic_spi_sck)\n");
     }
     if (vlSelf->__VnbaTriggered.at(7U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 7 is active: @(posedge difftest_top.soc._asic_spi_sck)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 7 is active: @(posedge difftest_top.soc._asic_psram_ce_n or posedge difftest_top.soc._asic_psram_sck)\n");
     }
     if (vlSelf->__VnbaTriggered.at(8U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 8 is active: @(posedge difftest_top.soc._asic_psram_ce_n or posedge difftest_top.soc._asic_psram_sck)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 8 is active: @(negedge clock)\n");
     }
     if (vlSelf->__VnbaTriggered.at(9U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 9 is active: @(negedge clock)\n");
-    }
-    if (vlSelf->__VnbaTriggered.at(0xaU)) {
-        VL_DBG_MSGF("         'nba' region trigger index 10 is active: @(posedge ref_clk or posedge ref_rst)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 9 is active: @(posedge ref_clk or posedge ref_rst)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -604,6 +584,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__pc = VL_RAND_RESET_I(32);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr = VL_RAND_RESET_I(32);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__valid_fd = VL_RAND_RESET_I(1);
+    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__compulsory_branch_instrs = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ready_de = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__addi = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__slti = VL_RAND_RESET_I(1);
@@ -1549,10 +1530,10 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->__Vtask_difftest_top__DOT__soc__DOT__asic__DOT__lmrom__DOT__mrom__DOT__mrom_read__9__rdata = 0;
     vlSelf->__Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__22__Vfuncout = 0;
     vlSelf->__Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__26__Vfuncout = 0;
+    vlSelf->__Vtableidx1 = 0;
     vlSelf->__Vtableidx2 = 0;
-    vlSelf->__Vtableidx3 = 0;
-    vlSelf->__Vtableidx6 = 0;
-    vlSelf->__Vtableidx9 = 0;
+    vlSelf->__Vtableidx5 = 0;
+    vlSelf->__Vtableidx8 = 0;
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__lkeyboard__DOT__mps2__DOT__clk_sync = VL_RAND_RESET_I(2);
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__lkeyboard__DOT__mps2__DOT__dat_sync = VL_RAND_RESET_I(2);
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__wr_err_seen = VL_RAND_RESET_I(1);
@@ -1580,7 +1561,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__flash__DOT__cmd = VL_RAND_RESET_I(8);
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__flash__DOT__addr = VL_RAND_RESET_I(24);
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__flash__DOT__data = VL_RAND_RESET_I(32);
-    vlSelf->__Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_valid = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT___axi4delay_delayer_in_bvalid = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT___axi4delay_delayer_in_rvalid = VL_RAND_RESET_I(1);
     vlSelf->__VstlDidInit = 0;

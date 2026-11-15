@@ -256,9 +256,6 @@ module ysyx_26040135(
 
 // 流水线级间连接
 
-    wire sw_avail;
-    wire [31:0] sw_addr;   
-
     ysyx_26040135_AXI_ICACHE icache (
         .mbus(bus_icache.master),
         .clock(clock),
@@ -268,10 +265,7 @@ module ysyx_26040135(
         .instr_valid(instr_valid),
         .instr(instr_icache),
         .fetch_error(fetch_error),
-        .fetch_addr(fetch_addr),
-
-        .sw_addr(sw_addr),
-        .sw_avail(sw_avail)
+        .fetch_addr(fetch_addr)
     );
 
     wire fetch_valid;
@@ -301,8 +295,17 @@ module ysyx_26040135(
         .ifu_work_cyc(ifu_work_cyc),
         .ifu_block_cyc(ifu_block_cyc),
 
-        .cbi(compulsory_branch_instrs)
+        .cbi(compulsory_branch_instrs),
+        .bt_valid(bt_valid),
+        .b_pc(b_pc),
+        .b_target(b_target),
+        .taken(taken)
     ); 
+
+    wire bt_valid;
+    wire [31:0] b_pc;
+    wire [31:0] b_target;
+    wire taken;
 
     wire [63:0] ifu_work_cyc, ifu_block_cyc;
 
@@ -327,7 +330,9 @@ module ysyx_26040135(
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc), .mret(mret),
         .fence_i(fence_i),
         .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm),
-        .out_instr(instr_de)
+        .out_instr(instr_de),
+        .taken(taken),
+        .taken_out(taken_de)
     );
 
     wire valid_de, ready_de;
@@ -342,6 +347,7 @@ module ysyx_26040135(
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
     wire [31:0] instr_de;
+    wire taken_de;
 
 
 ysyx_26040135_EXU exu (
@@ -386,7 +392,13 @@ ysyx_26040135_EXU exu (
     .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
     .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen),
 
-    .ren(ren)
+    .ren(ren),
+
+    .cbi(compulsory_branch_instrs),
+    .bt_valid(bt_valid),
+    .b_pc(b_pc),
+    .b_target(b_target),
+    .taken(taken_de)
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
@@ -450,10 +462,7 @@ ysyx_26040135_EXU exu (
         .lsu_blockf_cyc(lsu_blockf_cyc),
         .lsu_blcokb_cyc(lsu_blcokb_cyc),
         .lsu_work_cyc(lsu_work_cyc),
-        .lsu_blockf(lsu_blockf),
-
-        .sw_addr(sw_addr),
-        .sw_avail(sw_avail)
+        .lsu_blockf(lsu_blockf)
     );
 
     wire valid_lw, ready_lw;

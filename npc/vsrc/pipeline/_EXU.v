@@ -430,7 +430,7 @@ module ysyx_26040135_EXU (
                     b_pc = pc_save;
                     b_target = add_rst_w_save;
                 end
-                flush = jalr_save | jal_save | ecall_save | mret_save | (b_type & (br_taken != taken_save))
+                flush = jalr_save | jal_save | ecall_save | mret_save | (b_type & (br_taken != taken_save));
                 next = IDLE;
             end
         endcase

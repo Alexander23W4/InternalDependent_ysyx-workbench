@@ -20,7 +20,7 @@
 
 // DPI TYPES for DPI Export callbacks (Internal use)
 using Vtop__Vcb_check_error_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_error, IData/*31:0*/ &lsu_error, IData/*31:0*/ &master_validation_error);
-using Vtop__Vcb_check_flush_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &flush, IData/*31:0*/ &fetch_done, IData/*31:0*/ &flush_ifu_blk, IData/*31:0*/ &flush_ifu_blk_flg, IData/*31:0*/ &possible_branch_instr, IData/*31:0*/ &compulsory_branch, IData/*31:0*/ &optimisible_branch);
+using Vtop__Vcb_check_flush_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &flush, IData/*31:0*/ &fetch_done, IData/*31:0*/ &flush_ifu_blk, IData/*31:0*/ &flush_ifu_blk_flg, IData/*31:0*/ &possible_branch_instr, IData/*31:0*/ &compulsory_branch, IData/*31:0*/ &optimisible_branch, IData/*31:0*/ &btb_hit);
 using Vtop__Vcb_check_halt_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 using Vtop__Vcb_check_new_instr_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &new_instr);
 using Vtop__Vcb_check_pipeline_bottleneck_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_out_valid, IData/*31:0*/ &exu_in_ready, IData/*31:0*/ &exu_out_valid, IData/*31:0*/ &lsu_in_ready, IData/*31:0*/ &lsu_out_valid, IData/*31:0*/ &wbu_in_ready);

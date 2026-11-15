@@ -40,6 +40,7 @@ int flush_ifu_blk_flg = 0;
 int possible_branch_instr = 0;
 int compulsory_branch = 0;
 int optimisible_branch = 0;
+int btb_hit = 0;
 
 uint32_t fetch_amt = 0;
 uint32_t flush_amt = 0;
@@ -48,6 +49,7 @@ uint32_t flush_ifu_blk_flg_amt = 0;
 uint32_t possible_branch_instr_amt = 0;
 uint32_t compulsory_branch_amt = 0;
 uint32_t optimisible_branch_amt = 0;
+uint32_t btb_hit_amt = 0;
 
 
 
@@ -63,7 +65,7 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
         top->check_pipeline_bottleneck(&ifu_out_valid, &exu_in_ready, &exu_out_valid, &lsu_in_ready, &lsu_out_valid, &wbu_in_ready);
         cal_stall();
         
-        top->check_flush(&flush, &fetch_done, &flush_ifu_blk, &flush_ifu_blk_flg, &possible_branch_instr, &compulsory_branch, &optimisible_branch);
+        top->check_flush(&flush, &fetch_done, &flush_ifu_blk, &flush_ifu_blk_flg, &possible_branch_instr, &compulsory_branch, &optimisible_branch, &btb_hit);
         cal_flush();
         
         top->check_halt(&endprog);

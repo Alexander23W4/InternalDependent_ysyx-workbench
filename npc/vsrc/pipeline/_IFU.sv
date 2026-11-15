@@ -95,6 +95,7 @@ module ysyx_26040135_AXI_IFU (
     reg master_validation_error_save;
     reg flush_save;
     reg [31:0] pc_flush_save;
+    reg _btb_hit;
 
 
     assign __error = fetch_error;   
@@ -137,6 +138,8 @@ module ysyx_26040135_AXI_IFU (
 
             ifu_work_cyc <= 64'b0;
             ifu_block_cyc <= 64'b0;
+
+            _btb_hit = 1'b0;
 
         end else begin
 
@@ -182,10 +185,14 @@ module ysyx_26040135_AXI_IFU (
                end 
                else begin
                     out_valid <= 1'b1; 
-
-                    if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT
-                        pc <= btb_target[pc[2]];   
-                        taken <= 1'b1;
+                    if(pc == btb_pc[pc[2]] && valid[pc[2]]) begin   // BT
+                        _btb_hit = 1'b1;
+                        if(pc > btb_target[pc[2]]) begin
+                            pc <= btb_target[pc[2]];   
+                            taken <= 1'b1;
+                        end else begin
+                            pc <= pc + 32'd4;
+                        end
                     end else begin
                         pc <= pc + 32'd4;  // FN & default
                         taken <= 1'b0;

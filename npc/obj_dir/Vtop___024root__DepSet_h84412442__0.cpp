@@ -103,7 +103,7 @@ void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT_
     wbu_in_ready = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ready_lw;
 }
 
-void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_flush_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &flush, IData/*31:0*/ &fetch_done, IData/*31:0*/ &flush_ifu_blk, IData/*31:0*/ &flush_ifu_blk_flg, IData/*31:0*/ &possible_branch_instr, IData/*31:0*/ &compulsory_branch, IData/*31:0*/ &optimisible_branch) {
+void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_flush_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &flush, IData/*31:0*/ &fetch_done, IData/*31:0*/ &flush_ifu_blk, IData/*31:0*/ &flush_ifu_blk_flg, IData/*31:0*/ &possible_branch_instr, IData/*31:0*/ &compulsory_branch, IData/*31:0*/ &optimisible_branch, IData/*31:0*/ &btb_hit) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_flush_TOP\n"); );
     // Init
     // Body
@@ -114,6 +114,7 @@ void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT_
     possible_branch_instr = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT___possible_branch_instr;
     compulsory_branch = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT___compulsory_branch;
     optimisible_branch = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT___optimisible_branch;
+    btb_hit = vlSymsp->TOP.difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___btb_hit;
 }
 
 extern "C" void mrom_read(int raddr, int* rdata);
@@ -6131,6 +6132,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
         __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu_work_cyc = 0ULL;
         vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__state = 0U;
         vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__rd_wb_save = 0U;
+        vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___btb_hit = 0U;
         __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc = 0x30000000U;
         vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr = 0U;
         __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__valid_fd = 0U;
@@ -6732,22 +6734,27 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) 
                     = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__pc_flush;
             } else {
                 __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__valid_fd = 1U;
-                if ((((vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
-                       == vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__btb_pc
-                       [(1U & (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
-                               >> 2U))]) & ((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__valid) 
-                                            >> (1U 
-                                                & (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
-                                                   >> 2U)))) 
-                     & (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
-                        > vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__btb_target
-                        [(1U & (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
-                                >> 2U))]))) {
-                    __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
-                        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__btb_target
-                        [(1U & (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
-                                >> 2U))];
-                    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__taken = 1U;
+                if (((vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
+                      == vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__btb_pc
+                      [(1U & (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
+                              >> 2U))]) & ((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__valid) 
+                                           >> (1U & 
+                                               (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
+                                                >> 2U))))) {
+                    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___btb_hit = 1U;
+                    if ((vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
+                         > vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__btb_target
+                         [(1U & (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
+                                 >> 2U))])) {
+                        __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
+                            = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__btb_target
+                            [(1U & (vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
+                                    >> 2U))];
+                        vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__taken = 1U;
+                    } else {
+                        __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
+                            = ((IData)(4U) + vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc);
+                    }
                 } else {
                     __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc 
                         = ((IData)(4U) + vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__pc);

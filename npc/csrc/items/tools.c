@@ -183,6 +183,11 @@ void statistical_print(){
     printf("[POSSIBLE_BRANCH] %u\n", possible_branch_instr_amt);
     printf("[COMPULSORY_BRANCH] %u\n", compulsory_branch_amt);
     printf("[OPTIMISIBLE_BRANCH] %u\n", optimisible_branch_amt);
+    {
+        double bt_ratio = (optimisible_branch_amt != 0)
+                        ? 100.0 * (double)btb_hit_amt / (double)optimisible_branch_amt : 0.0;
+        printf("[BTB_HIT] %u (%.2f%% of optimisible_branch)\n", btb_hit_amt, bt_ratio);
+    }
 
     double mispred = (double)flush_amt - (double)compulsory_branch_amt;
     if (mispred < 0.0) mispred = 0.0;
@@ -260,6 +265,9 @@ void cal_flush(){
     }
     if(optimisible_branch){
         optimisible_branch_amt++;
+    }
+    if(btb_hit){
+        btb_hit_amt++;
     }
 }
 

@@ -111,6 +111,7 @@ extern int flush_ifu_blk_flg;
 extern int possible_branch_instr;
 extern int compulsory_branch;
 extern int optimisible_branch;
+extern int btb_hit;
 
 extern uint32_t fetch_amt;
 extern uint32_t flush_amt;
@@ -119,6 +120,7 @@ extern uint32_t flush_ifu_blk_flg_amt;
 extern uint32_t possible_branch_instr_amt;
 extern uint32_t compulsory_branch_amt;
 extern uint32_t optimisible_branch_amt;
+extern uint32_t btb_hit_amt;
 
 
 void _init(int argc, char** argv);

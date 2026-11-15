@@ -42,6 +42,7 @@ module ysyx_26040135_AXI4_Xbar (
 
 
 
+// 现在这个xbar的渡口带宽受限, 不支持并行读
 
     typedef enum logic [1:0] {
         IDLE = 2'b00,
@@ -62,7 +63,9 @@ module ysyx_26040135_AXI4_Xbar (
             if (state == IDLE) begin
                 if (lsu_s.arvalid) begin
                     sel_clint <= (lsu_s.araddr[31:16] == 16'h0200);
-                end      
+                end else begin
+                    sel_clint <= 1'b0;
+                end
             end
         end
     end
@@ -70,13 +73,11 @@ module ysyx_26040135_AXI4_Xbar (
     wire sel_lsu = (state == R_LSU);
     wire sel_ifu = (state == R_IFU);
 
-    // 被服务的那一笔读, 数据来自哪个目标(组合; 事务期间地址和 sel_clint 都稳定)
-    wire r_tgt_rvalid = sel_clint ? clint_m.rvalid : m_m.rvalid;
-    wire r_tgt_rlast  = sel_clint ? clint_m.rlast  : m_m.rlast;
 
     // 状态跳转逻辑
     always_comb begin
         next = state;
+
         case (state)
             IDLE: begin
                 if (ifu_s.arvalid) begin   // ifu优先
@@ -86,17 +87,16 @@ module ysyx_26040135_AXI4_Xbar (
                 end 
             end
             R_IFU: begin   // IFU只对接系统总线
-                // 收到 rvalid 且 rready 且 rlast 为高时, 代表当前事务结束
-                if (r_tgt_rvalid && ifu_s.rready && r_tgt_rlast) begin
+                if (ifu_s.rvalid && ifu_s.rready && ifu_s.rlast) begin
                     next = IDLE;
                 end
             end
             R_LSU: begin  // 根据地址选择和clint或者系统总线握手
-                if (r_tgt_rvalid && lsu_s.rready && r_tgt_rlast) begin
+                if (lsu_s.rvalid && lsu_s.rready && lsu_s.rlast) begin
                     next = IDLE;
                 end
             end
-            default: next = IDLE;
+            default: ;
         endcase
     end
 
@@ -106,38 +106,29 @@ module ysyx_26040135_AXI4_Xbar (
     assign clint_m.arlen = lsu_s.arlen;
     assign clint_m.arsize = lsu_s.arsize;
     assign clint_m.arburst = lsu_s.arburst;
-    assign clint_m.rready = sel_clint & sel_lsu & lsu_s.rready;
+    assign clint_m.rready = lsu_s.rready;
 
-    assign m_m.arvalid = !sel_clint & ((sel_lsu & lsu_s.arvalid) | (sel_ifu && ifu_s.arvalid));
+    assign m_m.arvalid = !sel_clint & ((sel_lsu & lsu_s.arvalid) | (sel_ifu && ifu_s.arvalid));  // 同样, 到状态才允许握手
     assign m_m.araddr = sel_lsu ? lsu_s.araddr : ifu_s.araddr;
     assign m_m.arid = sel_lsu ? lsu_s.arid : ifu_s.arid;
     assign m_m.arlen = sel_lsu ? lsu_s.arlen : ifu_s.arlen;
     assign m_m.arsize = sel_lsu ? lsu_s.arsize : ifu_s.arsize;
     assign m_m.arburst = sel_lsu ? lsu_s.arburst : ifu_s.arburst;
-    assign m_m.ready = !sel_clint & ((sel_lsu & lsu_s.ready) | (sel_ifu & ifu_s.rready));
+    assign m_m.rready =  sel_lsu ? lsu_s.rready : ifu_s.rready;
 
-    // arready 反馈分发: 只在仲裁结果已经锁定到某个 master 之后, 才把它回给那个 master
-    // (arready 是电平信号, 绝不能在 IDLE 就对 master 透出, 否则会变成假握手)
-    assign lsu_s.arready = sel_lsu ? (sel_clint ? clint_m.arready : m_m.arready) : 1'b0;
-    assign ifu_s.arready = sel_ifu ? (sel_clint ? clint_m.arready : m_m.arready) : 1'b0;
+    // 确定状态才把ready信号放出来允许握手
+    assign lsu_s.arready = sel_lsu & (sel_clint ? clint_m.arready : m_m.arready);
+    assign lsu_s.rdata = sel_clint ? clint_m.rdata : m_m.rdata;
+    assign lsu_s.rid = sel_clint ? clint_m.rid : m_m.rid;
+    assign lsu_s.rresp = sel_clint ? clint_m.rresp : m_m.rresp;
+    assign lsu_s.rlast = sel_clint ? clint_m.rlast : m_m.rlast;
+    assign lsu_s.rvalid = sel_clint ? clint_m.rvalid : m_m.rvalid;
 
-
-
-
-    assign lsu_s.rdata  = sel_clint ? clint_m.rdata : m_m.rdata;
-    assign lsu_s.rid    = sel_clint ? clint_m.rid   : m_m.rid;
-    assign lsu_s.rresp  = sel_clint ? clint_m.rresp : m_m.rresp;
-    assign lsu_s.rlast  = sel_clint ? clint_m.rlast : m_m.rlast;
-
+    assign ifu_s.arready = sel_ifu & m_m.arready;
     assign ifu_s.rdata = m_m.rdata;
     assign ifu_s.rid = m_m.rid;
     assign ifu_s.rresp = m_m.rresp;
     assign ifu_s.rlast = m_m.rlast;
-
-    // rvalid 控制：只有当状态匹配时才有效
-    assign lsu_s.rvalid = sel_lsu && r_tgt_rvalid;
-    assign ifu_s.rvalid = sel_ifu && r_tgt_rvalid;
-
-    // rready 控制：把对应 Master 的 rready 反压给被选中的目标
+    assign ifu_s.rvalid = m_m.rvalid;
 
 endmodule

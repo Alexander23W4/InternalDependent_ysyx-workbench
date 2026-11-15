@@ -110,6 +110,10 @@ cache的优化, 替换算法, block, set-associative, 大小
 
 ⭐ 如果是强制跳转, IDU得到结果之后, 就告诉IFU不要继续fetch了, 停下来
 
+⭐ LSU支持同时读写
+
+⭐ 看看能不能把gpr压缩到16个
+
 ⭐ C:
 最后优化时钟周期
 

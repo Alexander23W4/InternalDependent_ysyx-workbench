@@ -21,8 +21,9 @@ module ysyx_26040135_AXI_IFU (
     output reg [31:0] out_pc,   
 
     input flush,
-    input [31:0] pc_flush
+    input [31:0] pc_flush,
 
+    input cbi
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -131,7 +132,7 @@ module ysyx_26040135_AXI_IFU (
             
         case(state)
             IDLE: begin  // IFU的 IDLE的作用就是等ready握手
-                if(out_ready) begin   // 可以阻塞到IDLE, 但是不能阻塞系统总线, 所以必须在这里等out_ready
+                if((out_ready && !cbi) || (flush && cbi)) begin   // 必跳指令在流水线里时先不取指, 等 flush 来了直接取目标
                     next = FETCH;
                 end
             end

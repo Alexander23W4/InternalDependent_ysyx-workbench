@@ -141,7 +141,9 @@ module ysyx_26040135(
         .out_ready(ready_rd),
         .out_pc(pc),
         .flush(flush),
-        .pc_flush(pc_flush)
+        .pc_flush(pc_flush),
+
+        .cbi(compulsory_branch_instrs)
     ); 
 
     wire        flush;  
@@ -175,6 +177,7 @@ module ysyx_26040135(
     wire jal, jalr;
     wire lui, auipc;
     wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
+    wire compulsory_branch_instrs = jalr | jal | ecall | mret;
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
 

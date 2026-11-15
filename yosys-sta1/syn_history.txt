@@ -938,3 +938,89 @@ Total Power   ==  1.299e-02 W
 而且因为flush被ifu阻塞的周期比例大概是1425381/16909342(分母其实偏小的), 不到10%
 虽然现在对于b指令的正确率37%还有很大提升空间, 而且b指令占整个分支指令比例还挺大, 但是或许依然只能带来基于ifu2-3%左右的性能提升(如果预测正确率能提升到50%)
 
+
+
+
+## 1.4.5 icache(16, 8)
+由于关键瓶颈就是icache的miss_rate和miss_penalty, 所以没办法, 暴力增加icache大小就是最好的优化方式
+处理之后现在面积增加的幅度比我想象的要少, P能降低将近30%
+
+[CIRCLE] 20701809
+[INSTR] 592249
+[CPI] 34.95
+[IFU_STALL] 8961674 (43.29%)
+[EXU_STALL] 1184628 (5.72%)
+[LSU_STALL] 2485979 (12.01%)
+[WBU_STALL] 0 (0.00%)
+[FETCH] 684608
+[FLUSH] 92358
+[FLUSH_IFU_BLK] 4184
+[FLUSH_IFU_BLK_FLG] 750470
+[POSSIBLE_BRANCH] 134483
+[COMPULSORY_BRANCH] 23075
+[OPTIMISIBLE_BRANCH] 111408
+[BRANCH_PRED_ACC] 37.81%
+
+对比多周期cpu的表现:
+
+[CYCLES] 21424258
+[INSTRS] 592408
+[CPI] 36.165
+
+ICache:
+[ICACHE_HIT_CNT] 539356
+[ICACHE_HIT_CPI] 3.000
+[ICACHE_MISS_CNT] 53052
+[ICACHE_MISS_CPI] 183.255
+[ICACHE_HIT_RATE] 91.045%
+
+
++--------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| Endpoint                                                                       | Clock Group              | Delay Type | Path Delay | Path Required | CPPR  | Slack | Freq(MHz) |
++--------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| bus_icache_araddr_5__reg_p:D                                                   | core_clock               | max        | 0.799r     | 1.963         | 0.000 | 1.165 | 1196.895  |
+| bus_icache_araddr_5__reg_p:D                                                   | core_clock               | max        | 0.799r     | 1.963         | 0.000 | 1.165 | 1196.895  |
+| bus_icache_araddr_6__reg_p:D                                                   | core_clock               | max        | 0.799r     | 1.963         | 0.000 | 1.165 | 1196.943  |
+| bus_icache_araddr_6__reg_p:D                                                   | core_clock               | max        | 0.799r     | 1.963         | 0.000 | 1.165 | 1196.943  |
+| bus_icache_araddr_4__reg_p:D                                                   | core_clock               | max        | 0.799r     | 1.963         | 0.000 | 1.165 | 1196.944  |
+| exu.in_valid_reg_p_D_$_NAND__Y_B_$_NAND__Y_B_$_AND__A_1_Y_CLKGATE_X1_E:E       | **clock_gating_default** | max        | 0.761r     | 1.950         | 0.000 | 1.189 | NA        |
+| exu.in_valid_reg_p_D_$_NAND__Y_B_$_NAND__Y_B_$_AND__A_Y_CLKGATE_X1_E:E         | **clock_gating_default** | max        | 0.747r     | 1.951         | 0.000 | 1.204 | NA        |
+| ifu.state_0__$_OR__A_Y_$_AND__A_Y_CLKGATE_X1_E:E                               | **clock_gating_default** | max        | 0.742r     | 1.948         | 0.000 | 1.206 | NA        |
+| fetch_valid_reg_p_D_$_OR__Y_B_$_AND__B_Y_CLKGATE_X1_E:E                        | **clock_gating_default** | max        | 0.671f     | 1.955         | 0.000 | 1.285 | NA        |
+| ifu.state_0__$_OR__A_Y_$_AND__A_Y_CLKGATE_X1_E:E                               | **clock_gating_default** | max        | 0.656f     | 1.953         | 0.000 | 1.297 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                     | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                     | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| exu.mcycle_0__reg_p:D                                                          | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| u_clint.mtime_0__reg_p:D                                                       | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                     | core_clock               | min        | 0.064f     | 0.003         | 0.000 | 0.061 | NA        |
+| u_xbar.w_clint_reg_p_E_CLKGATE_X1_E:E                                          | **clock_gating_default** | min        | 0.114r     | -0.001        | 0.000 | 0.116 | NA        |
+| u_xbar.w_clint_reg_p_E_CLKGATE_X1_E:E                                          | **clock_gating_default** | min        | 0.104f     | -0.016        | 0.000 | 0.119 | NA        |
+| u_xbar.w_busy_reg_p_E_CLKGATE_X1_E:E                                           | **clock_gating_default** | min        | 0.119r     | -0.001        | 0.000 | 0.120 | NA        |
+| exu.rd_wb_save_4__$_MUX__S_Y_$_ORNOT__B_Y_$_AND__A_Y_$_AND__B_Y_CLKGATE_X1_E:E | **clock_gating_default** | min        | 0.106f     | -0.015        | 0.000 | 0.121 | NA        |
+| u_xbar.w_busy_reg_p_E_CLKGATE_X1_E:E                                           | **clock_gating_default** | min        | 0.110f     | -0.016        | 0.000 | 0.125 | NA        |
++--------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+
+
++---------------+----------------+--------------+---------------+-------------+-----------+
+| combinational | 7.946e-03      | 0.000e+00    | 2.834e-04     | 8.229e-03   | (56.584%) |
+| sequential    | 6.122e-03      | 0.000e+00    | 1.917e-04     | 6.314e-03   | (43.416%) |
++---------------+----------------+--------------+---------------+-------------+-----------+
+Net Switch Power   ==    0.000e+00 (0.000%)
+Cell Internal Power   ==    1.407e-02 (96.734%)
+Cell Leakage Power   ==    4.750e-04 (3.266%)
+Total Power   ==  1.454e-02 W
+
+
+      220   175.56   BUF_X1
+        4     26.6   BUF_X16
+      101  107.464   BUF_X2
+       32   59.584   BUF_X4
+        7   24.206   BUF_X8
+        8    6.384   CLKBUF_X1
+       74  255.892   CLKGATE_X1
+     1672  8895.04   DFFR_X1
+       13    69.16   DFFS_X1
+     1589 7.19E+03   DFF_X1
+
+   Chip area for module '\ysyx_26040135': 27845.412000
+     of which used for sequential elements: 16149.658000 (58.00%)

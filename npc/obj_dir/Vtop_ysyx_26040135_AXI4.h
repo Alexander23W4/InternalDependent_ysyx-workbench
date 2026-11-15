@@ -25,7 +25,6 @@ class Vtop_ysyx_26040135_AXI4 final : public VerilatedModule {
     CData/*2:0*/ awsize;
     CData/*3:0*/ wstrb;
     CData/*0:0*/ wvalid;
-    CData/*0:0*/ wready;
     CData/*1:0*/ bresp;
     CData/*0:0*/ bvalid;
     CData/*0:0*/ bready;

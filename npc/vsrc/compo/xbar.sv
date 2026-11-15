@@ -45,57 +45,57 @@ module ysyx_26040135_AXI4_Xbar (
 
     typedef enum logic [1:0] {
         R_IDLE = 2'b00,
-        R_IFU  = 2'b01,
-        R_LSU  = 2'b10
-    } r_state_t;
+        R_IFU = 2'b01,
+        R_LSU = 2'b10
+    } state_t;
 
-    r_state_t r_current_state, r_next_state;
-    logic     r_sel_clint;      // 当前读事务的目标是不是 CLINT
+    state_t state, next;
+    logic sel_clint;      
 
     always_ff @(posedge clock or posedge reset) begin
         if (reset) begin
-            r_current_state <= R_IDLE;
-            r_sel_clint     <= 1'b0;
+            state <= IDLE;
+            sel_clint <= 1'b0;
         end else begin
-            r_current_state <= r_next_state;
-            // 只在 IDLE(定归属)那一拍更新, 事务进行中保持不变
-            if (r_current_state == R_IDLE) begin
-                if (lsu_s.arvalid)      r_sel_clint <= (lsu_s.araddr[31:16] == 16'h0200);
-                else if (ifu_s.arvalid) r_sel_clint <= (ifu_s.araddr[31:16] == 16'h0200);
+            state <= next;
+
+            if (state == R_IDLE) begin
+                if (lsu_s.arvalid)      sel_clint <= (lsu_s.araddr[31:16] == 16'h0200);
+                else if (ifu_s.arvalid) sel_clint <= (ifu_s.araddr[31:16] == 16'h0200);
             end
         end
     end
 
-    wire sel_lsu = (r_current_state == R_LSU);
-    wire sel_ifu = (r_current_state == R_IFU);
+    wire sel_lsu = (state == R_LSU);
+    wire sel_ifu = (state == R_IFU);
 
-    // 被服务的那一笔读, 数据来自哪个目标(组合; 事务期间地址和 r_sel_clint 都稳定)
-    wire r_tgt_rvalid = r_sel_clint ? clint_m.rvalid : m_m.rvalid;
-    wire r_tgt_rlast  = r_sel_clint ? clint_m.rlast  : m_m.rlast;
+    // 被服务的那一笔读, 数据来自哪个目标(组合; 事务期间地址和 sel_clint 都稳定)
+    wire r_tgt_rvalid = sel_clint ? clint_m.rvalid : m_m.rvalid;
+    wire r_tgt_rlast  = sel_clint ? clint_m.rlast  : m_m.rlast;
 
     // 状态跳转逻辑
     always_comb begin
-        r_next_state = r_current_state;
-        case (r_current_state)
+        next = state;
+        case (state)
             R_IDLE: begin
-                if (ifu_s.arvalid) begin
-                    r_next_state = R_IFU;
+                if (ifu_s.arvalid) begin   // ifu优先
+                    next = R_IFU;
                 end else if (lsu_s.arvalid) begin
-                    r_next_state = R_LSU; 
+                    next = R_LSU; 
                 end 
             end
-            R_IFU: begin
+            R_IFU: begin   // IFU只对接系统总线
                 // 收到 rvalid 且 rready 且 rlast 为高时, 代表当前事务结束
                 if (r_tgt_rvalid && ifu_s.rready && r_tgt_rlast) begin
-                    r_next_state = R_IDLE;
+                    next = R_IDLE;
                 end
             end
-            R_LSU: begin
+            R_LSU: begin  // 根据地址选择和clint或者系统总线握手
                 if (r_tgt_rvalid && lsu_s.rready && r_tgt_rlast) begin
-                    r_next_state = R_IDLE;
+                    next = R_IDLE;
                 end
             end
-            default: r_next_state = R_IDLE;
+            default: next = R_IDLE;
         endcase
     end
 
@@ -105,7 +105,7 @@ module ysyx_26040135_AXI4_Xbar (
     assign clint_m.arlen   = sel_lsu ? lsu_s.arlen   : ifu_s.arlen;
     assign clint_m.arsize  = sel_lsu ? lsu_s.arsize  : ifu_s.arsize;
     assign clint_m.arburst = sel_lsu ? lsu_s.arburst : ifu_s.arburst;
-    assign clint_m.arvalid = r_sel_clint && ((sel_lsu && lsu_s.arvalid) ||
+    assign clint_m.arvalid = sel_clint && ((sel_lsu && lsu_s.arvalid) ||
                                              (sel_ifu && ifu_s.arvalid));
 
     assign m_m.araddr  = sel_lsu ? lsu_s.araddr  : ifu_s.araddr;
@@ -113,36 +113,36 @@ module ysyx_26040135_AXI4_Xbar (
     assign m_m.arlen   = sel_lsu ? lsu_s.arlen   : ifu_s.arlen;
     assign m_m.arsize  = sel_lsu ? lsu_s.arsize  : ifu_s.arsize;
     assign m_m.arburst = sel_lsu ? lsu_s.arburst : ifu_s.arburst;
-    assign m_m.arvalid = !r_sel_clint && ((sel_lsu && lsu_s.arvalid) ||
+    assign m_m.arvalid = !sel_clint && ((sel_lsu && lsu_s.arvalid) ||
                                           (sel_ifu && ifu_s.arvalid));
 
     // arready 反馈分发: 只在仲裁结果已经锁定到某个 master 之后, 才把它回给那个 master
     // (arready 是电平信号, 绝不能在 R_IDLE 就对 master 透出, 否则会变成假握手)
-    assign lsu_s.arready = sel_lsu ? (r_sel_clint ? clint_m.arready : m_m.arready) : 1'b0;
-    assign ifu_s.arready = sel_ifu ? (r_sel_clint ? clint_m.arready : m_m.arready) : 1'b0;
+    assign lsu_s.arready = sel_lsu ? (sel_clint ? clint_m.arready : m_m.arready) : 1'b0;
+    assign ifu_s.arready = sel_ifu ? (sel_clint ? clint_m.arready : m_m.arready) : 1'b0;
 
 
 
 
-    assign lsu_s.rdata  = r_sel_clint ? clint_m.rdata : m_m.rdata;
-    assign lsu_s.rid    = r_sel_clint ? clint_m.rid   : m_m.rid;
-    assign lsu_s.rresp  = r_sel_clint ? clint_m.rresp : m_m.rresp;
-    assign lsu_s.rlast  = r_sel_clint ? clint_m.rlast : m_m.rlast;
+    assign lsu_s.rdata  = sel_clint ? clint_m.rdata : m_m.rdata;
+    assign lsu_s.rid    = sel_clint ? clint_m.rid   : m_m.rid;
+    assign lsu_s.rresp  = sel_clint ? clint_m.rresp : m_m.rresp;
+    assign lsu_s.rlast  = sel_clint ? clint_m.rlast : m_m.rlast;
 
-    assign ifu_s.rdata  = r_sel_clint ? clint_m.rdata : m_m.rdata;
-    assign ifu_s.rid    = r_sel_clint ? clint_m.rid   : m_m.rid;
-    assign ifu_s.rresp  = r_sel_clint ? clint_m.rresp : m_m.rresp;
-    assign ifu_s.rlast  = r_sel_clint ? clint_m.rlast : m_m.rlast;
+    assign ifu_s.rdata  = sel_clint ? clint_m.rdata : m_m.rdata;
+    assign ifu_s.rid    = sel_clint ? clint_m.rid   : m_m.rid;
+    assign ifu_s.rresp  = sel_clint ? clint_m.rresp : m_m.rresp;
+    assign ifu_s.rlast  = sel_clint ? clint_m.rlast : m_m.rlast;
 
     // rvalid 控制：只有当状态匹配时才有效
     assign lsu_s.rvalid = sel_lsu && r_tgt_rvalid;
     assign ifu_s.rvalid = sel_ifu && r_tgt_rvalid;
 
     // rready 控制：把对应 Master 的 rready 反压给被选中的目标
-    assign clint_m.rready = (r_sel_clint && sel_lsu) ? lsu_s.rready :
-                            (r_sel_clint && sel_ifu) ? ifu_s.rready : 1'b0;
+    assign clint_m.rready = (sel_clint && sel_lsu) ? lsu_s.rready :
+                            (sel_clint && sel_ifu) ? ifu_s.rready : 1'b0;
 
-    assign m_m.rready = (!r_sel_clint && sel_lsu) ? lsu_s.rready :
-                        (!r_sel_clint && sel_ifu) ? ifu_s.rready : 1'b0;
+    assign m_m.rready = (!sel_clint && sel_lsu) ? lsu_s.rready :
+                        (!sel_clint && sel_ifu) ? ifu_s.rready : 1'b0;
 
 endmodule

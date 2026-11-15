@@ -1,0 +1,10 @@
+algorithm: BTFN (backward taken, forward not taken)
+btrace: /home/wang/InternalDependent_ysyx-workbench/npc/btrace.txt
+total_branch      : 111445
+pred_taken        : 56622 (50.81%)
+pred_not_taken    : 54823 (49.19%)
+actual_taken      : 69282 (62.17%)
+actual_not_taken  : 42163 (37.83%)
+pred_correct      : 98785 (88.64%)
+pred_accuracy     : 88.64%
+

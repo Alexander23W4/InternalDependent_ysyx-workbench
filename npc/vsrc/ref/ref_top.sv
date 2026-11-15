@@ -139,7 +139,7 @@ import "DPI-C" function void mem_write(input int addr, input int data, input int
         .immCSR(immCSR)
     );
 
-    dbg_register #(5, 32) GPR (
+    dbg_register GPR (
         .clk(clk),
         .rst(rst),
         .wen(wen),

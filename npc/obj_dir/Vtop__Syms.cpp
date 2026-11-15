@@ -13,8 +13,8 @@ void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT_
 void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_new_instr_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &new_instr);
 void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_pipeline_bottleneck_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_out_valid, IData/*31:0*/ &exu_in_ready, IData/*31:0*/ &exu_out_valid, IData/*31:0*/ &lsu_in_ready, IData/*31:0*/ &lsu_out_valid, IData/*31:0*/ &wbu_in_ready);
 void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_wen_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &wen);
-void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__debug_read_all_TOP(Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &dbg_regs, IData/*31:0*/ &pc, IData/*31:0*/ &mstatus, IData/*31:0*/ &mepc, IData/*31:0*/ &mcause, IData/*31:0*/ &mtvec, QData/*63:0*/ &mcycle, IData/*31:0*/ &instr);
-void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__difftest_read_gpr_TOP(Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &gprs, IData/*31:0*/ &pc);
+void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__debug_read_all_TOP(Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 16> &dbg_regs, IData/*31:0*/ &pc, IData/*31:0*/ &mstatus, IData/*31:0*/ &mepc, IData/*31:0*/ &mcause, IData/*31:0*/ &mtvec, QData/*63:0*/ &mcycle, IData/*31:0*/ &instr);
+void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__difftest_read_gpr_TOP(Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 16> &gprs, IData/*31:0*/ &pc);
 
 // FUNCTIONS
 Vtop__Syms::~Vtop__Syms()

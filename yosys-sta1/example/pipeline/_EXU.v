@@ -65,7 +65,9 @@ module ysyx_26040135_EXU (
 
     input [31:0] bypass_wdata_wbu,
     input [4:0] bypass_rd_wbu,
-    input wbu_bypass_data_valid
+    input wbu_bypass_data_valid,
+
+    output reg ren
 );
 
     // RAW
@@ -149,7 +151,7 @@ module ysyx_26040135_EXU (
             state <= next;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
-            if(state == IDLE && in_valid && in_ready) begin
+            if(in_valid && in_ready) begin
                 in_ready <= 1'b0;
 
                 pc_save    <= pc;

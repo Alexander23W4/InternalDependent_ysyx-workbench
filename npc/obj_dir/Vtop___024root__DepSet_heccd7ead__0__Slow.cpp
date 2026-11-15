@@ -286,7 +286,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->ref_clk = VL_RAND_RESET_I(1);
     vlSelf->ref_rst = VL_RAND_RESET_I(1);
     vlSelf->ref_pc = VL_RAND_RESET_I(32);
-    VL_RAND_RESET_W(1024, vlSelf->ref_gpr);
+    VL_RAND_RESET_W(512, vlSelf->ref_gpr);
     vlSelf->ref_wen = VL_RAND_RESET_I(1);
     vlSelf->ref_instr = VL_RAND_RESET_I(32);
     vlSelf->ref_last_pc = VL_RAND_RESET_I(32);
@@ -586,7 +586,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__apbxbar__DOT__sel_1 = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__apbxbar__DOT__sel_3 = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__apbxbar__DOT__sel_4 = VL_RAND_RESET_I(1);
-    VL_RAND_RESET_W(1024, vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg);
+    VL_RAND_RESET_W(512, vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT___new_instr = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT_____05Febreak_end = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__sw_avail = VL_RAND_RESET_I(1);
@@ -783,7 +783,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__cmp_ltu = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__br_taken = VL_RAND_RESET_I(1);
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT____VdfgTmp_h3f1ed5a1__0 = 0;
-    for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 16; ++__Vi0) {
         vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr[__Vi0] = VL_RAND_RESET_I(32);
     }
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__error_save = VL_RAND_RESET_I(2);
@@ -1529,7 +1529,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->difftest_top__DOT__u_ref__DOT____VdfgTmp_h71776512__0 = 0;
     vlSelf->difftest_top__DOT__u_ref__DOT____VdfgTmp_haf3ac130__0 = 0;
     vlSelf->difftest_top__DOT__u_ref__DOT____VdfgTmp_heb8827dd__0 = 0;
-    for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 16; ++__Vi0) {
         vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[__Vi0] = VL_RAND_RESET_I(32);
     }
     vlSelf->__VdfgTmp_h2168da81__0 = 0;

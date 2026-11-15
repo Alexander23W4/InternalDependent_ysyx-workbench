@@ -34,7 +34,7 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     VL_IN8(&ref_rst,0,0);
     VL_OUT8(&ref_wen,0,0);
     VL_OUT(&ref_pc,31,0);
-    VL_OUTW(&ref_gpr,1023,0,32);
+    VL_OUTW(&ref_gpr,511,0,16);
     VL_OUT(&ref_instr,31,0);
     VL_OUT(&ref_last_pc,31,0);
 

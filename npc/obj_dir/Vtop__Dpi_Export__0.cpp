@@ -23,8 +23,8 @@ void Vtop::check_halt(int* endprog) {
 void Vtop::debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::debug_read_all\n"); );
     // Init
-    VlUnpacked<IData/*31:0*/, 32> dbg_regs__Vcvt;
-    for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
+    VlUnpacked<IData/*31:0*/, 16> dbg_regs__Vcvt;
+    for (int __Vi0 = 0; __Vi0 < 16; ++__Vi0) {
         dbg_regs__Vcvt[__Vi0] = 0;
     }
     IData/*31:0*/ pc__Vcvt;
@@ -47,7 +47,7 @@ void Vtop::debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* 
     const VerilatedScope* __Vscopep = Verilated::dpiScope();
     Vtop__Vcb_debug_read_all_t __Vcb = (Vtop__Vcb_debug_read_all_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
     (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), dbg_regs__Vcvt, pc__Vcvt, mstatus__Vcvt, mepc__Vcvt, mcause__Vcvt, mtvec__Vcvt, mcycle__Vcvt, instr__Vcvt);
-    for (size_t dbg_regs__Vidx = 0; dbg_regs__Vidx < 32; ++dbg_regs__Vidx) dbg_regs[dbg_regs__Vidx] = (&dbg_regs__Vcvt[0])[dbg_regs__Vidx];
+    for (size_t dbg_regs__Vidx = 0; dbg_regs__Vidx < 16; ++dbg_regs__Vidx) dbg_regs[dbg_regs__Vidx] = (&dbg_regs__Vcvt[0])[dbg_regs__Vidx];
     for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) *pc = pc__Vcvt;
     for (size_t mstatus__Vidx = 0; mstatus__Vidx < 1; ++mstatus__Vidx) *mstatus = mstatus__Vcvt;
     for (size_t mepc__Vidx = 0; mepc__Vidx < 1; ++mepc__Vidx) *mepc = mepc__Vcvt;
@@ -108,8 +108,8 @@ void Vtop::check_wen(int* wen) {
 void Vtop::difftest_read_gpr(int* gprs, int* pc) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::difftest_read_gpr\n"); );
     // Init
-    VlUnpacked<IData/*31:0*/, 32> gprs__Vcvt;
-    for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
+    VlUnpacked<IData/*31:0*/, 16> gprs__Vcvt;
+    for (int __Vi0 = 0; __Vi0 < 16; ++__Vi0) {
         gprs__Vcvt[__Vi0] = 0;
     }
     IData/*31:0*/ pc__Vcvt;
@@ -120,7 +120,7 @@ void Vtop::difftest_read_gpr(int* gprs, int* pc) {
     const VerilatedScope* __Vscopep = Verilated::dpiScope();
     Vtop__Vcb_difftest_read_gpr_t __Vcb = (Vtop__Vcb_difftest_read_gpr_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
     (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), gprs__Vcvt, pc__Vcvt);
-    for (size_t gprs__Vidx = 0; gprs__Vidx < 32; ++gprs__Vidx) gprs[gprs__Vidx] = (&gprs__Vcvt[0])[gprs__Vidx];
+    for (size_t gprs__Vidx = 0; gprs__Vidx < 16; ++gprs__Vidx) gprs[gprs__Vidx] = (&gprs__Vcvt[0])[gprs__Vidx];
     for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) *pc = pc__Vcvt;
 }
 

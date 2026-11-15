@@ -25,8 +25,8 @@ using Vtop__Vcb_check_halt_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*
 using Vtop__Vcb_check_new_instr_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &new_instr);
 using Vtop__Vcb_check_pipeline_bottleneck_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_out_valid, IData/*31:0*/ &exu_in_ready, IData/*31:0*/ &exu_out_valid, IData/*31:0*/ &lsu_in_ready, IData/*31:0*/ &lsu_out_valid, IData/*31:0*/ &wbu_in_ready);
 using Vtop__Vcb_check_wen_t = void (*) (Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &wen);
-using Vtop__Vcb_debug_read_all_t = void (*) (Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &dbg_regs, IData/*31:0*/ &pc, IData/*31:0*/ &mstatus, IData/*31:0*/ &mepc, IData/*31:0*/ &mcause, IData/*31:0*/ &mtvec, QData/*63:0*/ &mcycle, IData/*31:0*/ &instr);
-using Vtop__Vcb_difftest_read_gpr_t = void (*) (Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 32> &gprs, IData/*31:0*/ &pc);
+using Vtop__Vcb_debug_read_all_t = void (*) (Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 16> &dbg_regs, IData/*31:0*/ &pc, IData/*31:0*/ &mstatus, IData/*31:0*/ &mepc, IData/*31:0*/ &mcause, IData/*31:0*/ &mtvec, QData/*63:0*/ &mcycle, IData/*31:0*/ &instr);
+using Vtop__Vcb_difftest_read_gpr_t = void (*) (Vtop__Syms* __restrict vlSymsp, VlUnpacked<IData/*31:0*/, 16> &gprs, IData/*31:0*/ &pc);
 
 // SYMS CLASS (contains all model state)
 class Vtop__Syms final : public VerilatedSyms {

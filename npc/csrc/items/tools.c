@@ -146,7 +146,7 @@ void prt_gprs() {
     printf("Instr: 0x%08x\n", instr);
     
     int count = 0;
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < 16; i++) {
         uint32_t val = cpu.gpr[i];
         printf("x%-2d: 0x%08x  ", i, val);
         count++;

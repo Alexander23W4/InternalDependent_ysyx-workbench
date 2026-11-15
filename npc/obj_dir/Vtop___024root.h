@@ -1085,7 +1085,7 @@ class Vtop___024root final : public VerilatedModule {
         SData/*15:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair1__DOT__u_chip1__DOT__dq_out;
         SData/*8:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair1__DOT__u_chip1__DOT__cur_a;
         VL_OUT(ref_pc,31,0);
-        VL_OUTW(ref_gpr,1023,0,32);
+        VL_OUTW(ref_gpr,511,0,16);
         VL_OUT(ref_instr,31,0);
         VL_OUT(ref_last_pc,31,0);
         IData/*31:0*/ difftest_top__DOT__soc__DOT___dq_wire;
@@ -1100,7 +1100,7 @@ class Vtop___024root final : public VerilatedModule {
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT___lgpio_auto_in_prdata;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT___apbxbar_auto_anon_in_prdata;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT___axi4xbar_auto_anon_in_rdata;
-        VlWide<32>/*1023:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg;
+        VlWide<16>/*511:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_icache;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__pc_flush;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__pc;
@@ -1258,7 +1258,7 @@ class Vtop___024root final : public VerilatedModule {
         VlUnpacked<VlWide<4>/*127:0*/, 8> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache;
         VlUnpacked<IData/*24:0*/, 8> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag;
         VlUnpacked<CData/*0:0*/, 8> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid;
-        VlUnpacked<IData/*31:0*/, 32> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr;
+        VlUnpacked<IData/*31:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr;
         VlUnpacked<CData/*7:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__transmitter__DOT__fifo_tx__DOT__tfifo__DOT__ram;
         VlUnpacked<CData/*2:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__receiver__DOT__fifo_rx__DOT__fifo;
         VlUnpacked<CData/*7:0*/, 16> difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__receiver__DOT__fifo_rx__DOT__rfifo__DOT__ram;
@@ -1286,7 +1286,7 @@ class Vtop___024root final : public VerilatedModule {
         VlUnpacked<SData/*12:0*/, 4> difftest_top__DOT__soc__DOT__sdram__DOT__u_pair1__DOT__u_chip0__DOT__active_row;
         VlUnpacked<VlUnpacked<VlUnpacked<SData/*15:0*/, 512>, 8192>, 4> difftest_top__DOT__soc__DOT__sdram__DOT__u_pair1__DOT__u_chip1__DOT__memory;
         VlUnpacked<SData/*12:0*/, 4> difftest_top__DOT__soc__DOT__sdram__DOT__u_pair1__DOT__u_chip1__DOT__active_row;
-        VlUnpacked<IData/*31:0*/, 32> difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr;
+        VlUnpacked<IData/*31:0*/, 16> difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr;
     };
     VlTriggerVec<4> __VstlTriggered;
     VlTriggerVec<1> __VicoTriggered;

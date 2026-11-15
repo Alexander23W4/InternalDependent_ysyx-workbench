@@ -218,17 +218,18 @@ ysyx_26040135_EXU exu (
     wire lsu_bypass_data_valid;
 
 
-    ysyx_26040135_dbg_register #(5, 32) GPR (
+    ysyx_26040135_dbg_register GPR (
         .clock(clock),
         .reset(reset),
         .wen(wen), // WB
+        .ren(1'b1),  
         .raddr1(rs1_out),  // EX
         .raddr2(rs2_out), // EX
         .waddr(rd_wbu), // WB
         .wdata(wdata_wbu), // WB
 
         .rdata1(rdata1),  // EX
-        .rdata2(rdata2)  // EX
+        .rdata2(rdata2)   // EX
     );
 
     wire valid_el;

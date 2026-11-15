@@ -395,51 +395,19 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         [0xcU];
     vlSelf->ref_gpr[0xdU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
         [0xdU];
-    vlSelf->ref_gpr[0xeU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0xeU];
-    vlSelf->ref_gpr[0xfU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0xfU];
-    vlSelf->ref_gpr[0x10U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x10U];
-    vlSelf->ref_gpr[0x11U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x11U];
-    vlSelf->ref_gpr[0x12U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x12U];
-    vlSelf->ref_gpr[0x13U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x13U];
-    vlSelf->ref_gpr[0x14U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x14U];
-    vlSelf->ref_gpr[0x15U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x15U];
-    vlSelf->ref_gpr[0x16U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x16U];
-    vlSelf->ref_gpr[0x17U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x17U];
-    vlSelf->ref_gpr[0x18U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x18U];
-    vlSelf->ref_gpr[0x19U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x19U];
-    vlSelf->ref_gpr[0x1aU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x1aU];
-    vlSelf->ref_gpr[0x1bU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x1bU];
-    vlSelf->ref_gpr[0x1cU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x1cU];
-    vlSelf->ref_gpr[0x1dU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x1dU];
-    vlSelf->ref_gpr[0x1eU] = (IData)((((QData)((IData)(
+    vlSelf->ref_gpr[0xeU] = (IData)((((QData)((IData)(
+                                                      vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
+                                                      [0xfU])) 
+                                      << 0x20U) | (QData)((IData)(
+                                                                  vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
+                                                                  [0xeU]))));
+    vlSelf->ref_gpr[0xfU] = (IData)(((((QData)((IData)(
                                                        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-                                                       [0x1fU])) 
+                                                       [0xfU])) 
                                        << 0x20U) | (QData)((IData)(
                                                                    vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-                                                                   [0x1eU]))));
-    vlSelf->ref_gpr[0x1fU] = (IData)(((((QData)((IData)(
-                                                        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-                                                        [0x1fU])) 
-                                        << 0x20U) | (QData)((IData)(
-                                                                    vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-                                                                    [0x1eU]))) 
-                                      >> 0x20U));
+                                                                   [0xeU]))) 
+                                     >> 0x20U));
     vlSelf->difftest_top__DOT__u_ref__DOT__pc_next_dft 
         = ((IData)(4U) + vlSelf->difftest_top__DOT__u_ref__DOT__pc);
     vlSelf->ref_last_pc = vlSelf->difftest_top__DOT__u_ref__DOT__last_pc;
@@ -502,63 +470,15 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
         [0xdU];
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0xeU] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0xeU];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0xfU] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0xfU];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x10U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x10U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x11U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x11U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x12U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x12U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x13U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x13U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x14U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x14U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x15U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x15U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x16U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x16U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x17U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x17U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x18U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x18U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x19U] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x19U];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1aU] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x1aU];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1bU] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x1bU];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1cU] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x1cU];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1dU] 
-        = vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-        [0x1dU];
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1eU] 
         = (IData)((((QData)((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-                                    [0x1fU])) << 0x20U) 
+                                    [0xfU])) << 0x20U) 
                    | (QData)((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-                                     [0x1eU]))));
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0x1fU] 
+                                     [0xeU]))));
+    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__dbg_reg[0xfU] 
         = (IData)(((((QData)((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-                                     [0x1fU])) << 0x20U) 
+                                     [0xfU])) << 0x20U) 
                     | (QData)((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr
-                                      [0x1eU]))) >> 0x20U));
+                                      [0xeU]))) >> 0x20U));
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__transmitter__DOT__fifo_tx__DOT__top_plus_1 
         = (0xfU & ((IData)(1U) + (IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__transmitter__DOT__fifo_tx__DOT__top)));
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__receiver__DOT__rcounter16_eq_7 
@@ -1881,12 +1801,12 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                       >> 0x14U));
     vlSelf->difftest_top__DOT__u_ref__DOT__rdata1 = 
         vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [(0x1fU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
-                   >> 0xfU))];
+        [(0xfU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
+                  >> 0xfU))];
     vlSelf->difftest_top__DOT__u_ref__DOT__rdata2 = 
         vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [(0x1fU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
-                   >> 0x14U))];
+        [(0xfU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
+                  >> 0x14U))];
     vlSelf->difftest_top__DOT__u_ref__DOT__auipc = 0U;
     vlSelf->difftest_top__DOT__u_ref__DOT__jalr = 0U;
     vlSelf->difftest_top__DOT__u_ref__DOT__jal = 0U;

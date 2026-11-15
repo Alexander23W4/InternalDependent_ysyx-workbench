@@ -1619,15 +1619,15 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf) 
     __Vdly__difftest_top__DOT__u_ref__DOT__mcycleh = 0;
     CData/*0:0*/ __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v0;
     __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v0 = 0;
-    CData/*4:0*/ __Vdlyvdim0__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32;
-    __Vdlyvdim0__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32 = 0;
-    IData/*31:0*/ __Vdlyvval__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32;
-    __Vdlyvval__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32 = 0;
-    CData/*0:0*/ __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32;
-    __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32 = 0;
+    CData/*3:0*/ __Vdlyvdim0__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16;
+    __Vdlyvdim0__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16 = 0;
+    IData/*31:0*/ __Vdlyvval__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16;
+    __Vdlyvval__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16 = 0;
+    CData/*0:0*/ __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16;
+    __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16 = 0;
     // Body
     __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v0 = 0U;
-    __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32 = 0U;
+    __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16 = 0U;
     __Vdly__difftest_top__DOT__u_ref__DOT__mcycleh 
         = vlSelf->difftest_top__DOT__u_ref__DOT__mcycleh;
     __Vdly__difftest_top__DOT__u_ref__DOT__mcycle = vlSelf->difftest_top__DOT__u_ref__DOT__mcycle;
@@ -1636,15 +1636,15 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf) 
     __Vdly__difftest_top__DOT__u_ref__DOT__pc = vlSelf->difftest_top__DOT__u_ref__DOT__pc;
     if (vlSelf->ref_rst) {
         __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v0 = 1U;
-    } else if (((IData)(vlSelf->ref_wen) & (0U != (0x1fU 
+    } else if (((IData)(vlSelf->ref_wen) & (0U != (0xfU 
                                                    & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
                                                       >> 7U))))) {
-        __Vdlyvval__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32 
+        __Vdlyvval__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16 
             = vlSelf->difftest_top__DOT__u_ref__DOT__wdata;
-        __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32 = 1U;
-        __Vdlyvdim0__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32 
-            = (0x1fU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
-                        >> 7U));
+        __Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16 = 1U;
+        __Vdlyvdim0__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16 
+            = (0xfU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
+                       >> 7U));
     }
     if (vlSelf->ref_rst) {
         __Vdly__difftest_top__DOT__u_ref__DOT__pc = 0x30000000U;
@@ -1837,26 +1837,10 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf) 
         vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0xdU] = 0U;
         vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0xeU] = 0U;
         vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0xfU] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x10U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x11U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x12U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x13U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x14U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x15U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x16U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x17U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x18U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x19U] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x1aU] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x1bU] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x1cU] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x1dU] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x1eU] = 0U;
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[0x1fU] = 0U;
     }
-    if (__Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32) {
-        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[__Vdlyvdim0__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32] 
-            = __Vdlyvval__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v32;
+    if (__Vdlyvset__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16) {
+        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr[__Vdlyvdim0__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16] 
+            = __Vdlyvval__difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr__v16;
     }
     vlSelf->difftest_top__DOT__u_ref__DOT__mepc = __Vdly__difftest_top__DOT__u_ref__DOT__mepc;
     vlSelf->difftest_top__DOT__u_ref__DOT__mtvec = __Vdly__difftest_top__DOT__u_ref__DOT__mtvec;
@@ -1892,51 +1876,19 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf) 
         [0xcU];
     vlSelf->ref_gpr[0xdU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
         [0xdU];
-    vlSelf->ref_gpr[0xeU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0xeU];
-    vlSelf->ref_gpr[0xfU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0xfU];
-    vlSelf->ref_gpr[0x10U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x10U];
-    vlSelf->ref_gpr[0x11U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x11U];
-    vlSelf->ref_gpr[0x12U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x12U];
-    vlSelf->ref_gpr[0x13U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x13U];
-    vlSelf->ref_gpr[0x14U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x14U];
-    vlSelf->ref_gpr[0x15U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x15U];
-    vlSelf->ref_gpr[0x16U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x16U];
-    vlSelf->ref_gpr[0x17U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x17U];
-    vlSelf->ref_gpr[0x18U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x18U];
-    vlSelf->ref_gpr[0x19U] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x19U];
-    vlSelf->ref_gpr[0x1aU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x1aU];
-    vlSelf->ref_gpr[0x1bU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x1bU];
-    vlSelf->ref_gpr[0x1cU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x1cU];
-    vlSelf->ref_gpr[0x1dU] = vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [0x1dU];
-    vlSelf->ref_gpr[0x1eU] = (IData)((((QData)((IData)(
+    vlSelf->ref_gpr[0xeU] = (IData)((((QData)((IData)(
+                                                      vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
+                                                      [0xfU])) 
+                                      << 0x20U) | (QData)((IData)(
+                                                                  vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
+                                                                  [0xeU]))));
+    vlSelf->ref_gpr[0xfU] = (IData)(((((QData)((IData)(
                                                        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-                                                       [0x1fU])) 
+                                                       [0xfU])) 
                                        << 0x20U) | (QData)((IData)(
                                                                    vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-                                                                   [0x1eU]))));
-    vlSelf->ref_gpr[0x1fU] = (IData)(((((QData)((IData)(
-                                                        vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-                                                        [0x1fU])) 
-                                        << 0x20U) | (QData)((IData)(
-                                                                    vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-                                                                    [0x1eU]))) 
-                                      >> 0x20U));
+                                                                   [0xeU]))) 
+                                     >> 0x20U));
     vlSelf->ref_last_pc = vlSelf->difftest_top__DOT__u_ref__DOT__last_pc;
     vlSelf->ref_pc = vlSelf->difftest_top__DOT__u_ref__DOT__pc;
     vlSelf->difftest_top__DOT__u_ref__DOT__pc_next_dft 
@@ -2021,12 +1973,12 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf) 
                                                       >> 0x14U));
     vlSelf->difftest_top__DOT__u_ref__DOT__rdata1 = 
         vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [(0x1fU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
-                   >> 0xfU))];
+        [(0xfU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
+                  >> 0xfU))];
     vlSelf->difftest_top__DOT__u_ref__DOT__rdata2 = 
         vlSelf->difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr
-        [(0x1fU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
-                   >> 0x14U))];
+        [(0xfU & (vlSelf->difftest_top__DOT__u_ref__DOT__instr 
+                  >> 0x14U))];
     vlSelf->difftest_top__DOT__u_ref__DOT__auipc = 0U;
     vlSelf->difftest_top__DOT__u_ref__DOT__jalr = 0U;
     vlSelf->difftest_top__DOT__u_ref__DOT__jal = 0U;

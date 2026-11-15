@@ -61,13 +61,12 @@ module ysyx_26040135_AXI_ICACHE (
 
     ysyx_26040135_AXI4.master mbus,   // ->系统总线
 
-    input [31:0] sw_addr,
-    input sw_avail
+    input fence_i
 );
 
 
     `ifndef ICACHE_LINE_BYTES   // 这个cache_line 是要整体传输的, 所以最好设置成总线带宽的倍数, 这样方便burst传输
-        `define ICACHE_LINE_BYTES 8    // 对应 OFFSET
+        `define ICACHE_LINE_BYTES 16    // 对应 OFFSET
     `endif
 
     `ifndef ICACHE_LINE_AMT
@@ -156,12 +155,6 @@ module ysyx_26040135_AXI_ICACHE (
                 beat <= mbus.rlast ? '0 : beat + 1'b1;
             end
 
-            // 设置脏数据(某些需要取值的地址被写了)
-            if(sw_avail) begin
-                if(tag[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] == sw_addr[31:INDEX_LEN+OFFSET_LEN] && valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]]) begin
-                    valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] <= 1'b0;
-                end
-            end
         end
     end
 

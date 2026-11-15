@@ -50,7 +50,11 @@ module ysyx_26040135_AXI_IFU (
     output reg [63:0] ifu_work_cyc,
     output reg [63:0] ifu_block_cyc,
 
-    input cbi
+    input cbi,
+
+    input bt_valid,
+    input [31:0] b_pc,
+    input [31:0] b_target
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -65,7 +69,25 @@ module ysyx_26040135_AXI_IFU (
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
+    // BTB +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
+    reg [31:0] btb_pc [1:0];
+    reg [31:0] btb_target [1:0];
+    reg [1:0] valid;
+
+    always @(posedge clock or posedge reset) begin
+        if(reset) begin
+            valid <= 2'b00;
+        end else begin
+            if(bt_valid) begin
+                btb_pc[b_pc[2]] = b_pc;
+                btb_target[b_pc[2]] = b_target;
+                valid[b_pc[2]] = 1'b1;
+            end
+        end
+    end
+
+    // BTB +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
     // 外部控制信号与返回外部的信号:
     reg master_validation_error_save;

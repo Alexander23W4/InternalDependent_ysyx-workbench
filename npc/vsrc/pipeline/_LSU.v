@@ -56,11 +56,7 @@ module ysyx_26040135_AXI_LSU (
     output reg [63:0] lsu_blcokb_cyc,
     output reg [63:0] lsu_work_cyc,
 
-    output reg lsu_blockf,
-
-    // ------------ 处理自修改代码的信号
-    output [31:0] sw_addr,   // 告知icache这个内存被写了, 如果在cache里, 要清除
-    output reg sw_avail
+    output reg lsu_blockfs
 );
 
 
@@ -77,7 +73,6 @@ module ysyx_26040135_AXI_LSU (
 
     assign __error = error_save;
     assign rd_out = rd_save;
-    assign sw_addr = lsu_addr_save;
 
     reg [31:0] rdata_out;
 
@@ -218,8 +213,6 @@ module ysyx_26040135_AXI_LSU (
         bus.bready = 1'b0;
         bus.wlast = 1'b1;
 
-        sw_avail = 1'b0;
-
         lsu_bypass_data_valid = 1'b0;  
 
         next = state;
@@ -272,7 +265,6 @@ module ysyx_26040135_AXI_LSU (
                 bus.bready = 1'b1;
                 if(bus.bvalid == 1'b1) begin
                     next = IDLE;
-                    sw_avail = 1'b1;
                 end
             end
 

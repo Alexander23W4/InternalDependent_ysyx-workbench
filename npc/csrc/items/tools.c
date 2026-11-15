@@ -171,13 +171,18 @@ void statistical_print(){
     // 各级 stall 占总周期数的比例
     double total_cyc = (double)cpu.mcycle;
     double pct = (total_cyc > 0.0) ? 100.0 / total_cyc : 0.0;
-    
+
     printf("[IFU_STALL] %u (%.2f%%)\n", ifu_stall, (double)ifu_stall * pct);
     printf("[EXU_STALL] %u (%.2f%%)\n", exu_stall, (double)exu_stall * pct);
     printf("[LSU_STALL] %u (%.2f%%)\n", lsu_stall, (double)lsu_stall * pct);
     printf("[WBU_STALL] %u (%.2f%%)\n", wbu_stall, (double)wbu_stall * pct);
-    printf("[FETCH_DONE] %u (%.2f%%)\n", fetch_amt, (double)fetch_amt * pct);
-    printf("[FLUSH] %u (%.2f%%)\n", flush_amt, (double)flush_amt * pct);
+    printf("[FETCH] %u\n", fetch_amt);
+    printf("[FLUSH] %u\n", flush_amt);
+    printf("[FLUSH_IFU_BLK] %u\n", flush_ifu_blk_amt);
+    printf("[FLUSH_IFU_BLK_FLG] %u\n", flush_ifu_blk_flg_amt);
+    printf("[POSSIBLE_BRANCH] %u\n", possible_branch_instr_amt);
+    printf("[COMPULSORY_BRANCH] %u\n", compulsory_branch_amt);
+    printf("[OPTIMISIBLE_BRANCH] %u\n", optimisible_branch_amt);
 }
 
 
@@ -196,6 +201,7 @@ void scope_init(void) {
     //     printf("[DPI] ERROR: scope not found (顶层必须是 difftest_top, 实例名必须是 soc / u_ref)\n");
     //     assert(0);
     // }
+
     if (g_dut_scope == NULL) {
         printf("[DPI] ERROR: scope not found\n");
         assert(0);

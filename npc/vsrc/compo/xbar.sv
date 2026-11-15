@@ -13,10 +13,10 @@ module ysyx_26040135_AXI4_Xbar (
     assign clint_m.awid = 4'h0;
     assign clint_m.awlen = 8'h00;
     assign clint_m.awsize = 3'b000;
-    assign clint_m.awburst = 2'b00
+    assign clint_m.awburst = 2'b00;
     assign clint_m.awvalid = 1'b0;
     assign clint_m.wdata = 32'b0;
-    assign clint_m.wstrb = 2'b00;
+    assign clint_m.wstrb = 4'b0;
     assign clint_m.wlast = 1'b0;
     assign clint_m.wvalid = 1'b0;
     assign clint_m.bready = 1'b0;
@@ -61,10 +61,13 @@ module ysyx_26040135_AXI4_Xbar (
             state <= next;
 
             if (state == IDLE) begin
-                if (lsu_s.arvalid) begin
-                    sel_clint <= (lsu_s.araddr[31:16] == 16'h0200);
-                end else begin
-                    sel_clint <= 1'b0;
+                if (state == IDLE) begin
+                    if (ifu_s.arvalid) begin          
+                        sel_clint <= 1'b0;
+                    end 
+                    else if (lsu_s.arvalid) begin
+                        sel_clint <= (lsu_s.araddr[31:16] == 16'h0200);
+                    end
                 end
             end
         end

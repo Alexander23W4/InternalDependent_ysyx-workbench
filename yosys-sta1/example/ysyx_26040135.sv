@@ -345,13 +345,13 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire [7:0]  bus_master_arlen, bus_master_awlen;
     wire [2:0]  bus_master_arsize, bus_master_awsize;
     wire [1:0]  bus_master_arburst, bus_master_awburst, bus_master_rresp, bus_master_bresp;
-    wire [31:0] bus_clint_araddr, bus_clint_awaddr, bus_clint_wdata, bus_clint_rdata;
+
+    wire [31:0] bus_clint_araddr, bus_clint_rdata;
     wire        bus_clint_arvalid, bus_clint_arready, bus_clint_rvalid, bus_clint_rready, bus_clint_rlast;
-    wire        bus_clint_awvalid, bus_clint_awready, bus_clint_wvalid, bus_clint_wready, bus_clint_wlast, bus_clint_bvalid, bus_clint_bready;
-    wire [3:0]  bus_clint_arid, bus_clint_rid, bus_clint_awid, bus_clint_wstrb, bus_clint_bid;
-    wire [7:0]  bus_clint_arlen, bus_clint_awlen;
-    wire [2:0]  bus_clint_arsize, bus_clint_awsize;
-    wire [1:0]  bus_clint_arburst, bus_clint_awburst, bus_clint_rresp, bus_clint_bresp;
+    wire [3:0]  bus_clint_arid, bus_clint_rid;
+    wire [7:0]  bus_clint_arlen;
+    wire [2:0]  bus_clint_arsize;
+    wire [1:0]  bus_clint_arburst, bus_clint_rresp;
 
     wire        fetch_valid;
     wire        instr_valid;
@@ -496,23 +496,7 @@ ysyx_26040135_AXI4_Xbar u_xbar (
     .clint_m_rresp (bus_clint_rresp),
     .clint_m_rlast (bus_clint_rlast),
     .clint_m_rvalid (bus_clint_rvalid),
-    .clint_m_rready (bus_clint_rready),
-    .clint_m_awaddr (bus_clint_awaddr),
-    .clint_m_awid (bus_clint_awid),
-    .clint_m_awlen (bus_clint_awlen),
-    .clint_m_awsize (bus_clint_awsize),
-    .clint_m_awburst (bus_clint_awburst),
-    .clint_m_awvalid (bus_clint_awvalid),
-    .clint_m_awready (bus_clint_awready),
-    .clint_m_wdata (bus_clint_wdata),
-    .clint_m_wstrb (bus_clint_wstrb),
-    .clint_m_wlast (bus_clint_wlast),
-    .clint_m_wvalid (bus_clint_wvalid),
-    .clint_m_wready (bus_clint_wready),
-    .clint_m_bid (bus_clint_bid),
-    .clint_m_bresp (bus_clint_bresp),
-    .clint_m_bvalid (bus_clint_bvalid),
-    .clint_m_bready (bus_clint_bready)
+    .clint_m_rready (bus_clint_rready)
 );
 
 
@@ -530,22 +514,6 @@ ysyx_26040135_AXI_CLINT u_clint (
     .bus_rlast (bus_clint_rlast),
     .bus_rvalid (bus_clint_rvalid),
     .bus_rready (bus_clint_rready),
-    .bus_awaddr (bus_clint_awaddr),
-    .bus_awid (bus_clint_awid),
-    .bus_awlen (bus_clint_awlen),
-    .bus_awsize (bus_clint_awsize),
-    .bus_awburst (bus_clint_awburst),
-    .bus_awvalid (bus_clint_awvalid),
-    .bus_awready (bus_clint_awready),
-    .bus_wdata (bus_clint_wdata),
-    .bus_wstrb (bus_clint_wstrb),
-    .bus_wlast (bus_clint_wlast),
-    .bus_wvalid (bus_clint_wvalid),
-    .bus_wready (bus_clint_wready),
-    .bus_bid (bus_clint_bid),
-    .bus_bresp (bus_clint_bresp),
-    .bus_bvalid (bus_clint_bvalid),
-    .bus_bready (bus_clint_bready),
     .clock (clock),
     .reset (reset)
 );

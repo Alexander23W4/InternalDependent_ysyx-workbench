@@ -47,7 +47,7 @@ module ysyx_26040135_AXI_CLINT (
         else begin
             state <= next;
 
-            if(state == IDLE && bus_arvalid && bus_arready) begin
+            if(bus_arvalid && bus_arready) begin
                 araddr_save <= bus_araddr;
             end
 

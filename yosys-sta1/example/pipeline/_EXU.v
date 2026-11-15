@@ -256,34 +256,36 @@ module ysyx_26040135_EXU (
                 end
             end
 
-            if(csrrw_save && state == EX) begin
-                case(imm_save)  // case CSR addr
-                    32'h00000300: mstatus <= rdata1_ul;
-                    32'h00000305: mtvec <= rdata1_ul;
-                    32'h00000341: mepc <= rdata1_ul;
-                    32'h00000342: mcause <= rdata1_ul;
-                endcase
-            end
-            else if (|{{5{csrrs_save}} & rs1_save} && state == EX) begin
-                case(imm_save) 
-                    32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
-                    32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
-                    32'h00000341: mepc <= rdata1_ul | csr_rst_save;
-                    32'h00000342: mcause <= rdata1_ul | csr_rst_save;
-                endcase
-            end
-            else if (|{{5{csrrc_save}} & rs1_save} && state == EX) begin
-                case(imm_save) 
-                    32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
-                    32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
-                    32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
-                    32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
-                endcase
-            end
+            if(state == EX) begin
+                if(csrrw_save) begin
+                    case(imm_save)  // case CSR addr
+                        32'h00000300: mstatus <= rdata1_ul;
+                        32'h00000305: mtvec <= rdata1_ul;
+                        32'h00000341: mepc <= rdata1_ul;
+                        32'h00000342: mcause <= rdata1_ul;
+                    endcase
+                end
+                else if (|{{5{csrrs_save}} & rs1_save}) begin
+                    case(imm_save) 
+                        32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
+                        32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
+                        32'h00000341: mepc <= rdata1_ul | csr_rst_save;
+                        32'h00000342: mcause <= rdata1_ul | csr_rst_save;
+                    endcase
+                end
+                else if (|{{5{csrrc_save}} & rs1_save}) begin
+                    case(imm_save) 
+                        32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
+                        32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
+                        32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
+                        32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
+                    endcase
+                end
 
-            if(ecall_save && state == EX) begin
-                mepc <= pc_save;
-                mcause <= 32'h0000000b;
+                if(ecall_save) begin
+                    mepc <= pc_save;
+                    mcause <= 32'h0000000b;
+                end
             end
 
             if(state == BLOCK && single_rs && !gpr_read_valid) begin
@@ -310,7 +312,8 @@ module ysyx_26040135_EXU (
         next = state;
         ebreak_end = 1'b0;
         flush = 1'b0;
-        
+        ren = 1'b0;
+
         case (state)
             IDLE: begin
                 if(in_valid && in_ready) begin
@@ -361,6 +364,10 @@ module ysyx_26040135_EXU (
                 next = IDLE;
             end
         endcase
+
+        if(next == EX) begin
+            ren = 1'b1;
+        end
     end 
 
     // ------------------------ 控制RAW阻塞的相关信号  
@@ -387,13 +394,6 @@ module ysyx_26040135_EXU (
 
     wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;
 
-    reg [31:0] new_pc;
-    reg [31:0] pc_next_dft;
-    reg [31:0] add_rst_w_save;
-    reg cmp_lt;
-    reg cmp_eq;
-    reg cmp_ltu;
-
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
     wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_ul;
@@ -419,24 +419,7 @@ module ysyx_26040135_EXU (
     wire [31:0] srli_rst  = rdata1_ul >> shamt_i;
     wire [31:0] sra_rst   = $signed(rdata1_ul) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1_ul) >>> shamt_i;
-    
-    always @(posedge clock or posedge reset) begin
-        if(reset) begin
-            add_rst_w_save <= 32'b0;
-            pc_next_dft <= 32'b0;
-            cmp_lt <= 1'b0;
-            cmp_eq <= 1'b0;
-            cmp_ltu <= 1'b0;
-        end else begin
-            if(state == EX) begin
-                add_rst_w_save <= add_rst_w;
-                pc_next_dft <= pc_save + 32'd4;
-                cmp_lt <= ($signed(rdata1_ul) < $signed(rdata2));
-                cmp_ltu <= (rdata1_ul < rdata2);
-                cmp_eq <= (rdata1_ul == rdata2);
-            end
-        end
-    end
+
 
     always @(*) begin
         if (lw_save || sw_save) begin
@@ -485,8 +468,31 @@ module ysyx_26040135_EXU (
 
     end
 
-    // ⭐: new_pc 用 one-hot + 单级 AND-OR 代替 9 级优先级 MUX 链
-    //     候选值全部来自寄存器(add_rst_w_save/pc_next_dft/mtvec/mepc), 条件与数据并行
+    reg [31:0] new_pc;
+    reg [31:0] pc_next_dft;
+    reg [31:0] add_rst_w_save;
+    reg cmp_lt;
+    reg cmp_eq;
+    reg cmp_ltu;
+
+    always @(posedge clock or posedge reset) begin
+        if(reset) begin
+            add_rst_w_save <= 32'b0;
+            pc_next_dft <= 32'b0;
+            cmp_lt <= 1'b0;
+            cmp_eq <= 1'b0;
+            cmp_ltu <= 1'b0;
+        end else begin
+            if(state == EX) begin
+                add_rst_w_save <= add_rst_w;
+                pc_next_dft <= pc_save + 32'd4;
+                cmp_lt <= ($signed(rdata1_ul) < $signed(rdata2));
+                cmp_ltu <= (rdata1_ul < rdata2);
+                cmp_eq <= (rdata1_ul == rdata2);
+            end
+        end
+    end
+
     wire br_taken = (blt_save  &  cmp_lt) |
                     (beq_save  &  cmp_eq) |
                     (bne_save  & ~cmp_eq) |
@@ -494,19 +500,15 @@ module ysyx_26040135_EXU (
                     (bltu_save &  cmp_ltu)|
                     (bgeu_save & ~cmp_ltu);
 
-    wire sel_jalr  = jalr_save;
-    wire sel_jal   = jal_save;
-    wire sel_br    = br_taken;
-    wire sel_ecall = ecall_save;
-    wire sel_mret  = mret_save;
-    wire sel_other = ~(sel_jalr | sel_jal | sel_br | sel_ecall | sel_mret);
+    wire sel_other = ~(jalr_save | jal_save | br_taken | ecall_save | mret_save);
 
     always @(*) begin
-        new_pc = ({32{sel_jalr }} & (add_rst_w_save & ~32'h1)) |
-                 ({32{sel_jal | sel_br}} & add_rst_w_save) |
-                 ({32{sel_ecall}} & mtvec) |
-                 ({32{sel_mret }} & mepc) |
+        new_pc = ({32{jalr_save }} & (add_rst_w_save & ~32'h1)) |
+                 ({32{jal_save | br_taken}} & add_rst_w_save) |
+                 ({32{ecall_save}} & mtvec) |
+                 ({32{mret_save }} & mepc) |
                  ({32{sel_other}} & pc_next_dft);
+
         pc_flush = new_pc;
     end
 

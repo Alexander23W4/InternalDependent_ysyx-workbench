@@ -212,10 +212,13 @@ ysyx_26040135_EXU exu (
     .ebreak_end(__ebreak_end),
 
     .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
-    .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen)
+    .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen),
+
+    .ren(ren)
 );
     wire is_ls;
     wire lsu_bypass_data_valid;
+    wire ren;
 
 
     ysyx_26040135_dbg_register GPR (

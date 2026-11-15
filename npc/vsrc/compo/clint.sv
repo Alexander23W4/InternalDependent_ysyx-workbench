@@ -48,7 +48,7 @@ module ysyx_26040135_AXI_CLINT (
 
         bus.rvalid  = 1'b0;
         bus.rdata   = 32'b0;
-        bus.rresp   = RESP_OKAY;
+        bus.rresp   = 2'b00;
 
         next = state;
 
@@ -65,11 +65,9 @@ module ysyx_26040135_AXI_CLINT (
 
                 if(araddr_save == MTIME_ADDR) begin
                     bus.rdata = mtime[31:0];
-                    bus.rresp = 2'b00;
                 end
                 else if(araddr_save == MTIMEH_ADDR) begin
                     bus.rdata = mtime[63:32];
-                    bus.rresp = 2'b00;
                 end
                 else begin
                     bus.rresp = 2'b10;

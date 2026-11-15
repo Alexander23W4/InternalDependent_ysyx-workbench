@@ -104,6 +104,12 @@ extern uint32_t exu_stall;
 extern uint32_t lsu_stall;
 extern uint32_t wbu_stall;
 
+extern int fetch_done;
+extern int flush;
+
+extern uint32_t fetch_amt;
+extern uint32_t flush_amt;
+
 
 void _init(int argc, char** argv);
 void parse_args(int argc, char *argv[]);
@@ -127,7 +133,8 @@ void error_handler();
 void prt_gprs();
 void final_check();
 void statistical_print();
-void check_stall();
+void cal_stall();
+void cal_flush();
 
 // ⭐ 波形(VCD): 实现见 csrc/tools.c. make trace 用 -DWAVE_TRACE=1 打开,
 //    不带这个宏时它们是空函数, 不产生任何开销.

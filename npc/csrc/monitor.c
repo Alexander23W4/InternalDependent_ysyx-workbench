@@ -27,6 +27,13 @@ uint32_t exu_stall = 0;
 uint32_t lsu_stall = 0;
 uint32_t wbu_stall = 0;
 
+int fetch_done = 0;
+int flush = 0;
+
+uint32_t fetch_amt = 0;
+uint32_t flush_amt = 0;
+
+
 void _init(int argc, char** argv){
     parse_args(argc, argv);  
     load_flash(image_path); 
@@ -37,7 +44,10 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
     do{
         tick();
         top->check_pipeline_bottleneck(&ifu_out_valid, &exu_in_ready, &exu_out_valid, &lsu_in_ready, &lsu_out_valid, &wbu_in_ready);
-        check_stall();
+        cal_stall();
+        
+        top->check_flush(&flush, &fetch_done);
+        cal_flush();
         
         top->check_halt(&endprog);
         // 取EXU的

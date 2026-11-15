@@ -96,3 +96,14 @@ task check_pipeline_bottleneck(
     end
 endtask
 
+export "DPI-C" task check_flush;
+task check_flush(
+    output int flush,
+    output int fetch_done
+);
+    begin
+        flush = {{31{1'b0}}, _flush};
+        fetch_done  = {{31{1'b0}}, _fetch_done};
+    end
+endtask
+

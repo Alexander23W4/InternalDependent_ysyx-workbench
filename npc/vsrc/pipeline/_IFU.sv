@@ -53,13 +53,7 @@ module ysyx_26040135_AXI_IFU (
     input [31:0] pc_flush,
 
     output reg [63:0] ifu_work_cyc,
-    output reg [63:0] ifu_block_cyc,
-
-    output _flush,
-    output _fetch_done,    // 代表IFU 完成了一次fetch
-    output _flush_ifu_blk,
-    output _flush_ifu_blk_flg,
-
+    output reg [63:0] ifu_block_cyc
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -91,7 +85,13 @@ module ysyx_26040135_AXI_IFU (
 
     assign fetch_addr = pc;
 
+    wire _flush;
+    wire _fetch_done;    // 代表IFU 完成了一次fetch
+    wire _flush_ifu_blk;
+    wire _flush_ifu_blk_flg;
+
     assign _flush = flush;
+
 
     // 状态
     typedef enum logic [1:0]{ 

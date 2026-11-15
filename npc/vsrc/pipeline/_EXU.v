@@ -86,7 +86,11 @@ module ysyx_26040135_EXU (
     input wbu_bypass_data_valid,
 
     output reg ren   // 使能读
+
 );
+    wire _possible_branch_instr;
+    wire _compulsory_branch;
+    wire _optimisible_branch;
 
     // RAW
     reg [31:0] rd_list;
@@ -355,6 +359,10 @@ module ysyx_26040135_EXU (
         flush = 1'b0;
         _new_instr = 1'b0;
         ren = 1'b0;
+
+        _possible_branch_instr = 1'b0;
+        _optimisible_branch = 1'b0;
+        _compulsory_branch = 1'b0;
         
         case (state)
             IDLE: begin
@@ -410,6 +418,18 @@ module ysyx_26040135_EXU (
 
         if(next == EX) begin
             ren = 1'b1;
+        end
+
+        if(state == EX) begin
+            if(jal_save | jalr_save | ecall_save | mret_save | b_type) begin
+                _possible_branch_instr = 1'b1;
+            end
+            if(jal_save | jalr_save | ecall_save | mret_save) begin
+                _compulsory_branch = 1'b1;
+            end
+            if(b_type) begin
+                _optimisible_branch = 1'b1;
+            end
         end
     end 
 

@@ -916,3 +916,25 @@ Total Power   ==  1.299e-02 W
    Chip area for module '\ysyx_26040135': 24462.690000
      of which used for sequential elements: 14301.756000 (58.46%)
 
+
+
+[CIRCLE] 29498714
+[INSTR] 599380
+[CPI] 49.22
+[IFU_STALL] 16909342 (57.32%)
+[EXU_STALL] 930006 (3.15%)
+[LSU_STALL] 1998969 (6.78%)
+[WBU_STALL] 0 (0.00%)
+[FETCH] 693983
+[FLUSH] 94602
+[FLUSH_IFU_BLK] 13136
+[FLUSH_IFU_BLK_FLG] 1425381    差不多平均每个被block 100个周期
+[POSSIBLE_BRANCH] 136752
+[COMPULSORY_BRANCH] 23075
+[OPTIMISIBLE_BRANCH] 113677
+[BRANCH_PRED_ACC] 37.08%
+
+添加了flush相关perf_cnt可以看出来, 被flush掉的指令数量还是挺多了, 占比大约14%. 但是相比较优化整体的miss_rate和miss_penalty来说, 现在优化的关键并不是branch_prediction_algorithm
+而且因为flush被ifu阻塞的周期比例大概是1425381/16909342(分母其实偏小的), 不到10%
+虽然现在对于b指令的正确率37%还有很大提升空间, 而且b指令占整个分支指令比例还挺大, 但是或许依然只能带来基于ifu2-3%左右的性能提升(如果预测正确率能提升到50%)
+

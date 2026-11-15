@@ -183,6 +183,12 @@ void statistical_print(){
     printf("[POSSIBLE_BRANCH] %u\n", possible_branch_instr_amt);
     printf("[COMPULSORY_BRANCH] %u\n", compulsory_branch_amt);
     printf("[OPTIMISIBLE_BRANCH] %u\n", optimisible_branch_amt);
+
+    double mispred = (double)flush_amt - (double)compulsory_branch_amt;
+    if (mispred < 0.0) mispred = 0.0;
+    double br_acc = (optimisible_branch_amt != 0)
+                  ? 100.0 * (1.0 - mispred / (double)optimisible_branch_amt) : 0.0;
+    printf("[BRANCH_PRED_ACC] %.2f%%\n", br_acc);
 }
 
 

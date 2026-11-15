@@ -88,9 +88,9 @@ module ysyx_26040135_EXU (
     output reg ren   // 使能读
 
 );
-    wire _possible_branch_instr;
-    wire _compulsory_branch;
-    wire _optimisible_branch;
+    reg  _possible_branch_instr;
+    reg  _compulsory_branch;
+    reg  _optimisible_branch;
 
     // RAW
     reg [31:0] rd_list;

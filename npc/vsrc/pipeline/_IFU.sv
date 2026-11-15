@@ -86,9 +86,9 @@ module ysyx_26040135_AXI_IFU (
     assign fetch_addr = pc;
 
     wire _flush;
-    wire _fetch_done;    // 代表IFU 完成了一次fetch
-    wire _flush_ifu_blk;
-    wire _flush_ifu_blk_flg;
+    reg  _fetch_done;    // 代表IFU 完成了一次fetch
+    reg  _flush_ifu_blk;
+    reg  _flush_ifu_blk_flg;
 
     assign _flush = flush;
 
@@ -177,6 +177,8 @@ module ysyx_26040135_AXI_IFU (
         next = state;
         fetch_valid = 1'b0;
         _fetch_done = 1'b0;
+        _flush_ifu_blk = 1'b0;
+        _flush_ifu_blk_flg = 1'b0;
             
         case(state)
             IDLE: begin  // IFU的 IDLE的作用就是等ready握手

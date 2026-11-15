@@ -1,89 +1,52 @@
-/*
-    这里的 AXI Xbar 把访问分成两路:
-        CLINT  0x0200_0000~0x0200_ffff   -> clint_m
-        其他                              -> m_m (送到 ysyxSoC)
-
-    ⭐ 写通道为什么不做 AW→W 串行化:
-        axi_lsu.sv 的注释里写了, SoC 里 SRAM 的 awready 本身就依赖 wvalid。
-        如果 xbar 先把 AW 发给目标、等握手完成再放 W, 碰上这种从设备就是双向死锁。
-        所以这里 AW 和 W 都是**按地址组合透传**的: 同一笔事务的 awaddr 在
-        wvalid 拉高期间是稳定的(LSU 一直举着, 见 axi_lsu.sv 的 aw_done/w_done),
-        用组合译码选目标既不会死锁也不会走错路。
-        w_busy/w_clint 只用来记住"当前这笔写事务归谁", 供 B 通道回响应时使用。
-*/
 
 module ysyx_26040135_AXI4_Xbar (
     input  logic clock,
     input  logic reset,
 
-    // 1. IFU Master 接口 (来自 CPU 内部取指单元，使用 slave modport 接收)
     ysyx_26040135_AXI4.slave  ifu_s,
-
-    // 2. LSU Master 接口 (来自 CPU 内部访存单元，使用 slave modport 接收)
     ysyx_26040135_AXI4.slave  lsu_s,
-
-    // 3. 对外主接口 (连接到 ysyxSoC，使用 master modport 发出)
     ysyx_26040135_AXI4.master m_m,
-
-    // 4. CLINT (0x0200_0000~0x0200_ffff)
     ysyx_26040135_AXI4.master clint_m
 );
 
-    // 地址译码: 0x0200_0000~0x0200_ffff 正好就是 addr[31:16] == 16'h0200
-    wire aw_to_clint = (lsu_s.awaddr[31:16] == 16'h0200);
-
-    // ==========================================
-    // 1. 写通道（AW / W / B）
-    //    原来只有 LSU 独占透传给 m_m; 现在按地址分成 m_m / clint_m 两路。
-    //    只有一个写 master(LSU), 所以不需要仲裁, 只要记住"这笔事务归谁"。
-    // ==========================================
-
     logic w_busy;    // 有一笔写事务的 AW 已经被收下, 正在等 W/B
-    logic w_clint;   // 这笔写事务的目标是 CLINT
 
-    // 当前这笔写事务的目标: AW 还没被收下时用组合译码, 收下之后用寄存值
-    wire w_sel_clint = w_busy ? w_clint : aw_to_clint;
 
     // ---- 写地址通道 (AW) ----
-    assign clint_m.awaddr  = lsu_s.awaddr;
+    assign clint_m.awaddr  = 32'b0;
     assign clint_m.awid    = lsu_s.awid;
     assign clint_m.awlen   = lsu_s.awlen;
     assign clint_m.awsize  = lsu_s.awsize;
-    assign clint_m.awburst = lsu_s.awburst;
-    assign clint_m.awvalid = lsu_s.awvalid && !w_busy &&  w_sel_clint;
+    assign clint_m.awburst = 2'b00
+    assign clint_m.awvalid = 
+    assign clint_m.wdata  = 32'b0;
+    assign clint_m.wstrb  = 2'b00;
+    assign clint_m.wlast  = 1'b0;
+    assign clint_m.wvalid = 1'b0;
+    assign clint_m.bready = 1'b0;
 
     assign m_m.awaddr  = lsu_s.awaddr;
     assign m_m.awid    = lsu_s.awid;
     assign m_m.awlen   = lsu_s.awlen;
     assign m_m.awsize  = lsu_s.awsize;
     assign m_m.awburst = lsu_s.awburst;
-    assign m_m.awvalid = lsu_s.awvalid && !w_busy && !w_sel_clint;
+    assign m_m.awvalid = lsu_s.awvalid && !w_busy;
 
-    // w_busy 时不再收新的 AW, 否则会把上一笔还在等 B 的事务状态搞乱
-    assign lsu_s.awready = w_busy ? 1'b0 :
-                           (w_sel_clint ? clint_m.awready : m_m.awready);
-
-    // ---- 写数据通道 (W) ----
-    // 和 AW 一起发, 不串行化(原因见文件头注释)
-    assign clint_m.wdata  = lsu_s.wdata;
-    assign clint_m.wstrb  = lsu_s.wstrb;
-    assign clint_m.wlast  = lsu_s.wlast;
-    assign clint_m.wvalid = lsu_s.wvalid &&  w_sel_clint;
+    assign lsu_s.awready = w_busy ? 1'b0 : m_m.awready;
 
     assign m_m.wdata  = lsu_s.wdata;
     assign m_m.wstrb  = lsu_s.wstrb;
     assign m_m.wlast  = lsu_s.wlast;
-    assign m_m.wvalid = lsu_s.wvalid && !w_sel_clint;
+    assign m_m.wvalid = lsu_s.wvalid;
 
-    assign lsu_s.wready = w_sel_clint ? clint_m.wready : m_m.wready;
+    assign lsu_s.wready = m_m.wready;
 
-    // ---- 写响应通道 (B) ----
-    assign lsu_s.bid    = w_clint ? clint_m.bid    : m_m.bid;
-    assign lsu_s.bresp  = w_clint ? clint_m.bresp  : m_m.bresp;
-    assign lsu_s.bvalid = w_busy && (w_clint ? clint_m.bvalid : m_m.bvalid);
+    assign lsu_s.bid    = m_m.bid;
+    assign lsu_s.bresp  = m_m.bresp;
+    assign lsu_s.bvalid = w_busy && m_m.bvalid;
 
-    assign clint_m.bready = (w_busy &&  w_clint) ? lsu_s.bready : 1'b0;
-    assign m_m.bready     = (w_busy && !w_clint) ? lsu_s.bready : 1'b0;
+    assign m_m.bready     = w_busy ? lsu_s.bready : 1'b0;
+
 
     // 写事务生命周期: AW 握手时开始, B 握手时结束
     always_ff @(posedge clock or posedge reset) begin

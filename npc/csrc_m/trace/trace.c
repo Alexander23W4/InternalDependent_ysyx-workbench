@@ -86,8 +86,15 @@ void pc_itrace_finish(void) {
 
 // ----------------------------------------------------------------------------
 // btrace   for branch prediction 分支预测      (多周期 CPU / vsrc_m 环境)
-// 只要遇到 b-type 的指令, 就写入, 每行一个: 当前pc, instr(16进制), next_pc(下一跳), 是否跳转(0/1)
-
+// 只要遇到 b-type 的指令, 就写入, 每行一个: 当前pc, 汇编, instr(16进制), next_pc(下一跳), 是否跳转(0/1)
+//
+// csrc_m 的 exec_once() 是"一条指令执行一次", 所以 trace() 也是每条指令调用一次:
+//     pc       (全局)  = 这条指令的 pc      (exec_once 开头 pc = cpu.pc)
+//     instr           = 这条指令本身        (这条指令 FETCH 完拿到的 __instr)
+//     cpu.pc          = 这条指令的 next_pc (UDPC 更新后的 pc)
+// 所以这里不需要去重/挂起, 直接判断:
+//     b-type(opcode 1100011) -> 写一行; taken = (next_pc != pc + 4)
+// ----------------------------------------------------------------------------
 #define BTRACE_BATCH 1000
 
 typedef struct {
@@ -99,12 +106,11 @@ typedef struct {
 
 static btrace_rec_t bt_buf[BTRACE_BATCH];
 static int      bt_buf_cnt   = 0;
-static uint64_t bt_total_cnt = 0;
-static int      bt_opened    = 0;
+static uint64_t bt_total_cnt    = 0;
+static uint64_t bt_taken_cnt    = 0;   // 跳转的分支数
+static uint64_t bt_notaken_cnt  = 0;   // 没跳的分支数
+static int      bt_opened       = 0;
 
-static uint32_t bt_cur_pc    = 0xFFFFFFFFu;   // 当前正在执行的指令的 pc / instr
-static uint32_t bt_cur_instr = 0;
-static int      bt_started   = 0;             // 第一次调用只做初始化
 
 static int is_btype(uint32_t ins) { return (ins & 0x7Fu) == 0x63u; }   // opcode = 1100011
 
@@ -116,8 +122,19 @@ static void btrace_flush(void) {
     bt_opened = 1;
 
     for (int i = 0; i < bt_buf_cnt; i++) {
-        fprintf(fp, "0x%08x   0x%08x   0x%08x   %d\n",
-                bt_buf[i].pc, bt_buf[i].instr, bt_buf[i].next_pc, bt_buf[i].taken);
+        // 反汇编: 复用 itrace 用的 disassemble()
+        char    asm_buf[128];
+        uint8_t code[4];
+        uint32_t ins = bt_buf[i].instr;
+        code[0] = (uint8_t)(ins      );
+        code[1] = (uint8_t)(ins >>  8);
+        code[2] = (uint8_t)(ins >> 16);
+        code[3] = (uint8_t)(ins >> 24);
+        asm_buf[0] = '\0';
+        disassemble(asm_buf, (int)sizeof(asm_buf), bt_buf[i].pc, code, 4);
+
+        fprintf(fp, "0x%08x   %-28s   0x%08x   0x%08x   %d\n",
+                bt_buf[i].pc, asm_buf, bt_buf[i].instr, bt_buf[i].next_pc, bt_buf[i].taken);
         bt_total_cnt++;
     }
     fclose(fp);
@@ -131,25 +148,17 @@ static void btrace_emit(uint32_t pc_val, uint32_t instr_val, uint32_t next_val, 
     bt_buf[bt_buf_cnt].next_pc = next_val;
     bt_buf[bt_buf_cnt].taken   = taken;
     bt_buf_cnt++;
+
+    if (taken) bt_taken_cnt++;
+    else       bt_notaken_cnt++;
 }
 
-void btrace_record(uint32_t pc_val, uint32_t instr_val) {
-    if (!bt_started) {                       // 第一条: 只记下来, 等它退役时再结算
-        bt_started   = 1;
-        bt_cur_pc    = pc_val;
-        bt_cur_instr = instr_val;
-        return;
-    }
+void btrace_record(uint32_t pc_val, uint32_t instr_val, uint32_t next_pc) {
+    if (!is_btype(instr_val)) return;        // 只统计 b-type
 
-    if (pc_val != bt_cur_pc) {               // pc 变了: 上一条指令退役
-        if (is_btype(bt_cur_instr)) {
-            btrace_emit(bt_cur_pc, bt_cur_instr, pc_val,
-                        (pc_val != bt_cur_pc + 4u) ? 1 : 0);
-        }
-        bt_cur_pc = pc_val;
-    }
-
-    bt_cur_instr = instr_val;                // 每拍更新: 取指完成后就是当前指令
+    // 分支只可能落到 pc+4 或跳转目标, 所以这里判断就是"跳没跳"
+    btrace_emit(pc_val, instr_val, next_pc,
+                (next_pc != pc_val + 4u) ? 1 : 0);
 }
 
 void btrace_finish(void) {
@@ -162,13 +171,19 @@ void btrace_finish(void) {
 
     printf("[BTRACE] %lu 条 b-type -> %s\n",
            (unsigned long)bt_total_cnt, BTRACE_FILE);
+
+    double denom = (bt_total_cnt > 0) ? (double)bt_total_cnt : 1.0;
+    printf("[BTRACE] taken     = %lu (%.2f%%)\n",
+           (unsigned long)bt_taken_cnt,   100.0 * (double)bt_taken_cnt   / denom);
+    printf("[BTRACE] not taken = %lu (%.2f%%)\n",
+           (unsigned long)bt_notaken_cnt, 100.0 * (double)bt_notaken_cnt / denom);
 }
 
 // ----------------------------------------------------------------------------
 
 void trace(){
     pc_itrace_record(pc);
-    btrace_record(cpu.pc, (uint32_t)instr);   // b-type 记录: 用同一次 debug_read_all 读到的 pc/instr
+    btrace_record(pc, (uint32_t)instr, cpu.pc);  // pc=这条指令的pc, instr=这条指令, cpu.pc=它的 next_pc
 
     // 用iringbuf, 每周期填入到 iringbuf里面, 最终将ring里面的东西输出出去
 

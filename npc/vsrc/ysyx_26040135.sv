@@ -108,6 +108,8 @@ lsu支持 sw 并行 (SS)
 ⭐ Cache:
 cache的优化, 替换算法, block, set-associative, 大小
 
+⭐ 如果是强制跳转, IDU得到结果之后, 就告诉IFU不要继续fetch了, 停下来
+
 ⭐ C:
 最后优化时钟周期
 

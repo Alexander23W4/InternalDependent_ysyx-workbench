@@ -53,7 +53,10 @@ module ysyx_26040135_AXI_IFU (
     input [31:0] pc_flush,
 
     output reg [63:0] ifu_work_cyc,
-    output reg [63:0] ifu_block_cyc
+    output reg [63:0] ifu_block_cyc,
+
+    output _flush,
+    output _fetch_done    // 代表IFU 完成了一次fetch
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -84,6 +87,8 @@ module ysyx_26040135_AXI_IFU (
     reg [31:0] pc;       
 
     assign fetch_addr = pc;
+
+    assign _flush = flush;
 
     // 状态
     typedef enum logic [1:0]{ 
@@ -168,6 +173,7 @@ module ysyx_26040135_AXI_IFU (
 
         next = state;
         fetch_valid = 1'b0;
+        _fetch_done = 1'b0;
             
         case(state)
             IDLE: begin  // IFU的 IDLE的作用就是等ready握手
@@ -179,6 +185,7 @@ module ysyx_26040135_AXI_IFU (
             FETCH: begin
                 fetch_valid = 1'b1;
                 if(instr_valid) begin
+                    _fetch_done = 1'b1;
                     next = IDLE;
                 end
             end

@@ -94,29 +94,45 @@ B5现阶段实际优化方案:
 ⭐ Cache:
     替换算法, block, set, set-associative, 大小, 预取
 
-⭐ (必须实现) LSU支持同时读写
-
 
 ⭐(必须实现) 错误处理, 比如bresp != 2'b00, 怎么处理    (纯硬件)  
-这个讲义里面要求实现了, 要是通过修改pc到mret, 并且编辑mcause来实现, 并对现有残余进行冲刷.
+这个讲义里面要求实现了, 要是通过修改mret到当前阶段pc, 并且修改mcause来实现, 并对现有残余进行冲刷.
+
+指令可能会在推测执行时抛出异常, 但如果推测错误, 那实际上这条指令不应该被执行, 所抛出的异常也不应该被处理. 
+现在推测执行只有可能是IFU, IFU对应的异常有0和1
+对于0来说, 可以在pc和instr_valid对应的状态的时候, 当给pc赋值pc_flush或者pc_flush_save或者btb里面的值的之后, 就检查 ⭐
+
+因此, 在异常处理过程中需要更新处理器状态的操作, 都需要等到确认推测正确后, 才能真正进行, 包括写入mepc, mcause, 跳转到mtvec所指示的位置等.
+
+当下实现这些:
+异常号	异常描述	最早产生的部件
+0	Instruction address misaligned	IFU
+1	Instruction access fault	IFU
+2	Illegal Instruction	IDU
+4	Load address misaligned	LSU
+5	Load access fault	LSU
+6	Store/AMO address misaligned	LSU
+7	Store/AMO access fault	LSU
+11	Environment call from M-mode	IDU
+
 
 优化RTL的写法, verilog的省A & PW的方法
 
 权衡一下面积, 看要不要去掉bypass(DHS)
-
 */
 
 /*
 ⭐ B阶段考核准备:
-弄完最后一点点PPA优化
+
+弄完最后一点点PPA优化, 还有exception handler
+
+研究节省PAP的rtl写法, 优化rtl
 
 做完讲义B-extra内容, 满足流片需求
 
 熟读B阶段所有代码
 
 强化debug工具
-
-研究节省PAP的rtl写法, 优化rtl
 
 
 ⭐ 后续:

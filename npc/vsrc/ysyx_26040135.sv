@@ -252,7 +252,9 @@ module ysyx_26040135(
         .instr_valid(instr_valid),
         .instr(instr_icache),
         .fetch_error(fetch_error),
-        .fetch_addr(fetch_addr)
+        .fetch_addr(fetch_addr),
+
+        .icache_flush(icache_flush)
     );
 
     wire fetch_valid;
@@ -260,6 +262,7 @@ module ysyx_26040135(
     wire [31:0] instr_icache;
     wire [1:0] fetch_error;
     wire [31:0] fetch_addr;
+    wire icache_flush;
 
     ysyx_26040135_AXI_IFU ifu (
         .clock(clock),
@@ -288,7 +291,8 @@ module ysyx_26040135(
         .b_target(b_target),
         .taken(taken),
 
-        .fence_i_flush(fence_i_flush)
+        .fence_i_flush(fence_i_flush),
+        .icache_flush(icache_flush)
     ); 
 
     wire bt_valid;

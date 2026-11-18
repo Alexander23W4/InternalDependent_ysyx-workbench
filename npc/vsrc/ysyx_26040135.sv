@@ -106,6 +106,25 @@ B5现阶段实际优化方案:
 
 */
 
+/*
+⭐ B阶段考核准备:
+弄完最后一点点PPA优化
+
+做完讲义B-extra内容, 满足流片需求
+
+熟读B阶段所有代码
+
+强化debug工具
+
+研究节省PAP的rtl写法, 优化rtl
+
+
+⭐ 后续:
+研究rocketchip的设计框图和rtl
+
+阅读计算的本质, 重新精度ysyx代码和riscv开放架构设计之道, 重点注意gcc-flag, 每个flag对IPC的作用
+*/
+
 module ysyx_26040135(
     
     // ⭐: 现在cpu的引脚已经完全符合要求
@@ -183,26 +202,6 @@ module ysyx_26040135(
     output        io_slave_rlast
 
 );
-
-/*
-让流水线寄存器先跑起来, verilator先跑起来
-
-通过形式化验证后, 我们的重点应该放在通过仿真和综合获取关键数据: 性能计数器(I,P), 面积, C(关键组合路径), 功耗
-
-跑通所有tb, 并且弄好verilator仿真环境所有debug-infra + 波形debug醇熟
-
-把rtl弄成可综合的, 然后看关键组合路径, 消减时钟频率
-
-研究节省PAP的rtl写法
-
-研究rocketchip的设计框图和rtl
-
-阅读计算的本质, 重新精度ysyx代码和riscv开放架构设计之道, 重点注意gcc-flag, 每个flag对IPC的作用
-
-形式化验证
-
-读CAAQ
-*/
 
 
 // 引出到verilator顶层的信号写在这里

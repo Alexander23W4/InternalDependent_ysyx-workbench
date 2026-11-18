@@ -25,8 +25,7 @@ module ysyx_26040135_AXI_ICACHE (
     input   logic        mbus_rvalid,
     output  logic        mbus_rready,
 
-    input [31:0] sw_addr,
-    input sw_avail
+    input icache_flush     
 );
 
 
@@ -99,6 +98,12 @@ module ysyx_26040135_AXI_ICACHE (
         end else begin
             state <= next;
 
+            if(icache_flush) begin   // 遇到 fence.i: 全部置成无效
+                for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
+                    valid[i] <= 1'b0;
+                end
+            end
+
             if(state == MISS_AR) begin   // 清掉上一次访存的残留状态
                 rresp_save  <= 2'b00;       
                 beat <= '0;
@@ -118,13 +123,6 @@ module ysyx_26040135_AXI_ICACHE (
                     rresp_save <= mbus_rresp;
                 end
                 beat <= mbus_rlast ? '0 : beat + 1'b1;
-            end
-
-            // 设置脏数据(某些需要取值的地址被写了)
-            if(sw_avail) begin
-                if(tag[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] == sw_addr[31:INDEX_LEN+OFFSET_LEN] && valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]]) begin
-                    valid[sw_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN]] <= 1'b0;
-                end
             end
         end
     end

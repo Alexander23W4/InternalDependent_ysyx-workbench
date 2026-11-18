@@ -161,7 +161,8 @@ module ysyx_26040135_AXI_IFU (
                 ifu_work_cyc <= ifu_work_cyc + 64'b1;
             end
 
-
+        // ---- 以下都是flush的逻辑, 覆盖flush信号在IFU状态机的不同时刻到来的所有情况:
+        
             if(state == FETCH && !instr_valid) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
                 if(flush) begin
                     flush_save <= 1'b1;
@@ -172,7 +173,6 @@ module ysyx_26040135_AXI_IFU (
                 end
             end 
 
-            // ---- 以下都是flush的逻辑, 覆盖flush信号在IFU状态机的不同时刻到来的所有情况:
 
             if(state == IDLE && out_valid && (flush | fence_i_flush | out_ready)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
                 out_valid <= 1'b0;

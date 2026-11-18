@@ -29,7 +29,10 @@ module ysyx_26040135_AXI_IFU (
     input [31:0] b_pc,
     input [31:0] b_target,
 
-    output reg taken
+    output reg taken,
+
+    input fence_i_flush,
+    output reg icache_flush
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -70,6 +73,7 @@ module ysyx_26040135_AXI_IFU (
     // 外部控制信号与返回外部的信号:
     reg master_validation_error_save;
     reg flush_save;
+    reg fence_i_flush_save;
     reg [31:0] pc_flush_save;
 
 
@@ -102,17 +106,23 @@ module ysyx_26040135_AXI_IFU (
             master_validation_error_save <= 1'b0;
             flush_save <= 1'b0;
             pc_flush_save <= 32'b0;
+            fence_i_flush_save <= 1'b0;
 
         end else begin
 
             state <= next;
 
-            if(flush && (state == FETCH && !instr_valid)) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
-                flush_save <= 1'b1;
-                pc_flush_save <= pc_flush;
+            if(state == FETCH && !instr_valid) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
+                if(flush) begin
+                    flush_save <= 1'b1;
+                    pc_flush_save <= pc_flush;
+                end
+                if(fence_i_flush) begin
+                    fence_i_flush_save <= 1'b1;
+                end
             end 
             
-            if(state == IDLE && out_valid && (flush | out_ready)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
+            if(state == IDLE && out_valid && (flush | fence_i_flush | out_ready)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
                 out_valid <= 1'b0;
             end
 
@@ -139,6 +149,9 @@ module ysyx_26040135_AXI_IFU (
                else if(flush) begin
                     pc <= pc_flush;
                end 
+               else if(fence_i_flush_save | fence_i_flush) begin   // 丢掉这次 fetch, 同时让 icache 整体失效
+                    fence_i_flush_save <= 1'b0;
+               end
                else begin
                     out_valid <= 1'b1; 
                     if(pc == btb_pc[pc[2]] && valid[pc[2]] && (pc > btb_target[pc[2]])) begin
@@ -162,6 +175,7 @@ module ysyx_26040135_AXI_IFU (
 
         next = state;
         fetch_valid = 1'b0;
+        icache_flush = 1'b0;
             
         case(state)
             IDLE: begin  // IFU的 IDLE的作用就是等ready握手
@@ -179,6 +193,12 @@ module ysyx_26040135_AXI_IFU (
 
             default: ;
         endcase
+
+        if(state == IDLE || instr_valid) begin
+            if(fence_i_flush_save || fence_i_flush) begin
+                icache_flush = 1'b1;
+            end
+        end
     end
 
 

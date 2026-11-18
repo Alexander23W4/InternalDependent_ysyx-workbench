@@ -92,9 +92,6 @@ module ysyx_26040135(
 
 // 流水线级间连接
 
-    wire sw_avail;
-    wire [31:0] sw_addr;   
-
     ysyx_26040135_AXI_ICACHE icache (
         
         .fetch_valid(fetch_valid),
@@ -120,8 +117,7 @@ module ysyx_26040135(
         .clock                          (clock),
         .reset                          (reset),
 
-        .sw_addr                        (sw_addr),
-        .sw_avail                       (sw_avail)
+        .icache_flush                   (icache_flush)
     );
 
     ysyx_26040135_AXI_IFU ifu (
@@ -149,7 +145,10 @@ module ysyx_26040135(
         .b_pc(b_pc),
         .b_target(b_target),
 
-        .taken(taken)
+        .taken(taken),
+
+        .fence_i_flush(fence_i_flush),
+        .icache_flush(icache_flush)
     ); 
 
     wire        flush;  
@@ -187,7 +186,8 @@ module ysyx_26040135(
     wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
     wire compulsory_branch_instrs = jalr | jal | ecall | mret;
     wire taken, taken_de, bt_valid;         
-    wire [31:0] b_pc, b_target;               
+    wire [31:0] b_pc, b_target;
+    wire fence_i_flush, icache_flush;                     
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
 
@@ -232,7 +232,9 @@ ysyx_26040135_EXU exu (
     .taken(taken_de),
     .bt_valid(bt_valid),
     .b_pc(b_pc),
-    .b_target(b_target)
+    .b_target(b_target),
+
+    .fence_i_flush(fence_i_flush)
 );
     wire is_ls;
     wire lsu_bypass_data_valid;
@@ -316,10 +318,7 @@ ysyx_26040135_EXU exu (
         .rd_out(rd_lsu),
         .lsu_bypass_data_valid(lsu_bypass_data_valid),
 
-        .lsu_blockf(lsu_blockf),
-
-        .sw_addr(sw_addr),
-        .sw_avail(sw_avail)
+        .lsu_blockf(lsu_blockf)
     );
 
     wire valid_lw, ready_lw;

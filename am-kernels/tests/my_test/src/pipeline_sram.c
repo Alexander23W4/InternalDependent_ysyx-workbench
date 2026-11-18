@@ -13,3 +13,4 @@ int main(){
     return (a3 == 0x1271) ? 0 : 1;   // 返回非 0 -> halt(ret) -> HIT BAD TRAP
 }
 
++

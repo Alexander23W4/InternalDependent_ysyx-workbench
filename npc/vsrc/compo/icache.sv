@@ -61,7 +61,8 @@ module ysyx_26040135_AXI_ICACHE (
 
     ysyx_26040135_AXI4.master mbus,   // ->系统总线
 
-    input fence_i
+    input fence_i,
+    input icache_flush
 );
 
 
@@ -137,6 +138,12 @@ module ysyx_26040135_AXI_ICACHE (
             if(state == MISS_AR) begin   // 清掉上一次访存的残留状态
                 rresp_save  <= 2'b00;       
                 beat <= '0;
+            end
+
+            if(icache_flush) begin   // 遇到fence.i了
+                for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
+                    valid[i]  <= 1'b0;   
+                end
             end
 
 

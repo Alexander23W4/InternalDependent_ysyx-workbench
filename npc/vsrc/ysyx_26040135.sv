@@ -106,6 +106,7 @@ cache的优化, 替换算法, block, set-associative, 大小
 
 优化RTL的写法, verilog的省A & PW的方法
 
+fence.i, 冲刷cache, 然后冲刷流水线
 */
 
 module ysyx_26040135(
@@ -285,7 +286,9 @@ module ysyx_26040135(
         .bt_valid(bt_valid),
         .b_pc(b_pc),
         .b_target(b_target),
-        .taken(taken)
+        .taken(taken),
+
+        .fence_i_flush(fence_i_flush)
     ); 
 
     wire bt_valid;
@@ -383,12 +386,15 @@ ysyx_26040135_EXU exu (
     .bt_valid(bt_valid),
     .b_pc(b_pc),
     .b_target(b_target),
-    .taken(taken_de)
+    .taken(taken_de),
+
+    .fence_i_flush(fence_i_flush)
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
     wire lsu_bypass_data_valid;
     wire ren;
+    wire fence_i_flush;
 
 
     ysyx_26040135_dbg_register GPR(

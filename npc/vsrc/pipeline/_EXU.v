@@ -91,7 +91,8 @@ module ysyx_26040135_EXU (
     output reg [31:0] b_pc,
     output reg [31:0] b_target,
 
-    input taken
+    input taken,
+    output reg fence_i_flush
 
 );
     reg  _possible_branch_instr;
@@ -377,6 +378,8 @@ module ysyx_26040135_EXU (
         bt_valid = 1'b0;
         b_pc = 32'b0;
         b_target = 32'b0;
+
+        fence_i_flush = 1'b0;
         
         case (state)
             IDLE: begin
@@ -431,6 +434,7 @@ module ysyx_26040135_EXU (
                     b_target = add_rst_w_save;
                 end
                 flush = jalr_save | jal_save | ecall_save | mret_save | (b_type & (br_taken != taken_save));
+                fence_i_flush = fence_i_save;
                 next = IDLE;
             end
         endcase

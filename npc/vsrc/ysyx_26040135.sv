@@ -41,7 +41,7 @@ ChipLink MEM	      0xc000_0000~0xffff_ffff
 流水线存在以下三种冒险, 为了避免冒险, 就会造成阻塞, 降低流水线的效率
 
 结构冒险: 寄存器读只有 EX 用, 寄存器写只有 WB 用, 不会冲突
-        存储器, IF 和 LS 的同时访问读通道会有结构冒险, Xbar采用LSU优先 (至于更复杂的调度策略先留着)
+        存储器, IF 和 LS 的同时访问读通道会有结构冒险, Xbar采用IFU优先 (至于更复杂的调度策略先留着)
 
 数据冒险: RAW 
     寄存器RAW[WB]: 存下还没写的寄存器, 每次读寄存器都遍历, 如果有还没写完(发生RAW)就阻塞  (只要把 in.ready 和 out.valid 置为无效即可)
@@ -88,17 +88,13 @@ ChipLink MEM	      0xc000_0000~0xffff_ffff
 先明确流片的面积和时序要求    23000(25000)um2   
     [yzh的参考设计在添加icache后面积为22730, 同时频率可以达到1081MHz, 运行microbench显示的Total time为4.49s.]
 
-优化:
 
-⭐ pipeline: 
-lsu支持 sw 并行 (SS)
+B5现阶段实际优化方案:
 
 ⭐ Cache:
-cache的优化, 替换算法, block, set-associative, 大小
+    替换算法, block, set, set-associative, 大小, 预取
 
-⭐ 如果是强制跳转, IDU得到结果之后, 就告诉IFU不要继续fetch了, 停下来
-
-⭐ LSU支持同时读写
+⭐ (必须实现) LSU支持同时读写
 
 
 ⭐(必须实现) 错误处理, 比如bresp != 2'b00, 怎么处理    (纯硬件)  
@@ -106,7 +102,8 @@ cache的优化, 替换算法, block, set-associative, 大小
 
 优化RTL的写法, verilog的省A & PW的方法
 
-fence.i, 冲刷cache, 然后冲刷流水线
+权衡一下面积, 看要不要去掉bypass(DHS)
+
 */
 
 module ysyx_26040135(

@@ -271,7 +271,7 @@ module ysyx_26040135_IDU(
                         if(|funct7 == 0) begin
                             srli = 1'b1;
                         end
-                        if(funct7 == 7'b0100000) begin
+                        else if(funct7 == 7'b0100000) begin
                             srai = 1'b1;
                         end else begin
                             decode_invalid = 1'b1;
@@ -289,7 +289,7 @@ module ysyx_26040135_IDU(
                         if(|funct7 == 0) begin
                             add = 1'b1;
                         end
-                        if(funct7 == 7'b0100000) begin
+                        else if(funct7 == 7'b0100000) begin
                             sub = 1'b1;
                         end else begin
                             decode_invalid = 1'b1;
@@ -319,7 +319,7 @@ module ysyx_26040135_IDU(
                     end
                     3'b100: begin
                         if(|funct7 == 0) begin
-                            xor_instr = 1'b1;
+                            xor_inst = 1'b1;
                         end else begin
                             decode_invalid = 1'b1;
                         end
@@ -328,7 +328,7 @@ module ysyx_26040135_IDU(
                         if(|funct7 == 0) begin
                             srl = 1'b1;
                         end
-                        if(funct7 == 7'b0100000) begin
+                        else if(funct7 == 7'b0100000) begin
                             sra = 1'b1;
                         end else begin
                             decode_invalid = 1'b1;
@@ -337,7 +337,7 @@ module ysyx_26040135_IDU(
 
                     3'b110: begin
                         if(|funct7 == 0) begin
-                            or_instr = 1'b1;
+                            or_inst = 1'b1;
                         end else begin
                             decode_invalid = 1'b1;
                         end
@@ -345,7 +345,7 @@ module ysyx_26040135_IDU(
 
                     3'b111: begin
                         if(|funct7 == 0) begin
-                            and_instr = 1'b1;
+                            and_inst = 1'b1;
                         end else begin
                             decode_invalid = 1'b1;
                         end

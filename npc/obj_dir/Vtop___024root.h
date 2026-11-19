@@ -323,9 +323,14 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache_flush;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__bt_valid;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__taken;
+        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__idu_instr_valid;
+        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__idu_exception_2;
+        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu_exception_0;
+        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu_exception_1;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__flush;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__valid_fd;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__compulsory_branch_instrs;
+        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__valid_de;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ready_de;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__addi;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__slti;
@@ -347,13 +352,13 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__or_inst;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__and_inst;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lb;
+    };
+    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lh;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lw;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lbu;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lhu;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__sb;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__sh;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__sw;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__beq;
@@ -394,11 +399,14 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__flush_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__fence_i_flush_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___btb_hit;
+        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__instr_addr_misaligned;
+        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__instr_access_fault;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___fetch_done;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___flush_ifu_blk;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT___flush_ifu_blk_flg;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__state;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__next;
+        CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__idu__DOT__decode_invalid;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT___possible_branch_instr;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT___compulsory_branch;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT___optimisible_branch;
@@ -410,6 +418,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__sub_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__lui_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__auipc_save;
+    };
+    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__and_inst_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__or_inst_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__xor_inst_save;
@@ -418,8 +428,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__xori_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__sll_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__srl_save;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__sra_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__slli_save;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__srli_save;
@@ -476,6 +484,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*4:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__rd_save;
         CData/*2:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__state;
         CData/*2:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__next;
+    };
+    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__aw_done;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__w_done;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__aw_done_next;
@@ -484,8 +494,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__wbu__DOT__next;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_xbar__DOT__state;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_xbar__DOT__next;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_xbar__DOT__sel_clint;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_clint__DOT__state;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__u_clint__DOT__next;
@@ -542,6 +550,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__lsr_mask_condition;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__iir_read;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__msr_read;
+    };
+    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__fifo_read;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__fifo_write;
         CData/*3:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__delayed_modem_signals;
@@ -550,8 +560,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__lsr2_d;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__lsr3_d;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__lsr4_d;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__lsr5_d;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__lsr6_d;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__lsr7_d;
@@ -608,6 +616,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lvga__DOT__mvga__DOT____VdfgTmp_h7a406c34__0;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__xip_sel;
         CData/*4:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__spi_adr;
+    };
+    struct {
         CData/*3:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__spi_sel;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__spi_we;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__spi_stb;
@@ -616,8 +626,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*3:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__state;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__xip_ready;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__poll_go_seen;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__wr_err_seen;
         CData/*4:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__xip_adr;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__xip_we;
@@ -674,6 +682,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__r_sel1;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__w_sel1;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT___GEN;
+    };
+    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__r_full;
         CData/*3:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__r_id;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__ren;
@@ -682,8 +692,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*7:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__rdata_r1;
         CData/*7:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__rdata_r2;
         CData/*7:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__rdata_r3;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT____Vcellinp__mem_ext__W0_en;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__mem_ext__DOT___R0_en_d0;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lsdram_axi__DOT__msdram__DOT__u_sdram_axi__DOT__ram_accept_w;
@@ -740,6 +748,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*3:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi42apb__DOT__bid_reg;
         CData/*3:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi42apb__DOT__wstrb_reg_r;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi42apb__DOT__resp_hold_r;
+    };
+    struct {
         CData/*7:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi42apb__DOT__unnamedblk1__DOT___GEN;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi42apb__DOT____VdfgTmp_h78415cc4__0;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4buf__DOT__nodeOut_awdeq_q__DOT__wrap;
@@ -748,8 +758,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4buf__DOT__nodeOut_awdeq_q__DOT__ptr_match;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4buf__DOT__nodeOut_awdeq_q__DOT__empty;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4buf__DOT__nodeOut_awdeq_q__DOT__do_enq;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4buf__DOT__nodeOut_awdeq_q__DOT__unnamedblk1__DOT__do_deq;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4buf__DOT__nodeOut_wdeq_q__DOT__wrap;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4buf__DOT__nodeOut_wdeq_q__DOT__wrap_1;
@@ -806,6 +814,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_8__DOT__ram_real_last;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_9__DOT__full;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_9__DOT__ram_real_last;
+    };
+    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_10__DOT__full;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_10__DOT__ram_real_last;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_11__DOT__full;
@@ -814,8 +824,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_12__DOT__ram_real_last;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_13__DOT__full;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_13__DOT__ram_real_last;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_14__DOT__full;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_14__DOT__ram_real_last;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4yank__DOT__Queue1_BundleMap_15__DOT__full;
@@ -872,6 +880,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT___in_awready_T;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__wbeats_valid;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_0;
+    };
+    struct {
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_1;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_2;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_3;
@@ -880,8 +890,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_6;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_7;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_8;
-    };
-    struct {
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_9;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_10;
         CData/*1:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__error_11;
@@ -938,6 +946,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*7:0*/ difftest_top__DOT__soc__DOT__psram__DOT__ADDR_LAST;
         CData/*7:0*/ difftest_top__DOT__soc__DOT__psram__DOT__RD_FIRST;
         CData/*7:0*/ difftest_top__DOT__soc__DOT__psram__DOT__RD_LAST;
+    };
+    struct {
         CData/*7:0*/ difftest_top__DOT__soc__DOT__psram__DOT__WR_FIRST;
         CData/*7:0*/ difftest_top__DOT__soc__DOT__psram__DOT__WR_LAST;
         CData/*7:0*/ difftest_top__DOT__soc__DOT__psram__DOT__rd_off;
@@ -946,8 +956,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*3:0*/ difftest_top__DOT__soc__DOT__psram__DOT____Vlvbound_hbae54c47__0;
         CData/*0:0*/ difftest_top__DOT__soc__DOT__sdram__DOT____VdfgTmp_h41a511b9__0;
         CData/*2:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__u_chip0__DOT__state;
-    };
-    struct {
         CData/*2:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__u_chip0__DOT__next;
         CData/*2:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__u_chip0__DOT__cas_counter;
         CData/*3:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__u_chip0__DOT__burst_counter;
@@ -1004,6 +1012,8 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__bne;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__blt;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__bge;
+    };
+    struct {
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__bltu;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__bgeu;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__jal;
@@ -1012,8 +1022,6 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__auipc;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__ecall;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__mret;
-    };
-    struct {
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__csrrw;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__csrrs;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT__csrrc;
@@ -1021,6 +1029,7 @@ class Vtop___024root final : public VerilatedModule {
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT____VdfgTmp_haf3ac130__0;
         CData/*0:0*/ difftest_top__DOT__u_ref__DOT____VdfgTmp_heb8827dd__0;
         CData/*2:0*/ __VdfgTmp_h8a1b6d6b__0;
+        CData/*0:0*/ __Vfunc_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__is_executable__1__Vfuncout;
         CData/*1:0*/ __Vtableidx1;
         CData/*7:0*/ __Vtableidx2;
         CData/*7:0*/ __Vtableidx5;
@@ -1048,6 +1057,7 @@ class Vtop___024root final : public VerilatedModule {
         CData/*2:0*/ __Vdly__difftest_top__DOT__soc__DOT__flash__DOT__state;
         CData/*7:0*/ __Vdly__difftest_top__DOT__soc__DOT__flash__DOT__counter;
         CData/*7:0*/ __Vdly__difftest_top__DOT__soc__DOT__flash__DOT__cmd;
+        CData/*0:0*/ __Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_valid;
         CData/*0:0*/ __Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT___axi4delay_delayer_in_bvalid;
         CData/*0:0*/ __Vtrigrprev__TOP__difftest_top__DOT__soc__DOT__asic__DOT___axi4delay_delayer_in_rvalid;
         CData/*0:0*/ __VstlDidInit;
@@ -1068,6 +1078,8 @@ class Vtop___024root final : public VerilatedModule {
         SData/*9:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__counter_t;
         SData/*10:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__receiver__DOT__rf_data_in;
         SData/*9:0*/ difftest_top__DOT__soc__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__receiver__DOT__toc_value;
+    };
+    struct {
         SData/*15:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lgpio__DOT__mgpio__DOT__gpio_out_r;
         SData/*15:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__u0_spi_top__DOT__divider;
         SData/*13:0*/ difftest_top__DOT__soc__DOT__asic__DOT__lspi__DOT__mspi__DOT__u0_spi_top__DOT__ctrl;
@@ -1078,8 +1090,6 @@ class Vtop___024root final : public VerilatedModule {
         SData/*8:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__w_todo;
         SData/*15:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4frag__DOT__unnamedblk1__DOT__unnamedblk2__DOT___GEN_2;
         SData/*12:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__u_chip0__DOT__Mode_Reg;
-    };
-    struct {
         SData/*15:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__u_chip0__DOT__dq_out;
         SData/*8:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__u_chip0__DOT__cur_a;
         SData/*12:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__u_chip1__DOT__Mode_Reg;
@@ -1111,6 +1121,7 @@ class Vtop___024root final : public VerilatedModule {
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr_icache;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__b_pc;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__b_target;
+        IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu_exception_pc;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__pc_flush;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__pc;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__instr;
@@ -1133,6 +1144,8 @@ class Vtop___024root final : public VerilatedModule {
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__mcause;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__mtvec;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__mcycle;
+    };
+    struct {
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__mcycleh;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__mvendorid;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__marchid;
@@ -1144,8 +1157,6 @@ class Vtop___024root final : public VerilatedModule {
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__rdata1_ul;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__new_pc;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__pc_next_dft;
-    };
-    struct {
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__add_rst_w_save;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__lsu_data_save;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__lsu_addr_save;
@@ -1199,6 +1210,8 @@ class Vtop___024root final : public VerilatedModule {
         IData/*23:0*/ difftest_top__DOT__soc__DOT__psram__DOT__addr;
         IData/*21:0*/ difftest_top__DOT__soc__DOT__psram__DOT__rd_idx;
         IData/*21:0*/ difftest_top__DOT__soc__DOT__psram__DOT__wr_idx;
+    };
+    struct {
         IData/*31:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__dq__en0;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__dq__en1;
         IData/*31:0*/ difftest_top__DOT__soc__DOT__sdram__DOT__u_pair0__DOT__dq__out__strong__out2;
@@ -1210,8 +1223,6 @@ class Vtop___024root final : public VerilatedModule {
         IData/*31:0*/ difftest_top__DOT__u_ref__DOT__last_pc;
         IData/*31:0*/ difftest_top__DOT__u_ref__DOT__mstatus;
         IData/*31:0*/ difftest_top__DOT__u_ref__DOT__mepc;
-    };
-    struct {
         IData/*31:0*/ difftest_top__DOT__u_ref__DOT__mcause;
         IData/*31:0*/ difftest_top__DOT__u_ref__DOT__mtvec;
         IData/*31:0*/ difftest_top__DOT__u_ref__DOT__mcycle;
@@ -1233,9 +1244,10 @@ class Vtop___024root final : public VerilatedModule {
         IData/*31:0*/ difftest_top__DOT__u_ref__DOT__lh_rst;
         IData/*31:0*/ difftest_top__DOT__u_ref__DOT____VdfgExtracted_h8125cb41__0;
         IData/*31:0*/ __VdfgTmp_h2168da81__0;
-        IData/*31:0*/ __Vtask_difftest_top__DOT__soc__DOT__asic__DOT__lmrom__DOT__mrom__DOT__mrom_read__9__rdata;
-        IData/*31:0*/ __Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__22__Vfuncout;
-        IData/*31:0*/ __Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__26__Vfuncout;
+        IData/*31:0*/ __Vfunc_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ifu__DOT__is_executable__1__addr;
+        IData/*31:0*/ __Vtask_difftest_top__DOT__soc__DOT__asic__DOT__lmrom__DOT__mrom__DOT__mrom_read__10__rdata;
+        IData/*31:0*/ __Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__23__Vfuncout;
+        IData/*31:0*/ __Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__27__Vfuncout;
         IData/*31:0*/ __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__lsu_addr_save;
         IData/*16:0*/ __Vdly__difftest_top__DOT__soc__DOT__asic__DOT__lsdram_axi__DOT__msdram__DOT__u_sdram_axi__DOT__u_core__DOT__refresh_timer_q;
         IData/*23:0*/ __Vdly__difftest_top__DOT__soc__DOT__flash__DOT__addr;
@@ -1264,6 +1276,8 @@ class Vtop___024root final : public VerilatedModule {
         QData/*32:0*/ difftest_top__DOT__soc__DOT__asic__DOT__axi4delay_delayer__DOT__write_counter;
         VlUnpacked<CData/*1:0*/, 2> difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar__DOT__awIn_0__DOT__ram_ext__DOT__Memory;
         VlUnpacked<CData/*2:0*/, 2> difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar_1__DOT__awIn_0__DOT__ram_ext__DOT__Memory;
+    };
+    struct {
         VlUnpacked<VlWide<4>/*127:0*/, 8> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__icache;
         VlUnpacked<IData/*24:0*/, 8> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__tag;
         VlUnpacked<CData/*0:0*/, 8> difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__valid;
@@ -1276,8 +1290,6 @@ class Vtop___024root final : public VerilatedModule {
         VlUnpacked<IData/*31:0*/, 524288> difftest_top__DOT__soc__DOT__asic__DOT__lvga__DOT__mvga__DOT__fb;
         VlUnpacked<CData/*7:0*/, 4> difftest_top__DOT__soc__DOT__asic__DOT__lpsram__DOT__mpsram__DOT__u0__DOT__MR__DOT__data;
         VlUnpacked<IData/*31:0*/, 2048> difftest_top__DOT__soc__DOT__asic__DOT__axi4ram__DOT__mem_ext__DOT__Memory;
-    };
-    struct {
         VlUnpacked<CData/*5:0*/, 4> difftest_top__DOT__soc__DOT__asic__DOT__lsdram_axi__DOT__msdram__DOT__u_sdram_axi__DOT__u_axi__DOT__u_requests__DOT__ram;
         VlUnpacked<IData/*31:0*/, 4> difftest_top__DOT__soc__DOT__asic__DOT__lsdram_axi__DOT__msdram__DOT__u_sdram_axi__DOT__u_axi__DOT__u_response__DOT__ram;
         VlUnpacked<SData/*13:0*/, 4> difftest_top__DOT__soc__DOT__asic__DOT__lsdram_axi__DOT__msdram__DOT__u_sdram_axi__DOT__u_core__DOT__active_row_q;
@@ -1299,10 +1311,10 @@ class Vtop___024root final : public VerilatedModule {
         VlUnpacked<SData/*12:0*/, 4> difftest_top__DOT__soc__DOT__sdram__DOT__u_pair1__DOT__u_chip1__DOT__active_row;
         VlUnpacked<IData/*31:0*/, 16> difftest_top__DOT__u_ref__DOT__GPR__DOT__gpr;
     };
-    VlTriggerVec<3> __VstlTriggered;
+    VlTriggerVec<4> __VstlTriggered;
     VlTriggerVec<1> __VicoTriggered;
-    VlTriggerVec<10> __VactTriggered;
-    VlTriggerVec<10> __VnbaTriggered;
+    VlTriggerVec<11> __VactTriggered;
+    VlTriggerVec<11> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

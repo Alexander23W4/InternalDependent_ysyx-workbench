@@ -67,7 +67,9 @@ module ysyx_26040135_AXI_IFU (
     output reg [31:0] ifu_exception_pc,
 
     output reg idu_instr_valid,   // 这个信号指这里给idu的instr是有效的
-    input idu_exception_2
+    input idu_exception_2,
+
+    input lsu_exception   // 这里4合1, ifu对他们的处理方式是一样的 
     
 );
 
@@ -109,6 +111,7 @@ module ysyx_26040135_AXI_IFU (
     reg [31:0] pc_flush_save;
     reg fence_i_flush_save;
     reg _btb_hit;
+    reg lsu_exception_save;
 
 
     reg instr_addr_misaligned;
@@ -162,6 +165,8 @@ module ysyx_26040135_AXI_IFU (
 
             idu_instr_valid <= 1'b0;
 
+            lsu_exception_save <= 1'b0;
+
         end else begin
 
             state <= next;             
@@ -208,45 +213,62 @@ module ysyx_26040135_AXI_IFU (
                 if(fence_i_flush) begin
                     fence_i_flush_save <= 1'b1;
                 end
+                if(lsu_exception) begin
+                    lsu_exception_save <= 1'b1;
+                end
                 out_pc <= pc;   // 在这里就把out_pc存下来, 这样无论是否被flush, 是否真的fetch, out_pc都存的是上一次fetch的pc 
-            end 
+            end
 
 
-            if(state == IDLE && out_valid && (flush | fence_i_flush | out_ready)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
+            if(state == IDLE && out_valid && (flush | fence_i_flush | out_ready | idu_exception_2 | lsu_exception)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
                 out_valid <= 1'b0;
             end
 
 
             if(state == IDLE) begin  // 如果都到IDLE了, 不可能还存有flush_save, 直接监视flush即可
                 if(flush) begin
-                    pc <= pc_flush;
                     instr_addr_misaligned <= 1'b0;    // 这里同样, 碰到flush就清掉exception handle信号
                     instr_access_fault <= 1'b0;
                 end 
                 if(idu_exception_2) begin
-                    out_valid <= 1'b0;
-                    pc <= mtvec;
                     idu_instr_valid <= 1'b0;
                 end
+
+                if(lsu_exception | idu_exception_2) begin
+                    pc <= mtvec;
+                end
+                else if(flush) begin
+                    pc <= pc_flush;
+                end
+
             end
 
             if(instr_valid) begin   // 下个周期就是IDLE, 可以握手, 在这里判断是否冲刷, 给不给握手. 如果要冲刷, 则不给握手, 废掉这次fetch
-               if(flush_save) begin
-                    pc <= pc_flush_save;
+
+                // 要flush的, 在这里先把该清的flag都清理掉
+                if(flush_save | flush) begin
                     flush_save <= 1'b0;
                     // 如果这条指令被flush了, 那么对于他的exception handle要取消掉, 后续一直到out_ready的时候检测exception, 都不会再收到新的excpetion
                     instr_addr_misaligned <= 1'b0;  
                     instr_access_fault <= 1'b0;
-               end
-               else if(flush) begin
-                    pc <= pc_flush;
-                    instr_addr_misaligned <= 1'b0;
-                    instr_access_fault <= 1'b0;
-               end 
-               else if(fence_i_flush_save | fence_i_flush) begin   // 不更新pc, 也不给握手, 冲刷掉这次fetch, 同时发信号给icache冲刷, 下次再读同一个pc一次
+                end
+                if(fence_i_flush_save | fence_i_flush) begin   // 不更新pc, 也不给握手, 冲刷掉这次fetch, 同时发信号给icache冲刷, 下次再读同一个pc一次
                     fence_i_flush_save <= 1'b0;
-               end
-               else begin  // 如果没有这条没有被flush, 则正常更新pc, 分为default(+4) 和 触发b-type的分支预测
+                end
+                if(lsu_exception | lsu_exception_save) begin
+                    lsu_exception_save <= 1'b0;
+                end
+
+                // 这里按照优先级置pc, exception优先.  (按理来说应该越深的指令优先级越高)
+                if(lsu_exception | lsu_exception_save) begin
+                    pc <= mtvec;
+                end
+                else if(flush_save) begin
+                    pc <= pc_flush_save;
+                end
+                else if(flush) begin
+                    pc <= pc_flush;
+                end else begin  // 如果没有这条没有被flush, 则正常更新pc, 分为default(+4) 和 触发b-type的分支预测
                     out_valid <= 1'b1;    // 没有被冲刷, 这次fetch有效, 给握手
                     if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT
                         pc <= btb_target[pc[2]];   
@@ -262,7 +284,7 @@ module ysyx_26040135_AXI_IFU (
 
                     out_instr <= instr;  
                     idu_instr_valid <= 1'b1;  // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
-               end
+                end
             end
 
         end

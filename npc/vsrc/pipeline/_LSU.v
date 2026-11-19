@@ -139,13 +139,13 @@ module ysyx_26040135_AXI_LSU (
                 if(bus.rresp == 2'b00) begin
                     rdata_out <= bus.rdata;
                     out_valid <= 1'b1;
+                end else begin
+                    in_ready <= 1'b1;
                 end
             end
             
             if (state == B && bus.bvalid) begin
-                if(bus.bresp == 2'b00) begin
-                    in_ready <= 1'b1;
-                end
+                in_ready <= 1'b1;
             end
 
             if(state != IDLE) begin

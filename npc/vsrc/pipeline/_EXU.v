@@ -106,7 +106,9 @@ module ysyx_26040135_EXU (
     input lsu_exception_6,
 
     input lsu_exception_5,
-    input lsu_exception_7    
+    input lsu_exception_7,
+
+    input [31:0] lsu_exception_pc   // 这里连接lsu的pc_out  
 
 );
     reg  _possible_branch_instr;
@@ -217,6 +219,20 @@ module ysyx_26040135_EXU (
             if(lsu_exception_6) begin
                 mepc <= pc_save;
                 mcause <= 32'h6;
+            end
+
+            if(lsu_exception_5) begin
+                out_valid <= 1'b0;
+                in_ready <= 1'b1;
+                mepc <= lsu_exception_pc;
+                mcause <= 32'h5;
+            end
+
+            if(lsu_exception_7) begin
+                out_valid <= 1'b0;
+                in_ready <= 1'b1;
+                mepc <= lsu_exception_pc;
+                mcause <= 32'h7;
             end
 
             if(in_ready) begin

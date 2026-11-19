@@ -282,7 +282,7 @@ module ysyx_26040135_AXI_IFU (
                         instr_access_fault <= 1'b1;
                     end
 
-                    out_pc    <= pc;   
+                    out_pc    <= pc;    // ⭐ 取指完成这拍也要存: icache 命中时第一拍就 instr_valid, 上面 !instr_valid 那个分支不会执行
                     out_instr <= instr;  
                     idu_instr_valid <= 1'b1;  // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
                 end
@@ -309,7 +309,7 @@ module ysyx_26040135_AXI_IFU (
             
         case(state)
             IDLE: begin  // IFU 的 IDLE的作用就是等ready握手
-                if((out_ready && !cbi) || (flush && cbi)) begin   
+                if((out_ready && !cbi) || (flush && cbi)) begin     // 这里因为cbi必然会被flush, 所以先把cbi卡在这里, 直到收到flush, 才
                     next = FETCH;
                 end
 

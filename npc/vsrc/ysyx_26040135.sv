@@ -339,7 +339,9 @@ module ysyx_26040135(
     wire [31:0] instr;
     wire valid_fd;
     wire ready_rd;
-    wire compulsory_branch_instrs = jalr | jal | ecall | mret;
+    // ⭐ 必须用 valid_fd 门控: out_instr 在指令被消费后不会清零(还是那条 jal),
+    //    否则 cbi 会一直为 1, IFU 在 IDLE 里等一个永远不会再来的 flush -> 死锁
+    wire compulsory_branch_instrs = valid_fd & (jalr | jal | ecall | mret);
 
     ysyx_26040135_IDU idu (
         .in_pc(pc), .in_instr(instr), .in_valid(valid_fd), .in_ready(ready_rd),

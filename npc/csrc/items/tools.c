@@ -115,9 +115,6 @@ void error_handler(){
     if(ifu_error){
         printf("%s", ANSI_FMT("IFU_error\n", ANSI_FG_RED));
     }
-    else if(lsu_error){
-        printf("%s", ANSI_FMT("LSU_error\n", ANSI_FG_RED));
-    }
     else if(master_validation_error){
         printf("%s", ANSI_FMT("IFU visit unexpected addr\n", ANSI_FG_RED));
     }

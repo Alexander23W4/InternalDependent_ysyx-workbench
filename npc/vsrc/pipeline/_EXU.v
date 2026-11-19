@@ -308,7 +308,7 @@ module ysyx_26040135_EXU (
                     exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
                 end
 
-                if(out_valid && !out_ready) beginout_valid begin
+                if(out_valid && !out_ready) begin
                     exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
                 end
 

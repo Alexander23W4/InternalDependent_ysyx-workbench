@@ -57,13 +57,11 @@ void Vtop::debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* 
     for (size_t instr__Vidx = 0; instr__Vidx < 1; ++instr__Vidx) *instr = instr__Vcvt;
 }
 
-void Vtop::check_error(int* ifu_error, int* lsu_error, int* master_validation_error) {
+void Vtop::check_error(int* ifu_error, int* master_validation_error) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_error\n"); );
     // Init
     IData/*31:0*/ ifu_error__Vcvt;
     ifu_error__Vcvt = 0;
-    IData/*31:0*/ lsu_error__Vcvt;
-    lsu_error__Vcvt = 0;
     IData/*31:0*/ master_validation_error__Vcvt;
     master_validation_error__Vcvt = 0;
     // Body
@@ -71,9 +69,8 @@ void Vtop::check_error(int* ifu_error, int* lsu_error, int* master_validation_er
     if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_error");
     const VerilatedScope* __Vscopep = Verilated::dpiScope();
     Vtop__Vcb_check_error_t __Vcb = (Vtop__Vcb_check_error_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
-    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), ifu_error__Vcvt, lsu_error__Vcvt, master_validation_error__Vcvt);
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), ifu_error__Vcvt, master_validation_error__Vcvt);
     for (size_t ifu_error__Vidx = 0; ifu_error__Vidx < 1; ++ifu_error__Vidx) *ifu_error = ifu_error__Vcvt;
-    for (size_t lsu_error__Vidx = 0; lsu_error__Vidx < 1; ++lsu_error__Vidx) *lsu_error = lsu_error__Vcvt;
     for (size_t master_validation_error__Vidx = 0; master_validation_error__Vidx < 1; ++master_validation_error__Vidx) *master_validation_error = master_validation_error__Vcvt;
 }
 

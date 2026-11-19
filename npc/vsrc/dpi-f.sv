@@ -40,11 +40,9 @@ endfunction
 export "DPI-C" function check_error;
 function void check_error(
     output int ifu_error,
-    output int lsu_error,
     output int master_validation_error
 );
     ifu_error = {30'b0, __ifu_error};
-    lsu_error = {30'b0, __lsu_error};
     master_validation_error = {31'b0, __ifu_master_validation_error};
 
 endfunction

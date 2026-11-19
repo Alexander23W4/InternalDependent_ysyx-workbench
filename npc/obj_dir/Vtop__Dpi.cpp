@@ -16,16 +16,16 @@
 
 #ifndef VL_DPIDECL_check_error_
 #define VL_DPIDECL_check_error_
-void check_error(int* ifu_error, int* lsu_error, int* master_validation_error) {
+void check_error(int* ifu_error, int* master_validation_error) {
     // DPI export at vsrc/dpi-f.sv:41:15
-    return Vtop::check_error(ifu_error, lsu_error, master_validation_error);
+    return Vtop::check_error(ifu_error, master_validation_error);
 }
 #endif
 
 #ifndef VL_DPIDECL_check_flush_
 #define VL_DPIDECL_check_flush_
 void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit) {
-    // DPI export at vsrc/dpi-f.sv:100:6
+    // DPI export at vsrc/dpi-f.sv:98:6
     return Vtop::check_flush(flush, fetch_done, flush_ifu_blk, flush_ifu_blk_flg, possible_branch_instr, compulsory_branch, optimisible_branch, btb_hit);
 }
 #endif
@@ -41,7 +41,7 @@ void check_halt(int* endprog) {
 #ifndef VL_DPIDECL_check_new_instr_
 #define VL_DPIDECL_check_new_instr_
 void check_new_instr(int* new_instr) {
-    // DPI export at vsrc/dpi-f.sv:55:6
+    // DPI export at vsrc/dpi-f.sv:53:6
     return Vtop::check_new_instr(new_instr);
 }
 #endif
@@ -49,7 +49,7 @@ void check_new_instr(int* new_instr) {
 #ifndef VL_DPIDECL_check_pipeline_bottleneck_
 #define VL_DPIDECL_check_pipeline_bottleneck_
 void check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready) {
-    // DPI export at vsrc/dpi-f.sv:81:6
+    // DPI export at vsrc/dpi-f.sv:79:6
     return Vtop::check_pipeline_bottleneck(ifu_out_valid, exu_in_ready, exu_out_valid, lsu_in_ready, lsu_out_valid, wbu_in_ready);
 }
 #endif
@@ -57,7 +57,7 @@ void check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_o
 #ifndef VL_DPIDECL_check_wen_
 #define VL_DPIDECL_check_wen_
 void check_wen(int* wen) {
-    // DPI export at vsrc/dpi-f.sv:62:6
+    // DPI export at vsrc/dpi-f.sv:60:6
     return Vtop::check_wen(wen);
 }
 #endif
@@ -73,7 +73,7 @@ void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause
 #ifndef VL_DPIDECL_difftest_read_gpr_
 #define VL_DPIDECL_difftest_read_gpr_
 void difftest_read_gpr(int* gprs, int* pc) {
-    // DPI export at vsrc/dpi-f.sv:70:6
+    // DPI export at vsrc/dpi-f.sv:68:6
     return Vtop::difftest_read_gpr(gprs, pc);
 }
 #endif

@@ -233,7 +233,6 @@ module ysyx_26040135(
 
     wire [1:0]  __ifu_error;     
     wire        __ifu_master_validation_error;    
-    wire [1:0]  __lsu_error;   
 
     wire __ebreak_end;
     wire _wen;   // 用于确定difftest时机
@@ -501,7 +500,6 @@ ysyx_26040135_EXU exu (
         .out_valid(valid_lw),
         .out_ready(ready_lw),
 
-        .__error(__lsu_error),
         .wdata(wdata_lw),
         .rd_out(rd_lsu),
         .lsu_bypass_data_valid(lsu_bypass_data_valid),
@@ -515,7 +513,7 @@ ysyx_26040135_EXU exu (
         .lsu_exception_4(lsu_exception_4),
         .lsu_exception_6(lsu_exception_6),
         .lsu_exception_5(lsu_exception_5),
-        .lsu_exception_7(lsu_exception_7),
+        .lsu_exception_7(lsu_exception_7)
     );
 
     wire valid_lw, ready_lw;

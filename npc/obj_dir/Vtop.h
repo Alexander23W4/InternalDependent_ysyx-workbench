@@ -82,7 +82,7 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     const char* name() const;
 
     /// DPI Export functions
-    static void check_error(int* ifu_error, int* lsu_error, int* master_validation_error);
+    static void check_error(int* ifu_error, int* master_validation_error);
     static void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit);
     static void check_halt(int* endprog);
     static void check_new_instr(int* new_instr);

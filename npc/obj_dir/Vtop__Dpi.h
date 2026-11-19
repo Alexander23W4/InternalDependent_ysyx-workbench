@@ -17,20 +17,20 @@ extern "C" {
 
     // DPI EXPORTS
     // DPI export at vsrc/dpi-f.sv:41:15
-    extern void check_error(int* ifu_error, int* lsu_error, int* master_validation_error);
-    // DPI export at vsrc/dpi-f.sv:100:6
+    extern void check_error(int* ifu_error, int* master_validation_error);
+    // DPI export at vsrc/dpi-f.sv:98:6
     extern void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit);
     // DPI export at vsrc/dpi-f.sv:7:6
     extern void check_halt(int* endprog);
-    // DPI export at vsrc/dpi-f.sv:55:6
+    // DPI export at vsrc/dpi-f.sv:53:6
     extern void check_new_instr(int* new_instr);
-    // DPI export at vsrc/dpi-f.sv:81:6
+    // DPI export at vsrc/dpi-f.sv:79:6
     extern void check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready);
-    // DPI export at vsrc/dpi-f.sv:62:6
+    // DPI export at vsrc/dpi-f.sv:60:6
     extern void check_wen(int* wen);
     // DPI export at vsrc/dpi-f.sv:15:15
     extern void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr);
-    // DPI export at vsrc/dpi-f.sv:70:6
+    // DPI export at vsrc/dpi-f.sv:68:6
     extern void difftest_read_gpr(int* gprs, int* pc);
 
     // DPI IMPORTS

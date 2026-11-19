@@ -7,7 +7,7 @@
 #include "Vtop___024unit.h"
 #include "Vtop_ysyx_26040135_AXI4.h"
 
-void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_error_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_error, IData/*31:0*/ &lsu_error, IData/*31:0*/ &master_validation_error);
+void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_error_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &ifu_error, IData/*31:0*/ &master_validation_error);
 void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_flush_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &flush, IData/*31:0*/ &fetch_done, IData/*31:0*/ &flush_ifu_blk, IData/*31:0*/ &flush_ifu_blk_flg, IData/*31:0*/ &possible_branch_instr, IData/*31:0*/ &compulsory_branch, IData/*31:0*/ &optimisible_branch, IData/*31:0*/ &btb_hit);
 void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_halt_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &endprog);
 void Vtop___024root____Vdpiexp_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__check_new_instr_TOP(Vtop__Syms* __restrict vlSymsp, IData/*31:0*/ &new_instr);

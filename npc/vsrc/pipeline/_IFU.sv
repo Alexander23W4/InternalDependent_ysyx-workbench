@@ -163,16 +163,14 @@ module ysyx_26040135_AXI_IFU (
 
             if(state == IDLE) begin
                 if(out_ready) begin
-                    // 到这个状态, 说明这次fetch的这个instr有效, 则如果这次fetch周期出现exception, 统一在这个状态触发
-                    // 然后如果有exception, 发信号给exu, invalid这次握手, 重置pc到mtvec, 改mret和mcause
+                    // 到这个状态, 说明这次fetch的这个instr有效(没有被flush), 则如果这次fetch周期出现exception, 统一在这个状态触发
+                    // 然后如果有exception, 发信号给exu, invalid这次握手, 重置pc到mtvec, 改mepc和mcause
                     if(instr_addr_misaligned) begin
                         instr_addr_misaligned <= 1'b0;
-                        // deal
                         pc <= mtvec;
                     end
                     else if(instr_access_fault) begin
                         instr_access_fault <= 1'b0;
-                        // deal
                         pc <= mtvec;
                     end else begin    // 上一次fetch没有exception
                         if(!is_executable(pc)) begin   // out_ready 的时候, 才是新fetch周期的pc, 因为有flush的存在
@@ -192,9 +190,6 @@ module ysyx_26040135_AXI_IFU (
             if(state == FETCH) begin
                 if(pc[1:0] != 2'b00) begin
                     instr_addr_misaligned <= 1'b1;
-                end
-                if(fetch_error != 2'b00) begin
-                    instr_access_fault <= 1'b1;
                 end
             end
 
@@ -219,6 +214,8 @@ module ysyx_26040135_AXI_IFU (
             if(state == IDLE) begin  // 如果都到IDLE了, 不可能还存有flush_save, 直接监视flush即可
                 if(flush) begin
                     pc <= pc_flush;
+                    instr_addr_misaligned <= 1'b0;    // 这里同样, 碰到flush就清掉exception handle信号
+                    instr_access_fault <= 1'b0;
                 end 
             end
 
@@ -226,9 +223,14 @@ module ysyx_26040135_AXI_IFU (
                if(flush_save) begin
                     pc <= pc_flush_save;
                     flush_save <= 1'b0;
+                    // 如果这条指令被flush了, 那么对于他的exception handle要取消掉, 后续一直到out_ready的时候检测exception, 都不会再收到新的excpetion
+                    instr_addr_misaligned <= 1'b0;  
+                    instr_access_fault <= 1'b0;
                end
                else if(flush) begin
                     pc <= pc_flush;
+                    instr_addr_misaligned <= 1'b0;
+                    instr_access_fault <= 1'b0;
                end 
                else if(fence_i_flush_save | fence_i_flush) begin   // 不更新pc, 也不给握手, 冲刷掉这次fetch, 同时发信号给icache冲刷, 下次再读同一个pc一次
                     fence_i_flush_save <= 1'b0;
@@ -243,7 +245,11 @@ module ysyx_26040135_AXI_IFU (
                         taken <= 1'b0;
                     end
 
-                    out_pc <= pc;
+                    if(fetch_error != 2'b00) begin
+                        instr_access_fault <= 1'b1;
+                    end
+
+                    out_pc <= pc;   // 这里out_pc是旧值
                     out_instr <= instr;
                end
             end
@@ -276,11 +282,11 @@ module ysyx_26040135_AXI_IFU (
                 if(out_ready) begin
                     if(instr_addr_misaligned) begin
                         ifu_exception_0 = 1'b1;
-                        ifu_exception_pc = pc;
+                        ifu_exception_pc = out_pc;  // out_pc取的是这次fetch的pc, 是旧值, 在这里使用
                     end
                     else if(instr_access_fault) begin
                         ifu_exception_1 = 1'b1;
-                        ifu_exception_pc = pc;
+                        ifu_exception_pc = out_pc;
                     end
                 end
             end

@@ -64,7 +64,9 @@ module ysyx_26040135_AXI_IFU (
 
     output reg ifu_exception_0,
     output reg ifu_exception_1,
-    output reg [31:0] ifu_exception_pc
+    output reg [31:0] ifu_exception_pc,
+
+    output reg idu_instr_valid   // 这个信号指这里给idu的instr是有效的
     
 );
 
@@ -156,6 +158,8 @@ module ysyx_26040135_AXI_IFU (
 
             instr_addr_misaligned <= 1'b0;
             instr_access_fault <= 1'b0;
+
+            idu_instr_valid <= 1'b0;
 
         end else begin
 
@@ -250,7 +254,8 @@ module ysyx_26040135_AXI_IFU (
                         instr_access_fault <= 1'b1;
                     end
 
-                    out_instr <= instr;
+                    out_instr <= instr;  
+                    idu_instr_valid <= 1'b1;  // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
                end
             end
 

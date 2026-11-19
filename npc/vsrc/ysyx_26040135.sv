@@ -106,14 +106,14 @@ B5现阶段实际优化方案:
 
 当下实现这些:
 异常号	异常描述	最早产生的部件
-0	Instruction address misaligned	IFU
-1	Instruction access fault	IFU
+0	Instruction address misaligned	IFU    @
+1	Instruction access fault	IFU      @
 2	Illegal Instruction	IDU
 4	Load address misaligned	LSU
 5	Load access fault	LSU
 6	Store/AMO address misaligned	LSU
 7	Store/AMO access fault	LSU
-11	Environment call from M-mode	IDU
+11	Environment call from M-mode	IDU  @
 
 
 优化RTL的写法, verilog的省A & PW的方法

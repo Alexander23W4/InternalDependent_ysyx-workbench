@@ -14,10 +14,18 @@ module ysyx_26040135_IDU(
 
     output out_valid,
     input out_ready,
-    output reg [31:0] out_pc,
+    output reg [31:0] out_pc,   // 这个pc可以赋值mepc
 
     input taken,
     output taken_out,
+/*
+    因为ifu在IDLE的第一个周期更新instr,
+    这里的instr跟着变, 所以在这里检测到 2	Illegal Instruction	IDU, 及时让ifu更新pc到mtvec.
+
+    但是因为IDLE的第一个周期out_valid已经是1了, 这时ifu和exu可能握手, 这个看怎么处理, 或者让他握, 反正不管怎么样给exu发信息放弃(如果握了)
+*/
+    input idu_instr_valid,
+    output idu_exception_2,   // 这个信号同时驱动exu改mepc和mcause, 也驱动ifu改pc到mtvec, 把out_valid去掉
     
 
 // opcodes  
@@ -125,6 +133,8 @@ module ysyx_26040135_IDU(
         endcase
     end
 
+    reg decode_invalid;
+
     always @(*) begin
         out_pc = in_pc;
 
@@ -187,9 +197,16 @@ module ysyx_26040135_IDU(
 
         fence_i  = 1'b0;
 
+        decode_invalid = 1'b0;
+
 
         case(opcode)
-            7'b0001111: fence_i = 1'b1;   //     // imm[11:0] rs1 001 rd 0001111 FENCE.I
+            7'b0001111: begin    // imm[11:0] rs1 001 rd 0001111 FENCE.I
+                if(funct3 == 3'b001) begin
+                    fence_i = 1'b1; 
+                end
+            end  
+            
             // === Upper Immediate ===
             7'b0010111: auipc = 1'b1;
             7'b0110111: lui = 1'b1;
@@ -207,7 +224,7 @@ module ysyx_26040135_IDU(
                     3'b101: bge = 1'b1;
                     3'b110: bltu = 1'b1;
                     3'b111: bgeu = 1'b1;
-                    default: ;
+                    default: decode_invalid = 1'b1;
                 endcase
             end
 
@@ -219,7 +236,7 @@ module ysyx_26040135_IDU(
                     3'b010: lw = 1'b1;
                     3'b100: lbu = 1'b1;
                     3'b101: lhu = 1'b1;
-                    default: ;
+                    default: decode_invalid = 1'b1;
                 endcase
             end
 
@@ -229,7 +246,7 @@ module ysyx_26040135_IDU(
                     3'b000: sb = 1'b1;
                     3'b001: sh = 1'b1;
                     3'b010: sw = 1'b1;
-                    default: ;
+                    default: decode_invalid = 1'b1;
                 endcase
             end
 
@@ -242,12 +259,19 @@ module ysyx_26040135_IDU(
                     3'b100: xori = 1'b1;
                     3'b110: ori = 1'b1;
                     3'b111: andi = 1'b1;
-                    3'b001: slli = 1'b1;
+                    3'b001: begin
+                        if(|funct3 == 0) begin
+                            slli = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
+                    end 
                     3'b101: begin
                         if (funct7[5]) srai = 1'b1;
                         else           srli = 1'b1;
                     end
-                    default: ;
+
+                    default: decode_invalid = 1'b1;
                 endcase
             end
 
@@ -268,7 +292,7 @@ module ysyx_26040135_IDU(
                     end
                     3'b110: or_inst = 1'b1;
                     3'b111: and_inst = 1'b1;
-                    default: ;
+                    default: decode_invalid = 1'b1;
                 endcase
             end
 
@@ -282,7 +306,7 @@ module ysyx_26040135_IDU(
                 else if (funct3 == 3'b011) csrrc = 1'b1; 
             end
 
-            default: ;
+            default: decode_invalid = 1'b1;
         endcase
     end
 

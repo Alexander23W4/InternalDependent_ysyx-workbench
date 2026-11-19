@@ -206,7 +206,7 @@ module ysyx_26040135_IDU(
                     fence_i = 1'b1; 
                 end
             end  
-            
+
             // === Upper Immediate ===
             7'b0010111: auipc = 1'b1;
             7'b0110111: lui = 1'b1;
@@ -260,15 +260,21 @@ module ysyx_26040135_IDU(
                     3'b110: ori = 1'b1;
                     3'b111: andi = 1'b1;
                     3'b001: begin
-                        if(|funct3 == 0) begin
+                        if(|funct7 == 0) begin
                             slli = 1'b1;
                         end else begin
                             decode_invalid = 1'b1;
                         end
                     end 
                     3'b101: begin
-                        if (funct7[5]) srai = 1'b1;
-                        else           srli = 1'b1;
+                        if(|funct7 == 0) begin
+                            srli = 1'b1
+                        end
+                        if(funct7 == 7'b0100000) begin
+                            srai = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
                     end
 
                     default: decode_invalid = 1'b1;
@@ -279,31 +285,86 @@ module ysyx_26040135_IDU(
             7'b0110011: begin
                 case(funct3)
                     3'b000: begin
-                        if (funct7[5]) sub = 1'b1;
-                        else           add = 1'b1;
+                        if(|funct7 == 0) begin
+                            add = 1'b1
+                        end
+                        if(funct7 == 7'b0100000) begin
+                            sub = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
                     end
-                    3'b001: sll = 1'b1;
-                    3'b010: slt = 1'b1;
-                    3'b011: sltu = 1'b1;
-                    3'b100: xor_inst = 1'b1;
+                    3'b001: begin
+                        if(|funct7 == 0) begin
+                            sll = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
+                    end
+                    
+                    3'b010: begin
+                        if(|funct7 == 0) begin
+                            slt = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
+                    end
+                    3'b011: begin
+                        if(|funct7 == 0) begin
+                            sltu = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
+                    end
+                    3'b0010111: begin
+                        if(|funct7 == 0) begin
+                            xor_instr = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
+                    end
                     3'b101: begin
-                        if (funct7[5]) sra = 1'b1;
-                        else           srl = 1'b1;
+                        if(|funct7 == 0) begin
+                            srl = 1'b1
+                        end
+                        if(funct7 == 7'b0100000) begin
+                            sra = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
                     end
-                    3'b110: or_inst = 1'b1;
-                    3'b111: and_inst = 1'b1;
+
+                    3'b110: begin
+                        if(|funct7 == 0) begin
+                            or_instr = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
+                    end
+
+                    3'b111: begin
+                        if(|funct7 == 0) begin
+                            and_instr = 1'b1;
+                        end else begin
+                            decode_invalid = 1'b1;
+                        end
+                    end
+
                     default: decode_invalid = 1'b1;
                 endcase
             end
 
             // === System ===
             7'b1110011: begin
-                if (funct3 == 3'b000 && in_instr[20]) ebreak = 1'b1;
+                if (in_instr[31:7] == 25'b0000000000010000000000000) ebreak = 1'b1;
                 else if (in_instr[31:7] == 25'b0011000000100000000000000) mret = 1'b1;
-                else if (in_instr[31:7] == 0) ecall = 1'b1;
+                else if (|in_instr[31:7] == 0) ecall = 1'b1;
                 else if (funct3 == 3'b001) csrrw = 1'b1;
                 else if (funct3 == 3'b010) csrrs = 1'b1;
                 else if (funct3 == 3'b011) csrrc = 1'b1; 
+                else begin
+                    decode_invalid = 1'b1;
+                end
             end
 
             default: decode_invalid = 1'b1;

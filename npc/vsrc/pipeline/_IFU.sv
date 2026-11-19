@@ -173,7 +173,7 @@ module ysyx_26040135_AXI_IFU (
                         instr_access_fault <= 1'b0;
                         pc <= mtvec;
                     end
-                    
+
                 end else begin
                     ifu_block_cyc <= ifu_block_cyc + 64'b1; // 握手的周期是不算在里面的, 只算等待后级的周期
                 end
@@ -203,6 +203,7 @@ module ysyx_26040135_AXI_IFU (
                 if(fence_i_flush) begin
                     fence_i_flush_save <= 1'b1;
                 end
+                out_pc <= pc;   // 在这里就把out_pc存下来, 这样无论是否被flush, 是否真的fetch, out_pc都存的是上一次fetch的pc 
             end 
 
 
@@ -249,7 +250,6 @@ module ysyx_26040135_AXI_IFU (
                         instr_access_fault <= 1'b1;
                     end
 
-                    out_pc <= pc;   // 这里out_pc是旧值
                     out_instr <= instr;
                end
             end
@@ -299,7 +299,7 @@ module ysyx_26040135_AXI_IFU (
                         next = IDLE;
                     end
                 end else begin
-                    next = IDLE;
+                    next = IDLE;   // pc不符合要求, 不fetch, 一边设置exception, 一边下个周期直接跳回IDLE   (如果在这个周期收到flush怎么办, 有可能吗)
                 end
             end
 

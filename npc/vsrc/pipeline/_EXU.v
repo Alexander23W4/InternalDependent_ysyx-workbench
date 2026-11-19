@@ -98,7 +98,9 @@ module ysyx_26040135_EXU (
 
     input [31:0] ifu_exception_pc,
     input ifu_exception_0,
-    input ifu_exception_1
+    input ifu_exception_1,
+
+    input idu_exception_2
 
 );
     reg  _possible_branch_instr;
@@ -196,15 +198,20 @@ module ysyx_26040135_EXU (
             state <= next;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
+            if(idu_exception_2) begin
+                mepc <= pc;
+                mcause <= 32'h2
+            end
+
             if(in_ready) begin
 
                 if(ifu_exception_0) begin   // 默认优先处理exception0
                     mepc <= ifu_exception_pc;
-                    mcause <= 32'b0;
+                    mcause <= 32'h0;
                 end 
                 else if(ifu_exception_1) begin
                     mepc <= ifu_exception_pc;
-                    mcause <= 32'b1;
+                    mcause <= 32'h1;
                 end
 
                 if(in_valid) begin

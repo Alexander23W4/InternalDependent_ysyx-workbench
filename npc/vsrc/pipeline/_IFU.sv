@@ -66,7 +66,8 @@ module ysyx_26040135_AXI_IFU (
     output reg ifu_exception_1,
     output reg [31:0] ifu_exception_pc,
 
-    output reg idu_instr_valid   // 这个信号指这里给idu的instr是有效的
+    output reg idu_instr_valid,   // 这个信号指这里给idu的instr是有效的
+    input idu_exception_2
     
 );
 
@@ -222,6 +223,11 @@ module ysyx_26040135_AXI_IFU (
                     instr_addr_misaligned <= 1'b0;    // 这里同样, 碰到flush就清掉exception handle信号
                     instr_access_fault <= 1'b0;
                 end 
+                if(idu_exception_2) begin
+                    out_valid <= 1'b0;
+                    pc <= mtvec;
+                    idu_instr_valid <= 1'b0;
+                end
             end
 
             if(instr_valid) begin   // 下个周期就是IDLE, 可以握手, 在这里判断是否冲刷, 给不给握手. 如果要冲刷, 则不给握手, 废掉这次fetch

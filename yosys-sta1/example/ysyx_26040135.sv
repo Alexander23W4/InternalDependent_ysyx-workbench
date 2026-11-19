@@ -148,7 +148,12 @@ module ysyx_26040135(
         .taken(taken),
 
         .fence_i_flush(fence_i_flush),
-        .icache_flush(icache_flush)
+        .icache_flush(icache_flush),
+
+        .mtvec(mtvec),
+        .ifu_exception_0(ifu_exception_0),
+        .ifu_exception_1(ifu_exception_1),
+        .ifu_exception_pc(ifu_exception_pc)
     ); 
 
     wire        flush;  
@@ -188,6 +193,9 @@ module ysyx_26040135(
     wire taken, taken_de, bt_valid;         
     wire [31:0] b_pc, b_target;
     wire fence_i_flush, icache_flush;                     
+    wire [31:0] mtvec;                        // EXU -> IFU: 异常入口
+    wire        ifu_exception_0, ifu_exception_1;
+    wire [31:0] ifu_exception_pc;
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
 
@@ -234,7 +242,12 @@ ysyx_26040135_EXU exu (
     .b_pc(b_pc),
     .b_target(b_target),
 
-    .fence_i_flush(fence_i_flush)
+    .fence_i_flush(fence_i_flush),
+
+    .mtvec_out(mtvec),
+    .ifu_exception_pc(ifu_exception_pc),
+    .ifu_exception_0(ifu_exception_0),
+    .ifu_exception_1(ifu_exception_1)
 );
     wire is_ls;
     wire lsu_bypass_data_valid;

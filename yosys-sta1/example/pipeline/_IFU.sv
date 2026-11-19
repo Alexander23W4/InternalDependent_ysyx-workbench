@@ -32,7 +32,13 @@ module ysyx_26040135_AXI_IFU (
     output reg taken,
 
     input fence_i_flush,
-    output reg icache_flush
+    output reg icache_flush,
+
+    input [31:0] mtvec,
+
+    output reg ifu_exception_0,
+    output reg ifu_exception_1,
+    output reg [31:0] ifu_exception_pc
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -74,6 +80,8 @@ module ysyx_26040135_AXI_IFU (
     reg master_validation_error_save;
     reg flush_save;
     reg fence_i_flush_save;
+    reg instr_addr_misaligned;
+    reg instr_access_fault;
     reg [31:0] pc_flush_save;
 
 
@@ -108,9 +116,37 @@ module ysyx_26040135_AXI_IFU (
             pc_flush_save <= 32'b0;
             fence_i_flush_save <= 1'b0;
 
+            instr_addr_misaligned <= 1'b0;
+            instr_access_fault <= 1'b0;
+
         end else begin
 
             state <= next;
+
+            if(state == IDLE) begin
+                if(out_ready) begin
+                    if(instr_addr_misaligned) begin
+                        instr_addr_misaligned <= 1'b0;
+                        pc <= mtvec;
+                    end
+                    else if(instr_access_fault) begin
+                        instr_access_fault <= 1'b0;
+                        pc <= mtvec;
+                    end
+                end
+            end
+
+            if(state == FETCH) begin
+                if(pc[1:0] != 2'b00) begin
+                    instr_addr_misaligned <= 1'b1;
+                end
+                if(!is_executable(pc)) begin
+                    master_validation_error_save <= 1'b1;
+                    instr_access_fault <= 1'b1;
+                end
+            end
+
+            // ------------------- flush 相关
 
             if(state == FETCH && !instr_valid) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
                 if(flush) begin
@@ -126,18 +162,12 @@ module ysyx_26040135_AXI_IFU (
                 out_valid <= 1'b0;
             end
 
-            if(state == IDLE) begin
-                if(out_ready) begin
-                    if(!is_executable(pc)) begin
-                        master_validation_error_save <= 1'b1;
-                    end    
-                end 
-            end
-
 
             if(state == IDLE) begin  // 如果都到IDLE了, 不可能还存有flush_save, 直接监视flush即可
                 if(flush) begin
                     pc <= pc_flush;
+                    instr_addr_misaligned <= 1'b0;
+                    instr_access_fault <= 1'b0;
                 end 
             end
 
@@ -145,9 +175,13 @@ module ysyx_26040135_AXI_IFU (
                if(flush_save) begin
                     pc <= pc_flush_save;
                     flush_save <= 1'b0;
+                    instr_addr_misaligned <= 1'b0;
+                    instr_access_fault <= 1'b0;
                end
                else if(flush) begin
                     pc <= pc_flush;
+                    instr_addr_misaligned <= 1'b0;
+                    instr_access_fault <= 1'b0;
                end 
                else if(fence_i_flush_save | fence_i_flush) begin   // 丢掉这次 fetch, 同时让 icache 整体失效
                     fence_i_flush_save <= 1'b0;
@@ -176,18 +210,37 @@ module ysyx_26040135_AXI_IFU (
         next = state;
         fetch_valid = 1'b0;
         icache_flush = 1'b0;
+
+        ifu_exception_0 = 1'b0;
+        ifu_exception_1 = 1'b0;
+        ifu_exception_pc = 32'b00;
             
         case(state)
             IDLE: begin  // IFU的 IDLE的作用就是等ready握手
                 if((out_ready && !cbi) || (flush && cbi)) begin   // 必跳指令在流水线里时先不取指, 等 flush 来了直接取目标
                     next = FETCH;
                 end
+
+                if(out_ready) begin
+                    if(instr_addr_misaligned) begin
+                        ifu_exception_0 = 1'b1;
+                        ifu_exception_pc = out_pc;
+                    end
+                    else if(instr_access_fault) begin
+                        ifu_exception_1 = 1'b1;
+                        ifu_exception_pc = out_pc;
+                    end
+                end
             end
 
             FETCH: begin
-                fetch_valid = 1'b1;
-                if(instr_valid) begin
-                    next = IDLE;
+                if(pc[1:0] == 2'b00 && is_executable(pc)) begin
+                    fetch_valid = 1'b1;
+                    if(instr_valid) begin
+                        next = IDLE;
+                    end
+                end else begin
+                    next = IDLE;       // 非对齐 / 不可执行: 不取指, 回 IDLE 处理异常
                 end
             end
 

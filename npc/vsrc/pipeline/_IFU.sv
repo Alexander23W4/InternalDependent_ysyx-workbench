@@ -299,7 +299,7 @@ module ysyx_26040135_AXI_IFU (
                         next = IDLE;
                     end
                 end else begin
-                    next = IDLE;   // pc不符合要求, 不fetch, 一边设置exception, 一边下个周期直接跳回IDLE   (如果在这个周期收到flush怎么办, 有可能吗)
+                    next = IDLE;   // pc不符合要求, 不fetch, 一边设置exception, 一边下个周期直接跳回IDLE   (按照exu时序在这个时钟周期不可能出现flush信号)
                 end
             end
 

@@ -75,7 +75,13 @@ module ysyx_26040135_EXU (
 
     input taken,
 
-    output reg fence_i_flush   
+    output reg fence_i_flush,  // fence.i: 通知 IFU/icache 冲刷
+
+    output [31:0] mtvec_out,   // 给 IFU 做异常跳转
+
+    input [31:0] ifu_exception_pc,
+    input ifu_exception_0,
+    input ifu_exception_1
 );
 
     // RAW
@@ -91,6 +97,7 @@ module ysyx_26040135_EXU (
 
     // input存储
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
+    assign mtvec_out = mtvec;
 
     reg [31:0] pc_save;
     reg [31:0] imm_save;
@@ -159,67 +166,78 @@ module ysyx_26040135_EXU (
             state <= next;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
-            if(in_valid && in_ready) begin
-                in_ready <= 1'b0;
+            if(in_ready) begin
 
-                pc_save    <= pc;
-                imm_save   <= imm;
+                if(ifu_exception_0) begin   // 默认优先处理exception0
+                    mepc <= ifu_exception_pc;
+                    mcause <= 32'b0;
+                end 
+                else if(ifu_exception_1) begin
+                    mepc <= ifu_exception_pc;
+                    mcause <= 32'b1;
+                end
 
-                rd_save    <= rd;
-                rs1_save   <= rs1;
-                rs2_save   <= rs2;
+                if(in_valid) begin
+                    in_ready <= 1'b0;
+                    pc_save    <= pc;
+                    imm_save   <= imm;
 
-                add_save      <= add;
-                addi_save     <= addi;
-                sub_save      <= sub;
-                lui_save      <= lui;
-                auipc_save    <= auipc;
-                and_inst_save <= and_inst;
-                or_inst_save  <= or_inst;
-                xor_inst_save <= xor_inst;
-                andi_save     <= andi;
-                ori_save      <= ori;
-                xori_save     <= xori;
-                sll_save      <= sll;
-                srl_save      <= srl;
-                sra_save      <= sra;
-                slli_save     <= slli;
-                srli_save     <= srli;
-                srai_save     <= srai;
-                slt_save      <= slt;
-                sltu_save     <= sltu;
-                slti_save     <= slti;
-                sltiu_save    <= sltiu;
-                jal_save      <= jal;
-                jalr_save     <= jalr;
-                lb_save       <= lb;
-                lh_save       <= lh;
-                lw_save       <= lw;
-                lbu_save      <= lbu;
-                lhu_save      <= lhu;
-                sb_save       <= sb;
-                sh_save       <= sh;
-                sw_save       <= sw;
-                beq_save      <= beq;
-                bne_save      <= bne;
-                blt_save      <= blt;
-                bge_save      <= bge;
-                bltu_save     <= bltu;
-                bgeu_save     <= bgeu;
-                ebreak_save   <= ebreak;
-                ecall_save    <= ecall;
-                mret_save     <= mret;
-                fence_i_save  <= fence_i;
-                csrrw_save    <= csrrw;
-                csrrs_save    <= csrrs;
-                csrrc_save    <= csrrc;
+                    rd_save    <= rd;
+                    rs1_save   <= rs1;
+                    rs2_save   <= rs2;
 
-                csr_rst_save  <= csrw_rst;
+                    add_save      <= add;
+                    addi_save     <= addi;
+                    sub_save      <= sub;
+                    lui_save      <= lui;
+                    auipc_save    <= auipc;
+                    and_inst_save <= and_inst;
+                    or_inst_save  <= or_inst;
+                    xor_inst_save <= xor_inst;
+                    andi_save     <= andi;
+                    ori_save      <= ori;
+                    xori_save     <= xori;
+                    sll_save      <= sll;
+                    srl_save      <= srl;
+                    sra_save      <= sra;
+                    slli_save     <= slli;
+                    srli_save     <= srli;
+                    srai_save     <= srai;
+                    slt_save      <= slt;
+                    sltu_save     <= sltu;
+                    slti_save     <= slti;
+                    sltiu_save    <= sltiu;
+                    jal_save      <= jal;
+                    jalr_save     <= jalr;
+                    lb_save       <= lb;
+                    lh_save       <= lh;
+                    lw_save       <= lw;
+                    lbu_save      <= lbu;
+                    lhu_save      <= lhu;
+                    sb_save       <= sb;
+                    sh_save       <= sh;
+                    sw_save       <= sw;
+                    beq_save      <= beq;
+                    bne_save      <= bne;
+                    blt_save      <= blt;
+                    bge_save      <= bge;
+                    bltu_save     <= bltu;
+                    bgeu_save     <= bgeu;
+                    ebreak_save   <= ebreak;
+                    ecall_save    <= ecall;
+                    mret_save     <= mret;
+                    fence_i_save  <= fence_i;
+                    csrrw_save    <= csrrw;
+                    csrrs_save    <= csrrs;
+                    csrrc_save    <= csrrc;
 
-                bypass_active <= 1'b0;
-                bypass_data <= 32'b0;
+                    csr_rst_save  <= csrw_rst;
 
-                taken_save <= taken;
+                    bypass_active <= 1'b0;
+                    bypass_data <= 32'b0;
+
+                    taken_save <= taken;
+                end
                 
             end
         // ------------------------------------------
@@ -330,7 +348,7 @@ module ysyx_26040135_EXU (
 
         case (state)
             IDLE: begin
-                if(in_valid && in_ready) begin
+                if(in_valid && in_ready && !(ifu_exception_0 | ifu_exception_1)) begin
                     if(ebreak) begin
                         next = WAIT_END;
                     end

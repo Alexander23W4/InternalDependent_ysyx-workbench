@@ -64,7 +64,7 @@ module ysyx_26040135_AXI_IFU (
 
     output reg ifu_exception_0,
     output reg ifu_exception_1,
-    output reg [31:0] exception_pc
+    output reg [31:0] ifu_exception_pc
     
 );
 
@@ -265,7 +265,7 @@ module ysyx_26040135_AXI_IFU (
 
         ifu_exception_0 = 1'b0;
         ifu_exception_1 = 1'b0;
-        exception_pc = 32'b00;
+        ifu_exception_pc = 32'b00;
             
         case(state)
             IDLE: begin  // IFU 的 IDLE的作用就是等ready握手
@@ -276,11 +276,11 @@ module ysyx_26040135_AXI_IFU (
                 if(out_ready) begin
                     if(instr_addr_misaligned) begin
                         ifu_exception_0 = 1'b1;
-                        exception_pc = pc;
+                        ifu_exception_pc = pc;
                     end
                     else if(instr_access_fault) begin
                         ifu_exception_1 = 1'b1;
-                        exception_pc = pc;
+                        ifu_exception_pc = pc;
                     end
                 end
             end

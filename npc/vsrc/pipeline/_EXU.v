@@ -94,7 +94,11 @@ module ysyx_26040135_EXU (
     input taken,
     output reg fence_i_flush,
 
-    output [31:0] mtvec
+    output [31:0] mtvec,
+
+    input [31:0] ifu_exception_pc,
+    input ifu_exception_0,
+    input ifu_exception_1
 
 );
     reg  _possible_branch_instr;
@@ -191,7 +195,17 @@ module ysyx_26040135_EXU (
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
             if(in_valid && in_ready) begin
-                in_ready <= 1'b0;
+
+                if(ifu_exception_0) begin   // 默认优先处理exception0
+                    mepc <= ifu_exception_pc;
+                    mcause <= 32'b0;
+                end 
+                else if(ifu_exception_1) begin
+                    mepc <= ifu_exception_pc;
+                    mcause <= 32'b1;
+                end else begin
+                    in_ready <= 1'b0;
+                end
 
                 pc_save    <= pc;
                 instr_save <= instr;
@@ -368,6 +382,7 @@ module ysyx_26040135_EXU (
 
     always @(*) begin
         next = state;
+
         ebreak_end = 1'b0;
         flush = 1'b0;
         _new_instr = 1'b0;
@@ -385,8 +400,7 @@ module ysyx_26040135_EXU (
         
         case (state)
             IDLE: begin
-
-                if(in_valid && in_ready) begin
+                if(in_valid && in_ready && !(ifu_exception_0 | ifu_exception_1)) begin
                     _new_instr = 1'b1;
                     if(ebreak) begin
                         next = WAIT_END;

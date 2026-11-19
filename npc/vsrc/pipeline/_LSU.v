@@ -278,7 +278,7 @@ module ysyx_26040135_AXI_LSU (
                 bus.bready = 1'b1;
                 if(bus.bvalid == 1'b1) begin
                     next = IDLE;
-                    if(bus.rresp != 2'b00) begin
+                    if(bus.bresp != 2'b00) begin
                         lsu_exception_7 = 1'b1;
                     end
                 end

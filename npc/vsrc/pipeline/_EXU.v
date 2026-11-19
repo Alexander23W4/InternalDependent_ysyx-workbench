@@ -203,49 +203,44 @@ module ysyx_26040135_EXU (
             state <= IDLE;
 
         end else begin
-            state <= next;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
-            if(idu_exception_2) begin
-                mepc <= pc;
-                mcause <= 32'h2;
-            end
-
+            // 各种exception按照优先级处理, 优先级处理优先于所有正常工作
             if(lsu_exception_4) begin
                 mepc <= pc_save;
                 mcause <= 32'h4;
             end
-
-            if(lsu_exception_6) begin
+            else if(lsu_exception_5) begin
                 mepc <= pc_save;
                 mcause <= 32'h6;
             end
-
-            if(lsu_exception_5) begin
+            else if(lsu_exception_6) begin
                 out_valid <= 1'b0;
                 in_ready <= 1'b1;
                 mepc <= lsu_exception_pc;
                 mcause <= 32'h5;
             end
-
-            if(lsu_exception_7) begin
+            else if(lsu_exception_7) begin
                 out_valid <= 1'b0;
                 in_ready <= 1'b1;
                 mepc <= lsu_exception_pc;
                 mcause <= 32'h7;
+            end 
+            else if(idu_exception_2) begin
+                mepc <= pc;
+                mcause <= 32'h2;
             end
+            else if(ifu_exception_0) begin
+                mepc <= ifu_exception_pc;
+                mcause <= 32'h0;
+            end
+            else if(ifu_exception_1) begin
+                mepc <= ifu_exception_pc;
+                mcause <= 32'h1;
+            end else begin
+                state <= next;
 
-            if(in_ready) begin
-
-                if(ifu_exception_0) begin   // 默认优先处理exception0
-                    mepc <= ifu_exception_pc;
-                    mcause <= 32'h0;
-                end 
-                else if(ifu_exception_1) begin
-                    mepc <= ifu_exception_pc;
-                    mcause <= 32'h1;
-                end 
-                else if(in_valid) begin
+                if(in_ready && in_valid) begin
                     in_ready <= 1'b0;
                     pc_save    <= pc;
                     instr_save <= instr;
@@ -307,114 +302,113 @@ module ysyx_26040135_EXU (
 
                     taken_save <= taken;
                 end
+            // ------------------------------------------
+
+                if(in_ready && !in_valid) begin
+                    exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
+                end
+
+                if(out_valid && !out_ready) beginout_valid begin
+                    exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
+                end
+
+                if(state != IDLE) begin
+                    exu_work_cyc <= exu_work_cyc + 64'b1;
+                end
+
+            // ------------------------------------------
+
+                if(out_ready && out_valid) begin  // 即便这个周期出现exception 4/6 也没有问题, 相当于flush了
+                    out_valid <= 1'b0;
+                    in_ready <= 1'b1;
+                end
+    
+                if(state == BRANCH && is_nlwb) begin
+                    in_ready <= 1'b1;
+                end
                 
-            end
-        // ------------------------------------------
-
-            if(in_ready && !in_valid) begin
-                exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
-            end
-
-            if(out_valid && !out_ready) beginout_valid
-                exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
-            end
-
-            if(state != IDLE) begin
-                exu_work_cyc <= exu_work_cyc + 64'b1;
-            end
-
-        // ------------------------------------------
-
-            if(out_ready && out_valid) begin  // 即便这个周期出现exception 4/6 也没有问题, 相当于flush了
-                out_valid <= 1'b0;
-                in_ready <= 1'b1;
-            end
- 
-            if(state == BRANCH && is_nlwb) begin
-                in_ready <= 1'b1;
-            end
-            
-            if(state == BRANCH && !is_nlwb) begin
-                // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
-                out_valid <= 1'b1;  
-            end
-
-            if(wen) begin
-                if(|rd_wb) begin // 不是0
-                    wen_save <= 1'b1;
-                    rd_wb_save <= rd_wb;
+                if(state == BRANCH && !is_nlwb) begin
+                    // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
+                    out_valid <= 1'b1;  
                 end
-            end
 
-            if(state == EX) begin
-                // 需要wb的instr  
-                if(!is_nlwb && !write && (|rd_save)) begin  // 不是0
-                    if(rd_list[rd_save]) begin          // 已经有没有完成的同一个rd了
-                        rd_amt[rd_save] <= 1'b1;
-                    end else begin
-                        rd_list[rd_save] <= 1'b1;
-                        rd_amt[rd_save] <= 1'b0;
-                    end
-                end 
-            end else begin
-                if(wen_save) begin
-                    wen_save <= 1'b0;
-                    if(rd_amt[rd_wb_save]) begin
-                        rd_amt[rd_wb_save] <= 1'b0;
-                    end else begin
-                        rd_list[rd_wb_save] <= 1'b0;
+                if(wen) begin
+                    if(|rd_wb) begin // 不是0
+                        wen_save <= 1'b1;
+                        rd_wb_save <= rd_wb;
                     end
                 end
-            end
 
-            if(state == EX) begin
-                if(csrrw_save) begin
-                    case(imm_save)  // case CSR addr
-                        32'h00000300: mstatus <= rdata1_ul;
-                        32'h00000305: mtvec <= rdata1_ul;
-                        32'h00000341: mepc <= rdata1_ul;
-                        32'h00000342: mcause <= rdata1_ul;
-                    endcase
-                end
-                else if (|{{5{csrrs_save}} & rs1_save}) begin
-                    case(imm_save) 
-                        32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
-                        32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
-                        32'h00000341: mepc <= rdata1_ul | csr_rst_save;
-                        32'h00000342: mcause <= rdata1_ul | csr_rst_save;
-                    endcase
-                end
-                else if (|{{5{csrrc_save}} & rs1_save}) begin
-                    case(imm_save) 
-                        32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
-                        32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
-                        32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
-                        32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
-                    endcase
-                end
-
-                if(ecall_save) begin
-                    mepc <= pc_save;
-                    mcause <= 32'h0000000b;
-                end
-            end
-
-
-
-            if(state == BLOCK && single_rs && !gpr_read_valid) begin
-                if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
-                    if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
-                        bypass_data <= bypass_wdata_lsu;
-                        bypass_active <= 1'b1;
+                if(state == EX) begin
+                    // 需要wb的instr  
+                    if(!is_nlwb && !write && (|rd_save)) begin  // 不是0
+                        if(rd_list[rd_save]) begin          // 已经有没有完成的同一个rd了
+                            rd_amt[rd_save] <= 1'b1;
+                        end else begin
+                            rd_list[rd_save] <= 1'b1;
+                            rd_amt[rd_save] <= 1'b0;
+                        end
                     end 
-                end else begin  // 一个的情况
-                    if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
-                        bypass_data <= bypass_wdata_lsu;
-                        bypass_active <= 1'b1;
-                    end 
-                    else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
-                        bypass_data <= bypass_wdata_wbu;
-                        bypass_active <= 1'b1;
+                end else begin
+                    if(wen_save) begin
+                        wen_save <= 1'b0;
+                        if(rd_amt[rd_wb_save]) begin
+                            rd_amt[rd_wb_save] <= 1'b0;
+                        end else begin
+                            rd_list[rd_wb_save] <= 1'b0;
+                        end
+                    end
+                end
+
+                if(state == EX) begin
+                    if(csrrw_save) begin
+                        case(imm_save)  // case CSR addr
+                            32'h00000300: mstatus <= rdata1_ul;
+                            32'h00000305: mtvec <= rdata1_ul;
+                            32'h00000341: mepc <= rdata1_ul;
+                            32'h00000342: mcause <= rdata1_ul;
+                        endcase
+                    end
+                    else if (|{{5{csrrs_save}} & rs1_save}) begin
+                        case(imm_save) 
+                            32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
+                            32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
+                            32'h00000341: mepc <= rdata1_ul | csr_rst_save;
+                            32'h00000342: mcause <= rdata1_ul | csr_rst_save;
+                        endcase
+                    end
+                    else if (|{{5{csrrc_save}} & rs1_save}) begin
+                        case(imm_save) 
+                            32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
+                            32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
+                            32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
+                            32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
+                        endcase
+                    end
+
+                    if(ecall_save) begin
+                        mepc <= pc_save;
+                        mcause <= 32'h0000000b;
+                    end
+                end
+
+
+
+                if(state == BLOCK && single_rs && !gpr_read_valid) begin
+                    if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
+                        if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                            bypass_data <= bypass_wdata_lsu;
+                            bypass_active <= 1'b1;
+                        end 
+                    end else begin  // 一个的情况
+                        if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
+                            bypass_data <= bypass_wdata_lsu;
+                            bypass_active <= 1'b1;
+                        end 
+                        else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
+                            bypass_data <= bypass_wdata_wbu;
+                            bypass_active <= 1'b1;
+                        end
                     end
                 end
             end

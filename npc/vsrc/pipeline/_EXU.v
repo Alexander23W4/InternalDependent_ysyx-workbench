@@ -109,8 +109,8 @@ module ysyx_26040135_EXU (
     input lsu_exception_7,
 
     input [31:0] lsu_exception_pc   // 这里连接lsu的pc_out  
-
 );
+
     reg  _possible_branch_instr;
     reg  _compulsory_branch;
     reg  _optimisible_branch;

@@ -33,8 +33,6 @@ module ysyx_26040135_AXI_LSU (
 
     output reg out_valid,
     input out_ready,
-    
-    output [1:0] __error,
 
 
     output [31:0] wdata,  // 
@@ -47,11 +45,17 @@ module ysyx_26040135_AXI_LSU (
     output reg [63:0] lsu_blcokb_cyc,
     output reg [63:0] lsu_work_cyc,
 
-    output reg lsu_blockfs
+    output reg lsu_blockfs,
+
+// 以下是exception, 所有的exception分别发到exu和ifu, flush二者, 并且ifu置pc到mtvec, exu置mcause和mepc
+    output lsu_exception_4,
+    output lsu_exception_6,
+
+    output lsu_exception_5,
+    output lsu_exception_7
 );
 
 
-    reg [1:0] error_save;
 
     reg io_save;
     reg [1:0] io_type_save;  
@@ -62,7 +66,6 @@ module ysyx_26040135_AXI_LSU (
     reg [31:0] lsu_addr_save;
     reg [31:0] ic_wb_wdata_save;
 
-    assign __error = error_save;
     assign rd_out = rd_save;
 
     reg [31:0] rdata_out;
@@ -82,7 +85,6 @@ module ysyx_26040135_AXI_LSU (
             state <= IDLE;
             aw_done <= 1'b0;
             w_done  <= 1'b0;
-            error_save <= 2'b00;
 
             in_ready <= 1'b1;
             out_valid <= 1'b0;
@@ -108,18 +110,20 @@ module ysyx_26040135_AXI_LSU (
             end
 
             if(in_valid && in_ready) begin   // 接受并保存
-                in_ready <= 1'b0;
+                if(is_ls) begin
+                    if(!(l_misalign | s_misalign)) begin
+                        in_ready <= 1'b0;
 
-                io_save <= io;
-                io_type_save <= io_type;
-                read_is_u_save <= read_is_u;
-                rd_save <= rd;
-                lsu_data_save <= lsu_wdata;
-                lsu_addr_save <= lsu_addr;
-                ic_wb_wdata_save <= ic_wb_wdata;
-                pc_out <= pc_in;
-
-                if(!is_ls) begin
+                        io_save <= io;
+                        io_type_save <= io_type;
+                        read_is_u_save <= read_is_u;
+                        rd_save <= rd;
+                        lsu_data_save <= lsu_wdata;
+                        lsu_addr_save <= lsu_addr;
+                        ic_wb_wdata_save <= ic_wb_wdata;
+                        pc_out <= pc_in;
+                    end 
+                end else begin
                     out_valid <= 1'b1;
                 end
             end
@@ -132,19 +136,15 @@ module ysyx_26040135_AXI_LSU (
             end
 
             if (state == R && bus.rvalid) begin
-                if (bus.rresp == 2'b00) begin
+                if(bus.rresp == 2'b00) begin
                     rdata_out <= bus.rdata;
                     out_valid <= 1'b1;
-                end else begin
-                    error_save <= bus.rresp;
                 end
             end
             
             if (state == B && bus.bvalid) begin
-                if (bus.bresp == 2'b00) begin
+                if(bus.bresp == 2'b00) begin
                     in_ready <= 1'b1;
-                end else begin
-                    error_save <= bus.bresp;
                 end
             end
 
@@ -185,6 +185,13 @@ module ysyx_26040135_AXI_LSU (
         end 
     end
 
+    wire l_misalign;
+    wire s_misalign;
+    wire misalign;
+    assign misalign = (io_type == 2'b10 && lsu_addr[1:0] != 2'b00) || (io_type == 2'b01 && lsu_addr[0] != 1'b0);
+    assign l_misalign = !io & misalign;
+    assign s_misalign = io & misalign;
+
     always_comb begin
 
         bus.arvalid = 1'b0;
@@ -210,17 +217,29 @@ module ysyx_26040135_AXI_LSU (
         aw_done_next = aw_done;
         w_done_next  = w_done;
 
+        lsu_exception_4 = 1'b0;
+        lsu_exception_6 = 1'b0;
+        lsu_exception_5 = 1'b0;
+        lsu_exception_7 = 1'b0;
+
         case(state)
             IDLE: begin
                 aw_done_next = 1'b0;
                 w_done_next  = 1'b0;
                 if(in_valid && in_ready) begin   // 只有读写指令的时候才允许触发总线交互
                     if(is_ls) begin
-                        if(!io) begin
-                            next = AR;
+                        if(l_misalign) begin
+                            lsu_exception_4 = 1'b1;
+                        end
+                        else if(s_misalign) begin
+                            lsu_exception_6 = 1'b1;
                         end else begin
-                            next = AW;
-                        end   
+                            if(!io) begin
+                                next = AR;
+                            end else begin
+                                next = AW;
+                            end   
+                        end
                     end
                 end
                 lsu_bypass_data_valid = out_valid;  // 只有在等wbu收数据的那几个周期是可以bypass的, wbu一收到数据, 数据立马就是通过wbu进行bypass
@@ -237,6 +256,9 @@ module ysyx_26040135_AXI_LSU (
                 bus.rready = 1'b1;   
                 if(bus.rvalid == 1'b1) begin           
                     next = IDLE;
+                    if(bus.rresp != 2'b00) begin
+                        lsu_exception_5 = 1'b1;
+                    end
                 end
             end
 
@@ -256,6 +278,9 @@ module ysyx_26040135_AXI_LSU (
                 bus.bready = 1'b1;
                 if(bus.bvalid == 1'b1) begin
                     next = IDLE;
+                    if(bus.rresp != 2'b00) begin
+                        lsu_exception_7 = 1'b1;
+                    end
                 end
             end
 

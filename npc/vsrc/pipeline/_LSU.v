@@ -110,20 +110,23 @@ module ysyx_26040135_AXI_LSU (
             end
 
             if(in_valid && in_ready) begin   // 接受并保存
+                // ⭐ 所有指令都要把这些带下去: 非 load/store 是直接转发给 WBU 的,
+                //    漏了就会让 ALU 指令拿上一条的 pc/结果去写回
+                io_save          <= io;
+                io_type_save     <= io_type;
+                read_is_u_save   <= read_is_u;
+                rd_save          <= rd;
+                lsu_data_save    <= lsu_wdata;
+                lsu_addr_save    <= lsu_addr;
+                ic_wb_wdata_save <= ic_wb_wdata;
+                pc_out           <= pc_in;
+
                 if(is_ls) begin
                     if(!(l_misalign | s_misalign)) begin
                         in_ready <= 1'b0;
-
-                        io_save <= io;
-                        io_type_save <= io_type;
-                        read_is_u_save <= read_is_u;
-                        rd_save <= rd;
-                        lsu_data_save <= lsu_wdata;
-                        lsu_addr_save <= lsu_addr;
-                        ic_wb_wdata_save <= ic_wb_wdata;
-                        pc_out <= pc_in;
-                    end 
+                    end
                 end else begin
+                    in_ready <= 1'b0;
                     out_valid <= 1'b1;
                 end
             end

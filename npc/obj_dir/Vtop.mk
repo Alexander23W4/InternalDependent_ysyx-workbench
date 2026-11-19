@@ -36,7 +36,7 @@ VM_MODPREFIX = Vtop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 	-I./include -I./include/sub \
-	-DDIFFTEST=0 \
+	-DDIFFTEST=1 \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \

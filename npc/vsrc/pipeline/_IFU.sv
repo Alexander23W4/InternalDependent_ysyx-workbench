@@ -282,6 +282,7 @@ module ysyx_26040135_AXI_IFU (
                         instr_access_fault <= 1'b1;
                     end
 
+                    out_pc    <= pc;   
                     out_instr <= instr;  
                     idu_instr_valid <= 1'b1;  // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
                 end

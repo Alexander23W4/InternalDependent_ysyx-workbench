@@ -200,7 +200,7 @@ module ysyx_26040135_EXU (
 
             if(idu_exception_2) begin
                 mepc <= pc;
-                mcause <= 32'h2
+                mcause <= 32'h2;
             end
 
             if(in_ready) begin

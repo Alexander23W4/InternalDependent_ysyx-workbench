@@ -269,7 +269,7 @@ module ysyx_26040135_IDU(
                     end 
                     3'b101: begin
                         if(|funct7 == 0) begin
-                            srli = 1'b1
+                            srli = 1'b1;
                         end
                         if(funct7 == 7'b0100000) begin
                             srai = 1'b1;
@@ -287,7 +287,7 @@ module ysyx_26040135_IDU(
                 case(funct3)
                     3'b000: begin
                         if(|funct7 == 0) begin
-                            add = 1'b1
+                            add = 1'b1;
                         end
                         if(funct7 == 7'b0100000) begin
                             sub = 1'b1;
@@ -317,7 +317,7 @@ module ysyx_26040135_IDU(
                             decode_invalid = 1'b1;
                         end
                     end
-                    3'b0010111: begin
+                    3'b100: begin
                         if(|funct7 == 0) begin
                             xor_instr = 1'b1;
                         end else begin
@@ -326,7 +326,7 @@ module ysyx_26040135_IDU(
                     end
                     3'b101: begin
                         if(|funct7 == 0) begin
-                            srl = 1'b1
+                            srl = 1'b1;
                         end
                         if(funct7 == 7'b0100000) begin
                             sra = 1'b1;

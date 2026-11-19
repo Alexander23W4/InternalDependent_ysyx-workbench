@@ -108,7 +108,7 @@ B5现阶段实际优化方案:
 异常号	异常描述	最早产生的部件
 0	Instruction address misaligned	IFU    @
 1	Instruction access fault	IFU      @
-2	Illegal Instruction	IDU
+2	Illegal Instruction	IDU   @
 4	Load address misaligned	LSU
 5	Load access fault	LSU
 6	Store/AMO address misaligned	LSU
@@ -312,13 +312,18 @@ module ysyx_26040135(
         .mtvec(mtvec),
         .ifu_exception_0(ifu_exception_0),
         .ifu_exception_1(ifu_exception_1),
-        .ifu_exception_pc(ifu_exception_pc)
+        .ifu_exception_pc(ifu_exception_pc),
+
+        .idu_instr_valid(idu_instr_valid),
+        .idu_exception_2(idu_exception_2)
     ); 
 
     wire bt_valid;
     wire [31:0] b_pc;
     wire [31:0] b_target;
     wire taken;
+    wire        idu_instr_valid;      // IFU -> IDU: 给 IDU 的 instr 有效
+    wire        idu_exception_2;      // IDU -> IFU/EXU: 非法指令(exception 2)
     wire [31:0] mtvec;          // EXU -> IFU: 异常入口
     wire        ifu_exception_0, ifu_exception_1;
     wire [31:0] ifu_exception_pc;
@@ -348,7 +353,10 @@ module ysyx_26040135(
         .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm),
         .out_instr(instr_de),
         .taken(taken),
-        .taken_out(taken_de)
+        .taken_out(taken_de),
+
+        .idu_instr_valid(idu_instr_valid),
+        .idu_exception_2(idu_exception_2)
     );
 
     wire valid_de, ready_de;
@@ -420,7 +428,9 @@ ysyx_26040135_EXU exu (
     .mtvec_out(mtvec),
     .ifu_exception_pc(ifu_exception_pc),
     .ifu_exception_0(ifu_exception_0),
-    .ifu_exception_1(ifu_exception_1)
+    .ifu_exception_1(ifu_exception_1),
+
+    .idu_exception_2(idu_exception_2)
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;

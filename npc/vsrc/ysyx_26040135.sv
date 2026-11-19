@@ -304,13 +304,21 @@ module ysyx_26040135(
         .taken(taken),
 
         .fence_i_flush(fence_i_flush),
-        .icache_flush(icache_flush)
+        .icache_flush(icache_flush),
+
+        .mtvec(mtvec),
+        .ifu_exception_0(ifu_exception_0),
+        .ifu_exception_1(ifu_exception_1),
+        .ifu_exception_pc(ifu_exception_pc)
     ); 
 
     wire bt_valid;
     wire [31:0] b_pc;
     wire [31:0] b_target;
     wire taken;
+    wire [31:0] mtvec;          // EXU -> IFU: 异常入口
+    wire        ifu_exception_0, ifu_exception_1;
+    wire [31:0] ifu_exception_pc;
 
     wire [63:0] ifu_work_cyc, ifu_block_cyc;
 
@@ -404,7 +412,12 @@ ysyx_26040135_EXU exu (
     .b_target(b_target),
     .taken(taken_de),
 
-    .fence_i_flush(fence_i_flush)
+    .fence_i_flush(fence_i_flush),
+
+    .mtvec_out(mtvec),
+    .ifu_exception_pc(ifu_exception_pc),
+    .ifu_exception_0(ifu_exception_0),
+    .ifu_exception_1(ifu_exception_1)
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;

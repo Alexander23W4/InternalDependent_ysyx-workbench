@@ -94,7 +94,7 @@ module ysyx_26040135_EXU (
     input taken,
     output reg fence_i_flush,
 
-    output [31:0] mtvec,
+    output [31:0] mtvec_out,
 
     input [31:0] ifu_exception_pc,
     input ifu_exception_0,
@@ -142,6 +142,8 @@ module ysyx_26040135_EXU (
     reg [31:0] csrw_rst;
 
     reg taken_save;
+
+    assign mtvec_out = mtvec;
 
 
 

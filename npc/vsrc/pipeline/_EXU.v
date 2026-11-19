@@ -207,34 +207,43 @@ module ysyx_26040135_EXU (
 
             // 各种exception按照优先级处理, 优先级处理优先于所有正常工作
             if(lsu_exception_4) begin
+                out_valid <= 1'b0;
+                in_ready <= 1'b1;
                 mepc <= pc_save;
                 mcause <= 32'h4;
+                state <= IDLE;
             end
             else if(lsu_exception_5) begin
+                out_valid <= 1'b0;
+                in_ready <= 1'b1;
                 mepc <= pc_save;
-                mcause <= 32'h6;
+                mcause <= 32'h5;
+                state <= IDLE;
             end
             else if(lsu_exception_6) begin
                 out_valid <= 1'b0;
                 in_ready <= 1'b1;
                 mepc <= lsu_exception_pc;
-                mcause <= 32'h5;
+                mcause <= 32'h6;
+                state <= IDLE;
             end
             else if(lsu_exception_7) begin
                 out_valid <= 1'b0;
                 in_ready <= 1'b1;
                 mepc <= lsu_exception_pc;
                 mcause <= 32'h7;
+                state <= IDLE;
             end 
-            else if(idu_exception_2) begin
+            else if(idu_exception_2) begin   // 在IDLE触发, 不会握手
                 mepc <= pc;
                 mcause <= 32'h2;
             end
-            else if(ifu_exception_0) begin
+            else if(ifu_exception_0) begin   // 在IDLE触发, 不会握手
                 mepc <= ifu_exception_pc;
                 mcause <= 32'h0;
+
             end
-            else if(ifu_exception_1) begin
+            else if(ifu_exception_1) begin   // 在IDLE触发, 不会握手
                 mepc <= ifu_exception_pc;
                 mcause <= 32'h1;
             end else begin
@@ -435,7 +444,7 @@ module ysyx_26040135_EXU (
         
         case (state)
             IDLE: begin
-                if(in_valid && in_ready && !(ifu_exception_0 | ifu_exception_1)) begin
+                if(in_valid && in_ready) begin
                     _new_instr = 1'b1;
                     if(ebreak) begin
                         next = WAIT_END;

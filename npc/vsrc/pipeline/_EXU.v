@@ -92,7 +92,9 @@ module ysyx_26040135_EXU (
     output reg [31:0] b_target,
 
     input taken,
-    output reg fence_i_flush
+    output reg fence_i_flush,
+
+    output [31:0] mtvec
 
 );
     reg  _possible_branch_instr;

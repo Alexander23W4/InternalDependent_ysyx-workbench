@@ -58,7 +58,14 @@ module ysyx_26040135_AXI_IFU (
 
     output reg taken,
     input fence_i_flush,
-    output reg icache_flush
+    output reg icache_flush,
+
+    input [31:0] mtvec,
+
+    output reg ifu_exception_0,
+    output reg ifu_exception_1,
+    output reg [31:0] exception_pc
+    
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -156,9 +163,23 @@ module ysyx_26040135_AXI_IFU (
 
             if(state == IDLE) begin
                 if(out_ready) begin
-                    if(!is_executable(pc)) begin   // out_ready 的时候, 才是新fetch周期的pc, 因为有flush的存在
-                        master_validation_error_save <= 1'b1;
-                    end    
+                    // 到这个状态, 说明这次fetch的这个instr有效, 则如果这次fetch周期出现exception, 统一在这个状态触发
+                    // 然后如果有exception, 发信号给exu, invalid这次握手, 重置pc到mtvec, 改mret和mcause
+                    if(instr_addr_misaligned) begin
+                        instr_addr_misaligned <= 1'b0;
+                        // deal
+                        pc <= mtvec;
+                    end
+                    else if(instr_access_fault) begin
+                        instr_access_fault <= 1'b0;
+                        // deal
+                        pc <= mtvec;
+                    end else begin    // 上一次fetch没有exception
+                        if(!is_executable(pc)) begin   // out_ready 的时候, 才是新fetch周期的pc, 因为有flush的存在
+                            master_validation_error_save <= 1'b1;
+                            instr_access_fault <= 1'b1;
+                        end    
+                    end
                 end else begin
                     ifu_block_cyc <= ifu_block_cyc + 64'b1; // 握手的周期是不算在里面的, 只算等待后级的周期
                 end
@@ -168,8 +189,13 @@ module ysyx_26040135_AXI_IFU (
                 ifu_work_cyc <= ifu_work_cyc + 64'b1;
             end
 
-            if(state == FETCH && pc[1:0] != 2'b00) begin
-                instr_addr_misaligned <= 1'b1;
+            if(state == FETCH) begin
+                if(pc[1:0] != 2'b00) begin
+                    instr_addr_misaligned <= 1'b1;
+                end
+                if(fetch_error != 2'b00) begin
+                    instr_access_fault <= 1'b1;
+                end
             end
 
         // ---- 以下都是flush的逻辑, 覆盖flush信号在IFU状态机的不同时刻到来的所有情况:
@@ -236,11 +262,26 @@ module ysyx_26040135_AXI_IFU (
         _flush_ifu_blk_flg = 1'b0;
         _btb_hit = 1'b0;
         icache_flush = 1'b0;
+
+        ifu_exception_0 = 1'b0;
+        ifu_exception_1 = 1'b0;
+        exception_pc = 32'b00;
             
         case(state)
             IDLE: begin  // IFU 的 IDLE的作用就是等ready握手
                 if((out_ready && !cbi) || (flush && cbi)) begin   
                     next = FETCH;
+                end
+
+                if(out_ready) begin
+                    if(instr_addr_misaligned) begin
+                        ifu_exception_0 = 1'b1;
+                        exception_pc = pc;
+                    end
+                    else if(instr_access_fault) begin
+                        ifu_exception_1 = 1'b1;
+                        exception_pc = pc;
+                    end
                 end
             end
 

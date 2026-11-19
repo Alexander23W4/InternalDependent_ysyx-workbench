@@ -101,6 +101,9 @@ module ysyx_26040135_AXI_IFU (
     reg _btb_hit;
 
 
+    reg instr_addr_misaligned;
+    reg instr_access_fault;
+
     assign __error = fetch_error;   
     assign __master_validation_error = master_validation_error_save;
 
@@ -116,6 +119,7 @@ module ysyx_26040135_AXI_IFU (
     reg  _flush_ifu_blk_flg;
 
     assign _flush = flush;
+
 
 
     // 状态
@@ -143,13 +147,16 @@ module ysyx_26040135_AXI_IFU (
             ifu_work_cyc <= 64'b0;
             ifu_block_cyc <= 64'b0;
 
+            instr_addr_misaligned <= 1'b0;
+            instr_access_fault <= 1'b0;
+
         end else begin
 
             state <= next;             
 
             if(state == IDLE) begin
                 if(out_ready) begin
-                    if(!is_executable(pc)) begin
+                    if(!is_executable(pc)) begin   // out_ready 的时候, 才是新fetch周期的pc, 因为有flush的存在
                         master_validation_error_save <= 1'b1;
                     end    
                 end else begin
@@ -161,8 +168,12 @@ module ysyx_26040135_AXI_IFU (
                 ifu_work_cyc <= ifu_work_cyc + 64'b1;
             end
 
+            if(state == FETCH && pc[1:0] != 2'b00) begin
+                instr_addr_misaligned <= 1'b1;
+            end
+
         // ---- 以下都是flush的逻辑, 覆盖flush信号在IFU状态机的不同时刻到来的所有情况:
-        
+
             if(state == FETCH && !instr_valid) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
                 if(flush) begin
                     flush_save <= 1'b1;
@@ -234,9 +245,13 @@ module ysyx_26040135_AXI_IFU (
             end
 
             FETCH: begin
-                fetch_valid = 1'b1;
-                if(instr_valid) begin
-                    _fetch_done = 1'b1;
+                if(pc[1:0] == 2'b00) begin
+                    fetch_valid = 1'b1;
+                    if(instr_valid) begin
+                        _fetch_done = 1'b1;
+                        next = IDLE;
+                    end
+                end else begin
                     next = IDLE;
                 end
             end

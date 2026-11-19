@@ -172,12 +172,8 @@ module ysyx_26040135_AXI_IFU (
                     else if(instr_access_fault) begin
                         instr_access_fault <= 1'b0;
                         pc <= mtvec;
-                    end else begin    // 上一次fetch没有exception
-                        if(!is_executable(pc)) begin   // out_ready 的时候, 才是新fetch周期的pc, 因为有flush的存在
-                            master_validation_error_save <= 1'b1;
-                            instr_access_fault <= 1'b1;
-                        end    
                     end
+                    
                 end else begin
                     ifu_block_cyc <= ifu_block_cyc + 64'b1; // 握手的周期是不算在里面的, 只算等待后级的周期
                 end
@@ -191,6 +187,10 @@ module ysyx_26040135_AXI_IFU (
                 if(pc[1:0] != 2'b00) begin
                     instr_addr_misaligned <= 1'b1;
                 end
+                if(!is_executable(pc)) begin   
+                    master_validation_error_save <= 1'b1;
+                    instr_access_fault <= 1'b1;
+                end    
             end
 
         // ---- 以下都是flush的逻辑, 覆盖flush信号在IFU状态机的不同时刻到来的所有情况:
@@ -292,7 +292,7 @@ module ysyx_26040135_AXI_IFU (
             end
 
             FETCH: begin
-                if(pc[1:0] == 2'b00) begin
+                if(pc[1:0] == 2'b00 && is_executable(pc)) begin
                     fetch_valid = 1'b1;
                     if(instr_valid) begin
                         _fetch_done = 1'b1;

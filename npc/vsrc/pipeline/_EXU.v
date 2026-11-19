@@ -196,7 +196,7 @@ module ysyx_26040135_EXU (
             state <= next;
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
-            if(in_valid && in_ready) begin
+            if(in_ready) begin
 
                 if(ifu_exception_0) begin   // 默认优先处理exception0
                     mepc <= ifu_exception_pc;
@@ -205,69 +205,70 @@ module ysyx_26040135_EXU (
                 else if(ifu_exception_1) begin
                     mepc <= ifu_exception_pc;
                     mcause <= 32'b1;
-                end else begin
-                    in_ready <= 1'b0;
                 end
 
-                pc_save    <= pc;
-                instr_save <= instr;
-                imm_save   <= imm;
+                if(in_valid) begin
+                    in_ready <= 1'b0;
+                    pc_save    <= pc;
+                    instr_save <= instr;
+                    imm_save   <= imm;
 
-                rd_save    <= rd;
-                rs1_save   <= rs1;
-                rs2_save   <= rs2;
+                    rd_save    <= rd;
+                    rs1_save   <= rs1;
+                    rs2_save   <= rs2;
 
-                add_save      <= add;
-                addi_save     <= addi;
-                sub_save      <= sub;
-                lui_save      <= lui;
-                auipc_save    <= auipc;
-                and_inst_save <= and_inst;
-                or_inst_save  <= or_inst;
-                xor_inst_save <= xor_inst;
-                andi_save     <= andi;
-                ori_save      <= ori;
-                xori_save     <= xori;
-                sll_save      <= sll;
-                srl_save      <= srl;
-                sra_save      <= sra;
-                slli_save     <= slli;
-                srli_save     <= srli;
-                srai_save     <= srai;
-                slt_save      <= slt;
-                sltu_save     <= sltu;
-                slti_save     <= slti;
-                sltiu_save    <= sltiu;
-                jal_save      <= jal;
-                jalr_save     <= jalr;
-                lb_save       <= lb;
-                lh_save       <= lh;
-                lw_save       <= lw;
-                lbu_save      <= lbu;
-                lhu_save      <= lhu;
-                sb_save       <= sb;
-                sh_save       <= sh;
-                sw_save       <= sw;
-                beq_save      <= beq;
-                bne_save      <= bne;
-                blt_save      <= blt;
-                bge_save      <= bge;
-                bltu_save     <= bltu;
-                bgeu_save     <= bgeu;
-                ebreak_save   <= ebreak;
-                ecall_save    <= ecall;
-                mret_save     <= mret;
-                fence_i_save  <= fence_i;
-                csrrw_save    <= csrrw;
-                csrrs_save    <= csrrs;
-                csrrc_save    <= csrrc;
+                    add_save      <= add;
+                    addi_save     <= addi;
+                    sub_save      <= sub;
+                    lui_save      <= lui;
+                    auipc_save    <= auipc;
+                    and_inst_save <= and_inst;
+                    or_inst_save  <= or_inst;
+                    xor_inst_save <= xor_inst;
+                    andi_save     <= andi;
+                    ori_save      <= ori;
+                    xori_save     <= xori;
+                    sll_save      <= sll;
+                    srl_save      <= srl;
+                    sra_save      <= sra;
+                    slli_save     <= slli;
+                    srli_save     <= srli;
+                    srai_save     <= srai;
+                    slt_save      <= slt;
+                    sltu_save     <= sltu;
+                    slti_save     <= slti;
+                    sltiu_save    <= sltiu;
+                    jal_save      <= jal;
+                    jalr_save     <= jalr;
+                    lb_save       <= lb;
+                    lh_save       <= lh;
+                    lw_save       <= lw;
+                    lbu_save      <= lbu;
+                    lhu_save      <= lhu;
+                    sb_save       <= sb;
+                    sh_save       <= sh;
+                    sw_save       <= sw;
+                    beq_save      <= beq;
+                    bne_save      <= bne;
+                    blt_save      <= blt;
+                    bge_save      <= bge;
+                    bltu_save     <= bltu;
+                    bgeu_save     <= bgeu;
+                    ebreak_save   <= ebreak;
+                    ecall_save    <= ecall;
+                    mret_save     <= mret;
+                    fence_i_save  <= fence_i;
+                    csrrw_save    <= csrrw;
+                    csrrs_save    <= csrrs;
+                    csrrc_save    <= csrrc;
 
-                csr_rst_save  <= csrw_rst;
+                    csr_rst_save  <= csrw_rst;
 
-                bypass_active <= 1'b0;
-                bypass_data <= 32'b0;
+                    bypass_active <= 1'b0;
+                    bypass_data <= 32'b0;
 
-                taken_save <= taken;
+                    taken_save <= taken;
+                end
                 
             end
         // ------------------------------------------

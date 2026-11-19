@@ -100,7 +100,13 @@ module ysyx_26040135_EXU (
     input ifu_exception_0,
     input ifu_exception_1,
 
-    input idu_exception_2
+    input idu_exception_2,
+
+    input lsu_exception_4,
+    input lsu_exception_6,
+
+    input lsu_exception_5,
+    input lsu_exception_7    
 
 );
     reg  _possible_branch_instr;
@@ -203,6 +209,16 @@ module ysyx_26040135_EXU (
                 mcause <= 32'h2;
             end
 
+            if(lsu_exception_4) begin
+                mepc <= pc_save;
+                mcause <= 32'h4;
+            end
+
+            if(lsu_exception_6) begin
+                mepc <= pc_save;
+                mcause <= 32'h6;
+            end
+
             if(in_ready) begin
 
                 if(ifu_exception_0) begin   // 默认优先处理exception0
@@ -212,9 +228,8 @@ module ysyx_26040135_EXU (
                 else if(ifu_exception_1) begin
                     mepc <= ifu_exception_pc;
                     mcause <= 32'h1;
-                end
-
-                if(in_valid) begin
+                end 
+                else if(in_valid) begin
                     in_ready <= 1'b0;
                     pc_save    <= pc;
                     instr_save <= instr;
@@ -284,7 +299,7 @@ module ysyx_26040135_EXU (
                 exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
             end
 
-            if(out_valid && !out_ready) begin
+            if(out_valid && !out_ready) beginout_valid
                 exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
             end
 
@@ -294,7 +309,7 @@ module ysyx_26040135_EXU (
 
         // ------------------------------------------
 
-            if(out_ready && out_valid) begin
+            if(out_ready && out_valid) begin  // 即便这个周期出现exception 4/6 也没有问题, 相当于flush了
                 out_valid <= 1'b0;
                 in_ready <= 1'b1;
             end

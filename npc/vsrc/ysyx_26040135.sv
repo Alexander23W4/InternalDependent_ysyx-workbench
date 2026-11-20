@@ -278,8 +278,6 @@ module ysyx_26040135(
     wire [1:0] fetch_error;
     wire [31:0] fetch_addr;
     wire icache_flush;
-    wire lsu_exception;
-    assign lsu_exception = lsu_exception_4 | lsu_exception_5 | lsu_exception_6 | lsu_exception_7;
 
     ysyx_26040135_AXI_IFU ifu (
         .clock(clock),
@@ -317,9 +315,7 @@ module ysyx_26040135(
         .ifu_exception_pc(ifu_exception_pc),
 
         .idu_instr_valid(idu_instr_valid),
-        .idu_exception_2(idu_exception_2),
-
-        .lsu_exception(lsu_exception)
+        .idu_exception_2(idu_exception_2)
     ); 
 
     wire bt_valid;
@@ -432,23 +428,12 @@ ysyx_26040135_EXU exu (
     .ifu_exception_0(ifu_exception_0),
     .ifu_exception_1(ifu_exception_1),
 
-    .idu_exception_2(idu_exception_2),
-
-    .lsu_exception_4(lsu_exception_4),
-    .lsu_exception_6(lsu_exception_6),
-    .lsu_exception_5(lsu_exception_5),
-    .lsu_exception_7(lsu_exception_7),
-    .lsu_exception_pc(lsu_pc_out)
+    .idu_exception_2(idu_exception_2)
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
     wire ren;
     wire fence_i_flush;
-
-    wire lsu_exception_4;
-    wire lsu_exception_6;
-    wire lsu_exception_5;
-    wire lsu_exception_7;
 
 
     ysyx_26040135_dbg_register GPR(
@@ -505,12 +490,7 @@ ysyx_26040135_EXU exu (
         .lsu_blockf_cyc(lsu_blockf_cyc),
         .lsu_blcokb_cyc(lsu_blcokb_cyc),
         .lsu_work_cyc(lsu_work_cyc),
-        .lsu_blockfs(lsu_blockf),
-
-        .lsu_exception_4(lsu_exception_4),
-        .lsu_exception_6(lsu_exception_6),
-        .lsu_exception_5(lsu_exception_5),
-        .lsu_exception_7(lsu_exception_7)
+        .lsu_blockfs(lsu_blockf)
     );
 
     wire valid_lw, ready_lw;

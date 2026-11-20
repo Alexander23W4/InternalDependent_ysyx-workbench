@@ -2718,10 +2718,6 @@ VL_INLINE_OPT void Vtop___024root___nba_comb__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar__DOT__winner_3_0 
         = ((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar__DOT__readys_readys_1) 
            & (IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT___axi4frag_auto_in_bvalid));
-    vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar__DOT__muxState_3_0 
-        = ((IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar__DOT__idle_3)
-            ? (IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar__DOT__winner_3_0)
-            : (IData)(vlSelf->difftest_top__DOT__soc__DOT__asic__DOT__axi4xbar__DOT__state_3_0));
 }
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__8(Vtop___024root* vlSelf) {
@@ -4003,7 +3999,6 @@ void Vtop___024root___nba_comb__TOP__8(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__10(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__11(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__12(Vtop___024root* vlSelf);
-void Vtop___024root___nba_comb__TOP__15(Vtop___024root* vlSelf);
 
 void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -4105,7 +4100,7 @@ void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
     if (((((vlSelf->__VnbaTriggered.at(1U) | vlSelf->__VnbaTriggered.at(2U)) 
            | vlSelf->__VnbaTriggered.at(3U)) | vlSelf->__VnbaTriggered.at(4U)) 
          | vlSelf->__VnbaTriggered.at(5U))) {
-        Vtop___024root___nba_comb__TOP__15(vlSelf);
+        Vtop___024root___act_comb__TOP__1(vlSelf);
     }
     if (((((vlSelf->__VnbaTriggered.at(0U) | vlSelf->__VnbaTriggered.at(2U)) 
            | vlSelf->__VnbaTriggered.at(3U)) | vlSelf->__VnbaTriggered.at(4U)) 

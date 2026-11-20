@@ -67,10 +67,7 @@ module ysyx_26040135_AXI_IFU (
     output reg [31:0] ifu_exception_pc,
 
     output reg idu_instr_valid,   // 这个信号指这里给idu的instr是有效的
-    input idu_exception_2,
-
-    input lsu_exception   // 这里4合1, ifu对他们的处理方式是一样的 
-    
+    input idu_exception_2
 );
 
     // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -111,7 +108,6 @@ module ysyx_26040135_AXI_IFU (
     reg [31:0] pc_flush_save;
     reg fence_i_flush_save;
     reg _btb_hit;
-    reg lsu_exception_save;
 
 
     reg instr_addr_misaligned;
@@ -165,8 +161,6 @@ module ysyx_26040135_AXI_IFU (
 
             idu_instr_valid <= 1'b0;
 
-            lsu_exception_save <= 1'b0;
-
         end else begin
 
             state <= next;             
@@ -213,14 +207,11 @@ module ysyx_26040135_AXI_IFU (
                 if(fence_i_flush) begin
                     fence_i_flush_save <= 1'b1;
                 end
-                if(lsu_exception) begin
-                    lsu_exception_save <= 1'b1;
-                end
                 out_pc <= pc;   // 在这里就把out_pc存下来, 这样无论是否被flush, 是否真的fetch, out_pc都存的是上一次fetch的pc 
             end
 
 
-            if(state == IDLE && out_valid && (flush | fence_i_flush | out_ready | idu_exception_2 | lsu_exception)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
+            if(state == IDLE && out_valid && (flush | fence_i_flush | out_ready | idu_exception_2)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
                 out_valid <= 1'b0;
             end
 
@@ -234,7 +225,7 @@ module ysyx_26040135_AXI_IFU (
                     idu_instr_valid <= 1'b0;
                 end
 
-                if(lsu_exception | idu_exception_2) begin
+                if(idu_exception_2) begin
                     pc <= mtvec;
                 end
                 else if(flush) begin
@@ -255,15 +246,10 @@ module ysyx_26040135_AXI_IFU (
                 if(fence_i_flush_save | fence_i_flush) begin   // 不更新pc, 也不给握手, 冲刷掉这次fetch, 同时发信号给icache冲刷, 下次再读同一个pc一次
                     fence_i_flush_save <= 1'b0;
                 end
-                if(lsu_exception | lsu_exception_save) begin
-                    lsu_exception_save <= 1'b0;
-                end
 
                 // 这里按照优先级置pc, exception优先.  (按理来说应该越深的指令优先级越高)
-                if(lsu_exception | lsu_exception_save) begin
-                    pc <= mtvec;
-                end
-                else if(flush_save) begin
+
+                if(flush_save) begin
                     pc <= pc_flush_save;
                 end
                 else if(flush) begin

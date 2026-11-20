@@ -43,6 +43,7 @@ module ysyx_26040135_EXU (
     input wen,
     input [4:0] rd_wb,
 
+
     output reg [31:0] _mstatus, _mtvec, _mepc, _mcause,
     output reg [31:0] _mcycle, _mcycleh, _mvendorid, _marchid,
     output reg [31:0] _pc,
@@ -67,8 +68,8 @@ module ysyx_26040135_EXU (
     output reg [4:0] rs1_out,
     output reg [4:0] rs2_out,
 
-    output reg flush,
-    output reg [31:0] pc_flush,
+    output reg flush,   //
+    output reg [31:0] pc_flush,  //
 
     output reg [63:0] exu_blockf_cyc,
     output reg [63:0] exu_blcokbl_cyc,
@@ -76,24 +77,19 @@ module ysyx_26040135_EXU (
 
     output reg ebreak_end,
 
-    // bypass
-    input [31:0] bypass_wdata_lsu,  // 
-    input [4:0] bypass_rd_lsu,  //
-    input lsu_bypass_data_valid, 
-
-    input [31:0] bypass_wdata_wbu,
-    input [4:0] bypass_rd_wbu,
-    input wbu_bypass_data_valid,
-
+    // 
     output reg ren,   // 使能读
 
+    // btb (BTFN)
     output reg bt_valid,
     output reg [31:0] b_pc,
     output reg [31:0] b_target,
-
     input taken,
+
+    // fence_i
     output reg fence_i_flush,
 
+    // exception handle
     output [31:0] mtvec_out,
 
     input [31:0] ifu_exception_pc,
@@ -121,10 +117,6 @@ module ysyx_26040135_EXU (
 
     reg wen_save;
     reg [4:0] rd_wb_save;
-
-    reg bypass_active;
-    reg [31:0] bypass_data;
-
 
     // input存储
     reg [31:0] mstatus, mepc, mcause, mtvec, mcycle, mcycleh, mvendorid, marchid;   // csr 都放到这里
@@ -184,8 +176,6 @@ module ysyx_26040135_EXU (
             rd_amt <= 32'b0;
             wen_save <= 1'b0;
             rd_wb_save <= 5'b0;
-            bypass_active <= 1'b0;
-            bypass_data <= 32'b0;
 
             mstatus <= 32'h00001800;   
             mcause <= 0;
@@ -320,9 +310,6 @@ module ysyx_26040135_EXU (
 
                     csr_rst_save  <= csrw_rst;
 
-                    bypass_active <= 1'b0;
-                    bypass_data <= 32'b0;
-
                     taken_save <= taken;
                 end
             // ------------------------------------------
@@ -347,11 +334,11 @@ module ysyx_26040135_EXU (
                 end
     
                 if(state == BRANCH && is_nlwb) begin
+                    // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
                     in_ready <= 1'b1;
                 end
-                
                 if(state == BRANCH && !is_nlwb) begin
-                    // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
+                    // 除了那10条, 其他都要发给下级
                     out_valid <= 1'b1;  
                 end
 
@@ -386,26 +373,26 @@ module ysyx_26040135_EXU (
                 if(state == EX) begin
                     if(csrrw_save) begin
                         case(imm_save)  // case CSR addr
-                            32'h00000300: mstatus <= rdata1_ul;
-                            32'h00000305: mtvec <= rdata1_ul;
-                            32'h00000341: mepc <= rdata1_ul;
-                            32'h00000342: mcause <= rdata1_ul;
+                            32'h00000300: mstatus <= rdata1;
+                            32'h00000305: mtvec <= rdata1;
+                            32'h00000341: mepc <= rdata1;
+                            32'h00000342: mcause <= rdata1;
                         endcase
                     end
                     else if (|{{5{csrrs_save}} & rs1_save}) begin
                         case(imm_save) 
-                            32'h00000300: mstatus <= rdata1_ul | csr_rst_save;
-                            32'h00000305: mtvec <= rdata1_ul | csr_rst_save;
-                            32'h00000341: mepc <= rdata1_ul | csr_rst_save;
-                            32'h00000342: mcause <= rdata1_ul | csr_rst_save;
+                            32'h00000300: mstatus <= rdata1 | csr_rst_save;
+                            32'h00000305: mtvec <= rdata1 | csr_rst_save;
+                            32'h00000341: mepc <= rdata1 | csr_rst_save;
+                            32'h00000342: mcause <= rdata1 | csr_rst_save;
                         endcase
                     end
                     else if (|{{5{csrrc_save}} & rs1_save}) begin
                         case(imm_save) 
-                            32'h00000300: mstatus <= csr_rst_save & (~rdata1_ul);
-                            32'h00000305: mtvec <= csr_rst_save & (~rdata1_ul);
-                            32'h00000341: mepc <= csr_rst_save & (~rdata1_ul);
-                            32'h00000342: mcause <= csr_rst_save & (~rdata1_ul);
+                            32'h00000300: mstatus <= csr_rst_save & (~rdata1);
+                            32'h00000305: mtvec <= csr_rst_save & (~rdata1);
+                            32'h00000341: mepc <= csr_rst_save & (~rdata1);
+                            32'h00000342: mcause <= csr_rst_save & (~rdata1);
                         endcase
                     end
 
@@ -415,25 +402,6 @@ module ysyx_26040135_EXU (
                     end
                 end
 
-
-
-                if(state == BLOCK && single_rs && !gpr_read_valid) begin
-                    if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
-                        if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
-                            bypass_data <= bypass_wdata_lsu;
-                            bypass_active <= 1'b1;
-                        end 
-                    end else begin  // 一个的情况
-                        if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
-                            bypass_data <= bypass_wdata_lsu;
-                            bypass_active <= 1'b1;
-                        end 
-                        else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
-                            bypass_data <= bypass_wdata_wbu;
-                            bypass_active <= 1'b1;
-                        end
-                    end
-                end
             end
         end
     end
@@ -479,22 +447,6 @@ module ysyx_26040135_EXU (
                 if(gpr_read_valid) begin  // 没有RAW
                     next = EX;
                 end 
-                else begin  // 出现RAW, 看看能不能接受lsu或者wbu的bypass数据    这里暂时只处理single_rs, 因为他只专注于rs1, 对关键时钟路径影响小
-                    if(single_rs) begin   // 只要rs1 (i-type)
-                        if(rd_amt[rs1_save]) begin  // 两个的情况, 选最年轻的发
-                            if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
-                                next = EX;
-                            end 
-                        end else begin  // 一个的情况
-                            if(lsu_bypass_data_valid && (rs1_save == bypass_rd_lsu)) begin 
-                                next = EX;
-                            end 
-                            else if(wbu_bypass_data_valid && (rs1_save == bypass_rd_wbu)) begin
-                                next = EX;
-                            end
-                        end
-                    end
-                end
             end
 
             EX: begin   // 现在就是把EX固定成两个周期, 还是只有跳转部分弄成2个周期(控制分野)
@@ -534,7 +486,7 @@ module ysyx_26040135_EXU (
     wire read = lw_save | lh_save | lb_save | lbu_save | lhu_save;
     wire write = sw_save | sh_save | sb_save;
     assign is_ls = read | write;
-    wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;
+    wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;   // 经典10个
 
     wire nrs = jal_save | lui_save | auipc_save | fence_i_save | ecall_save | ebreak_save;  // 这几个不需要读取, 没有gpr依赖问题
     wire r_type = add_save | sub_save | sll_save | slt_save | sltu_save | xor_inst_save | srl_save | sra_save | or_inst_save | and_inst_save;
@@ -543,7 +495,7 @@ module ysyx_26040135_EXU (
     wire rsb_type = r_type | s_type | b_type;
     wire single_rs = ~rsb_type & ~nrs;    // ⭐: 注意, 这个是会有变化的, 如果其他类型支持的instr增加, 就不一定对了
 
-    // gpr_read_valid = 没有 RAW 冒险(注意: 不读 GPR 的指令也必须为 1, 否则会卡死)
+    // gpr_read_valid = 没有 RAW 冒险 (注意: 不读 GPR 的指令也必须为 1, 否则会卡死)
     wire gpr_read_valid = !((rsb_type && (rd_list[rs1_save] || rd_list[rs2_save])) || (single_rs && rd_list[rs1_save]));   // 会读gpr且gpr存在io前后依赖问题
 
 
@@ -552,33 +504,31 @@ module ysyx_26040135_EXU (
 
     // ------------------------ EX阶段的组合计算逻辑(EX)    ⭐: 这里用来计算的信号已经全部是寄存器信号了, 所以不会有向前的组合路径延伸
 
-    wire [31:0] rdata1_ul = bypass_active ? bypass_data : rdata1;   // EX阶段稳定
-
     wire [4:0] shamt_r = rdata2[4:0];
     wire [4:0] shamt_i = imm_save[4:0];
-    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1_ul;
+    wire [31:0] add1 = (auipc_save | jal_save | blt_save | bltu_save | bge_save | bgeu_save | bne_save | beq_save) ? pc_save : rdata1;
     wire [31:0] add2 = add_save ? rdata2 : imm_save;  
     wire [31:0] add_rst_w = add1 + add2;      // ⭐
-    wire [31:0] sub_rst  = rdata1_ul - rdata2;
-    wire [31:0] xor_rst  = rdata1_ul ^ rdata2;
-    wire [31:0] xori_rst = rdata1_ul ^ imm_save;
-    wire [31:0] or_rst   = rdata1_ul | rdata2;
-    wire [31:0] ori_rst  = rdata1_ul | imm_save;
-    wire [31:0] and_rst  = rdata1_ul & rdata2;
-    wire [31:0] andi_rst = rdata1_ul & imm_save;
+    wire [31:0] sub_rst  = rdata1 - rdata2;
+    wire [31:0] xor_rst  = rdata1 ^ rdata2;
+    wire [31:0] xori_rst = rdata1 ^ imm_save;
+    wire [31:0] or_rst   = rdata1 | rdata2;
+    wire [31:0] ori_rst  = rdata1 | imm_save;
+    wire [31:0] and_rst  = rdata1 & rdata2;
+    wire [31:0] andi_rst = rdata1 & imm_save;
 
     wire [31:0] slt_rst   = {31'b0, cmp_lt};
     wire [31:0] sltu_rst  = {31'b0, cmp_ltu};
-    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1_ul) < $signed(imm_save))};
-    wire [31:0] sltiu_rst = {31'b0, (rdata1_ul < imm_save)};
+    wire [31:0] slti_rst  = {31'b0, ($signed(rdata1) < $signed(imm_save))};
+    wire [31:0] sltiu_rst = {31'b0, (rdata1 < imm_save)};
 
 
-    wire [31:0] sll_rst   = rdata1_ul << shamt_r;
-    wire [31:0] slli_rst  = rdata1_ul << shamt_i;
-    wire [31:0] srl_rst   = rdata1_ul >> shamt_r;
-    wire [31:0] srli_rst  = rdata1_ul >> shamt_i;
-    wire [31:0] sra_rst   = $signed(rdata1_ul) >>> shamt_r;
-    wire [31:0] srai_rst  = $signed(rdata1_ul) >>> shamt_i;
+    wire [31:0] sll_rst   = rdata1 << shamt_r;
+    wire [31:0] slli_rst  = rdata1 << shamt_i;
+    wire [31:0] srl_rst   = rdata1 >> shamt_r;
+    wire [31:0] srli_rst  = rdata1 >> shamt_i;
+    wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
+    wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
     
 
     always @(*) begin
@@ -657,9 +607,9 @@ module ysyx_26040135_EXU (
             if(state == EX) begin
                 add_rst_w_save <= add_rst_w;
                 pc_next_dft <= pc_save + 32'd4;
-                cmp_lt <= ($signed(rdata1_ul) < $signed(rdata2));
-                cmp_ltu <= (rdata1_ul < rdata2);
-                cmp_eq <= (rdata1_ul == rdata2);
+                cmp_lt <= ($signed(rdata1) < $signed(rdata2));
+                cmp_ltu <= (rdata1 < rdata2);
+                cmp_eq <= (rdata1 == rdata2);
             end
         end
     end

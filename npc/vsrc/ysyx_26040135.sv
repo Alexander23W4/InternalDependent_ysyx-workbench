@@ -128,6 +128,7 @@ B5现阶段实际优化方案:
 ⭐ B阶段考核准备:
 
 弄完最后一点点PPA优化, 还有exception handler
+ebreak 怎么处理呢
 
 研究节省PAP的rtl写法, 优化rtl
 
@@ -339,7 +340,7 @@ module ysyx_26040135(
     wire [31:0] instr;
     wire valid_fd;
     wire ready_rd;
-    
+
     wire compulsory_branch_instrs = valid_fd & (jalr | jal | ecall | mret);
 
     ysyx_26040135_IDU idu (
@@ -417,9 +418,6 @@ ysyx_26040135_EXU exu (
     .exu_blcokbl_cyc(exu_blcokbl_cyc),
     .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),
 
-    .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
-    .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen),
-
     .ren(ren),
 
     .bt_valid(bt_valid),
@@ -444,7 +442,6 @@ ysyx_26040135_EXU exu (
 );
     wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
-    wire lsu_bypass_data_valid;
     wire ren;
     wire fence_i_flush;
 
@@ -503,7 +500,6 @@ ysyx_26040135_EXU exu (
 
         .wdata(wdata_lw),
         .rd_out(rd_lsu),
-        .lsu_bypass_data_valid(lsu_bypass_data_valid),
         .pc_out(lsu_pc_out),
 
         .lsu_blockf_cyc(lsu_blockf_cyc),

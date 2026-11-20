@@ -205,7 +205,20 @@ module ysyx_26040135_EXU (
         end else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
 
-            // 各种exception按照优先级处理, 优先级处理优先于所有正常工作
+/*
+    各种exception按照优先级处理, 优先级处理优先于所有正常工作. 
+    exception 都是由其他级产生的, 这里exu只要接收到后
+
+    如果是后级发来的exception: 
+    state = IDLE
+    in_ready = 1   out_valid = 0
+    mepc = ...
+    mcause = ...
+
+    如果是前级发来的exception:
+    现有的instr要正常执行
+    改mepc和mcause即可
+*/
             if(lsu_exception_4) begin
                 out_valid <= 1'b0;
                 in_ready <= 1'b1;
@@ -247,6 +260,7 @@ module ysyx_26040135_EXU (
                 mepc <= ifu_exception_pc;
                 mcause <= 32'h1;
             end else begin
+
                 state <= next;
 
                 if(in_ready && in_valid) begin

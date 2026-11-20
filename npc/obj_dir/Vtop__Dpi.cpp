@@ -1,0 +1,80 @@
+// Verilated -*- C++ -*-
+// DESCRIPTION: Verilator output: Implementation of DPI export functions.
+//
+// Verilator compiles this file in when DPI functions are used.
+// If you have multiple Verilated designs with the same DPI exported
+// function names, you will get multiple definition link errors from here.
+// This is an unfortunate result of the DPI specification.
+// To solve this, either
+//    1. Call Vtop::{export_function} instead,
+//       and do not even bother to compile this file
+// or 2. Compile all __Dpi.cpp files in the same compiler run,
+//       and #ifdefs already inserted here will sort everything out.
+
+#include "Vtop__Dpi.h"
+#include "Vtop.h"
+
+#ifndef VL_DPIDECL_check_error_
+#define VL_DPIDECL_check_error_
+void check_error(int* ifu_error, int* master_validation_error) {
+    // DPI export at vsrc/dpi-f.sv:41:15
+    return Vtop::check_error(ifu_error, master_validation_error);
+}
+#endif
+
+#ifndef VL_DPIDECL_check_flush_
+#define VL_DPIDECL_check_flush_
+void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit) {
+    // DPI export at vsrc/dpi-f.sv:98:6
+    return Vtop::check_flush(flush, fetch_done, flush_ifu_blk, flush_ifu_blk_flg, possible_branch_instr, compulsory_branch, optimisible_branch, btb_hit);
+}
+#endif
+
+#ifndef VL_DPIDECL_check_halt_
+#define VL_DPIDECL_check_halt_
+void check_halt(int* endprog) {
+    // DPI export at vsrc/dpi-f.sv:7:6
+    return Vtop::check_halt(endprog);
+}
+#endif
+
+#ifndef VL_DPIDECL_check_new_instr_
+#define VL_DPIDECL_check_new_instr_
+void check_new_instr(int* new_instr) {
+    // DPI export at vsrc/dpi-f.sv:53:6
+    return Vtop::check_new_instr(new_instr);
+}
+#endif
+
+#ifndef VL_DPIDECL_check_pipeline_bottleneck_
+#define VL_DPIDECL_check_pipeline_bottleneck_
+void check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready) {
+    // DPI export at vsrc/dpi-f.sv:79:6
+    return Vtop::check_pipeline_bottleneck(ifu_out_valid, exu_in_ready, exu_out_valid, lsu_in_ready, lsu_out_valid, wbu_in_ready);
+}
+#endif
+
+#ifndef VL_DPIDECL_check_wen_
+#define VL_DPIDECL_check_wen_
+void check_wen(int* wen) {
+    // DPI export at vsrc/dpi-f.sv:60:6
+    return Vtop::check_wen(wen);
+}
+#endif
+
+#ifndef VL_DPIDECL_debug_read_all_
+#define VL_DPIDECL_debug_read_all_
+void debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr) {
+    // DPI export at vsrc/dpi-f.sv:15:15
+    return Vtop::debug_read_all(dbg_regs, pc, mstatus, mepc, mcause, mtvec, mcycle, instr);
+}
+#endif
+
+#ifndef VL_DPIDECL_difftest_read_gpr_
+#define VL_DPIDECL_difftest_read_gpr_
+void difftest_read_gpr(int* gprs, int* pc) {
+    // DPI export at vsrc/dpi-f.sv:68:6
+    return Vtop::difftest_read_gpr(gprs, pc);
+}
+#endif
+

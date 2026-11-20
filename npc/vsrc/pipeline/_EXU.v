@@ -98,12 +98,6 @@ module ysyx_26040135_EXU (
 
     input idu_exception_2,
 
-    input lsu_exception_4,
-    input lsu_exception_6,
-
-    input lsu_exception_5,
-    input lsu_exception_7,
-
     input [31:0] lsu_exception_pc   // 这里连接lsu的pc_out  
 );
 
@@ -211,35 +205,7 @@ module ysyx_26040135_EXU (
 
     把这里的非阻塞赋值分成可以被exception门控的和不能被exception门控的, 比如涉及exu正常操作, 状态机操作, state, out_valid, in_ready, csr的
 */
-            if(lsu_exception_4) begin
-                out_valid <= 1'b0;
-                in_ready <= 1'b1;
-                mepc <= pc_save;
-                mcause <= 32'h4;
-                state <= IDLE;
-            end
-            else if(lsu_exception_5) begin
-                out_valid <= 1'b0;
-                in_ready <= 1'b1;
-                mepc <= pc_save;
-                mcause <= 32'h5;
-                state <= IDLE;
-            end
-            else if(lsu_exception_6) begin
-                out_valid <= 1'b0;
-                in_ready <= 1'b1;
-                mepc <= lsu_exception_pc;
-                mcause <= 32'h6;
-                state <= IDLE;
-            end
-            else if(lsu_exception_7) begin
-                out_valid <= 1'b0;
-                in_ready <= 1'b1;
-                mepc <= lsu_exception_pc;
-                mcause <= 32'h7;
-                state <= IDLE;
-            end 
-            else if(idu_exception_2) begin   // 在IDLE触发, 不会握手
+            if(idu_exception_2) begin   // 在IDLE触发, 不会握手
                 mepc <= pc;
                 mcause <= 32'h2;
             end
@@ -251,162 +217,160 @@ module ysyx_26040135_EXU (
             else if(ifu_exception_1) begin   // 在IDLE触发, 不会握手
                 mepc <= ifu_exception_pc;
                 mcause <= 32'h1;
+            end
+
+            state <= next;
+
+            if(in_ready && in_valid) begin
+                in_ready <= 1'b0;
+                pc_save    <= pc;
+                instr_save <= instr;
+                imm_save   <= imm;
+
+                rd_save    <= rd;
+                rs1_save   <= rs1;
+                rs2_save   <= rs2;
+
+                add_save      <= add;
+                addi_save     <= addi;
+                sub_save      <= sub;
+                lui_save      <= lui;
+                auipc_save    <= auipc;
+                and_inst_save <= and_inst;
+                or_inst_save  <= or_inst;
+                xor_inst_save <= xor_inst;
+                andi_save     <= andi;
+                ori_save      <= ori;
+                xori_save     <= xori;
+                sll_save      <= sll;
+                srl_save      <= srl;
+                sra_save      <= sra;
+                slli_save     <= slli;
+                srli_save     <= srli;
+                srai_save     <= srai;
+                slt_save      <= slt;
+                sltu_save     <= sltu;
+                slti_save     <= slti;
+                sltiu_save    <= sltiu;
+                jal_save      <= jal;
+                jalr_save     <= jalr;
+                lb_save       <= lb;
+                lh_save       <= lh;
+                lw_save       <= lw;
+                lbu_save      <= lbu;
+                lhu_save      <= lhu;
+                sb_save       <= sb;
+                sh_save       <= sh;
+                sw_save       <= sw;
+                beq_save      <= beq;
+                bne_save      <= bne;
+                blt_save      <= blt;
+                bge_save      <= bge;
+                bltu_save     <= bltu;
+                bgeu_save     <= bgeu;
+                ebreak_save   <= ebreak;
+                ecall_save    <= ecall;
+                mret_save     <= mret;
+                fence_i_save  <= fence_i;
+                csrrw_save    <= csrrw;
+                csrrs_save    <= csrrs;
+                csrrc_save    <= csrrc;
+
+                csr_rst_save  <= csrw_rst;
+
+                taken_save <= taken;
+            end
+        // ------------------------------------------
+
+            if(in_ready && !in_valid) begin
+                exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
+            end
+
+            if(out_valid && !out_ready) begin
+                exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
+            end
+
+            if(state != IDLE) begin
+                exu_work_cyc <= exu_work_cyc + 64'b1;
+            end
+
+        // ------------------------------------------
+
+            if(out_ready && out_valid) begin  // 即便这个周期出现exception 4/6 也没有问题, 相当于flush了
+                out_valid <= 1'b0;
+                in_ready <= 1'b1;
+            end
+
+            if(state == BRANCH && is_nlwb) begin
+                // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
+                in_ready <= 1'b1;
+            end
+            if(state == BRANCH && !is_nlwb) begin
+                // 除了那10条, 其他都要发给下级
+                out_valid <= 1'b1;  
+            end
+
+
+
+            if(wen) begin
+                if(|rd_wb) begin // 不是0
+                    wen_save <= 1'b1;
+                    rd_wb_save <= rd_wb;
+                end
+            end
+
+            // ⭐: 如果要冲刷, 则
+            if(state == EX) begin
+                // 需要wb的instr  
+                if(!is_nlwb && !write && (|rd_save)) begin  // 不是0
+                    if(rd_list[rd_save]) begin          // 已经有没有完成的同一个rd了
+                        rd_amt[rd_save] <= 1'b1;
+                    end else begin
+                        rd_list[rd_save] <= 1'b1;
+                        rd_amt[rd_save] <= 1'b0;
+                    end
+                end 
             end else begin
-
-                state <= next;
-
-                if(in_ready && in_valid) begin
-                    in_ready <= 1'b0;
-                    pc_save    <= pc;
-                    instr_save <= instr;
-                    imm_save   <= imm;
-
-                    rd_save    <= rd;
-                    rs1_save   <= rs1;
-                    rs2_save   <= rs2;
-
-                    add_save      <= add;
-                    addi_save     <= addi;
-                    sub_save      <= sub;
-                    lui_save      <= lui;
-                    auipc_save    <= auipc;
-                    and_inst_save <= and_inst;
-                    or_inst_save  <= or_inst;
-                    xor_inst_save <= xor_inst;
-                    andi_save     <= andi;
-                    ori_save      <= ori;
-                    xori_save     <= xori;
-                    sll_save      <= sll;
-                    srl_save      <= srl;
-                    sra_save      <= sra;
-                    slli_save     <= slli;
-                    srli_save     <= srli;
-                    srai_save     <= srai;
-                    slt_save      <= slt;
-                    sltu_save     <= sltu;
-                    slti_save     <= slti;
-                    sltiu_save    <= sltiu;
-                    jal_save      <= jal;
-                    jalr_save     <= jalr;
-                    lb_save       <= lb;
-                    lh_save       <= lh;
-                    lw_save       <= lw;
-                    lbu_save      <= lbu;
-                    lhu_save      <= lhu;
-                    sb_save       <= sb;
-                    sh_save       <= sh;
-                    sw_save       <= sw;
-                    beq_save      <= beq;
-                    bne_save      <= bne;
-                    blt_save      <= blt;
-                    bge_save      <= bge;
-                    bltu_save     <= bltu;
-                    bgeu_save     <= bgeu;
-                    ebreak_save   <= ebreak;
-                    ecall_save    <= ecall;
-                    mret_save     <= mret;
-                    fence_i_save  <= fence_i;
-                    csrrw_save    <= csrrw;
-                    csrrs_save    <= csrrs;
-                    csrrc_save    <= csrrc;
-
-                    csr_rst_save  <= csrw_rst;
-
-                    taken_save <= taken;
-                end
-            // ------------------------------------------
-
-                if(in_ready && !in_valid) begin
-                    exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
-                end
-
-                if(out_valid && !out_ready) begin
-                    exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
-                end
-
-                if(state != IDLE) begin
-                    exu_work_cyc <= exu_work_cyc + 64'b1;
-                end
-
-            // ------------------------------------------
-
-                if(out_ready && out_valid) begin  // 即便这个周期出现exception 4/6 也没有问题, 相当于flush了
-                    out_valid <= 1'b0;
-                    in_ready <= 1'b1;
-                end
-    
-                if(state == BRANCH && is_nlwb) begin
-                    // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
-                    in_ready <= 1'b1;
-                end
-                if(state == BRANCH && !is_nlwb) begin
-                    // 除了那10条, 其他都要发给下级
-                    out_valid <= 1'b1;  
-                end
-
-
-
-                if(wen) begin
-                    if(|rd_wb) begin // 不是0
-                        wen_save <= 1'b1;
-                        rd_wb_save <= rd_wb;
+                if(wen_save) begin
+                    wen_save <= 1'b0;
+                    if(rd_amt[rd_wb_save]) begin
+                        rd_amt[rd_wb_save] <= 1'b0;
+                    end else begin
+                        rd_list[rd_wb_save] <= 1'b0;
                     end
                 end
+            end
 
-                // ⭐: 如果要冲刷, 则
-                if(state == EX) begin
-                    // 需要wb的instr  
-                    if(!is_nlwb && !write && (|rd_save)) begin  // 不是0
-                        if(rd_list[rd_save]) begin          // 已经有没有完成的同一个rd了
-                            rd_amt[rd_save] <= 1'b1;
-                        end else begin
-                            rd_list[rd_save] <= 1'b1;
-                            rd_amt[rd_save] <= 1'b0;
-                        end
-                    end 
-                end else begin
-                    if(wen_save) begin
-                        wen_save <= 1'b0;
-                        if(rd_amt[rd_wb_save]) begin
-                            rd_amt[rd_wb_save] <= 1'b0;
-                        end else begin
-                            rd_list[rd_wb_save] <= 1'b0;
-                        end
-                    end
+            if(state == EX) begin
+                if(csrrw_save) begin
+                    case(imm_save)  // case CSR addr
+                        32'h00000300: mstatus <= rdata1;
+                        32'h00000305: mtvec <= rdata1;
+                        32'h00000341: mepc <= rdata1;
+                        32'h00000342: mcause <= rdata1;
+                    endcase
+                end
+                else if (|{{5{csrrs_save}} & rs1_save}) begin
+                    case(imm_save) 
+                        32'h00000300: mstatus <= rdata1 | csr_rst_save;
+                        32'h00000305: mtvec <= rdata1 | csr_rst_save;
+                        32'h00000341: mepc <= rdata1 | csr_rst_save;
+                        32'h00000342: mcause <= rdata1 | csr_rst_save;
+                    endcase
+                end
+                else if (|{{5{csrrc_save}} & rs1_save}) begin
+                    case(imm_save) 
+                        32'h00000300: mstatus <= csr_rst_save & (~rdata1);
+                        32'h00000305: mtvec <= csr_rst_save & (~rdata1);
+                        32'h00000341: mepc <= csr_rst_save & (~rdata1);
+                        32'h00000342: mcause <= csr_rst_save & (~rdata1);
+                    endcase
                 end
 
-                if(state == EX) begin
-                    if(csrrw_save) begin
-                        case(imm_save)  // case CSR addr
-                            32'h00000300: mstatus <= rdata1;
-                            32'h00000305: mtvec <= rdata1;
-                            32'h00000341: mepc <= rdata1;
-                            32'h00000342: mcause <= rdata1;
-                        endcase
-                    end
-                    else if (|{{5{csrrs_save}} & rs1_save}) begin
-                        case(imm_save) 
-                            32'h00000300: mstatus <= rdata1 | csr_rst_save;
-                            32'h00000305: mtvec <= rdata1 | csr_rst_save;
-                            32'h00000341: mepc <= rdata1 | csr_rst_save;
-                            32'h00000342: mcause <= rdata1 | csr_rst_save;
-                        endcase
-                    end
-                    else if (|{{5{csrrc_save}} & rs1_save}) begin
-                        case(imm_save) 
-                            32'h00000300: mstatus <= csr_rst_save & (~rdata1);
-                            32'h00000305: mtvec <= csr_rst_save & (~rdata1);
-                            32'h00000341: mepc <= csr_rst_save & (~rdata1);
-                            32'h00000342: mcause <= csr_rst_save & (~rdata1);
-                        endcase
-                    end
-
-                    if(ecall_save) begin
-                        mepc <= pc_save;
-                        mcause <= 32'h0000000b;
-                    end
+                if(ecall_save) begin
+                    mepc <= pc_save;
+                    mcause <= 32'h0000000b;
                 end
-
             end
         end
     end

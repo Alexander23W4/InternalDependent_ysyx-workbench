@@ -24,7 +24,7 @@ module ysyx_26040135_IDU(
 
     但是因为IDLE的第一个周期out_valid已经是1了, 这时ifu和exu可能握手, 这个看怎么处理, 或者让他握, 反正不管怎么样给exu发信息放弃(如果握了)
 */
-    input idu_instr_valid,
+    input idu_instr_valid,              
     output idu_exception_2,   // 这个信号同时驱动exu改mepc和mcause, 也驱动ifu改pc到mtvec, 把out_valid去掉
     
 

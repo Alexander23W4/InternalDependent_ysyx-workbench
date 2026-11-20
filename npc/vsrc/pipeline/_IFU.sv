@@ -60,12 +60,15 @@ module ysyx_26040135_AXI_IFU (
     input fence_i_flush,
     output reg icache_flush,
 
+//  exception handle
     input [31:0] mtvec,
 
+// 自己的 exception
     output reg ifu_exception_0,
     output reg ifu_exception_1,
     output reg [31:0] ifu_exception_pc,
 
+// 外来的 exception
     output reg idu_instr_valid,   // 这个信号指这里给idu的instr是有效的
     input idu_exception_2
 );
@@ -187,7 +190,8 @@ module ysyx_26040135_AXI_IFU (
                 ifu_work_cyc <= ifu_work_cyc + 64'b1;
             end
 
-            if(state == FETCH) begin
+        // 进入fetch之后, 认为这次的pc就是有效的这次要fetch的pc, 所以只要在这里出问题, 比如不对齐, 或者不可执行, 存下来
+            if(state == FETCH) begin   
                 if(pc[1:0] != 2'b00) begin
                     instr_addr_misaligned <= 1'b1;
                 end
@@ -234,19 +238,18 @@ module ysyx_26040135_AXI_IFU (
 
             end
 
-            if(instr_valid) begin   // 下个周期就是IDLE, 可以握手, 在这里判断是否冲刷, 给不给握手. 如果要冲刷, 则不给握手, 废掉这次fetch
+            if(instr_valid) begin   // 下个周期就是IDLE, 只要判断所有的包括积累的意外情况, 如果有, 都不给out_valid, 不给握手
 
                 // 要flush的, 在这里先把该清的flag都清理掉
                 if(flush_save | flush) begin
                     flush_save <= 1'b0;
-                    // 如果这条指令被flush了, 那么对于他的exception handle要取消掉, 后续一直到out_ready的时候检测exception, 都不会再收到新的excpetion
                     instr_addr_misaligned <= 1'b0;  
                     instr_access_fault <= 1'b0;
                 end
-                if(fence_i_flush_save | fence_i_flush) begin   // 不更新pc, 也不给握手, 冲刷掉这次fetch, 同时发信号给icache冲刷, 下次再读同一个pc一次
+
+                if(fence_i_flush_save | fence_i_flush) begin
                     fence_i_flush_save <= 1'b0;
                 end
-
                 // 这里按照优先级置pc, exception优先.  (按理来说应该越深的指令优先级越高)
 
                 if(flush_save) begin
@@ -254,23 +257,30 @@ module ysyx_26040135_AXI_IFU (
                 end
                 else if(flush) begin
                     pc <= pc_flush;
-                end else begin  // 如果没有这条没有被flush, 则正常更新pc, 分为default(+4) 和 触发b-type的分支预测
-                    out_valid <= 1'b1;    // 没有被冲刷, 这次fetch有效, 给握手
-                    if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT
-                        pc <= btb_target[pc[2]];   
-                        taken <= 1'b1;
-                    end else begin
-                        pc <= pc + 32'd4;  // FN & default
-                        taken <= 1'b0;
-                    end
-
+                end 
+                else if(fence_i_flush_save | fence_i_flush) begin
+                    
+                end
+                else begin  
                     if(fetch_error != 2'b00) begin
                         instr_access_fault <= 1'b1;
-                    end
+                    end else begin
+                        out_valid <= 1'b1;    // 没有被冲刷, 这次fetch有效, 给握手
 
-                    out_pc    <= pc;    // ⭐ 取指完成这拍也要存: icache 命中时第一拍就 instr_valid, 上面 !instr_valid 那个分支不会执行
-                    out_instr <= instr;  
-                    idu_instr_valid <= 1'b1;  // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
+                        // 更新pc   如果这条没有触发意外, 则正常更新pc, 分为default(+4) 和 触发b-type的分支预测
+                        if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT
+                            pc <= btb_target[pc[2]];   
+                            taken <= 1'b1;
+                        end else begin
+                            pc <= pc + 32'd4;  // FN & default
+                            taken <= 1'b0;
+                        end
+
+                        out_pc <= pc;    // ⭐ 取指完成这拍也要存: icache 命中时第一拍就 instr_valid, 上面 !instr_valid 那个分支不会执行
+                        out_instr <= instr;  
+                        // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
+                        idu_instr_valid <= 1'b1;  
+                    end
                 end
             end
 
@@ -295,7 +305,7 @@ module ysyx_26040135_AXI_IFU (
             
         case(state)
             IDLE: begin  // IFU 的 IDLE的作用就是等ready握手
-                if((out_ready && !cbi) || (flush && cbi)) begin     // 这里因为cbi必然会被flush, 所以先把cbi卡在这里, 直到收到flush, 才
+                if((out_ready && !cbi) || (flush && cbi)) begin     // 这里因为cbi必然会被flush, 所以先把cbi卡在这里, 直到收到flush
                     next = FETCH;
                 end
 
@@ -328,7 +338,7 @@ module ysyx_26040135_AXI_IFU (
 
         if(state == IDLE || instr_valid) begin
             if(fence_i_flush_save || fence_i_flush) begin
-                icache_flush = 1'b1;
+                icache_flush = 1'b1;   // 发一个这个信号就ok了
             end
         end
 

@@ -190,7 +190,9 @@ module ysyx_26040135_AXI_IFU (
                 ifu_work_cyc <= ifu_work_cyc + 64'b1;
             end
 
-        // 进入fetch之后, 认为这次的pc就是有效的这次要fetch的pc, 所以只要在这里出问题, 比如不对齐, 或者不可执行, 存下来
+
+        // --------------- 触发这两个的都会直接跳回IDLE, 不会触发访存/icache
+
             if(state == FETCH) begin   
                 if(pc[1:0] != 2'b00) begin
                     instr_addr_misaligned <= 1'b1;
@@ -201,7 +203,7 @@ module ysyx_26040135_AXI_IFU (
                 end    
             end
 
-        // ---- 以下都是flush的逻辑, 覆盖flush信号在IFU状态机的不同时刻到来的所有情况:
+        // --------------- 以下都是flush的逻辑, 覆盖flush信号在IFU状态机的不同时刻到来的所有情况:
 
             if(state == FETCH && !instr_valid) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
                 if(flush) begin
@@ -229,11 +231,11 @@ module ysyx_26040135_AXI_IFU (
                     idu_instr_valid <= 1'b0;
                 end
 
-                if(idu_exception_2) begin
-                    pc <= mtvec;
-                end
-                else if(flush) begin
+                if(flush) begin
                     pc <= pc_flush;
+                end
+                else if(idu_exception_2) begin
+                    pc <= mtvec;
                 end
 
             end
@@ -241,15 +243,9 @@ module ysyx_26040135_AXI_IFU (
             if(instr_valid) begin   // 下个周期就是IDLE, 只要判断所有的包括积累的意外情况, 如果有, 都不给out_valid, 不给握手
 
                 // 要flush的, 在这里先把该清的flag都清理掉
-                if(flush_save | flush) begin
-                    flush_save <= 1'b0;
-                    instr_addr_misaligned <= 1'b0;  
-                    instr_access_fault <= 1'b0;
-                end
+                flush_save <= 1'b0;
+                fence_i_flush_save <= 1'b0;
 
-                if(fence_i_flush_save | fence_i_flush) begin
-                    fence_i_flush_save <= 1'b0;
-                end
                 // 这里按照优先级置pc, exception优先.  (按理来说应该越深的指令优先级越高)
 
                 if(flush_save) begin
@@ -262,10 +258,10 @@ module ysyx_26040135_AXI_IFU (
                     
                 end
                 else begin  
-                    if(fetch_error != 2'b00) begin
+                    if(fetch_error != 2'b00) begin   // 这下ifu的exception都不给握手
                         instr_access_fault <= 1'b1;
                     end else begin
-                        out_valid <= 1'b1;    // 没有被冲刷, 这次fetch有效, 给握手
+                        out_valid <= 1'b1; 
 
                         // 更新pc   如果这条没有触发意外, 则正常更新pc, 分为default(+4) 和 触发b-type的分支预测
                         if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT

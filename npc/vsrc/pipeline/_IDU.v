@@ -134,7 +134,7 @@ module ysyx_26040135_IDU(
     end
 
     reg decode_invalid;
-    assign idu_exception_2 = idu_instr_valid & decode_invalid;
+    assign idu_exception_2 = idu_instr_valid & decode_invalid & out_ready;  // 延迟到exu ready的时候, 才判断是不是idu_exception
 
     always @(*) begin
         out_pc = in_pc;

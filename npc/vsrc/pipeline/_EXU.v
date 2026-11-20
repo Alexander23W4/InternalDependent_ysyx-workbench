@@ -96,9 +96,7 @@ module ysyx_26040135_EXU (
     input ifu_exception_0,
     input ifu_exception_1,
 
-    input idu_exception_2,
-
-    input [31:0] lsu_exception_pc   // 这里连接lsu的pc_out  
+    input idu_exception_2
 );
 
     reg  _possible_branch_instr;
@@ -222,6 +220,7 @@ module ysyx_26040135_EXU (
             state <= next;
 
             if(in_ready && in_valid) begin
+
                 in_ready <= 1'b0;
                 pc_save    <= pc;
                 instr_save <= instr;

@@ -172,7 +172,12 @@ module ysyx_26040135_AXI_IFU (
                 if(out_ready) begin
                     // 到这个状态, 说明这次fetch的这个instr有效(没有被flush), 则如果这次fetch周期出现exception, 统一在这个状态触发
                     // 然后如果有exception, 发信号给exu, invalid这次握手, 重置pc到mtvec, 改mepc和mcause
-                    if(instr_addr_misaligned) begin
+                    // 这里的优先级是0>1, exu那边也是
+                    if(idu_exception_2) begin
+                        idu_instr_valid <= 1'b0;   // 让他不要继续发exception
+                        pc <= mtvec;
+                    end
+                    else if(instr_addr_misaligned) begin
                         instr_addr_misaligned <= 1'b0;
                         pc <= mtvec;
                     end
@@ -226,18 +231,8 @@ module ysyx_26040135_AXI_IFU (
                 if(flush) begin
                     instr_addr_misaligned <= 1'b0;    // 这里同样, 碰到flush就清掉exception handle信号
                     instr_access_fault <= 1'b0;
-                end 
-                if(idu_exception_2) begin
-                    idu_instr_valid <= 1'b0;
-                end
-
-                if(flush) begin
                     pc <= pc_flush;
-                end
-                else if(idu_exception_2) begin
-                    pc <= mtvec;
-                end
-
+                end 
             end
 
             if(instr_valid) begin   // 下个周期就是IDLE, 只要判断所有的包括积累的意外情况, 如果有, 都不给out_valid, 不给握手

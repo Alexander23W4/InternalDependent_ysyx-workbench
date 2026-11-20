@@ -37,7 +37,6 @@ module ysyx_26040135_AXI_LSU (
 
     output [31:0] wdata,  // 
     output [4:0] rd_out,  //
-    output reg lsu_bypass_data_valid, 
     output reg [31:0] pc_out,
 
 
@@ -212,8 +211,6 @@ module ysyx_26040135_AXI_LSU (
         bus.bready = 1'b0;
         bus.wlast = 1'b1;
 
-        lsu_bypass_data_valid = 1'b0;  
-
         next = state;
         aw_done_next = aw_done;
         w_done_next  = w_done;
@@ -243,7 +240,6 @@ module ysyx_26040135_AXI_LSU (
                         end
                     end
                 end
-                lsu_bypass_data_valid = out_valid;  // 只有在等wbu收数据的那几个周期是可以bypass的, wbu一收到数据, 数据立马就是通过wbu进行bypass
             end
 
             AR: begin

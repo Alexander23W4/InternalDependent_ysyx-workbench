@@ -208,6 +208,8 @@ module ysyx_26040135_EXU (
     如果是前级发来的exception:
     现有的instr要正常执行
     改mepc和mcause即可
+
+    把这里的非阻塞赋值分成可以被exception门控的和不能被exception门控的, 比如涉及exu正常操作, 状态机操作, state, out_valid, in_ready, csr的
 */
             if(lsu_exception_4) begin
                 out_valid <= 1'b0;
@@ -342,6 +344,8 @@ module ysyx_26040135_EXU (
                     out_valid <= 1'b1;  
                 end
 
+
+
                 if(wen) begin
                     if(|rd_wb) begin // 不是0
                         wen_save <= 1'b1;
@@ -349,6 +353,7 @@ module ysyx_26040135_EXU (
                     end
                 end
 
+                // ⭐: 如果要冲刷, 则
                 if(state == EX) begin
                     // 需要wb的instr  
                     if(!is_nlwb && !write && (|rd_save)) begin  // 不是0

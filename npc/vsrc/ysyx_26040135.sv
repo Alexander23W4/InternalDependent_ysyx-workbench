@@ -116,12 +116,7 @@ B5现阶段实际优化方案:
 11	Environment call from M-mode	IDU  @
 
 
-优化RTL的写法, verilog的省A & PW的方法
-避免优先级mux
 
-
-
-权衡一下面积, 看要不要去掉bypass(DHS)
 */
 
 /*
@@ -129,8 +124,6 @@ B5现阶段实际优化方案:
 
 弄完最后一点点PPA优化, 还有exception handler
 ebreak 怎么处理呢
-
-研究节省PAP的rtl写法, 优化rtl
 
 做完讲义B-extra内容, 满足流片需求
 
@@ -142,7 +135,7 @@ ebreak 怎么处理呢
 ⭐ 后续:
 研究rocketchip的设计框图和rtl
 
-阅读计算的本质, 重新精度ysyx代码和riscv开放架构设计之道, 重点注意gcc-flag, 每个flag对IPC的作用
+阅读计算的本质, 重新精读ysyx代码和riscv开放架构设计之道, 重点注意gcc-flag, 每个flag对IPC的作用
 */
 
 module ysyx_26040135(

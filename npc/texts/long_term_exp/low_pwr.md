@@ -54,3 +54,41 @@ SVT/RVT(Standard/Regular Voltage Threshold) 的性能介于 LVT 与 HVT 之间�
 
 所以选用标准单元库的时候，需要综合速度和功耗两个方面来考虑。
 例如，可以在关键路径使用 LVT 单元，在非关键路径使用 HVT 单元。
+
+
+# RTL级 (这一级的优化主要就是 减少翻转 或 减少电路, 因为在RTL里面降低V, C, f都是不现实或不符合优化目标的)
+
+1. 资源共享 
+    always @(*) begin
+        case (mode) :
+            3'b000:         result  = 1'b1 ;
+            3'b001:         result  = 1'b0 ;
+            3'b010:         result  = value1 == value2 ;
+            3'b011:         result  = value1 != value2 ;
+            3'b100:         result  = value1 > value2 ;
+            3'b101:         result  = value1 < value2 ;
+            3'b110:         result  = value1 >= value2 ;
+            3'b111:         result  = value1 <= value2 ;
+        endcase
+    end
+对上述代码进行优化，描述如下：
+    wire equal_con       = value1 == value2 ;
+    wire great_con       = value1 > value2 ;
+    always @(*) begin
+        case (mode) :
+            3'b000:         result  = 1'b1 ;
+            3'b001:         result  = 1'b0 ;
+            3'b010:         result  = equal_con ;
+            3'b011:         result  = equal_con ;
+            3'b100:         result  = great_con ;
+            3'b101:         result  = !great_con && !equal_con ;
+            3'b110:         result  = great_con && equal_con ;
+            3'b111:         result  = !great_con ;
+        endcase
+    end
+
+2. 状态编码
+可以把FSM状态变成Grey Code
+
+
+3. 寄存器翻转

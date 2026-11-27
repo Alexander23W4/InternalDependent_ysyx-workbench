@@ -142,15 +142,15 @@ module ysyx_26040135_EXU (
 
 
     always @(*) begin   // 这个在没in握手的时候就完成, 握手时用csr_rst_save锁存
-        case(imm)
-            32'h00000300: csrw_rst = mstatus;
-            32'h00000305: csrw_rst = mtvec;
-            32'h00000341: csrw_rst = mepc;
-            32'h00000342: csrw_rst = mcause;
-            32'h00000b00: csrw_rst = mcycle;
-            32'h00000b80: csrw_rst = mcycleh;
-            32'h00000f11: csrw_rst = mvendorid;
-            32'h00000f12: csrw_rst = marchid;
+        case(imm[11:0])
+            12'h300: csrw_rst = mstatus;
+            12'h305: csrw_rst = mtvec;
+            12'h341: csrw_rst = mepc;
+            12'h342: csrw_rst = mcause;
+            12'hb00: csrw_rst = mcycle;
+            12'hb80: csrw_rst = mcycleh;
+            12'hf11: csrw_rst = mvendorid;
+            12'hf12: csrw_rst = marchid;
             default: csrw_rst = 32'b0;
         endcase
     end
@@ -340,29 +340,29 @@ module ysyx_26040135_EXU (
                 end
             end
 
-            if(state == EX) begin
+            if(state == EX) begin   // ⭐: 待优化, 这个一定可以优化   根本就没有优先级    MUX比较imm_save的选通端也可以复用
                 if(csrrw_save) begin
-                    case(imm_save)  // case CSR addr
-                        32'h00000300: mstatus <= rdata1;
-                        32'h00000305: mtvec <= rdata1;
-                        32'h00000341: mepc <= rdata1;
-                        32'h00000342: mcause <= rdata1;
+                    case(imm_save[11:0])  // case CSR addr
+                        12'h300: mstatus <= rdata1;
+                        12'h305: mtvec <= rdata1;
+                        12'h341: mepc <= rdata1;
+                        12'h342: mcause <= rdata1;
                     endcase
                 end
                 else if (|{{5{csrrs_save}} & rs1_save}) begin
-                    case(imm_save) 
-                        32'h00000300: mstatus <= rdata1 | csr_rst_save;
-                        32'h00000305: mtvec <= rdata1 | csr_rst_save;
-                        32'h00000341: mepc <= rdata1 | csr_rst_save;
-                        32'h00000342: mcause <= rdata1 | csr_rst_save;
+                    case(imm_save[11:0]) 
+                        12'h300: mstatus <= rdata1 | csr_rst_save;
+                        12'h305: mtvec <= rdata1 | csr_rst_save;
+                        12'h341: mepc <= rdata1 | csr_rst_save;
+                        12'h342: mcause <= rdata1 | csr_rst_save;
                     endcase
                 end
                 else if (|{{5{csrrc_save}} & rs1_save}) begin
-                    case(imm_save) 
-                        32'h00000300: mstatus <= csr_rst_save & (~rdata1);
-                        32'h00000305: mtvec <= csr_rst_save & (~rdata1);
-                        32'h00000341: mepc <= csr_rst_save & (~rdata1);
-                        32'h00000342: mcause <= csr_rst_save & (~rdata1);
+                    case(imm_save[11:0]) 
+                        12'h300: mstatus <= csr_rst_save & (~rdata1);
+                        12'h305: mtvec <= csr_rst_save & (~rdata1);
+                        12'h341: mepc <= csr_rst_save & (~rdata1);
+                        12'h342: mcause <= csr_rst_save & (~rdata1);
                     endcase
                 end
 

@@ -369,7 +369,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire        bus_lsu_arvalid, bus_lsu_arready, bus_lsu_rvalid, bus_lsu_rready, bus_lsu_rlast;
     wire        bus_lsu_awvalid, bus_lsu_awready, bus_lsu_wvalid, bus_lsu_wready, bus_lsu_wlast, bus_lsu_bvalid, bus_lsu_bready;
     wire [3:0]  bus_lsu_arid, bus_lsu_rid, bus_lsu_awid, bus_lsu_wstrb, bus_lsu_bid;
-    wire [7:0]  bus_lsu_arlen, bus_lsu_awlen;
+    wire [7:0]  bus_lsu_arlen, bus_lsu_awlen;=
     wire [2:0]  bus_lsu_arsize, bus_lsu_awsize;
     wire [1:0]  bus_lsu_arburst, bus_lsu_awburst, bus_lsu_rresp, bus_lsu_bresp;
     wire [31:0] bus_master_araddr, bus_master_awaddr, bus_master_wdata, bus_master_rdata;

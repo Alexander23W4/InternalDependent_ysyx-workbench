@@ -45,7 +45,6 @@ dut_en    clk_en   rst_n    counter_r   counter_d
 # 注释 英文注释
 注释尽量用英文书写，以保证不同操作系统、不同编辑器下能够正常显示。
 
-__|__ 
 
 # 使用括号 增强并行
 
@@ -61,6 +60,10 @@ assign flag = (cnt == 4'd2) && (mode == 2'b01);
 
 
 # 使用并行mux, 避免串行优先级mux(if elseif)
+
+
+# 不要给变量赋初值
+
 
 
 

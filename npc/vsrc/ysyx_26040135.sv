@@ -256,6 +256,10 @@ module ysyx_26040135(
     assign _lsu_out_valid = valid_lw;
     assign _wbu_in_ready = ready_lw;
 
+/*------------------------------------------------------------------------------------------------------------
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+-------------------------------------------------------------------------------------------------------------*/
+
 // 流水线级间连接
 
     ysyx_26040135_AXI_ICACHE icache (
@@ -525,6 +529,7 @@ ysyx_26040135_EXU exu (
     wire [4:0] rd_wbu;
     wire [31:0] wdata_wbu;
     wire [31:0] wbu_pc_out;
+
 
 /*------------------------------------------------------------------------------------------------------------
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

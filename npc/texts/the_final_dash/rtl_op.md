@@ -62,7 +62,7 @@ assign flag = (cnt == 4'd2) && (mode == 2'b01);
 # 使用并行mux, 避免串行优先级mux(if elseif)
 
 
-# 不要给变量赋初值
+# 不要给reg寄存器变量赋初值
 
 
 

@@ -22,6 +22,7 @@ hold time: [这个在分析短路径的时候考虑]
 所以下一个D信号不能在master切到锁存状态之前变化
 
 
+# CDC (clock domain crossing)
 # slew, skew, 跨时钟域信号传递, 同步器
 # 跨域采样的重点就是: 保证能采样到   保证能采样到正确时序
 slew: 边沿时间       skew: 多信号时钟到达时间差

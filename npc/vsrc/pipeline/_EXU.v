@@ -156,7 +156,7 @@ module ysyx_26040135_EXU (
     end
 
 
-    localparam IDLE = 0, BLOCK = 1, WAIT_END = 2, EX = 3, BRANCH = 4;
+    localparam IDLE = 3'b000, BLOCK = 3'b001, WAIT_END = 3'b100, EX = 3'b011, BRANCH = 3'b010;   
     reg [2:0] state, next;
 
     always @(posedge clock or posedge reset) begin
@@ -318,7 +318,6 @@ module ysyx_26040135_EXU (
                 end
             end
 
-            // ⭐: 如果要冲刷, 则
             if(state == EX) begin
                 // 需要wb的instr  
                 if(!is_nlwb && !write && (|rd_save)) begin  // 不是0

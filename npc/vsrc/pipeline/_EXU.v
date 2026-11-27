@@ -564,21 +564,13 @@ module ysyx_26040135_EXU (
     reg cmp_eq;
     reg cmp_ltu;
 
-    always @(posedge clock or posedge reset) begin
-        if(reset) begin
-            add_rst_w_save <= 32'b0;
-            pc_next_dft <= 32'b0;
-            cmp_lt <= 1'b0;
-            cmp_eq <= 1'b0;
-            cmp_ltu <= 1'b0;
-        end else begin
-            if(state == EX) begin
-                add_rst_w_save <= add_rst_w;
-                pc_next_dft <= pc_save + 32'd4;
-                cmp_lt <= ($signed(rdata1) < $signed(rdata2));
-                cmp_ltu <= (rdata1 < rdata2);
-                cmp_eq <= (rdata1 == rdata2);
-            end
+    always @(posedge clock) begin
+        if(state == EX) begin
+            add_rst_w_save <= add_rst_w;
+            pc_next_dft <= pc_save + 32'd4;
+            cmp_lt <= ($signed(rdata1) < $signed(rdata2));
+            cmp_ltu <= (rdata1 < rdata2);
+            cmp_eq <= (rdata1 == rdata2);
         end
     end
 
@@ -594,7 +586,7 @@ module ysyx_26040135_EXU (
     wire sel_other = ~(jalr_save | jal_save | br_taken | ecall_save | mret_save);
 
     always @(*) begin
-        new_pc = ({32{jalr_save }} & (add_rst_w_save & ~32'h1)) |
+        new_pc = ({32{jalr_save }} & {add_rst_w_save[31:1], 1'b0}) |
                  ({32{jal_save | br_taken}} & add_rst_w_save) |
                  ({32{ecall_save}} & mtvec) |
                  ({32{mret_save }} & mepc) |

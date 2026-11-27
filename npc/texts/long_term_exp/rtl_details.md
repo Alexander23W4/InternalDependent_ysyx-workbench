@@ -65,5 +65,7 @@ assign flag = (cnt == 4'd2) && (mode == 2'b01);
 # 不要给reg寄存器变量赋初值
 
 
+# 使用异步清零, 不使用同步清零(综合出带异步清零的DFF)     不需要reset的信号不要reset(综合出不带reset的DFF)
+一般来说, Standard Cell Library 里面都有带异步清零的DFF, 少有同步清零的DFF
 
 

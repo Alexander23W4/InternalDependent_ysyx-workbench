@@ -46,11 +46,7 @@ module ysyx_26040135_AXI_IFU (
 
     // exception pass
     output reg ifu_exception_0,
-    output reg ifu_exception_1,
-
-// 外来的 exception
-    output reg idu_instr_valid,   // 这个信号指这里给idu的instr是有效的
-    input idu_exception_2
+    output reg ifu_exception_1
 );
 
     // BTB +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -111,12 +107,6 @@ module ysyx_26040135_AXI_IFU (
             out_valid <= 1'b0;  
 
             flush_save <= 1'b0;
-            pc_flush_save <= 32'b0;
-
-            idu_instr_valid <= 1'b0;
-
-            ifu_exception_0 <= 1'b0;
-            ifu_exception_1 <= 1'b0;
 
         end else begin
 
@@ -165,10 +155,26 @@ module ysyx_26040135_AXI_IFU (
                         pc <= pc + 32'd4;  // FN & default
                         taken <= 1'b0;
                     end
+
                     out_instr <= instr;  
-                    out_valid <= 1'b1; 
-                    // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
-                    idu_instr_valid <= 1'b1;  
+                    out_valid <= 1'b1;    // 现在除了flush, 固定都会给out_valid
+                    out_pc <= pc;
+                    
+                    case(fence_error)
+                        2'b00: begin
+                            ifu_exception_0 <= 1'b0;
+                            ifu_exception_1 <= 1'b0;
+                        end    
+                        2'b01: begin
+                            ifu_exception_0 <= 1'b1;
+                            ifu_exception_1 <= 1'b0;
+                        end
+                        2'b10: begin
+                            ifu_exception_0 <= 1'b0;
+                            ifu_exception_1 <= 1'b1;
+                        end
+                            
+                    endcase
                 end
             end
 
@@ -195,14 +201,10 @@ module ysyx_26040135_AXI_IFU (
             end
 
             FETCH: begin
-                if(pc[1:0] == 2'b00 && is_executable(pc)) begin
-                    fetch_valid = 1'b1;
-                    if(instr_valid) begin
-                        _fetch_done = 1'b1;
-                        next = IDLE;
-                    end
-                end else begin
-                    next = IDLE;   // pc不符合要求, 不fetch, 一边设置exception, 一边下个周期直接跳回IDLE   (按照exu时序在这个时钟周期不可能出现flush信号)
+                fetch_valid = 1'b1;
+                if(instr_valid) begin
+                    _fetch_done = 1'b1;
+                    next = IDLE;
                 end
             end
 

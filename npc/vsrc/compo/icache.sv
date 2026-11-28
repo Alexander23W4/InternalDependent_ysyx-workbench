@@ -211,10 +211,12 @@ module ysyx_26040135_AXI_ICACHE (
                 if(fetch_valid) begin      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
                     if(fetch_addr[1:0] != 2'b00) begin
                         instr_valid = 1'b1;
+                        instr = '0;
                         fetch_error = 2'b01;
                     end
                     else if(!is_executable(fetch_addr)) begin
                         instr_valid = 1'b1;
+                        instr = '0;
                         fetch_error = 2'b10;
                     end
                     else if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit

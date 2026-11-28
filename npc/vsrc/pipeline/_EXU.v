@@ -279,13 +279,15 @@ module ysyx_26040135_EXU (
 
 
             if(state == EX) begin   
-
-                case(imm_save[11:0])
-                    12'h300: mstatus <= csrr_wb;
-                    12'h305: mtvec <= csrr_wb;
-                    12'h341: mepc <= csrr_wb;
-                    12'h342: mcause <= csrr_wb;
-                endcase
+                
+                if(|csrr_wb_en) begin
+                    case(imm_save[11:0])
+                        12'h300: mstatus <= csrr_wb;
+                        12'h305: mtvec <= csrr_wb;
+                        12'h341: mepc <= csrr_wb;
+                        12'h342: mcause <= csrr_wb;
+                    endcase
+                end
 
                 if(ecall_save) begin
                     mepc <= pc_save;
@@ -477,6 +479,7 @@ module ysyx_26040135_EXU (
             3'b001: csrr_wb = rdata1;
             3'b010: csrr_wb = rdata1 | csr_rst_save;
             3'b100: csrr_wb = ~rdata1 & csr_rst_save;
+            default: csrr_wb = '0;
         endcase
 
 

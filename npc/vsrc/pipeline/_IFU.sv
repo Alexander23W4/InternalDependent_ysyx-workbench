@@ -63,15 +63,15 @@ module ysyx_26040135_AXI_IFU (
     // BTB +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
     // 外部控制信号与返回外部的信号:
-    reg flush_save;
-    reg [31:0] pc_flush_save;
     reg _btb_hit;
 
 
     // 内部寄存器
     reg [31:0] pc;       
-
     assign fetch_addr = pc;
+
+    reg flush_save;
+    reg [31:0] pc_flush_save;
 
     wire _flush;
     reg  _fetch_done;    // 代表IFU 完成了一次fetch

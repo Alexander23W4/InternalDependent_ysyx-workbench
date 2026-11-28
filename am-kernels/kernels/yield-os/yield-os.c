@@ -47,7 +47,7 @@ static PCB pcb[2], pcb_boot, *current = &pcb_boot;
 static void f(void *arg) {
   while (1) {
     putch("?AB"[(uintptr_t)arg > 2 ? 0 : (uintptr_t)arg]);  // "?AB"[1] = 'A'
-    for (int volatile i = 0; i < 100000; i++) ;
+    for (int volatile i = 0; i < 10000; i++) ;
     yield();
   }
 }

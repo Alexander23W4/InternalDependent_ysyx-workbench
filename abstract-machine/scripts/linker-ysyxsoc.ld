@@ -9,11 +9,12 @@ ysyxSoC 专用链接脚本。
       sram  0x0f00_0000   8KB   栈
       sdram 0xa000_0000~0xbfff_ffff    仿真扩展后暂时有128MB  VMA: 程序本体(text/rodata/data/bss) + 堆
 
-
-
 ⭐ _pmem_start / _sram_start / _entry_offset 由 LDFLAGS 的 --defsym 传入,
    见 scripts/platform/ysyxsoc.mk。
+
+⭐ 这里的"."跟的都是VMA
 */
+
 MEMORY {
   flash : ORIGIN = 0x30000000, LENGTH = 16M
   sram  : ORIGIN = 0x0f000000, LENGTH = 8K
@@ -30,8 +31,6 @@ SECTIONS {
     _boot_end = .;
   } > flash AT> flash
 
-  . = ALIGN(4);
-
 
 
 /* ⭐: SSBL  */
@@ -40,7 +39,9 @@ SECTIONS {
     _ssbl_start = .;
     *(ssbl)
     _ssbl_end = .;
+    . = ALIGN(4); 
   } > sdram AT > flash
+
   _ssbl_lma = LOADADDR(.ssbl);
 
 
@@ -49,6 +50,7 @@ SECTIONS {
     _text_start = .;
     *(.text*)
     _text_end = .;
+    . = ALIGN(4); 
   } > sdram AT> flash
 
   .rodata : {
@@ -56,6 +58,7 @@ SECTIONS {
     *(.rodata*)
     *(.srodata*)               /* 把srodata加进来 */
     _rodata_end = .;
+    . = ALIGN(4); 
   } > sdram AT> flash
 
   _text_lma   = LOADADDR(.text);
@@ -112,7 +115,6 @@ SECTIONS {
     _data_end = .;
   } > sdram AT> flash
 
-/*⭐: 定义这些链接器符号, 明确指定LMA和VMA就是为了能够让bootloader*/
   edata = .;
   _data = .;
 
@@ -130,6 +132,7 @@ SECTIONS {
 
     /* ⭐ 同上, rt-thread-am 的 __am_apps.bss* 也直接收编进 .bss,
           这样 _bss_end 和 _heap_start 天然在它们后面(堆不会和 __am_apps.bss 重叠)。 */
+
     . = ALIGN(8);
     __am_apps_bss_start = .;
     *(__am_apps.bss*)

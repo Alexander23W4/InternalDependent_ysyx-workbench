@@ -281,7 +281,7 @@ module ysyx_26040135_EXU (
             if(state == EX) begin   
                 
                 if(|csrr_wb_en) begin
-                    case(imm_save[11:0])
+                    case(imm_save[11:0])   // 这里对没有实现的csr, 默认忽略不写
                         12'h300: mstatus <= csrr_wb;
                         12'h305: mtvec <= csrr_wb;
                         12'h341: mepc <= csrr_wb;

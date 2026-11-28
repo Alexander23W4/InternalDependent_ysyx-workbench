@@ -203,12 +203,16 @@ module ysyx_26040135_IDU(
                     end else begin
                         exception_2 = 1'b1;
                     end
+                end else begin
+                    exception_2 = 1'b1;
                 end
             end
 
             7'b0001111: begin    // imm[11:0] rs1 001 rd 0001111 FENCE.I
                 if(funct3 == 3'b001) begin
                     fence_i = 1'b1; 
+                end else begin
+                    exception_2 = 1'b1;
                 end
             end  
 

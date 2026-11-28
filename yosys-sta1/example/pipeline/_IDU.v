@@ -7,8 +7,13 @@ module ysyx_26040135_IDU(
 
     output out_valid,
     input out_ready,
-    output reg [31:0] out_pc,
+    output reg [31:0] out_pc,   // 这个pc可以赋值mepc
+
+    input taken,
+    output taken_out,
     
+    input ifu_exception_0,
+    input ifu_exception_1,
 
 // opcodes  
 // === Arithmetic & Logical (Integer Register-Immediate Instructions) ===
@@ -72,21 +77,28 @@ module ysyx_26040135_IDU(
 
     output reg fence_i,
 
+    output reg exception_0,
+    output reg exception_1,
+    output reg exception_2,
+
 // oprands  
     output reg[4:0] rd,
-
+    // 这两个只给GPR传
     output reg[4:0] rs1,
     output reg[4:0] rs2,
 
+// ⭐ 一条指令只用一个立即数, 在这里就按指令类型选好
     output reg[31:0] imm,
 
-    input taken,
-    output taken_out
+    output [31:0] out_instr
 );
 
     assign in_ready  = out_ready;
     assign out_valid = in_valid;
+
+    assign out_instr = in_instr;
     assign taken_out = taken;
+
 
     wire [6:0] opcode = in_instr[6:0];
     wire [2:0] funct3 = in_instr[14:12];
@@ -100,7 +112,7 @@ module ysyx_26040135_IDU(
     wire [31:0] immCSR_w = {20'b0, in_instr[31:20]};
 
     reg [31:0] imm_w;
-    always @(*) begin
+    always @(*) begin   // 选并阵
         case(opcode)
             7'b0110111: imm_w = immU_w;     // lui
             7'b0010111: imm_w = immU_w;     // auipc
@@ -111,6 +123,7 @@ module ysyx_26040135_IDU(
             default:    imm_w = immI_w;     // I-type / jalr / load
         endcase
     end
+
 
     always @(*) begin
         out_pc = in_pc;
@@ -174,9 +187,31 @@ module ysyx_26040135_IDU(
 
         fence_i  = 1'b0;
 
+        exception_0 = 1'b0;
+        exception_1 = 1'b0;
+        exception_2 = 1'b0;
+
 
         case(opcode)
-            7'b0001111: fence_i = 1'b1;   //     // imm[11:0] rs1 001 rd 0001111 FENCE.I
+            7'b0000000: begin   // exception 
+                if(|in_instr[31:7] == 1'b0) begin
+                    if(ifu_exception_0) begin
+                        exception_0 = 1'b1;
+                    end
+                    else if(ifu_exception_1) begin
+                        exception_1 = 1'b1;
+                    end else begin
+                        exception_2 = 1'b1;
+                    end
+                end
+            end
+
+            7'b0001111: begin    // imm[11:0] rs1 001 rd 0001111 FENCE.I
+                if(funct3 == 3'b001) begin
+                    fence_i = 1'b1; 
+                end
+            end  
+
             // === Upper Immediate ===
             7'b0010111: auipc = 1'b1;
             7'b0110111: lui = 1'b1;
@@ -194,7 +229,7 @@ module ysyx_26040135_IDU(
                     3'b101: bge = 1'b1;
                     3'b110: bltu = 1'b1;
                     3'b111: bgeu = 1'b1;
-                    default: ;
+                    default: exception_2 = 1'b1;
                 endcase
             end
 
@@ -206,7 +241,7 @@ module ysyx_26040135_IDU(
                     3'b010: lw = 1'b1;
                     3'b100: lbu = 1'b1;
                     3'b101: lhu = 1'b1;
-                    default: ;
+                    default: exception_2 = 1'b1;
                 endcase
             end
 
@@ -216,7 +251,7 @@ module ysyx_26040135_IDU(
                     3'b000: sb = 1'b1;
                     3'b001: sh = 1'b1;
                     3'b010: sw = 1'b1;
-                    default: ;
+                    default: exception_2 = 1'b1;
                 endcase
             end
 
@@ -229,12 +264,25 @@ module ysyx_26040135_IDU(
                     3'b100: xori = 1'b1;
                     3'b110: ori = 1'b1;
                     3'b111: andi = 1'b1;
-                    3'b001: slli = 1'b1;
+                    3'b001: begin
+                        if(|funct7 == 0) begin
+                            slli = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
+                    end 
                     3'b101: begin
-                        if (funct7[5]) srai = 1'b1;
-                        else           srli = 1'b1;
+                        if(|funct7 == 0) begin
+                            srli = 1'b1;
+                        end
+                        else if(funct7 == 7'b0100000) begin
+                            srai = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
                     end
-                    default: ;
+
+                    default: exception_2 = 1'b1;
                 endcase
             end
 
@@ -242,37 +290,92 @@ module ysyx_26040135_IDU(
             7'b0110011: begin
                 case(funct3)
                     3'b000: begin
-                        if (funct7[5]) sub = 1'b1;
-                        else           add = 1'b1;
+                        if(|funct7 == 0) begin
+                            add = 1'b1;
+                        end
+                        else if(funct7 == 7'b0100000) begin
+                            sub = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
                     end
-                    3'b001: sll = 1'b1;
-                    3'b010: slt = 1'b1;
-                    3'b011: sltu = 1'b1;
-                    3'b100: xor_inst = 1'b1;
+                    3'b001: begin
+                        if(|funct7 == 0) begin
+                            sll = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
+                    end
+                    
+                    3'b010: begin
+                        if(|funct7 == 0) begin
+                            slt = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
+                    end
+                    3'b011: begin
+                        if(|funct7 == 0) begin
+                            sltu = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
+                    end
+                    3'b100: begin
+                        if(|funct7 == 0) begin
+                            xor_inst = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
+                    end
                     3'b101: begin
-                        if (funct7[5]) sra = 1'b1;
-                        else           srl = 1'b1;
+                        if(|funct7 == 0) begin
+                            srl = 1'b1;
+                        end
+                        else if(funct7 == 7'b0100000) begin
+                            sra = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
                     end
-                    3'b110: or_inst = 1'b1;
-                    3'b111: and_inst = 1'b1;
-                    default: ;
+
+                    3'b110: begin
+                        if(|funct7 == 0) begin
+                            or_inst = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
+                    end
+
+                    3'b111: begin
+                        if(|funct7 == 0) begin
+                            and_inst = 1'b1;
+                        end else begin
+                            exception_2 = 1'b1;
+                        end
+                    end
+
+                    default: exception_2 = 1'b1;
                 endcase
             end
 
             // === System ===
             7'b1110011: begin
-                if (funct3 == 3'b000 && in_instr[20]) ebreak = 1'b1;
+                if (in_instr[31:7] == 25'b0000000000010000000000000) ebreak = 1'b1;
                 else if (in_instr[31:7] == 25'b0011000000100000000000000) mret = 1'b1;
-                else if (in_instr[31:7] == 0) ecall = 1'b1;
+                else if (|in_instr[31:7] == 0) ecall = 1'b1;
                 else if (funct3 == 3'b001) csrrw = 1'b1;
                 else if (funct3 == 3'b010) csrrs = 1'b1;
                 else if (funct3 == 3'b011) csrrc = 1'b1; 
+                else begin
+                    exception_2 = 1'b1;
+                end
             end
 
-            default: ;
+            default: exception_2 = 1'b1;
         endcase
     end
 
-endmodule
 
+endmodule
 

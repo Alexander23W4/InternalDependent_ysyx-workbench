@@ -9,13 +9,12 @@ module ysyx_26040135_WBU(
     input [4:0] rd,
     input [31:0] wdata,
 
-
     output reg wen,    // 这个信号同时也承担 wb_bypass_data_valid 的作用
     output reg [31:0] wdata_wb,
-    output reg [4:0] rd_wb,
+    output reg [4:0] rd_wb
 
-    output reg wbu_blockf
 );
+
 
 // state: IDLE  WB
     localparam IDLE = 1'b0, WB = 1'b1;
@@ -27,20 +26,12 @@ module ysyx_26040135_WBU(
             in_ready <= 1'b1;
             state <= IDLE;
 
-            wbu_blockf <= 0;
-
         end else begin  
             state <= next;
-            if(state == IDLE && in_ready && in_valid) begin
+            if(in_ready && in_valid) begin
                 in_ready <= 1'b0;
                 rd_wb <= rd;
                 wdata_wb <= wdata;
-            end
-
-            if(in_ready && !in_valid) begin
-                wbu_blockf <= 1'b1;
-            end else begin
-                wbu_blockf <= 1'b0;
             end
 
             

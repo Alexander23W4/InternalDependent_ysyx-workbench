@@ -41,25 +41,17 @@ module ysyx_26040135_AXI_LSU (
     input [31:0] lsu_wdata,   // rdata2
     input [31:0] lsu_addr,    // add_rst
     input [31:0] ic_wb_wdata,
-
+    
     input in_valid,
     output reg in_ready,
 
     output reg out_valid,
     input out_ready,
-    
-    output [1:0] __error,   // 存储器出错
 
 
     output [31:0] wdata,  // 
-    output [4:0] rd_out,  //
-    output reg lsu_bypass_data_valid, 
-
-    output reg lsu_blockf
+    output [4:0] rd_out
 );
-
-
-    reg [1:0] error_save;
 
     reg io_save;
     reg [1:0] io_type_save;  
@@ -70,7 +62,6 @@ module ysyx_26040135_AXI_LSU (
     reg [31:0] lsu_addr_save;
     reg [31:0] ic_wb_wdata_save;
 
-    assign __error = error_save;
     assign rd_out = rd_save;
 
     reg [31:0] rdata_out;
@@ -85,63 +76,52 @@ module ysyx_26040135_AXI_LSU (
     reg aw_done_next, w_done_next;    // 组合下一拍值(供 always_ff 打拍)
 
 
-    always @(posedge clock or posedge reset) begin
+    always_ff @(posedge clock or posedge reset) begin
         if(reset) begin
             state <= IDLE;
             aw_done <= 1'b0;
             w_done  <= 1'b0;
-            error_save <= 2'b00;
 
             in_ready <= 1'b1;
             out_valid <= 1'b0;
-
-            lsu_blockf <= 1'b0;
 
         end else begin
             state <= next;
             aw_done <= aw_done_next;
             w_done  <= w_done_next;
 
-            if(state == IDLE && out_ready && out_valid) begin
+            if(out_ready && out_valid) begin
                 in_ready <= 1'b1;
                 out_valid <= 1'b0;
             end
 
-            if(state == IDLE && in_valid && in_ready) begin   // 接受并保存
-                in_ready <= 1'b0;
-
-                io_save <= io;
-                io_type_save <= io_type;
-                read_is_u_save <= read_is_u;
-                rd_save <= rd;
-                lsu_data_save <= lsu_wdata;
-                lsu_addr_save <= lsu_addr;
+            if(in_valid && in_ready) begin   // 接受并保存
+                io_save          <= io;
+                io_type_save     <= io_type;
+                read_is_u_save   <= read_is_u;
+                rd_save          <= rd;
+                lsu_data_save    <= lsu_wdata;
+                lsu_addr_save    <= lsu_addr;
                 ic_wb_wdata_save <= ic_wb_wdata;
 
+                in_ready <= 1'b0;
+                
                 if(!is_ls) begin
                     out_valid <= 1'b1;
                 end
             end
 
-            if(in_ready && !in_valid) begin
-                lsu_blockf <= 1'b1;
-            end else begin
-                lsu_blockf <= 1'b0;
+            if (state == R && bus_rvalid) begin
+                if(bus_rresp == 2'b00) begin
+                    rdata_out <= bus_rdata;
+                    out_valid <= 1'b1;
+                end else begin
+                    in_ready <= 1'b1;
+                end
             end
-
-            if(state == R && bus_rvalid && bus_rresp == 2'b00) begin
-                rdata_out <= bus_rdata;
-                out_valid <= 1'b1;
-            end
-            if(state == B && bus_bvalid && bus_bresp == 2'b00) begin  // 写指令, 写完直接恢复in_ready即可
+            
+            if (state == B && bus_bvalid) begin
                 in_ready <= 1'b1;
-            end
-
-            if(state == R && bus_rvalid && bus_rresp != 2'b00) begin
-                error_save <= bus_rresp; 
-            end
-            if(state == B && bus_bvalid && bus_bresp != 2'b00) begin
-                error_save <= bus_bresp;
             end
 
         end
@@ -197,11 +177,10 @@ module ysyx_26040135_AXI_LSU (
         bus_bready = 1'b0;
         bus_wlast = 1'b1;
 
-        lsu_bypass_data_valid = 1'b0;  
-
         next = state;
         aw_done_next = aw_done;
         w_done_next  = w_done;
+
 
         case(state)
             IDLE: begin
@@ -216,7 +195,6 @@ module ysyx_26040135_AXI_LSU (
                         end   
                     end
                 end
-                lsu_bypass_data_valid = out_valid;  // 只有在等wbu收数据的那几个周期是可以bypass的, wbu一收到数据, 数据立马就是通过wbu进行bypass
             end
 
             AR: begin
@@ -252,17 +230,13 @@ module ysyx_26040135_AXI_LSU (
                 end
             end
 
-
             default: ;
         endcase
     end
 
-    wire [31:0] lw_rst, lbu_rst, lhu_rst, lb_rst, lh_rst;
-
     wire [31:0] lsu_rdata_shifted;
     assign lsu_rdata_shifted = rdata_out >> {lsu_addr_save[1:0], 3'b000};
 
-    // 读出数据: 先按宽度选择, 再按有无符号做扩展(不用为 lb/lbu、lh/lhu 各做一份 AND-OR)
     wire is_word = (io_type_save == 2'b10);
     wire is_half = (io_type_save == 2'b01);
     wire is_byte = (io_type_save == 2'b00);
@@ -274,8 +248,10 @@ module ysyx_26040135_AXI_LSU (
         is_byte ? {{24{read_is_u_save ? 1'b0 : lsu_rdata_shifted[7]}},
                    lsu_rdata_shifted[7:0]} : 32'b0;
 
-    // io_type_save == 2'b11 表示非访存指令: 直接转发 ALU 结果
     assign wdata = (io_type_save == 2'b11) ? ic_wb_wdata_save : load_data;
-
+            
 endmodule
+
+
+
 

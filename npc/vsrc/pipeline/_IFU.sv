@@ -37,11 +37,9 @@ module ysyx_26040135_AXI_IFU (
 
     output reg taken,
 
-    output reg icache_flush,
-
     // exception pass
-    output reg ifu_exception_0,
-    output reg ifu_exception_1
+    output reg exception_0,
+    output reg exception_1
 );
 
     // BTB +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -117,7 +115,7 @@ module ysyx_26040135_AXI_IFU (
             end
 
 
-            if(state == IDLE && out_valid && (flush | out_ready)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
+            if(out_valid && (flush | out_ready)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
                 out_valid <= 1'b0;
             end
 
@@ -125,7 +123,7 @@ module ysyx_26040135_AXI_IFU (
             if(state == IDLE) begin  // 如果都到IDLE了, 不可能还存有flush_save, 直接监视flush即可
                 if(flush) begin
                     pc <= pc_flush;
-                end 
+                end
             end
 
             if(instr_valid) begin   
@@ -157,22 +155,21 @@ module ysyx_26040135_AXI_IFU (
                     
                     case(fence_error)
                         2'b00: begin
-                            ifu_exception_0 <= 1'b0;
-                            ifu_exception_1 <= 1'b0;
+                            exception_0 <= 1'b0;
+                            exception_1 <= 1'b0;
                         end    
                         2'b01: begin
-                            ifu_exception_0 <= 1'b1;
-                            ifu_exception_1 <= 1'b0;
+                            exception_0 <= 1'b1;
+                            exception_1 <= 1'b0;
                         end
                         2'b10: begin
-                            ifu_exception_0 <= 1'b0;
-                            ifu_exception_1 <= 1'b1;
+                            exception_0 <= 1'b0;
+                            exception_1 <= 1'b1;
                         end
                             
                     endcase
                 end
             end
-
         end
     end
 
@@ -186,7 +183,6 @@ module ysyx_26040135_AXI_IFU (
         _flush_ifu_blk = 1'b0;
         _flush_ifu_blk_flg = 1'b0;
         _btb_hit = 1'b0;
-        icache_flush = 1'b0;
             
         case(state)
             IDLE: begin  // IFU 的 IDLE的作用就是等ready握手

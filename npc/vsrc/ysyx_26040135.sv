@@ -334,7 +334,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire valid_fd;
     wire ready_rd;
 
-    wire compulsory_branch_instrs = valid_fd & (jalr | jal | ecall | mret);
+    wire compulsory_branch_instrs = jalr | jal | ecall | mret | ebreak | fence_i;
 
     ysyx_26040135_IDU idu (
         .in_pc(pc), .in_instr(instr), .in_valid(valid_fd), .in_ready(ready_rd),

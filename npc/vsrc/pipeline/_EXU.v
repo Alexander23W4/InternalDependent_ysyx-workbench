@@ -81,7 +81,7 @@ module ysyx_26040135_EXU (
     input taken,
 
     // fence_i
-    output reg fence_i_flush
+    output reg icache_flush
 );
 
     reg  _possible_branch_instr;
@@ -112,6 +112,7 @@ module ysyx_26040135_EXU (
     reg beq_save, bne_save, blt_save, bge_save, bltu_save, bgeu_save;
     reg ebreak_save, ecall_save, mret_save, fence_i_save;
     reg csrrw_save, csrrs_save, csrrc_save;
+    reg exception_0_save, exception_1_save, exception_2_save;
 
     reg [4:0] rd_save;
     reg [4:0] rs1_save;
@@ -226,6 +227,10 @@ module ysyx_26040135_EXU (
                 csrrs_save    <= csrrs;
                 csrrc_save    <= csrrc;
 
+                exception_0_save <= exception_0;
+                exception_1_save <= exception_1;
+                exception_2_save <= exception_2;
+
                 csr_rst_save  <= csrw_rst;
 
                 taken_save <= taken;
@@ -233,19 +238,18 @@ module ysyx_26040135_EXU (
 
         // ------------------------------------------
 
-            if(out_ready && out_valid) begin  // 即便这个周期出现exception 4/6 也没有问题, 相当于flush了
+            if(out_ready && out_valid) begin  
                 out_valid <= 1'b0;
                 in_ready <= 1'b1;
             end
 
             if (state == BRANCH) begin
-                if (is_nlwb)
+                if (is_nlwb | exception) begin
                     in_ready <= 1'b1;
-                else
+                end else begin
                     out_valid <= 1'b1;
+                end
             end
-
-
 
             if(wen) begin
                 if(|rd_wb) begin // 不是0
@@ -277,6 +281,7 @@ module ysyx_26040135_EXU (
 
 
             if(state == EX) begin   
+
                 case(imm_save[11:0])
                     12'h300: mstatus <= csrr_wb;
                     12'h305: mtvec <= csrr_wb;
@@ -286,11 +291,28 @@ module ysyx_26040135_EXU (
 
                 if(ecall_save) begin
                     mepc <= pc_save;
-                    mcause <= 32'h0000000b;
+                    mcause <= 32'hb;
                 end
+                if(ebreak_save) begin
+                    mepc <= pc_save;
+                    mcause <= 32'h3;
+                end
+                if(exception_0_save) begin
+                    mepc <= pc_save;
+                    mcause <= 32'h0;
+                end
+                if(exception_1_save) begin
+                    mepc <= pc_save;
+                    mcause <= 32'h1;
+                end
+                if(exception_2_save) begin
+                    mepc <= pc_save;
+                    mcause <= 32'h2;
+                end
+
             end
         end
-    endcsrr_wb_en
+    end
 
     always @(*) begin
         next = state;
@@ -308,7 +330,7 @@ module ysyx_26040135_EXU (
         b_pc = 32'b0;
         b_target = 32'b0;
 
-        fence_i_flush = 1'b0;
+        icache_flush = 1'b0;
         
         case (state)
             IDLE: begin
@@ -324,7 +346,7 @@ module ysyx_26040135_EXU (
                 end 
             end
 
-            EX: begin   // 现在就是把EX固定成两个周期, 还是只有跳转部分弄成2个周期(控制分野)
+            EX: begin   
                 next = BRANCH;
             end
 
@@ -334,8 +356,10 @@ module ysyx_26040135_EXU (
                     b_pc = pc_save;
                     b_target = add_rst_w_save;
                 end
-                flush = jalr_save | jal_save | ecall_save | mret_save | (b_type & (br_taken != taken_save));
-                fence_i_flush = fence_i_save;
+                flush = jalr_save | jal_save | (b_type & (br_taken != taken_save)) | fence_i_save | ebreak_save | ecall_save | mret_save |
+                            exception_0_save | exception_1_save | exception_2_save;
+
+                icache_flush = fence_i_save;
                 next = IDLE;
             end
         endcase
@@ -361,13 +385,15 @@ module ysyx_26040135_EXU (
     wire read = lw_save | lh_save | lb_save | lbu_save | lhu_save;
     wire write = sw_save | sh_save | sb_save;
     assign is_ls = read | write;
-    wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save;   // 经典10个
+    wire is_nlwb = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save | ecall_save | ebreak_save | fence_i_save | mret_save | exception;
+    wire exception = exception_0_save | exception_1_save | exception_2_save;
 
-    wire nrs = jal_save | lui_save | auipc_save | fence_i_save | ecall_save | ebreak_save;  // 这几个不需要读取, 没有gpr依赖问题
+    // rs 读寄存器相关
+    wire nrs = jal_save | lui_save | auipc_save | fence_i_save | ecall_save | ebreak_save | exception;  // 这几个不需要读取, 没有gpr依赖问题
     wire r_type = add_save | sub_save | sll_save | slt_save | sltu_save | xor_inst_save | srl_save | sra_save | or_inst_save | and_inst_save;
     wire s_type = sb_save | sh_save | sw_save;
     wire b_type = beq_save | bne_save | blt_save | bge_save | bltu_save | bgeu_save;
-    wire rsb_type = r_type | s_type | b_type;
+    wire rsb_type = r_type | s_type | b_type;   // 要读rs1 和 rs2 的
     wire single_rs = ~rsb_type & ~nrs;    // ⭐: 注意, 这个是会有变化的, 如果其他类型支持的instr增加, 就不一定对了
 
     // gpr_read_valid = 没有 RAW 冒险 (注意: 不读 GPR 的指令也必须为 1, 否则会卡死)
@@ -506,18 +532,13 @@ module ysyx_26040135_EXU (
                     (bltu_save &  cmp_ltu)|
                     (bgeu_save & ~cmp_ltu);
 
-    wire sel_other = ~(jalr_save | jal_save | br_taken | ecall_save | mret_save);
-
     always @(*) begin
-        new_pc = ({32{jalr_save }} & {add_rst_w_save[31:1], 1'b0}) |
+        pc_flush = ({32{jalr_save }} & {add_rst_w_save[31:1], 1'b0}) |
                  ({32{jal_save | br_taken}} & add_rst_w_save) |
-                 ({32{ecall_save}} & mtvec) |
+                 ({32{ecall_save | ebreak_save | exception_0_save | exception_1_save | exception_2_save}} & mtvec) |
                  ({32{mret_save }} & mepc) |
-                 ({32{sel_other}} & pc_next_dft);
-
-        pc_flush = new_pc;
+                 ({32{~br_taken | fence_i_save}} & pc_next_dft);
     end
-
 
 endmodule
 

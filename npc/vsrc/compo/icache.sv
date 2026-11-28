@@ -61,7 +61,6 @@ module ysyx_26040135_AXI_ICACHE (
 
     ysyx_26040135_AXI4.master mbus,   // ->系统总线
 
-    input fence_i,
     input icache_flush
 );
 
@@ -139,6 +138,7 @@ module ysyx_26040135_AXI_ICACHE (
     always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
+            rresp_save <= 2'b00;
 
             for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
                 valid[i]  <= 1'b0;   // 只需给valid请零即可, 全部设置成脏数据
@@ -214,7 +214,7 @@ module ysyx_26040135_AXI_ICACHE (
                         instr = '0;
                         fetch_error = 2'b01;
                     end
-                    else if(!is_executable(fetch_addr)) begin
+                    else if(!is_executable(fetch_addr) || rresp_save != 2'b00) begin
                         instr_valid = 1'b1;
                         instr = '0;
                         fetch_error = 2'b10;
@@ -222,9 +222,6 @@ module ysyx_26040135_AXI_ICACHE (
                     else if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
                         instr_valid = 1'b1;
                         instr = icache[current_index][current_word*32 +: 32]; 
-                        if(rresp_save != 2'b00) begin
-                            fetch_error = 2'b10;
-                        end
                     end else begin
                         next = MISS_AR;     // cache miss
                     end

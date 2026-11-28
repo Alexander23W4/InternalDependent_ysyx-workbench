@@ -1731,3 +1731,85 @@ internal 合计 = 8.9485e-03 W
   u_xbar     3.1244e-05  ( 0.35%)
   idu        2.5686e-05  ( 0.29%)
   wbu        2.0820e-07  ( 0.00%)
+
+
+
+
+## 2.0.2
+
++---------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| Endpoint                                                                                    | Clock Group              | Delay Type | Path Delay | Path Required | CPPR  | Slack | Freq(MHz) |
++---------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+| bus_icache_araddr_26__reg_p:D                                                               | core_clock               | max        | 0.777f     | 1.957         | 0.000 | 1.180 | 1220.174  |
+| bus_icache_araddr_26__reg_p:D                                                               | core_clock               | max        | 0.777f     | 1.957         | 0.000 | 1.180 | 1220.174  |
+| bus_icache_araddr_23__reg_p:D                                                               | core_clock               | max        | 0.777f     | 1.957         | 0.000 | 1.180 | 1220.174  |
+| bus_icache_araddr_23__reg_p:D                                                               | core_clock               | max        | 0.777f     | 1.957         | 0.000 | 1.180 | 1220.174  |
+| bus_icache_araddr_11__reg_p:D                                                               | core_clock               | max        | 0.777f     | 1.957         | 0.000 | 1.180 | 1220.174  |
+| idu.ifu_exception_1_reg_p_E_CLKGATE_X1_E:E                                                  | **clock_gating_default** | max        | 0.765r     | 1.951         | 0.000 | 1.186 | NA        |
+| idu.ifu_exception_0_reg_p_E_CLKGATE_X1_E:E                                                  | **clock_gating_default** | max        | 0.765r     | 1.951         | 0.000 | 1.186 | NA        |
+| idu.ifu_exception_1_reg_p_E_$_AND__Y_A_$_AND__Y_A_$_ANDNOT__A_Y_$_AND__A_Y_CLKGATE_X1_E:E   | **clock_gating_default** | max        | 0.765r     | 1.951         | 0.000 | 1.186 | NA        |
+| idu.ifu_exception_1_reg_p_E_$_AND__Y_A_$_AND__Y_A_$_ANDNOT__A_Y_$_AND__A_1_Y_CLKGATE_X1_E:E | **clock_gating_default** | max        | 0.736r     | 1.951         | 0.000 | 1.215 | NA        |
+| ifu.flush_save_reg_p_D_$_AND__B_Y_$_AND__A_Y_CLKGATE_X1_E:E                                 | **clock_gating_default** | max        | 0.727f     | 1.955         | 0.000 | 1.228 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                  | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                  | core_clock               | min        | 0.063r     | 0.006         | 0.000 | 0.057 | NA        |
+| u_clint.mtime_0__reg_p:D                                                                    | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.mcycle_0__reg_p:D                                                                       | core_clock               | min        | 0.066r     | 0.006         | 0.000 | 0.060 | NA        |
+| exu.pc_next_dft_2__reg_p:D                                                                  | core_clock               | min        | 0.064f     | 0.002         | 0.000 | 0.062 | NA        |
+| idu.ifu_exception_1_reg_p_E_$_AND__Y_A_$_AND__Y_A_$_ANDNOT__A_Y_$_AND__A_1_Y_CLKGATE_X1_E:E | **clock_gating_default** | min        | 0.097r     | -0.001        | 0.000 | 0.098 | NA        |
+| idu.ifu_exception_1_reg_p_E_$_AND__Y_A_$_AND__Y_A_$_ANDNOT__A_Y_$_AND__A_1_Y_CLKGATE_X1_E:E | **clock_gating_default** | min        | 0.094f     | -0.016        | 0.000 | 0.110 | NA        |
+| exu.state_3__CLKGATE_X1_E:E                                                                 | **clock_gating_default** | min        | 0.100f     | -0.015        | 0.000 | 0.115 | NA        |
+| GPR.waddr_4__$_OR__A_B_$_OR__Y_A_$_ANDNOT__B_Y_$_ANDNOT__A_1_Y_CLKGATE_X1_E:E               | **clock_gating_default** | min        | 0.120r     | 0.001         | 0.000 | 0.119 | NA        |
+| GPR.waddr_4__$_OR__A_B_$_OR__Y_A_$_ANDNOT__B_Y_$_ANDNOT__A_Y_CLKGATE_X1_E:E                 | **clock_gating_default** | min        | 0.120r     | 0.001         | 0.000 | 0.119 | NA        |
++---------------------------------------------------------------------------------------------+--------------------------+------------+------------+---------------+-------+-------+-----------+
+
+
++---------------+----------------+--------------+---------------+-------------+-----------+
+| combinational | 4.736e-03      | 0.000e+00    | 2.520e-04     | 4.988e-03   | (51.336%) |
+| sequential    | 4.581e-03      | 0.000e+00    | 1.479e-04     | 4.729e-03   | (48.664%) |
++---------------+----------------+--------------+---------------+-------------+-----------+
+Net Switch Power   ==    0.000e+00 (0.000%)
+Cell Internal Power   ==    9.317e-03 (95.884%)
+Cell Leakage Power   ==    3.999e-04 (4.116%)
+Total Power   ==  9.717e-03 W
+
+
+      185   147.63   BUF_X1
+        2     13.3   BUF_X16
+       66   70.224   BUF_X2
+       11   20.482   BUF_X4
+        8   27.664   BUF_X8
+        5     3.99   CLKBUF_X1
+        3     3.99   CLKBUF_X3
+       60   207.48   CLKGATE_X1
+      995   5293.4   DFFR_X1
+       13    69.16   DFFS_X1
+     1853 8.38E+03   DFF_X1
+
+   Chip area for module '\ysyx_26040135': 24004.638000
+     of which used for sequential elements: 13741.826000 (57.25%)
+
+
+总单元: 11183
+  exu        cells= 4146 ( 37.1%)  dff=534
+  icache     cells= 3686 ( 33.0%)  dff=1238
+  GPR        cells= 1516 ( 13.6%)  dff=624
+  (top)      cells=  615 (  5.5%)  dff=70
+  ifu        cells=  461 (  4.1%)  dff=162
+  lsu        cells=  387 (  3.5%)  dff=113
+  u_clint    cells=  273 (  2.4%)  dff=97
+  idu        cells=   60 (  0.5%)  dff=19
+  u_xbar     cells=   37 (  0.3%)  dff=4
+  wbu        cells=    2 (  0.0%)  dff=0
+
+
+internal 合计 = 9.3175e-03 W
+  icache     4.5518e-03  (48.85%)
+  exu        2.4407e-03  (26.20%)
+  GPR        1.0067e-03  (10.80%)
+  (top)      4.0724e-04  ( 4.37%)
+  u_clint    3.1508e-04  ( 3.38%)
+  lsu        2.9429e-04  ( 3.16%)
+  ifu        2.4520e-04  ( 2.63%)
+  u_xbar     3.0477e-05  ( 0.33%)
+  idu        2.5473e-05  ( 0.27%)
+  wbu        4.7640e-07  ( 0.01%)

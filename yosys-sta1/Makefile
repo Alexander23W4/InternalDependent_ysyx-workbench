@@ -36,7 +36,7 @@ clean:
 	-rm -rf result/
 
 
-WARNING_IGNORE_FLAG=-Wno-UNUSEDSIGNAL -Wno-DECLFILENAME -Wno-VARHIDDEN -Wno-fatal -Wno-TIMESCALEMOD -Wno-MULTITOP
+WARNING_IGNORE_FLAG=-Wno-UNUSEDSIGNAL -Wno-DECLFILENAME
 STATIC_CHECK_FLAG=--lint-only
 DEFAULT_FLAGS=-Wall -j --timescale "1ns/1ns" --no-timing --autoflush
 

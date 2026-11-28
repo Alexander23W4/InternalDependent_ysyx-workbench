@@ -27,16 +27,11 @@ module ysyx_26040135_AXI_ICACHE (
     input icache_flush
 );
 
-    `ifndef ICACHE_LINE_BYTES   
-        `define ICACHE_LINE_BYTES 16    // 对应 OFFSET
-    `endif
+    `define ysyx_26040135_ICACHE_LINE_BYTES 16    // 对应 OFFSET
+    `define ysyx_26040135_ICACHE_LINE_AMT 8    // 对应 INDEX
 
-    `ifndef ICACHE_LINE_AMT
-        `define ICACHE_LINE_AMT 8    // 对应 INDEX
-    `endif
-
-    parameter ICACHE_LINE_BYTES = `ICACHE_LINE_BYTES;
-    parameter ICACHE_LINE_AMT   = `ICACHE_LINE_AMT;
+    parameter ICACHE_LINE_BYTES = `ysyx_26040135_ICACHE_LINE_BYTES;
+    parameter ICACHE_LINE_AMT   = `ysyx_26040135_ICACHE_LINE_AMT;
 
     localparam OFFSET_LEN      = $clog2(ICACHE_LINE_BYTES);     // 块内偏移位数
     localparam INDEX_LEN       = $clog2(ICACHE_LINE_AMT);       // 块索引位数

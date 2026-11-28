@@ -1,0 +1,187 @@
+
+module ysyx_26040135_AXI_ICACHE (
+
+    input clock, 
+    input reset,
+
+    input fetch_valid,
+    output logic instr_valid,   
+    output logic [31:0] instr,
+    output logic [1:0] fetch_error,
+    input [31:0] fetch_addr,
+
+    output  logic [31:0] mbus_araddr,
+    output  logic [3:0]  mbus_arid,
+    output  logic [7:0]  mbus_arlen,
+    output  logic [2:0]  mbus_arsize,
+    output  logic [1:0]  mbus_arburst,
+    output  logic        mbus_arvalid,
+    input   logic        mbus_arready,
+    input   logic [31:0] mbus_rdata,
+    input   logic [3:0]  mbus_rid,
+    input   logic [1:0]  mbus_rresp,
+    input   logic        mbus_rlast,
+    input   logic        mbus_rvalid,
+    output  logic        mbus_rready,
+
+    input icache_flush
+);
+
+    `define ysyx_26040135_ICACHE_LINE_BYTES 16    // 对应 OFFSET
+    `define ysyx_26040135_ICACHE_LINE_AMT 8    // 对应 INDEX
+
+    parameter ICACHE_LINE_BYTES = `ysyx_26040135_ICACHE_LINE_BYTES;
+    parameter ICACHE_LINE_AMT   = `ysyx_26040135_ICACHE_LINE_AMT;
+
+    localparam OFFSET_LEN      = $clog2(ICACHE_LINE_BYTES);     // 块内偏移位数
+    localparam INDEX_LEN       = $clog2(ICACHE_LINE_AMT);       // 块索引位数
+    localparam TAG_LEN         = 32 - INDEX_LEN - OFFSET_LEN;  // 标签位数
+
+    localparam CACHE_LINE_BITS = ICACHE_LINE_BYTES * 8;         // 一行多少位
+    localparam LINE_WORDS      = ICACHE_LINE_BYTES / 4;         // 一行几个 32 位字 = 突发拍数
+
+    localparam BEAT_LEN        = (LINE_WORDS > 1) ? $clog2(LINE_WORDS) : 1;   // 表示突发拍数counter的位数
+
+    localparam [7:0] ARLEN     = 8'(LINE_WORDS - 1);           // AXI 的 arlen = 拍数 - 1
+
+
+
+    logic [CACHE_LINE_BITS-1:0] icache [0:ICACHE_LINE_AMT-1];     // icache
+
+    logic [TAG_LEN-1:0]         tag    [0:ICACHE_LINE_AMT-1];
+    logic                       valid  [0:ICACHE_LINE_AMT-1];
+
+
+    logic [1:0]  rresp_save;
+    logic [BEAT_LEN-1:0] beat;              // 突发读收counter
+
+
+
+// 下面的这些都是从fetch_addr开始的, fetch_addr是连着pc(reg)的, bus,araddr在ifu访存(icache)期间不会改变
+
+    logic [TAG_LEN-1:0]   current_tag;
+    logic [INDEX_LEN-1:0] current_index;
+    logic [31:0]          current_word;     // 行内第几个 32 位字
+
+    assign current_tag   = fetch_addr[31:INDEX_LEN+OFFSET_LEN];
+    assign current_index = fetch_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
+    assign current_word  = 32'(fetch_addr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
+
+    // 突发读的起始地址
+    wire [31:0] line_addr = {fetch_addr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
+
+
+
+    typedef enum logic [1:0]{ 
+        IDLE, MISS_AR, MISS_R
+    } state_t;
+    state_t state, next;
+
+
+
+
+    always_ff @( posedge clock or posedge reset ) begin
+        if(reset) begin
+            state <= IDLE;
+            rresp_save <= 2'b00;
+
+            for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
+                valid[i]  <= 1'b0;   // 只需给valid请零即可, 全部设置成脏数据
+            end
+
+        end else begin
+            state <= next;
+
+            if(state == IDLE && fetch_valid) begin
+                rresp_save <= 2'b00;  
+            end
+
+            if(state == MISS_AR) begin   // 清掉上一次访存的残留状态 
+                beat <= '0;
+            end
+
+            if(icache_flush) begin   // 遇到fence.i了
+                for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
+                    valid[i]  <= 1'b0;   
+                end
+            end
+
+
+            // burst每一拍
+            if(state == MISS_R && mbus_rvalid) begin
+                if(mbus_rresp == 2'b00) begin
+                    icache[current_index][beat*32 +: 32] <= mbus_rdata;     // ⭐
+
+                    if(mbus_rlast) begin
+                        valid[current_index] <= 1'b1;   // 整行收齐了才算有效
+                        tag[current_index]   <= current_tag;
+                    end
+                end else begin
+                    rresp_save <= mbus_rresp;
+                end
+                beat <= mbus_rlast ? '0 : beat + 1'b1;
+            end
+
+        end
+    end
+
+    always_comb begin
+        next = state;
+
+        mbus_arvalid = 1'b0;
+        mbus_araddr = line_addr;
+        mbus_arid = 4'b0000;
+        mbus_arlen = ARLEN;   // burst拍
+        mbus_arsize = 3'b010;    // 每拍 4 字节
+        mbus_arburst = 2'b01;   // INCR: 地址递增突发  
+        mbus_rready = 1'b0;
+
+        instr_valid = 1'b0;
+        fetch_error = 2'b00;
+        instr = 32'b0;
+
+        case (state)
+            IDLE: begin
+                if(fetch_valid) begin      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
+                    if(fetch_addr[1:0] != 2'b00) begin
+                        instr_valid = 1'b1;
+                        instr = '0;
+                        fetch_error = 2'b01;
+                    end
+                    else if(rresp_save != 2'b00) begin
+                        instr_valid = 1'b1;
+                        instr = '0;
+                        fetch_error = 2'b10;
+                    end
+                    else if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
+                        instr_valid = 1'b1;
+                        instr = icache[current_index][current_word*32 +: 32]; 
+                    end else begin
+                        next = MISS_AR;     // cache miss
+                    end
+                end
+            end
+
+
+            MISS_AR: begin
+                mbus_arvalid = 1'b1;
+                if(mbus_arready) begin
+                    next = MISS_R;
+                end
+            end
+
+            MISS_R: begin
+                if(mbus_rvalid) begin
+                    mbus_rready = 1'b1;
+                    if(mbus_rlast) begin
+                        next = IDLE;   // 这里icache处理完cache miss, 直接回到IDLE去读一遍给IFU
+                    end 
+                end
+            end
+
+            default: ;
+
+        endcase
+    end
+
+endmodule

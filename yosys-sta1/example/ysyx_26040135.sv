@@ -77,7 +77,7 @@ module ysyx_26040135(
 
 // 流水线级间连接
 
-    ysyx_26040135_AXI_ICACHE icache (
+    ysyx_26040135_AXI_ICACHE u_icache (
         
         .fetch_valid(fetch_valid),
         .instr_valid(instr_valid),

@@ -92,7 +92,8 @@ task check_flush(
     output int possible_branch_instr,
     output int compulsory_branch,
     output int optimisible_branch,
-    output int btb_hit
+    output int btb_hit,
+    output int raw_block
 );
     begin
         flush = {{31{1'b0}}, ifu._flush};
@@ -103,6 +104,7 @@ task check_flush(
         compulsory_branch = {{31{1'b0}}, exu._compulsory_branch};
         optimisible_branch = {{31{1'b0}}, exu._optimisible_branch};
         btb_hit = {{31{1'b0}}, ifu._btb_hit};
+        raw_block = {{31{1'b0}}, exu._raw_block};
     end
 endtask
 

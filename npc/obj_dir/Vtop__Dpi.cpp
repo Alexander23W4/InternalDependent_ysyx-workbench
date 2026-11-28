@@ -16,9 +16,9 @@
 
 #ifndef VL_DPIDECL_check_flush_
 #define VL_DPIDECL_check_flush_
-void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit) {
+void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit, int* raw_block) {
     // DPI export at vsrc/dpi-f.sv:87:6
-    return Vtop::check_flush(flush, fetch_done, flush_ifu_blk, flush_ifu_blk_flg, possible_branch_instr, compulsory_branch, optimisible_branch, btb_hit);
+    return Vtop::check_flush(flush, fetch_done, flush_ifu_blk, flush_ifu_blk_flg, possible_branch_instr, compulsory_branch, optimisible_branch, btb_hit, raw_block);
 }
 #endif
 

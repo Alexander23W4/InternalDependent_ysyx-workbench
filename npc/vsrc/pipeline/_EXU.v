@@ -88,6 +88,8 @@ module ysyx_26040135_EXU (
     reg  _compulsory_branch;
     reg  _optimisible_branch;
 
+    reg _raw_block;
+
     // RAW
     reg [31:0] rd_list;
     reg [31:0] rd_amt;
@@ -325,6 +327,7 @@ module ysyx_26040135_EXU (
         _possible_branch_instr = 1'b0;
         _optimisible_branch = 1'b0;
         _compulsory_branch = 1'b0;
+        _raw_block = 1'b0;
 
         bt_valid = 1'b0;
         b_pc = 32'b0;
@@ -380,6 +383,12 @@ module ysyx_26040135_EXU (
             end
             if(b_type) begin
                 _optimisible_branch = 1'b1;
+            end
+        end
+
+        if(state == BLOCK) begin
+            if(!gpr_read_valid) begin
+                _raw_block = 1'b1;
             end
         end
     end 

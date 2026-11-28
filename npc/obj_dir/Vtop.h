@@ -82,7 +82,7 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     const char* name() const;
 
     /// DPI Export functions
-    static void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit);
+    static void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit, int* raw_block);
     static void check_halt(int* endprog);
     static void check_new_instr(int* new_instr);
     static void check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready);

@@ -17,7 +17,7 @@ extern "C" {
 
     // DPI EXPORTS
     // DPI export at vsrc/dpi-f.sv:87:6
-    extern void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit);
+    extern void check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit, int* raw_block);
     // DPI export at vsrc/dpi-f.sv:7:6
     extern void check_halt(int* endprog);
     // DPI export at vsrc/dpi-f.sv:42:6

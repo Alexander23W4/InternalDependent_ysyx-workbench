@@ -133,7 +133,7 @@ void Vtop::check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int*
     for (size_t wbu_in_ready__Vidx = 0; wbu_in_ready__Vidx < 1; ++wbu_in_ready__Vidx) *wbu_in_ready = wbu_in_ready__Vcvt;
 }
 
-void Vtop::check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit) {
+void Vtop::check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit, int* raw_block) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_flush\n"); );
     // Init
     IData/*31:0*/ flush__Vcvt;
@@ -152,12 +152,14 @@ void Vtop::check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flu
     optimisible_branch__Vcvt = 0;
     IData/*31:0*/ btb_hit__Vcvt;
     btb_hit__Vcvt = 0;
+    IData/*31:0*/ raw_block__Vcvt;
+    raw_block__Vcvt = 0;
     // Body
     static int __Vfuncnum = -1;
     if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_flush");
     const VerilatedScope* __Vscopep = Verilated::dpiScope();
     Vtop__Vcb_check_flush_t __Vcb = (Vtop__Vcb_check_flush_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
-    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), flush__Vcvt, fetch_done__Vcvt, flush_ifu_blk__Vcvt, flush_ifu_blk_flg__Vcvt, possible_branch_instr__Vcvt, compulsory_branch__Vcvt, optimisible_branch__Vcvt, btb_hit__Vcvt);
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), flush__Vcvt, fetch_done__Vcvt, flush_ifu_blk__Vcvt, flush_ifu_blk_flg__Vcvt, possible_branch_instr__Vcvt, compulsory_branch__Vcvt, optimisible_branch__Vcvt, btb_hit__Vcvt, raw_block__Vcvt);
     for (size_t flush__Vidx = 0; flush__Vidx < 1; ++flush__Vidx) *flush = flush__Vcvt;
     for (size_t fetch_done__Vidx = 0; fetch_done__Vidx < 1; ++fetch_done__Vidx) *fetch_done = fetch_done__Vcvt;
     for (size_t flush_ifu_blk__Vidx = 0; flush_ifu_blk__Vidx < 1; ++flush_ifu_blk__Vidx) *flush_ifu_blk = flush_ifu_blk__Vcvt;
@@ -166,4 +168,5 @@ void Vtop::check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flu
     for (size_t compulsory_branch__Vidx = 0; compulsory_branch__Vidx < 1; ++compulsory_branch__Vidx) *compulsory_branch = compulsory_branch__Vcvt;
     for (size_t optimisible_branch__Vidx = 0; optimisible_branch__Vidx < 1; ++optimisible_branch__Vidx) *optimisible_branch = optimisible_branch__Vcvt;
     for (size_t btb_hit__Vidx = 0; btb_hit__Vidx < 1; ++btb_hit__Vidx) *btb_hit = btb_hit__Vcvt;
+    for (size_t raw_block__Vidx = 0; raw_block__Vidx < 1; ++raw_block__Vidx) *raw_block = raw_block__Vcvt;
 }

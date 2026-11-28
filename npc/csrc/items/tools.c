@@ -161,6 +161,7 @@ void statistical_print(){
     printf("[EXU_STALL] %u (%.2f%%)\n", exu_stall, (double)exu_stall * pct);
     printf("[LSU_STALL] %u (%.2f%%)\n", lsu_stall, (double)lsu_stall * pct);
     printf("[WBU_STALL] %u (%.2f%%)\n", wbu_stall, (double)wbu_stall * pct);
+    printf("[RAW_BLOCK] %u (%.2f%%)\n", raw_block_amt, (double)raw_block_amt * pct);
     printf("[FETCH] %u\n", fetch_amt);
     printf("[FLUSH] %u\n", flush_amt);
     printf("[FLUSH_IFU_BLK] %u\n", flush_ifu_blk_amt);
@@ -253,6 +254,9 @@ void cal_flush(){
     }
     if(btb_hit){
         btb_hit_amt++;
+    }
+    if(raw_block){      // EXU 在 BLOCK 里等 RAW 解决的那一拍
+        raw_block_amt++;
     }
 }
 

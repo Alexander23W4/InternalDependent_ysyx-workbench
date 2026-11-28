@@ -64,19 +64,6 @@ module ysyx_26040135_AXI_ICACHE (
     input icache_flush
 );
 
-    // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-
-    function automatic reg is_executable(input [31:0] addr);
-        begin
-            is_executable = 1'b0;
-            if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
-            else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
-        end
-    endfunction
-
-    // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-
-
     `ifndef ICACHE_LINE_BYTES   // 这个cache_line 是要整体传输的, 所以最好设置成总线带宽的倍数, 这样方便burst传输
         `define ICACHE_LINE_BYTES 16    // 对应 OFFSET
     `endif
@@ -214,7 +201,7 @@ module ysyx_26040135_AXI_ICACHE (
                         instr = '0;
                         fetch_error = 2'b01;
                     end
-                    else if(!is_executable(fetch_addr) || rresp_save != 2'b00) begin
+                    else if(rresp_save != 2'b00) begin
                         instr_valid = 1'b1;
                         instr = '0;
                         fetch_error = 2'b10;

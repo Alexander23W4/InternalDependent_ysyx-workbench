@@ -1,35 +1,46 @@
 
-
 module ysyx_26040135_AXI_ICACHE (
 
     input clock, 
     input reset,
 
     input fetch_valid,
-    output logic instr_valid,   // icache固定给一个周期
+    output logic instr_valid,   
     output logic [31:0] instr,
     output logic [1:0] fetch_error,
     input [31:0] fetch_addr,
 
     output  logic [31:0] mbus_araddr,
-    output  logic [3:0] mbus_arid,
-    output  logic [7:0] mbus_arlen,
-    output  logic [2:0] mbus_arsize,
-    output  logic [1:0] mbus_arburst,
+    output  logic [3:0]  mbus_arid,
+    output  logic [7:0]  mbus_arlen,
+    output  logic [2:0]  mbus_arsize,
+    output  logic [1:0]  mbus_arburst,
     output  logic        mbus_arvalid,
     input   logic        mbus_arready,
     input   logic [31:0] mbus_rdata,
-    input   logic [3:0] mbus_rid,
-    input   logic [1:0] mbus_rresp,
+    input   logic [3:0]  mbus_rid,
+    input   logic [1:0]  mbus_rresp,
     input   logic        mbus_rlast,
     input   logic        mbus_rvalid,
     output  logic        mbus_rready,
 
-    input icache_flush     
+    input icache_flush
 );
 
+    // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
-    `ifndef ICACHE_LINE_BYTES   // 这个cache_line 是要整体传输的, 所以最好设置成总线带宽的倍数, 这样方便burst传输
+    function automatic reg is_executable(input [31:0] addr);
+        begin
+            is_executable = 1'b0;
+            if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
+            else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
+        end
+    endfunction
+
+    // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+
+
+    `ifndef ICACHE_LINE_BYTES   
         `define ICACHE_LINE_BYTES 16    // 对应 OFFSET
     `endif
 
@@ -49,7 +60,7 @@ module ysyx_26040135_AXI_ICACHE (
 
     localparam BEAT_LEN        = (LINE_WORDS > 1) ? $clog2(LINE_WORDS) : 1;   // 表示突发拍数counter的位数
 
-    localparam [7:0] ARLEN     = LINE_WORDS[7:0] - 8'd1;           // AXI 的 arlen = 拍数 - 1
+    localparam [7:0] ARLEN     = 8'(LINE_WORDS - 1);           // AXI 的 arlen = 拍数 - 1
 
 
 
@@ -72,7 +83,7 @@ module ysyx_26040135_AXI_ICACHE (
 
     assign current_tag   = fetch_addr[31:INDEX_LEN+OFFSET_LEN];
     assign current_index = fetch_addr[INDEX_LEN+OFFSET_LEN-1:OFFSET_LEN];
-    assign current_word  = {{(32-OFFSET_LEN){1'b0}}, fetch_addr[OFFSET_LEN-1:0]} >> 2;   // 显式零扩展到 32 位再移位
+    assign current_word  = 32'(fetch_addr[OFFSET_LEN-1:0]) >> 2;   // 显式零扩展到 32 位再移位
 
     // 突发读的起始地址
     wire [31:0] line_addr = {fetch_addr[31:OFFSET_LEN], {OFFSET_LEN{1'b0}}};
@@ -87,9 +98,10 @@ module ysyx_26040135_AXI_ICACHE (
 
 
 
-    always @( posedge clock or posedge reset ) begin
+    always_ff @( posedge clock or posedge reset ) begin
         if(reset) begin
             state <= IDLE;
+            rresp_save <= 2'b00;
 
             for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
                 valid[i]  <= 1'b0;   // 只需给valid请零即可, 全部设置成脏数据
@@ -98,15 +110,18 @@ module ysyx_26040135_AXI_ICACHE (
         end else begin
             state <= next;
 
-            if(icache_flush) begin   // 遇到 fence.i: 全部置成无效
-                for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
-                    valid[i] <= 1'b0;
-                end
+            if(state == IDLE && fetch_valid) begin
+                rresp_save <= 2'b00;  
             end
 
-            if(state == MISS_AR) begin   // 清掉上一次访存的残留状态
-                rresp_save  <= 2'b00;       
+            if(state == MISS_AR) begin   // 清掉上一次访存的残留状态 
                 beat <= '0;
+            end
+
+            if(icache_flush) begin   // 遇到fence.i了
+                for (int i = 0; i < ICACHE_LINE_AMT; i++) begin
+                    valid[i]  <= 1'b0;   
+                end
             end
 
 
@@ -124,6 +139,7 @@ module ysyx_26040135_AXI_ICACHE (
                 end
                 beat <= mbus_rlast ? '0 : beat + 1'b1;
             end
+
         end
     end
 
@@ -138,7 +154,6 @@ module ysyx_26040135_AXI_ICACHE (
         mbus_arburst = 2'b01;   // INCR: 地址递增突发  
         mbus_rready = 1'b0;
 
-
         instr_valid = 1'b0;
         fetch_error = 2'b00;
         instr = 32'b0;
@@ -146,10 +161,19 @@ module ysyx_26040135_AXI_ICACHE (
         case (state)
             IDLE: begin
                 if(fetch_valid) begin      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
-                    if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
+                    if(fetch_addr[1:0] != 2'b00) begin
+                        instr_valid = 1'b1;
+                        instr = '0;
+                        fetch_error = 2'b01;
+                    end
+                    else if(!is_executable(fetch_addr) || rresp_save != 2'b00) begin
+                        instr_valid = 1'b1;
+                        instr = '0;
+                        fetch_error = 2'b10;
+                    end
+                    else if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
                         instr_valid = 1'b1;
                         instr = icache[current_index][current_word*32 +: 32]; 
-                        fetch_error = rresp_save;
                     end else begin
                         next = MISS_AR;     // cache miss
                     end
@@ -177,6 +201,5 @@ module ysyx_26040135_AXI_ICACHE (
 
         endcase
     end
-
 
 endmodule

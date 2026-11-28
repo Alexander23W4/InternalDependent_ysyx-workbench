@@ -159,7 +159,7 @@ module ysyx_26040135(
     wire compulsory_branch_instrs = jalr | jal | ecall | mret | ebreak | fence_i;
 
     ysyx_26040135_IDU idu (
-        .in_pc(pc), .in_valid(valid_fd), .in_ready(ready_rd),
+        .in_pc(pc), .in_instr(instr), .in_valid(valid_fd), .in_ready(ready_rd),
         .out_valid(valid_de), .out_ready(ready_de), .out_pc(pc_d),
 
         .addi(addi), .slti(slti), .sltiu(sltiu), .xori(xori), .ori(ori), .andi(andi), .slli(slli), .srli(srli), .srai(srai),
@@ -234,9 +234,6 @@ ysyx_26040135_EXU exu (
     .rs1_out(rs1_out), .rs2_out(rs2_out),
 
     .flush(flush), .pc_flush(pc_flush),
-
-    .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
-    .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen),
 
     .ren(ren),
 
@@ -337,11 +334,9 @@ ysyx_26040135_EXU exu (
 
         .in_valid(valid_lw),
         .in_ready(ready_lw),
-        
+
         .rd(rd_lsu),
         .wdata(wdata_lw),
-
-        .wbu_blockf(wbu_blockf),
 
         .wen(wen),
         .rd_wb(rd_wbu),

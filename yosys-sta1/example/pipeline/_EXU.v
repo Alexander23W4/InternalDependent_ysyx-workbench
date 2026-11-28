@@ -262,6 +262,7 @@ module ysyx_26040135_EXU (
                         12'h305: mtvec <= csrr_wb;
                         12'h341: mepc <= csrr_wb;
                         12'h342: mcause <= csrr_wb;
+                        default: ;
                     endcase
                 end
 
@@ -331,6 +332,8 @@ module ysyx_26040135_EXU (
                 icache_flush = fence_i_save;
                 next = IDLE;
             end
+
+            default: ;
         endcase
 
         if(next == EX) begin

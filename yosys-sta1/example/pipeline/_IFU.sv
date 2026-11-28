@@ -139,6 +139,7 @@ module ysyx_26040135_AXI_IFU (
                             exception_0 <= 1'b0;
                             exception_1 <= 1'b1;
                         end
+                        default: ;
                             
                     endcase
                 end

@@ -153,7 +153,6 @@ module ysyx_26040135_EXU (
             rd_list <= 32'b0;
             rd_amt <= 32'b0;
             wen_save <= 1'b0;
-            rd_wb_save <= 5'b0;
 
             mstatus <= 32'h00001800;   
             mcycle <= 0;

@@ -21,18 +21,10 @@ module ysyx_26040135_dbg_register(
     wire [3:0] waddr_idx = waddr[3:0];
 
     always @(posedge clock or posedge reset) begin
-        if(reset) begin
-            rdata1 <= '0;
-            rdata2 <= '0;
-            for (int i = 0; i < 16; i = i + 1) begin 
-                gpr[i] <= '0;
-            end
-        end else begin
-            if(wen && waddr_idx != 0) gpr[waddr_idx] <= wdata;
-            if(ren) begin
-                rdata1 <= gpr[raddr1_idx];
-                rdata2 <= gpr[raddr2_idx];
-            end
+        if(wen && waddr_idx != 0) gpr[waddr_idx] <= wdata;
+        if(ren) begin
+            rdata1 <= gpr[raddr1_idx];
+            rdata2 <= gpr[raddr2_idx];
         end
     end
 

@@ -131,9 +131,6 @@ module ysyx_26040135_EXU (
             rd_wb_save <= 5'b0;
 
             mstatus <= 32'h00001800;   
-            mcause <= 0;
-            mepc <= 0;
-            mtvec <= 0;
             mcycle <= 0;
             mcycleh <= 0;
             mvendorid <= 32'h79737978;

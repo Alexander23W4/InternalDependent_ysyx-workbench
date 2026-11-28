@@ -1496,11 +1496,9 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     }
     vlSelf->__VdfgTmp_h2168da81__0 = 0;
     vlSelf->__VdfgTmp_h8a1b6d6b__0 = 0;
-    vlSelf->__Vfunc_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__is_executable__0__Vfuncout = VL_RAND_RESET_I(1);
-    vlSelf->__Vfunc_difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__icache__DOT__is_executable__0__addr = VL_RAND_RESET_I(32);
-    vlSelf->__Vtask_difftest_top__DOT__soc__DOT__asic__DOT__lmrom__DOT__mrom__DOT__mrom_read__9__rdata = 0;
-    vlSelf->__Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__22__Vfuncout = 0;
-    vlSelf->__Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__26__Vfuncout = 0;
+    vlSelf->__Vtask_difftest_top__DOT__soc__DOT__asic__DOT__lmrom__DOT__mrom__DOT__mrom_read__8__rdata = 0;
+    vlSelf->__Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__21__Vfuncout = 0;
+    vlSelf->__Vfunc_difftest_top__DOT__u_ref__DOT__mem_read__25__Vfuncout = 0;
     vlSelf->__Vtableidx1 = 0;
     vlSelf->__Vtableidx2 = 0;
     vlSelf->__Vtableidx5 = 0;
@@ -1523,10 +1521,9 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__rd_list = VL_RAND_RESET_I(32);
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__rd_amt = VL_RAND_RESET_I(32);
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__exu__DOT__wen_save = VL_RAND_RESET_I(1);
+    vlSelf->__Vdlyvdim0__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr__v0 = 0;
+    vlSelf->__Vdlyvval__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr__v0 = VL_RAND_RESET_I(32);
     vlSelf->__Vdlyvset__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr__v0 = 0;
-    vlSelf->__Vdlyvdim0__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr__v16 = 0;
-    vlSelf->__Vdlyvval__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr__v16 = VL_RAND_RESET_I(32);
-    vlSelf->__Vdlyvset__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__GPR__DOT__gpr__v16 = 0;
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__ready_el = VL_RAND_RESET_I(1);
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__lsu__DOT__lsu_addr_save = VL_RAND_RESET_I(32);
     vlSelf->__Vdly__difftest_top__DOT__soc__DOT__asic__DOT__cpu__DOT__cpu__DOT__rd_wbu = VL_RAND_RESET_I(5);

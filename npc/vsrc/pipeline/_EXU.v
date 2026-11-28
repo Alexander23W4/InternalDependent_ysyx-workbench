@@ -123,8 +123,6 @@ module ysyx_26040135_EXU (
 
     reg taken_save;
 
-    assign mtvec_out = mtvec;
-
 
 
     always @(*) begin   // 这个在没in握手的时候就完成, 握手时用csr_rst_save锁存
@@ -348,6 +346,9 @@ module ysyx_26040135_EXU (
 
             EX: begin   
                 next = BRANCH;
+                if(ebreak_save) begin
+                    ebreak_end = 1'b1;
+                end
             end
 
             BRANCH: begin

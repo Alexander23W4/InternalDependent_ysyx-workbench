@@ -37,17 +37,6 @@ endfunction
 
 
 
-export "DPI-C" function check_error;
-function void check_error(
-    output int ifu_error,
-    output int master_validation_error
-);
-    ifu_error = {30'b0, __ifu_error};
-    master_validation_error = {31'b0, __ifu_master_validation_error};
-
-endfunction
-
-
 // ⭐: 引出EXU"新收一条指令"的脉冲, 给C++侧统计执行的指令数
 export "DPI-C" task check_new_instr;
 task check_new_instr(output int new_instr);

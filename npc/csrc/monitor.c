@@ -9,8 +9,6 @@ int wen = 0;
 
 CPU_state cpu = {};
 CPU_state d_status = {};
-int ifu_error = 0;
-int master_validation_error = 0;
 int endprog = 0; 
 int instr = 0;
 
@@ -71,7 +69,7 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
         // 取EXU的
         top->debug_read_all((int *)cpu.gpr, (int *)&cpu.pc, (int *)&cpu.mstatus, (int *)&cpu.mepc,
                         (int *)&cpu.mcause, (int *)&cpu.mtvec, (long long *)&cpu.mcycle, &instr);    // 这里的p取的是exu的pc, 所以这里截取的流水线是exu接收到新instr时
-        top->check_error(&ifu_error, &master_validation_error);
+
         // EXU新收一个instr, 算作一个新instr
         top->check_new_instr(&new_instr);
         top->check_wen(&wen);
@@ -80,10 +78,6 @@ void main_loop(){   // 如果碰到 NPC_END或者NPC_CRASH都要自觉return出�
             // printf("PC: [0x%08x]\n", cpu.pc); 
             // prt_gprs();    // 截取exu, 能够输出每一个instr对应的instr, pc, 但是gpr不一定是该instr对应的
             instr_amt++;   // 截取exu的意义, 统计instr数.  
-        }
-        if(ifu_error || master_validation_error){
-            error_handler();
-            return;  // 这里直接return出去, 结束仿真
         }
         if(endprog){
             Status = NPC_END;

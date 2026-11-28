@@ -225,9 +225,6 @@ module ysyx_26040135(
     
     wire _new_instr;
 
-    wire [1:0]  __ifu_error;     
-    wire        __ifu_master_validation_error;    
-
     wire __ebreak_end;
     wire _wen;   // 用于确定difftest时机
     wire [31:0] _wbu_pc;
@@ -286,46 +283,30 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .fetch_error(fetch_error),
         .fetch_addr(fetch_addr),
 
-        .__error(__ifu_error),
-        .__master_validation_error(__ifu_master_validation_error),
         .out_instr(instr),
         .out_valid(valid_fd),
         .out_ready(ready_rd),
         .out_pc(pc),
+
         .flush(flush),
         .pc_flush(pc_flush),
-        .ifu_work_cyc(ifu_work_cyc),
-        .ifu_block_cyc(ifu_block_cyc),
-
         .cbi(compulsory_branch_instrs),
+
         .bt_valid(bt_valid),
         .b_pc(b_pc),
         .b_target(b_target),
         .taken(taken),
 
-        .fence_i_flush(fence_i_flush),
-        .icache_flush(icache_flush),
-
-        .mtvec(mtvec),
-        .ifu_exception_0(ifu_exception_0),
-        .ifu_exception_1(ifu_exception_1),
-        .ifu_exception_pc(ifu_exception_pc),
-
-        .idu_instr_valid(idu_instr_valid),
-        .idu_exception_2(idu_exception_2)
+        .exception_0(ifu_exception_0),
+        .exception_1(ifu_exception_1)
     ); 
 
     wire bt_valid;
     wire [31:0] b_pc;
     wire [31:0] b_target;
     wire taken;
-    wire        idu_instr_valid;      // IFU -> IDU: 给 IDU 的 instr 有效
-    wire        idu_exception_2;      // IDU -> IFU/EXU: 非法指令(exception 2)
-    wire [31:0] mtvec;          // EXU -> IFU: 异常入口
-    wire        ifu_exception_0, ifu_exception_1;
-    wire [31:0] ifu_exception_pc;
 
-    wire [63:0] ifu_work_cyc, ifu_block_cyc;
+    wire        ifu_exception_0, ifu_exception_1;
 
     wire        flush;  
     wire [31:0] pc_flush;
@@ -339,6 +320,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     ysyx_26040135_IDU idu (
         .in_pc(pc), .in_instr(instr), .in_valid(valid_fd), .in_ready(ready_rd),
         .out_valid(valid_de), .out_ready(ready_de), .out_pc(pc_d),
+
         .addi(addi), .slti(slti), .sltiu(sltiu), .xori(xori), .ori(ori), .andi(andi), .slli(slli), .srli(srli), .srai(srai),
         .add(add), .sub(sub), .sll(sll), .slt(slt), .sltu(sltu), .xor_inst(xor_inst), .srl(srl), .sra(sra), .or_inst(or_inst), .and_inst(and_inst),
         .lb(lb), .lh(lh), .lw(lw), .lbu(lbu), .lhu(lhu), .sb(sb), .sh(sh), .sw(sw),
@@ -349,12 +331,17 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc), .mret(mret),
         .fence_i(fence_i),
         .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm),
+
         .out_instr(instr_de),
         .taken(taken),
         .taken_out(taken_de),
 
-        .idu_instr_valid(idu_instr_valid),
-        .idu_exception_2(idu_exception_2)
+        .ifu_exception_0(ifu_exception_0),
+        .ifu_exception_1(ifu_exception_1),
+
+        .exception_0(exception_0),
+        .exception_1(exception_1),
+        .exception_2(exception_2)
     );
 
     wire valid_de, ready_de;
@@ -375,6 +362,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ysyx_26040135_EXU exu (
     .clock(clock), .reset(reset), .pc(pc_d), .instr(instr_de),
     .rdata1(rdata1), .rdata2(rdata2), .imm(imm),
+
     .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
     .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst),
     .andi(andi), .ori(ori), .xori(xori),
@@ -387,9 +375,10 @@ ysyx_26040135_EXU exu (
     .ebreak(ebreak), .ecall(ecall), .mret(mret), .fence_i(fence_i),
     .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
 
+    .exception_0(exception_0), .exception_1(exception_1), .exception_2(exception_2),
+
     .rd(rd), .rs1(rs1), .rs2(rs2),
 
-    .lsu_blockf(lsu_blockf), .wbu_blockf(wbu_blockf),
     .wen(wen), .rd_wb(rd_wbu),
 
     ._mstatus(_mstatus), ._mtvec(_mtvec), ._mepc(_mepc), ._mcause(_mcause),
@@ -403,13 +392,13 @@ ysyx_26040135_EXU exu (
 
     .is_ls(is_ls),
     .io(io), .io_type(io_type), .read_is_u(read_is_u),
-    .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr),
-    .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
+    .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr), .ic_wb_wdata(ic_wb_wdata), 
+
+    .rs1_out(rs1_out), .rs2_out(rs2_out),
+
     .flush(flush), .pc_flush(pc_flush),
 
-    .exu_blockf_cyc(exu_blockf_cyc),
-    .exu_blcokbl_cyc(exu_blcokbl_cyc),
-    .exu_work_cyc(exu_work_cyc), .ebreak_end(__ebreak_end),
+    .ebreak_end(__ebreak_end),
 
     .ren(ren),
 
@@ -418,19 +407,10 @@ ysyx_26040135_EXU exu (
     .b_target(b_target),
     .taken(taken_de),
 
-    .fence_i_flush(fence_i_flush),
-
-    .mtvec_out(mtvec),
-    .ifu_exception_pc(ifu_exception_pc),
-    .ifu_exception_0(ifu_exception_0),
-    .ifu_exception_1(ifu_exception_1),
-
-    .idu_exception_2(idu_exception_2)
+    .icache_flush(icache_flush)
 );
-    wire [63:0] exu_blockf_cyc, exu_blcokbl_cyc, exu_work_cyc;
     wire is_ls;
     wire ren;
-    wire fence_i_flush;
 
 
     ysyx_26040135_dbg_register GPR(
@@ -456,8 +436,6 @@ ysyx_26040135_EXU exu (
     wire [4:0] rd_out, rs1_out, rs2_out;
     wire [31:0] lsu_wdata, lsu_addr, ic_wb_wdata;
     wire [31:0] rdata1, rdata2;
-    wire [63:0] lsu_blockf_cyc, lsu_blcokb_cyc, lsu_work_cyc;
-    wire lsu_blockf;
 
 
     ysyx_26040135_AXI_LSU lsu (
@@ -482,19 +460,12 @@ ysyx_26040135_EXU exu (
 
         .wdata(wdata_lw),
         .rd_out(rd_lsu),
-        .pc_out(lsu_pc_out),
-
-        .lsu_blockf_cyc(lsu_blockf_cyc),
-        .lsu_blcokb_cyc(lsu_blcokb_cyc),
-        .lsu_work_cyc(lsu_work_cyc),
-        .lsu_blockfs(lsu_blockf)
+        .pc_out(lsu_pc_out)
     );
 
     wire valid_lw, ready_lw;
     wire [31:0] wdata_lw;
     wire [4:0] rd_lsu;
-    wire [63:0] wbu_blockf_cyc, wbu_work_cyc;
-    wire wbu_blockf;
     wire [31:0] lsu_pc_out;
 
 
@@ -504,13 +475,10 @@ ysyx_26040135_EXU exu (
 
         .in_valid(valid_lw),
         .in_ready(ready_lw),
+
         .rd(rd_lsu),
         .wdata(wdata_lw),
         .pc_in(lsu_pc_out),
-
-        .wbu_blockf_cyc(wbu_blockf_cyc),
-        .wbu_work_cyc(wbu_work_cyc),
-        .wbu_blockf(wbu_blockf),
 
         .wen(wen),
         .rd_wb(rd_wbu),

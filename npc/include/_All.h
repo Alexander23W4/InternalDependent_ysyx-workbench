@@ -80,9 +80,6 @@ extern CPU_state d_status;
 // internal drawout signals
 extern int instr;
 
-extern int ifu_error;
-extern int master_validation_error;
-
 extern int new_instr;
 
 // Performance Counters:
@@ -140,7 +137,6 @@ void scope_init(void);
 void scope_use_dut(void);
 void scope_use_ref(void);
 
-void error_handler();
 void prt_gprs();
 void final_check();
 void statistical_print();

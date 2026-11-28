@@ -1,6 +1,5 @@
 module ysyx_26040135_dbg_register(
     input clock,
-    input reset,
     input wen,
     input ren,
     
@@ -18,7 +17,7 @@ module ysyx_26040135_dbg_register(
     wire [3:0] raddr2_idx = raddr2[3:0];
     wire [3:0] waddr_idx = waddr[3:0];
 
-    always @(posedge clock or posedge reset) begin
+    always @(posedge clock) begin
         if(wen && waddr_idx != 0) gpr[waddr_idx] <= wdata;
         if(ren) begin
             rdata1 <= gpr[raddr1_idx];

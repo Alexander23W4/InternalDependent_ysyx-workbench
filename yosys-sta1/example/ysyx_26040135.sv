@@ -250,7 +250,6 @@ ysyx_26040135_EXU exu (
 
     ysyx_26040135_dbg_register GPR (
         .clock(clock),
-        .reset(reset),
         .wen(wen), // WB
         .ren(ren),  
         .raddr1(rs1_out),  // EX

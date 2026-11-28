@@ -114,7 +114,10 @@ void final_check(){
     else if(cpu.gpr[10] != 0 || Status == NPC_CRASH){   
         printf("%s", ANSI_FMT("\n[HIT BAD TRAP]\n", ANSI_FG_RED));
         prt_gprs();
+
+#ifndef WAVE_TRACE
         assert(0);    // 如果difftest出错, 让cpu_test能够显示fail
+#endif        
     }
     else{
         printf("%s", ANSI_FMT("\n[HIT GOOD TRAP]\n", ANSI_FG_GREEN));

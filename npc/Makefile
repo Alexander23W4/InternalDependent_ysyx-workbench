@@ -71,7 +71,7 @@ DEFAULT_FLAGS += -DICACHE_LINE_BYTES=$(ICACHE_LINE_BYTES) -DICACHE_LINE_AMT=$(IC
 
 # ------------------------------------------------------------------------------------------------------
 
-DIFF_TEST_ENABLE=0
+DIFF_TEST_ENABLE=1
 TRACE_ENABLE=0
 
 # ------------------------------------------------------------------------------------------------------
@@ -87,8 +87,8 @@ CROSS_COMPILE ?= riscv64-linux-gnu-
 # ⭐ 波形(make trace)相关
 
 WAVE_FILE  ?= wave.vcd
-WAVE_START ?= 0
-WAVE_END   ?= 1100
+WAVE_START ?= 3000
+WAVE_END   ?= 6000
 WAVE_HALF_PERIOD ?= 1
 
 GTKW_FILE  ?= wave.gtkw

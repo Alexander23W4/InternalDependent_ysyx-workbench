@@ -353,6 +353,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire jal, jalr;
     wire lui, auipc;
     wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
+    wire exception_0, exception_1, exception_2;
+
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
     wire [31:0] instr_de;

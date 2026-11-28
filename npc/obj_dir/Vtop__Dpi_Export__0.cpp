@@ -1,0 +1,169 @@
+// Verilated -*- C++ -*-
+// DESCRIPTION: Verilator output: Implementation of DPI export functions.
+//
+#include "Vtop.h"
+#include "Vtop__Syms.h"
+#include "verilated_dpi.h"
+
+
+void Vtop::check_halt(int* endprog) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_halt\n"); );
+    // Init
+    IData/*31:0*/ endprog__Vcvt;
+    endprog__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_halt");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_check_halt_t __Vcb = (Vtop__Vcb_check_halt_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), endprog__Vcvt);
+    for (size_t endprog__Vidx = 0; endprog__Vidx < 1; ++endprog__Vidx) *endprog = endprog__Vcvt;
+}
+
+void Vtop::debug_read_all(int* dbg_regs, int* pc, int* mstatus, int* mepc, int* mcause, int* mtvec, long long* mcycle, int* instr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::debug_read_all\n"); );
+    // Init
+    VlUnpacked<IData/*31:0*/, 16> dbg_regs__Vcvt;
+    for (int __Vi0 = 0; __Vi0 < 16; ++__Vi0) {
+        dbg_regs__Vcvt[__Vi0] = 0;
+    }
+    IData/*31:0*/ pc__Vcvt;
+    pc__Vcvt = 0;
+    IData/*31:0*/ mstatus__Vcvt;
+    mstatus__Vcvt = 0;
+    IData/*31:0*/ mepc__Vcvt;
+    mepc__Vcvt = 0;
+    IData/*31:0*/ mcause__Vcvt;
+    mcause__Vcvt = 0;
+    IData/*31:0*/ mtvec__Vcvt;
+    mtvec__Vcvt = 0;
+    QData/*63:0*/ mcycle__Vcvt;
+    mcycle__Vcvt = 0;
+    IData/*31:0*/ instr__Vcvt;
+    instr__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("debug_read_all");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_debug_read_all_t __Vcb = (Vtop__Vcb_debug_read_all_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), dbg_regs__Vcvt, pc__Vcvt, mstatus__Vcvt, mepc__Vcvt, mcause__Vcvt, mtvec__Vcvt, mcycle__Vcvt, instr__Vcvt);
+    for (size_t dbg_regs__Vidx = 0; dbg_regs__Vidx < 16; ++dbg_regs__Vidx) dbg_regs[dbg_regs__Vidx] = (&dbg_regs__Vcvt[0])[dbg_regs__Vidx];
+    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) *pc = pc__Vcvt;
+    for (size_t mstatus__Vidx = 0; mstatus__Vidx < 1; ++mstatus__Vidx) *mstatus = mstatus__Vcvt;
+    for (size_t mepc__Vidx = 0; mepc__Vidx < 1; ++mepc__Vidx) *mepc = mepc__Vcvt;
+    for (size_t mcause__Vidx = 0; mcause__Vidx < 1; ++mcause__Vidx) *mcause = mcause__Vcvt;
+    for (size_t mtvec__Vidx = 0; mtvec__Vidx < 1; ++mtvec__Vidx) *mtvec = mtvec__Vcvt;
+    for (size_t mcycle__Vidx = 0; mcycle__Vidx < 1; ++mcycle__Vidx) *mcycle = mcycle__Vcvt;
+    for (size_t instr__Vidx = 0; instr__Vidx < 1; ++instr__Vidx) *instr = instr__Vcvt;
+}
+
+void Vtop::check_new_instr(int* new_instr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_new_instr\n"); );
+    // Init
+    IData/*31:0*/ new_instr__Vcvt;
+    new_instr__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_new_instr");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_check_new_instr_t __Vcb = (Vtop__Vcb_check_new_instr_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), new_instr__Vcvt);
+    for (size_t new_instr__Vidx = 0; new_instr__Vidx < 1; ++new_instr__Vidx) *new_instr = new_instr__Vcvt;
+}
+
+void Vtop::check_wen(int* wen) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_wen\n"); );
+    // Init
+    IData/*31:0*/ wen__Vcvt;
+    wen__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_wen");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_check_wen_t __Vcb = (Vtop__Vcb_check_wen_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), wen__Vcvt);
+    for (size_t wen__Vidx = 0; wen__Vidx < 1; ++wen__Vidx) *wen = wen__Vcvt;
+}
+
+void Vtop::difftest_read_gpr(int* gprs, int* pc) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::difftest_read_gpr\n"); );
+    // Init
+    VlUnpacked<IData/*31:0*/, 16> gprs__Vcvt;
+    for (int __Vi0 = 0; __Vi0 < 16; ++__Vi0) {
+        gprs__Vcvt[__Vi0] = 0;
+    }
+    IData/*31:0*/ pc__Vcvt;
+    pc__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("difftest_read_gpr");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_difftest_read_gpr_t __Vcb = (Vtop__Vcb_difftest_read_gpr_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), gprs__Vcvt, pc__Vcvt);
+    for (size_t gprs__Vidx = 0; gprs__Vidx < 16; ++gprs__Vidx) gprs[gprs__Vidx] = (&gprs__Vcvt[0])[gprs__Vidx];
+    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) *pc = pc__Vcvt;
+}
+
+void Vtop::check_pipeline_bottleneck(int* ifu_out_valid, int* exu_in_ready, int* exu_out_valid, int* lsu_in_ready, int* lsu_out_valid, int* wbu_in_ready) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_pipeline_bottleneck\n"); );
+    // Init
+    IData/*31:0*/ ifu_out_valid__Vcvt;
+    ifu_out_valid__Vcvt = 0;
+    IData/*31:0*/ exu_in_ready__Vcvt;
+    exu_in_ready__Vcvt = 0;
+    IData/*31:0*/ exu_out_valid__Vcvt;
+    exu_out_valid__Vcvt = 0;
+    IData/*31:0*/ lsu_in_ready__Vcvt;
+    lsu_in_ready__Vcvt = 0;
+    IData/*31:0*/ lsu_out_valid__Vcvt;
+    lsu_out_valid__Vcvt = 0;
+    IData/*31:0*/ wbu_in_ready__Vcvt;
+    wbu_in_ready__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_pipeline_bottleneck");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_check_pipeline_bottleneck_t __Vcb = (Vtop__Vcb_check_pipeline_bottleneck_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), ifu_out_valid__Vcvt, exu_in_ready__Vcvt, exu_out_valid__Vcvt, lsu_in_ready__Vcvt, lsu_out_valid__Vcvt, wbu_in_ready__Vcvt);
+    for (size_t ifu_out_valid__Vidx = 0; ifu_out_valid__Vidx < 1; ++ifu_out_valid__Vidx) *ifu_out_valid = ifu_out_valid__Vcvt;
+    for (size_t exu_in_ready__Vidx = 0; exu_in_ready__Vidx < 1; ++exu_in_ready__Vidx) *exu_in_ready = exu_in_ready__Vcvt;
+    for (size_t exu_out_valid__Vidx = 0; exu_out_valid__Vidx < 1; ++exu_out_valid__Vidx) *exu_out_valid = exu_out_valid__Vcvt;
+    for (size_t lsu_in_ready__Vidx = 0; lsu_in_ready__Vidx < 1; ++lsu_in_ready__Vidx) *lsu_in_ready = lsu_in_ready__Vcvt;
+    for (size_t lsu_out_valid__Vidx = 0; lsu_out_valid__Vidx < 1; ++lsu_out_valid__Vidx) *lsu_out_valid = lsu_out_valid__Vcvt;
+    for (size_t wbu_in_ready__Vidx = 0; wbu_in_ready__Vidx < 1; ++wbu_in_ready__Vidx) *wbu_in_ready = wbu_in_ready__Vcvt;
+}
+
+void Vtop::check_flush(int* flush, int* fetch_done, int* flush_ifu_blk, int* flush_ifu_blk_flg, int* possible_branch_instr, int* compulsory_branch, int* optimisible_branch, int* btb_hit) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root::check_flush\n"); );
+    // Init
+    IData/*31:0*/ flush__Vcvt;
+    flush__Vcvt = 0;
+    IData/*31:0*/ fetch_done__Vcvt;
+    fetch_done__Vcvt = 0;
+    IData/*31:0*/ flush_ifu_blk__Vcvt;
+    flush_ifu_blk__Vcvt = 0;
+    IData/*31:0*/ flush_ifu_blk_flg__Vcvt;
+    flush_ifu_blk_flg__Vcvt = 0;
+    IData/*31:0*/ possible_branch_instr__Vcvt;
+    possible_branch_instr__Vcvt = 0;
+    IData/*31:0*/ compulsory_branch__Vcvt;
+    compulsory_branch__Vcvt = 0;
+    IData/*31:0*/ optimisible_branch__Vcvt;
+    optimisible_branch__Vcvt = 0;
+    IData/*31:0*/ btb_hit__Vcvt;
+    btb_hit__Vcvt = 0;
+    // Body
+    static int __Vfuncnum = -1;
+    if (VL_UNLIKELY(__Vfuncnum == -1)) __Vfuncnum = Verilated::exportFuncNum("check_flush");
+    const VerilatedScope* __Vscopep = Verilated::dpiScope();
+    Vtop__Vcb_check_flush_t __Vcb = (Vtop__Vcb_check_flush_t)(VerilatedScope::exportFind(__Vscopep, __Vfuncnum));
+    (*__Vcb)((Vtop__Syms*)(__Vscopep->symsp()), flush__Vcvt, fetch_done__Vcvt, flush_ifu_blk__Vcvt, flush_ifu_blk_flg__Vcvt, possible_branch_instr__Vcvt, compulsory_branch__Vcvt, optimisible_branch__Vcvt, btb_hit__Vcvt);
+    for (size_t flush__Vidx = 0; flush__Vidx < 1; ++flush__Vidx) *flush = flush__Vcvt;
+    for (size_t fetch_done__Vidx = 0; fetch_done__Vidx < 1; ++fetch_done__Vidx) *fetch_done = fetch_done__Vcvt;
+    for (size_t flush_ifu_blk__Vidx = 0; flush_ifu_blk__Vidx < 1; ++flush_ifu_blk__Vidx) *flush_ifu_blk = flush_ifu_blk__Vcvt;
+    for (size_t flush_ifu_blk_flg__Vidx = 0; flush_ifu_blk_flg__Vidx < 1; ++flush_ifu_blk_flg__Vidx) *flush_ifu_blk_flg = flush_ifu_blk_flg__Vcvt;
+    for (size_t possible_branch_instr__Vidx = 0; possible_branch_instr__Vidx < 1; ++possible_branch_instr__Vidx) *possible_branch_instr = possible_branch_instr__Vcvt;
+    for (size_t compulsory_branch__Vidx = 0; compulsory_branch__Vidx < 1; ++compulsory_branch__Vidx) *compulsory_branch = compulsory_branch__Vcvt;
+    for (size_t optimisible_branch__Vidx = 0; optimisible_branch__Vidx < 1; ++optimisible_branch__Vidx) *optimisible_branch = optimisible_branch__Vcvt;
+    for (size_t btb_hit__Vidx = 0; btb_hit__Vidx < 1; ++btb_hit__Vidx) *btb_hit = btb_hit__Vcvt;
+}

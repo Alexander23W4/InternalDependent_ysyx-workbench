@@ -432,8 +432,8 @@ module ysyx_26040135_EXU (
     wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
 
-    wire [31:0] csrr_wb;
-    wire [2:0] csrr_wb_en;
+    reg [31:0] csrr_wb;
+    reg [2:0] csrr_wb_en;
     
 
     always @(*) begin

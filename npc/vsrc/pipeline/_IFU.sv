@@ -153,7 +153,7 @@ module ysyx_26040135_AXI_IFU (
                     out_valid <= 1'b1;    // 现在除了flush, 固定都会给out_valid
                     out_pc <= pc;
                     
-                    case(fence_error)
+                    case(fetch_error)
                         2'b00: begin
                             exception_0 <= 1'b0;
                             exception_1 <= 1'b0;

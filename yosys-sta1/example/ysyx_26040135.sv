@@ -1,13 +1,4 @@
 
-/*
-npc的综合版本要做的几个优化:
-
-去掉不必要的debug和仿真信号, 性能计数器等
-仔细检查看有没有不一样, 和vsrc对比
-确定有没有综合器错误优化
-错误处理怎么办(访问不支持的地址等), 按理来说应该硬件触发exception handler, 如果弄不了, 那就只能卡死了, 然后手动重启
-*/
-
 module ysyx_26040135(
     
     input clock,
@@ -84,12 +75,6 @@ module ysyx_26040135(
 
 );
 
-    wire [1:0]  __ifu_error;     
-    wire        __ifu_master_validation_error;    
-    wire [1:0]  __lsu_error;   
-
-    wire __ebreak_end;
-
 // 流水线级间连接
 
     ysyx_26040135_AXI_ICACHE icache (
@@ -114,11 +99,18 @@ module ysyx_26040135(
         .mbus_rvalid (bus_icache_rvalid),
         .mbus_rready (bus_icache_rready),
 
-        .clock                          (clock),
-        .reset                          (reset),
+        .clock        (clock),
+        .reset        (reset),
 
-        .icache_flush                   (icache_flush)
+        .icache_flush (icache_flush)
     );
+
+    wire fetch_valid;
+    wire instr_valid;
+    wire [31:0] instr_icache;
+    wire [1:0]  fetch_error;
+    wire [31:0] fetch_addr;
+    wire icache_flush;
 
     ysyx_26040135_AXI_IFU ifu (
         .clock(clock),
@@ -130,12 +122,11 @@ module ysyx_26040135(
         .fetch_error(fetch_error),
         .fetch_addr(fetch_addr),
 
-        .__error(__ifu_error),
-        .__master_validation_error(__ifu_master_validation_error),
         .out_instr(instr),
         .out_valid(valid_fd),
         .out_ready(ready_rd),
         .out_pc(pc),
+
         .flush(flush),
         .pc_flush(pc_flush),
 
@@ -147,25 +138,30 @@ module ysyx_26040135(
 
         .taken(taken),
 
-        .fence_i_flush(fence_i_flush),
-        .icache_flush(icache_flush),
-
-        .mtvec(mtvec),
-        .ifu_exception_0(ifu_exception_0),
-        .ifu_exception_1(ifu_exception_1),
-        .ifu_exception_pc(ifu_exception_pc)
+        .exception_0(ifu_exception_0),
+        .exception_1(ifu_exception_1)
     ); 
 
-    wire        flush;  
+    wire bt_valid;
+    wire [31:0] b_pc;
+    wire [31:0] b_target;
+    wire taken;
+
+    wire ifu_exception_0, ifu_exception_1;
+
+    wire flush;  
     wire [31:0] pc_flush;
     wire [31:0] pc;
     wire [31:0] instr;
     wire valid_fd;
     wire ready_rd;
 
+    wire compulsory_branch_instrs = jalr | jal | ecall | mret | ebreak | fence_i;
+
     ysyx_26040135_IDU idu (
-        .in_pc(pc), .in_instr(instr), .in_valid(valid_fd), .in_ready(ready_rd),
+        .in_pc(pc), .in_valid(valid_fd), .in_ready(ready_rd),
         .out_valid(valid_de), .out_ready(ready_de), .out_pc(pc_d),
+
         .addi(addi), .slti(slti), .sltiu(sltiu), .xori(xori), .ori(ori), .andi(andi), .slli(slli), .srli(srli), .srai(srai),
         .add(add), .sub(sub), .sll(sll), .slt(slt), .sltu(sltu), .xor_inst(xor_inst), .srl(srl), .sra(sra), .or_inst(or_inst), .and_inst(and_inst),
         .lb(lb), .lh(lh), .lw(lw), .lbu(lbu), .lhu(lhu), .sb(sb), .sh(sh), .sw(sw),
@@ -175,9 +171,18 @@ module ysyx_26040135(
         .ebreak(ebreak), .ecall(ecall),
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc), .mret(mret),
         .fence_i(fence_i),
+
         .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm),
 
-        .taken(taken), .taken_out(taken_de)
+        .taken(taken), 
+        .taken_out(taken_de),
+
+        .ifu_exception_0(ifu_exception_0),
+        .ifu_exception_1(ifu_exception_1),
+
+        .exception_0(exception_0),
+        .exception_1(exception_1),
+        .exception_2(exception_2)
     );
 
     wire valid_de, ready_de;
@@ -189,20 +194,17 @@ module ysyx_26040135(
     wire jal, jalr;
     wire lui, auipc;
     wire ebreak, ecall, csrrw, csrrs, csrrc, mret, fence_i;
-    wire compulsory_branch_instrs = jalr | jal | ecall | mret;
-    wire taken, taken_de, bt_valid;         
-    wire [31:0] b_pc, b_target;
-    wire fence_i_flush, icache_flush;                     
-    wire [31:0] mtvec;                        // EXU -> IFU: 异常入口
-    wire        ifu_exception_0, ifu_exception_1;
-    wire [31:0] ifu_exception_pc;
+    wire exception_0, exception_1, exception_2;
+                       
     wire [4:0] rd, rs1, rs2;
     wire [31:0] imm;
+    wire taken_de; 
 
 
 ysyx_26040135_EXU exu (
     .clock(clock), .reset(reset), .pc(pc_d),
     .rdata1(rdata1), .rdata2(rdata2), .imm(imm),
+
     .add(add), .addi(addi), .sub(sub), .lui(lui), .auipc(auipc),
     .and_inst(and_inst), .or_inst(or_inst), .xor_inst(xor_inst),
     .andi(andi), .ori(ori), .xori(xori),
@@ -215,9 +217,10 @@ ysyx_26040135_EXU exu (
     .ebreak(ebreak), .ecall(ecall), .mret(mret), .fence_i(fence_i),
     .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc),
 
+    .exception_0(exception_0), .exception_1(exception_1), .exception_2(exception_2),
+
     .rd(rd), .rs1(rs1), .rs2(rs2),
 
-    .lsu_blockf(lsu_blockf), .wbu_blockf(wbu_blockf),
     .wen(wen), .rd_wb(rd_wbu),
 
     .in_valid(valid_de), .in_ready(ready_de),
@@ -226,11 +229,11 @@ ysyx_26040135_EXU exu (
 
     .is_ls(is_ls),
     .io(io), .io_type(io_type), .read_is_u(read_is_u),
-    .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr),
-    .ic_wb_wdata(ic_wb_wdata), .rs1_out(rs1_out), .rs2_out(rs2_out),
-    .flush(flush), .pc_flush(pc_flush),
+    .rd_out(rd_out), .lsu_wdata(lsu_wdata), .lsu_addr(lsu_addr), .ic_wb_wdata(ic_wb_wdata), 
+    
+    .rs1_out(rs1_out), .rs2_out(rs2_out),
 
-    .ebreak_end(__ebreak_end),
+    .flush(flush), .pc_flush(pc_flush),
 
     .bypass_wdata_lsu(wdata_lw), .bypass_rd_lsu(rd_lsu), .lsu_bypass_data_valid(lsu_bypass_data_valid),
     .bypass_wdata_wbu(wdata_wbu), .bypass_rd_wbu(rd_wbu), .wbu_bypass_data_valid(wen),
@@ -242,15 +245,9 @@ ysyx_26040135_EXU exu (
     .b_pc(b_pc),
     .b_target(b_target),
 
-    .fence_i_flush(fence_i_flush),
-
-    .mtvec_out(mtvec),
-    .ifu_exception_pc(ifu_exception_pc),
-    .ifu_exception_0(ifu_exception_0),
-    .ifu_exception_1(ifu_exception_1)
+    .icache_flush(icache_flush)
 );
     wire is_ls;
-    wire lsu_bypass_data_valid;
     wire ren;
 
 
@@ -258,7 +255,7 @@ ysyx_26040135_EXU exu (
         .clock(clock),
         .reset(reset),
         .wen(wen), // WB
-        .ren(1'b1),  
+        .ren(ren),  
         .raddr1(rs1_out),  // EX
         .raddr2(rs2_out), // EX
         .waddr(rd_wbu), // WB
@@ -276,7 +273,6 @@ ysyx_26040135_EXU exu (
     wire [4:0] rd_out, rs1_out, rs2_out;
     wire [31:0] lsu_wdata, lsu_addr, ic_wb_wdata;
     wire [31:0] rdata1, rdata2;
-    wire lsu_blockf;
 
 
     ysyx_26040135_AXI_LSU lsu (
@@ -309,6 +305,7 @@ ysyx_26040135_EXU exu (
         .bus_bresp (bus_lsu_bresp),
         .bus_bvalid (bus_lsu_bvalid),
         .bus_bready (bus_lsu_bready),
+
         .clock(clock),
         .reset(reset),
 
@@ -326,19 +323,13 @@ ysyx_26040135_EXU exu (
         .out_valid(valid_lw),
         .out_ready(ready_lw),
 
-        .__error(__lsu_error),
         .wdata(wdata_lw),
-        .rd_out(rd_lsu),
-        .lsu_bypass_data_valid(lsu_bypass_data_valid),
-
-        .lsu_blockf(lsu_blockf)
+        .rd_out(rd_lsu)
     );
 
     wire valid_lw, ready_lw;
     wire [31:0] wdata_lw;
     wire [4:0] rd_lsu;
-    wire wbu_blockf;
-
 
     ysyx_26040135_WBU wbu (
         .clock(clock),
@@ -346,6 +337,7 @@ ysyx_26040135_EXU exu (
 
         .in_valid(valid_lw),
         .in_ready(ready_lw),
+        
         .rd(rd_lsu),
         .wdata(wdata_lw),
 
@@ -369,7 +361,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire        bus_lsu_arvalid, bus_lsu_arready, bus_lsu_rvalid, bus_lsu_rready, bus_lsu_rlast;
     wire        bus_lsu_awvalid, bus_lsu_awready, bus_lsu_wvalid, bus_lsu_wready, bus_lsu_wlast, bus_lsu_bvalid, bus_lsu_bready;
     wire [3:0]  bus_lsu_arid, bus_lsu_rid, bus_lsu_awid, bus_lsu_wstrb, bus_lsu_bid;
-    wire [7:0]  bus_lsu_arlen, bus_lsu_awlen;=
+    wire [7:0]  bus_lsu_arlen, bus_lsu_awlen;
     wire [2:0]  bus_lsu_arsize, bus_lsu_awsize;
     wire [1:0]  bus_lsu_arburst, bus_lsu_awburst, bus_lsu_rresp, bus_lsu_bresp;
     wire [31:0] bus_master_araddr, bus_master_awaddr, bus_master_wdata, bus_master_rdata;
@@ -387,11 +379,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire [2:0]  bus_clint_arsize;
     wire [1:0]  bus_clint_arburst, bus_clint_rresp;
 
-    wire        fetch_valid;
-    wire        instr_valid;
-    wire [31:0] instr_icache;
-    wire [1:0]  fetch_error;
-    wire [31:0] fetch_addr;
 
     wire [31:0] bus_icache_araddr, bus_icache_rdata;
     wire        bus_icache_arvalid, bus_icache_arready, bus_icache_rvalid, bus_icache_rready, bus_icache_rlast;

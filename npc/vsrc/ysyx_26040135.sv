@@ -306,9 +306,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     wire [31:0] b_target;
     wire taken;
 
-    wire        ifu_exception_0, ifu_exception_1;
+    wire ifu_exception_0, ifu_exception_1;
 
-    wire        flush;  
+    wire flush;  
     wire [31:0] pc_flush;
     wire [31:0] pc;
     wire [31:0] instr;

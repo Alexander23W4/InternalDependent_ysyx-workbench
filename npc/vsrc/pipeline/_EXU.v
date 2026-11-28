@@ -505,9 +505,6 @@ module ysyx_26040135_EXU (
 
     end
 
-
-
-    reg [31:0] new_pc;
     reg [31:0] pc_next_dft;
     reg [31:0] add_rst_w_save;
     reg cmp_lt;
@@ -538,7 +535,7 @@ module ysyx_26040135_EXU (
                  ({32{jal_save | br_taken}} & add_rst_w_save) |
                  ({32{ecall_save | ebreak_save | exception_0_save | exception_1_save | exception_2_save}} & mtvec) |
                  ({32{mret_save }} & mepc) |
-                 ({32{~br_taken | fence_i_save}} & pc_next_dft);
+                 ({32{(b_type & ~br_taken) | fence_i_save}} & pc_next_dft);
     end
 
 endmodule

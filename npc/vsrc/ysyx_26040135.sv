@@ -330,6 +330,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         .ebreak(ebreak), .ecall(ecall),
         .csrrw(csrrw), .csrrs(csrrs), .csrrc(csrrc), .mret(mret),
         .fence_i(fence_i),
+        
         .rd(rd), .rs1(rs1), .rs2(rs2), .imm(imm),
 
         .out_instr(instr_de),

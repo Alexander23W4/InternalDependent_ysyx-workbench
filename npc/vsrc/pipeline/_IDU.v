@@ -101,7 +101,7 @@ module ysyx_26040135_IDU(
 );
 
     assign in_ready  = out_ready;
-    assign out_valid = in_valid & !idu_exception_2;  // 这里如果IDLE第一个周期出现idu_exception_2, 即便ifu已经把out_valid置1了, 这里给不给exu, 下一周期ifu也会把out_valid置0
+    assign out_valid = in_valid;
 
     assign out_instr = in_instr;
     assign taken_out = taken;

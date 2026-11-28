@@ -37,12 +37,7 @@ module ysyx_26040135_AXI_IFU (
 
     output reg taken,
 
-
-    input fence_i_flush,
     output reg icache_flush,
-
-//  exception handle
-    input [31:0] mtvec,
 
     // exception pass
     output reg ifu_exception_0,

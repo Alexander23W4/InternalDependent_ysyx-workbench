@@ -30,6 +30,7 @@ module ysyx_26040135_EXU (
     input beq, bne, blt, bge, bltu, bgeu,
     input ebreak, ecall, mret, fence_i,
     input csrrw, csrrs, csrrc,
+    input exception_0, exception_1, exception_2,
 
     input [4:0] rd,
     input [4:0] rs1,
@@ -68,10 +69,6 @@ module ysyx_26040135_EXU (
     output reg flush,   //
     output reg [31:0] pc_flush,  //
 
-    output reg [63:0] exu_blockf_cyc,
-    output reg [63:0] exu_blcokbl_cyc,
-    output reg [63:0] exu_work_cyc,
-
     output reg ebreak_end,
 
     // 
@@ -84,16 +81,7 @@ module ysyx_26040135_EXU (
     input taken,
 
     // fence_i
-    output reg fence_i_flush,
-
-    // exception handle
-    output [31:0] mtvec_out,
-
-    input [31:0] ifu_exception_pc,
-    input ifu_exception_0,
-    input ifu_exception_1,
-
-    input idu_exception_2
+    output reg fence_i_flush
 );
 
     reg  _possible_branch_instr;
@@ -175,44 +163,10 @@ module ysyx_26040135_EXU (
             mvendorid <= 32'h79737978;
             marchid <= 32'h18d6687;   // id: ysyx_26040135
 
-            exu_blockf_cyc <= 0;
-            exu_blcokbl_cyc <= 0;
-            exu_work_cyc <= 0;
-
             state <= IDLE;
 
         end else begin
             {mcycleh, mcycle} <= {mcycleh, mcycle} + 64'd1;
-
-/*
-    各种exception按照优先级处理, 优先级处理优先于所有正常工作. 
-    exception 都是由其他级产生的, 这里exu只要接收到后
-
-    如果是后级发来的exception: 
-    state = IDLE
-    in_ready = 1   out_valid = 0
-    mepc = ...
-    mcause = ...
-
-    如果是前级发来的exception:
-    现有的instr要正常执行
-    改mepc和mcause即可
-
-    把这里的非阻塞赋值分成可以被exception门控的和不能被exception门控的, 比如涉及exu正常操作, 状态机操作, state, out_valid, in_ready, csr的
-*/
-            if(idu_exception_2) begin   // 在IDLE触发, 不会握手
-                mepc <= pc;
-                mcause <= 32'h2;
-            end
-            else if(ifu_exception_0) begin   // 在IDLE触发, 不会握手
-                mepc <= ifu_exception_pc;
-                mcause <= 32'h0;
-
-            end
-            else if(ifu_exception_1) begin   // 在IDLE触发, 不会握手
-                mepc <= ifu_exception_pc;
-                mcause <= 32'h1;
-            end
 
             state <= next;
 
@@ -275,19 +229,6 @@ module ysyx_26040135_EXU (
                 csr_rst_save  <= csrw_rst;
 
                 taken_save <= taken;
-            end
-        // ------------------------------------------
-
-            if(in_ready && !in_valid) begin
-                exu_blockf_cyc <= exu_blockf_cyc + 64'b1;
-            end
-
-            if(out_valid && !out_ready) begin
-                exu_blcokbl_cyc <= exu_blcokbl_cyc + 64'b1;
-            end
-
-            if(state != IDLE) begin
-                exu_work_cyc <= exu_work_cyc + 64'b1;
             end
 
         // ------------------------------------------

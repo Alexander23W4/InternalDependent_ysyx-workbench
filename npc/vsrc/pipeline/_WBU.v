@@ -15,10 +15,6 @@ module ysyx_26040135_WBU(
     output reg [31:0] wdata_wb,
     output reg [4:0] rd_wb,
 
-    output reg [63:0] wbu_blockf_cyc,
-    output reg [63:0] wbu_work_cyc,
-    output reg wbu_blockf,
-
     output reg [31:0] pc_out
 
 );
@@ -34,10 +30,6 @@ module ysyx_26040135_WBU(
             in_ready <= 1'b1;
             state <= IDLE;
 
-            wbu_blockf_cyc <= 0;
-            wbu_work_cyc <= 0;
-            wbu_blockf <= 0;
-
         end else begin  
             state <= next;
             if(in_ready && in_valid) begin
@@ -47,16 +39,8 @@ module ysyx_26040135_WBU(
                 pc_out <= pc_in;
             end
 
-            if(in_ready && !in_valid) begin
-                wbu_blockf_cyc <= wbu_blockf_cyc + 64'b1;
-                wbu_blockf <= 1'b1;
-            end else begin
-                wbu_blockf <= 1'b0;
-            end
-
             
             if(state == WB) begin
-                wbu_work_cyc <= wbu_work_cyc + 64'b1;
                 in_ready <= 1'b1;
             end
         end

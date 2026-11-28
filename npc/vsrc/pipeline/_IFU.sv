@@ -53,18 +53,6 @@ module ysyx_26040135_AXI_IFU (
     input idu_exception_2
 );
 
-    // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-
-    function automatic reg is_executable(input [31:0] addr);
-        begin
-            is_executable = 1'b0;
-            if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
-            else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
-        end
-    endfunction
-
-    // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-
     // BTB +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
     reg [31:0] btb_pc [1:0];
@@ -88,7 +76,6 @@ module ysyx_26040135_AXI_IFU (
     // 外部控制信号与返回外部的信号:
     reg flush_save;
     reg [31:0] pc_flush_save;
-    reg fence_i_flush_save;
     reg _btb_hit;
 
 
@@ -125,7 +112,6 @@ module ysyx_26040135_AXI_IFU (
 
             flush_save <= 1'b0;
             pc_flush_save <= 32'b0;
-            fence_i_flush_save <= 1'b0;
 
             idu_instr_valid <= 1'b0;
 
@@ -136,18 +122,6 @@ module ysyx_26040135_AXI_IFU (
 
             state <= next;             
 
-        // --------------- 触发这两个的都会直接跳回IDLE, 不会触发访存/icache
-
-            if(state == FETCH) begin   
-                if(pc[1:0] != 2'b00) begin
-                    ifu_exception_0 <= 1'b1;
-                end
-                if(!is_executable(pc)) begin   
-                    ifu_exception_1 <= 1'b1;
-                end    
-                out_pc <= pc;
-            end
-
         // --------------- 以下都是flush的逻辑, 覆盖flush信号在IFU状态机的不同时刻到来的所有情况:
 
             if(state == FETCH && !instr_valid) begin  // flush_save 是给正在访存, 不能及时冲刷准备的
@@ -155,13 +129,10 @@ module ysyx_26040135_AXI_IFU (
                     flush_save <= 1'b1;
                     pc_flush_save <= pc_flush;
                 end
-                if(fence_i_flush) begin
-                    fence_i_flush_save <= 1'b1;
-                end
             end
 
 
-            if(state == IDLE && out_valid && (flush | fence_i_flush | out_ready | idu_exception_2)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
+            if(state == IDLE && out_valid && (flush | out_ready)) begin   // ⭐: 这里利用exu的逻辑, flush和out_ready是不会一起来的
                 out_valid <= 1'b0;
             end
 
@@ -176,7 +147,6 @@ module ysyx_26040135_AXI_IFU (
 
                 // 要flush的, 在这里先把该清的flag都清理掉
                 flush_save <= 1'b0;
-                fence_i_flush_save <= 1'b0;
 
                 // 这里按照优先级置pc, exception优先.  (按理来说应该越深的指令优先级越高)
 
@@ -186,27 +156,19 @@ module ysyx_26040135_AXI_IFU (
                 else if(flush) begin
                     pc <= pc_flush;
                 end 
-                else if(fence_i_flush_save | fence_i_flush) begin
-                    
-                end
-                else begin  
-                    if(fetch_error != 2'b00) begin   // 这下ifu的exception都不给握手
-                        instr_access_fault <= 1'b1;
+                else begin 
+                    // 更新pc   如果这条没有触发意外, 则正常更新pc, 分为default(+4) 和 触发b-type的分支预测
+                    if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT
+                        pc <= btb_target[pc[2]];   
+                        taken <= 1'b1;
                     end else begin
-                        out_valid <= 1'b1; 
-
-                        // 更新pc   如果这条没有触发意外, 则正常更新pc, 分为default(+4) 和 触发b-type的分支预测
-                        if(pc == btb_pc[pc[2]] && valid[pc[2]] && pc > btb_target[pc[2]]) begin   // BT
-                            pc <= btb_target[pc[2]];   
-                            taken <= 1'b1;
-                        end else begin
-                            pc <= pc + 32'd4;  // FN & default
-                            taken <= 1'b0;
-                        end
-                        out_instr <= instr;  
-                        // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
-                        idu_instr_valid <= 1'b1;  
+                        pc <= pc + 32'd4;  // FN & default
+                        taken <= 1'b0;
                     end
+                    out_instr <= instr;  
+                    out_valid <= 1'b1; 
+                    // 因为除了reset, 后续给idu的instr只在这里变化, 所以只要这里变了, 之后给idu的instr就是有效的, 如果reset了, 之后几个周期就无效
+                    idu_instr_valid <= 1'b1;  
                 end
             end
 
@@ -247,11 +209,6 @@ module ysyx_26040135_AXI_IFU (
             default: ;
         endcase
 
-        if(state == IDLE || instr_valid) begin
-            if(fence_i_flush_save || fence_i_flush) begin
-                icache_flush = 1'b1;   // 发一个这个信号就ok了
-            end
-        end
 
 
         // Veri

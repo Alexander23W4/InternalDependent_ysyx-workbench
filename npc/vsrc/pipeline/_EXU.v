@@ -36,9 +36,6 @@ module ysyx_26040135_EXU (
     input [4:0] rs2,
 
 
-    input lsu_blockf,
-    input wbu_blockf,
-
 // 用于清除rd_list
     input wen,
     input [4:0] rd_wb,
@@ -156,7 +153,7 @@ module ysyx_26040135_EXU (
     end
 
 
-    localparam IDLE = 3'b000, BLOCK = 3'b001, WAIT_END = 3'b100, EX = 3'b011, BRANCH = 3'b010;   
+    localparam IDLE = 3'b000, BLOCK = 3'b001, EX = 3'b011, BRANCH = 3'b010;   
     reg [2:0] state, next;
 
     always @(posedge clock or posedge reset) begin
@@ -300,13 +297,11 @@ module ysyx_26040135_EXU (
                 in_ready <= 1'b1;
             end
 
-            if(state == BRANCH && is_nlwb) begin
-                // 只有ls和其他需要wb的instr需要转发, 其他指令直接返回(10个), 并且给ready
-                in_ready <= 1'b1;
-            end
-            if(state == BRANCH && !is_nlwb) begin
-                // 除了那10条, 其他都要发给下级
-                out_valid <= 1'b1;  
+            if (state == BRANCH) begin
+                if (is_nlwb)
+                    in_ready <= 1'b1;
+                else
+                    out_valid <= 1'b1;
             end
 
 
@@ -339,31 +334,14 @@ module ysyx_26040135_EXU (
                 end
             end
 
-            if(state == EX) begin   // ⭐: 待优化, 这个一定可以优化   根本就没有优先级    MUX比较imm_save的选通端也可以复用
-                if(csrrw_save) begin
-                    case(imm_save[11:0])  // case CSR addr
-                        12'h300: mstatus <= rdata1;
-                        12'h305: mtvec <= rdata1;
-                        12'h341: mepc <= rdata1;
-                        12'h342: mcause <= rdata1;
-                    endcase
-                end
-                else if (|{{5{csrrs_save}} & rs1_save}) begin
-                    case(imm_save[11:0]) 
-                        12'h300: mstatus <= rdata1 | csr_rst_save;
-                        12'h305: mtvec <= rdata1 | csr_rst_save;
-                        12'h341: mepc <= rdata1 | csr_rst_save;
-                        12'h342: mcause <= rdata1 | csr_rst_save;
-                    endcase
-                end
-                else if (|{{5{csrrc_save}} & rs1_save}) begin
-                    case(imm_save[11:0]) 
-                        12'h300: mstatus <= csr_rst_save & (~rdata1);
-                        12'h305: mtvec <= csr_rst_save & (~rdata1);
-                        12'h341: mepc <= csr_rst_save & (~rdata1);
-                        12'h342: mcause <= csr_rst_save & (~rdata1);
-                    endcase
-                end
+
+            if(state == EX) begin   
+                case(imm_save[11:0])
+                    12'h300: mstatus <= csrr_wb;
+                    12'h305: mtvec <= csrr_wb;
+                    12'h341: mepc <= csrr_wb;
+                    12'h342: mcause <= csrr_wb;
+                endcase
 
                 if(ecall_save) begin
                     mepc <= pc_save;
@@ -371,7 +349,7 @@ module ysyx_26040135_EXU (
                 end
             end
         end
-    end
+    endcsrr_wb_en
 
     always @(*) begin
         next = state;
@@ -395,18 +373,7 @@ module ysyx_26040135_EXU (
             IDLE: begin
                 if(in_valid && in_ready) begin
                     _new_instr = 1'b1;
-                    if(ebreak) begin
-                        next = WAIT_END;
-                    end
-                    else begin
-                        next = BLOCK;
-                    end
-                end
-            end
-
-            WAIT_END: begin
-                if(lsu_blockf && wbu_blockf) begin   // 直到LSU和WBU的工作都完成, 才拉高一周期ebreak_end, 让仿真环境结束
-                    ebreak_end = 1'b1;
+                    next = BLOCK;
                 end
             end
 
@@ -496,6 +463,9 @@ module ysyx_26040135_EXU (
     wire [31:0] srli_rst  = rdata1 >> shamt_i;
     wire [31:0] sra_rst   = $signed(rdata1) >>> shamt_r;
     wire [31:0] srai_rst  = $signed(rdata1) >>> shamt_i;
+
+    wire [31:0] csrr_wb;
+    wire [2:0] csrr_wb_en;
     
 
     always @(*) begin
@@ -531,6 +501,17 @@ module ysyx_26040135_EXU (
         _pc = pc_save;
         _instr = instr_save;
 
+
+
+        csrr_wb_en = {|{{5{csrrc_save}} & rs1_save}, |{{5{csrrs_save}} & rs1_save}, csrrw_save};
+
+        case(csrr_wb_en) 
+            3'b001: csrr_wb = rdata1;
+            3'b010: csrr_wb = rdata1 | csr_rst_save;
+            3'b100: csrr_wb = ~rdata1 & csr_rst_save;
+        endcase
+
+
 // ⭐: 大MUX, 待优化  and->or阵列(选并阵列)
         ic_wb_wdata = ({32{lui_save}} & imm_save) |   //
                 ({32{add_save | addi_save | auipc_save}} & add_rst_w_save) |
@@ -555,6 +536,8 @@ module ysyx_26040135_EXU (
                 ({32{csrrw_save | csrrs_save | csrrc_save}} & csr_rst_save);
 
     end
+
+
 
     reg [31:0] new_pc;
     reg [31:0] pc_next_dft;

@@ -65,6 +65,18 @@ module ysyx_26040135_AXI_ICACHE (
     input icache_flush
 );
 
+    // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+
+    function automatic reg is_executable(input [31:0] addr);
+        begin
+            is_executable = 1'b0;
+            if      (addr[31:28] == 4'h3)      is_executable = 1'b1;   // Flash
+            else if (addr[31:27] == 5'b10100)  is_executable = 1'b1;   // SDRAM
+        end
+    endfunction
+
+    // PMA +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+
 
     `ifndef ICACHE_LINE_BYTES   // 这个cache_line 是要整体传输的, 所以最好设置成总线带宽的倍数, 这样方便burst传输
         `define ICACHE_LINE_BYTES 16    // 对应 OFFSET
@@ -135,8 +147,11 @@ module ysyx_26040135_AXI_ICACHE (
         end else begin
             state <= next;
 
-            if(state == MISS_AR) begin   // 清掉上一次访存的残留状态
-                rresp_save  <= 2'b00;       
+            if(state == IDLE && fetch_valid) begin
+                rresp_save <= 2'b00;  
+            end
+
+            if(state == MISS_AR) begin   // 清掉上一次访存的残留状态 
                 beat <= '0;
             end
 
@@ -194,10 +209,20 @@ module ysyx_26040135_AXI_ICACHE (
         case (state)
             IDLE: begin
                 if(fetch_valid) begin      // 首先tag要和当下同一个index的cache_line存储的tag要一样, 其次要valid (是干净数据)
-                    if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
+                    if(fetch_addr[1:0] != 2'b00) begin
+                        instr_valid = 1'b1;
+                        fetch_error = 2'b01;
+                    end
+                    else if(!is_executable(fetch_addr)) begin
+                        instr_valid = 1'b1;
+                        fetch_error = 2'b10;
+                    end
+                    else if(current_tag == tag[current_index] && valid[current_index] == 1'b1) begin    // cache hit
                         instr_valid = 1'b1;
                         instr = icache[current_index][current_word*32 +: 32]; 
-                        fetch_error = rresp_save;
+                        if(rresp_save != 2'b00) begin
+                            fetch_error = 2'b10;
+                        end
                     end else begin
                         next = MISS_AR;     // cache miss
                     end

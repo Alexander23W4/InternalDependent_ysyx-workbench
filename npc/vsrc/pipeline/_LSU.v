@@ -38,14 +38,7 @@ module ysyx_26040135_AXI_LSU (
     output [31:0] wdata,  // 
     output [4:0] rd_out,  //
 
-    output reg [31:0] pc_out,
-
-
-    output reg [63:0] lsu_blockf_cyc,
-    output reg [63:0] lsu_blcokb_cyc,
-    output reg [63:0] lsu_work_cyc,
-
-    output reg lsu_blockfs
+    output reg [31:0] pc_out
 );
 
     reg io_save;
@@ -80,12 +73,6 @@ module ysyx_26040135_AXI_LSU (
             in_ready <= 1'b1;
             out_valid <= 1'b0;
 
-            lsu_blockf_cyc <= 0;
-            lsu_blcokb_cyc <= 0;
-            lsu_work_cyc <= 0;
-
-            lsu_blockfs <= 1'b0;
-
         end else begin
             state <= next;
             aw_done <= aw_done_next;
@@ -94,10 +81,6 @@ module ysyx_26040135_AXI_LSU (
             if(out_ready && out_valid) begin
                 in_ready <= 1'b1;
                 out_valid <= 1'b0;
-            end
-
-            if(out_valid && !out_ready) begin
-                lsu_blcokb_cyc <= lsu_blcokb_cyc + 64'b1;
             end
 
             if(in_valid && in_ready) begin   // 接受并保存
@@ -117,13 +100,6 @@ module ysyx_26040135_AXI_LSU (
                 end
             end
 
-            if(in_ready && !in_valid) begin
-                lsu_blockf_cyc <= lsu_blockf_cyc + 64'b1;
-                lsu_blockfs <= 1'b1;
-            end else begin
-                lsu_blockfs <= 1'b0;
-            end
-
             if (state == R && bus.rvalid) begin
                 if(bus.rresp == 2'b00) begin
                     rdata_out <= bus.rdata;
@@ -137,9 +113,6 @@ module ysyx_26040135_AXI_LSU (
                 in_ready <= 1'b1;
             end
 
-            if(state != IDLE) begin
-                lsu_work_cyc <= lsu_work_cyc + 64'b1;
-            end
         end
     end
 
